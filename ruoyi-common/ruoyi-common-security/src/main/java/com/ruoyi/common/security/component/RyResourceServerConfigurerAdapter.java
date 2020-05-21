@@ -17,8 +17,7 @@ public class RyResourceServerConfigurerAdapter extends ResourceServerConfigurerA
     @Autowired
     protected ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
 
-    @Autowired
-    protected RemoteTokenServices remoteTokenServices;
+    protected RemoteTokenServices remoteTokenServices = new RemoteTokenServices();
 
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
