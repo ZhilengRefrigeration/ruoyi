@@ -17,7 +17,7 @@ import com.ruoyi.common.security.handler.AbstractAuthenticationFailureEvenHandle
 @Component
 public class AuthenticationFailureEvenHandler extends AbstractAuthenticationFailureEvenHandler
 {
-    private final Logger logger = LoggerFactory.getLogger(AuthenticationSuccessEventHandler.class);
+    private final Logger logger = LoggerFactory.getLogger(AuthenticationFailureEvenHandler.class);
 
     @Override
     public void handle(AuthenticationException authenticationException, Authentication authentication)
