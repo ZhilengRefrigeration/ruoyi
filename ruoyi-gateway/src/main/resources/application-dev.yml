@@ -1,0 +1,13 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: authRoute
+          uri: lb://ruoyi-auth
+          order: 10000
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+
+debug: true
