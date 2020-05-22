@@ -22,4 +22,12 @@ spring:
         file-extension: yml
         # 共享配置
         shared-dataids: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
-
+    gateway:
+      routes:
+        - id: authRoute
+          uri: lb://ruoyi-auth
+          order: 10000
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
