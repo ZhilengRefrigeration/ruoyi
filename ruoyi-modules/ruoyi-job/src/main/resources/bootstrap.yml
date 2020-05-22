@@ -22,3 +22,7 @@ spring:
         file-extension: yml
         # 共享配置
         shared-dataids: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+
+mybatis:
+  mapper-locations: classpath*:/**/*Mapper.xml
+  type-aliases-package: com.ruoyi.job.domain

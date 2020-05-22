@@ -50,6 +50,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
+        http.httpBasic().disable();
+
         http
         .authorizeRequests()
         .antMatchers(
@@ -57,6 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
             "/token/**").permitAll()
         .anyRequest().authenticated()
         .and().csrf().disable();
+
     }
 
     /*** 设置不拦截规则 */

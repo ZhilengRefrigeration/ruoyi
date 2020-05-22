@@ -1,11 +1,13 @@
 package com.ruoyi.job;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 import com.ruoyi.common.security.annotation.EnableCustomConfig;
 import com.ruoyi.common.security.annotation.EnableRyFeignClients;
 import com.ruoyi.common.security.annotation.EnableRyResourceServer;
 import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * 定时任务
@@ -17,6 +19,7 @@ import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
 @EnableRyFeignClients
 @EnableRyResourceServer
 @SpringCloudApplication
+@EnableDiscoveryClient
 public class RuoYiJobApplication
 {
     public static void main(String[] args)
