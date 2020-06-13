@@ -3,7 +3,7 @@ import { Notification, MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 import errorCode from '@/utils/errorCode'
-import { tansParams } from "@/utils/ruoyi";
+//import { tansParams } from "@/utils/ruoyi";
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
@@ -72,12 +72,19 @@ service.interceptors.response.use(res => {
 
 // 通用下载方法
 export function download(url, params, filename) {
-  return service.post(url, params, {
-    transformRequest: [(params) => {
-      return tansParams(params)
-    }],
+  // return service.post(url, params, {
+  //   transformRequest: [(params) => {
+  //     return tansParams(params)
+  //   }],
+  //   responseType: 'blob'
+  // })
+    return service.request({
+    url: url,
+    method: 'post',
+    params: params,
     responseType: 'blob'
-  }).then((data) => {
+  })
+  .then((data) => {
     const content = data
     const blob = new Blob([content])
     if ('download' in document.createElement('a')) {
