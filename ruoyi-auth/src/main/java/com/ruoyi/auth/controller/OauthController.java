@@ -4,6 +4,7 @@ import com.ruoyi.common.core.domain.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.endpoint.CheckTokenEndpoint;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,8 @@ public class OauthController {
     @Autowired
     private TokenEndpoint tokenEndpoint;
 
+//    @Autowired
+//    private CheckTokenEndpoint checkTokenEndpoint;
     /**
      *
      * @param principal
@@ -38,6 +41,12 @@ public class OauthController {
     public R<?> postAccessToken(Principal principal, @RequestParam Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
         return custom(tokenEndpoint.postAccessToken(principal, parameters).getBody());
     }
+
+//    @RequestMapping(value = "/check_token")
+//    @ResponseBody
+//    public R<?> checkToken(@RequestParam("token") String value) throws HttpRequestMethodNotSupportedException {
+//        return R.ok(checkTokenEndpoint.checkToken(value));
+//    }
 
     //自定义返回格式
     private R<?> custom(OAuth2AccessToken accessToken) {

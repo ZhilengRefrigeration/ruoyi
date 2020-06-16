@@ -7,7 +7,7 @@
         <version>2.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    
+
     <artifactId>ruoyi-common-security</artifactId>
 
     <description>
@@ -15,19 +15,19 @@
     </description>
 
     <dependencies>
-    
+
         <!-- Spring Security Oauth2 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
         </dependency>
-        
+
         <!-- RuoYi Api System -->
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-api-system</artifactId>
         </dependency>
-        
+
     </dependencies>
 
 </project>

@@ -3,7 +3,7 @@ server:
   port: 8080
 
 # Spring
-spring: 
+spring:
   application:
     # 应用名称
     name: ruoyi-gateway
@@ -29,7 +29,7 @@ spring:
       eager: true
       transport:
         # 控制台地址
-        dashboard: 127.0.0.1:8718
+        dashboard: 127.0.0.1:8076
       # nacos配置持久化
       datasource:
         ds1:

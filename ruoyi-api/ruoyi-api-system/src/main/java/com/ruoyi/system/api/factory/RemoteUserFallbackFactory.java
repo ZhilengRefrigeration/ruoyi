@@ -10,7 +10,7 @@ import feign.hystrix.FallbackFactory;
 
 /**
  * 用户服务降级处理
- * 
+ *
  * @author ruoyi
  */
 @Component
@@ -26,6 +26,12 @@ public class RemoteUserFallbackFactory implements FallbackFactory<RemoteUserServ
         {
             @Override
             public R<UserInfo> getUserInfo(String username)
+            {
+                return null;
+            }
+
+            @Override
+            public R<UserInfo> login(String username,String password)
             {
                 return null;
             }

@@ -15,13 +15,13 @@ import reactor.core.publisher.Mono;
 
 /**
  * 验证码过滤器
- * 
+ *
  * @author ruoyi
  */
 @Component
 public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
 {
-    private final static String AUTH_URL = "/oauth/token";
+    private final static String AUTH_URL = "/oauth/token1";//"/oauth/token";
 
     @Autowired
     private ValidateCodeService validateCodeService;

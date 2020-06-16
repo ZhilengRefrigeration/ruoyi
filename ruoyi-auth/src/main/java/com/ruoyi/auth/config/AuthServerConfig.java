@@ -1,8 +1,10 @@
 package com.ruoyi.auth.config;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import javax.sql.DataSource;
+
+import com.ruoyi.common.security.granter.PasswordCustomTokenGranter;
+import com.ruoyi.common.security.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +19,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.*;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
@@ -29,7 +32,7 @@ import com.ruoyi.common.security.service.RedisClientDetailsService;
 
 /**
  * OAuth2 认证服务配置
- * 
+ *
  * @author ruoyi
  */
 @Configuration
@@ -45,8 +48,11 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
 
+//    @Autowired
+//    private UserDetailsService userDetailsService;
+
     @Autowired
-    private UserDetailsService userDetailsService;
+    private CustomUserDetailsService customUserDetailsService;
 
     @Autowired
     private TokenEnhancer tokenEnhancer;
@@ -58,6 +64,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter
     public void configure(AuthorizationServerEndpointsConfigurer endpoints)
     {
         endpoints
+                .tokenGranter(new CompositeTokenGranter(getTokenGranters(endpoints.getTokenServices(), endpoints.getClientDetailsService(), endpoints.getOAuth2RequestFactory())))
                 // 请求方式
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
                 // 指定token存储位置
@@ -65,15 +72,20 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter
                 // 自定义生成令牌
                 .tokenEnhancer(tokenEnhancer)
                 // 用户账号密码认证
-                .userDetailsService(userDetailsService)
+//                .userDetailsService(userDetailsService)
                 // 指定认证管理器
                 .authenticationManager(authenticationManager)
                 // 是否重复使用 refresh_token
-                .reuseRefreshTokens(false)
+                .reuseRefreshTokens(false);
                 // 自定义异常处理
-                .exceptionTranslator(new CustomWebResponseExceptionTranslator());
+//                .exceptionTranslator(new CustomWebResponseExceptionTranslator());
     }
 
+    private List<TokenGranter> getTokenGranters(AuthorizationServerTokenServices tokenServices, ClientDetailsService clientDetailsService, OAuth2RequestFactory requestFactory) {
+        return new ArrayList<>(Arrays.asList(
+                new PasswordCustomTokenGranter(customUserDetailsService,tokenServices, clientDetailsService, requestFactory)
+        ));
+    }
     /**
      * 配置令牌端点(Token Endpoint)的安全约束
      */

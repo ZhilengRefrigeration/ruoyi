@@ -7,10 +7,11 @@ import com.ruoyi.common.core.constant.ServiceNameConstants;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.system.api.factory.RemoteUserFallbackFactory;
 import com.ruoyi.system.api.model.UserInfo;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 用户服务
- * 
+ *
  * @author ruoyi
  */
 @FeignClient(contextId = "remoteUserService", value = ServiceNameConstants.SYSTEM_SERVICE, fallbackFactory = RemoteUserFallbackFactory.class)
@@ -24,4 +25,7 @@ public interface RemoteUserService
      */
     @GetMapping(value = "/user/info/{username}")
     public R<UserInfo> getUserInfo(@PathVariable("username") String username);
+
+    @GetMapping(value = "/user/login")
+    public R<UserInfo> login(@RequestParam("username")String username, @RequestParam("password")String password);
 }

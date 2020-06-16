@@ -8,7 +8,7 @@ import com.ruoyi.common.core.utils.StringUtils;
 
 /**
  * 导入 SecurityImportBeanDefinitionRegistrar 自动加载类
- * 
+ *
  * @author ruoyi
  */
 public class SecurityImportBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar

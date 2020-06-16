@@ -37,8 +37,8 @@ const user = {
       const uuid = userInfo.uuid
       return new Promise((resolve, reject) => {
         login(username, password, code, uuid).then(res => {
-          setToken(res.access_token)
-          commit('SET_TOKEN', res.access_token)
+          setToken(res.data.access_token)
+          commit('SET_TOKEN', res.data.access_token)
           resolve()
         }).catch(error => {
           reject(error)
@@ -66,7 +66,7 @@ const user = {
         })
       })
     },
-    
+
     // 退出系统
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {

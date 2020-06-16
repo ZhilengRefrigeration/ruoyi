@@ -1,5 +1,8 @@
 package com.ruoyi.common.security.config;
 
+import com.ruoyi.common.security.handler.AuthenticationEntryPointImpl;
+import com.ruoyi.common.security.handler.CustomAccessDeniedHandler;
+import com.ruoyi.common.security.handler.CustomResponseErrorHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.OAuth2ClientProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
@@ -20,7 +23,7 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * oauth2 服务配置
- * 
+ *
  * @author ruoyi
  */
 @Configuration
@@ -33,6 +36,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter
     @Autowired
     private OAuth2ClientProperties oAuth2ClientProperties;
 
+    @Autowired
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
+
     @Bean
     public AuthIgnoreConfig authIgnoreConfig()
     {
@@ -44,8 +50,21 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter
     public RestTemplate restTemplate()
     {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setErrorHandler(new DefaultResponseErrorHandler());
+        // 设置一个空的 异常处理
+        restTemplate.setErrorHandler(getErrorHandler());
         return restTemplate;
+    }
+
+    @Bean
+    public CustomResponseErrorHandler getErrorHandler()
+    {
+        return new CustomResponseErrorHandler();
+    }
+
+    @Bean
+    public AuthenticationEntryPointImpl getUnAuthorizedHandler()
+    {
+        return new AuthenticationEntryPointImpl();
     }
 
     @Bean
@@ -60,6 +79,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter
         remoteTokenServices.setClientSecret(oAuth2ClientProperties.getClientSecret());
         remoteTokenServices.setRestTemplate(restTemplate());
         remoteTokenServices.setAccessTokenConverter(accessTokenConverter);
+
         return remoteTokenServices;
     }
 
@@ -67,8 +87,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter
     public void configure(HttpSecurity http) throws Exception
     {
         http.csrf().disable();
-        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http
-                .authorizeRequests();
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http.authorizeRequests();
         // 不登录可以访问
         authIgnoreConfig().getUrls().forEach(url -> registry.antMatchers(url).permitAll());
         registry.anyRequest().authenticated();
@@ -77,6 +96,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter
     @Override
     public void configure(ResourceServerSecurityConfigurer resources)
     {
+        resources.authenticationEntryPoint(getUnAuthorizedHandler()).accessDeniedHandler(customAccessDeniedHandler);
         resources.tokenServices(tokenServices());
     }
 }
