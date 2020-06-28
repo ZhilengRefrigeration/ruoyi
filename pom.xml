@@ -71,21 +71,21 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-			
+
             <!--  SpringBoot 监控客户端 -->
             <dependency>
                 <groupId>de.codecentric</groupId>
                 <artifactId>spring-boot-admin-starter-client</artifactId>
                 <version>${spring-boot-admin.version}</version>
             </dependency>
-			
+
             <!-- Mybatis 依赖配置 -->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${spring-boot.mybatis}</version>
             </dependency>
-			
+
             <!-- Swagger 依赖配置 -->
             <dependency>
                 <groupId>io.swagger</groupId>
@@ -146,7 +146,7 @@
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
             </dependency>
-            
+
             <!-- 公共资源池 -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -160,49 +160,49 @@
                 <artifactId>ruoyi-common-core</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
-			
+
             <!-- 接口模块 -->
             <dependency>
                 <groupId>com.ruoyi</groupId>
                 <artifactId>ruoyi-common-swagger</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
-	        
+
             <!-- 安全模块 -->
             <dependency>
                 <groupId>com.ruoyi</groupId>
                 <artifactId>ruoyi-common-security</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
-	        
+
             <!-- 权限范围 -->
             <dependency>
                 <groupId>com.ruoyi</groupId>
                 <artifactId>ruoyi-common-datascope</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
-			
+
             <!-- 日志记录 -->
             <dependency>
                 <groupId>com.ruoyi</groupId>
                 <artifactId>ruoyi-common-log</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
-			
+
             <!-- 缓存服务 -->
             <dependency>
                 <groupId>com.ruoyi</groupId>
                 <artifactId>ruoyi-common-redis</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
-			
+
             <!-- 系统接口 -->
             <dependency>
                 <groupId>com.ruoyi</groupId>
                 <artifactId>ruoyi-api-system</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
-			
+
         </dependencies>
     </dependencyManagement>
 
@@ -213,11 +213,12 @@
 		<module>ruoyi-modules</module>
 		<module>ruoyi-api</module>
 		<module>ruoyi-common</module>
+        <module>modbus-server</module>
     </modules>
     <packaging>pom</packaging>
 
     <dependencies>
-        
+
     </dependencies>
 
     <build>

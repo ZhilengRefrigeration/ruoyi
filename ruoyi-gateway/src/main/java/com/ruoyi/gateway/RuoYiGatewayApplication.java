@@ -7,11 +7,11 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * 网关启动程序
- * 
+ *
  * @author ruoyi
  */
 @EnableDiscoveryClient
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })// 关闭自动配置功能
 public class RuoYiGatewayApplication
 {
     public static void main(String[] args)
