@@ -118,22 +118,17 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter
     @Bean
     public TokenEnhancer tokenEnhancer()
     {
-        return new TokenEnhancer()
-        {
-            @Override
-            public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication)
+        return (accessToken,authentication)->{
+            if (accessToken instanceof DefaultOAuth2AccessToken)
             {
-                if (accessToken instanceof DefaultOAuth2AccessToken)
-                {
-                    DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) accessToken;
-                    LoginUser user = (LoginUser) authentication.getUserAuthentication().getPrincipal();
-                    Map<String, Object> additionalInformation = new LinkedHashMap<String, Object>();
-                    additionalInformation.put(SecurityConstants.DETAILS_USERNAME, authentication.getName());
-                    additionalInformation.put(SecurityConstants.DETAILS_USER_ID, user.getUserId());
-                    token.setAdditionalInformation(additionalInformation);
-                }
-                return accessToken;
-            };
+                DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) accessToken;
+                LoginUser user = (LoginUser) authentication.getUserAuthentication().getPrincipal();
+                Map<String, Object> additionalInformation = new LinkedHashMap<String, Object>();
+                additionalInformation.put(SecurityConstants.DETAILS_USERNAME, authentication.getName());
+                additionalInformation.put(SecurityConstants.DETAILS_USER_ID, user.getUserId());
+                token.setAdditionalInformation(additionalInformation);
+            }
+            return accessToken;
         };
     }
 }
