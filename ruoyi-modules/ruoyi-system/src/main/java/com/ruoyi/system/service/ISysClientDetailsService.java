@@ -1,6 +1,8 @@
 package com.ruoyi.system.service;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.system.domain.SysClientDetails;
 
 /**
@@ -8,7 +10,7 @@ import com.ruoyi.system.domain.SysClientDetails;
  * 
  * @author ruoyi
  */
-public interface ISysClientDetailsService
+public interface ISysClientDetailsService extends IService<SysClientDetails>
 {
     /**
      * 查询终端配置

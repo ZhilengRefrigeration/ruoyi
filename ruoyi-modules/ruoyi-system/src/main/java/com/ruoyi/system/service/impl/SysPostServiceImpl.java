@@ -2,6 +2,7 @@ package com.ruoyi.system.service.impl;
 
 import java.util.List;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ import com.ruoyi.system.service.ISysPostService;
  * @author ruoyi
  */
 @Service
-public class SysPostServiceImpl implements ISysPostService
+public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> implements ISysPostService
 {
     @Autowired
     private SysPostMapper postMapper;

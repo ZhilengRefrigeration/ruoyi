@@ -2,6 +2,8 @@ package com.ruoyi.system.service.impl;
 
 import java.util.List;
 import javax.annotation.PostConstruct;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +23,7 @@ import com.ruoyi.system.utils.DictUtils;
  * @author ruoyi
  */
 @Service
-public class SysDictTypeServiceImpl implements ISysDictTypeService
+public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDictType> implements ISysDictTypeService
 {
     @Autowired
     private SysDictTypeMapper dictTypeMapper;

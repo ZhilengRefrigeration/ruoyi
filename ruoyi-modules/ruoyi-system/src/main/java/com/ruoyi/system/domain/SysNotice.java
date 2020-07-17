@@ -2,6 +2,10 @@ package com.ruoyi.system.domain;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -12,11 +16,13 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
  * 
  * @author ruoyi
  */
+@TableName("sys_notice")
 public class SysNotice extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** 公告ID */
+    @TableId(value = "notice_id", type = IdType.AUTO)
     private Long noticeId;
 
     /** 公告标题 */

@@ -1,6 +1,8 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,7 @@ import com.ruoyi.system.service.ISysClientDetailsService;
  * @author ruoyi
  */
 @Service
-public class SysClientDetailsServiceImpl implements ISysClientDetailsService
+public class SysClientDetailsServiceImpl extends ServiceImpl<SysClientDetailsMapper, SysClientDetails> implements ISysClientDetailsService
 {
     @Autowired
     private SysClientDetailsMapper sysClientDetailsMapper;
