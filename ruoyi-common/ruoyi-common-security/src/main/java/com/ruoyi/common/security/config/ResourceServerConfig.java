@@ -1,5 +1,6 @@
 package com.ruoyi.common.security.config;
 
+import com.ruoyi.common.security.handler.AuthExceptionEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.OAuth2ClientProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
@@ -21,7 +22,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  * oauth2 服务配置
  * 
- * @author ruoyi
+ * @author tanran
  */
 @Configuration
 @EnableResourceServer
@@ -77,6 +78,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter
     @Override
     public void configure(ResourceServerSecurityConfigurer resources)
     {
-        resources.tokenServices(tokenServices());
+        resources.tokenServices(tokenServices()).authenticationEntryPoint(new AuthExceptionEntryPoint());
     }
 }
