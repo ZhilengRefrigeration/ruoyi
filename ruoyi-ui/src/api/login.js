@@ -2,11 +2,22 @@ import request from '@/utils/request'
 
 const client_id = 'web'
 const client_secret = '123456'
-const grant_type = 'password'
+let grant_type = 'password'
 const scope = 'server'
+
+// 刷新方法
+export function refreshToken( refresh_token ) {
+  grant_type = `refresh_token`
+  return request({
+    url: '/auth/oauth/token',
+    method: 'post',
+    params: { client_id, client_secret, grant_type, scope, refresh_token }
+  })
+}
 
 // 登录方法
 export function login(username, password, code, uuid) {
+  grant_type = 'password'
   return request({
     url: '/auth/oauth/token',
     method: 'post',

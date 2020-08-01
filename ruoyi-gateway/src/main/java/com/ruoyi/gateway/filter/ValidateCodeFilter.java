@@ -11,7 +11,11 @@ import com.alibaba.fastjson.JSON;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.gateway.service.ValidateCodeService;
+import org.springframework.util.MultiValueMap;
+import org.springframework.util.ObjectUtils;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 /**
  * 验证码过滤器
@@ -38,8 +42,13 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
 
-            // 非登录请求，不处理
-            if (!StringUtils.containsIgnoreCase(request.getURI().getPath(), AUTH_URL))
+            MultiValueMap<String, String> queryParams = request.getQueryParams();
+            //            todo 下述常量写入SecurityConstants.java
+            List<String> grant_typeS = queryParams.get("grant_type");
+
+            // 非登录请求，不处理 刷新access_token，不处理
+            boolean isLogin = StringUtils.containsIgnoreCase(request.getURI().getPath(),AUTH_URL);
+            if (!isLogin || (isLogin && !ObjectUtils.isEmpty(queryParams) && !ObjectUtils.isEmpty(grant_typeS) && grant_typeS.contains("refresh_token")))
             {
                 return chain.filter(exchange);
             }
