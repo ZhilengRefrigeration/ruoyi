@@ -43,7 +43,7 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
             ServerHttpRequest request = exchange.getRequest();
 
             MultiValueMap<String, String> queryParams = request.getQueryParams();
-
+            //            todo 下述常量写入SecurityConstants.java
             List<String> grant_typeS = queryParams.get("grant_type");
 
             // 非登录请求，不处理 刷新access_token，不处理
