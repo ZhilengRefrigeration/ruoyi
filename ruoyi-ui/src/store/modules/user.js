@@ -1,5 +1,30 @@
-import { login, logout, getInfo } from '@/api/login'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { login, logout, getInfo, refreshToken as refreshTokenFunc } from '@/api/login'
+import { getToken, setToken, removeToken,
+  setRefreshToken, removeRefreshToken,
+  setExpiresIn, removeExpiresIn
+} from '@/utils/auth'
+
+/**
+ * 存储token
+ * @param commit
+ * @param res
+ */
+function storeToken(commit, resolve, res) {
+  setToken(res.access_token)
+  commit('SET_TOKEN', res.access_token)
+
+  // 存储refresh_token expires_in
+  // console.log(`获取[刷新令牌]成功了 === `, res.refresh_token)
+  setRefreshToken(res.refresh_token)
+  commit('SET_REFRESH_TOKEN', res.refresh_token)
+
+  const expires_in_time = new Date().getTime() + res.expires_in * 1000
+  // console.log(`获取[访问令牌]成功了，过期日期 === `, new Date(expires_in_time))
+  setExpiresIn(expires_in_time)
+  commit('SET_EXPIRES_IN', expires_in_time)
+
+  resolve()
+}
 
 const user = {
   state: {
@@ -11,6 +36,12 @@ const user = {
   },
 
   mutations: {
+    SET_EXPIRES_IN: (state, v) => {
+      state.expires_in = v
+    },
+    SET_REFRESH_TOKEN: (state, v) => {
+      state.refresh_token = v
+    },
     SET_TOKEN: (state, token) => {
       state.token = token
     },
@@ -28,7 +59,41 @@ const user = {
     }
   },
 
+
   actions: {
+
+    // 刷新
+    RefreshToken({ commit }, refreshTokenParams) {
+      // console.log(`进入src/store/modules/user.js执行[刷新token]`)
+      const refreshToken = refreshTokenParams.refreshToken
+      return new Promise((resolve, reject) => {
+        refreshTokenFunc(refreshToken).then(res => {
+        debugger
+          // console.log(`调用[刷新token]接口，返回参数 === `, res)
+
+          storeToken(commit, resolve, res)
+
+        }).catch(error => {
+          reject(error)
+
+          // console.log(`可能refresh_token已过期！`, error)
+
+          // 清空
+
+          // console.log(`清空鉴权信息`)
+          commit('SET_TOKEN', '')
+          commit('SET_REFRESH_TOKEN', '')
+          commit('SET_EXPIRES_IN', 0)
+          commit('SET_ROLES', [])
+          commit('SET_PERMISSIONS', [])
+          removeToken()
+          removeRefreshToken()
+          removeExpiresIn()
+
+        })
+      })
+    },
+
     // 登录
     Login({ commit }, userInfo) {
       const username = userInfo.username.trim()
@@ -37,9 +102,9 @@ const user = {
       const uuid = userInfo.uuid
       return new Promise((resolve, reject) => {
         login(username, password, code, uuid).then(res => {
-          setToken(res.access_token)
-          commit('SET_TOKEN', res.access_token)
-          resolve()
+
+          storeToken(commit, resolve, res)
+
         }).catch(error => {
           reject(error)
         })
@@ -66,7 +131,7 @@ const user = {
         })
       })
     },
-    
+
     // 退出系统
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
