@@ -22,7 +22,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  * oauth2 服务配置
  * 
- * @author tanran
+ * @author ruoyi
  */
 @Configuration
 @EnableResourceServer
