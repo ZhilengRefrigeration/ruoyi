@@ -38,7 +38,7 @@
     <dependencyManagement>
         <dependencies>
 
-            <!-- SpringCloud 微服务 -->
+            <!-- SpringCloud 微服务test -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
