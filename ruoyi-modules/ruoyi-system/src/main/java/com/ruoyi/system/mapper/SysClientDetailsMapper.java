@@ -1,6 +1,8 @@
 package com.ruoyi.system.mapper;
 
 import java.util.List;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ruoyi.system.domain.SysClientDetails;
 
 /**
@@ -8,7 +10,7 @@ import com.ruoyi.system.domain.SysClientDetails;
  * 
  * @author ruoyi
  */
-public interface SysClientDetailsMapper
+public interface SysClientDetailsMapper extends BaseMapper<SysClientDetails>
 {
     /**
      * 查询终端配置

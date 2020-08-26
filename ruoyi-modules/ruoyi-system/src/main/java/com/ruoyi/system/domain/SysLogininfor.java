@@ -1,6 +1,10 @@
 package com.ruoyi.system.domain;
 
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.annotation.Excel.ColumnType;
@@ -11,12 +15,14 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
  * 
  * @author ruoyi
  */
+@TableName("sys_logininfor")
 public class SysLogininfor extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** ID */
     @Excel(name = "序号", cellType = ColumnType.NUMERIC)
+    @TableId(value = "info_id", type = IdType.AUTO)
     private Long infoId;
 
     /** 用户账号 */

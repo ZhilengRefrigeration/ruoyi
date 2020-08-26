@@ -32,6 +32,7 @@
         <fastjson.version>1.2.73</fastjson.version>
 		<poi.version>3.17</poi.version>
         <common-pool.version>2.6.2</common-pool.version>
+        <mybatis-plus.version>3.3.2</mybatis-plus.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -80,11 +81,11 @@
             </dependency>
 			
             <!-- Mybatis 依赖配置 -->
-            <dependency>
-                <groupId>org.mybatis.spring.boot</groupId>
-                <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>${spring-boot.mybatis}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.mybatis.spring.boot</groupId>-->
+<!--                <artifactId>mybatis-spring-boot-starter</artifactId>-->
+<!--                <version>${spring-boot.mybatis}</version>-->
+<!--            </dependency>-->
 			
             <!-- Swagger 依赖配置 -->
             <dependency>
@@ -201,6 +202,12 @@
                 <groupId>com.ruoyi</groupId>
                 <artifactId>ruoyi-api-system</artifactId>
                 <version>${ruoyi.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
             </dependency>
 			
         </dependencies>

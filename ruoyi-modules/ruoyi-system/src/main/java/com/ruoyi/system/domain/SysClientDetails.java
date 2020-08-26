@@ -1,5 +1,8 @@
 package com.ruoyi.system.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.web.domain.BaseEntity;
@@ -9,6 +12,7 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
  *
  * @author ruoyi
  */
+@TableName("sys_oauth_client_details")
 public class SysClientDetails extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -16,6 +20,7 @@ public class SysClientDetails extends BaseEntity
     /**
      * 终端编号
      */
+    @TableId(value = "client_id", type = IdType.NONE)
     private String clientId;
 
     /**
