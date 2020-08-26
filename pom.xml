@@ -71,7 +71,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-			
             <!--  SpringBoot 监控客户端 -->
             <dependency>
                 <groupId>de.codecentric</groupId>
@@ -193,6 +192,12 @@
             <dependency>
                 <groupId>com.ruoyi</groupId>
                 <artifactId>ruoyi-common-redis</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+            <!-- mqtt服务 -->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-common-mqtt</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
 			
