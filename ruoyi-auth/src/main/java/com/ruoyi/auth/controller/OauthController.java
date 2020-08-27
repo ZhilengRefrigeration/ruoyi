@@ -15,6 +15,7 @@ import java.util.Map;
 
 /**
  * 自定义OauthController  替换默认tokenEndpoint  以便返回数据格式化同一
+ * YC
  */
 @RestController
 @RequestMapping("/oauth")
