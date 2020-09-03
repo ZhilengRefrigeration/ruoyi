@@ -9,8 +9,8 @@ public class CaptchaException extends RuntimeException
 {
     private static final long serialVersionUID = 1L;
 
-    public CaptchaException(String msg)
+    public CaptchaException(String message)
     {
-        super(msg);
+        super(message);
     }
 }
