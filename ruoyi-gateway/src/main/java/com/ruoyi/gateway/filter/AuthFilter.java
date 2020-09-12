@@ -2,6 +2,8 @@ package com.ruoyi.gateway.filter;
 
 import java.util.Arrays;
 import javax.annotation.Resource;
+
+import com.ruoyi.common.core.utils.AuthUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -44,8 +46,7 @@ public class AuthFilter implements GlobalFilter, Ordered
     {
         String url = exchange.getRequest().getURI().getPath();
         // 跳过不需要验证的路径
-        if (Arrays.asList(whiteList).contains(url))
-        {
+        if(AuthUtils.checkWhiteList(Arrays.asList(whiteList),url)){
             return chain.filter(exchange);
         }
         String token = getToken(exchange.getRequest());
