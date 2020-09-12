@@ -1,6 +1,8 @@
 package com.ruoyi.common.core.utils;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -10,7 +12,7 @@ import java.util.regex.Pattern;
  */
 public class AuthUtils {
 
-    public static String getRegPath(String path) {
+    private static String getRegPath(String path) {
         char[] chars = path.toCharArray();
         int len = chars.length;
         StringBuilder sb = new StringBuilder();
@@ -55,7 +57,7 @@ public class AuthUtils {
      * @param reqUrl      - 请求地址
      * @return true/false
      */
-    public static boolean filterUrls(String excludePath, String reqUrl) {
+    private static boolean filterUrls(String excludePath, String reqUrl) {
         String regPath = getRegPath(excludePath);
         return Pattern.compile(regPath).matcher(reqUrl).matches();
     }
