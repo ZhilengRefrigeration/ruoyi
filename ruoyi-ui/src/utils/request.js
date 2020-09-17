@@ -21,6 +21,27 @@ service.interceptors.request.use(config => {
   if (getToken() && !isToken) {
     config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际
   }
+
+  let url = config.url;
+  if (config.method === 'get' && config.params) {
+    url += '?';
+    let keys = Object.keys(config.params);
+    for (const key of keys) {
+      const value = config.params[key];
+      if (typeof value === 'object') {
+        for (const key2 of Object.keys(value)) {
+          let key3 = key + '[' + key2 + ']';
+          url += `${encodeURIComponent(key3)}=${value[key2] == undefined ? '' : encodeURIComponent(value[key2])}&`;
+        }
+      } else {
+        url += `${encodeURIComponent(key)}=${config.params[key] == undefined ? '' : encodeURIComponent(config.params[key])}&`;
+      }
+    }
+    url = url.substring(0, url.length - 1);
+    config.params = {};
+  }
+  config.url = url;
+
   return config
 }, error => {
     console.log(error)
