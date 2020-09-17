@@ -11,29 +11,26 @@ public class CustomException extends RuntimeException
 
     private Integer code;
 
-    private String message;
-
     public CustomException(String message)
     {
-        this.message = message;
+        super(message);
     }
 
-    public CustomException(String message, Integer code)
+    public CustomException(Integer code, String message)
     {
-        this.message = message;
+        super(message);
+        this.code = code;
+    }
+
+    public CustomException(Integer code, String message, Throwable e)
+    {
+        super(message, e);
         this.code = code;
     }
 
     public CustomException(String message, Throwable e)
     {
         super(message, e);
-        this.message = message;
-    }
-
-    @Override
-    public String getMessage()
-    {
-        return message;
     }
 
     public Integer getCode()

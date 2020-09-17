@@ -11,14 +11,14 @@ public class TaskException extends Exception
 
     private Code code;
 
-    public TaskException(String msg, Code code)
+    public TaskException(String message, Code code)
     {
-        this(msg, code, null);
+        this(message, code, null);
     }
 
-    public TaskException(String msg, Code code, Exception nestedEx)
+    public TaskException(String message, Code code, Exception nestedEx)
     {
-        super(msg, nestedEx);
+        super(message, nestedEx);
         this.code = code;
     }
 
