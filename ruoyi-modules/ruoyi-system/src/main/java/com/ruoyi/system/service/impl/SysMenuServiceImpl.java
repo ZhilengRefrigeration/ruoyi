@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.core.constant.UserConstants;
+import com.ruoyi.common.core.utils.SecurityUtils;
 import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysRole;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.domain.SysMenu;
@@ -364,6 +364,10 @@ public class SysMenuServiceImpl implements ISysMenuService
         {
             component = menu.getComponent();
         }
+        else if (StringUtils.isEmpty(menu.getComponent()) && isParentView(menu))
+        {
+            component = UserConstants.PARENT_VIEW;
+        }
         return component;
     }
 
@@ -377,6 +381,17 @@ public class SysMenuServiceImpl implements ISysMenuService
     {
         return menu.getParentId().intValue() == 0 && UserConstants.TYPE_MENU.equals(menu.getMenuType())
                 && menu.getIsFrame().equals(UserConstants.NO_FRAME);
+    }
+
+    /**
+     * 是否为parent_view组件
+     * 
+     * @param menu 菜单信息
+     * @return 结果
+     */
+    public boolean isParentView(SysMenu menu)
+    {
+        return menu.getParentId().intValue() != 0 && UserConstants.TYPE_DIR.equals(menu.getMenuType());
     }
 
     /**
