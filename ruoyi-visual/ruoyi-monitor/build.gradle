@@ -1,0 +1,11 @@
+apply from: "../../build-config/build-base.gradle"
+apply from: "../../build-config/build-boot-jar.gradle"
+
+apply from: "../../build-product.gradle"
+
+dependencies {
+    implementation project(':ruoyi-common-core')
+
+}
+
+description = 'ruoyi-visual-monitor'

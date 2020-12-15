@@ -1,0 +1,14 @@
+//该产品的构建基本配置，公司统一模板，禁止开发人员修改。
+allprojects {
+    def releaseVersion = System.getProperty("releaseVersion")
+    version = releaseVersion ? releaseVersion : "${devVersion}"
+}
+ext {
+    buildProduct = System.getProperty("buildProduct") ?: false
+}
+task abuildAllModule(type: Exec) {
+    workingDir("../")
+    executable "build-config/build_jar.sh"
+    args(project.name)
+}
+

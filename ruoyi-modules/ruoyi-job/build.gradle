@@ -1,0 +1,13 @@
+apply from: "../../build-config/build-base.gradle"
+apply from: "../../build-config/build-boot-jar.gradle"
+
+apply from: "../../build-product.gradle"
+
+dependencies {
+    implementation project(':ruoyi-common-log')
+    implementation project(':ruoyi-common-swagger')
+    implementation project(':ruoyi-common-core')
+    implementation project(':ruoyi-common-security')
+}
+
+description = 'ruoyi-modules-job'

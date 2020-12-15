@@ -1,0 +1,14 @@
+group = "com.ruoyi"
+
+apply from: "../../build-config/build-base.gradle"
+apply from: "../../build-config/build-publish.gradle"
+apply from: "../../build-product.gradle"
+dependencies {
+
+    implementation project(':ruoyi-common-core')
+    implementation project(':ruoyi-common-security')
+    implementation project(':ruoyi-api-system')
+
+}
+
+description = 'ruoyi-common-datascope'

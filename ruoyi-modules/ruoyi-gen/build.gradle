@@ -1,0 +1,23 @@
+apply from: "../../build-config/build-base.gradle"
+apply from: "../../build-config/build-boot-jar.gradle"
+apply from: "../../build-product.gradle"
+
+dependencies {
+    implementation project(':ruoyi-common-log')
+    implementation project(':ruoyi-common-security')
+    implementation project(':ruoyi-common-core')
+    implementation project(':ruoyi-common-swagger')
+
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:2.2.3.RELEASE'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:2.2.3.RELEASE'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel:2.2.3.RELEASE'
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:2.3.4.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-validation:2.3.4.RELEASE'
+
+    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+    implementation 'org.apache.velocity:velocity:1.7'
+    implementation 'mysql:mysql-connector-java:8.0.21'
+}
+
+description = 'ruoyi-modules-gen'

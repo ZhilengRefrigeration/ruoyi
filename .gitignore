@@ -1,8 +1,10 @@
 ######################################################################
 # Build Tools
+mvn-build
 
 .gradle
-/build/
+**/.gradle
+**/build/
 !gradle/wrapper/gradle-wrapper.jar
 
 target/
