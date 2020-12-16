@@ -1,0 +1,25 @@
+
+> Configure project :
+com.ruoyi  ruoyi-common-core publishing version is  dev-9-SNAPSHOT
+com.ruoyi  ruoyi-common-datascope publishing version is  dev-9-SNAPSHOT
+com.ruoyi  ruoyi-common-log publishing version is  dev-9-SNAPSHOT
+com.ruoyi  ruoyi-common-redis publishing version is  dev-9-SNAPSHOT
+com.ruoyi  ruoyi-common-security publishing version is  dev-9-SNAPSHOT
+com.ruoyi  ruoyi-common-swagger publishing version is  dev-9-SNAPSHOT
+
+> Task :dependencies
+
+------------------------------------------------------------
+Root project
+------------------------------------------------------------
+
+No configurations
+
+A web-based, searchable dependency report is available by adding the --scan option.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 7.0.
+Use '--warning-mode all' to show the individual deprecation warnings.
+See https://docs.gradle.org/6.7/userguide/command_line_interface.html#sec:command_line_warnings
+
+BUILD SUCCESSFUL in 563ms
+1 actionable task: 1 executed

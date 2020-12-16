@@ -6,6 +6,12 @@ ext {
     logbackVersion = "1.2.3"
 }
 
+
+apply plugin: "java"
+apply plugin: "idea"
+apply plugin: "io.spring.dependency-management"
+
+
 task copyConfig(type: Copy) {
     from "src/main/resources/application.properties"
     from "src/main/resources/application.yaml"
@@ -23,6 +29,7 @@ task cleanGridnt(type: Exec) {
 clean {
     delete = ["build", "out", "dist_java", "boot", "log", "logs",]
 }
+
 [compileJava, compileTestJava]*.options*.encoding = "UTF-8"
 [compileJava, compileTestJava]*.sourceCompatibility = "11"
 [compileJava, compileTestJava]*.targetCompatibility = "11"
@@ -31,7 +38,7 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven { url "https://maven.aliyun.com/repository/public/" }
-//    maven { url "http://192.168.8.200:8081/repository/public/" }
+    maven { url "http://192.168.8.200:8081/repository/public/" }
 }
 configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, "seconds"
@@ -53,14 +60,13 @@ dependencies {
 }
 
 jar {
-//    // 排除掉模块调试的资源文件, 启动类.
-//    excludes = ["file/WaveAnalysis", "com/gridnt/**/*Starter*", "logback*.xml",
-//                "application*.properties", "application*.yaml", "config"
-//    ]
+	//    // 排除掉模块调试的资源文件, 启动类.
+	//    excludes = ["file/WaveAnalysis", "com/gridnt/**/*Starter*", "logback*.xml",
+	//                "application*.properties", "application*.yaml", "config"
+	//    ]
     manifest {
         attributes "releaseVersion": version + "-" + getGitVersion()
-        attributes "vendor": "GRIDNT山东网聪信息科技有限公司 build"
-        attributes "description": "重新编译打包，引用的其它组织的代码，著作圈原作者所有"
+        attributes "vendor": "GRIDNT山东网聪信息科技有限公司"
         attributes "buildTime": new Date().format("yyyy-MM-dd HH:mm:ss", TimeZone.getTimeZone("GMT+08:00"))
     }
 }

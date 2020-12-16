@@ -1,11 +1,45 @@
+buildscript {
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    ext {
+        springBoot = "2.4.0"
+        alibabaCloud = "2.2.3.RELEASE"
+        springCloud = "2.2.6.RELEASE"
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBoot}")
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.0"
+    }
+}
+
+ext {
+    devVersion = "dev-9-SNAPSHOT"
+}
+
+description = "ruoyi-visual-monitor"
+apply from: "../../build-config/build-all.gradle"
 apply from: "../../build-config/build-base.gradle"
 apply from: "../../build-config/build-boot-jar.gradle"
 
-apply from: "../../build-product.gradle"
+group = "com.ruoyi"
+archivesBaseName = "${project.name}"
 
 dependencies {
-    implementation project(':ruoyi-common-core')
+
+    implementation "de.codecentric:spring-boot-admin-starter-server:2.3.0"
+
+    implementation "org.springframework.boot:spring-boot-starter-web:${springBoot}"
+    implementation "org.springframework.boot:spring-boot-starter-security:${springBoot}"
+
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:${alibabaCloud}"
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:${alibabaCloud}"
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel:${alibabaCloud}"
+
 
 }
 
-description = 'ruoyi-visual-monitor'
+
+static def getGitVersion() {
+    return System.getProperty("gitVersion") ?: "git rev-parse --short HEAD".execute().text.trim()
+}

@@ -3,28 +3,35 @@ buildscript {
         mavenLocal()
         mavenCentral()
         maven { url "https://maven.aliyun.com/repository/public/" }
-//        maven { url "http://192.168.8.200:8081/repository/public/" }
         maven { url "https://plugins.gradle.org/m2/" }
     }
     ext {
         springBoot = "2.4.0"
+        alibabaCloud = "2.2.3.RELEASE"
+        springCloud = "2.2.6.RELEASE"
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBoot}")
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8"
     }
 }
+
 ext {
     devVersion = "dev-9-SNAPSHOT"
+    springBoot = "2.4.0"
+    alibabaCloud = "2.2.3.RELEASE"
+    springCloud = "2.2.6.RELEASE"
 }
 
+apply from: "../build-config/build-all.gradle"
 
-apply from: "build-config/build-all.gradle"
 subprojects {
-    apply plugin: "java"
-    apply plugin: "idea"
-    apply plugin: "io.spring.dependency-management"
-    archivesBaseName = "project-${project.name}"
+
+    apply from: "../../build-config/build-base.gradle"
+    apply from: "../../build-config/build-publish.gradle"
+
+    group = "com.ruoyi"
+    archivesBaseName = "${project.name}"
 }
 
 static def getGitVersion() {

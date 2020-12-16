@@ -1,4 +1,7 @@
 apply plugin: "maven-publish"
+group = "com.ruoyi"
+archivesBaseName = "${project.name}"
+
 
 task sourcesJar(type: Jar) {
     from sourceSets.main.allJava

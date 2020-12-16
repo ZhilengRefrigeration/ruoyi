@@ -1,13 +1,19 @@
-group = "com.ruoyi"
-
-apply from: "../../build-config/build-base.gradle"
-apply from: "../../build-config/build-publish.gradle"
-
-apply from: "../../build-product.gradle"
-
 dependencies {
 
+    implementation "org.springframework.cloud:spring-cloud-starter-openfeign:${springCloud}"
+    implementation "org.springframework.boot:spring-boot-starter-validation:${springBoot}"
+    implementation "org.springframework.boot:spring-boot-starter-web:${springBoot}"
+    implementation "com.github.pagehelper:pagehelper-spring-boot-starter:1.3.0"
+    implementation "com.alibaba:fastjson:1.2.75"
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.12.0"
+    implementation "commons-io:commons-io:2.8.0"
+    implementation "org.apache.poi:poi-ooxml:4.1.2"
+    implementation "org.apache.commons:commons-lang3:3.11"
+    implementation "org.apache.commons:commons-pool2:2.9.0"
+    implementation "commons-fileupload:commons-fileupload:1.4"
+    implementation "javax.servlet:javax.servlet-api:4.0.1"
+    implementation "io.swagger:swagger-annotations:1.5.24"
 
 }
 
-description = 'ruoyi-common-core'
+description = "ruoyi-common-core"

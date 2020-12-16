@@ -4,4 +4,3 @@
 # git pull; git add . ;git commit -m " 发布版本 $*" ; git push
 
 gradle --daemon --parallel -DbuildProduct=true clean publish -DreleaseVersion=$1
-

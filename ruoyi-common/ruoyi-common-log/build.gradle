@@ -1,12 +1,15 @@
-group = "com.ruoyi"
-apply from: "../../build-config/build-base.gradle"
-apply from: "../../build-config/build-publish.gradle"
-
-apply from: "../../build-product.gradle"
 dependencies {
-    implementation project(':ruoyi-api-system')
-    implementation project(':ruoyi-common-security')
-    implementation project(':ruoyi-common-core')
+    implementation project(":ruoyi-common-security")
+    implementation project(":ruoyi-common-core")
+
+    implementation "com.ruoyi:ruoyi-api-system:${devVersion}"
+
+    implementation "com.alibaba:fastjson:1.2.75"
+    implementation "org.apache.commons:commons-lang3:3.11"
+    implementation "org.aspectj:aspectjweaver:1.9.6"
+    implementation "org.springframework.boot:spring-boot-starter-web:${springBoot}"
+    implementation "org.springframework.boot:spring-boot-autoconfigure:${springBoot}"
+
 }
 
-description = 'ruoyi-common-log'
+description = "ruoyi-common-log"

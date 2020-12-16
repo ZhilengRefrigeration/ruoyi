@@ -1,14 +1,13 @@
-group = "com.ruoyi"
-
-apply from: "../../build-config/build-base.gradle"
-apply from: "../../build-config/build-publish.gradle"
-apply from: "../../build-product.gradle"
 dependencies {
 
-    implementation project(':ruoyi-common-core')
-    implementation project(':ruoyi-common-security')
-    implementation project(':ruoyi-api-system')
 
+    implementation project(":ruoyi-common-core")
+    implementation project(":ruoyi-common-security")
+    implementation "com.ruoyi:ruoyi-api-system:${devVersion}"
+
+    implementation "org.aspectj:aspectjweaver:1.9.6"
+    implementation "org.apache.commons:commons-lang3:3.11"
+    implementation "org.springframework.boot:spring-boot-starter-validation:${springBoot}"
 }
 
-description = 'ruoyi-common-datascope'
+description = "ruoyi-common-datascope"

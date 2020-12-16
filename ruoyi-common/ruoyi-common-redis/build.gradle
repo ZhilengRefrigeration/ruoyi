@@ -1,12 +1,9 @@
-group = "com.ruoyi"
-apply from: "../../build-config/build-base.gradle"
-apply from: "../../build-config/build-publish.gradle"
-
-apply from: "../../build-product.gradle"
-
 dependencies {
+    implementation project(":ruoyi-common-core")
 
-    implementation project(':ruoyi-common-core')
+    implementation "com.alibaba:fastjson:1.2.75"
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.12.0"
+    implementation "org.springframework.boot:spring-boot-starter-data-redis:2.3.4.RELEASE"
 }
 
-description = 'ruoyi-common-redis'
+description = "ruoyi-common-redis"

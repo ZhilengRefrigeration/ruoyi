@@ -1,10 +1,56 @@
-apply from: "../build-config/build-base.gradle"
-apply from: "../build-config/build-boot-jar.gradle"
-apply from: "../build-product.gradle"
-dependencies {
-    implementation project(':ruoyi-common-redis')
-    implementation project(':ruoyi-common-security')
-    implementation project(':ruoyi-common-core')
+buildscript {
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    ext {
+        springBoot = "2.4.0"
+        alibabaCloud = "2.2.3.RELEASE"
+        springCloud = "2.2.6.RELEASE"
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBoot}")
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.0"
+    }
 }
 
-description = 'ruoyi-gateway'
+ext {
+    devVersion = "dev-9-SNAPSHOT"
+}
+
+description = "ruoyi-api-system"
+apply from: "../build-config/build-all.gradle"
+apply from: "../build-config/build-base.gradle"
+apply from: "../build-config/build-boot-jar.gradle"
+
+group = "com.ruoyi"
+archivesBaseName = "${project.name}"
+
+dependencies {
+    implementation "com.ruoyi:ruoyi-common-core:${devVersion}"
+    implementation "com.ruoyi:ruoyi-common-redis:${devVersion}"
+    implementation "com.ruoyi:ruoyi-common-security:${devVersion}"
+    implementation "com.ruoyi:ruoyi-api-system:${devVersion}"
+
+
+    implementation "com.github.penggle:kaptcha:2.3.2"
+    implementation "io.springfox:springfox-swagger2:2.9.2"
+    implementation "io.springfox:springfox-swagger-ui:2.9.2"
+    implementation "com.alibaba.csp:sentinel-datasource-nacos:1.8.0"
+
+
+    implementation "org.springframework.boot:spring-boot-starter-actuator:${springBoot}"
+    implementation "org.springframework.boot:spring-boot-starter-data-redis:${springBoot}"
+
+    implementation "org.springframework.cloud:spring-cloud-starter-gateway:${springCloud}"
+
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel:${alibabaCloud}"
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:${alibabaCloud}"
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:${alibabaCloud}"
+    implementation "com.alibaba.cloud:spring-cloud-alibaba-sentinel-gateway:${alibabaCloud}"
+
+
+}
+
+static def getGitVersion() {
+    return System.getProperty("gitVersion") ?: "git rev-parse --short HEAD".execute().text.trim()
+}

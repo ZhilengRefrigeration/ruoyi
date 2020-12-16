@@ -1,10 +1,6 @@
-group = "com.ruoyi"
-apply from: "../../build-config/build-base.gradle"
-apply from: "../../build-config/build-publish.gradle"
-
-apply from: "../../build-product.gradle"
 dependencies {
-
+    implementation "org.springframework.boot:spring-boot-starter-web:2.3.4.RELEASE"
+    implementation "io.springfox:springfox-swagger2:2.9.2"
 }
 
-description = 'ruoyi-common-swagger'
+description = "ruoyi-common-swagger"

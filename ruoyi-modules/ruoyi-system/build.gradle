@@ -1,18 +1,51 @@
+buildscript {
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    ext {
+        springBoot = "2.4.0"
+        alibabaCloud = "2.2.3.RELEASE"
+        springCloud = "2.2.6.RELEASE"
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBoot}")
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.0"
+    }
+}
+
+ext {
+    devVersion = "dev-9-SNAPSHOT"
+}
+
+apply from: "../../build-config/build-all.gradle"
 apply from: "../../build-config/build-base.gradle"
 apply from: "../../build-config/build-boot-jar.gradle"
 
-apply from: "../../build-product.gradle"
-
+group = "com.ruoyi"
+archivesBaseName = "${project.name}"
+description = 'ruoyi-modules-system'
 dependencies {
+    implementation "com.ruoyi:ruoyi-common-core:${devVersion}"
+    implementation "com.ruoyi:ruoyi-common-log:${devVersion}"
+    implementation "com.ruoyi:ruoyi-common-security:${devVersion}"
+    implementation "com.ruoyi:ruoyi-common-redis:${devVersion}"
+    implementation "com.ruoyi:ruoyi-common-datascope:${devVersion}"
+    implementation "com.ruoyi:ruoyi-common-swagger:${devVersion}"
+    implementation "com.ruoyi:ruoyi-api-system:${devVersion}"
 
-    implementation project(':ruoyi-common-datascope')
-    implementation project(':ruoyi-common-log')
-    implementation project(':ruoyi-common-core')
-    implementation project(':ruoyi-common-swagger')
-    implementation project(':ruoyi-common-security')
-    implementation project(':ruoyi-api-system')
-    implementation project(':ruoyi-common-redis')
+    implementation "org.apache.poi:poi-ooxml:4.1.2"
+    implementation 'mysql:mysql-connector-java:8.0.21'
+    implementation "io.springfox:springfox-swagger-ui:2.9.2"
+    implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4"
+    implementation "org.springframework.boot:spring-boot-starter-web:${springBoot}"
+    implementation "org.springframework.boot:spring-boot-starter-actuator:${springBoot}"
+    implementation "org.springframework.boot:spring-boot-starter-validation:${springBoot}"
 
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:${alibabaCloud}"
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:${alibabaCloud}"
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel:${alibabaCloud}"
 }
 
-description = 'ruoyi-modules-system'
+static def getGitVersion() {
+    return System.getProperty("gitVersion") ?: "git rev-parse --short HEAD".execute().text.trim()
+}

@@ -1,8 +1,48 @@
-apply from: "../../build-config/build-base.gradle"
-apply from: "../../build-config/build-publish.gradle"
-apply from: "../../build-product.gradle"
-dependencies {
-    implementation project(':ruoyi-common-core')
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "https://maven.aliyun.com/repository/public/" }
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    
+    ext {
+        springBoot = "2.4.0"
+        alibabaCloud = "2.2.3.RELEASE"
+        springCloud = "2.2.6.RELEASE"
+    }
+    
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBoot}")
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8"
+    }
 }
 
-description = 'ruoyi-api-system'
+
+ext {
+    devVersion = "dev-9-SNAPSHOT"
+}
+
+
+description = "ruoyi-api-system"
+apply from: "../../build-config/build-all.gradle"
+apply from: "../../build-config/build-base.gradle"
+apply from: "../../build-config/build-publish.gradle"
+
+group = "com.ruoyi"
+archivesBaseName = "${project.name}"
+
+dependencies {
+
+    implementation "com.ruoyi:ruoyi-common-core:${devVersion}"
+    implementation "org.apache.commons:commons-lang3:3.11"
+    implementation "org.springframework.boot:spring-boot-starter-web:${springBoot}"
+    implementation "org.springframework.boot:spring-boot-starter-validation:${springBoot}"
+    implementation "org.springframework.cloud:spring-cloud-starter-openfeign:${springCloud}"
+}
+
+static def getGitVersion() {
+
+    return System.getProperty("gitVersion") ?: "git rev-parse --short HEAD".execute().text.trim()
+
+}
