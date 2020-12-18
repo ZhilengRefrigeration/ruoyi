@@ -18,14 +18,6 @@
 --
 -- Table structure for table `gen_table`
 --
-DROP DATABASE IF EXISTS `pscada_online_config`;
-
-CREATE DATABASE  `pscada_online_config` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
-
-USE `pscada_online_config`;
 
 DROP TABLE IF EXISTS `gen_table`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -647,6 +639,10 @@ INSERT INTO `sys_user_role` VALUES (1,1),(2,2);
 UNLOCK TABLES;
 
 --
+-- Dumping events for database 'pscada_online'
+--
+
+--
 -- Dumping routines for database 'pscada_online'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -659,4 +655,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-16 17:55:17
+-- Dump completed on 2020-12-18 13:31:02

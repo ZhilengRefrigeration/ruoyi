@@ -20,13 +20,9 @@ apply from: "../build-config/build-all.gradle"
 apply from: "../build-config/build-base.gradle"
 apply from: "../build-config/build-boot-jar.gradle"
 
-
-archivesBaseName = "project-${project.name}"
 dependencies {
-    implementation "com.ruoyi:ruoyi-api-system:${devVersion}"
     implementation "com.ruoyi:ruoyi-common-core:${devVersion}"
     implementation "com.ruoyi:ruoyi-common-redis:${devVersion}"
-    implementation "com.ruoyi:ruoyi-common-security:${devVersion}"
 
     implementation "com.github.penggle:kaptcha:2.3.2"
     implementation "io.springfox:springfox-swagger2:2.9.2"
@@ -35,22 +31,19 @@ dependencies {
 
     implementation "com.alibaba.csp:sentinel-datasource-nacos:1.8.0"
 
-//    compile "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${alibabaCloud}"
+//    implementation "org.springframework:spring-context-support:5.2.9.RELEASE"
+//    implementation "org.springframework:spring-web:5.2.9.RELEASE"
+
     implementation "com.alibaba.cloud:spring-cloud-alibaba-sentinel-gateway:${alibabaCloud}"
     implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel:${alibabaCloud}"
     implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:${alibabaCloud}"
     implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:${alibabaCloud}"
 
+    implementation "org.springframework.boot:spring-boot-starter-validation:${springBoot}"
     implementation "org.springframework.boot:spring-boot-starter-actuator:${springBoot}"
     implementation "org.springframework.boot:spring-boot-starter-data-redis:${springBoot}"
-    implementation "org.springframework.boot:spring-boot-autoconfigure:${springBoot}"
-
-//    compile "org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR8"
-    implementation("org.springframework.cloud:spring-cloud-starter-gateway:${springCloud}") {
-        exclude group: "org.springframework.boot", module: "spring-boot-starter-web"
-        exclude group: "org.springframework.boot", module: "spring-boot-starter-webflux"
-    }
-//    implementation "org.springframework.boot:spring-boot-starter-webflux:${springBoot}"
+//    implementation "org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR8"
+    implementation "org.springframework.cloud:spring-cloud-starter-gateway:${springCloud}"
 }
 
 static def getGitVersion() {
