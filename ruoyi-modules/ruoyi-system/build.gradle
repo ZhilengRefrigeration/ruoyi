@@ -3,7 +3,7 @@ buildscript {
         maven { url "https://plugins.gradle.org/m2/" }
     }
     ext {
-        springBoot = "2.4.0"
+        springBoot = "2.3.4.RELEASE"
         alibabaCloud = "2.2.3.RELEASE"
         springCloud = "2.2.6.RELEASE"
     }
@@ -21,9 +21,7 @@ apply from: "../../build-config/build-all.gradle"
 apply from: "../../build-config/build-base.gradle"
 apply from: "../../build-config/build-boot-jar.gradle"
 
-group = "com.ruoyi"
-archivesBaseName = "${project.name}"
-description = 'ruoyi-modules-system'
+description = "ruoyi-modules-system"
 dependencies {
     implementation "com.ruoyi:ruoyi-common-core:${devVersion}"
     implementation "com.ruoyi:ruoyi-common-log:${devVersion}"
@@ -34,7 +32,7 @@ dependencies {
     implementation "com.ruoyi:ruoyi-api-system:${devVersion}"
 
     implementation "org.apache.poi:poi-ooxml:4.1.2"
-    implementation 'mysql:mysql-connector-java:8.0.21'
+    implementation "org.mariadb.jdbc:mariadb-java-client:2.7.1"
     implementation "io.springfox:springfox-swagger-ui:2.9.2"
     implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4"
     implementation "org.springframework.boot:spring-boot-starter-web:${springBoot}"

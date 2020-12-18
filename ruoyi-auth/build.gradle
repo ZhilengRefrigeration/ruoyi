@@ -3,9 +3,9 @@ buildscript {
         maven { url "https://plugins.gradle.org/m2/" }
     }
     ext {
-        springBoot = "2.4.0"
-        alibabaCloud = "2.2.3.RELEASE"
+        springBoot = "2.3.4.RELEASE"
         springCloud = "2.2.6.RELEASE"
+        alibabaCloud = "2.2.3.RELEASE"
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBoot}")
@@ -22,10 +22,9 @@ apply from: "../build-config/build-all.gradle"
 apply from: "../build-config/build-base.gradle"
 apply from: "../build-config/build-boot-jar.gradle"
 
-group = "com.ruoyi"
-archivesBaseName = "${project.name}"
 
 dependencies {
+
     implementation "com.ruoyi:ruoyi-common-core:${devVersion}"
     implementation "com.ruoyi:ruoyi-common-security:${devVersion}"
     implementation "com.ruoyi:ruoyi-api-system:${devVersion}"
@@ -37,8 +36,11 @@ dependencies {
 
     implementation "org.springframework.boot:spring-boot-starter-web:${springBoot}"
     implementation "org.springframework.boot:spring-boot-starter-actuator:${springBoot}"
-    implementation "mysql:mysql-connector-java:8.0.21"
+    implementation "org.mariadb.jdbc:mariadb-java-client:2.7.1"
+
+
 }
+
 
 static def getGitVersion() {
     return System.getProperty("gitVersion") ?: "git rev-parse --short HEAD".execute().text.trim()

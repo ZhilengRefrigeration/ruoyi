@@ -18,9 +18,7 @@ buildscript {
 
 ext {
     devVersion = "dev-9-SNAPSHOT"
-    springBoot = "2.4.0"
-    alibabaCloud = "2.2.3.RELEASE"
-    springCloud = "2.2.6.RELEASE"
+//    devVersion = "2.3.0"
 }
 
 apply from: "../build-config/build-all.gradle"
@@ -30,8 +28,6 @@ subprojects {
     apply from: "../../build-config/build-base.gradle"
     apply from: "../../build-config/build-publish.gradle"
 
-    group = "com.ruoyi"
-    archivesBaseName = "${project.name}"
 }
 
 static def getGitVersion() {

@@ -12,17 +12,7 @@ apply plugin: "idea"
 apply plugin: "io.spring.dependency-management"
 
 
-task copyConfig(type: Copy) {
-    from "src/main/resources/application.properties"
-    from "src/main/resources/application.yaml"
-    from "src/main/resources/appServer.conf"
-    from "src/main/resources/subGui.conf"
-    into "build/libs/"
-}
-task copySql(type: Copy) {
-    from "src/main/resources/sql"
-    into "build/libs/sql"
-}
+
 task cleanGridnt(type: Exec) {
     executable "../rmGridntJar.sh"
 }
@@ -60,27 +50,27 @@ dependencies {
 }
 
 jar {
-	//    // 排除掉模块调试的资源文件, 启动类.
-	//    excludes = ["file/WaveAnalysis", "com/gridnt/**/*Starter*", "logback*.xml",
-	//                "application*.properties", "application*.yaml", "config"
-	//    ]
+
+	// 排除掉模块调试的资源文件, 启动类.
+	excludes = []
+	
     manifest {
         attributes "releaseVersion": version + "-" + getGitVersion()
         attributes "vendor": "GRIDNT山东网聪信息科技有限公司"
         attributes "buildTime": new Date().format("yyyy-MM-dd HH:mm:ss", TimeZone.getTimeZone("GMT+08:00"))
     }
 }
-apply plugin: "org.sonarqube"
-sonarqube {
-    properties {
-        property "sonar.projectKey", "${project.name}"
-        property "sonar.projectName", "${project.name}"
-        property "sonar.sources", "src"
-        property "sonar.java.binaries", "build"
-        property "sonar.exclusions", "**/**test**/**"
-        property "sonar.sourceEncoding", "UTF-8"
-    }
-}
+//apply plugin: "org.sonarqube"
+//sonarqube {
+//    properties {
+//        property "sonar.projectKey", "${project.name}"
+//        property "sonar.projectName", "${project.name}"
+//        property "sonar.sources", "src"
+//        property "sonar.java.binaries", "build"
+//        property "sonar.exclusions", "**/**test**/**"
+//        property "sonar.sourceEncoding", "UTF-8"
+//    }
+//}
 
 
 

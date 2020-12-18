@@ -1,12 +1,4 @@
-ext {
-    springBoot = "2.4.0"
-    alibabaCloud = "2.2.3.RELEASE"
-    springCloud = "2.2.6.RELEASE"
-}
-dependencies {
-    runtime group: 'org.springframework.cloud', name: 'spring-cloud-dependencies', version: 'Hoxton.SR9', ext: 'pom'
-    
-    implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4"
+dependencies { 
     implementation "com.alibaba.cloud:spring-cloud-alibaba-sentinel-gateway:${alibabaCloud}"
     implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:${alibabaCloud}"
     implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:${alibabaCloud}"
@@ -28,20 +20,24 @@ dependencies {
     implementation "org.apache.commons:commons-lang3:3.11"
     implementation "org.apache.commons:commons-pool2:2.9.0"
     implementation "org.apache.poi:poi-ooxml:4.1.2"
-    
+    implementation "org.apache.velocity:velocity:1.7"
+    implementation "org.aspectj:aspectjweaver:1.9.6"
+    implementation "org.mariadb.jdbc:mariadb-java-client:2.7.1"
+    implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4"
     implementation "org.quartz-scheduler:quartz:2.3.2"
-    
-    implementation "org.springframework:spring-context-support:5.3.2"
     implementation "org.springframework.boot:spring-boot-autoconfigure:${springBoot}"
-
-
+//    implementation "org.springframework.boot:spring-boot-autoconfigure:${springBoot}"
     implementation "org.springframework.boot:spring-boot-starter-actuator:${springBoot}"
     implementation "org.springframework.boot:spring-boot-starter-data-redis:${springBoot}"
+    implementation "org.springframework.boot:spring-boot-starter-data-redis:2.3.4.RELEASE"
+    implementation "org.springframework.boot:spring-boot-starter-jdbc:${springBoot}"
     implementation "org.springframework.boot:spring-boot-starter-security:${springBoot}"
+//    implementation "org.springframework.boot:spring-boot-starter-security:${springBoot}"
     implementation "org.springframework.boot:spring-boot-starter-validation:${springBoot}"
+//    implementation "org.springframework.boot:spring-boot-starter-validation:${springBoot}"
     implementation "org.springframework.boot:spring-boot-starter-web:${springBoot}"
+    implementation "org.springframework.boot:spring-boot-starter-web:2.3.4.RELEASE"
     implementation "org.springframework.cloud:spring-cloud-starter-gateway:${springCloud}"
     implementation "org.springframework.cloud:spring-cloud-starter-openfeign:${springCloud}"
-    implementation "org.springframework.boot:spring-boot-starter-web:${springBoot}"
-
-}
+    implementation "org.springframework:spring-context-support:5.3.2"
+} 

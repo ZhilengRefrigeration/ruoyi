@@ -3,9 +3,9 @@ buildscript {
         maven { url "https://plugins.gradle.org/m2/" }
     }
     ext {
-        springBoot = "2.4.0"
-        alibabaCloud = "2.2.3.RELEASE"
+        springBoot = "2.3.4.RELEASE"
         springCloud = "2.2.6.RELEASE"
+        alibabaCloud = "2.2.3.RELEASE"
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBoot}")
@@ -16,14 +16,11 @@ buildscript {
 ext {
     devVersion = "dev-9-SNAPSHOT"
 }
-
-description = "ruoyi-modules-file"
+description = "ruoyi-modules-gen"
 apply from: "../../build-config/build-all.gradle"
 apply from: "../../build-config/build-base.gradle"
 apply from: "../../build-config/build-boot-jar.gradle"
 
-group = "com.ruoyi"
-archivesBaseName = "${project.name}"
 
 dependencies {
 
@@ -33,7 +30,7 @@ dependencies {
     implementation "com.ruoyi:ruoyi-common-swagger:${devVersion}"
 
     implementation "org.apache.velocity:velocity:1.7"
-    implementation "mysql:mysql-connector-java:8.0.21"
+    implementation "org.mariadb.jdbc:mariadb-java-client:2.7.1"
     implementation "io.springfox:springfox-swagger-ui:2.9.2"
     implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4"
 
@@ -41,6 +38,7 @@ dependencies {
     implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:${alibabaCloud}"
     implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel:${alibabaCloud}"
 
+    implementation "org.springframework.boot:spring-boot-autoconfigure:${springBoot}"
     implementation "org.springframework.boot:spring-boot-starter-web:${springBoot}"
     implementation "org.springframework.boot:spring-boot-starter-actuator:${springBoot}"
     implementation "org.springframework.boot:spring-boot-starter-validation:${springBoot}"

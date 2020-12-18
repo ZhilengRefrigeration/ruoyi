@@ -1,9 +1,21 @@
 //该产品的构建基本配置，公司统一模板，禁止开发人员开发过程中修改。
 apply plugin: "org.springframework.boot"
 
+
+archivesBaseName = "project-${project.name}"
+
 // 清除现有的lib目录
 task clearJar(type: Delete) {
     delete "$buildDir\\libs\\lib"
+}
+
+task copyConfig(type: Copy) {
+    from "src/main/resources/bootstrap.yml"
+    into "$buildDir/libs/"
+}
+task copySql(type: Copy) {
+    from "src/main/resources/sql"
+    into "$buildDir/libs/sql"
 }
 
 // 将依赖包复制到lib目录
@@ -13,16 +25,17 @@ task copyJar(type: Copy, dependsOn: "clearJar") {
 }
 
 bootJar {
-//    excludes = ["file/WaveAnalysis", "*.jar", "*.properties", "*.yaml", "config", "*.conf"]
+    excludes = ["*.properties", "*.yaml", "config", "*.conf",
+//                "*.jar"
+    ]
     manifest {
-        attributes "Main-Class": "org.springframework.boot.loader.PropertiesLauncher"
-        attributes "Manifest-Release-Version": version + "-" + getGitVersion()
-//      attributes "Class-Path": configurations.runtime.files.collect { "../lib/$it.name" }.join(" ")
+//      attributes "Main-Class": "org.springframework.boot.loader.PropertiesLauncher"
+//      attributes "Class-Path": configurations.compileClasspath.files.collect { "../lib/$it.name" }.join(" ")
         attributes "releaseVersion": version + "-" + getGitVersion()
         attributes "vendor": "GRIDNT山东网聪信息科技有限公司"
         attributes "buildTime": new Date().format("yyyy-MM-dd HH:mm:ss", TimeZone.getTimeZone("GMT+08:00"))
     }
-//    launchScript()
-} dependsOn(clearJar, copyJar, copyConfig, copySql)
+    launchScript()
+} dependsOn(copyConfig, copySql)
 
 

@@ -5,13 +5,13 @@ buildscript {
         maven { url "https://maven.aliyun.com/repository/public/" }
         maven { url "https://plugins.gradle.org/m2/" }
     }
-    
+
     ext {
-        springBoot = "2.4.0"
+        springBoot = "2.3.4.RELEASE"
         alibabaCloud = "2.2.3.RELEASE"
         springCloud = "2.2.6.RELEASE"
     }
-    
+
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBoot}")
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8"
@@ -21,6 +21,7 @@ buildscript {
 
 ext {
     devVersion = "dev-9-SNAPSHOT"
+    devVersion = "2.3.0"
 }
 
 

@@ -1,5 +1,5 @@
 dependencies {
-    implementation "org.springframework.boot:spring-boot-starter-web:2.3.4.RELEASE"
+    implementation "org.springframework.boot:spring-boot-autoconfigure:${springBoot}"
     implementation "io.springfox:springfox-swagger2:2.9.2"
 }
 

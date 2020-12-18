@@ -1,46 +1,31 @@
 apply plugin: "maven-publish"
 group = "com.ruoyi"
 archivesBaseName = "${project.name}"
-
-
 task sourcesJar(type: Jar) {
     from sourceSets.main.allJava
     archiveClassifier = "sources"
 }
-publishing {
 
-    publications {
-        maven(MavenPublication) {
-            artifactId "${archivesBaseName}"
-            version project.version
-            //如果是war包填写components.web，如果是jar包填写components.java
-            from components.java
-            artifact sourcesJar
-        }
-        mavenJava(MavenPublication) {
-            versionMapping {
-                usage("java-api") {
-                    fromResolutionOf("runtimeClasspath")
-                }
-                usage("java-runtime") {
-                    fromResolutionResult()
-                }
-            }
-        }
+publishing.publications {
+    mavenJava(MavenPublication) {
+        artifactId "${archivesBaseName}"
+        version project.version
+
+        //如果是war包填写components.web，如果是jar包填写components.java
+        from components.java
+        artifact sourcesJar
     }
+}
 
-    repositories {
-        maven {
-            //指定要上传的maven私服仓库
-            def releasesRepoUrl = "http://192.168.8.200:8081/repository/releases"
-            def snapshotsRepoUrl = "http://192.168.8.200:8081/repository/snapshots/"
-            url = version.endsWith("SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl
-            println "${group}  ${archivesBaseName} publishing version is  ${version}"
-            //认证用户和密码
-            credentials {
-                username "developer"
-                password "dev123"
-            }
+publishing.repositories {
+    maven {
+        def releasesRepoUrl = "http://192.168.8.200:8081/repository/releases"
+        def snapshotsRepoUrl = "http://192.168.8.200:8081/repository/snapshots/"
+        url = version.endsWith("SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl
+        println "${group} ${archivesBaseName} publishing version is  ${version}"
+        credentials {
+            username "developer"
+            password "dev123"
         }
     }
 }
