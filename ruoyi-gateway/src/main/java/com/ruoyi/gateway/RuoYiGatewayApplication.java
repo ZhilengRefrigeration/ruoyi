@@ -11,7 +11,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @author ruoyi
  */
 @EnableDiscoveryClient
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class }, scanBasePackages = {"com.ruoyi"})
 public class RuoYiGatewayApplication
 {
     public static void main(String[] args)

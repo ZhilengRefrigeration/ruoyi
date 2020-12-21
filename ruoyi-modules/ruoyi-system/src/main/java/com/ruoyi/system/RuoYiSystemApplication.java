@@ -1,10 +1,11 @@
 package com.ruoyi.system;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.cloud.client.SpringCloudApplication;
 import com.ruoyi.common.security.annotation.EnableCustomConfig;
 import com.ruoyi.common.security.annotation.EnableRyFeignClients;
 import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
+import org.springframework.boot.SpringApplication;
+import org.springframework.cloud.client.SpringCloudApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * 系统模块
@@ -15,6 +16,7 @@ import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
 @EnableCustomSwagger2
 @EnableRyFeignClients
 @SpringCloudApplication
+@ComponentScan(basePackages ="com.ruoyi")
 public class RuoYiSystemApplication
 {
     public static void main(String[] args)

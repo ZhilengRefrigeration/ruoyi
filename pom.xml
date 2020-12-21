@@ -233,6 +233,45 @@
                 </configuration>
             </plugin>
         </plugins>
+
+        <resources>
+            <!--多环境参数切换必要配置-->
+            <resource>
+                <directory>${project.basedir}/src/main/resources</directory>
+                <includes>
+                    <include>bootstrap.yml</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <!--编译后的文件中${}引用的参数，是否转换为对应数值-->
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
     </build>
+
+    <!-- 环境配置 -->
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <profile.active>dev</profile.active>
+                <discovery.server-addr>127.0.0.1:8848</discovery.server-addr>
+                <config.server-addr>127.0.0.1:8848</config.server-addr>
+                <config.namespaceId>5c8aa4bc-b36e-490a-9f5f-1c13d310caf5</config.namespaceId>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>pro</id>
+            <properties>
+                <profile.active>pro</profile.active>
+                <discovery.server-addr>127.0.0.1:8848</discovery.server-addr>
+                <config.server-addr>127.0.0.1:8848</config.server-addr>
+                <config.namespaceId>5c8aa4bc-b36e-490a-9f5f-1c13d310caf5</config.namespaceId>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>

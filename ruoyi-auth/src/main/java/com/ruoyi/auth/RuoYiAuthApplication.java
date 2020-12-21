@@ -1,8 +1,9 @@
 package com.ruoyi.auth;
 
+import com.ruoyi.common.security.annotation.EnableRyFeignClients;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
-import com.ruoyi.common.security.annotation.EnableRyFeignClients;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * 认证授权中心
@@ -11,6 +12,7 @@ import com.ruoyi.common.security.annotation.EnableRyFeignClients;
  */
 @EnableRyFeignClients
 @SpringCloudApplication
+@ComponentScan(basePackages ="com.ruoyi")
 public class RuoYiAuthApplication
 {
     public static void main(String[] args)
