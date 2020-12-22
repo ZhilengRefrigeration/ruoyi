@@ -21,7 +21,6 @@ buildscript {
 
 ext {
     devVersion = "dev-9-SNAPSHOT"
-    devVersion = "2.3.0"
 }
 
 
@@ -29,9 +28,6 @@ description = "ruoyi-api-system"
 apply from: "../../build-config/build-all.gradle"
 apply from: "../../build-config/build-base.gradle"
 apply from: "../../build-config/build-publish.gradle"
-
-group = "com.ruoyi"
-archivesBaseName = "${project.name}"
 
 dependencies {
 

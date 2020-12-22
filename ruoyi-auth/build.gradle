@@ -38,7 +38,6 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-actuator:${springBoot}"
     implementation "org.mariadb.jdbc:mariadb-java-client:2.7.1"
 
-
 }
 
 

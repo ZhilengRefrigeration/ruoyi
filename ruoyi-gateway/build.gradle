@@ -4,8 +4,9 @@ buildscript {
     }
     ext {
         springBoot = "2.3.4.RELEASE"
+//        springBoot = "2.4.0"
         alibabaCloud = "2.2.3.RELEASE"
-        springCloud = "2.2.5.RELEASE"
+        springCloud = "2.2.6.RELEASE"
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBoot}")
