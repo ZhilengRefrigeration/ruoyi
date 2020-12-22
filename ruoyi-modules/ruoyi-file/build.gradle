@@ -29,7 +29,7 @@ dependencies {
     implementation "com.ruoyi:ruoyi-common-swagger:${devVersion}"
     implementation "com.ruoyi:ruoyi-api-system:${devVersion}"
 
-
+    implementation "io.minio:minio:8.0.3"
     implementation "io.springfox:springfox-swagger-ui:2.9.2"
     implementation "com.github.tobato:fastdfs-client:1.27.2"
     implementation "commons-fileupload:commons-fileupload:1.4"

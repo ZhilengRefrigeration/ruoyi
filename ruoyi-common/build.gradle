@@ -17,8 +17,8 @@ buildscript {
 }
 
 ext {
-    devVersion = "dev-9-SNAPSHOT"
-//    devVersion = "2.3.0"
+    devVersion = System.getProperty("devVersion") ? System.getProperty("devVersion")
+            : "dev-9-SNAPSHOT"
 }
 
 apply from: "../build-config/build-all.gradle"

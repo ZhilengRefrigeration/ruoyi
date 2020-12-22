@@ -20,7 +20,8 @@ buildscript {
 
 
 ext {
-    devVersion = "dev-9-SNAPSHOT"
+    devVersion = System.getProperty("devVersion") ? System.getProperty("devVersion")
+            : "dev-9-SNAPSHOT"
 }
 
 
