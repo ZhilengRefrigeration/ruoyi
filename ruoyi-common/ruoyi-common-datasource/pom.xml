@@ -9,25 +9,27 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     
-    <artifactId>ruoyi-common-redis</artifactId>
+    <artifactId>ruoyi-common-datasource</artifactId>
 	
     <description>
-        ruoyi-common-redis缓存服务
+        ruoyi-common-datasource多数据源
     </description>
 
     <dependencies>
-		
-        <!-- SpringBoot Boot Redis -->
+
+		<!-- Druid -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>${druid.version}</version>
         </dependency>
-        
-        <!-- RuoYi Common Core-->
+
+        <!-- Dynamic DataSource -->
         <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-core</artifactId>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+            <version>${dynamic-ds.version}</version>
         </dependency>
-        
+
     </dependencies>
 </project>
