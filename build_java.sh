@@ -4,7 +4,7 @@
 
 for gfile in $(find . -name "build.gradle")
 do
-    if [[ $1='cl' ]];then 
+    if [[ $1 = cl ]];then 
         
         gradle -b $gfile clean;  
         echo -e "\033[32m----------------- $gfile 模块 清理 成功 ---------------------- \033[0m"
