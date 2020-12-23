@@ -19,8 +19,8 @@ publishing.publications {
 
 publishing.repositories {
     maven {
-        def releasesRepoUrl = "http://192.168.8.200:8081/repository/releases"
-        def snapshotsRepoUrl = "http://192.168.8.200:8081/repository/snapshots/"
+        def releasesRepoUrl = "${repoUrl}/releases"
+        def snapshotsRepoUrl = "${repoUrl}/snapshots/"
         url = version.endsWith("SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl
         println "${group} ${archivesBaseName} publishing version is  ${version}"
         credentials {

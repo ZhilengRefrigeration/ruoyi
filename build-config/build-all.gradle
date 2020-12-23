@@ -6,9 +6,5 @@ allprojects {
 ext {
     buildProduct = System.getProperty("buildProduct") ?: false
 }
-task abuildAllModule(type: Exec) {
-    workingDir("../")
-    executable "build-config/build_jar.sh"
-    args(project.name)
-}
+
 

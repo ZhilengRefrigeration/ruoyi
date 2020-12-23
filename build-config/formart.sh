@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## 格式化 jar 引用
+## 格式化 jar 引用，避免出错
 
 find . -name "build.gradle" | xargs sed -r  -i "s/'/\"/g"
 find . -name "build.gradle" | xargs sed -r  -i 's/compile group: /compile /g'

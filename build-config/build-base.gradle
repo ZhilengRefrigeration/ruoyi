@@ -4,6 +4,7 @@ ext {
     lombokVersion = "1.18.16"
     junitVersion = "4.13.1"
     logbackVersion = "1.2.3"
+    repoUrl="http://192.168.8.200:8081/repository"
 }
 
 
@@ -28,7 +29,7 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven { url "https://maven.aliyun.com/repository/public/" }
-    maven { url "http://192.168.8.200:8081/repository/public/" }
+    maven { url "${repoUrl}/public/" }
 }
 configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, "seconds"
@@ -52,25 +53,25 @@ dependencies {
 jar {
 
 	// 排除掉模块调试的资源文件, 启动类.
-	excludes = []
+	excludes = ['*.yml','logback.xml']
 	
     manifest {
         attributes "releaseVersion": version + "-" + getGitVersion()
-        attributes "vendor": "GRIDNT山东网聪信息科技有限"
+        attributes "vendor": "vendor"
         attributes "buildTime": new Date().format("yyyy-MM-dd HH:mm:ss", TimeZone.getTimeZone("GMT+08:00"))
     }
 }
-//apply plugin: "org.sonarqube"
-//sonarqube {
-//    properties {
-//        property "sonar.projectKey", "${project.name}"
-//        property "sonar.projectName", "${project.name}"
-//        property "sonar.sources", "src"
-//        property "sonar.java.binaries", "build"
-//        property "sonar.exclusions", "**/**test**/**"
-//        property "sonar.sourceEncoding", "UTF-8"
-//    }
-//}
+apply plugin: "org.sonarqube"
+sonarqube {
+    properties {
+        property "sonar.projectKey", "${project.name}"
+        property "sonar.projectName", "${project.name}"
+        property "sonar.sources", "src"
+        property "sonar.java.binaries", "build"
+        property "sonar.exclusions", "**/**test**/**"
+        property "sonar.sourceEncoding", "UTF-8"
+    }
+}
 
 
 
