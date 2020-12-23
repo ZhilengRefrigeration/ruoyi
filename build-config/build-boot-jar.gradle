@@ -1,4 +1,4 @@
-//该产品的构建基本配置，公司统一模板，禁止开发人员开发过程中修改。
+//该产品的构建基本配置，统一模板，禁止开发人员开发过程中修改。
 apply plugin: "org.springframework.boot"
 
 
@@ -32,7 +32,7 @@ bootJar {
 //      attributes "Main-Class": "org.springframework.boot.loader.PropertiesLauncher"
 //      attributes "Class-Path": configurations.compileClasspath.files.collect { "../lib/$it.name" }.join(" ")
         attributes "releaseVersion": version + "-" + getGitVersion()
-        attributes "vendor": "GRIDNT山东网聪信息科技有限公司"
+        attributes "vendor": "GRIDNT山东网聪信息科技有限"
         attributes "buildTime": new Date().format("yyyy-MM-dd HH:mm:ss", TimeZone.getTimeZone("GMT+08:00"))
     }
     launchScript()

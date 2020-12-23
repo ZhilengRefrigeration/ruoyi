@@ -1,4 +1,4 @@
-//该产品的构建基本配置，公司统一模板，禁止开发人员修改。
+//该产品的构建基本配置，统一模板，禁止开发人员修改。
 allprojects {
     def releaseVersion = System.getProperty("releaseVersion")
     version = releaseVersion ? releaseVersion : "${devVersion}"
