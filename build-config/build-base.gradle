@@ -53,7 +53,9 @@ dependencies {
 jar {
 
 	// 排除掉模块调试的资源文件, 启动类.
-	excludes = ['*.yml','logback.xml']
+	excludes = ['*.yml','logback.xml',
+        'com/ruoyi/*/RuoYi*Application*'
+    ]
 	
     manifest {
         attributes "releaseVersion": version + "-" + getGitVersion()

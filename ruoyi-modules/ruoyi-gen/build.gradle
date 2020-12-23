@@ -14,13 +14,15 @@ buildscript {
 }
 
 ext {
-    devVersion = "dev-9-SNAPSHOT"
+    devVersion = System.getProperty("devVersion") ? System.getProperty("devVersion")
+            : "dev-9-SNAPSHOT"
 }
 description = "ruoyi-modules-gen"
 apply from: "../../build-config/build-all.gradle"
 apply from: "../../build-config/build-base.gradle"
-apply from: "../../build-config/build-boot-jar.gradle"
-
+if (!buildProduct) {
+    apply from: "../../build-config/build-boot-jar.gradle"
+}
 
 dependencies {
 
