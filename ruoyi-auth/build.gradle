@@ -21,8 +21,9 @@ ext {
 description = "ruoyi-api-system"
 apply from: "../build-config/build-all.gradle"
 apply from: "../build-config/build-base.gradle"
-apply from: "../build-config/build-publish.gradle"
-if (!buildProduct) {
+if (buildProduct) {
+    apply from: "../build-config/build-publish.gradle"
+} else {
     apply from: "../build-config/build-boot-jar.gradle"
 }
 

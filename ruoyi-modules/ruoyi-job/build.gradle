@@ -14,13 +14,18 @@ buildscript {
 }
 
 ext {
-    devVersion = "dev-9-SNAPSHOT"
+    devVersion = System.getProperty("devVersion") ? System.getProperty("devVersion")
+            : "dev-9-SNAPSHOT"
 }
 
 description = "ruoyi-modules-job"
 apply from: "../../build-config/build-all.gradle"
 apply from: "../../build-config/build-base.gradle"
-apply from: "../../build-config/build-boot-jar.gradle"
+if (buildProduct) {
+    apply from: "../../build-config/build-publish.gradle"
+} else {
+    apply from: "../../build-config/build-boot-jar.gradle"
+}
 
 
 dependencies {
@@ -31,11 +36,13 @@ dependencies {
     implementation "com.ruoyi:ruoyi-common-core:${devVersion}"
 
 
-    implementation "org.mariadb.jdbc:mariadb-java-client:2.7.1"
     implementation "org.quartz-scheduler:quartz:2.3.2"
+    implementation "org.apache.commons:commons-lang3:3.11"
     implementation "io.springfox:springfox-swagger-ui:2.9.2"
-    implementation "com.github.tobato:fastdfs-client:1.27.2"
     implementation "commons-fileupload:commons-fileupload:1.4"
+    implementation "com.github.tobato:fastdfs-client:1.27.2"
+    implementation "org.mariadb.jdbc:mariadb-java-client:2.7.1"
+
     implementation "org.springframework:spring-context-support:5.3.2"
     implementation "org.springframework.boot:spring-boot-autoconfigure:${springBoot}"
     implementation "org.springframework.boot:spring-boot-starter-web:${springBoot}"

@@ -2,8 +2,8 @@ description = "ruoyi-common-security"
 
 dependencies {
     implementation project(":ruoyi-common-core")
-    implementation project(":ruoyi-common-redis")
     implementation "com.ruoyi:ruoyi-api-system:${devVersion}"
+    implementation project(":ruoyi-common-redis")
 
     implementation "javax.servlet:javax.servlet-api:4.0.1"
     implementation "org.apache.commons:commons-lang3:3.11"

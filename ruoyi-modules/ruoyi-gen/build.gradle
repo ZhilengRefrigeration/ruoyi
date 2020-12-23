@@ -20,7 +20,10 @@ ext {
 description = "ruoyi-modules-gen"
 apply from: "../../build-config/build-all.gradle"
 apply from: "../../build-config/build-base.gradle"
-if (!buildProduct) {
+
+if (buildProduct) {
+    apply from: "../../build-config/build-publish.gradle"
+} else {
     apply from: "../../build-config/build-boot-jar.gradle"
 }
 
@@ -32,8 +35,9 @@ dependencies {
     implementation "com.ruoyi:ruoyi-common-swagger:${devVersion}"
 
     implementation "org.apache.velocity:velocity:1.7"
-    implementation "org.mariadb.jdbc:mariadb-java-client:2.7.1"
+    implementation "org.apache.commons:commons-lang3:3.11"
     implementation "io.springfox:springfox-swagger-ui:2.9.2"
+    implementation "org.mariadb.jdbc:mariadb-java-client:2.7.1"
     implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4"
 
     implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:${alibabaCloud}"

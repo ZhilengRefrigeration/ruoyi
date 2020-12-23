@@ -1,8 +1,8 @@
 dependencies {
-    implementation project(":ruoyi-common-security")
     implementation project(":ruoyi-common-core")
-
     implementation "com.ruoyi:ruoyi-api-system:${devVersion}"
+    implementation project(":ruoyi-common-security")
+
 
     implementation "com.alibaba:fastjson:1.2.75"
     implementation "org.apache.commons:commons-lang3:3.11"
