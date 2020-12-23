@@ -23,3 +23,5 @@ gradle $gradleArgs -b ./ruoyi-modules/ruoyi-system/build.gradle
 gradle $gradleArgs -b ./ruoyi-modules/ruoyi-file/build.gradle
 gradle $gradleArgs -b ./ruoyi-modules/ruoyi-gen/build.gradle 
 gradle $gradleArgs -b ./ruoyi-modules/ruoyi-job/build.gradle 
+
+
