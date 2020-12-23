@@ -34,8 +34,8 @@ dependencies {
     implementation "com.ruoyi:ruoyi-common-core:${devVersion}"
 
     implementation "org.apache.commons:commons-lang3:3.11"
-    implementation "jakarta.validation:jakarta.validation-api:3.0.0"
     implementation "com.fasterxml.jackson.core:jackson-databind:2.12.0"
+    implementation "org.springframework.boot:spring-boot-starter-validation:${springBoot}"
     implementation "org.springframework.cloud:spring-cloud-starter-openfeign:${springCloud}"
 }
 
