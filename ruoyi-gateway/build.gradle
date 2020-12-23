@@ -15,15 +15,23 @@ buildscript {
 }
 
 ext {
-    devVersion = "dev-9-SNAPSHOT"
+    devVersion = System.getProperty("devVersion") ? System.getProperty("devVersion")
+            : "dev-9-SNAPSHOT"
 }
 apply from: "../build-config/build-all.gradle"
 apply from: "../build-config/build-base.gradle"
-apply from: "../build-config/build-boot-jar.gradle"
+if (buildProduct) {
+    apply from: "../build-config/build-publish.gradle"
+} else {
+    apply from: "../build-config/build-boot-jar.gradle"
+}
 
 dependencies {
+    
     implementation "com.ruoyi:ruoyi-common-core:${devVersion}"
     implementation "com.ruoyi:ruoyi-common-redis:${devVersion}"
+
+    implementation 'com.ruoyi:ruoyi-gateway:dev-9-SNAPSHOT'
 
     implementation "com.github.penggle:kaptcha:2.3.2"
     implementation "io.springfox:springfox-swagger2:2.9.2"
