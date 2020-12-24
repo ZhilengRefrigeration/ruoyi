@@ -28,16 +28,14 @@ if (buildProduct) {
 
 dependencies {
     
-    implementation "com.ruoyi:ruoyi-common-core:${devVersion}"
-    implementation "com.ruoyi:ruoyi-common-redis:${devVersion}"
+    compile "com.ruoyi:ruoyi-common-core:${devVersion}"
+    compile "com.ruoyi:ruoyi-common-redis:${devVersion}"
 
-    implementation 'com.ruoyi:ruoyi-gateway:dev-9-SNAPSHOT'
+
 
     implementation "com.github.penggle:kaptcha:2.3.2"
     implementation "io.springfox:springfox-swagger2:2.9.2"
     implementation "io.springfox:springfox-swagger-ui:2.9.2"
-
-
     implementation "com.alibaba.csp:sentinel-datasource-nacos:1.8.0"
 
     implementation "com.alibaba.cloud:spring-cloud-alibaba-sentinel-gateway:${alibabaCloud}"

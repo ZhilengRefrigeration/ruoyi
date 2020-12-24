@@ -30,10 +30,10 @@ if (buildProduct) {
 
 dependencies {
 
-    implementation "com.ruoyi:ruoyi-common-log:${devVersion}"
-    implementation "com.ruoyi:ruoyi-common-swagger:${devVersion}"
-    implementation "com.ruoyi:ruoyi-common-security:${devVersion}"
-    implementation "com.ruoyi:ruoyi-common-core:${devVersion}"
+    compile "com.ruoyi:ruoyi-common-log:${devVersion}"
+    compile "com.ruoyi:ruoyi-common-swagger:${devVersion}"
+    compile "com.ruoyi:ruoyi-common-security:${devVersion}"
+    compile "com.ruoyi:ruoyi-common-core:${devVersion}"
 
 
     implementation "org.quartz-scheduler:quartz:2.3.2"

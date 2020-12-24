@@ -29,13 +29,13 @@ if (buildProduct) {
 
 description = "ruoyi-modules-system"
 dependencies {
-    implementation "com.ruoyi:ruoyi-common-core:${devVersion}"
-    implementation "com.ruoyi:ruoyi-common-log:${devVersion}"
-    implementation "com.ruoyi:ruoyi-common-security:${devVersion}"
-    implementation "com.ruoyi:ruoyi-common-redis:${devVersion}"
-    implementation "com.ruoyi:ruoyi-common-datascope:${devVersion}"
-    implementation "com.ruoyi:ruoyi-common-swagger:${devVersion}"
-    implementation "com.ruoyi:ruoyi-api-system:${devVersion}"
+    compile "com.ruoyi:ruoyi-common-core:${devVersion}"
+    compile "com.ruoyi:ruoyi-common-log:${devVersion}"
+    compile "com.ruoyi:ruoyi-common-security:${devVersion}"
+    compile "com.ruoyi:ruoyi-common-redis:${devVersion}"
+    compile "com.ruoyi:ruoyi-common-datascope:${devVersion}"
+	compile "com.ruoyi:ruoyi-common-swagger:${devVersion}"
+    compile "com.ruoyi:ruoyi-api-system:${devVersion}"
 
     implementation "org.apache.poi:poi-ooxml:4.1.2"
     implementation "org.mariadb.jdbc:mariadb-java-client:2.7.1"

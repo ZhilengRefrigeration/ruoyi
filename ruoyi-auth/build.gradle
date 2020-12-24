@@ -29,9 +29,9 @@ if (buildProduct) {
 
 dependencies {
 
-    implementation "com.ruoyi:ruoyi-common-core:${devVersion}"
-    implementation "com.ruoyi:ruoyi-common-security:${devVersion}"
-    implementation "com.ruoyi:ruoyi-api-system:${devVersion}"
+    compile "com.ruoyi:ruoyi-common-core:${devVersion}"
+    compile "com.ruoyi:ruoyi-common-security:${devVersion}"
+    compile "com.ruoyi:ruoyi-api-system:${devVersion}"
 
     implementation "com.alibaba:fastjson:1.2.75"
     implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:${alibabaCloud}"

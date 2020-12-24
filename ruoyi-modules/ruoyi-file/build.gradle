@@ -29,9 +29,9 @@ if (buildProduct) {
 
 dependencies {
 
-    implementation "com.ruoyi:ruoyi-common-core:${devVersion}"
-    implementation "com.ruoyi:ruoyi-common-swagger:${devVersion}"
-    implementation "com.ruoyi:ruoyi-api-system:${devVersion}"
+    compile "com.ruoyi:ruoyi-common-core:${devVersion}"
+    compile "com.ruoyi:ruoyi-common-swagger:${devVersion}"
+    compile "com.ruoyi:ruoyi-api-system:${devVersion}"
 
     implementation "io.minio:minio:8.0.3"
     implementation "io.springfox:springfox-swagger-ui:2.9.2"
