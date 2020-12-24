@@ -54,7 +54,7 @@ jar {
 
 	// 排除掉模块调试的资源文件, 启动类.
 	excludes = ['*.yml','logback.xml',
-        'com/ruoyi/*/RuoYi*Application*'
+        'com/ruoyi/*/RuoY*Application*'
     ]
 	
     manifest {

@@ -20,7 +20,11 @@ ext {
 description = "ruoyi-visual-monitor"
 apply from: "../../build-config/build-all.gradle"
 apply from: "../../build-config/build-base.gradle"
-apply from: "../../build-config/build-boot-jar.gradle"
+if (buildProduct) {
+    apply from: "../../build-config/build-publish.gradle"
+} else {
+    apply from: "../../build-config/build-boot-jar.gradle"
+}
 
 dependencies {
 
