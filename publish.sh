@@ -3,7 +3,7 @@
 # 使用方法:  ./publish.sh 版本号.
 # git pull; git add . ;git commit -m " 发布版本 $*" ; git push
 
-gradleArgs="clean publish -DbuildProduct=true -DreleaseVersion=$1"
+gradleArgs="clean publish -DbuildProduct=true -DreleaseVersion=$1 -DdevVersion=$1"
 
 
 # 发布公共模块，必须按照下列顺序 编译发布。
