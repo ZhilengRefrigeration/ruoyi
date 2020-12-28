@@ -4,7 +4,7 @@ ext {
     lombokVersion = "1.18.16"
     junitVersion = "4.13.1"
     logbackVersion = "1.2.3"
-    repoUrl="http://127.0.0.1:8081/repository"
+    repoUrl="http://192.168.8.200:8081/repository"
 }
 
 
