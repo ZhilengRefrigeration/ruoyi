@@ -105,11 +105,18 @@ public class VelocityUtils {
      */
     public static List<String> getTemplateList(String tplCategory) {
         List<String> templates = new ArrayList<String>();
-        templates.add("vm/java/domain.java.vm");
-        templates.add("vm/java/mapper.java.vm");
-        templates.add("vm/java/service.java.vm");
-        templates.add("vm/java/serviceImpl.java.vm");
-        templates.add("vm/java/controller.java.vm");
+//        templates.add("vm/java/domain.java.vm");
+//        templates.add("vm/java/mapper.java.vm");
+//        templates.add("vm/java/service.java.vm");
+//        templates.add("vm/java/serviceImpl.java.vm");
+//        templates.add("vm/java/controller.java.vm");
+
+        templates.add("vm/java-plus/domain.java.vm");
+        templates.add("vm/java-plus/mapper.java.vm");
+        templates.add("vm/java-plus/service.java.vm");
+        templates.add("vm/java-plus/serviceImpl.java.vm");
+        templates.add("vm/java-plus/controller.java.vm");
+
         templates.add("vm/xml/mapper.xml.vm");
         templates.add("vm/sql/sql.vm");
         templates.add("vm/js/api.js.vm");
@@ -143,7 +150,7 @@ public class VelocityUtils {
         if (template.contains("domain.java.vm")) {
             fileName = StringUtils.format("{}/domain/{}.java", javaPath, className);
         } else if (template.contains("mapper.java.vm")) {
-            fileName = StringUtils.format("{}/mapper/{}Mapper.java", javaPath, className);
+            fileName = StringUtils.format("{}/dao.mysql/{}Mapper.java", javaPath, className);
         } else if (template.contains("service.java.vm")) {
             fileName = StringUtils.format("{}/service/{}Service.java", javaPath, className);
         } else if (template.contains("serviceImpl.java.vm")) {
