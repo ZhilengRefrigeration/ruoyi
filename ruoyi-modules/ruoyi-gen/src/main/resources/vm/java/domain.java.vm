@@ -11,7 +11,8 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
 #elseif($table.tree)
 import com.ruoyi.common.core.web.domain.TreeEntity;
 #end
-import lombok.extern.slf4j.Slf4j;
+import lombok.Data;
+import lombok.Builder;
 /**
  * ${functionName}对象 ${tableName}
  * 
@@ -23,7 +24,8 @@ import lombok.extern.slf4j.Slf4j;
 #elseif($table.tree)
 #set($Entity="TreeEntity")
 #end
-@Slf4j
+@Data
+@Builder
 public class ${ClassName} extends ${Entity}
 {
     private static final long serialVersionUID = 1L;
