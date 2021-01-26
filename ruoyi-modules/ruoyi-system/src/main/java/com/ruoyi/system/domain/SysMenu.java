@@ -230,7 +230,7 @@ public class SysMenu extends BaseEntity
             .append("path", getPath())
             .append("component", getComponent())
             .append("isFrame", getIsFrame())
-            .append("IsCache", getIsCache())
+            .append("isCache", getIsCache())
             .append("menuType", getMenuType())
             .append("visible", getVisible())
             .append("status ", getStatus())
