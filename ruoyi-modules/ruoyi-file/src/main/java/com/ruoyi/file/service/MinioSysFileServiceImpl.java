@@ -1,6 +1,7 @@
 package com.ruoyi.file.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.file.config.MinioConfig;
@@ -13,6 +14,7 @@ import io.minio.PutObjectArgs;
  * 
  * @author ruoyi
  */
+@RefreshScope
 @Service
 public class MinioSysFileServiceImpl implements ISysFileService
 {
@@ -29,6 +31,7 @@ public class MinioSysFileServiceImpl implements ISysFileService
      * @return 访问地址
      * @throws Exception
      */
+    @Override
     public String uploadFile(MultipartFile file) throws Exception
     {
         String fileName = FileUploadUtils.extractFilename(file);

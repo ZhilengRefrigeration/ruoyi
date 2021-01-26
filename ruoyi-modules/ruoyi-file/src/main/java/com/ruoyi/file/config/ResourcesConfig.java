@@ -11,6 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * 
  * @author ruoyi
  */
+@RefreshScope
 @Configuration
 public class ResourcesConfig implements WebMvcConfigurer
 {
