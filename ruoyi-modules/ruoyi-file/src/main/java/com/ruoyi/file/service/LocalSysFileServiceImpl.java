@@ -1,6 +1,7 @@
 package com.ruoyi.file.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,6 +12,7 @@ import com.ruoyi.file.utils.FileUploadUtils;
  * 
  * @author ruoyi
  */
+@RefreshScope
 @Primary
 @Service
 public class LocalSysFileServiceImpl implements ISysFileService
@@ -40,6 +42,7 @@ public class LocalSysFileServiceImpl implements ISysFileService
      * @return 访问地址
      * @throws Exception
      */
+    @Override
     public String uploadFile(MultipartFile file) throws Exception
     {
         String name = FileUploadUtils.upload(localFilePath, file);

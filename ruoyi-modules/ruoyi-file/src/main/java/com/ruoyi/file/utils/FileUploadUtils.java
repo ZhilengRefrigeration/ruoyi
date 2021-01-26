@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.common.core.exception.file.FileNameLengthLimitExceededException;
 import com.ruoyi.common.core.exception.file.FileSizeLimitExceededException;
@@ -18,6 +19,7 @@ import com.ruoyi.common.core.utils.file.MimeTypeUtils;
  * 
  * @author ruoyi
  */
+@RefreshScope
 public class FileUploadUtils
 {
     /**
