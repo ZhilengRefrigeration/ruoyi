@@ -1,6 +1,8 @@
 package com.ruoyi.system;
 
+import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cloud.client.SpringCloudApplication;
 import com.ruoyi.common.security.annotation.EnableCustomConfig;
 import com.ruoyi.common.security.annotation.EnableRyFeignClients;
@@ -15,6 +17,7 @@ import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
 @EnableCustomSwagger2
 @EnableRyFeignClients
 @SpringCloudApplication
+@EnableAutoConfiguration(exclude = DruidDataSourceAutoConfigure.class)
 public class RuoYiSystemApplication
 {
     public static void main(String[] args)
