@@ -13,6 +13,7 @@ import com.ruoyi.common.core.web.domain.TreeEntity;
 #end
 import lombok.Data;
 import lombok.Builder;
+import com.baomidou.mybatisplus.annotation.TableName;
 /**
  * ${functionName}对象 ${tableName}
  * 
@@ -26,6 +27,7 @@ import lombok.Builder;
 #end
 @Data
 @Builder
+@TableName("${tableName}")
 public class ${ClassName} extends ${Entity}
 {
     private static final long serialVersionUID = 1L;

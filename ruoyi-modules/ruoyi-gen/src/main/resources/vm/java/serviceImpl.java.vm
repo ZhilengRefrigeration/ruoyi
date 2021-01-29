@@ -17,7 +17,7 @@ import ${packageName}.domain.${subClassName};
 #end
 import ${packageName}.mapper.${ClassName}Mapper;
 import ${packageName}.domain.${ClassName};
-import ${packageName}.service.I${ClassName}Service;
+import ${packageName}.service.${ClassName}Service;
 
 /**
  * ${functionName}Service业务层处理
@@ -25,8 +25,8 @@ import ${packageName}.service.I${ClassName}Service;
  * @author ${author}
  * @date ${datetime}
  */
-@Service
-public class ${ClassName}ServiceImpl implements I${ClassName}Service 
+@Service("${moduleName}${ClassName}Service")
+public class ${ClassName}ServiceImpl implements ${ClassName}Service
 {
     @Autowired
     private ${ClassName}Mapper ${className}Mapper;

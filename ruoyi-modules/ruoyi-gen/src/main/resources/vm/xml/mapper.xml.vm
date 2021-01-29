@@ -1,32 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="${packageName}.mapper.${ClassName}Mapper">
     
-    <resultMap type="${ClassName}" id="${ClassName}Result">
+    <resultMap type="${packageName}.domain.${ClassName}" id="${ClassName}Result">
 #foreach ($column in $columns)
         <result property="${column.javaField}"    column="${column.columnName}"    />
 #end
     </resultMap>
-#if($table.sub)
-
-    <resultMap id="${ClassName}${subClassName}Result" type="${ClassName}" extends="${ClassName}Result">
-        <collection property="${subclassName}List" notNullColumn="${subTable.pkColumn.columnName}" javaType="java.util.List" resultMap="${subClassName}Result" />
-    </resultMap>
-
-    <resultMap type="${subClassName}" id="${subClassName}Result">
-#foreach ($column in $subTable.columns)
-        <result property="${column.javaField}"    column="${column.columnName}"    />
-#end
-    </resultMap>
-#end
 
     <sql id="select${ClassName}Vo">
         select#foreach($column in $columns) $column.columnName#if($velocityCount != $columns.size()),#end#end from ${tableName}
     </sql>
 
-    <select id="select${ClassName}List" parameterType="${ClassName}" resultMap="${ClassName}Result">
+    <select id="select${ClassName}List" parameterType="${packageName}.domain.${ClassName}" resultMap="${ClassName}Result">
         <include refid="select${ClassName}Vo"/>
         <where>  
 #foreach($column in $columns)
@@ -58,21 +44,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
     
-    <select id="select${ClassName}ById" parameterType="${pkColumn.javaType}" resultMap="#if($table.sub)${ClassName}${subClassName}Result#else${ClassName}Result#end">
-#if($table.crud || $table.tree)
+    <select id="select${ClassName}ById" parameterType="${pkColumn.javaType}" resultMap="${ClassName}Result">
         <include refid="select${ClassName}Vo"/>
         where ${pkColumn.columnName} = #{${pkColumn.javaField}}
-#elseif($table.sub)
-        select#foreach($column in $columns) a.$column.columnName#if($velocityCount != $columns.size()),#end#end,
-           #foreach($column in $subTable.columns) b.$column.columnName#if($velocityCount != $subTable.columns.size()),#end#end
-
-        from ${tableName} a
-        left join ${subTableName} b on b.${subTableFkName} = a.${pkColumn.columnName}
-        where a.${pkColumn.columnName} = #{${pkColumn.javaField}}
-#end
     </select>
         
-    <insert id="insert${ClassName}" parameterType="${ClassName}"#if($pkColumn.increment) useGeneratedKeys="true" keyProperty="$pkColumn.javaField"#end>
+    <insert id="insert${ClassName}" parameterType="${packageName}.domain.${ClassName}"#if($pkColumn.increment) useGeneratedKeys="true" keyProperty="$pkColumn.javaField"#end>
         insert into ${tableName}
         <trim prefix="(" suffix=")" suffixOverrides=",">
 #foreach($column in $columns)
@@ -90,7 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="update${ClassName}" parameterType="${ClassName}">
+    <update id="update${ClassName}" parameterType="${packageName}.domain.${ClassName}">
         update ${tableName}
         <trim prefix="SET" suffixOverrides=",">
 #foreach($column in $columns)
@@ -112,24 +89,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{${pkColumn.javaField}}
         </foreach>
     </delete>
-#if($table.sub)
     
-    <delete id="delete${subClassName}By${subTableFkClassName}s" parameterType="String">
-        delete from ${subTableName} where ${subTableFkName} in 
-        <foreach item="${subTableFkclassName}" collection="array" open="(" separator="," close=")">
-            #{${subTableFkclassName}}
-        </foreach>
-    </delete>
-
-    <delete id="delete${subClassName}By${subTableFkClassName}" parameterType="Long">
-        delete from ${subTableName} where ${subTableFkName} = #{${subTableFkclassName}}
-    </delete>
-
-    <insert id="batch${subClassName}">
-        insert into ${subTableName}(#foreach($column in $subTable.columns) $column.columnName#if($velocityCount != $subTable.columns.size()),#end#end) values
-		<foreach item="item" index="index" collection="list" separator=",">
-            (#foreach($column in $subTable.columns) #{item.$column.javaField}#if($velocityCount != $subTable.columns.size()),#end#end)
-        </foreach>
-    </insert>
-#end
 </mapper>

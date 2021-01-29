@@ -16,7 +16,7 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.PreAuthorize;
 import ${packageName}.domain.${ClassName};
-import ${packageName}.service.I${ClassName}Service;
+import ${packageName}.service.${ClassName}Service;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
@@ -36,7 +36,7 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 public class ${ClassName}Controller extends BaseController
 {
     @Autowired
-    private I${ClassName}Service ${className}Service;
+    private ${ClassName}Service ${className}Service;
 
     /**
      * 查询${functionName}列表
