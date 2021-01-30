@@ -1,30 +1,47 @@
 package com.ruoyi.common.redis.configure;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * redis配置
- * 
+ *
  * @author ruoyi
  */
 @Configuration
 @EnableCaching
-public class RedisConfig extends CachingConfigurerSupport
-{
+public class RedisConfig extends CachingConfigurerSupport {
+    @Value("${spring.redis.host}")
+    private String host;
+
+    @Value("${spring.redis.port}")
+    private int port;
+
     @Bean
-    @SuppressWarnings(value = { "unchecked", "rawtypes", "deprecation" })
-    public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory connectionFactory)
+    public LettuceConnectionFactory lettuceConnectionFactory() {
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+        redisStandaloneConfiguration.setHostName(host);
+        redisStandaloneConfiguration.setPort(port);
+
+        LettuceConnectionFactory factory = new LettuceConnectionFactory(redisStandaloneConfiguration);
+        // 关闭共享连接
+        factory.setShareNativeConnection(false);
+        return factory;
+    }
+
+    @Bean
+    public GridntRedisTemplate redisTemplate(LettuceConnectionFactory connectionFactory)
     {
-        RedisTemplate<Object, Object> template = new RedisTemplate<>();
+        GridntRedisTemplate template = new GridntRedisTemplate(connectionFactory);
         template.setConnectionFactory(connectionFactory);
 
         FastJson2JsonRedisSerializer serializer = new FastJson2JsonRedisSerializer(Object.class);
