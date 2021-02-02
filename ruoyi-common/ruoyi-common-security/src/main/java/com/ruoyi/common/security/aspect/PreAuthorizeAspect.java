@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.PatternMatchUtils;
@@ -111,11 +112,11 @@ public class PreAuthorizeAspect
     public boolean hasPermi(String permission)
     {
         LoginUser userInfo = tokenService.getLoginUser();
-        if (StringUtils.isEmpty(userInfo) || CollectionUtils.isEmpty(userInfo.getPermissions()))
+        if (StringUtils.isEmpty(userInfo) || CollectionUtils.isEmpty(userInfo.getAuthorities()))
         {
             return false;
         }
-        return hasPermissions(userInfo.getPermissions(), permission);
+        return hasPermissions(userInfo.getAuthorities(), permission);
     }
 
     /**
@@ -142,7 +143,7 @@ public class PreAuthorizeAspect
         {
             return false;
         }
-        Collection<String> authorities = userInfo.getPermissions();
+        Collection<GrantedAuthority> authorities = userInfo.getAuthorities();
         for (String permission : permissions)
         {
             if (permission != null && hasPermissions(authorities, permission))
@@ -217,9 +218,8 @@ public class PreAuthorizeAspect
      * @param permission 权限字符串
      * @return 用户是否具备某权限
      */
-    private boolean hasPermissions(Collection<String> authorities, String permission)
+    private boolean hasPermissions(Collection<GrantedAuthority> authorities, String permission)
     {
-        return authorities.stream().filter(StringUtils::hasText)
-                .anyMatch(x -> ALL_PERMISSION.contains(x) || PatternMatchUtils.simpleMatch(permission, x));
+        return authorities.stream().filter(grantedAuthority-> {return StringUtils.hasText(grantedAuthority.getAuthority());}).anyMatch(grantedAuthority -> ALL_PERMISSION.contains(grantedAuthority.getAuthority()) || PatternMatchUtils.simpleMatch(permission, grantedAuthority.getAuthority()));
     }
 }

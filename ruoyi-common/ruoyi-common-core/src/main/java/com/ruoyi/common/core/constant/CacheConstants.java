@@ -36,4 +36,14 @@ public class CacheConstants
      * 授权信息字段
      */
     public static final String AUTHORIZATION_HEADER = "authorization";
+
+    /**
+     * oauth 缓存前缀
+     */
+    public static final String OAUTH_ACCESS = "oauth:access:";
+
+    /**
+     * oauth 客户端信息
+     */
+    public static final String CLIENT_DETAILS_KEY = "oauth:client:details";
 }

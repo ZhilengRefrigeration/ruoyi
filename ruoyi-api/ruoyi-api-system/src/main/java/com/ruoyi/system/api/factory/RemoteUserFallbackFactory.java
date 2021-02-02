@@ -1,5 +1,7 @@
 package com.ruoyi.system.api.factory;
 
+import com.ruoyi.system.api.model.RoleAndPermission;
+import com.ruoyi.system.api.model.UserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -7,6 +9,8 @@ import com.ruoyi.common.core.domain.R;
 import com.ruoyi.system.api.RemoteUserService;
 import com.ruoyi.system.api.model.LoginUser;
 import feign.hystrix.FallbackFactory;
+
+import java.util.Set;
 
 /**
  * 用户服务降级处理
@@ -25,9 +29,24 @@ public class RemoteUserFallbackFactory implements FallbackFactory<RemoteUserServ
         return new RemoteUserService()
         {
             @Override
-            public R<LoginUser> getUserInfo(String username)
+            public R<UserInfo> getUserInfo(String username)
             {
                 return R.fail("获取用户失败:" + throwable.getMessage());
+            }
+
+            @Override
+            public R<Set<String>> getRoles(Long userId) {
+                return R.fail("获取用户角色失败:" + throwable.getMessage());
+            }
+
+            @Override
+            public R<Set<String>> getPermissions(Long userId) {
+                return R.fail("获取用户权限失败:" + throwable.getMessage());
+            }
+
+            @Override
+            public R<RoleAndPermission> getRolesAndPermissions(Long userId) {
+                return R.fail("获取用户角色和权限失败:" + throwable.getMessage());
             }
         };
     }

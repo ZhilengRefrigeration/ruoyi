@@ -25,7 +25,7 @@ import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.constant.GenConstants;
 import com.ruoyi.common.core.exception.CustomException;
 import com.ruoyi.common.core.text.CharsetKit;
-import com.ruoyi.common.core.utils.SecurityUtils;
+import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.file.FileUtils;
 import com.ruoyi.gen.domain.GenTable;

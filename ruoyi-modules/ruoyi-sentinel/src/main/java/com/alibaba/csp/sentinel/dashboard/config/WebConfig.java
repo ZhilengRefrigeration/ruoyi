@@ -47,8 +47,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     private final Logger logger = LoggerFactory.getLogger(WebConfig.class);
 
-    @Autowired
-    private LoginAuthenticationFilter loginAuthenticationFilter;
+//    @Autowired
+//    private LoginAuthenticationFilter loginAuthenticationFilter;
 
     @Autowired
     private AuthorizationInterceptor authorizationInterceptor;
@@ -104,13 +104,13 @@ public class WebConfig implements WebMvcConfigurer {
         });
     }
 
-    @Bean
-    public FilterRegistrationBean authenticationFilterRegistration() {
-        FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<>();
-        registration.setFilter(loginAuthenticationFilter);
-        registration.addUrlPatterns("/*");
-        registration.setName("authenticationFilter");
-        registration.setOrder(0);
-        return registration;
-    }
+//    @Bean
+//    public FilterRegistrationBean authenticationFilterRegistration() {
+//        FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<>();
+//        registration.setFilter(loginAuthenticationFilter);
+//        registration.addUrlPatterns("/*");
+//        registration.setName("authenticationFilter");
+//        registration.setOrder(0);
+//        return registration;
+//    }
 }

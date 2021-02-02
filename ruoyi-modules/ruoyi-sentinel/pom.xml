@@ -26,6 +26,33 @@
     </properties>
 
     <dependencies>
+
+        <!-- SpringCloud Ailibaba Nacos -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+
+        <!-- SpringCloud Ailibaba Nacos Config -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+
+        <!-- SpringBoot Actuator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- RuoYi Api System -->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-api-system</artifactId>
+        </dependency>
+
+
+
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-core</artifactId>
@@ -145,6 +172,10 @@
             <version>1.16.1</version>
             <scope>test</scope>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.ruoyi</groupId>-->
+<!--            <artifactId>ruoyi-common-security</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>

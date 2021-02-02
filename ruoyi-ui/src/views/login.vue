@@ -127,8 +127,9 @@ export default {
             Cookies.remove('rememberMe');
           }
           this.$store.dispatch("Login", this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || "/" }).catch(()=>{});
-          }).catch(() => {
+            this.$router.push({ path: this.redirect || "/" }).catch((e)=>{console.log(e);});
+          }).catch((e) => {
+            console.log(e);
             this.loading = false;
             this.getCode();
           });

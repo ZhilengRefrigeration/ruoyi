@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.exception.CustomException;
-import com.ruoyi.common.core.utils.SecurityUtils;
+import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.datascope.annotation.DataScope;
 import com.ruoyi.system.api.domain.SysRole;

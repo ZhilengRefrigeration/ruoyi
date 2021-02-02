@@ -17,15 +17,20 @@ package com.alibaba.csp.sentinel.dashboard;
 
 import com.alibaba.csp.sentinel.init.InitExecutor;
 
+//import com.ruoyi.common.security.annotation.EnableCustomConfig;
+//import com.ruoyi.common.security.annotation.EnableRyFeignClients;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 /**
  * Sentinel dashboard application.
  *
  * @author Carpenter Lee
  */
-@SpringBootApplication
+//@EnableCustomConfig
+//@EnableRyFeignClients
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 public class RuoYiSentinelDashboardApplication {
 
     public static void main(String[] args) {

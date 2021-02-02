@@ -22,6 +22,13 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-core</artifactId>
         </dependency>
+
+        <!--     spring-security-core   -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <scope>provided</scope>
+        </dependency>
         
     </dependencies>
 

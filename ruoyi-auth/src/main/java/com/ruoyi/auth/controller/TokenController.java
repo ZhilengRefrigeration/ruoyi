@@ -1,6 +1,8 @@
 package com.ruoyi.auth.controller;
 
 import javax.servlet.http.HttpServletRequest;
+
+import com.ruoyi.system.api.model.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,16 +29,16 @@ public class TokenController
     @Autowired
     private SysLoginService sysLoginService;
 
-    @PostMapping("login")
-    public R<?> login(@RequestBody LoginBody form)
-    {
-        // 用户登录
-        LoginUser userInfo = sysLoginService.login(form.getUsername(), form.getPassword());
-        // 获取登录token
-        return R.ok(tokenService.createToken(userInfo));
-    }
+//    @PostMapping("login")
+//    public R<?> login(@RequestBody LoginBody form)
+//    {
+//        // 用户登录
+//        UserInfo userInfo = sysLoginService.login(form.getUsername(), form.getPassword());
+//        // 获取登录token
+//        return R.ok(tokenService.createToken(userInfo));
+//    }
 
-    @DeleteMapping("logout")
+    @DeleteMapping("token/logout")
     public R<?> logout(HttpServletRequest request)
     {
         LoginUser loginUser = tokenService.getLoginUser(request);

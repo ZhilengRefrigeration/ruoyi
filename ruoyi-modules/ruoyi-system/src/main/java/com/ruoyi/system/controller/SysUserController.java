@@ -5,7 +5,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.security.utils.SecurityUtils;
+import com.ruoyi.system.api.model.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.domain.R;
-import com.ruoyi.common.core.utils.SecurityUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
@@ -101,7 +104,7 @@ public class SysUserController extends BaseController
      * 获取当前用户信息
      */
     @GetMapping("/info/{username}")
-    public R<LoginUser> info(@PathVariable("username") String username)
+    public R<UserInfo> info(@PathVariable("username") String username)
     {
         SysUser sysUser = userService.selectUserByUserName(username);
         if (StringUtils.isNull(sysUser))
@@ -112,7 +115,7 @@ public class SysUserController extends BaseController
         Set<String> roles = permissionService.getRolePermission(sysUser.getUserId());
         // 权限集合
         Set<String> permissions = permissionService.getMenuPermission(sysUser.getUserId());
-        LoginUser sysUserVo = new LoginUser();
+        UserInfo sysUserVo = new UserInfo();
         sysUserVo.setSysUser(sysUser);
         sysUserVo.setRoles(roles);
         sysUserVo.setPermissions(permissions);

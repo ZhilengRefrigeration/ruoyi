@@ -13,11 +13,7 @@ import com.google.common.base.Predicates;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.AuthorizationScope;
-import springfox.documentation.service.Contact;
-import springfox.documentation.service.SecurityReference;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -96,8 +92,19 @@ public class SwaggerAutoConfiguration
                         .securityReferences(defaultAuth())
                         .forPaths(PathSelectors.regex("^(?!auth).*$"))
                         .build());
+        securityContexts.add(SecurityContext.builder()
+                .securityReferences(defaultAuth())
+                .forPaths(PathSelectors.regex(swaggerProperties().getAuthorization().getAuthRegex()))
+                .build());
         return securityContexts;
     }
+
+//    private SecurityContext securityContext(){
+//        return SecurityContext.builder()
+//                .securityReferences(defaultAuth())
+//                .forPaths(PathSelectors.regex(swaggerProperties().getAuthorization().getAuthRegex()))
+//                .build();
+//    }
 
     /**
      * 默认的全局鉴权策略
@@ -112,6 +119,15 @@ public class SwaggerAutoConfiguration
         List<SecurityReference> securityReferences = new ArrayList<>();
         securityReferences.add(new SecurityReference("Authorization", authorizationScopes));
         return securityReferences;
+    }
+
+    private OAuth securitySchema()
+    {
+        ArrayList<AuthorizationScope> authorizationScopeList = new ArrayList<>();
+        swaggerProperties().getAuthorization().getAuthorizationScopeList().forEach(authorizationScope -> authorizationScopeList.add(new AuthorizationScope(authorizationScope.getScope(), authorizationScope.getDescription())));
+        ArrayList<GrantType> grantTypes = new ArrayList<>();
+        swaggerProperties().getAuthorization().getTokenUrlList().forEach(tokenUrl -> grantTypes.add(new ResourceOwnerPasswordCredentialsGrant(tokenUrl)));
+        return new OAuth(swaggerProperties().getAuthorization().getName(), authorizationScopeList, grantTypes);
     }
 
     private ApiInfo apiInfo(SwaggerProperties swaggerProperties)

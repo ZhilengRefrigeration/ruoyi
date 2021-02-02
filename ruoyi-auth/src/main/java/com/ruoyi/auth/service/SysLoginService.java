@@ -1,5 +1,6 @@
 package com.ruoyi.auth.service;
 
+import com.ruoyi.system.api.model.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.constant.Constants;
@@ -7,7 +8,7 @@ import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.enums.UserStatus;
 import com.ruoyi.common.core.exception.BaseException;
-import com.ruoyi.common.core.utils.SecurityUtils;
+import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.system.api.RemoteLogService;
 import com.ruoyi.system.api.RemoteUserService;
@@ -31,7 +32,7 @@ public class SysLoginService
     /**
      * 登录
      */
-    public LoginUser login(String username, String password)
+    public UserInfo login(String username, String password)
     {
         // 用户名或密码为空 错误
         if (StringUtils.isAnyBlank(username, password))
@@ -54,7 +55,7 @@ public class SysLoginService
             throw new BaseException("用户名不在指定范围");
         }
         // 查询用户信息
-        R<LoginUser> userResult = remoteUserService.getUserInfo(username);
+        R<UserInfo> userResult = remoteUserService.getUserInfo(username);
 
         if (R.FAIL == userResult.getCode())
         {
@@ -66,7 +67,7 @@ public class SysLoginService
             remoteLogService.saveLogininfor(username, Constants.LOGIN_FAIL, "登录用户不存在");
             throw new BaseException("登录用户：" + username + " 不存在");
         }
-        LoginUser userInfo = userResult.getData();
+        UserInfo userInfo = userResult.getData();
         SysUser user = userResult.getData().getSysUser();
         if (UserStatus.DELETED.getCode().equals(user.getDelFlag()))
         {

@@ -15,7 +15,13 @@
     </description>
 
     <dependencies>
-    
+
+        <!-- Spring Security Oauth2 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-oauth2</artifactId>
+        </dependency>
+
         <!-- RuoYi Api System -->
         <dependency>
             <groupId>com.ruoyi</groupId>

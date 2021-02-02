@@ -4,12 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
+
+import com.ruoyi.common.security.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.utils.IdUtils;
-import com.ruoyi.common.core.utils.SecurityUtils;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.ip.IpUtils;
@@ -41,7 +42,7 @@ public class TokenService
         // 生成token
         String token = IdUtils.fastUUID();
         loginUser.setToken(token);
-        loginUser.setUserid(loginUser.getSysUser().getUserId());
+        loginUser.setUserId(loginUser.getSysUser().getUserId());
         loginUser.setUsername(loginUser.getSysUser().getUserName());
         loginUser.setIpaddr(IpUtils.getIpAddr(ServletUtils.getRequest()));
         refreshToken(loginUser);
@@ -71,15 +72,17 @@ public class TokenService
      */
     public LoginUser getLoginUser(HttpServletRequest request)
     {
-        // 获取请求携带的令牌
-        String token = SecurityUtils.getToken(request);
-        if (StringUtils.isNotEmpty(token))
-        {
-            String userKey = getTokenKey(token);
-            LoginUser user = redisService.getCacheObject(userKey);
-            return user;
-        }
-        return null;
+//        // 获取请求携带的令牌
+//        String token = SecurityUtils.getToken(request);
+//        if (StringUtils.isNotEmpty(token))
+//        {
+//            String userKey = getTokenKey(token);
+//            LoginUser user = redisService.getCacheObject(userKey);
+//            LoginUser user = SecurityUtils.getLoginUser();
+//
+//        }
+//        return null;
+        return SecurityUtils.getLoginUser();
     }
 
     /**
