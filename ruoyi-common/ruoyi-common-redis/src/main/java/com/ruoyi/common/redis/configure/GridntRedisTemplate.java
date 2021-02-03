@@ -4,15 +4,13 @@ import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnection;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.stereotype.Component;
 
 /**
  * 自定义RedisTemplate，支持选库
  *
  * @author gxx
  */
-@Component
-public class GridntRedisTemplate extends StringRedisTemplate {
+public class GridntRedisTemplate<K, V> extends StringRedisTemplate {
 
     public GridntRedisTemplate(RedisConnectionFactory connectionFactory) {
         super.setConnectionFactory(connectionFactory);

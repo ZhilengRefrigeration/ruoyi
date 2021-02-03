@@ -1,7 +1,6 @@
 package com.ruoyi.common.redis.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +17,6 @@ import java.util.concurrent.TimeUnit;
 public class RedisService
 {
     @Autowired
-    @Qualifier("gridntRedisTemplate")
     public RedisTemplate redisTemplate;
 
     /**
