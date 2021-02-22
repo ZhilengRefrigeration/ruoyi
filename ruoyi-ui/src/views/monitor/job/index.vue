@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="任务名称" prop="jobName">
         <el-input
           v-model="queryParams.jobName"
@@ -40,6 +40,7 @@
       <el-col :span="1.5">
         <el-button
           type="primary"
+          plain
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
@@ -49,6 +50,7 @@
       <el-col :span="1.5">
         <el-button
           type="success"
+          plain
           icon="el-icon-edit"
           size="mini"
           :disabled="single"
@@ -59,6 +61,7 @@
       <el-col :span="1.5">
         <el-button
           type="danger"
+          plain
           icon="el-icon-delete"
           size="mini"
           :disabled="multiple"
@@ -69,6 +72,7 @@
       <el-col :span="1.5">
         <el-button
           type="warning"
+          plain
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
@@ -78,12 +82,14 @@
       <el-col :span="1.5">
         <el-button
           type="info"
+          plain
           icon="el-icon-s-operation"
           size="mini"
           @click="handleJobLog"
           v-hasPermi="['monitor:job:query']"
         >日志</el-button>
       </el-col>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="jobList" @selection-change="handleSelectionChange">
@@ -110,7 +116,7 @@
             type="text"
             icon="el-icon-caret-right"
             @click="handleRun(scope.row)"
-            v-hasPermi="['monitor:job:edit']"
+            v-hasPermi="['monitor:job:changeStatus']"
           >执行一次</el-button>
           <el-button
             size="mini"
@@ -274,6 +280,8 @@ export default {
       single: true,
       // 非多个禁用
       multiple: true,
+      // 显示搜索条件
+      showSearch: true,
       // 总条数
       total: 0,
       // 定时任务表格数据
@@ -399,7 +407,7 @@ export default {
           return runJob(row.jobId, row.jobGroup);
         }).then(() => {
           this.msgSuccess("执行成功");
-        }).catch(function() {});
+        })
     },
     /** 任务详细信息 */
     handleView(row) {
@@ -434,19 +442,15 @@ export default {
         if (valid) {
           if (this.form.jobId != undefined) {
             updateJob(this.form).then(response => {
-              if (response.code === 200) {
-                this.msgSuccess("修改成功");
-                this.open = false;
-                this.getList();
-              }
+              this.msgSuccess("修改成功");
+              this.open = false;
+              this.getList();
             });
           } else {
             addJob(this.form).then(response => {
-              if (response.code === 200) {
-                this.msgSuccess("新增成功");
-                this.open = false;
-                this.getList();
-              }
+              this.msgSuccess("新增成功");
+              this.open = false;
+              this.getList();
             });
           }
         }
@@ -464,7 +468,7 @@ export default {
         }).then(() => {
           this.getList();
           this.msgSuccess("删除成功");
-        }).catch(function() {});
+        })
     },
     /** 导出按钮操作 */
     handleExport() {

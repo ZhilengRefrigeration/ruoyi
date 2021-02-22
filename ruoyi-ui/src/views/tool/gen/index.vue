@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="表名称" prop="tableName">
         <el-input
           v-model="queryParams.tableName"
@@ -41,6 +41,7 @@
       <el-col :span="1.5">
         <el-button
           type="primary"
+          plain
           icon="el-icon-download"
           size="mini"
           @click="handleGenTable"
@@ -50,6 +51,7 @@
       <el-col :span="1.5">
         <el-button
           type="info"
+          plain
           icon="el-icon-upload"
           size="mini"
           @click="openImportTable"
@@ -59,6 +61,7 @@
       <el-col :span="1.5">
         <el-button
           type="success"
+          plain
           icon="el-icon-edit"
           size="mini"
           :disabled="single"
@@ -69,6 +72,7 @@
       <el-col :span="1.5">
         <el-button
           type="danger"
+          plain
           icon="el-icon-delete"
           size="mini"
           :disabled="multiple"
@@ -76,10 +80,11 @@
           v-hasPermi="['tool:gen:remove']"
         >删除</el-button>
       </el-col>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="tableList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55"></el-table-column>
+      <el-table-column type="selection" align="center" width="55"></el-table-column>
       <el-table-column label="序号" type="index" width="50" align="center">
         <template slot-scope="scope">
           <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
@@ -90,21 +95,21 @@
         align="center"
         prop="tableName"
         :show-overflow-tooltip="true"
-        width="130"
+        width="120"
       />
       <el-table-column
         label="表描述"
         align="center"
         prop="tableComment"
         :show-overflow-tooltip="true"
-        width="130"
+        width="120"
       />
       <el-table-column
         label="实体"
         align="center"
         prop="className"
         :show-overflow-tooltip="true"
-        width="130"
+        width="120"
       />
       <el-table-column label="创建时间" align="center" prop="createTime" width="160" />
       <el-table-column label="更新时间" align="center" prop="updateTime" width="160" />
@@ -134,6 +139,13 @@
           <el-button
             type="text"
             size="small"
+            icon="el-icon-refresh"
+            @click="handleSynchDb(scope.row)"
+            v-hasPermi="['tool:gen:edit']"
+          >同步</el-button>
+          <el-button
+            type="text"
+            size="small"
             icon="el-icon-download"
             @click="handleGenTable(scope.row)"
             v-hasPermi="['tool:gen:code']"
@@ -157,7 +169,7 @@
           :name="key.substring(key.lastIndexOf('/')+1,key.indexOf('.vm'))"
           :key="key"
         >
-          <pre>{{ value }}</pre>
+        <pre><code class="hljs" v-html="highlightedCode(value, key)"></code></pre>
         </el-tab-pane>
       </el-tabs>
     </el-dialog>
@@ -166,9 +178,18 @@
 </template>
 
 <script>
-import { listTable, previewTable, delTable } from "@/api/tool/gen";
+import { listTable, previewTable, delTable, genCode, synchDb } from "@/api/tool/gen";
 import importTable from "./importTable";
 import { downLoadZip } from "@/utils/zipdownload";
+import hljs from "highlight.js/lib/highlight";
+import "highlight.js/styles/github-gist.css";
+hljs.registerLanguage("java", require("highlight.js/lib/languages/java"));
+hljs.registerLanguage("xml", require("highlight.js/lib/languages/xml"));
+hljs.registerLanguage("html", require("highlight.js/lib/languages/xml"));
+hljs.registerLanguage("vue", require("highlight.js/lib/languages/xml"));
+hljs.registerLanguage("javascript", require("highlight.js/lib/languages/javascript"));
+hljs.registerLanguage("sql", require("highlight.js/lib/languages/sql"));
+
 export default {
   name: "Gen",
   components: { importTable },
@@ -186,6 +207,8 @@ export default {
       single: true,
       // 非多个禁用
       multiple: true,
+      // 显示搜索条件
+      showSearch: true,
       // 总条数
       total: 0,
       // 表数据
@@ -241,7 +264,26 @@ export default {
         this.msgError("请选择要生成的数据");
         return;
       }
-      downLoadZip("/code/gen/batchGenCode?tables=" + tableNames, "ruoyi");
+      if(row.genType === "1") {
+        genCode(row.tableName).then(response => {
+          this.msgSuccess("成功生成到自定义路径：" + row.genPath);
+        });
+      } else {
+        downLoadZip("/code/gen/batchGenCode?tables=" + tableNames, "ruoyi");
+      }
+    },
+    /** 同步数据库操作 */
+    handleSynchDb(row) {
+      const tableName = row.tableName;
+      this.$confirm('确认要强制同步"' + tableName + '"表结构吗？', "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(function() {
+          return synchDb(tableName);
+      }).then(() => {
+          this.msgSuccess("同步成功");
+      })
     },
     /** 打开导入表弹窗 */
     openImportTable() {
@@ -259,6 +301,13 @@ export default {
         this.preview.data = response.data;
         this.preview.open = true;
       });
+    },
+    /** 高亮显示 */
+    highlightedCode(code, key) {
+      const vmName = key.substring(key.lastIndexOf("/") + 1, key.indexOf(".vm"));
+      var language = vmName.substring(vmName.indexOf(".") + 1, vmName.length);
+      const result = hljs.highlight(language, code || "", true);
+      return result.value || '&nbsp;';
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
@@ -284,7 +333,7 @@ export default {
       }).then(() => {
           this.getList();
           this.msgSuccess("删除成功");
-      }).catch(function() {});
+      })
     }
   }
 };

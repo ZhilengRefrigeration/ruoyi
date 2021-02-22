@@ -27,7 +27,7 @@
       </el-col>
       <!--用户数据-->
       <el-col :span="20" :xs="24">
-        <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+        <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
           <el-form-item label="用户名称" prop="userName">
             <el-input
               v-model="queryParams.userName"
@@ -86,6 +86,7 @@
           <el-col :span="1.5">
             <el-button
               type="primary"
+              plain
               icon="el-icon-plus"
               size="mini"
               @click="handleAdd"
@@ -95,6 +96,7 @@
           <el-col :span="1.5">
             <el-button
               type="success"
+              plain
               icon="el-icon-edit"
               size="mini"
               :disabled="single"
@@ -105,6 +107,7 @@
           <el-col :span="1.5">
             <el-button
               type="danger"
+              plain
               icon="el-icon-delete"
               size="mini"
               :disabled="multiple"
@@ -115,6 +118,7 @@
           <el-col :span="1.5">
             <el-button
               type="info"
+              plain
               icon="el-icon-upload2"
               size="mini"
               @click="handleImport"
@@ -124,22 +128,24 @@
           <el-col :span="1.5">
             <el-button
               type="warning"
+              plain
               icon="el-icon-download"
               size="mini"
               @click="handleExport"
               v-hasPermi="['system:user:export']"
             >导出</el-button>
           </el-col>
+          <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
         </el-row>
 
         <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="50" align="center" />
-          <el-table-column label="用户编号" align="center" prop="userId" />
-          <el-table-column label="用户名称" align="center" prop="userName" :show-overflow-tooltip="true" />
-          <el-table-column label="用户昵称" align="center" prop="nickName" :show-overflow-tooltip="true" />
-          <el-table-column label="部门" align="center" prop="dept.deptName" :show-overflow-tooltip="true" />
-          <el-table-column label="手机号码" align="center" prop="phonenumber" width="120" />
-          <el-table-column label="状态" align="center">
+          <el-table-column label="用户编号" align="center" key="userId" prop="userId" v-if="columns[0].visible" />
+          <el-table-column label="用户名称" align="center" key="userName" prop="userName" v-if="columns[1].visible" :show-overflow-tooltip="true" />
+          <el-table-column label="用户昵称" align="center" key="nickName" prop="nickName" v-if="columns[2].visible" :show-overflow-tooltip="true" />
+          <el-table-column label="部门" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible" :show-overflow-tooltip="true" />
+          <el-table-column label="手机号码" align="center" key="phonenumber" prop="phonenumber" v-if="columns[4].visible" width="120" />
+          <el-table-column label="状态" align="center" key="status" v-if="columns[5].visible">
             <template slot-scope="scope">
               <el-switch
                 v-model="scope.row.status"
@@ -149,7 +155,7 @@
               ></el-switch>
             </template>
           </el-table-column>
-          <el-table-column label="创建时间" align="center" prop="createTime" width="160">
+          <el-table-column label="创建时间" align="center" prop="createTime" v-if="columns[6].visible" width="160">
             <template slot-scope="scope">
               <span>{{ parseTime(scope.row.createTime) }}</span>
             </template>
@@ -157,7 +163,7 @@
           <el-table-column
             label="操作"
             align="center"
-            width="180"
+            width="160"
             class-name="small-padding fixed-width"
           >
             <template slot-scope="scope">
@@ -208,7 +214,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="归属部门" prop="deptId">
-              <treeselect v-model="form.deptId" :options="deptOptions" :disable-branch-nodes="true" :show-count="true" placeholder="请选择归属部门" />
+              <treeselect v-model="form.deptId" :options="deptOptions" :show-count="true" placeholder="请选择归属部门" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -356,6 +362,8 @@ export default {
       single: true,
       // 非多个禁用
       multiple: true,
+      // 显示搜索条件
+      showSearch: true,
       // 总条数
       total: 0,
       // 用户表格数据
@@ -410,6 +418,16 @@ export default {
         status: undefined,
         deptId: undefined
       },
+      // 列信息
+      columns: [
+        { key: 0, label: `用户编号`, visible: true },
+        { key: 1, label: `用户名称`, visible: true },
+        { key: 2, label: `用户昵称`, visible: true },
+        { key: 3, label: `部门`, visible: true },
+        { key: 4, label: `手机号码`, visible: true },
+        { key: 5, label: `状态`, visible: true },
+        { key: 6, label: `创建时间`, visible: true }
+      ],
       // 表单校验
       rules: {
         userName: [
@@ -418,14 +436,10 @@ export default {
         nickName: [
           { required: true, message: "用户昵称不能为空", trigger: "blur" }
         ],
-        deptId: [
-          { required: true, message: "归属部门不能为空", trigger: "blur" }
-        ],
         password: [
           { required: true, message: "用户密码不能为空", trigger: "blur" }
         ],
         email: [
-          { required: true, message: "邮箱地址不能为空", trigger: "blur" },
           {
             type: "email",
             message: "'请输入正确的邮箱地址",
@@ -433,7 +447,6 @@ export default {
           }
         ],
         phonenumber: [
-          { required: true, message: "手机号码不能为空", trigger: "blur" },
           {
             pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
             message: "请输入正确的手机号码",
@@ -579,9 +592,7 @@ export default {
         cancelButtonText: "取消"
       }).then(({ value }) => {
           resetUserPwd(row.userId, value).then(response => {
-            if (response.code === 200) {
-              this.msgSuccess("修改成功，新密码是：" + value);
-            }
+            this.msgSuccess("修改成功，新密码是：" + value);
           });
         }).catch(() => {});
     },
@@ -591,19 +602,15 @@ export default {
         if (valid) {
           if (this.form.userId != undefined) {
             updateUser(this.form).then(response => {
-              if (response.code === 200) {
-                this.msgSuccess("修改成功");
-                this.open = false;
-                this.getList();
-              }
+              this.msgSuccess("修改成功");
+              this.open = false;
+              this.getList();
             });
           } else {
             addUser(this.form).then(response => {
-              if (response.code === 200) {
-                this.msgSuccess("新增成功");
-                this.open = false;
-                this.getList();
-              }
+              this.msgSuccess("新增成功");
+              this.open = false;
+              this.getList();
             });
           }
         }
@@ -621,7 +628,7 @@ export default {
         }).then(() => {
           this.getList();
           this.msgSuccess("删除成功");
-        }).catch(function() {});
+        })
     },
     /** 导出按钮操作 */
     handleExport() {

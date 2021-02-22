@@ -21,55 +21,5 @@ spring:
         # 配置文件格式
         file-extension: yml
         # 共享配置
-        shared-dataids: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
-
-#请求处理的超时时间
-ribbon:
-  ReadTimeout: 10000
-  ConnectTimeout: 10000
-  eureka:
-    enable: true
-
-# feign 配置
-feign:
-  sentinel:
-    enabled: true
-  okhttp:
-    enabled: true
-  httpclient:
-    enabled: false
-  client:
-    config:
-      default:
-        connectTimeout: 10000
-        readTimeout: 10000
-  compression:
-    request:
-      enabled: true
-    response:
-      enabled: true
-
-# 暴露监控端点
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-
-# 认证配置
-security:
-  oauth2:
-    client:
-      client-id: ruoyi
-      client-secret: 123456
-      scope: server
-    resource:
-      loadBalanced: true
-      token-info-uri: http://ruoyi-auth/oauth/check_token
-    ignore:
-      urls:
-        - /v2/api-docs
-        - /actuator/**
-        - /user/info/*
-        - /operlog
-        - /logininfor
+        shared-configs:
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}

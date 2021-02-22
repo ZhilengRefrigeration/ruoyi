@@ -153,14 +153,14 @@ export default {
       })
     },
     closeOthersTags() {
-      this.$router.push(this.selectedTag)
+      this.$router.push(this.selectedTag).catch(()=>{});
       this.$store.dispatch('tagsView/delOthersViews', this.selectedTag).then(() => {
         this.moveToCurrentTag()
       })
     },
     closeAllTags(view) {
       this.$store.dispatch('tagsView/delAllViews').then(({ visitedViews }) => {
-        if (this.affixTags.some(tag => tag.path === view.path)) {
+        if (this.affixTags.some(tag => tag.path === this.$route.path)) {
           return
         }
         this.toLastView(visitedViews, view)

@@ -4,6 +4,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.math.BigDecimal;
 
 /**
  * 自定义导出Excel数据注解
@@ -33,6 +34,21 @@ public @interface Excel
      * 读取内容转表达式 (如: 0=男,1=女,2=未知)
      */
     public String readConverterExp() default "";
+
+    /**
+     * 分隔符，读取字符串组内容
+     */
+    public String separator() default ",";
+
+    /**
+     * BigDecimal 精度 默认:-1(默认不开启BigDecimal格式化)
+     */
+    public int scale() default -1;
+
+    /**
+     * BigDecimal 舍入规则 默认:BigDecimal.ROUND_HALF_EVEN
+     */
+    public int roundingMode() default BigDecimal.ROUND_HALF_EVEN;
 
     /**
      * 导出类型（0数字 1字符串）
@@ -80,6 +96,32 @@ public @interface Excel
     public String targetAttr() default "";
 
     /**
+     * 是否自动统计数据,在最后追加一行统计数据总和
+     */
+    public boolean isStatistics() default false;
+
+    /**
+     * 导出字段对齐方式（0：默认；1：靠左；2：居中；3：靠右）
+     */
+    Align align() default Align.AUTO;
+
+    public enum Align
+    {
+        AUTO(0), LEFT(1), CENTER(2), RIGHT(3);
+        private final int value;
+
+        Align(int value)
+        {
+            this.value = value;
+        }
+
+        public int value()
+        {
+            return this.value;
+        }
+    }
+
+    /**
      * 字段类型（0：导出导入；1：仅导出；2：仅导入）
      */
     Type type() default Type.ALL;
@@ -102,7 +144,7 @@ public @interface Excel
 
     public enum ColumnType
     {
-        NUMERIC(0), STRING(1);
+        NUMERIC(0), STRING(1), IMAGE(2);
         private final int value;
 
         ColumnType(int value)

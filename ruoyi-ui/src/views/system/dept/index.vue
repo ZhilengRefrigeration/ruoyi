@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
-    <el-form :inline="true">
-      <el-form-item label="部门名称">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch">
+      <el-form-item label="部门名称" prop="deptName">
         <el-input
           v-model="queryParams.deptName"
           placeholder="请输入部门名称"
@@ -10,7 +10,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="状态">
+      <el-form-item label="状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="部门状态" clearable size="small">
           <el-option
             v-for="dict in statusOptions"
@@ -21,23 +21,24 @@
         </el-select>
       </el-form-item>
       <el-form-item>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+      </el-form-item>
+    </el-form>
+
+    <el-row :gutter="10" class="mb8">
+      <el-col :span="1.5">
         <el-button
-          class="filter-item"
           type="primary"
-          icon="el-icon-search"
-          size="mini"
-          @click="handleQuery"
-        >搜索</el-button>
-        <el-button
-          class="filter-item"
-          type="primary"
+          plain
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
           v-hasPermi="['system:dept:add']"
         >新增</el-button>
-      </el-form-item>
-    </el-form>
+      </el-col>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+    </el-row>
 
     <el-table
       v-loading="loading"
@@ -149,6 +150,8 @@ export default {
     return {
       // 遮罩层
       loading: true,
+      // 显示搜索条件
+      showSearch: true,
       // 表格树数据
       deptList: [],
       // 部门树选项
@@ -247,6 +250,11 @@ export default {
     handleQuery() {
       this.getList();
     },
+    /** 重置按钮操作 */
+    resetQuery() {
+      this.resetForm("queryForm");
+      this.handleQuery();
+    },
     /** 新增按钮操作 */
     handleAdd(row) {
       this.reset();
@@ -277,19 +285,15 @@ export default {
         if (valid) {
           if (this.form.deptId != undefined) {
             updateDept(this.form).then(response => {
-              if (response.code === 200) {
-                this.msgSuccess("修改成功");
-                this.open = false;
-                this.getList();
-              }
+              this.msgSuccess("修改成功");
+              this.open = false;
+              this.getList();
             });
           } else {
             addDept(this.form).then(response => {
-              if (response.code === 200) {
-                this.msgSuccess("新增成功");
-                this.open = false;
-                this.getList();
-              }
+              this.msgSuccess("新增成功");
+              this.open = false;
+              this.getList();
             });
           }
         }
@@ -306,7 +310,7 @@ export default {
         }).then(() => {
           this.getList();
           this.msgSuccess("删除成功");
-        }).catch(function() {});
+        })
     }
   }
 };
