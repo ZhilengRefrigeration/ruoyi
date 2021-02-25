@@ -19,7 +19,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
     private static final char SEPARATOR = '_';
 
     /** 星号 */
-    private static final String START = "*";
+    private static final String STAR = "*";
 
     /**
      * 获取参数不为空值
@@ -472,11 +472,11 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
         boolean result = false;
         do
         {
-            formerStarOffset = indexOf(pattern, START, beginOffset);
+            formerStarOffset = indexOf(pattern, STAR, beginOffset);
             prefixPattern = substring(pattern, beginOffset, formerStarOffset > -1 ? formerStarOffset : pattern.length());
 
             // 匹配前缀Pattern
-            result = remainingURI.contains(prefixPattern);
+            result = remainingURI.startsWith(prefixPattern);
             // 已经没有星号，直接返回
             if (formerStarOffset == -1)
             {
@@ -493,10 +493,10 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
             }
 
             // 匹配后缀Pattern
-            latterStarOffset = indexOf(pattern, START, formerStarOffset + 1);
+            latterStarOffset = indexOf(pattern, STAR, formerStarOffset + 1);
             suffixPattern = substring(pattern, formerStarOffset + 1, latterStarOffset > -1 ? latterStarOffset : pattern.length());
 
-            result = remainingURI.contains(suffixPattern);
+            result = remainingURI.endsWith(suffixPattern);
             // 匹配失败，直接返回
             if (!result)
                 return false;
