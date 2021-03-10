@@ -2,10 +2,14 @@ package com.ruoyi.gateway.filter;
 
 import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
+import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -16,17 +20,17 @@ import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.gateway.service.ValidateCodeService;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
  * 验证码过滤器
- * 
+ *
  * @author ruoyi
  */
 @Component
-public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
-{
+public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object> {
     private final static String AUTH_URL = "/auth/login";
 
     @Autowired
@@ -37,25 +41,24 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
     private static final String UUID = "uuid";
 
     @Override
-    public GatewayFilter apply(Object config)
-    {
+    public GatewayFilter apply(Object config) {
         return (exchange, chain) -> {
+            Map<String, String> exchange1 = ServerWebExchangeUtils.getUriTemplateVariables(exchange);
+            String segment = exchange1.get("segment");
+
+
             ServerHttpRequest request = exchange.getRequest();
 
             // 非登录请求，不处理
-            if (!StringUtils.containsIgnoreCase(request.getURI().getPath(), AUTH_URL))
-            {
+            if (!StringUtils.containsIgnoreCase(request.getURI().getPath(), AUTH_URL)) {
                 return chain.filter(exchange);
             }
 
-            try
-            {
+            try {
                 String rspStr = resolveBodyFromRequest(request);
                 JSONObject obj = JSONObject.parseObject(rspStr);
                 validateCodeService.checkCapcha(obj.getString(CODE), obj.getString(UUID));
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 ServerHttpResponse response = exchange.getResponse();
                 response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
                 return exchange.getResponse().writeWith(
@@ -65,8 +68,7 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
         };
     }
 
-    private String resolveBodyFromRequest(ServerHttpRequest serverHttpRequest)
-    {
+    private String resolveBodyFromRequest(ServerHttpRequest serverHttpRequest) {
         // 获取请求体
         Flux<DataBuffer> body = serverHttpRequest.getBody();
         AtomicReference<String> bodyRef = new AtomicReference<>();
