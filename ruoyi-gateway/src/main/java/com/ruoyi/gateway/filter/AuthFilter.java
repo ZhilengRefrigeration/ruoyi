@@ -52,31 +52,43 @@ public class AuthFilter implements GlobalFilter, Ordered
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain)
     {
         String url = exchange.getRequest().getURI().getPath();
-        // 跳过不需要验证的路径
+        // 不需要验证的路径，如果已经登录，也需要进行一下令牌的更新，
+        // 并将当前登录user_id和username放到header里面，避免SecurityUtils.getUserId()取不到数据
+        boolean needLogin = true;
         if (StringUtils.matches(url, ignoreWhite.getWhites()))
         {
-            return chain.filter(exchange);
+            needLogin = false;
         }
         String token = getToken(exchange.getRequest());
         if (StringUtils.isBlank(token))
         {
-            return setUnauthorizedResponse(exchange, "令牌不能为空");
+            if (needLogin){
+                return setUnauthorizedResponse(exchange, "令牌不能为空");
+            } 
+            return chain.filter(exchange);
         }
-        String userStr = sops.get(getTokenKey(token));
+        String tokenKey = getTokenKey(token);
+        String userStr = sops.get(tokenKey);
         if (StringUtils.isNull(userStr))
         {
-            return setUnauthorizedResponse(exchange, "登录状态已过期");
+            if (needLogin){
+                return setUnauthorizedResponse(exchange, "登录状态已过期");
+            } 
+            return chain.filter(exchange);
         }
         JSONObject obj = JSONObject.parseObject(userStr);
         String userid = obj.getString("userid");
         String username = obj.getString("username");
         if (StringUtils.isBlank(userid) || StringUtils.isBlank(username))
         {
-            return setUnauthorizedResponse(exchange, "令牌验证失败");
+            if (needLogin){
+                return setUnauthorizedResponse(exchange, "令牌验证失败");
+            }
+            return chain.filter(exchange);
         }
         
         // 设置过期时间
-        redisService.expire(getTokenKey(token), EXPIRE_TIME);
+        redisService.expire(tokenKey, EXPIRE_TIME);
         // 设置用户信息到请求
         ServerHttpRequest mutableReq = exchange.getRequest().mutate().header(CacheConstants.DETAILS_USER_ID, userid)
                 .header(CacheConstants.DETAILS_USERNAME, ServletUtils.urlEncode(username)).build();
