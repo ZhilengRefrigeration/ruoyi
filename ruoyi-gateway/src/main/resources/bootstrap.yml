@@ -1,7 +1,8 @@
 # Tomcat
 server:
   port: 8080
-
+ignore:
+  whites[0]: /auth/login
 # Spring
 spring: 
   application:
