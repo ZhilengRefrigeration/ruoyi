@@ -84,6 +84,7 @@
               <li>Sentinel</li>
               <li>Seata</li>
               <li>Minio</li>
+              <li>FastDFS</li>
               <li>...</li>
             </ul>
           </el-col>
@@ -408,7 +409,7 @@
                 <li>slidebar eslint报错优化</li>
                 <li>当tags-view滚动关闭右键菜单</li>
                 <li>支持一级菜单（和主页同级）在main区域显示</li>
-                <li>限制外链地址必须以http(s)😕/开头</li>
+                <li>限制外链地址必须以http(s)�/开头</li>
                 <li>tagview & sidebar 主题颜色与element ui(全局)同步</li>
                 <li>
                   修复dict_sort不可update为0的问题&查询返回增加dict_sort升序排序

@@ -9,7 +9,7 @@
           <div class="card-panel-text">
             访客
           </div>
-          <count-to :start-val="0" :end-val="102400" :duration="2600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="maxNum.peoples" :duration="2600" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -22,7 +22,7 @@
           <div class="card-panel-text">
             消息
           </div>
-          <count-to :start-val="0" :end-val="81212" :duration="3000" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="maxNum.message" :duration="3000" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -35,7 +35,7 @@
           <div class="card-panel-text">
             金额
           </div>
-          <count-to :start-val="0" :end-val="9280" :duration="3200" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="maxNum.money" :duration="3200" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -48,7 +48,7 @@
           <div class="card-panel-text">
             订单
           </div>
-          <count-to :start-val="0" :end-val="13600" :duration="3600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="maxNum.shopping" :duration="3600" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -59,6 +59,19 @@
 import CountTo from 'vue-count-to'
 
 export default {
+  props: ['peoples', 'message', 'money', 'shopping'],
+  data() {
+    let obj = {
+      maxNum : {
+        peoples : this.peoples==undefined? 0 : this.peoples,// 把传过来的值赋值给新的变量
+        message : this.message==undefined? 0 : this.message,// 把传过来的值赋值给新的变量
+        money : this.money==undefined? 0 : this.money,// 把传过来的值赋值给新的变量
+        shopping : this.shopping==undefined? 0 : this.shopping    // 把传过来的值赋值给新的变量
+      }
+    }
+    // console.log(obj.maxNum.peoples);
+    return obj;
+  },
   components: {
     CountTo
   },
