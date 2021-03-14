@@ -1,0 +1,52 @@
+# Tomcat
+server:
+  port: 9206
+  tomcat:
+    # tomcat的URI编码
+    uri-encoding: UTF-8
+# Spring
+spring:
+  http:
+    encoding:
+      force: true
+  application:
+    # 应用名称
+    name: ruoyi-consumer
+  profiles:
+    # 环境配置
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: 127.0.0.1:8848
+      config:
+        # 配置中心地址
+        server-addr: 127.0.0.1:8848
+        # 配置文件格式
+        file-extension: yml
+        # 共享配置
+        shared-dataids: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+rocketmq:
+  # rocketmq的NameServer地址
+  name-server: 127.0.0.1:9876
+#  # 生产者端需要配置
+#  consumer:
+#    # 必须指定一个group
+#    group: groupB
+#    access-key: rocketmq2
+#    SecretKey: 123456781
+#  cloud:
+#    nacos:
+#      discovery:
+#        # 服务注册地址
+#        server-addr: 127.0.0.1:8848
+#      config:
+#        # 配置中心地址
+#        server-addr: 127.0.0.1:8848
+#        # 配置文件格式
+#        file-extension: yml
+#        # 共享配置
+#        shared-dataids: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+##        namespace: 363618e3-1aba-4b9b-a608-1bb8d6a03c6d
+
