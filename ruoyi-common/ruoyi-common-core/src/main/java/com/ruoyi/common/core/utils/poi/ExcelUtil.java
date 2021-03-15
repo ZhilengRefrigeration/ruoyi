@@ -322,6 +322,7 @@ public class ExcelUtil<T>
     public void exportExcel(HttpServletResponse response, List<T> list, String sheetName) throws IOException
     {
         response.setContentType("application/vnd.ms-excel");
+        //response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setCharacterEncoding("utf-8");
         this.init(list, sheetName, Type.EXPORT);
         exportExcel(response.getOutputStream());
@@ -335,7 +336,8 @@ public class ExcelUtil<T>
      */
     public void importTemplateExcel(HttpServletResponse response, String sheetName) throws IOException
     {
-        response.setContentType("application/vnd.ms-excel");
+        //response.setContentType("application/vnd.ms-excel");
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setCharacterEncoding("utf-8");
         this.init(null, sheetName, Type.IMPORT);
         exportExcel(response.getOutputStream());
