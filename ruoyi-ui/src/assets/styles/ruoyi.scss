@@ -106,7 +106,6 @@
 }
 
 .el-table .fixed-width .el-button--mini {
-	color: #409EFF;
 	padding-left: 0;
 	padding-right: 0;
 	width: inherit;
@@ -175,6 +174,12 @@
   background-color: #20B2AA;
   border-color: #20B2AA;
   color: #FFFFFF;
+}
+
+/* submenu item */
+.el-menu--horizontal > .el-submenu .el-submenu__title {
+	height: 50px !important;
+	line-height: 50px !important;
 }
 
 /* text color */
