@@ -21,6 +21,13 @@ service.interceptors.request.use(config => {
   if (getToken() && !isToken) {
     config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
   }
+
+  // get请求防止浏览器缓存
+  if (config.method === 'get') { //判断get请求
+    config.params  =  config.params || {};
+    config.params.t = Date.parse(new Date())/1000; //添加时间戳
+  }
+
   // get请求映射params参数
   if (config.method === 'get' && config.params) {
     let url = config.url + '?';
