@@ -36,6 +36,7 @@
         <minio.version>8.0.3</minio.version>
 		<poi.version>4.1.2</poi.version>
         <common-pool.version>2.6.2</common-pool.version>
+        <redisson.version>3.14.1</redisson.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -218,6 +219,13 @@
                 <groupId>com.ruoyi</groupId>
                 <artifactId>ruoyi-api-system</artifactId>
                 <version>${ruoyi.version}</version>
+            </dependency>
+
+            <!-- Redisson锁 -->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>3.14.0</version>
             </dependency>
 			
         </dependencies>
