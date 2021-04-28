@@ -96,10 +96,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="columnType != null and columnType != ''">column_type = #{columnType},</if>
             <if test="javaType != null and javaType != ''">java_type = #{javaType},</if>
             <if test="javaField != null and javaField != ''">java_field = #{javaField},</if>
-            <if test="isInsert != null and isInsert != ''">is_insert = #{isInsert},</if>
-            <if test="isEdit != null and isEdit != ''">is_edit = #{isEdit},</if>
-            <if test="isList != null and isList != ''">is_list = #{isList},</if>
-            <if test="isQuery != null and isQuery != ''">is_query = #{isQuery},</if>
+            <if test="isInsert != ''">is_insert = #{isInsert},</if>
+            <if test="isEdit != ''">is_edit = #{isEdit},</if>
+            <if test="isList != ''">is_list = #{isList},</if>
+            <if test="isQuery != ''">is_query = #{isQuery},</if>
             <if test="isRequired != null and isRequired != ''"> is_required = #{isRequired},</if>
             <if test="queryType != null and queryType != ''"> query_type = #{queryType},</if>
             <if test="htmlType != null and htmlType != ''"> html_type = #{htmlType},</if>
