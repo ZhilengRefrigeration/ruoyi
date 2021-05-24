@@ -22,6 +22,7 @@
         <spring-cloud-alibaba.version>2.2.5.RELEASE</spring-cloud-alibaba.version>
 		<spring-boot-admin.version>2.3.1</spring-boot-admin.version>
         <spring-boot.mybatis>2.1.4</spring-boot.mybatis>
+        <spring-boot.mybatisplus>3.4.3</spring-boot.mybatisplus>
         <spring-boot.mavenplugin.version>2.3.0.RELEASE</spring-boot.mavenplugin.version>
         <swagger.fox.version>2.9.2</swagger.fox.version>
         <swagger.core.version>1.5.24</swagger.core.version>
@@ -37,6 +38,7 @@
         <minio.version>8.0.3</minio.version>
 		<poi.version>4.1.2</poi.version>
         <common-pool.version>2.6.2</common-pool.version>
+        <lombok.version>1.18.20</lombok.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -85,10 +87,15 @@
             </dependency>
 			
             <!-- Mybatis 依赖配置 -->
+<!--            <dependency>-->
+<!--                <groupId>org.mybatis.spring.boot</groupId>-->
+<!--                <artifactId>mybatis-spring-boot-starter</artifactId>-->
+<!--                <version>${spring-boot.mybatis}</version>-->
+<!--            </dependency>-->
             <dependency>
-                <groupId>org.mybatis.spring.boot</groupId>
-                <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>${spring-boot.mybatis}</version>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${spring-boot.mybatisplus}</version>
             </dependency>
 			
             <!-- Swagger 依赖配置 -->
@@ -156,6 +163,13 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
+            </dependency>
+
+            <!-- lombok -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
             </dependency>
             
             <!-- 公共资源池 -->
@@ -235,7 +249,7 @@
     <packaging>pom</packaging>
 
     <dependencies>
-        
+
     </dependencies>
 
     <build>
