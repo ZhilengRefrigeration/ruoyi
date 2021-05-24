@@ -2,14 +2,16 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ruoyi.system.api.domain.SysRole;
+import com.ruoyi.system.domain.SysConfig;
 
 /**
  * 角色表 数据层
  * 
  * @author ruoyi
  */
-public interface SysRoleMapper
+public interface SysRoleMapper extends BaseMapper<SysRole>
 {
     /**
      * 根据条件分页查询角色数据

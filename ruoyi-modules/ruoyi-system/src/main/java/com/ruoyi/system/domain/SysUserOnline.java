@@ -1,6 +1,8 @@
 package com.ruoyi.system.domain;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  * 当前在线会话
@@ -8,6 +10,8 @@ import lombok.Data;
  * @author ruoyi
  */
 @Data
+@NoArgsConstructor
+@Accessors(chain = true)
 public class SysUserOnline
 {
     /** 会话编号 */
