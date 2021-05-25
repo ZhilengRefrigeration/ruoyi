@@ -18,7 +18,7 @@ public interface SysOperLogMapper extends BaseMapper<SysOperLog>
      * 
      * @param operLog 操作日志对象
      */
-    public int insertOperlog(SysOperLog operLog);
+    int insertOperlog(SysOperLog operLog);
 
     /**
      * 查询系统操作日志集合
@@ -26,7 +26,7 @@ public interface SysOperLogMapper extends BaseMapper<SysOperLog>
      * @param operLog 操作日志对象
      * @return 操作日志集合
      */
-    public List<SysOperLog> selectOperLogList(SysOperLog operLog);
+    List<SysOperLog> selectOperLogList(SysOperLog operLog);
 
     /**
      * 批量删除系统操作日志
@@ -34,7 +34,7 @@ public interface SysOperLogMapper extends BaseMapper<SysOperLog>
      * @param operIds 需要删除的操作日志ID
      * @return 结果
      */
-    public int deleteOperLogByIds(Long[] operIds);
+    int deleteOperLogByIds(Long[] operIds);
 
     /**
      * 查询操作日志详细
@@ -42,10 +42,10 @@ public interface SysOperLogMapper extends BaseMapper<SysOperLog>
      * @param operId 操作ID
      * @return 操作日志对象
      */
-    public SysOperLog selectOperLogById(Long operId);
+    SysOperLog selectOperLogById(Long operId);
 
     /**
      * 清空操作日志
      */
-    public void cleanOperLog();
+    void cleanOperLog();
 }

@@ -13,6 +13,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.ruoyi.common.core.web.domain.BaseEntity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +27,7 @@ import java.util.Map;
 @NoArgsConstructor
 @Accessors(chain = true)
 @TableName("sys_notice")
-public class SysNotice extends BaseEntity {
+public class SysNotice  implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
