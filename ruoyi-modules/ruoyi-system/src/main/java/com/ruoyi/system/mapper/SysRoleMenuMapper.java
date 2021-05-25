@@ -2,6 +2,8 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.ruoyi.system.domain.SysConfig;
 import com.ruoyi.system.domain.SysRoleMenu;
 
 /**
@@ -9,7 +11,7 @@ import com.ruoyi.system.domain.SysRoleMenu;
  * 
  * @author ruoyi
  */
-public interface SysRoleMenuMapper
+public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu>
 {
     /**
      * 查询菜单使用数量
@@ -17,7 +19,7 @@ public interface SysRoleMenuMapper
      * @param menuId 菜单ID
      * @return 结果
      */
-    public int checkMenuExistRole(Long menuId);
+    int checkMenuExistRole(Long menuId);
 
     /**
      * 通过角色ID删除角色和菜单关联
@@ -25,7 +27,7 @@ public interface SysRoleMenuMapper
      * @param roleId 角色ID
      * @return 结果
      */
-    public int deleteRoleMenuByRoleId(Long roleId);
+    int deleteRoleMenuByRoleId(Long roleId);
 
     /**
      * 批量删除角色菜单关联信息
@@ -33,7 +35,7 @@ public interface SysRoleMenuMapper
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-    public int deleteRoleMenu(Long[] ids);
+    int deleteRoleMenu(Long[] ids);
 
     /**
      * 批量新增角色菜单信息
@@ -41,5 +43,5 @@ public interface SysRoleMenuMapper
      * @param roleMenuList 角色菜单列表
      * @return 结果
      */
-    public int batchRoleMenu(List<SysRoleMenu> roleMenuList);
+    int batchRoleMenu(List<SysRoleMenu> roleMenuList);
 }
