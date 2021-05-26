@@ -11,10 +11,13 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # 复制jar文件到镜像内，名字改为app.jar
 ADD /target/*.jar app.jar
 
+# 默认dev环境
+ENV PROFILES_ACTIVE = dev
+# JVM运行参数
 ENV JAVA_OPTS="-Xmx64M -Xms64M"
 
 # 启动容器时的进程
-ENTRYPOINT  java ${JAVA_OPTS} -jar /app.jar
+ENTRYPOINT java ${JAVA_OPTS} -Dspring.profiles.active=${PROFILES_ACTIVE} -jar /app.jar
 
 # 暴露接口
 EXPOSE 8080
