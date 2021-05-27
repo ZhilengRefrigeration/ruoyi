@@ -1,0 +1,23 @@
+# Spring
+spring: 
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: 127.0.0.1:8848
+        # 命名空间
+        namespace: 3c2c4ab9-82b7-4fcb-acdb-84b629748be3
+      config:
+        # 配置中心地址
+        server-addr: 127.0.0.1:8848
+        # 命名空间
+        namespace: 3c2c4ab9-82b7-4fcb-acdb-84b629748be3
+    sentinel:
+      transport:
+        # 控制台地址
+        dashboard: 127.0.0.1:8858
+      # nacos配置持久化
+      datasource:
+        ds1:
+          nacos:
+            server-addr: 127.0.0.1:8848

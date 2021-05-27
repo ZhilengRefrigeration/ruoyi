@@ -1,0 +1,14 @@
+# Spring
+spring: 
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: 127.0.0.1:8848
+        # 命名空间
+        namespace: ff22377b-5e87-4e33-be1d-43e0feecad0d
+      config:
+        # 配置中心地址
+        server-addr: 127.0.0.1:8848
+        # 命名空间
+        namespace: ff22377b-5e87-4e33-be1d-43e0feecad0d
