@@ -28,15 +28,15 @@ cd ./ruoyi-file
 call docker build -t ruoyi-file:%version% .
 
 echo [信息] 创建[ruoyi-gen:%version%]镜像
-cd ./ruoyi-gen
+cd ../ruoyi-gen
 call docker build -t ruoyi-gen:%version% .
 
 echo [信息] 创建[ruoyi-job:%version%]镜像
-cd ./ruoyi-job
+cd ../ruoyi-job
 call docker build -t ruoyi-job:%version% .
 
 echo [信息] 创建[ruoyi-system:%version%]镜像
-cd ./ruoyi-system
+cd ../ruoyi-system
 call docker build -t ruoyi-system:%version% .
 
 pause
