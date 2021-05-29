@@ -18,7 +18,7 @@
           <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
         </el-input>
       </el-form-item>
-      <el-form-item prop="code">
+      <el-form-item prop="code" v-if="this.captchaEnabled">
         <el-input
           v-model="loginForm.code"
           auto-complete="off"
@@ -81,7 +81,8 @@ export default {
         code: [{ required: true, trigger: "change", message: "验证码不能为空" }]
       },
       loading: false,
-      redirect: undefined
+      redirect: undefined,
+      captchaEnabled: this.$store.state.settings.captchaEnabled
     };
   },
   watch: {
@@ -93,7 +94,9 @@ export default {
     }
   },
   created() {
-    this.getCode();
+    if (this.captchaEnabled){
+      this.getCode();
+    }
     this.getCookie();
   },
   methods: {

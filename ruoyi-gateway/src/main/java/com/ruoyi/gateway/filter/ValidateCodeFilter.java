@@ -4,6 +4,7 @@ import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicReference;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -36,6 +37,9 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
 
     private static final String UUID = "uuid";
 
+    @Value("${ruoyi.captchaEnabled}")
+    private boolean captchaEnabled;
+
     @Override
     public GatewayFilter apply(Object config)
     {
@@ -48,18 +52,17 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
                 return chain.filter(exchange);
             }
 
-            try
-            {
-                String rspStr = resolveBodyFromRequest(request);
-                JSONObject obj = JSONObject.parseObject(rspStr);
-                validateCodeService.checkCapcha(obj.getString(CODE), obj.getString(UUID));
-            }
-            catch (Exception e)
-            {
-                ServerHttpResponse response = exchange.getResponse();
-                response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
-                return exchange.getResponse().writeWith(
-                        Mono.just(response.bufferFactory().wrap(JSON.toJSONBytes(AjaxResult.error(e.getMessage())))));
+            if (captchaEnabled) {
+                try {
+                    String rspStr = resolveBodyFromRequest(request);
+                    JSONObject obj = JSONObject.parseObject(rspStr);
+                    validateCodeService.checkCapcha(obj.getString(CODE), obj.getString(UUID));
+                } catch (Exception e) {
+                    ServerHttpResponse response = exchange.getResponse();
+                    response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
+                    return exchange.getResponse().writeWith(
+                            Mono.just(response.bufferFactory().wrap(JSON.toJSONBytes(AjaxResult.error(e.getMessage())))));
+                }
             }
             return chain.filter(exchange);
         };
