@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ruoyi.common.core.constant.DataScopeConstants;
+import com.ruoyi.common.core.utils.StringUtils;
 
 /**
  * Entity基类
@@ -109,6 +111,10 @@ public class BaseEntity implements Serializable
 
     public void setParams(Map<String, Object> params)
     {
+        /** 拼接权限sql前先清空params.dataScope参数防止注入 */
+        if(StringUtils.isNotNull(params.get(DataScopeConstants.DATA_SCOPE))){
+            params.remove(DataScopeConstants.DATA_SCOPE);
+        }
         this.params = params;
     }
 }

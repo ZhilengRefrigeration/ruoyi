@@ -1,6 +1,8 @@
 package com.ruoyi.common.datascope.aspect;
 
 import java.lang.reflect.Method;
+
+import com.ruoyi.common.core.constant.DataScopeConstants;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Aspect;
@@ -26,36 +28,6 @@ import com.ruoyi.system.api.model.LoginUser;
 @Component
 public class DataScopeAspect
 {
-    /**
-     * 全部数据权限
-     */
-    public static final String DATA_SCOPE_ALL = "1";
-
-    /**
-     * 自定数据权限
-     */
-    public static final String DATA_SCOPE_CUSTOM = "2";
-
-    /**
-     * 部门数据权限
-     */
-    public static final String DATA_SCOPE_DEPT = "3";
-
-    /**
-     * 部门及以下数据权限
-     */
-    public static final String DATA_SCOPE_DEPT_AND_CHILD = "4";
-
-    /**
-     * 仅本人数据权限
-     */
-    public static final String DATA_SCOPE_SELF = "5";
-
-    /**
-     * 数据权限过滤关键字
-     */
-    public static final String DATA_SCOPE = "dataScope";
-
     @Autowired
     private TokenService tokenService;
 
@@ -68,7 +40,6 @@ public class DataScopeAspect
     @Before("dataScopePointCut()")
     public void doBefore(JoinPoint point) throws Throwable
     {
-        clearDataScope(point);
         handleDataScope(point);
     }
 
@@ -109,28 +80,28 @@ public class DataScopeAspect
         for (SysRole role : user.getRoles())
         {
             String dataScope = role.getDataScope();
-            if (DATA_SCOPE_ALL.equals(dataScope))
+            if (DataScopeConstants.DATA_SCOPE_ALL.equals(dataScope))
             {
                 sqlString = new StringBuilder();
                 break;
             }
-            else if (DATA_SCOPE_CUSTOM.equals(dataScope))
+            else if (DataScopeConstants.DATA_SCOPE_CUSTOM.equals(dataScope))
             {
                 sqlString.append(StringUtils.format(
                         " OR {}.dept_id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id = {} ) ", deptAlias,
                         role.getRoleId()));
             }
-            else if (DATA_SCOPE_DEPT.equals(dataScope))
+            else if (DataScopeConstants.DATA_SCOPE_DEPT.equals(dataScope))
             {
                 sqlString.append(StringUtils.format(" OR {}.dept_id = {} ", deptAlias, user.getDeptId()));
             }
-            else if (DATA_SCOPE_DEPT_AND_CHILD.equals(dataScope))
+            else if (DataScopeConstants.DATA_SCOPE_DEPT_AND_CHILD.equals(dataScope))
             {
                 sqlString.append(StringUtils.format(
                         " OR {}.dept_id IN ( SELECT dept_id FROM sys_dept WHERE dept_id = {} or find_in_set( {} , ancestors ) )",
                         deptAlias, user.getDeptId(), user.getDeptId()));
             }
-            else if (DATA_SCOPE_SELF.equals(dataScope))
+            else if (DataScopeConstants.DATA_SCOPE_SELF.equals(dataScope))
             {
                 if (StringUtils.isNotBlank(userAlias))
                 {
@@ -150,7 +121,7 @@ public class DataScopeAspect
             if (StringUtils.isNotNull(params) && params instanceof BaseEntity)
             {
                 BaseEntity baseEntity = (BaseEntity) params;
-                baseEntity.getParams().put(DATA_SCOPE, " AND (" + sqlString.substring(4) + ")");
+                baseEntity.getParams().put(DataScopeConstants.DATA_SCOPE, " AND (" + sqlString.substring(4) + ")");
             }
         }
     }
@@ -169,18 +140,5 @@ public class DataScopeAspect
             return method.getAnnotation(DataScope.class);
         }
         return null;
-    }
-
-    /**
-     * 拼接权限sql前先清空params.dataScope参数防止注入
-     */
-    private void clearDataScope(final JoinPoint joinPoint)
-    {
-        Object params = joinPoint.getArgs()[0];
-        if (StringUtils.isNotNull(params) && params instanceof BaseEntity)
-        {
-            BaseEntity baseEntity = (BaseEntity) params;
-            baseEntity.getParams().put(DATA_SCOPE, "");
-        }
     }
 }
