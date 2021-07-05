@@ -19,7 +19,7 @@ import com.ruoyi.system.api.model.LoginUser;
 
 /**
  * 数据过滤处理
- * 
+ *
  * @author ruoyi
  */
 @Aspect
@@ -96,7 +96,7 @@ public class DataScopeAspect
 
     /**
      * 数据范围过滤
-     * 
+     *
      * @param joinPoint 切点
      * @param user 用户
      * @param deptAlias 部门别名
@@ -139,7 +139,7 @@ public class DataScopeAspect
                 else
                 {
                     // 数据权限为仅本人且没有userAlias别名不查询任何数据
-                    sqlString.append(" OR 1=0 ");
+                    sqlString.append(StringUtils.format(" OR {}.dept_id is null ",deptAlias));
                 }
             }
         }
