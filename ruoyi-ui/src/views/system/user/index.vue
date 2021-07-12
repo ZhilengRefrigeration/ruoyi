@@ -27,7 +27,7 @@
       </el-col>
       <!--用户数据-->
       <el-col :span="20" :xs="24">
-        <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+        <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="70px">
           <el-form-item label="用户名称" prop="userName">
             <el-input
               v-model="queryParams.userName"
@@ -132,6 +132,7 @@
               icon="el-icon-download"
               size="mini"
               @click="handleExport"
+              :loading="exportLoading"
               v-hasPermi="['system:user:export']"
             >导出</el-button>
           </el-col>
@@ -208,7 +209,7 @@
 
     <!-- 添加或修改参数配置对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" v-loading="dialogLoading" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="12">
             <el-form-item label="用户昵称" prop="nickName">
@@ -307,7 +308,7 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button type="primary" @click="submitForm" :loading="submitLoading">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
@@ -323,6 +324,7 @@
         :disabled="upload.isUploading"
         :on-progress="handleFileUploadProgress"
         :on-success="handleFileSuccess"
+        :on-error="handleFileError"
         :auto-upload="false"
         drag
       >
@@ -338,7 +340,7 @@
         <div class="el-upload__tip" style="color:red" slot="tip">提示：仅允许导入“xls”或“xlsx”格式文件！</div>
       </el-upload>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitFileForm">确 定</el-button>
+        <el-button type="primary" @click="submitFileForm" :loading="importLoading">确 定</el-button>
         <el-button @click="upload.open = false">取 消</el-button>
       </div>
     </el-dialog>
@@ -351,6 +353,7 @@ import { getToken } from "@/utils/auth";
 import { treeselect } from "@/api/system/dept";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+import {authUserCancelAll} from "@/api/system/role";
 
 export default {
   name: "User",
@@ -457,7 +460,15 @@ export default {
             trigger: "blur"
           }
         ]
-      }
+      },
+      //添加修改弹框加载中
+      dialogLoading: false,
+      //提交表单加载中
+      submitLoading: false,
+      //导出表单加载中
+      exportLoading: false,
+      //导入表单加载中
+      importLoading: false
     };
   },
   watch: {
@@ -484,11 +495,14 @@ export default {
     getList() {
       this.loading = true;
       listUser(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
-          this.userList = response.rows;
-          this.total = response.total;
-          this.loading = false;
+        let currentPageNum = response.total / this.queryParams.pageSize;
+        if(this.queryParams.pageNum > currentPageNum){
+          this.queryParams.pageNum = currentPageNum;
         }
-      );
+        this.userList = response.rows;
+        this.total = response.total;
+        this.loading = false;
+      });
     },
     /** 查询部门下拉树结构 */
     getTreeselect() {
@@ -509,17 +523,29 @@ export default {
     // 用户状态修改
     handleStatusChange(row) {
       let text = row.status === "0" ? "启用" : "停用";
-      this.$confirm('确认要"' + text + '""' + row.userName + '"用户吗?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return changeUserStatus(row.userId, row.status);
-        }).then(() => {
-          this.msgSuccess(text + "成功");
-        }).catch(function() {
-          row.status = row.status === "0" ? "1" : "0";
-        });
+      this.$msgbox({
+        title: '警告',
+        message: '确认要"' + text + '""' + row.userName + '"用户吗?',
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            instance.confirmButtonLoading = true;
+            instance.confirmButtonText = text + '中...';
+            changeUserStatus(row.userId, row.status).then(() => {
+              this.msgSuccess(text + "成功");
+            }).catch(()=>{}).finally(()=>{
+              done();
+              instance.confirmButtonLoading = false;
+            });
+          } else {
+            row.status = row.status === "0" ? "1" : "0";
+            done();
+          }
+        }
+      });
     },
     // 取消按钮
     cancel() {
@@ -578,12 +604,17 @@ export default {
     handleAdd() {
       this.reset();
       this.getTreeselect();
+      this.title = "添加用户";
+      this.open = true;
+      this.submitLoading = true;
+      this.dialogLoading = true;
       getUser().then(response => {
         this.postOptions = response.posts;
         this.roleOptions = response.roles;
-        this.open = true;
-        this.title = "添加用户";
         this.form.password = this.initPassword;
+      }).finally(()=>{
+        this.dialogLoading = false;
+        this.submitLoading = false;
       });
     },
     /** 修改按钮操作 */
@@ -591,15 +622,20 @@ export default {
       this.reset();
       this.getTreeselect();
       const userId = row.userId || this.ids;
+      this.title = "修改用户";
+      this.open = true;
+      this.submitLoading = true;
+      this.dialogLoading = true;
       getUser(userId).then(response => {
         this.form = response.data;
         this.postOptions = response.posts;
         this.roleOptions = response.roles;
         this.form.postIds = response.postIds;
         this.form.roleIds = response.roleIds;
-        this.open = true;
-        this.title = "修改用户";
         this.form.password = "";
+      }).finally(()=>{
+        this.dialogLoading = false;
+        this.submitLoading = false;
       });
     },
     /** 重置密码按钮操作 */
@@ -625,17 +661,22 @@ export default {
     submitForm: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          if (this.form.userId != undefined) {
+          this.submitLoading = true;
+          if (this.form.userId !== undefined) {
             updateUser(this.form).then(response => {
               this.msgSuccess("修改成功");
               this.open = false;
               this.getList();
+            }).finally(() => {
+              this.submitLoading = false;
             });
           } else {
             addUser(this.form).then(response => {
               this.msgSuccess("新增成功");
               this.open = false;
               this.getList();
+            }).finally(() => {
+              this.submitLoading = false;
             });
           }
         }
@@ -657,9 +698,14 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
+      this.exportLoading = true;
       this.download('system/user/export', {
         ...this.queryParams
-      }, `user_${new Date().getTime()}.xlsx`)
+      }, `user_${new Date().getTime()}.xlsx`).then(()=>{
+
+      }).finally(()=>{
+        this.exportLoading = false;
+      });
     },
     /** 导入按钮操作 */
     handleImport() {
@@ -680,12 +726,19 @@ export default {
     handleFileSuccess(response, file, fileList) {
       this.upload.open = false;
       this.upload.isUploading = false;
+      this.importLoading = false;
       this.$refs.upload.clearFiles();
       this.$alert(response.msg, "导入结果", { dangerouslyUseHTMLString: true });
       this.getList();
     },
+    // 文件上传错误处理
+    handleFileError(err, file, fileList) {
+      this.upload.isUploading = false;
+      this.importLoading = false;
+    },
     // 提交上传文件
     submitFileForm() {
+      this.importLoading = true;
       this.$refs.upload.submit();
     }
   }

@@ -10,7 +10,7 @@
       <el-input v-model="user.confirmPassword" placeholder="请确认密码" type="password" />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" size="mini" @click="submit">保存</el-button>
+      <el-button type="primary" size="mini" @click="submit" :loading="resetPwdLoading">保存</el-button>
       <el-button type="danger" size="mini" @click="close">关闭</el-button>
     </el-form-item>
   </el-form>
@@ -48,18 +48,30 @@ export default {
           { required: true, message: "确认密码不能为空", trigger: "blur" },
           { required: true, validator: equalToPassword, trigger: "blur" }
         ]
-      }
+      },
+      resetPwdLoading: false
     };
   },
   methods: {
+    reset() {
+      this.user = {
+        oldPassword: undefined,
+        newPassword: undefined,
+        confirmPassword: undefined
+      }
+    },
     submit() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.resetPwdLoading = true;
           updateUserPwd(this.user.oldPassword, this.user.newPassword).then(
             response => {
               this.msgSuccess("修改成功");
+              this.reset();
             }
-          );
+          ).finally(() => {
+            this.resetPwdLoading = false;
+          });
         }
       });
     },

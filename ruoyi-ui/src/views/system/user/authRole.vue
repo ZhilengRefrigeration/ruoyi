@@ -33,12 +33,12 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination v-show="total>0" :total="total" :page.sync="pageNum" :limit.sync="pageSize" />
 
     <el-form label-width="100px">
       <el-form-item style="text-align: center;margin-left:-120px;margin-top:30px;">
-        <el-button type="primary" @click="submitForm()">提交</el-button>
+        <el-button type="primary" @click="submitForm()" :loading="submitLoading">提交</el-button>
         <el-button @click="close()">返回</el-button>
       </el-form-item>
     </el-form>
@@ -63,7 +63,9 @@ export default {
       // 角色信息
       roles: [],
       // 用户信息
-      form: {}
+      form: {},
+      //提交表单加载中
+      submitLoading: false
     };
   },
   created() {
@@ -102,9 +104,12 @@ export default {
     submitForm() {
       const userId = this.form.userId;
       const roleIds = this.roleIds.join(",");
+      this.submitLoading = true;
       updateAuthRole({ userId: userId, roleIds: roleIds }).then((response) => {
         this.msgSuccess("授权成功");
         this.close();
+      }).finally(()=>{
+        this.submitLoading = false;
       });
     },
     /** 关闭按钮 */

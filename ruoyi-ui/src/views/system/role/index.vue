@@ -95,6 +95,7 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
+          :loading="exportLoading"
           v-hasPermi="['system:role:export']"
         >导出</el-button>
       </el-col>
@@ -163,7 +164,7 @@
 
     <!-- 添加或修改角色配置对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" v-loading="dialogLoading" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="角色名称" prop="roleName">
           <el-input v-model="form.roleName" placeholder="请输入角色名称" />
         </el-form-item>
@@ -202,14 +203,14 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button type="primary" @click="submitForm" :loading="submitLoading">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
 
     <!-- 分配角色数据权限对话框 -->
     <el-dialog :title="title" :visible.sync="openDataScope" width="500px" append-to-body>
-      <el-form :model="form" label-width="80px">
+      <el-form v-loading="dialogLoading" :model="form" label-width="80px">
         <el-form-item label="角色名称">
           <el-input v-model="form.roleName" :disabled="true" />
         </el-form-item>
@@ -244,7 +245,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitDataScope">确 定</el-button>
+        <el-button type="primary" @click="submitDataScope" :loading="submitLoading">确 定</el-button>
         <el-button @click="cancelDataScope">取 消</el-button>
       </div>
     </el-dialog>
@@ -340,7 +341,13 @@ export default {
         roleSort: [
           { required: true, message: "角色顺序不能为空", trigger: "blur" }
         ]
-      }
+      },
+      //添加修改弹框加载中
+      dialogLoading: false,
+      //提交表单加载中
+      submitLoading: false,
+      //导出表单加载中
+      exportLoading: false,
     };
   },
   created() {
@@ -355,6 +362,10 @@ export default {
       this.loading = true;
       listRole(this.addDateRange(this.queryParams, this.dateRange)).then(
         response => {
+          let currentPageNum = response.total / this.queryParams.pageSize;
+          if(this.queryParams.pageNum > currentPageNum){
+            this.queryParams.pageNum = currentPageNum;
+          }
           this.roleList = response.rows;
           this.total = response.total;
           this.loading = false;
@@ -408,17 +419,29 @@ export default {
     // 角色状态修改
     handleStatusChange(row) {
       let text = row.status === "0" ? "启用" : "停用";
-      this.$confirm('确认要"' + text + '""' + row.roleName + '"角色吗?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return changeRoleStatus(row.roleId, row.status);
-        }).then(() => {
-          this.msgSuccess(text + "成功");
-        }).catch(function() {
-          row.status = row.status === "0" ? "1" : "0";
-        });
+      this.$msgbox({
+        title: '警告',
+        message: '确认要"' + text + '""' + row.roleName + '"角色吗?',
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            instance.confirmButtonLoading = true;
+            instance.confirmButtonText = text + '中...';
+            changeRoleStatus(row.roleId, row.status).then(() => {
+              this.msgSuccess(text + "成功");
+            }).catch(()=>{}).finally(()=>{
+              done();
+              instance.confirmButtonLoading = false;
+            });
+          } else {
+            row.status = row.status === "0" ? "1" : "0";
+            done();
+          }
+        }
+      });
     },
     // 取消按钮
     cancel() {
@@ -523,11 +546,14 @@ export default {
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
+      this.title = "修改角色";
+      this.open = true;
+      this.submitLoading = true;
+      this.dialogLoading = true;
       const roleId = row.roleId || this.ids
       const roleMenu = this.getRoleMenuTreeselect(roleId);
       getRole(roleId).then(response => {
         this.form = response.data;
-        this.open = true;
         this.$nextTick(() => {
           roleMenu.then(res => {
             let checkedKeys = res.checkedKeys
@@ -538,7 +564,9 @@ export default {
             })
           });
         });
-        this.title = "修改角色";
+      }).finally(()=>{
+        this.submitLoading = false;
+        this.dialogLoading = false;
       });
     },
     /** 选择角色权限范围触发 */
@@ -550,16 +578,21 @@ export default {
     /** 分配数据权限操作 */
     handleDataScope(row) {
       this.reset();
+      this.title = "分配数据权限";
+      this.openDataScope = true;
+      this.submitLoading = true;
+      this.dialogLoading = true;
       const roleDeptTreeselect = this.getRoleDeptTreeselect(row.roleId);
       getRole(row.roleId).then(response => {
         this.form = response.data;
-        this.openDataScope = true;
         this.$nextTick(() => {
           roleDeptTreeselect.then(res => {
             this.$refs.dept.setCheckedKeys(res.checkedKeys);
           });
         });
-        this.title = "分配数据权限";
+      }).finally(()=>{
+        this.submitLoading = false;
+        this.dialogLoading = false;
       });
     },
     /** 分配用户操作 */
@@ -571,12 +604,15 @@ export default {
     submitForm: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.submitLoading = true;
           if (this.form.roleId != undefined) {
             this.form.menuIds = this.getMenuAllCheckedKeys();
             updateRole(this.form).then(response => {
               this.msgSuccess("修改成功");
               this.open = false;
               this.getList();
+            }).finally(() => {
+              this.submitLoading = false;
             });
           } else {
             this.form.menuIds = this.getMenuAllCheckedKeys();
@@ -584,6 +620,8 @@ export default {
               this.msgSuccess("新增成功");
               this.open = false;
               this.getList();
+            }).finally(() => {
+              this.submitLoading = false;
             });
           }
         }
@@ -592,33 +630,54 @@ export default {
     /** 提交按钮（数据权限） */
     submitDataScope: function() {
       if (this.form.roleId != undefined) {
+        this.submitLoading = true;
         this.form.deptIds = this.getDeptAllCheckedKeys();
         dataScope(this.form).then(response => {
           this.msgSuccess("修改成功");
           this.openDataScope = false;
           this.getList();
+        }).finally(() => {
+          this.submitLoading = false;
         });
       }
     },
     /** 删除按钮操作 */
     handleDelete(row) {
       const roleIds = row.roleId || this.ids;
-      this.$confirm('是否确认删除角色编号为"' + roleIds + '"的数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delRole(roleIds);
-        }).then(() => {
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(() => {});
+      this.$msgbox({
+        title: '警告',
+        message: '是否确认删除角色编号为"' + roleIds + '"的数据项?',
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            instance.confirmButtonLoading = true;
+            instance.confirmButtonText = '删除中...';
+            delRole(roleIds).then(() => {
+              this.getList();
+              this.msgSuccess("删除成功");
+            }).catch(()=>{}).finally(()=>{
+              done();
+              instance.confirmButtonLoading = false;
+            });
+          } else {
+            done();
+          }
+        }
+      });
     },
     /** 导出按钮操作 */
     handleExport() {
+      this.exportLoading = true;
       this.download('system/role/export', {
         ...this.queryParams
-      }, `role_${new Date().getTime()}.xlsx`)
+      }, `role_${new Date().getTime()}.xlsx`).then(()=>{
+
+      }).finally(()=>{
+        this.exportLoading = false;
+      });
     }
   }
 };

@@ -102,7 +102,7 @@
 </template>
 
 <script>
-import { allocatedUserList, authUserCancel, authUserCancelAll } from "@/api/system/role";
+import {allocatedUserList, authUserCancel, authUserCancelAll, changeRoleStatus} from "@/api/system/role";
 import selectUser from "./selectUser";
 
 export default {
@@ -149,11 +149,14 @@ export default {
     getList() {
       this.loading = true;
       allocatedUserList(this.queryParams).then(response => {
-          this.userList = response.rows;
-          this.total = response.total;
-          this.loading = false;
+        let currentPageNum = response.total / this.queryParams.pageSize;
+        if(this.queryParams.pageNum > currentPageNum){
+          this.queryParams.pageNum = currentPageNum;
         }
-      );
+        this.userList = response.rows;
+        this.total = response.total;
+        this.loading = false;
+      });
     },
     // 返回按钮
     handleClose() {
@@ -182,31 +185,56 @@ export default {
     /** 取消授权按钮操作 */
     cancelAuthUser(row) {
       const roleId = this.queryParams.roleId;
-      this.$confirm('确认要取消该用户"' + row.userName + '"角色吗？', "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      }).then(function() {
-        return authUserCancel({ userId: row.userId, roleId: roleId });
-      }).then(() => {
-        this.getList();
-        this.msgSuccess("取消授权成功");
-      }).catch(() => {});
+      this.$msgbox({
+        title: '警告',
+        message: '确认要取消该用户"' + row.userName + '"角色吗？',
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            instance.confirmButtonLoading = true;
+            instance.confirmButtonText = '取消中...';
+            authUserCancel({ userId: row.userId, roleId: roleId }).then(() => {
+              this.getList();
+              this.msgSuccess("取消授权成功");
+            }).catch(()=>{}).finally(()=>{
+              done();
+              instance.confirmButtonLoading = false;
+            });
+          } else {
+            done();
+          }
+        }
+      });
     },
     /** 批量取消授权按钮操作 */
     cancelAuthUserAll(row) {
       const roleId = this.queryParams.roleId;
       const userIds = this.userIds.join(",");
-      this.$confirm('是否取消选中用户授权数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-      }).then(() => {
-          return authUserCancelAll({ roleId: roleId, userIds: userIds });
-      }).then(() => {
-        this.getList();
-        this.msgSuccess("取消授权成功");
-      }).catch(() => {});
+      this.$msgbox({
+        title: '警告',
+        message: '是否取消选中用户授权数据项?',
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            instance.confirmButtonLoading = true;
+            instance.confirmButtonText = '取消中...';
+            authUserCancelAll({ roleId: roleId, userIds: userIds }).then(() => {
+              instance.confirmButtonLoading = false;
+              done();
+              this.getList();
+              this.msgSuccess("取消授权成功");
+            }).catch(()=>{})
+          } else {
+            done();
+          }
+        }
+      });
     }
   }
 };

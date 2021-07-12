@@ -63,16 +63,16 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" 
-            type="text" 
-            icon="el-icon-edit" 
+          <el-button size="mini"
+            type="text"
+            icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['system:menu:edit']"
           >修改</el-button>
-          <el-button 
-            size="mini" 
-            type="text" 
-            icon="el-icon-plus" 
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-plus"
             @click="handleAdd(scope.row)"
             v-hasPermi="['system:menu:add']"
           >新增</el-button>
@@ -89,7 +89,7 @@
 
     <!-- 添加或修改菜单对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" v-loading="dialogLoading" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="24">
             <el-form-item label="上级菜单">
@@ -199,7 +199,7 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button type="primary" @click="submitForm" :loading="submitLoading">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
@@ -211,6 +211,7 @@ import { listMenu, getMenu, delMenu, addMenu, updateMenu } from "@/api/system/me
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 import IconSelect from "@/components/IconSelect";
+import {authUserCancelAll} from "@/api/system/role";
 
 export default {
   name: "Menu",
@@ -251,7 +252,11 @@ export default {
         path: [
           { required: true, message: "路由地址不能为空", trigger: "blur" }
         ]
-      }
+      },
+      //添加修改弹框加载中
+      dialogLoading: false,
+      //提交表单加载中
+      submitLoading: false,
     };
   },
   created() {
@@ -356,27 +361,37 @@ export default {
     handleUpdate(row) {
       this.reset();
       this.getTreeselect();
+      this.title = "修改菜单";
+      this.open = true;
+      this.dialogLoading = true;
+      this.submitLoading = true;
       getMenu(row.menuId).then(response => {
         this.form = response.data;
-        this.open = true;
-        this.title = "修改菜单";
+      }).finally(()=>{
+        this.dialogLoading = false;
+        this.submitLoading = false;
       });
     },
     /** 提交按钮 */
     submitForm: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.submitLoading = true;
           if (this.form.menuId != undefined) {
             updateMenu(this.form).then(response => {
               this.msgSuccess("修改成功");
               this.open = false;
               this.getList();
+            }).finally(()=>{
+              this.submitLoading = false;
             });
           } else {
             addMenu(this.form).then(response => {
               this.msgSuccess("新增成功");
               this.open = false;
               this.getList();
+            }).finally(()=>{
+              this.submitLoading = false;
             });
           }
         }
@@ -384,16 +399,29 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      this.$confirm('是否确认删除名称为"' + row.menuName + '"的数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delMenu(row.menuId);
-        }).then(() => {
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(() => {});
+      this.$msgbox({
+        title: '警告',
+        message: '是否确认删除名称为"' + row.menuName + '"的数据项?',
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            instance.confirmButtonLoading = true;
+            instance.confirmButtonText = '删除中...';
+            delMenu(row.menuId).then(() => {
+              this.getList();
+              this.msgSuccess("删除成功");
+            }).catch(()=>{}).finally(()=>{
+              done();
+              instance.confirmButtonLoading = false;
+            });
+          } else {
+            done();
+          }
+        }
+      });
     }
   }
 };

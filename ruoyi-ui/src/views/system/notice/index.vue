@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="70px">
       <el-form-item label="公告标题" prop="noticeTitle">
         <el-input
           v-model="queryParams.noticeTitle"
@@ -130,7 +130,7 @@
 
     <!-- 添加或修改公告对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="780px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" v-loading="dialogLoading" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="12">
             <el-form-item label="公告标题" prop="noticeTitle">
@@ -168,7 +168,7 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button type="primary" @click="submitForm" :loading="submitLoading">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
@@ -178,6 +178,7 @@
 <script>
 import { listNotice, getNotice, delNotice, addNotice, updateNotice, exportNotice } from "@/api/system/notice";
 import Editor from '@/components/Editor';
+import {delConfig} from "@/api/system/config";
 
 export default {
   name: "Notice",
@@ -226,7 +227,11 @@ export default {
         noticeType: [
           { required: true, message: "公告类型不能为空", trigger: "change" }
         ]
-      }
+      },
+      //添加修改弹框加载中
+      dialogLoading: false,
+      //提交表单加载中
+      submitLoading: false,
     };
   },
   created() {
@@ -243,6 +248,10 @@ export default {
     getList() {
       this.loading = true;
       listNotice(this.queryParams).then(response => {
+        let currentPageNum = response.total / this.queryParams.pageSize;
+        if(this.queryParams.pageNum > currentPageNum){
+          this.queryParams.pageNum = currentPageNum;
+        }
         this.noticeList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -291,34 +300,44 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
-      this.open = true;
       this.title = "添加公告";
+      this.open = true;
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const noticeId = row.noticeId || this.ids
+      this.title = "修改公告";
+      this.open = true;
+      this.dialogLoading = true;
+      this.submitLoading = true;
       getNotice(noticeId).then(response => {
         this.form = response.data;
-        this.open = true;
-        this.title = "修改公告";
+      }).finally(()=>{
+        this.dialogLoading = false;
+        this.submitLoading = false;
       });
     },
     /** 提交按钮 */
     submitForm: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.submitLoading = true;
           if (this.form.noticeId != undefined) {
             updateNotice(this.form).then(response => {
               this.msgSuccess("修改成功");
               this.open = false;
               this.getList();
+            }).finally(()=>{
+              this.submitLoading = false;
             });
           } else {
             addNotice(this.form).then(response => {
               this.msgSuccess("新增成功");
               this.open = false;
               this.getList();
+            }).finally(()=>{
+              this.submitLoading = false;
             });
           }
         }
@@ -327,16 +346,29 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const noticeIds = row.noticeId || this.ids
-      this.$confirm('是否确认删除公告编号为"' + noticeIds + '"的数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delNotice(noticeIds);
-        }).then(() => {
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(() => {});
+      this.$msgbox({
+        title: '警告',
+        message: '是否确认删除公告编号为"' + noticeIds + '"的数据项?',
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            instance.confirmButtonLoading = true;
+            instance.confirmButtonText =  '删除中...';
+            delNotice(noticeIds).then(() => {
+              this.getList();
+              this.msgSuccess("删除成功");
+            }).catch(()=>{}).finally(()=>{
+              done();
+              instance.confirmButtonLoading = false;
+            });
+          } else {
+            done();
+          }
+        }
+      });
     }
   }
 };
