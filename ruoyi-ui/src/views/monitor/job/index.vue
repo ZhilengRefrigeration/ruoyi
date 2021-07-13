@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="70px">
       <el-form-item label="任务名称" prop="jobName">
         <el-input
           v-model="queryParams.jobName"
@@ -334,6 +334,10 @@ export default {
     getList() {
       this.loading = true;
       listJob(this.queryParams).then(response => {
+        let currentPageNum = response.total / this.queryParams.pageSize;
+        if(this.queryParams.pageNum > currentPageNum){
+          this.queryParams.pageNum = currentPageNum;
+        }
         this.jobList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -393,7 +397,7 @@ export default {
           return changeJobStatus(row.jobId, row.status);
         }).then(() => {
           this.msgSuccess(text + "成功");
-        }).catch(function() {
+        }).catch(()=>{
           row.status = row.status === "0" ? "1" : "0";
         });
     },

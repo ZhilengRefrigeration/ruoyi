@@ -87,6 +87,10 @@ export default {
     getList() {
       listDbTable(this.queryParams).then(res => {
         if (res.code === 200) {
+          let currentPageNum = response.total / this.queryParams.pageSize;
+          if(this.queryParams.pageNum > currentPageNum){
+            this.queryParams.pageNum = currentPageNum;
+          }
           this.dbTableList = res.rows;
           this.total = res.total;
         }

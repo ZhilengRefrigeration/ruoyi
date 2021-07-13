@@ -1,7 +1,7 @@
 <template>
   <!-- 授权用户 -->
   <el-dialog title="选择用户" :visible.sync="visible" width="800px" top="5vh" append-to-body>
-    <el-form :model="queryParams" ref="queryForm" :inline="true">
+    <el-form :model="queryParams" v-loading="dialogLoading" ref="queryForm" :inline="true">
       <el-form-item label="用户名称" prop="userName">
         <el-input
           v-model="queryParams.userName"
@@ -52,7 +52,7 @@
       />
     </el-row>
     <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="handleSelectUser">确 定</el-button>
+      <el-button type="primary" @click="handleSelectUser" :loading="submitLoading">确 定</el-button>
       <el-button @click="visible = false">取 消</el-button>
     </div>
   </el-dialog>
@@ -86,7 +86,11 @@ export default {
         roleId: undefined,
         userName: undefined,
         phonenumber: undefined
-      }
+      },
+      //添加修改弹框加载中
+      dialogLoading: false,
+      //提交表单加载中
+      submitLoading: false,
     };
   },
   created() {
@@ -111,6 +115,10 @@ export default {
     // 查询表数据
     getList() {
       unallocatedUserList(this.queryParams).then(res => {
+        let currentPageNum = response.total / this.queryParams.pageSize;
+        if(this.queryParams.pageNum > currentPageNum){
+          this.queryParams.pageNum = currentPageNum;
+        }
         this.userList = res.rows;
         this.total = res.total;
       });
@@ -127,6 +135,7 @@ export default {
     },
     /** 选择授权用户操作 */
     handleSelectUser() {
+      this.submitLoading = true;
       const roleId = this.queryParams.roleId;
       const userIds = this.userIds.join(",");
       authUserSelectAll({ roleId: roleId, userIds: userIds }).then(res => {
@@ -135,6 +144,8 @@ export default {
           this.visible = false;
           this.$emit("ok");
         }
+      }).finally(()=>{
+        this.submitLoading = false;
       });
     }
   }

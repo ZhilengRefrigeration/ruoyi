@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="70px">
       <el-form-item label="表名称" prop="tableName">
         <el-input
           v-model="queryParams.tableName"
@@ -246,11 +246,14 @@ export default {
     getList() {
       this.loading = true;
       listTable(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
-          this.tableList = response.rows;
-          this.total = response.total;
-          this.loading = false;
+        let currentPageNum = response.total / this.queryParams.pageSize;
+        if(this.queryParams.pageNum > currentPageNum){
+          this.queryParams.pageNum = currentPageNum;
         }
-      );
+        this.tableList = response.rows;
+        this.total = response.total;
+        this.loading = false;
+      });
     },
     /** 搜索按钮操作 */
     handleQuery() {

@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="70px">
       <el-form-item label="登录地址" prop="ipaddr">
         <el-input
           v-model="queryParams.ipaddr"
@@ -90,6 +90,10 @@ export default {
     getList() {
       this.loading = true;
       list(this.queryParams).then(response => {
+        let currentPageNum = response.total / this.queryParams.pageSize;
+        if(this.queryParams.pageNum > currentPageNum){
+          this.queryParams.pageNum = currentPageNum;
+        }
         this.list = response.rows;
         this.total = response.total;
         this.loading = false;

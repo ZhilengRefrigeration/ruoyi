@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="70px">
       <el-form-item label="字典名称" prop="dictName">
         <el-input
           v-model="queryParams.dictName"
@@ -95,6 +95,7 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
+          :loading="exportLoading"
           v-hasPermi="['system:dict:export']"
         >导出</el-button>
       </el-col>
@@ -105,6 +106,7 @@
           icon="el-icon-refresh"
           size="mini"
           @click="handleRefreshCache"
+          :loading="refreshLoading"
           v-hasPermi="['system:dict:remove']"
         >刷新缓存</el-button>
       </el-col>
@@ -163,7 +165,7 @@
 
     <!-- 添加或修改参数配置对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" v-loading="dialogLoading" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="字典名称" prop="dictName">
           <el-input v-model="form.dictName" placeholder="请输入字典名称" />
         </el-form-item>
@@ -184,7 +186,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button type="primary" @click="submitForm" :loading="submitLoading">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
@@ -193,6 +195,7 @@
 
 <script>
 import { listType, getType, delType, addType, updateType, refreshCache } from "@/api/system/dict/type";
+import {delPost} from "@/api/system/post";
 
 export default {
   name: "Dict",
@@ -238,7 +241,15 @@ export default {
         dictType: [
           { required: true, message: "字典类型不能为空", trigger: "blur" }
         ]
-      }
+      },
+      //添加修改弹框加载中
+      dialogLoading: false,
+      //提交表单加载中
+      submitLoading: false,
+      //导出按钮加载中
+      exportLoading: false,
+      //清除缓存加载中
+      refreshLoading: false
     };
   },
   created() {
@@ -252,11 +263,14 @@ export default {
     getList() {
       this.loading = true;
       listType(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
-          this.typeList = response.rows;
-          this.total = response.total;
-          this.loading = false;
+        let currentPageNum = response.total / this.queryParams.pageSize;
+        if(this.queryParams.pageNum > currentPageNum){
+          this.queryParams.pageNum = currentPageNum;
         }
-      );
+        this.typeList = response.rows;
+        this.total = response.total;
+        this.loading = false;
+      });
     },
     // 取消按钮
     cancel() {
@@ -288,8 +302,8 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
-      this.open = true;
       this.title = "添加字典类型";
+      this.open = true;
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
@@ -301,27 +315,37 @@ export default {
     handleUpdate(row) {
       this.reset();
       const dictId = row.dictId || this.ids
+      this.title = "修改字典类型";
+      this.open = true;
+      this.dialogLoading = true;
+      this.submitLoading = true;
       getType(dictId).then(response => {
         this.form = response.data;
-        this.open = true;
-        this.title = "修改字典类型";
+      }).finally(()=>{
+        this.dialogLoading = false;
+        this.submitLoading = false;
       });
     },
     /** 提交按钮 */
     submitForm: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.submitLoading = true;
           if (this.form.dictId != undefined) {
             updateType(this.form).then(response => {
               this.msgSuccess("修改成功");
               this.open = false;
               this.getList();
+            }).finally(()=>{
+              this.submitLoading = false;
             });
           } else {
             addType(this.form).then(response => {
               this.msgSuccess("新增成功");
               this.open = false;
               this.getList();
+            }).finally(()=>{
+              this.submitLoading = false;
             });
           }
         }
@@ -330,27 +354,48 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const dictIds = row.dictId || this.ids;
-      this.$confirm('是否确认删除字典编号为"' + dictIds + '"的数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delType(dictIds);
-        }).then(() => {
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(() => {});
+      this.$msgbox({
+        title: '警告',
+        message: '是否确认删除字典编号为"' + dictIds + '"的数据项?',
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            instance.confirmButtonLoading = true;
+            instance.confirmButtonText =  '删除中...';
+            delType(dictIds).then(() => {
+              this.getList();
+              this.msgSuccess("删除成功");
+            }).catch(()=>{}).finally(()=>{
+              done();
+              instance.confirmButtonLoading = false;
+            });
+          } else {
+            done();
+          }
+        }
+      });
     },
     /** 导出按钮操作 */
     handleExport() {
+      this.exportLoading = true;
       this.download('system/dict/type/export', {
         ...this.queryParams
-      }, `type_${new Date().getTime()}.xlsx`)
+      }, `type_${new Date().getTime()}.xlsx`).then(()=>{
+
+      }).finally(()=>{
+        this.exportLoading = false;
+      });
     },
     /** 刷新缓存按钮操作 */
     handleRefreshCache() {
+      this.refreshLoading = true;
       refreshCache().then(() => {
         this.msgSuccess("刷新成功");
+      }).finally(()=>{
+        this.refreshLoading = false;
       });
     }
   }
