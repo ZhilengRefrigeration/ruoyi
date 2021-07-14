@@ -1,6 +1,6 @@
 <template>
   <!-- 授权用户 -->
-  <el-dialog title="选择用户" :visible.sync="visible" width="800px" top="5vh" append-to-body>
+  <el-dialog title="选择用户" :close-on-click-modal="false" :close-on-click-modal="false" :visible.sync="visible" width="800px" top="5vh" append-to-body>
     <el-form :model="queryParams" v-loading="dialogLoading" ref="queryForm" :inline="true">
       <el-form-item label="用户名称" prop="userName">
         <el-input
@@ -115,8 +115,8 @@ export default {
     // 查询表数据
     getList() {
       unallocatedUserList(this.queryParams).then(res => {
-        let currentPageNum = response.total / this.queryParams.pageSize;
-        if(this.queryParams.pageNum > currentPageNum){
+        let currentPageNum = response.total % this.queryParams.pageSize > 0 ? parseInt(response.total / this.queryParams.pageSize) + 1 : (response.total / this.queryParams.pageSize);
+        if(currentPageNum !== 0 && currentPageNum !== 0 && this.queryParams.pageNum > currentPageNum){
           this.queryParams.pageNum = currentPageNum;
         }
         this.userList = res.rows;

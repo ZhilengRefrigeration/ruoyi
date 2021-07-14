@@ -149,8 +149,8 @@ export default {
     getList() {
       this.loading = true;
       allocatedUserList(this.queryParams).then(response => {
-        let currentPageNum = response.total / this.queryParams.pageSize;
-        if(this.queryParams.pageNum > currentPageNum){
+        let currentPageNum = response.total % this.queryParams.pageSize > 0 ? parseInt(response.total / this.queryParams.pageSize) + 1 : (response.total / this.queryParams.pageSize);
+        if(currentPageNum !== 0 && currentPageNum !== 0 && this.queryParams.pageNum > currentPageNum){
           this.queryParams.pageNum = currentPageNum;
         }
         this.userList = response.rows;

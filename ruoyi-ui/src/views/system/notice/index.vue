@@ -129,7 +129,7 @@
     />
 
     <!-- 添加或修改公告对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="780px" append-to-body>
+    <el-dialog :title="title" :close-on-click-modal="false" :visible.sync="open" width="780px" append-to-body>
       <el-form ref="form" v-loading="dialogLoading" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="12">
@@ -248,8 +248,8 @@ export default {
     getList() {
       this.loading = true;
       listNotice(this.queryParams).then(response => {
-        let currentPageNum = response.total / this.queryParams.pageSize;
-        if(this.queryParams.pageNum > currentPageNum){
+        let currentPageNum = response.total % this.queryParams.pageSize > 0 ? parseInt(response.total / this.queryParams.pageSize) + 1 : (response.total / this.queryParams.pageSize);
+        if(currentPageNum !== 0 && currentPageNum !== 0 && this.queryParams.pageNum > currentPageNum){
           this.queryParams.pageNum = currentPageNum;
         }
         this.noticeList = response.rows;

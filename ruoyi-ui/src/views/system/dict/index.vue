@@ -164,7 +164,7 @@
     />
 
     <!-- 添加或修改参数配置对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :close-on-click-modal="false" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" v-loading="dialogLoading" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="字典名称" prop="dictName">
           <el-input v-model="form.dictName" placeholder="请输入字典名称" />
@@ -263,8 +263,8 @@ export default {
     getList() {
       this.loading = true;
       listType(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
-        let currentPageNum = response.total / this.queryParams.pageSize;
-        if(this.queryParams.pageNum > currentPageNum){
+        let currentPageNum = response.total % this.queryParams.pageSize > 0 ? parseInt(response.total / this.queryParams.pageSize) + 1 : (response.total / this.queryParams.pageSize);
+        if(currentPageNum !== 0 && currentPageNum !== 0 && this.queryParams.pageNum > currentPageNum){
           this.queryParams.pageNum = currentPageNum;
         }
         this.typeList = response.rows;
