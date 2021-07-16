@@ -8,14 +8,16 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
-import com.ruoyi.common.core.utils.SpringUtils;
-import com.ruoyi.file.utils.FileUploadUtils;
+import com.ruoyi.common.core.exception.CustomException;
+import com.ruoyi.file.config.CephConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import javax.annotation.PostConstruct;
 
 /**
  * @author dazer
@@ -33,39 +35,25 @@ import java.io.IOException;
  * 2:ceph存储，使用docker部署 https://www.cnblogs.com/bladeyul/p/10649049.html
  * 3:使用docker 搭建 ceph 开发环境，使用aws sdk 存储数据 https://blog.csdn.net/freewebsys/article/details/79553386
  */
-public class CephSysFileServiceImpl implements ISysFileService {
-    private static final Logger log = LoggerFactory.getLogger(AliyunOssFileServiceImpl.class);
+@Service
+public class CephDfsServiceImpl implements IDfsService {
+    private static final Logger log = LoggerFactory.getLogger(CephDfsServiceImpl.class);
+    @Autowired
+    private CephConfig cephConfig;
 
     protected static AmazonS3 amazonS3 = null;
-    /**
-     * s3 提供的 accessKey secretKey
-     * BUCKET_NAME： 概念和阿里云 oss 一模一样
-     */
-    private static String ACCESS_KEY = "XPVF8TESA1X4SFU*****";
-    private static String SECRET_KEY = "hBBEFpV3qsyI7HAdCBzA2ZdAhuANJFRIUz****";
-    private static String HOST = "127.0.0.1";
-    private static String BUCKET_NAME = "dfwwbook";
-    /**
-     * 域名绑定
-     * USER_DOMAIN_NAME: 域名名称， oss 访问路径绑定的用户自定义域名； 如果没有，就设置为null
-     * hostHttps: 是否开启了https, 需要在控制台配置
-     * https://oss.console.aliyun.com/bucket/oss-cn-shanghai/hiber2019/domain
-     * <p>
-     * private static final String USER_DOMAIN_NAME = "image.jl-media.cn";
-     */
-    private static final String USER_DOMAIN_NAME = null;
-    private static final boolean HOST_HTTPS = true;
 
     /**
      * ceph配置初始化
      */
-    static {
+    @PostConstruct
+    void init() {
         log.info("开始初始化ceph配置");
-        AWSCredentials credentials = new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY);
+        AWSCredentials credentials = new BasicAWSCredentials(cephConfig.getAccessKey(), cephConfig.getSecretKey());
         ClientConfiguration clientConfiguration = new ClientConfiguration();
         clientConfiguration.setProtocol(Protocol.HTTP);
         amazonS3 = new AmazonS3Client(credentials, clientConfiguration);
-        amazonS3.setEndpoint(HOST);
+        amazonS3.setEndpoint(cephConfig.getEndpoint());
         log.info("ceph配置初始化成功");
     }
 
@@ -109,20 +97,16 @@ public class CephSysFileServiceImpl implements ISysFileService {
 
         // long mb5 = 5 * 1024 * 1024L;
         //大于5mb,我们就分片上传
-        PutObjectResult result = amazonS3.putObject(BUCKET_NAME, requestKey, file.getInputStream(), new ObjectMetadata());
+        PutObjectResult result = amazonS3.putObject(cephConfig.getBucketName(), requestKey, file.getInputStream(), new ObjectMetadata());
         // 上传成功
         if (result.isRequesterCharged()) {
             // 解析结果
             // 注意，这里可能 需要 replace
             String accessPath;
-            if (StringUtils.isNotBlank(USER_DOMAIN_NAME)) {
-                if (HOST_HTTPS) {
-                    accessPath = "https://" + USER_DOMAIN_NAME + "/" + requestKey;
-                } else {
-                    accessPath = "http://" + USER_DOMAIN_NAME + "/" + requestKey;
-                }
+            if (StringUtils.isNotBlank(cephConfig.getDomain())) {
+                accessPath = cephConfig.getDomain() + "/" + requestKey;
             } else {
-                accessPath = "https://" + BUCKET_NAME + "/" + requestKey;
+                accessPath = "https://" + cephConfig.getBucketName() + "." + cephConfig.getEndpoint() + "/" + requestKey;
             }
             return accessPath;
         }
@@ -135,13 +119,13 @@ public class CephSysFileServiceImpl implements ISysFileService {
             return false;
         }
         String storePath = getStorePath(fileUrl);
-        amazonS3.deleteObject(BUCKET_NAME, storePath);
+        amazonS3.deleteObject(cephConfig.getBucketName(), storePath);
         return true;
     }
 
     @Override
-    public String listObject() {
-        return null;
+    public String objectsCapacityStr() {
+        throw new CustomException("ceph-获取文件占用空间功能，敬请期待");
     }
 
     /**
@@ -151,17 +135,15 @@ public class CephSysFileServiceImpl implements ISysFileService {
      * @return upload/default/20190806202208849_jvs5g.png
      */
     private String getStorePath(String filePath) {
-        String publicPath1 = "https://" + BUCKET_NAME + "/";
-        String publicPath2 = "http://" + BUCKET_NAME + "/";
-        String publicPath3 = "https://" + USER_DOMAIN_NAME + "/";
-        String publicPath4 = "http://" + USER_DOMAIN_NAME + "/";
-        //String publicPath5 = ServletCacheUtils.getInstance().getHttpRootPath();
+        String publicPath1 = "https://" + cephConfig.getBucketName() + "/";
+        String publicPath2 = "http://" + cephConfig.getBucketName() + "/";
+        String publicPath3 = "https://" + cephConfig.getDomain() + "/";
+        String publicPath4 = "http://" + cephConfig.getDomain() + "/";
 
         filePath = filePath.replace(publicPath1, "");
         filePath = filePath.replace(publicPath2, "");
         filePath = filePath.replace(publicPath3, "");
         filePath = filePath.replace(publicPath4, "");
-        //filePath = filePath.replace(publicPath5, "");
         return filePath;
     }
 }

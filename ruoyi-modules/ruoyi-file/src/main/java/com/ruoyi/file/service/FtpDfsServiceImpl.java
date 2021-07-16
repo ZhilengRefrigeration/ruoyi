@@ -2,6 +2,7 @@ package com.ruoyi.file.service;
 
 import cn.hutool.extra.ftp.Ftp;
 import cn.hutool.extra.ftp.FtpMode;
+import com.ruoyi.common.core.exception.CustomException;
 import com.ruoyi.file.config.FtpConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import java.io.IOException;
  * @author dazer
  */
 @Service
-public class FtpFileServiceImpl implements ISysFileService {
+public class FtpDfsServiceImpl implements IDfsService {
     @Autowired
     private FtpConfig ftpConfig;
     public static final String ACCESS_PREFIX = "";
@@ -62,8 +63,8 @@ public class FtpFileServiceImpl implements ISysFileService {
     }
 
     @Override
-    public String listObject() {
-        return null;
+    public String objectsCapacityStr() {
+        throw new CustomException("fpt-获取文件占用空间功能，敬请期待");
     }
 
     private String getStorePath(String filePath) {

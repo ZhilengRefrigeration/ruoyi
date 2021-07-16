@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -43,45 +42,10 @@ import java.util.concurrent.TimeUnit;
  * //@see AliyunMsgUtil
  */
 @Service
-public class AliyunOssFileServiceImpl implements ISysFileService {
-    private static final Logger log = LoggerFactory.getLogger(AliyunOssFileServiceImpl.class);
+public class AliyunOssDsfServiceImpl implements IDfsService {
+    private static final Logger log = LoggerFactory.getLogger(AliyunOssDsfServiceImpl.class);
     @Autowired
     private AliyunOssConfig aliyunOssConfig;
-    /**
-     * 这些阿里云访问id
-     */
-    private String ACCESS_KEY_ID;
-    private String ACCESS_KEY_SECRET;
-    private String BUCKET_NAME;
-    /**
-     * https://oss.console.aliyun.com/
-     * 这些阿里云 oss 参数都需要替换
-     * <p>
-     * 如果是内网的话，访问速度肯定更快，内网不限制速度。
-     */
-    private String ENDPOINT = "oss-cn-shenzhen.aliyuncs.com";
-    private String ENDPOINT_INTERNAL = ENDPOINT.replace(".aliyuncs.com", "-internal.aliyuncs.com");
-
-    /**
-     * 域名绑定
-     * USER_DOMAIN_NAME: 域名名称， oss 访问路径绑定的用户自定义域名； 如果没有，就设置为null
-     * hostHttps: 是否开启了https, 需要在控制台配置
-     * https://oss.console.aliyun.com/bucket/oss-cn-shanghai/hiber2019/domain
-     * <p>
-     * private static final String USER_DOMAIN_NAME = "image.jl-media.cn";
-     */
-    private static final String USER_DOMAIN_NAME = null;
-    private static final boolean HOST_HTTPS = true;
-
-    @PostConstruct
-    public void init() {
-        ACCESS_KEY_ID = aliyunOssConfig.getAccessKeyId();
-        ACCESS_KEY_SECRET = aliyunOssConfig.getAccessKeySecret();
-        BUCKET_NAME = aliyunOssConfig.getOssBucketName();
-        ENDPOINT = aliyunOssConfig.getOssEndpoint();
-        ENDPOINT_INTERNAL = ENDPOINT.replace(".aliyuncs.com", "-internal.aliyuncs.com");
-    }
-
     /**
      * demo 地址 https://help.aliyun.com/learn/learningpath/oss.html
      * <p>
@@ -107,26 +71,31 @@ public class AliyunOssFileServiceImpl implements ISysFileService {
             requestKey = SpringUtil.getActiveProfile() + "/" + requestKey;
         }
 
+        /**
+         * https://oss.console.aliyun.com/
+         * 这些阿里云 oss 参数都需要替换
+         * <p>
+         * 如果是内网的话，访问速度肯定更快，内网不限制速度。
+         */
+        String endpoint = aliyunOssConfig.getEndpoint();
+        String endpointInternal = endpoint.replace(".aliyuncs.com", "-internal.aliyuncs.com");
+
         long mb5 = 5 * 1024 * 1024L;
         if (file.getSize() > mb5) {
             //大于5mb,我们就分片上传
-            this.ossUploadFileBigMultiable(isProd ? ENDPOINT_INTERNAL : ENDPOINT, requestKey, file);
+            this.ossUploadFileBigMultiable(isProd ? endpointInternal : endpoint, requestKey, file);
         } else {
             //否则，我们常规上传
-            this.ossUploadFileSmall(isProd ? ENDPOINT_INTERNAL : ENDPOINT, requestKey, file);
+            this.ossUploadFileSmall(isProd ? endpointInternal : endpoint, requestKey, file);
         }
 
         // 解析结果
         // 注意，这里可能 需要 replace
         String accessPath;
-        if (StringUtils.isNotBlank(USER_DOMAIN_NAME)) {
-            if (HOST_HTTPS) {
-                accessPath = "https://" + USER_DOMAIN_NAME + "/" + requestKey;
-            } else {
-                accessPath = "http://" + USER_DOMAIN_NAME + "/" + requestKey;
-            }
+        if (StringUtils.isNotBlank(aliyunOssConfig.getDomain())) {
+            accessPath = aliyunOssConfig.getDomain() + "/" + requestKey;
         } else {
-            accessPath = "https://" + BUCKET_NAME + "." + ENDPOINT + "/" + requestKey;
+            accessPath = "https://" + aliyunOssConfig.getBucketName() + "." + aliyunOssConfig.getEndpoint() + "/" + requestKey;
         }
         return accessPath;
     }
@@ -140,7 +109,7 @@ public class AliyunOssFileServiceImpl implements ISysFileService {
         /*
          * Constructs a client instance with your account for accessing OSS
          */
-        OSS client = new OSSClientBuilder().build(ENDPOINT, ACCESS_KEY_ID, ACCESS_KEY_SECRET);
+        OSS client = new OSSClientBuilder().build(aliyunOssConfig.getEndpoint(), aliyunOssConfig.getAccessKeyId(), aliyunOssConfig.getAccessKeySecret());
         String storePath = getStorePath(fileUrl);
         List<String> keys = new ArrayList<>();
         keys.add(storePath);
@@ -151,7 +120,7 @@ public class AliyunOssFileServiceImpl implements ISysFileService {
              */
             log.info("\nDeleting all objects:");
             DeleteObjectsResult deleteObjectsResult = client.deleteObjects(
-                    new DeleteObjectsRequest(BUCKET_NAME).withKeys(keys));
+                    new DeleteObjectsRequest(aliyunOssConfig.getBucketName()).withKeys(keys));
             List<String> deletedObjects = deleteObjectsResult.getDeletedObjects();
             for (String object : deletedObjects) {
                 log.info("\t" + object);
@@ -185,10 +154,13 @@ public class AliyunOssFileServiceImpl implements ISysFileService {
      * @return upload/default/20190806202208849_jvs5g.png
      */
     private String getStorePath(String filePath) {
-        String publicPath1 = "https://" + BUCKET_NAME + "." + ENDPOINT + "/";
-        String publicPath2 = "http://" + BUCKET_NAME + "." + ENDPOINT + "/";
-        String publicPath3 = "https://" + USER_DOMAIN_NAME + "/";
-        String publicPath4 = "http://" + USER_DOMAIN_NAME + "/";
+        String bucketName = aliyunOssConfig.getBucketName();
+        String endPoint = aliyunOssConfig.getEndpoint();
+        String domain = aliyunOssConfig.getDomain();
+        String publicPath1 = "https://" + bucketName + "." + endPoint + "/";
+        String publicPath2 = "http://" + bucketName + "." + endPoint + "/";
+        String publicPath3 = "https://" + domain + "/";
+        String publicPath4 = "http://" + domain + "/";
         //String publicPath5 = ServletCacheUtils.getInstance().getHttpRootPath();
 
 
@@ -209,11 +181,11 @@ public class AliyunOssFileServiceImpl implements ISysFileService {
      * demo https://github.com/aliyun/aliyun-oss-java-sdk/blob/master/src/samples/UploadSample.java
      */
     private String ossUploadFileSmall(String endpoint, String picturePath, MultipartFile file) throws IOException {
-        OSS ossClient = new OSSClientBuilder().build(endpoint, ACCESS_KEY_ID, ACCESS_KEY_SECRET);
+        OSS ossClient = new OSSClientBuilder().build(endpoint, aliyunOssConfig.getAccessKeyId(), aliyunOssConfig.getAccessKeySecret());
 
         try {
             // 上传文件 (上传文件流的形式)
-            PutObjectResult putResult = ossClient.putObject(BUCKET_NAME, picturePath, file.getInputStream());
+            PutObjectResult putResult = ossClient.putObject(aliyunOssConfig.getBucketName(), picturePath, file.getInputStream());
         } catch (OSSException oe) {
             log.error("Caught an OSSException, which means your request made it to OSS, "
                     + "but was rejected with an error response for some reason.");
@@ -285,13 +257,13 @@ public class AliyunOssFileServiceImpl implements ISysFileService {
          */
         ClientBuilderConfiguration conf = new ClientBuilderConfiguration();
         conf.setIdleConnectionTime(1000);
-        OSS client = new OSSClientBuilder().build(endpoint, ACCESS_KEY_ID, ACCESS_KEY_SECRET, conf);
+        OSS client = new OSSClientBuilder().build(endpoint, aliyunOssConfig.getAccessKeyId(), aliyunOssConfig.getAccessKeySecret(), conf);
 
         try {
             /*
              * Claim a upload id firstly
              */
-            InitiateMultipartUploadRequest request = new InitiateMultipartUploadRequest(BUCKET_NAME, requestKey);
+            InitiateMultipartUploadRequest request = new InitiateMultipartUploadRequest(aliyunOssConfig.getBucketName(), requestKey);
             InitiateMultipartUploadResult result = client.initiateMultipartUpload(request);
             String uploadId = result.getUploadId();
 
@@ -366,7 +338,7 @@ public class AliyunOssFileServiceImpl implements ISysFileService {
             if (log.isInfoEnabled()) {
                 log.info("Fetching an object");
             }
-            OSSObject ossObject = client.getObject(new GetObjectRequest(BUCKET_NAME, requestKey));
+            OSSObject ossObject = client.getObject(new GetObjectRequest(aliyunOssConfig.getBucketName(), requestKey));
             if (log.isInfoEnabled()) {
                 log.info(ossObject.getKey());
             }
@@ -436,7 +408,7 @@ public class AliyunOssFileServiceImpl implements ISysFileService {
                 instream.skip(this.startPos);
 
                 UploadPartRequest uploadPartRequest = new UploadPartRequest();
-                uploadPartRequest.setBucketName(BUCKET_NAME);
+                uploadPartRequest.setBucketName(aliyunOssConfig.getBucketName());
                 uploadPartRequest.setKey(this.requestKey);
                 uploadPartRequest.setUploadId(this.uploadId);
                 uploadPartRequest.setInputStream(instream);
@@ -474,7 +446,7 @@ public class AliyunOssFileServiceImpl implements ISysFileService {
         }
 
         CompleteMultipartUploadRequest completeMultipartUploadRequest =
-                new CompleteMultipartUploadRequest(BUCKET_NAME, requestKey, uploadId, partETags);
+                new CompleteMultipartUploadRequest(aliyunOssConfig.getBucketName(), requestKey, uploadId, partETags);
         client.completeMultipartUpload(completeMultipartUploadRequest);
     }
 
@@ -482,7 +454,7 @@ public class AliyunOssFileServiceImpl implements ISysFileService {
         if (log.isInfoEnabled()) {
             log.info("Listing all parts......");
         }
-        ListPartsRequest listPartsRequest = new ListPartsRequest(BUCKET_NAME, requestKey, uploadId);
+        ListPartsRequest listPartsRequest = new ListPartsRequest(aliyunOssConfig.getBucketName(), requestKey, uploadId);
         PartListing partListing = client.listParts(listPartsRequest);
 
         int partCount = partListing.getParts().size();
@@ -498,8 +470,8 @@ public class AliyunOssFileServiceImpl implements ISysFileService {
     }
 
     @Override
-    public String listObject() {
-        OSS client = new OSSClientBuilder().build(ENDPOINT, ACCESS_KEY_ID, ACCESS_KEY_SECRET);
+    public String objectsCapacityStr() {
+        OSS client = new OSSClientBuilder().build(aliyunOssConfig.getEndpoint(), aliyunOssConfig.getAccessKeyId(), aliyunOssConfig.getAccessKeySecret());
         final int maxKeys = 200;
         String nextMarker = null;
         ObjectListing objectListing;
@@ -509,7 +481,7 @@ public class AliyunOssFileServiceImpl implements ISysFileService {
 
         do
         {
-            objectListing = client.listObjects(new ListObjectsRequest(BUCKET_NAME).withMarker(nextMarker).withMaxKeys(maxKeys));
+            objectListing = client.listObjects(new ListObjectsRequest(aliyunOssConfig.getBucketName()).withMarker(nextMarker).withMaxKeys(maxKeys));
 
             List<OSSObjectSummary> sums = objectListing.getObjectSummaries();
             for (OSSObjectSummary s : sums) {
@@ -552,11 +524,11 @@ public class AliyunOssFileServiceImpl implements ISysFileService {
         } catch (MalformedURLException e) {
             // 忽略
         }
-        OSS ossClient = new OSSClientBuilder().build(ENDPOINT, ACCESS_KEY_ID, ACCESS_KEY_SECRET);
+        OSS ossClient = new OSSClientBuilder().build(aliyunOssConfig.getEndpoint(), aliyunOssConfig.getAccessKeyId(), aliyunOssConfig.getAccessKeySecret());
         // 设置URL过期时间为12小时，最大值就是43200
         Date expiration = new Date(System.currentTimeMillis() + (43200 * 1000));
         // 生成以GET方法访问的签名URL，访客可以直接通过浏览器访问相关内容。
-        URL url = ossClient.generatePresignedUrl(BUCKET_NAME, objectName, expiration);
+        URL url = ossClient.generatePresignedUrl(aliyunOssConfig.getBucketName(), objectName, expiration);
         // 关闭OSSClient。
         ossClient.shutdown();
         return url.toString();

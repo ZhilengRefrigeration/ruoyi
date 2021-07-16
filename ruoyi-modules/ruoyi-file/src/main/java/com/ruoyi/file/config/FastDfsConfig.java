@@ -1,0 +1,36 @@
+package com.ruoyi.file.config;
+
+import com.github.tobato.fastdfs.FdfsClientConstants;
+import com.github.tobato.fastdfs.domain.conn.PooledConnectionFactory;
+import com.ruoyi.file.service.FastDfsServiceImpl;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * 阿里 fastdfs 配置
+ * @author dazer
+ * @see FastDfsServiceImpl
+ *  FastDFS配置 其他参数见：{@link PooledConnectionFactory}
+ */
+@RefreshScope
+@Configuration
+@ConfigurationProperties(
+        prefix =  FdfsClientConstants.ROOT_CONFIG_PREFIX
+)
+public class FastDfsConfig extends PooledConnectionFactory {
+    /**
+     * 域名或本机访问地址
+     * FastDFS配置 其他参数见：{@link PooledConnectionFactory}
+     * //@Value("${fdfs.domain}")
+     */
+    public String domain;
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+}
