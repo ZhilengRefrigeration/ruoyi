@@ -65,7 +65,60 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-swagger</artifactId>
         </dependency>
-        
+
+       <!-- apache commons net ftp工具类; hutool 里面 scope 是 compile -->
+       <!--用来ftp上传-->
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>3.6</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.7.3</version>
+        </dependency>
+
+        <!--阿里云OSS库-->
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>3.5.0</version>
+            <exclusions>
+                <!--排除 sdk-core 存在的包-->
+                <exclusion>
+                    <groupId>com.google.code.gson</groupId>
+                    <artifactId>gson</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.httpcomponents</groupId>
+                    <artifactId>httpclient</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.httpcomponents</groupId>
+                    <artifactId>httpcore</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!--ceph upload start -->
+        <!--文件上传 ceph 形式，一般项目都用不上，注释掉； 不要删-->
+        <!-- ceph实现s3 文件上传-->
+        <dependency>
+            <groupId>com.ceph</groupId>
+            <artifactId>libcephfs</artifactId>
+            <version>0.80.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>1.11.415</version>
+        </dependency>
+        <!--ceph upload end -->
     </dependencies>
 
     <build>

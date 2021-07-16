@@ -1,5 +1,8 @@
 package com.ruoyi.file.service;
 
+import cn.hutool.extra.spring.SpringUtil;
+import io.minio.RemoveObjectArgs;
+import io.minio.errors.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -7,6 +10,10 @@ import com.ruoyi.file.config.MinioConfig;
 import com.ruoyi.file.utils.FileUploadUtils;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
+
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Minio 文件存储
@@ -32,7 +39,17 @@ public class MinioSysFileServiceImpl implements ISysFileService
     @Override
     public String uploadFile(MultipartFile file) throws Exception
     {
-        String fileName = FileUploadUtils.extractFilename(file);
+        return this.uploadFile(file, null);
+    }
+
+    @Override
+    public String uploadFile(MultipartFile file, String modules) throws Exception {
+        String fileName = validateModule(file ,modules);
+        boolean isProd = "prod".equalsIgnoreCase(SpringUtil.getActiveProfile());
+        if (!isProd) {
+            fileName = SpringUtil.getActiveProfile() + "/" + fileName;
+        }
+
         PutObjectArgs args = PutObjectArgs.builder()
                 .bucket(minioConfig.getBucketName())
                 .object(fileName)
@@ -41,5 +58,33 @@ public class MinioSysFileServiceImpl implements ISysFileService
                 .build();
         client.putObject(args);
         return minioConfig.getUrl() + "/" + minioConfig.getBucketName() + "/" + fileName;
+    }
+
+    @Override
+    public boolean deleteFile(String fileUrl) {
+        RemoveObjectArgs args = RemoveObjectArgs.builder().
+                bucket(minioConfig.getBucketName()).
+                object(fileUrl).
+                build();
+        try {
+            client.removeObject(args);
+            return true;
+        } catch (ErrorResponseException |
+                InsufficientDataException |
+                InternalException |
+                InvalidKeyException |
+                InvalidResponseException |
+                IOException |
+                NoSuchAlgorithmException |
+                ServerException |
+                XmlParserException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public String listObject() {
+        return null;
     }
 }

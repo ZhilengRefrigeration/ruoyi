@@ -1,6 +1,7 @@
 package com.ruoyi.file.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import io.minio.MinioClient;
@@ -10,27 +11,32 @@ import io.minio.MinioClient;
  *
  * @author ruoyi
  */
+@RefreshScope
 @Configuration
 @ConfigurationProperties(prefix = "minio")
 public class MinioConfig
 {
     /**
      * 服务地址
+     * eg: http://192.168.254.100:9900
      */
     private String url;
 
     /**
      * 用户名
+     * eg: D998GE6ZTQXSATTJWX35
      */
     private String accessKey;
 
     /**
      * 密码
+     * eg: QZVQGnhIQQE734UYSUFlGOZViE6+ZlDEfUG3NjXJ
      */
     private String secretKey;
 
     /**
      * 存储桶名称
+     * eg: mall
      */
     private String bucketName;
 

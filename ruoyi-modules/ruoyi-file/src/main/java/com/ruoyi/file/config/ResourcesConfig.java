@@ -2,6 +2,7 @@ package com.ruoyi.file.config;
 
 import java.io.File;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -11,17 +12,20 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * 
  * @author ruoyi
  */
+@RefreshScope
 @Configuration
 public class ResourcesConfig implements WebMvcConfigurer
 {
     /**
      * 上传文件存储在本地的根路径
+     * eg: D:/ruoyi/uploadPath
      */
     @Value("${file.path}")
     private String localFilePath;
 
     /**
      * 资源映射路径 前缀
+     * eg: /statics
      */
     @Value("${file.prefix}")
     public String localFilePrefix;
