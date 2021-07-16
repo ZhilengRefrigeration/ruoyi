@@ -1,15 +1,28 @@
 package com.ruoyi.file;
 
+import com.ruoyi.file.config.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
  * 文件服务
  * 
  * @author ruoyi
  */
+@EnableConfigurationProperties(value = {
+        LocalFileConfig.class,
+        FtpConfig.class,
+        FastDfsConfig.class,
+        AliyunOssConfig.class,
+        CephConfig.class,
+        MinioConfig.class,
+        QiniuKodoConfig.class,
+        ServerProperties.class
+})
 @EnableCustomSwagger2
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 public class RuoYiFileApplication

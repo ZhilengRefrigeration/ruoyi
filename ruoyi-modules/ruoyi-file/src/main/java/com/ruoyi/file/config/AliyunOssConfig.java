@@ -14,8 +14,9 @@ import org.springframework.context.annotation.Configuration;
  */
 @RefreshScope
 @Configuration
-@ConfigurationProperties(prefix = "aliyunoss")
+@ConfigurationProperties(prefix = AliyunOssConfig.PREFIX)
 public class AliyunOssConfig {
+    public static final String PREFIX = "aliyun-oss";
     /**
      * aliyun oss相关配置
      * ACCESS_KEY_SECRET

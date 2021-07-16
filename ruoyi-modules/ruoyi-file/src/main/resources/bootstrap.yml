@@ -7,6 +7,8 @@ spring:
   application:
     # 应用名称
     name: ruoyi-file
+  main:
+    allow-bean-definition-overriding: true
   profiles:
     # 环境配置
     active: dev
@@ -23,3 +25,26 @@ spring:
         # 共享配置
         shared-configs:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+
+
+# 文件服务器之1 本地文件上传
+file:
+  domain: http://localhost:9300
+  prefix: /statics
+  path: D:/ruoyi/uploadPath
+
+# 文件服务器之3 FastDFS配置
+fdfs:
+  domain: http://8.129.231.12
+  soTimeout: 3000
+  connectTimeout: 2000
+  trackerList: 8.129.231.12:22122
+
+# 文件服务器之4 Minio配置
+minio:
+  url: http://192.168.254.100:9900
+  accessKey: D99KGE6ZTQXSATTJWU24
+  secretKey: QyVqGnhIQQE734UYSUFlGOZViE6+ZlDEfUG3NjhJ
+  bucketName: neusoft-appt
+  #regex: .*appt-file/
+  #encryptFlag: true

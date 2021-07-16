@@ -18,8 +18,9 @@ import org.springframework.context.annotation.Configuration;
  */
 @RefreshScope
 @Configuration
-@ConfigurationProperties(prefix = "qiniu")
+@ConfigurationProperties(prefix = QiniuKodoConfig.PREFIX)
 public class QiniuKodoConfig {
+    public static final String PREFIX = "qiniu";
     /**
      * AccessKey 简称ak
      * 申请地址=>登录七牛云：https://portal.qiniu.com/user/key

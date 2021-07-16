@@ -1,5 +1,6 @@
 package com.ruoyi.file.config;
 
+import com.ruoyi.file.service.FtpFileServiceImpl;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
@@ -9,13 +10,15 @@ import org.springframework.context.annotation.Configuration;
  * vsftpd 服务器搭建、ftp客户端filezilla使、ceph分布式文件系统
  * https://blog.csdn.net/ab601026460/article/details/105928311
  * @author dazer
+ * @see FtpFileServiceImpl
  */
 @RefreshScope
 @Configuration
 @ConfigurationProperties(
-        prefix = "ftp"
+        prefix = FtpConfig.PREFIX
 )
 public class FtpConfig {
+    public static final String PREFIX = "ftp";
     /**
      * ftp访问地址
      * eg1: www.ourslook.com

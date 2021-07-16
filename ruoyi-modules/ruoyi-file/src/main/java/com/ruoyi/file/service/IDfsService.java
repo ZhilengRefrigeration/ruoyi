@@ -60,7 +60,7 @@ public interface IDfsService
     /**
      * 获取文件占用空间
      * 别名：objectsCapacity
-     * @return 文件大小字符串，eg: 100MB、2G
+     * @return 文件大小字符串，eg: 100MB、2G； 形如：总 233.57 GB， 可用 72.12 GB
      */
     String objectsCapacityStr();
 

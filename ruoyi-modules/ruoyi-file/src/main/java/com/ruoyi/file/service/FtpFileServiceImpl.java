@@ -16,7 +16,7 @@ import java.io.IOException;
  * @author dazer
  */
 @Service
-public class FtpDfsServiceImpl implements IDfsService {
+public class FtpFileServiceImpl implements IDfsService {
     @Autowired
     private FtpConfig ftpConfig;
     public static final String ACCESS_PREFIX = "";
