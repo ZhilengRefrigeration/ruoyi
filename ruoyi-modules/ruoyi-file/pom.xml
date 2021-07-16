@@ -40,33 +40,40 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-		
-        <!-- FastDFS -->
+
+        <!-- 解决 使用了 【ConfigurationProperties】出现 Spring Boot Configuration Annotation Processor not configured 提示问题 -->
         <dependency>
-            <groupId>com.github.tobato</groupId>
-            <artifactId>fastdfs-client</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
-        
-        <!-- Minio -->
-        <dependency>
-            <groupId>io.minio</groupId>
-            <artifactId>minio</artifactId>
-            <version>${minio.version}</version>
-        </dependency>
-        
+
         <!-- RuoYi Api System -->
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-api-system</artifactId>
         </dependency>
-        
+
         <!-- RuoYi Common Swagger -->
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-swagger</artifactId>
         </dependency>
 
-       <!-- apache commons net ftp工具类; hutool 里面 scope 是 compile -->
+        <!-- 文件服务器1：FastDFS -->
+        <dependency>
+            <groupId>com.github.tobato</groupId>
+            <artifactId>fastdfs-client</artifactId>
+        </dependency>
+        
+        <!-- 文件服务器2：Minio -->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>${minio.version}</version>
+        </dependency>
+
+       <!-- 文件服务器3：apache commons net ftp工具类; hutool 里面 scope 是 compile -->
        <!--用来ftp上传-->
         <dependency>
             <groupId>commons-net</groupId>
@@ -79,7 +86,7 @@
             <version>5.7.3</version>
         </dependency>
 
-        <!--阿里云OSS库-->
+        <!-- 文件服务器4：阿里云OSS库-->
         <dependency>
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
@@ -105,7 +112,7 @@
             </exclusions>
         </dependency>
 
-        <!--ceph upload start -->
+        <!-- 文件服务器5：ceph upload start -->
         <!--文件上传 ceph 形式，一般项目都用不上，注释掉； 不要删-->
         <!-- ceph实现s3 文件上传-->
         <dependency>
@@ -120,7 +127,7 @@
         </dependency>
         <!--ceph upload end -->
 
-        <!--七牛云文件存储 start -->
+        <!--文件服务器6：七牛云文件存储 start -->
         <dependency>
             <groupId>com.qiniu</groupId>
             <artifactId>qiniu-java-sdk</artifactId>
@@ -142,6 +149,15 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                <!-- 打包的时候，相关的包不打入依赖-->
+                    <excludes>
+                        <exclude>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
             </plugin>
         </plugins>
     </build>

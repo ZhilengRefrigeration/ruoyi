@@ -18,9 +18,9 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(
         prefix =  FdfsClientConstants.ROOT_CONFIG_PREFIX
 )
-public class FastDfsConfig extends PooledConnectionFactory {
+public class FastDfsConfig {
     /**
-     * 域名或本机访问地址
+     * 文件对外访问域名or ip
      * FastDFS配置 其他参数见：{@link PooledConnectionFactory}
      * //@Value("${fdfs.domain}")
      */

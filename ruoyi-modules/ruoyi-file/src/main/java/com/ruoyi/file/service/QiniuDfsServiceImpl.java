@@ -111,7 +111,7 @@ public class QiniuDfsServiceImpl implements IDfsService {
     }
 
     /**
-     * 转换url
+     * 转换url，为原始的key
      *
      * @param filePath http://guangdong-oss.ityun.ltd/upload/default/header.jpg
      * @return upload/default/header.jpg
