@@ -70,7 +70,6 @@ public interface IDfsService
      * @param file    文件
      * @param modules 模块，这里作为上传的文件夹使用;eg: 项目中有banner、video、music、txt、product、default 多个模块，不同模块存放到不同文件夹中；
      * @return 新的系统生成的文件名称
-     * @throws InvalidExtensionException
      */
     default String validateModule(MultipartFile file, String modules) throws InvalidExtensionException {
         Objects.requireNonNull(file, "文件不能为空！");
@@ -91,6 +90,6 @@ public interface IDfsService
 
         // 3、文件大小校验
         assertAllowed(file, MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION);
-        return modules + "/" + extractFilename(file);
+        return extractFilename(file);
     }
 }

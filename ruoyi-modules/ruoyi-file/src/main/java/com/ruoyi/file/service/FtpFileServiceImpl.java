@@ -4,7 +4,9 @@ import cn.hutool.extra.ftp.Ftp;
 import cn.hutool.extra.ftp.FtpMode;
 import com.ruoyi.common.core.exception.CustomException;
 import com.ruoyi.file.config.FtpConfig;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,7 +21,6 @@ import java.io.IOException;
 public class FtpFileServiceImpl implements IDfsService {
     @Autowired
     private FtpConfig ftpConfig;
-    public static final String ACCESS_PREFIX = "";
 
     @Override
     public String uploadFile(MultipartFile file) throws Exception {
@@ -28,20 +29,26 @@ public class FtpFileServiceImpl implements IDfsService {
 
     @Override
     public String uploadFile(MultipartFile file, String modules) throws Exception {
-        String fileName = "upload/" + validateModule(file, modules);
+        String fileName = validateModule(file, modules);
+
+        modules = StringUtils.defaultString(modules, "default");
+        String picturePath = "/upload/" + modules;
 
         Ftp ftp = null;
         try {
             ftp = new Ftp(ftpConfig.getHostName(), ftpConfig.getPort(), ftpConfig.getUserName(), ftpConfig.getPassword());
-            ftp.cd("");
-            ftp.setMode(FtpMode.Passive);
-            ftp.upload("", fileName, file.getInputStream());
+            ftp.setBackToPwd(true);
+            ftp.cd("/");
+            // 主要是主动模式还是被动
+            ftp.setMode(FtpMode.Active);
+            ftp.upload(picturePath, fileName, file.getInputStream());
         } finally {
             if (ftp != null) {
                 ftp.close();
             }
         }
-        return ftpConfig.getHostName() + "/" + fileName;
+        String url = ftpConfig.getDomain() + "/" + picturePath + "/" + fileName;
+        return url.replace("//", "/");
     }
 
     @Override
@@ -49,6 +56,8 @@ public class FtpFileServiceImpl implements IDfsService {
         Ftp ftp = null;
         try {
             ftp = new Ftp(ftpConfig.getHostName(), ftpConfig.getPort(), ftpConfig.getUserName(), ftpConfig.getPassword());
+            // 主要是主动模式还是被动
+            ftp.setMode(FtpMode.Active);
             String storePath = getStorePath(fileUrl);
             return ftp.delFile(storePath);
         } finally {
@@ -67,14 +76,15 @@ public class FtpFileServiceImpl implements IDfsService {
         throw new CustomException("fpt-获取文件占用空间功能，敬请期待");
     }
 
+    /**
+     * 转换url，为原始的key
+     *
+     * @param filePath https://test53.ourslook.com/upload/default/20210717-e646d18a-e405-4d09-a62a-11e58b67b48d.jpeg
+     * @return upload/default/20210717-e646d18a-e405-4d09-a62a-11e58b67b48d.jpeg
+     */
     private String getStorePath(String filePath) {
-        int groupStartPos = -1;
-        if ((groupStartPos = filePath.indexOf(ACCESS_PREFIX) + ACCESS_PREFIX.length()) + 1 == 0) {
-            groupStartPos = 0;
-            //throw new RrException("解析文件路径错误,被解析路径url没有" + Constant.SERVIER_NAME_SUFFIX + ",当前解析路径为".concat(filePath));
-        }
-        // 获取group起始位置
-        String groupAndPath = filePath.substring(groupStartPos);
-        return groupAndPath + "";
+        // 使用方式1
+        String domain = ftpConfig.getDomain();
+        return filePath.replace(domain, "");
     }
 }

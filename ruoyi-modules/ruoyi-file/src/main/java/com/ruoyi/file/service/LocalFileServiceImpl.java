@@ -3,7 +3,6 @@ package com.ruoyi.file.service;
 import cn.hutool.core.io.FileUtil;
 import com.ruoyi.common.core.exception.CustomException;
 import com.ruoyi.file.config.LocalFileConfig;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,6 @@ import java.io.File;
  * 
  * @author ruoyi
  */
-@Primary
 @Service
 public class LocalFileServiceImpl implements IDfsService
 {

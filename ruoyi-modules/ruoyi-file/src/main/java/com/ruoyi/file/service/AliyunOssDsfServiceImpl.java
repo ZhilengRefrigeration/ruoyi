@@ -1,5 +1,6 @@
 package com.ruoyi.file.service;
 
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.aliyun.oss.*;
 import com.aliyun.oss.model.*;
@@ -9,12 +10,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
@@ -41,6 +42,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2019/8/6 19:02
  * //@see AliyunMsgUtil
  */
+@Primary
 @Service
 public class AliyunOssDsfServiceImpl implements IDfsService {
     private static final Logger log = LoggerFactory.getLogger(AliyunOssDsfServiceImpl.class);
@@ -64,7 +66,7 @@ public class AliyunOssDsfServiceImpl implements IDfsService {
         //key: 这里不能以/开头
         String newName = validateModule(file, null);
         //key: 这里不能以/开头
-        String requestKey = "upload/" + "/" + newName;
+        String requestKey = "upload/" + StringUtils.defaultString(modules, "default") + "/" +  newName;
         //这里增加一个前缀区分一下是测试环境还是正式环境
         boolean isProd = "prod".equalsIgnoreCase(SpringUtil.getActiveProfile());
         if (!isProd) {
@@ -151,6 +153,7 @@ public class AliyunOssDsfServiceImpl implements IDfsService {
      * 转换url
      *
      * @param filePath https://hiber2019.oss-cn-shanghai.aliyuncs.com/upload/default/20190806202208849_jvs5g.png
+     *                 eg2: 上传之后的格式：https://react-yuebaoxiao-pro.oss-cn-shanghai.aliyuncs.com/dev//upload/default/20210717-a77f6bb0-7b0a-4ef1-a839-f8e8aca469b8.jpeg
      * @return upload/default/20190806202208849_jvs5g.png
      */
     private String getStorePath(String filePath) {
@@ -159,16 +162,20 @@ public class AliyunOssDsfServiceImpl implements IDfsService {
         String domain = aliyunOssConfig.getDomain();
         String publicPath1 = "https://" + bucketName + "." + endPoint + "/";
         String publicPath2 = "http://" + bucketName + "." + endPoint + "/";
-        String publicPath3 = "https://" + domain + "/";
-        String publicPath4 = "http://" + domain + "/";
-        //String publicPath5 = ServletCacheUtils.getInstance().getHttpRootPath();
+        String publicPath3 = domain + "/";
 
-
+        String oldPath = filePath;
         filePath = filePath.replace(publicPath1, "");
         filePath = filePath.replace(publicPath2, "");
         filePath = filePath.replace(publicPath3, "");
-        filePath = filePath.replace(publicPath4, "");
-        //filePath = filePath.replace(publicPath5, "");
+
+        if (oldPath.equals(filePath)) {
+            // 使用方式2
+            String group = "upload";
+            // 获取group起始位置
+            int pathStartPos = filePath.indexOf(group) + 1;
+            filePath = filePath.substring(pathStartPos, filePath.length());
+        }
         return filePath;
     }
 
@@ -178,15 +185,21 @@ public class AliyunOssDsfServiceImpl implements IDfsService {
      * @param picturePath 文件的访问路径，access url
      * @param file        等待上传的文件
      * @return picturePath 上传文件的相对路径
+     * 官网：https://help.aliyun.com/document_detail/84781.html?spm=a2c4g.11186623.6.948.64b014a0QG5CsQ
      * demo https://github.com/aliyun/aliyun-oss-java-sdk/blob/master/src/samples/UploadSample.java
      */
     private String ossUploadFileSmall(String endpoint, String picturePath, MultipartFile file) throws IOException {
         OSS ossClient = new OSSClientBuilder().build(endpoint, aliyunOssConfig.getAccessKeyId(), aliyunOssConfig.getAccessKeySecret());
-
         try {
             // 上传文件 (上传文件流的形式)
             PutObjectResult putResult = ossClient.putObject(aliyunOssConfig.getBucketName(), picturePath, file.getInputStream());
         } catch (OSSException oe) {
+            // 使用OSS的API接口或SDK时提示“SignatureDoesNotMatch”签名相关的报错
+            // SignatureDoesNotMatch: The request signature we calculated does not match the signature you provided. Check your key and signing method
+            // https://help.aliyun.com/knowledge_detail/39637.html?spm=5176.21213303.J_6028563670.7.74bc3edaCiPpyc&scm=20140722.S_help%40%40%E7%9F%A5%E8%AF%86%E7%82%B9%40%4039637.S_hot.ID_39637-OR_s%2Bhelpproduct-V_1-P0_0
+            if ("SignatureDoesNotMatch".equalsIgnoreCase(oe.getErrorCode())) {
+                log.error("SignatureDoesNotMatch access-key-secret错误； 或者 key 和 secret不匹配。");
+            }
             log.error("Caught an OSSException, which means your request made it to OSS, "
                     + "but was rejected with an error response for some reason.");
             log.error("Error Message:  {}", oe.getErrorMessage());
@@ -492,13 +505,14 @@ public class AliyunOssDsfServiceImpl implements IDfsService {
         } while (objectListing.isTruncated());
         client.shutdown();
 
-        if (size > (1024 * 1024)) {
+        /*if (size > (1024 * 1024)) {
             result = (new BigDecimal((double) size / 1024 / 1024)).setScale(2, BigDecimal.ROUND_HALF_UP) + "GB";
         } else if (size > 1024) {
             result = (new BigDecimal((double) size / 1024).setScale(2, BigDecimal.ROUND_HALF_UP)) + "MB";
         } else {
             result = size + "KB";
-        }
+        }*/
+        result = FileUtil.readableFileSize(size);
         return result;
     }
 

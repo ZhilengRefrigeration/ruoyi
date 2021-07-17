@@ -90,7 +90,7 @@
         <dependency>
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
-            <version>3.5.0</version>
+            <version>3.10.0</version>
             <exclusions>
                 <!--排除 sdk-core 存在的包-->
                 <exclusion>

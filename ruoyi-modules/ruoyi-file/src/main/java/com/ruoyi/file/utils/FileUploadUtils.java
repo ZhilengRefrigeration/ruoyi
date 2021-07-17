@@ -88,7 +88,9 @@ public class FileUploadUtils
     {
         String fileName = file.getOriginalFilename();
         String extension = getExtension(file);
-        fileName = DateUtils.datePath() + "/" + IdUtils.fastUUID() + "." + extension;
+        //fileName = DateUtils.datePath() + "/" + IdUtils.fastUUID() + "." + extension;
+        // 文件名称中，不要带有 路径分割符号
+        fileName = DateUtils.dateTime() + "-" + IdUtils.fastUUID() + "." + extension;
         return fileName;
     }
 

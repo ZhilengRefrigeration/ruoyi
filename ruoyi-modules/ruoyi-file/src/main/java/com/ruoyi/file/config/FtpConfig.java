@@ -45,6 +45,12 @@ public class FtpConfig {
      * vsftpd：使用的 系统用户的目录，这里往往都是不是根目录，如：/home/ftpuser/
      */
     private String rootFtpPath = "";
+    /**
+     * 上传文件对外访问的地址；
+     * hostname经常是内网ip； 不带https or 不待 http
+     * eg: https://www.ourslook.com/
+     */
+    private String domain;
 
     public String getHostName() {
         return hostName;
@@ -84,5 +90,13 @@ public class FtpConfig {
 
     public void setRootFtpPath(String rootFtpPath) {
         this.rootFtpPath = rootFtpPath;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
     }
 }

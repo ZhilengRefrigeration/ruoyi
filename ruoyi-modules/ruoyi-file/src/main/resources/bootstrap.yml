@@ -33,6 +33,14 @@ file:
   prefix: /statics
   path: D:/ruoyi/uploadPath
 
+# 文件服务器之2 ftp
+ftp:
+  host-name: 118.31.2.53
+  port: 21
+  user-name: lanjinjun
+  password:
+  domain: https://test53.ourslook.com
+
 # 文件服务器之3 FastDFS配置
 fdfs:
   domain: http://8.129.231.12
@@ -46,5 +54,12 @@ minio:
   accessKey: D99KGE6ZTQXSATTJWU24
   secretKey: QyVqGnhIQQE734UYSUFlGOZViE6+ZlDEfUG3NjhJ
   bucketName: neusoft-appt
-  #regex: .*appt-file/
-  #encryptFlag: true
+
+# 文件服务器之5 aliyun oss
+aliyun-oss:
+  access-key-id: LTAI4GDQSbwgmbsRxxbDXnKT
+  access-key-secret: I1xYosCsIf4YgHeFbWUOU4faImeWD2
+  bucket-name: react-yuebaoxiao-pro
+  endpoint: oss-cn-shanghai.aliyuncs.com
+  domain: https://react-yuebaoxiao-pro.oss-cn-shanghai.aliyuncs.com
+
