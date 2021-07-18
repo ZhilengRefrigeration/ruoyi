@@ -44,6 +44,12 @@ public class MinioConfig {
      */
     private String bucketName;
 
+    /**
+     * 访问域名; url经常是内网地址，外部访问用域名或者外网ip
+     * eg: https://image.bj.gov.cn/appt-file
+     */
+    private String domain;
+
     public String getUrl() {
         return url;
     }
@@ -74,6 +80,14 @@ public class MinioConfig {
 
     public void setBucketName(String bucketName) {
         this.bucketName = bucketName;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
     }
 
     @Bean

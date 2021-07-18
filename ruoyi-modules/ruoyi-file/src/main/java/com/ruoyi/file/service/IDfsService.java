@@ -2,6 +2,8 @@ package com.ruoyi.file.service;
 
 import com.ruoyi.common.core.exception.file.FileNameLengthLimitExceededException;
 import com.ruoyi.common.core.exception.file.InvalidExtensionException;
+import com.ruoyi.common.core.utils.DateUtils;
+import com.ruoyi.common.core.utils.IdUtils;
 import com.ruoyi.common.core.utils.file.MimeTypeUtils;
 import com.ruoyi.file.utils.FileUploadUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -11,8 +13,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.ruoyi.file.utils.FileUploadUtils.assertAllowed;
-import static com.ruoyi.file.utils.FileUploadUtils.extractFilename;
+import static com.ruoyi.file.utils.FileUploadUtils.*;
 
 /**
  * 【DFS】 = Distributed file system 比 【Sys File】 名称要容易理解
@@ -71,7 +72,7 @@ public interface IDfsService
      * @param modules 模块，这里作为上传的文件夹使用;eg: 项目中有banner、video、music、txt、product、default 多个模块，不同模块存放到不同文件夹中；
      * @return 新的系统生成的文件名称
      */
-    default String validateModule(MultipartFile file, String modules) throws InvalidExtensionException {
+    default void validateModule(MultipartFile file, String modules) throws InvalidExtensionException {
         Objects.requireNonNull(file, "文件不能为空！");
         modules = StringUtils.defaultString(modules, "default");
 
@@ -90,6 +91,25 @@ public interface IDfsService
 
         // 3、文件大小校验
         assertAllowed(file, MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION);
-        return extractFilename(file);
+    }
+
+    /**
+     * @return 获取文件名称，简化版本，不包含斜杠 /; 形如：/20210717-a77f6bb0-7b0a-4ef1-a839-f8e8aca469b8.jpeg
+     */
+    default String extractFileNameSimple(MultipartFile file) {
+        String fileName = file.getOriginalFilename();
+        String extension = getExtension(file);
+        fileName = DateUtils.dateTime() + "-" + IdUtils.fastUUID() + "." + extension;
+        return fileName;
+    }
+
+    /**
+     * @return 获取文件名称，包含斜杠 /； 形如：/2021/07/17/a77f6bb0-7b0a-4ef1-a839-f8e8aca469b8.jpeg
+     */
+    default String extractFileName(MultipartFile file) {
+        String fileName = file.getOriginalFilename();
+        String extension = getExtension(file);
+        fileName = DateUtils.datePath() + "/" + IdUtils.fastUUID() + "." + extension;
+        return fileName;
     }
 }

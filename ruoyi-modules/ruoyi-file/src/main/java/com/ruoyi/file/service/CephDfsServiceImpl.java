@@ -86,9 +86,10 @@ public class CephDfsServiceImpl implements IDfsService {
     @Override
     public String uploadFile(MultipartFile file, String modules) throws Exception {
         //key: 这里不能以/开头
-        String newName =  validateModule(file, null);
+        validateModule(file, modules);
+        String newName = extractFileNameSimple(file);
         //key: 这里不能以/开头
-        String requestKey = "upload/" + newName;
+        String requestKey = "upload/" + StringUtils.defaultString(modules, "default") + "/" +  newName;
         //这里增加一个前缀区分一下是测试环境还是正式环境
         boolean isProd = "prod".equalsIgnoreCase(SpringUtil.getActiveProfile());
         if (!isProd) {

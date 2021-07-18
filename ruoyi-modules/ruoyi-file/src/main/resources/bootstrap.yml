@@ -50,10 +50,11 @@ fdfs:
 
 # 文件服务器之4 Minio配置
 minio:
-  url: http://192.168.254.100:9900
+  url: http://10.16.58.152:9000
   accessKey: D99KGE6ZTQXSATTJWU24
   secretKey: QyVqGnhIQQE734UYSUFlGOZViE6+ZlDEfUG3NjhJ
-  bucketName: neusoft-appt
+  bucketName: appt-file
+  domain: https://image.bj.gov.cn
 
 # 文件服务器之5 aliyun oss
 aliyun-oss:
@@ -63,3 +64,9 @@ aliyun-oss:
   endpoint: oss-cn-shanghai.aliyuncs.com
   domain: https://react-yuebaoxiao-pro.oss-cn-shanghai.aliyuncs.com
 
+# 文件服务器之6 qiniu 七牛 kodo
+qiniu:
+  access-key: pRYrSe_EW4sJHsQ6JyuiRYShA2JCLKtMhT-N4TQD
+  secret-key: CwTEh1kSLBdxBhIWfFz6h1GgDSokx97CYEV0cC1O
+  bucket-name: guangdong-oss
+  domain: http://guangdong-oss.ityun.ltd

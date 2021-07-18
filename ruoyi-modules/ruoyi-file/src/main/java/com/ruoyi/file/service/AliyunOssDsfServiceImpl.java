@@ -42,7 +42,6 @@ import java.util.concurrent.TimeUnit;
  * @date 2019/8/6 19:02
  * //@see AliyunMsgUtil
  */
-@Primary
 @Service
 public class AliyunOssDsfServiceImpl implements IDfsService {
     private static final Logger log = LoggerFactory.getLogger(AliyunOssDsfServiceImpl.class);
@@ -64,7 +63,8 @@ public class AliyunOssDsfServiceImpl implements IDfsService {
     @Override
     public String uploadFile(MultipartFile file, String modules) throws Exception {
         //key: 这里不能以/开头
-        String newName = validateModule(file, null);
+        validateModule(file, null);
+        String newName = extractFileNameSimple(file);
         //key: 这里不能以/开头
         String requestKey = "upload/" + StringUtils.defaultString(modules, "default") + "/" +  newName;
         //这里增加一个前缀区分一下是测试环境还是正式环境
@@ -153,7 +153,7 @@ public class AliyunOssDsfServiceImpl implements IDfsService {
      * 转换url
      *
      * @param filePath https://hiber2019.oss-cn-shanghai.aliyuncs.com/upload/default/20190806202208849_jvs5g.png
-     *                 eg2: 上传之后的格式：https://react-yuebaoxiao-pro.oss-cn-shanghai.aliyuncs.com/dev//upload/default/20210717-a77f6bb0-7b0a-4ef1-a839-f8e8aca469b8.jpeg
+     *                 eg2: 上传之后的格式：https://react-yuebaoxiao-pro.oss-cn-shanghai.aliyuncs.com/dev/upload/default/20210717-a77f6bb0-7b0a-4ef1-a839-f8e8aca469b8.jpeg
      * @return upload/default/20190806202208849_jvs5g.png
      */
     private String getStorePath(String filePath) {

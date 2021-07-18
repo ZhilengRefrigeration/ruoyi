@@ -12,9 +12,11 @@ import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
 import com.ruoyi.common.core.exception.CustomException;
 import com.ruoyi.file.config.QiniuKodoConfig;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +30,7 @@ import java.io.InputStream;
  * 参考：https://developer.qiniu.com/kodo/1239/java#upload-stream
  * 路径：【对象存储==>JAVASDK==>文件上传==>数据流上传】
  */
+//@Primary
 @Service
 public class QiniuDfsServiceImpl implements IDfsService {
     private static final Logger log = LoggerFactory.getLogger(QiniuDfsServiceImpl.class);
@@ -42,9 +45,10 @@ public class QiniuDfsServiceImpl implements IDfsService {
     @Override
     public String uploadFile(MultipartFile file, String modules) throws Exception {
         //key: 这里不能以/开头
-        String newName = validateModule(file, null);
+        validateModule(file, modules);
+        String newName = extractFileNameSimple(file);
         //key: 这里不能以/开头
-        String requestKey = "upload/" + "/" + newName;
+        String requestKey = "upload/" + StringUtils.defaultString(modules, "default") + "/" + newName;
         //这里增加一个前缀区分一下是测试环境还是正式环境
         boolean isProd = "prod".equalsIgnoreCase(SpringUtil.getActiveProfile());
         if (!isProd) {
@@ -58,6 +62,7 @@ public class QiniuDfsServiceImpl implements IDfsService {
         String accessKey = qiniuKodoConfig.getAccessKey();
         String secretKey = qiniuKodoConfig.getSecretKey();
         String bucket = qiniuKodoConfig.getBucketName();
+        String domain = qiniuKodoConfig.getDomain();
         //默认不指定key的情况下，以文件内容的hash值作为文件名
         String key = requestKey;
 
@@ -68,8 +73,8 @@ public class QiniuDfsServiceImpl implements IDfsService {
             Response response = uploadManager.put(byteInputStream, key, upToken, null, null);
             //解析上传成功的结果
             DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
-            System.out.println(putRet.key);
-            System.out.println(putRet.hash);
+            /// http://guangdong-oss.ityun.ltd/dev/upload/default/20210717-133e3b4a-6aad-418c-a040-7161fa37ee49.jpeg
+            return (domain + "/" + putRet.key).replace("//", "/") ;
         } catch (QiniuException ex) {
             Response r = ex.response;
             String json = null;
@@ -98,6 +103,7 @@ public class QiniuDfsServiceImpl implements IDfsService {
         String key = getStorePath(fileUrl);
         try {
             bucketManager.delete(bucket, key);
+            return true;
         } catch (QiniuException ex) {
             //如果遇到异常，说明删除失败
             log.error("【七牛云】-删除文件-失败 code：" + ex.code() + "=>" + ex.response.toString());
@@ -137,7 +143,8 @@ public class QiniuDfsServiceImpl implements IDfsService {
         /// 其中关于Region对象和机房的关系如下：
         ///Region region = Region.autoRegion();
         ///Region region = Region.region0();
+        ///Region region = Region.huanan();
         //构造一个带指定 Region 对象的配置类
-        return Region.huadong();
+        return Region.autoRegion();
     }
 }

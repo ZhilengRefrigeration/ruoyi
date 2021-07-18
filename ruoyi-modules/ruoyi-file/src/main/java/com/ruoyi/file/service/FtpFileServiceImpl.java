@@ -29,7 +29,8 @@ public class FtpFileServiceImpl implements IDfsService {
 
     @Override
     public String uploadFile(MultipartFile file, String modules) throws Exception {
-        String fileName = validateModule(file, modules);
+        validateModule(file, modules);
+        String fileName = extractFileNameSimple(file);
 
         modules = StringUtils.defaultString(modules, "default");
         String picturePath = "/upload/" + modules;
