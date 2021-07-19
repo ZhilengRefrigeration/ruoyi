@@ -29,6 +29,8 @@ import java.io.InputStream;
  * @see QiniuKodoConfig
  * 参考：https://developer.qiniu.com/kodo/1239/java#upload-stream
  * 路径：【对象存储==>JAVASDK==>文件上传==>数据流上传】
+ *
+ * 构建时间戳防盗链访问链接： https://developer.qiniu.com/kodo/1239/java#fusion-antileech
  */
 //@Primary
 @Service
@@ -114,6 +116,11 @@ public class QiniuDfsServiceImpl implements IDfsService {
     @Override
     public String objectsCapacityStr() {
         throw new CustomException("七牛云-获取文件占用空间功能，敬请期待");
+    }
+
+    @Override
+    public String presignedUrl(String fileUrl) {
+        return fileUrl;
     }
 
     /**

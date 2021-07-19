@@ -129,6 +129,11 @@ public class CephDfsServiceImpl implements IDfsService {
         throw new CustomException("ceph-获取文件占用空间功能，敬请期待");
     }
 
+    @Override
+    public String presignedUrl(String fileUrl) {
+        return fileUrl;
+    }
+
     /**
      * 转换url
      *

@@ -72,4 +72,9 @@ public class FastDfsServiceImpl implements IDfsService
     public String objectsCapacityStr() {
         throw new CustomException("fastdfs-获取文件占用空间功能，敬请期待");
     }
+
+    @Override
+    public String presignedUrl(String fileUrl) {
+        return fileUrl;
+    }
 }

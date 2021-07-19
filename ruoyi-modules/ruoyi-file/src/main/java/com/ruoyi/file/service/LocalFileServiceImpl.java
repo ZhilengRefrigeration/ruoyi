@@ -84,6 +84,11 @@ public class LocalFileServiceImpl implements IDfsService
         return "总 " + totalSpace + "， 可用 " + freeSpace;
     }
 
+    @Override
+    public String presignedUrl(String fileUrl) {
+        return fileUrl;
+    }
+
     /**
      * 转换url，为原始的key
      *

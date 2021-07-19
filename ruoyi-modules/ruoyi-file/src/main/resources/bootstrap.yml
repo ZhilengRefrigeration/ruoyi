@@ -17,9 +17,11 @@ spring:
       discovery:
         # 服务注册地址
         server-addr: 127.0.0.1:8848
+        namespace: 72b686a1-d9f6-499f-8275-e481b664779e
       config:
         # 配置中心地址
         server-addr: 127.0.0.1:8848
+        namespace: 72b686a1-d9f6-499f-8275-e481b664779e
         # 配置文件格式
         file-extension: yml
         # 共享配置
@@ -54,7 +56,7 @@ minio:
   accessKey: D99KGE6ZTQXSATTJWU24
   secretKey: QyVqGnhIQQE734UYSUFlGOZViE6+ZlDEfUG3NjhJ
   bucketName: appt-file
-  domain: https://image.bj.gov.cn
+  domain: https://yq666.bj.gov.cn
 
 # 文件服务器之5 aliyun oss
 aliyun-oss:

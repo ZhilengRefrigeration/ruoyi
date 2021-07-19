@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 public class MinioConfig {
     public static final String PREFIX = "minio";
     /**
-     * 服务地址
+     * 服务地址url 或者叫做 endpoint
      * eg: http://192.168.254.100:9900
      */
     private String url;
@@ -46,7 +46,7 @@ public class MinioConfig {
 
     /**
      * 访问域名; url经常是内网地址，外部访问用域名或者外网ip
-     * eg: https://image.bj.gov.cn/appt-file
+     * eg: https://yq666.bj.gov.cn/appt-file
      */
     private String domain;
 

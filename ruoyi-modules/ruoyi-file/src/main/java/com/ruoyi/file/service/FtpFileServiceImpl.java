@@ -77,6 +77,11 @@ public class FtpFileServiceImpl implements IDfsService {
         throw new CustomException("fpt-获取文件占用空间功能，敬请期待");
     }
 
+    @Override
+    public String presignedUrl(String fileUrl) {
+        return fileUrl;
+    }
+
     /**
      * 转换url，为原始的key
      *

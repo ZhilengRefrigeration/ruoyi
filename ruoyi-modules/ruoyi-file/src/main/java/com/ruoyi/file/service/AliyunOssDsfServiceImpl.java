@@ -42,6 +42,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2019/8/6 19:02
  * //@see AliyunMsgUtil
  */
+//@Primary
 @Service
 public class AliyunOssDsfServiceImpl implements IDfsService {
     private static final Logger log = LoggerFactory.getLogger(AliyunOssDsfServiceImpl.class);
@@ -516,6 +517,12 @@ public class AliyunOssDsfServiceImpl implements IDfsService {
         return result;
     }
 
+    @Override
+    public String presignedUrl(String fileUrl) {
+        String objectKey = this.getStorePath(fileUrl);
+        return this.getStsURL(objectKey);
+    }
+
     /**
      * 阿里云 对象存储 oss 使用签名URL进行临时授权
      * https://help.aliyun.com/document_detail/32016.html?spm=a2c4g.11186623.6.992.7a943b4aPjkyTA#title-pu8-5o8-x7j
@@ -523,7 +530,7 @@ public class AliyunOssDsfServiceImpl implements IDfsService {
      * @param objectName 完成的url, filePath
      * @return 返回url签名之后的url
      */
-    public String getStsURL(String objectName) {
+    private String getStsURL(String objectName) {
         if (StringUtils.isBlank(objectName)) {
             return objectName;
         }

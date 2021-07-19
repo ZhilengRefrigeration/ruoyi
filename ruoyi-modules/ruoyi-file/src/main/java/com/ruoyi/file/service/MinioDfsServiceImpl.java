@@ -1,21 +1,24 @@
 package com.ruoyi.file.service;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.ruoyi.common.core.exception.CustomException;
-import io.minio.RemoveObjectArgs;
+import io.minio.*;
 import io.minio.errors.*;
+import io.minio.http.Method;
+import io.minio.messages.Item;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.file.config.MinioConfig;
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Consumer;
 
 /**
  * Minio 文件存储
@@ -38,7 +41,7 @@ public class MinioDfsServiceImpl implements IDfsService
     @Autowired
     private MinioConfig minioConfig;
     @Autowired
-    private MinioClient client;
+    private MinioClient minioClient;
 
     /**
      * 本地文件上传接口
@@ -68,9 +71,9 @@ public class MinioDfsServiceImpl implements IDfsService
                 .stream(file.getInputStream(), file.getSize(), -1)
                 .contentType(file.getContentType())
                 .build();
-        client.putObject(args);
+        minioClient.putObject(args);
         //return minioConfig.getUrl() + "/" + minioConfig.getBucketName() + "/" + fileName;
-        //形如：https://image.bj.gov.cn/appt-file/dev/default/2021/07/18/f4243eb2-06a1-4304-bdfc-e2964b8721bb.jpeg
+        //形如：https://yq666.bj.gov.cn/appt-file/dev/default/2021/07/18/f4243eb2-06a1-4304-bdfc-e2964b8721bb.jpeg
         return minioConfig.getDomain() + "/" + minioConfig.getBucketName() + "/" + fileName;
     }
 
@@ -81,7 +84,7 @@ public class MinioDfsServiceImpl implements IDfsService
                 object(getStorePath(fileUrl)).
                 build();
         try {
-            client.removeObject(args);
+            minioClient.removeObject(args);
             return true;
         } catch (ErrorResponseException |
                 InsufficientDataException |
@@ -99,13 +102,69 @@ public class MinioDfsServiceImpl implements IDfsService
 
     @Override
     public String objectsCapacityStr() {
-        throw new CustomException("minio存储-获取文件占用空间功能，敬请期待");
+        /*MinioClient minioClient = MinioClient.builder().endpoint(minioConfig.getUrl())
+                .credentials(minioConfig.getAccessKey(), minioConfig.getSecretKey())
+                .build();*/
+
+        AtomicLong atomicLong = new AtomicLong();
+        atomicLong.set(0);
+        String result = "";
+
+        ListObjectsArgs args = ListObjectsArgs.builder().bucket(minioConfig.getBucketName()).build();
+        minioClient.listObjects(args).forEach(new Consumer<Result<Item>>() {
+            @Override
+            public void accept(Result<Item> itemResult) {
+                try {
+                    atomicLong.addAndGet(itemResult.get().size() / 1024);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        long size = atomicLong.get();
+        if (size > (1024 * 1024)) {
+            result = (new BigDecimal((double) size / 1024 / 1024)).setScale(2, BigDecimal.ROUND_HALF_UP) + "GB";
+        } else if (size > 1024) {
+            result = (new BigDecimal((double) size / 1024).setScale(2, BigDecimal.ROUND_HALF_UP)) + "MB";
+        } else {
+            result = size + "KB";
+        }
+
+        return result;
+    }
+
+    /**
+     * 给原始的URL add 过期时间
+     * [STS 临时授权]
+     * http://docs.minio.org.cn/docs/master/minio-sts-quickstart-guide
+     * minio SDKS Java Client API参考文档 http://docs.minio.org.cn/docs/master/java-client-api-reference
+     * Presigned presignedGetObject 预签】
+     */
+    @Override
+    public String presignedUrl(String fileUrl) {
+        String objectName = this.getStorePath(fileUrl);
+        GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder().
+                bucket(minioConfig.getBucketName()).
+                method(Method.GET).
+                object(objectName).expiry(5, TimeUnit.DAYS).build();
+
+        String presignedObjectUrl = null;
+        try {
+            presignedObjectUrl = minioClient.getPresignedObjectUrl(args);
+            String basePrivateUrl = minioConfig.getUrl() + "/" + minioConfig.getBucketName() + "/";
+            presignedObjectUrl = presignedObjectUrl.replace(basePrivateUrl, "");
+        } catch (ErrorResponseException | InsufficientDataException | InternalException | InvalidKeyException | InvalidResponseException | IOException | NoSuchAlgorithmException | XmlParserException | ServerException e) {
+            e.printStackTrace();
+            presignedObjectUrl = fileUrl;
+        }
+        return minioConfig.getDomain() + "/" + minioConfig.getBucketName() + "/" + presignedObjectUrl;
     }
 
     /**
      * 转换url，为原始的key
      *
-     * @param filePath https://image.bj.gov.cn/appt-file/dev/default/2021/07/18/f4243eb2-06a1-4304-bdfc-e2964b8721bb.jpeg
+     * @param filePath https://yq666.bj.gov.cn/appt-file/dev/default/2021/07/18/f4243eb2-06a1-4304-bdfc-e2964b8721bb.jpeg
      * @return dev/default/2021/07/18/f4243eb2-06a1-4304-bdfc-e2964b8721bb.jpeg
      */
     private String getStorePath(String filePath) {

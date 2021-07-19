@@ -66,6 +66,22 @@ public interface IDfsService
     String objectsCapacityStr();
 
     /**
+     * 对访问url进行签名加密 别名 【临时安全凭证】
+     * 兼容 AWS Security Token Service (STS) 的联合身份临时安全凭证 (federation token) ，更多详细信息请查阅
+     *
+     * 1、aliyun oss 叫做；STS服务 临时安全令牌（Security Token Service，STS） 说明：https://help.aliyun.com/document_detail/28761.html?spm=a2c4g.11186623.6.880.22bd2fe5pL1d39
+     * 2、minio 叫做；resignedGetObject 临时安全令牌（Security Token Service，STS）; 【Presigned presignedGetObject 预签】
+     *    http://docs.minio.org.cn/docs/master/minio-sts-quickstart-guide
+     *    minio SDKS Java Client API参考文档 http://docs.minio.org.cn/docs/master/java-client-api-reference
+     * 3、qiniu ；七牛云存储； 构建时间戳防盗链访问链接： https://developer.qiniu.com/kodo/1239/java#fusion-antileech
+     *   https://developer.qiniu.com/kodo/5914/s3-compatible-sts
+     * 4、腾讯 临时密钥（临时访问凭证） GetFederationToken 临时密钥生成及使用指引 https://cloud.tencent.com/document/product/436/14048?from=10680
+     * @param fileUrl 文件访问地址,全路径或者不是全路径都可以
+     * @return 返回签名后的url
+     */
+    String presignedUrl(String fileUrl);
+
+    /**
      * 校验文件名称长度 & 校验文件大小 & 校验上传的目录是否是项目中注册了的 & 返回新的文件名称
      *
      * @param file    文件
