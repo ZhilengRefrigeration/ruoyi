@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -112,7 +111,7 @@ public class AliyunOssDsfServiceImpl implements IDfsService {
         /*
          * Constructs a client instance with your account for accessing OSS
          */
-        OSS client = new OSSClientBuilder().build(aliyunOssConfig.getEndpoint(), aliyunOssConfig.getAccessKeyId(), aliyunOssConfig.getAccessKeySecret());
+        OSS client = new OSSClientBuilder().build(aliyunOssConfig.getEndpoint(), aliyunOssConfig.getAccessKey(), aliyunOssConfig.getSecretKey());
         String storePath = getStorePath(fileUrl);
         List<String> keys = new ArrayList<>();
         keys.add(storePath);
@@ -190,7 +189,7 @@ public class AliyunOssDsfServiceImpl implements IDfsService {
      * demo https://github.com/aliyun/aliyun-oss-java-sdk/blob/master/src/samples/UploadSample.java
      */
     private String ossUploadFileSmall(String endpoint, String picturePath, MultipartFile file) throws IOException {
-        OSS ossClient = new OSSClientBuilder().build(endpoint, aliyunOssConfig.getAccessKeyId(), aliyunOssConfig.getAccessKeySecret());
+        OSS ossClient = new OSSClientBuilder().build(endpoint, aliyunOssConfig.getAccessKey(), aliyunOssConfig.getSecretKey());
         try {
             // 上传文件 (上传文件流的形式)
             PutObjectResult putResult = ossClient.putObject(aliyunOssConfig.getBucketName(), picturePath, file.getInputStream());
@@ -271,7 +270,7 @@ public class AliyunOssDsfServiceImpl implements IDfsService {
          */
         ClientBuilderConfiguration conf = new ClientBuilderConfiguration();
         conf.setIdleConnectionTime(1000);
-        OSS client = new OSSClientBuilder().build(endpoint, aliyunOssConfig.getAccessKeyId(), aliyunOssConfig.getAccessKeySecret(), conf);
+        OSS client = new OSSClientBuilder().build(endpoint, aliyunOssConfig.getAccessKey(), aliyunOssConfig.getSecretKey(), conf);
 
         try {
             /*
@@ -485,7 +484,7 @@ public class AliyunOssDsfServiceImpl implements IDfsService {
 
     @Override
     public String objectsCapacityStr() {
-        OSS client = new OSSClientBuilder().build(aliyunOssConfig.getEndpoint(), aliyunOssConfig.getAccessKeyId(), aliyunOssConfig.getAccessKeySecret());
+        OSS client = new OSSClientBuilder().build(aliyunOssConfig.getEndpoint(), aliyunOssConfig.getAccessKey(), aliyunOssConfig.getSecretKey());
         final int maxKeys = 200;
         String nextMarker = null;
         ObjectListing objectListing;
@@ -545,7 +544,7 @@ public class AliyunOssDsfServiceImpl implements IDfsService {
         } catch (MalformedURLException e) {
             // 忽略
         }
-        OSS ossClient = new OSSClientBuilder().build(aliyunOssConfig.getEndpoint(), aliyunOssConfig.getAccessKeyId(), aliyunOssConfig.getAccessKeySecret());
+        OSS ossClient = new OSSClientBuilder().build(aliyunOssConfig.getEndpoint(), aliyunOssConfig.getAccessKey(), aliyunOssConfig.getSecretKey());
         // 设置URL过期时间为12小时，最大值就是43200
         Date expiration = new Date(System.currentTimeMillis() + (43200 * 1000));
         // 生成以GET方法访问的签名URL，访客可以直接通过浏览器访问相关内容。

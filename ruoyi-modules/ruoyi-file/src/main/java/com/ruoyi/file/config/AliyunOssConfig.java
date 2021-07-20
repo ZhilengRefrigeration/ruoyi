@@ -20,8 +20,8 @@ public class AliyunOssConfig {
     /**
      * aliyun oss相关配置
      * ACCESS_KEY_SECRET
-     * AccessKeyId eg:LTAI4GFov2QymkmPf9cXdH5z
-     * AccessKeySecret eg:ap8nmIvD1TctcCLsADS4JbkOoXOluW
+     * AccessKeyId 【secretKey】eg:LTAI4GFov2QymkmPf9cXdH5z
+     * AccessKeySecret 【secretKey】 eg:ap8nmIvD1TctcCLsADS4JbkOoXOluW
      * BucketName eg:yuebaoxiao
      * Endpoint eg:oss-cn-shenzhen.aliyuncs.com
      *
@@ -29,8 +29,8 @@ public class AliyunOssConfig {
      *
      * 具体项目里面必须替换掉
      */
-    private String accessKeyId = "";
-    private String accessKeySecret = "";
+    private String accessKey = "";
+    private String secretKey = "";
     private String bucketName = "";
     private String endpoint = "";
     /**
@@ -45,20 +45,20 @@ public class AliyunOssConfig {
      */
     private String domain = null;
 
-    public String getAccessKeyId() {
-        return accessKeyId;
+    public String getAccessKey() {
+        return accessKey;
     }
 
-    public void setAccessKeyId(String accessKeyId) {
-        this.accessKeyId = accessKeyId;
+    public void setAccessKey(String accessKey) {
+        this.accessKey = accessKey;
     }
 
-    public String getAccessKeySecret() {
-        return accessKeySecret;
+    public String getSecretKey() {
+        return secretKey;
     }
 
-    public void setAccessKeySecret(String accessKeySecret) {
-        this.accessKeySecret = accessKeySecret;
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
     }
 
     public String getBucketName() {
