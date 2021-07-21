@@ -143,11 +143,15 @@ public class MinioDfsServiceImpl implements IDfsService
      */
     @Override
     public String presignedUrl(String fileUrl) {
+        if (minioConfig.getExpiryDuration() == -1) {
+            return fileUrl;
+        }
         String objectName = this.getStorePath(fileUrl);
         GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder().
                 bucket(minioConfig.getBucketName()).
                 method(Method.GET).
-                object(objectName).expiry(5, TimeUnit.DAYS).build();
+                object(objectName).
+                expiry(minioConfig.getExpiryDuration(), TimeUnit.SECONDS).build();
 
         String presignedObjectUrl = null;
         try {

@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import io.minio.MinioClient;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Minio 配置信息
  *
@@ -20,8 +22,14 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = MinioConfig.PREFIX)
 public class MinioConfig {
     public static final String PREFIX = "minio";
+
+    @Bean
+    public MinioClient getMinioClient() {
+        return MinioClient.builder().endpoint(url).credentials(accessKey, secretKey).build();
+    }
+
     /**
-     * 服务地址url 或者叫做 endpoint
+     * 服务地址url 或者叫做 endpoint 或者叫做 对象存储服务的URL
      * eg: http://192.168.254.100:9900
      */
     private String url;
@@ -49,6 +57,18 @@ public class MinioConfig {
      * eg: https://yq666.bj.gov.cn/appt-file
      */
     private String domain;
+
+    /**
+     * 过期时间
+     * 文档：MinIO STS快速入门指南 http://docs.minio.org.cn/docs/master/minio-sts-quickstart-guide
+     * 文档：适用于与Amazon S3兼容的云存储的MinIO Java SDK: API文档: Presigned操作: presignedGetObject:  http://docs.minio.org.cn/docs/master/java-client-quickstart-guide
+     * 默认7天，单位秒；
+     * 1小时：3600 = 60 * 60 * 1
+     * 24小时（1天）：86400 = 60 * 60 * 24
+     * 7天：604800 = 86400 * 7
+     * -1： 就永不过期，原样返回url
+     */
+    private Integer expiryDuration = 86400;
 
     public String getUrl() {
         return url;
@@ -90,8 +110,20 @@ public class MinioConfig {
         this.domain = domain;
     }
 
-    @Bean
-    public MinioClient getMinioClient() {
-        return MinioClient.builder().endpoint(url).credentials(accessKey, secretKey).build();
+    public Integer getExpiryDuration() {
+        if (expiryDuration == null) {
+            // 默认一个小时, 3600秒
+            expiryDuration = 86400;
+        }
+        if (expiryDuration < 1L && expiryDuration != -1) {
+            // 最小1秒
+            // 如果要永不过期，就不要调用 -1； 直接原样返回
+            expiryDuration = 1;
+        }
+        return expiryDuration;
+    }
+
+    public void setExpiryDuration(Integer expiryDuration) {
+        this.expiryDuration = expiryDuration;
     }
 }

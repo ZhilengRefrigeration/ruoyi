@@ -23,7 +23,7 @@ public class AliyunOssConfig {
      * AccessKeyId 【secretKey】eg:LTAI4GFov2QymkmPf9cXdH5z
      * AccessKeySecret 【secretKey】 eg:ap8nmIvD1TctcCLsADS4JbkOoXOluW
      * BucketName eg:yuebaoxiao
-     * Endpoint eg:oss-cn-shenzhen.aliyuncs.com
+     * Endpoint 对象存储服务的URL  eg:oss-cn-shenzhen.aliyuncs.com
      *
      * ak 获取地址：https://ak-console.aliyun.com/#/accesskey
      *
@@ -44,6 +44,16 @@ public class AliyunOssConfig {
      * 4: eg: https://image.jl-media.cn
      */
     private String domain = null;
+    /**
+     * 过期时间，单位秒；
+     * 如：1小时就写：3600L
+     * 如：9小时就写：32400L
+     * 如：12小时就写：43200L, 【不支持】，最大是 32400（9小时）， 最小 1（1秒钟）
+     * 如：-1： 就永不过期，原样返回url
+     * 签名URL的默认过期时间为3600秒，最大值为32400秒
+     * 文档：对象存储 授权访问 https://help.aliyun.com/document_detail/32016.html?spm=a2c4g.11186623.6.996.335b6d13O5xgUH
+     */
+    private Long expiryDuration = 32400L;
 
     public String getAccessKey() {
         return accessKey;
@@ -83,5 +93,22 @@ public class AliyunOssConfig {
 
     public void setDomain(String domain) {
         this.domain = domain;
+    }
+
+    public Long getExpiryDuration() {
+        if (expiryDuration == null) {
+            // 默认一个小时, 3600秒
+            expiryDuration = 3600L;
+        }
+        if (expiryDuration < 1L && expiryDuration != -1) {
+            // 最小1秒
+            // 如果要永不过期，就不要调用 -1； 直接原样返回
+            expiryDuration = 1L;
+        }
+        return expiryDuration;
+    }
+
+    public void setExpiryDuration(Long expiryDuration) {
+        this.expiryDuration = expiryDuration;
     }
 }

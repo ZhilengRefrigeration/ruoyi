@@ -518,6 +518,9 @@ public class AliyunOssDsfServiceImpl implements IDfsService {
 
     @Override
     public String presignedUrl(String fileUrl) {
+        if (aliyunOssConfig.getExpiryDuration() == -1) {
+            return fileUrl;
+        }
         String objectKey = this.getStorePath(fileUrl);
         return this.getStsURL(objectKey);
     }
@@ -539,14 +542,16 @@ public class AliyunOssDsfServiceImpl implements IDfsService {
                 return objectName;
             }
             if (objectName.startsWith("/")) {
-                objectName = objectName.replaceFirst("/", ""); // 不能以/ 开头。例如 /dev/upload/123.jpg，需要转为 dev/upload/123.jpg
+                // 不能以/ 开头。例如 /dev/upload/123.jpg，需要转为 dev/upload/123.jpg
+                objectName = objectName.replaceFirst("/", "");
             }
         } catch (MalformedURLException e) {
             // 忽略
         }
         OSS ossClient = new OSSClientBuilder().build(aliyunOssConfig.getEndpoint(), aliyunOssConfig.getAccessKey(), aliyunOssConfig.getSecretKey());
-        // 设置URL过期时间为12小时，最大值就是43200
-        Date expiration = new Date(System.currentTimeMillis() + (43200 * 1000));
+        // 设置URL过期时间为9小时，最大值就是 32400L
+        // 设置签名URL过期时间为3600秒（1小时）。
+        Date expiration = new Date(System.currentTimeMillis() + (aliyunOssConfig.getExpiryDuration() * 1000));
         // 生成以GET方法访问的签名URL，访客可以直接通过浏览器访问相关内容。
         URL url = ossClient.generatePresignedUrl(aliyunOssConfig.getBucketName(), objectName, expiration);
         // 关闭OSSClient。
