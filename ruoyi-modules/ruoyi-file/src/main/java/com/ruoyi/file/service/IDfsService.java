@@ -73,7 +73,7 @@ public interface IDfsService
      * 2、minio 叫做；resignedGetObject 临时安全令牌（Security Token Service，STS）; 【Presigned presignedGetObject 预签】
      *    http://docs.minio.org.cn/docs/master/minio-sts-quickstart-guide
      *    minio SDKS Java Client API参考文档 http://docs.minio.org.cn/docs/master/java-client-api-reference
-     * 3、qiniu ；七牛云存储； 构建时间戳防盗链访问链接： https://developer.qiniu.com/kodo/1239/java#fusion-antileech
+     * 3、qiniu ；七牛云存储； 下载凭证(如果Bucket设置成私有，必须要有 下载凭证)，路径：【对象存储==》使用指南===》安全机制===》 下载凭证】 https://developer.qiniu.com/kodo/1202/download-token
      *   https://developer.qiniu.com/kodo/5914/s3-compatible-sts
      * 4、腾讯 临时密钥（临时访问凭证） GetFederationToken 临时密钥生成及使用指引 https://cloud.tencent.com/document/product/436/14048?from=10680
      * @param fileUrl 文件访问地址,全路径或者不是全路径都可以

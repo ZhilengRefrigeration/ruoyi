@@ -7,6 +7,8 @@ import io.minio.http.Method;
 import io.minio.messages.Item;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,8 +36,8 @@ import java.util.function.Consumer;
  * http://docs.minio.org.cn/docs/master/java-client-api-reference#presignedGetObject
  * MinIO STS快速入门指南 http://docs.minio.org.cn/docs/master/minio-sts-quickstart-guide
  */
-@Primary
-@Service
+//@Primary
+@Service()
 public class MinioDfsServiceImpl implements IDfsService
 {
     @Autowired

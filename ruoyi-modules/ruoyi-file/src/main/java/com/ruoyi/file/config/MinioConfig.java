@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import io.minio.MinioClient;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.TimeUnit;
 
 /**
  * Minio 配置信息
@@ -55,6 +54,12 @@ public class MinioConfig {
     /**
      * 访问域名; url经常是内网地址，外部访问用域名或者外网ip
      * eg: https://yq666.bj.gov.cn/appt-file
+     *
+     *  注意！！：minio要配置 Bucket Policy： Bucket ==> Edit Bucket
+     *  1、Read Only
+     *  2、Write Only
+     *  3、Read and Write
+     *  4、不做任何分配 【必须要加签之后才能访问】
      */
     private String domain;
 

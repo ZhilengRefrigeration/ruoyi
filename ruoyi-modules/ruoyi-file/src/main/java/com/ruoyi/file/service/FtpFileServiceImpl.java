@@ -17,7 +17,7 @@ import java.io.IOException;
  * ftp, 如：iis、linux ftp、vsftpd、FileZilla Server，需要自己搭建服务
  * @author dazer
  */
-@Service
+@Service()
 public class FtpFileServiceImpl implements IDfsService {
     @Autowired
     private FtpConfig ftpConfig;

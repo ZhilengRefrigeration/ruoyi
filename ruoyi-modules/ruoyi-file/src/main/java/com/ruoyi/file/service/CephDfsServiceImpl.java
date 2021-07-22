@@ -35,7 +35,7 @@ import javax.annotation.PostConstruct;
  * 2:ceph存储，使用docker部署 https://www.cnblogs.com/bladeyul/p/10649049.html
  * 3:使用docker 搭建 ceph 开发环境，使用aws sdk 存储数据 https://blog.csdn.net/freewebsys/article/details/79553386
  */
-@Service
+@Service()
 public class CephDfsServiceImpl implements IDfsService {
     private static final Logger log = LoggerFactory.getLogger(CephDfsServiceImpl.class);
     @Autowired

@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * aliyun oss  https://help.aliyun.com/learn/learningpath/oss.html ,需要购买
+ * 使用STS临时访问凭证访问OSS https://help.aliyun.com/document_detail/100624.html?spm=5176.8466032.help.dexternal.5ded1450am61oS
  *
  * @author dazer
  *
@@ -52,6 +53,11 @@ public class AliyunOssConfig {
      * 如：-1： 就永不过期，原样返回url
      * 签名URL的默认过期时间为3600秒，最大值为32400秒
      * 文档：对象存储 授权访问 https://help.aliyun.com/document_detail/32016.html?spm=a2c4g.11186623.6.996.335b6d13O5xgUH
+     *
+     * 注意！！：aliyun oss 设置Bucket ACL: bucket==>权限管理==>读写权限
+     * 1、私有 【必须要加签之后才能访问】
+     * 2、公共读
+     * 3、公共读写
      */
     private Long expiryDuration = 32400L;
 

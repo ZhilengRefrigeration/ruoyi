@@ -18,7 +18,7 @@ import com.github.tobato.fastdfs.service.FastFileStorageClient;
  * @author ruoyi
  * @see FastDfsConfig
  */
-@Service
+@Service()
 public class FastDfsServiceImpl implements IDfsService
 {
     private final Logger logger = LoggerFactory.getLogger(FastDfsServiceImpl.class);

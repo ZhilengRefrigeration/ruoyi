@@ -16,7 +16,7 @@ import java.io.File;
  * 
  * @author ruoyi
  */
-@Service
+@Service()
 public class LocalFileServiceImpl implements IDfsService
 {
     private final LocalFileConfig localFileConfig;

@@ -32,8 +32,8 @@ import java.io.InputStream;
  *
  * 构建时间戳防盗链访问链接： https://developer.qiniu.com/kodo/1239/java#fusion-antileech
  */
-//@Primary
-@Service
+@Primary
+@Service()
 public class QiniuDfsServiceImpl implements IDfsService {
     private static final Logger log = LoggerFactory.getLogger(QiniuDfsServiceImpl.class);
     @Autowired
@@ -76,7 +76,7 @@ public class QiniuDfsServiceImpl implements IDfsService {
             //解析上传成功的结果
             DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
             /// http://guangdong-oss.ityun.ltd/dev/upload/default/20210717-133e3b4a-6aad-418c-a040-7161fa37ee49.jpeg
-            return (domain + "/" + putRet.key).replace("//", "/") ;
+            return (domain + "/" + putRet.key);
         } catch (QiniuException ex) {
             Response r = ex.response;
             String json = null;
@@ -118,8 +118,20 @@ public class QiniuDfsServiceImpl implements IDfsService {
         throw new CustomException("七牛云-获取文件占用空间功能，敬请期待");
     }
 
+    /**
+     * @param fileUrl http://guangdong-oss.ityun.ltd/dev/upload/default/20210722-b935b85a-fc25-44f6-9a85-e44c56a50a7e.jpeg
+     * @return http://guangdong-oss.ityun.ltd/dev/upload/default/20210722-b935b85a-fc25-44f6-9a85-e44c56a50a7e.jpeg?e=1626970621&token=pRYrSe_EW4sJHsQ6JyuiRYShA2JCLKtMhT-N4TQD:-vq6Wm0mjv411wqj0SxIb_GZ1Q4=
+     */
     @Override
     public String presignedUrl(String fileUrl) {
+        if (qiniuKodoConfig.getExpiryDuration() == -1) {
+            return fileUrl;
+        }
+        //...其他参数参考类注释
+        String accessKey = qiniuKodoConfig.getAccessKey();
+        String secretKey = qiniuKodoConfig.getSecretKey();
+        Auth auth = Auth.create(accessKey, secretKey);
+        fileUrl = auth.privateDownloadUrl(fileUrl, qiniuKodoConfig.getExpiryDuration());
         return fileUrl;
     }
 

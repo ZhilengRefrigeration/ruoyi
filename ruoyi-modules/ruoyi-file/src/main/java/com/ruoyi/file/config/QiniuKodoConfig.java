@@ -39,6 +39,18 @@ public class QiniuKodoConfig {
     private String secretKey;
     private String bucketName;
     private String domain;
+    /**
+     * 过期时间，单位秒；
+     * 如：1小时就写：3600L
+     * 如：9小时就写：32400L
+     * 如：12小时就写：43200L, 【不支持】，最大是 未知， 最小 1（1秒钟）
+     * 如：-1： 就永不过期，原样返回url
+     * 签名URL的默认过期时间为3600秒，最大值为32400秒
+     *
+     * 注意！！：qoniu oss 设置Bucket私有，必须要有凭证才能访问 https://developer.qiniu.com/kodo/1202/download-token
+     * 下载凭证(如果Bucket设置成私有，必须要有 下载凭证)，路径：【对象存储==》使用指南===》安全机制===》 下载凭证】
+     */
+    private Long expiryDuration = 32400L;
 
     public String getAccessKey() {
         return accessKey;
@@ -70,5 +82,17 @@ public class QiniuKodoConfig {
 
     public void setDomain(String domain) {
         this.domain = domain;
+    }
+
+    public Long getExpiryDuration() {
+        if (expiryDuration != -1 && expiryDuration < 0) {
+            //  最小是1秒
+            expiryDuration = 1L;
+        }
+        return expiryDuration;
+    }
+
+    public void setExpiryDuration(Long expiryDuration) {
+        this.expiryDuration = expiryDuration;
     }
 }

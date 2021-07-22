@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,7 +43,7 @@ import java.util.concurrent.TimeUnit;
  * //@see AliyunMsgUtil
  */
 //@Primary
-@Service
+@Service()
 public class AliyunOssDsfServiceImpl implements IDfsService {
     private static final Logger log = LoggerFactory.getLogger(AliyunOssDsfServiceImpl.class);
     @Autowired
@@ -516,6 +517,10 @@ public class AliyunOssDsfServiceImpl implements IDfsService {
         return result;
     }
 
+    /**
+     * @param fileUrl https://react-yuebaoxiao-pro.oss-cn-shanghai.aliyuncs.com/dev/upload/default/20210722-03f07351-ae82-410a-a43c-0797a82f07b4.jpeg
+     * @return
+     */
     @Override
     public String presignedUrl(String fileUrl) {
         if (aliyunOssConfig.getExpiryDuration() == -1) {
