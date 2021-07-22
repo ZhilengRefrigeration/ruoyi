@@ -6,7 +6,6 @@ import com.ruoyi.common.core.exception.CustomException;
 import com.ruoyi.file.config.FtpConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,7 +36,7 @@ public class FtpFileServiceImpl implements IDfsService {
 
         Ftp ftp = null;
         try {
-            ftp = new Ftp(ftpConfig.getHostName(), ftpConfig.getPort(), ftpConfig.getUserName(), ftpConfig.getPassword());
+            ftp = new Ftp(ftpConfig.getEndpoint(), ftpConfig.getPort(), ftpConfig.getUserName(), ftpConfig.getPassword());
             ftp.setBackToPwd(true);
             ftp.cd("/");
             // 主要是主动模式还是被动
@@ -56,7 +55,7 @@ public class FtpFileServiceImpl implements IDfsService {
     public boolean deleteFile(String fileUrl) {
         Ftp ftp = null;
         try {
-            ftp = new Ftp(ftpConfig.getHostName(), ftpConfig.getPort(), ftpConfig.getUserName(), ftpConfig.getPassword());
+            ftp = new Ftp(ftpConfig.getEndpoint(), ftpConfig.getPort(), ftpConfig.getUserName(), ftpConfig.getPassword());
             // 主要是主动模式还是被动
             ftp.setMode(FtpMode.Active);
             String storePath = getStorePath(fileUrl);

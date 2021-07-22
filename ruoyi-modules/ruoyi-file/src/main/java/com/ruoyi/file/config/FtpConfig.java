@@ -24,7 +24,7 @@ public class FtpConfig {
      * eg1: www.ourslook.com
      * eg2: 192.168.0.1
      */
-    private String hostName;
+    private String endpoint;
     /**
      * ftp端口，默认21
      */
@@ -52,12 +52,12 @@ public class FtpConfig {
      */
     private String domain;
 
-    public String getHostName() {
-        return hostName;
+    public String getEndpoint() {
+        return endpoint;
     }
 
-    public void setHostName(String hostName) {
-        this.hostName = hostName;
+    public void setEndpoint(String endpoint) {
+        this.endpoint = endpoint;
     }
 
     public Integer getPort() {
