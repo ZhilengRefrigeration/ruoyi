@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Configuration;
  * @author dazer
  * @see FastDfsServiceImpl
  *  FastDFS配置 其他参数见：{@link PooledConnectionFactory}
+ *
+ *  使用: Docker部署FastDFS（附示例代码） https://www.cnblogs.com/cao-lei/p/13470695.html
  */
 @RefreshScope
 @Configuration

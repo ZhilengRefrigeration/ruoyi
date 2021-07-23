@@ -1,5 +1,6 @@
 package com.ruoyi.file.service;
 
+import com.github.tobato.fastdfs.domain.fdfs.MetaData;
 import com.github.tobato.fastdfs.exception.FdfsUnsupportStorePathException;
 import com.ruoyi.common.core.exception.CustomException;
 import com.ruoyi.file.config.FastDfsConfig;
@@ -8,10 +9,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * FastDFS 文件存储
@@ -38,7 +43,7 @@ public class FastDfsServiceImpl implements IDfsService
     @Override
     public String uploadFile(MultipartFile file) throws Exception
     {
-       return this.uploadFile(file);
+       return this.uploadFile(file, null);
     }
 
     @Override
@@ -46,8 +51,11 @@ public class FastDfsServiceImpl implements IDfsService
         // fastdsf 这里的 modules 没用
         validateModule(file, modules);
 
+        Set<MetaData> metaDataSet = new HashSet<>(1);
+        metaDataSet.add(new MetaData("groupName", "group1"));
+
         StorePath storePath = storageClient.uploadFile(file.getInputStream(), file.getSize(),
-                FilenameUtils.getExtension(file.getOriginalFilename()), null);
+                FilenameUtils.getExtension(file.getOriginalFilename()), metaDataSet);
 
         /// fileUrl = "http://127.0.0.1:22122/" + storePath.getFullPath();
         return fastDfsConfig.getDomain() + "/" + storePath.getFullPath();
