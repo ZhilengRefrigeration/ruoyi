@@ -165,6 +165,6 @@ create table QRTZ_SIMPROP_TRIGGERS (
     bool_prop_2          varchar(1)      null,
     primary key (sched_name,trigger_name,trigger_group),
     foreign key (sched_name,trigger_name,trigger_group) references QRTZ_TRIGGERS(sched_name,trigger_name,trigger_group)
-) engine=innodb DEFAULT CHARSET=utf8 COLLATE=utf8_bin ;
+) engine=innodb DEFAULT CHARSET=utf8 COLLATE=utf8_bin   ;
 
 commit;
