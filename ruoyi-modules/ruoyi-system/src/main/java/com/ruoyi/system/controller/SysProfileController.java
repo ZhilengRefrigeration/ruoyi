@@ -82,9 +82,12 @@ public class SysProfileController extends BaseController
             return AjaxResult.error("用户未登录!");
         }
         if (!loginUser.getUserid().equals(user.getUserId())) {
-            return AjaxResult.error("只能修改自己的用户信息!");
+            return AjaxResult.error("userId参数不正确，请勿非法操作！");
         }
 
+        SysUser sysUser = loginUser.getSysUser();
+        user.setUserId(sysUser.getUserId());
+        user.setPassword(null);
         if (userService.updateUserProfile(user) > 0)
         {
             // 更新缓存用户信息
