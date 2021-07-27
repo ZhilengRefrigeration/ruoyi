@@ -98,6 +98,14 @@ public interface ISysUserService
     public void checkUserAllowed(SysUser user);
 
     /**
+     * @author dazer
+     * 检查userId,当前的管理员是否有权限操作
+     * @param userId 被修改的userId
+     * @return true: 当前管理员有操作该 userId的权限
+     */
+    public boolean checkUserIdAllowed(Long userId);
+
+    /**
      * 新增用户信息
      * 
      * @param user 用户信息
