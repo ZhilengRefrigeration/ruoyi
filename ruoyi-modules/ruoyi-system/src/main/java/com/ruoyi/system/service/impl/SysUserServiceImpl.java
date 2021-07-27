@@ -2,6 +2,8 @@ package com.ruoyi.system.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -225,6 +227,22 @@ public class SysUserServiceImpl implements ISysUserService
         {
             throw new CustomException("不允许操作超级管理员用户");
         }
+    }
+
+    /**
+     * @author dazer
+     * 检查userId,当前的管理员是否有权限操作
+     * @param userId 被修改的userId
+     */
+    @Override
+    public boolean checkUserIdAllowed(Long userId) {
+        if (userId == null) {
+            throw new CustomException("checkUserIdAllowed中：【userId】不能为空");
+        }
+        SysUser user = new SysUser();
+        user.setUserId(userId);
+        List<SysUser> sysUsers = this.selectUserList(user);
+        return sysUsers.stream().map(SysUser::getUserId).collect(Collectors.toSet()).contains(userId);
     }
 
     /**
