@@ -76,6 +76,7 @@ public interface IDfsService
      * 3、qiniu ；七牛云存储； 下载凭证(如果Bucket设置成私有，必须要有 下载凭证)，路径：【对象存储==》使用指南===》安全机制===》 下载凭证】 https://developer.qiniu.com/kodo/1202/download-token
      *   https://developer.qiniu.com/kodo/5914/s3-compatible-sts
      * 4、腾讯 临时密钥（临时访问凭证） GetFederationToken 临时密钥生成及使用指引 https://cloud.tencent.com/document/product/436/14048?from=10680
+     * 5、fastdfs 防掉链 前提，需要在 fastdfs上面配置 https://www.cnblogs.com/xiaolinstudy/p/9341779.html
      * @param fileUrl 文件访问地址,全路径或者不是全路径都可以
      * @return 返回签名后的url
      */

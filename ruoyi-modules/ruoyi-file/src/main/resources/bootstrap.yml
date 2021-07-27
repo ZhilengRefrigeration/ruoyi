@@ -17,9 +17,11 @@ spring:
       discovery:
         # 服务注册地址
         server-addr: 127.0.0.1:8848
+        namespace: 72b686a1-d9f6-499f-8275-e481b664779e
       config:
         # 配置中心地址
         server-addr: 127.0.0.1:8848
+        namespace: 72b686a1-d9f6-499f-8275-e481b664779e
         # 配置文件格式
         file-extension: yml
         # 共享配置
@@ -43,10 +45,11 @@ ftp:
 
 # 文件服务器之3 FastDFS配置
 fdfs:
-  domain: http://8.129.231.12
   soTimeout: 3000
-  connectTimeout: 2000
-  trackerList: 8.129.231.12:22122
+  connectTimeout: 5000
+  trackerList: 47.99.175.191:22122
+  domain: http://47.99.175.191:8888
+  token-secret-key: test@test
 
 # 文件服务器之4 Minio配置
 minio:

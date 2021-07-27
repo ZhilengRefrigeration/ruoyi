@@ -32,7 +32,7 @@ import java.io.InputStream;
  *
  * 构建时间戳防盗链访问链接： https://developer.qiniu.com/kodo/1239/java#fusion-antileech
  */
-@Primary
+//@Primary
 @Service()
 public class QiniuDfsServiceImpl implements IDfsService {
     private static final Logger log = LoggerFactory.getLogger(QiniuDfsServiceImpl.class);
