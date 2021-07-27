@@ -75,9 +75,18 @@ public class SysProfileController extends BaseController
         {
             return AjaxResult.error("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
+
+        //安全漏洞测试fix，这里 不法分子，可能通过修改 userid 和 password 实现对 任意用户密码修改
+        LoginUser loginUser = tokenService.getLoginUser();
+        if (loginUser == null) {
+            return AjaxResult.error("用户未登录!");
+        }
+        if (!loginUser.getUserid().equals(user.getUserId())) {
+            return AjaxResult.error("只能修改自己的用户信息!");
+        }
+
         if (userService.updateUserProfile(user) > 0)
         {
-            LoginUser loginUser = tokenService.getLoginUser();
             // 更新缓存用户信息
             loginUser.getSysUser().setNickName(user.getNickName());
             loginUser.getSysUser().setPhonenumber(user.getPhonenumber());
