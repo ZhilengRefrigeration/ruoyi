@@ -183,6 +183,17 @@ export function tansParams(params) {
 	Object.keys(params).forEach((key) => {
 		if (!Object.is(params[key], undefined) && !Object.is(params[key], null) && !Object.is(JSON.stringify(params[key]), '{}')) {
 			// result += encodeURIComponent(key) + '=' + encodeURIComponent(params[key]) + '&'
+      if(key != 'params'){
+        result += encodeURIComponent(key) + '=' + encodeURIComponent(params[key]) + '&'
+      }
+      if(key === 'params'){
+        let p = params[key];
+        Object.keys(p).forEach((k) => {
+          if(!Object.is(p[k], undefined) && !Object.is(p[k], null)){
+            result += encodeURIComponent(key) + encodeURIComponent('[') + encodeURIComponent(k) + encodeURIComponent(']') + '=' + encodeURIComponent(p[k]) + '&'
+          }
+        })
+      }
 		}
 	})
 	return result
