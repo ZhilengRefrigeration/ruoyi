@@ -38,7 +38,7 @@ import com.ruoyi.system.service.ISysUserService;
 
 /**
  * 用户信息
- * 
+ *
  * @author ruoyi
  */
 @RestController
@@ -122,7 +122,7 @@ public class SysUserController extends BaseController
 
     /**
      * 获取用户信息
-     * 
+     *
      * @return 用户信息
      */
     @GetMapping("getInfo")
@@ -234,9 +234,13 @@ public class SysUserController extends BaseController
     public AjaxResult resetPwd(@RequestBody SysUser user)
     {
         userService.checkUserAllowed(user);
-        user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
-        user.setUpdateBy(SecurityUtils.getUsername());
-        return toAjax(userService.resetPwd(user));
+
+        //只修改特定的属性 dazer
+        SysUser newSyuser = new SysUser();
+        newSyuser.setUserId(user.getUserId());
+        newSyuser.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
+        newSyuser.setUpdateBy(SecurityUtils.getUsername());
+        return toAjax(userService.resetPwd(newSyuser));
     }
 
     /**
@@ -248,8 +252,13 @@ public class SysUserController extends BaseController
     public AjaxResult changeStatus(@RequestBody SysUser user)
     {
         userService.checkUserAllowed(user);
-        user.setUpdateBy(SecurityUtils.getUsername());
-        return toAjax(userService.updateUserStatus(user));
+
+        //只修改特定的属性 dazer
+        SysUser newSyuser = new SysUser();
+        newSyuser.setUserId(user.getUserId());
+        newSyuser.setStatus(user.getStatus());
+        newSyuser.setUpdateBy(SecurityUtils.getUsername());
+        return toAjax(userService.updateUserStatus(newSyuser));
     }
 
     /**
