@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.core.exception.CustomException;
+import com.ruoyi.common.security.service.TokenService;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -55,6 +59,9 @@ public class SysUserController extends BaseController
 
     @Autowired
     private ISysPermissionService permissionService;
+
+    @Autowired
+    private TokenService tokenService;
 
     /**
      * 获取用户列表
@@ -146,6 +153,15 @@ public class SysUserController extends BaseController
     @GetMapping(value = { "/", "/{userId}" })
     public AjaxResult getInfo(@PathVariable(value = "userId", required = false) Long userId)
     {
+        if (userId == null) {
+            return AjaxResult.error("userId不能为空！");
+        }
+        // 用户信息可以被爆破 dazer
+        //安全漏洞测试fix，增加防止越权的操作；不法分子，可能通过修改 userid 抓取、修改、删除、重置 任意用户敏感信息 (1 getInfo)
+        if (!this.checkUserIdAllowed(userId)) {
+            return AjaxResult.error("请勿非法操作，你无权操作该用户，userId = " + userId );
+        }
+
         AjaxResult ajax = AjaxResult.success();
         List<SysRole> roles = roleService.selectRoleAll();
         ajax.put("roles", SysUser.isAdmin(userId) ? roles : roles.stream().filter(r -> !r.isAdmin()).collect(Collectors.toList()));
@@ -205,6 +221,15 @@ public class SysUserController extends BaseController
         {
             return AjaxResult.error("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
+
+        // 用户信息可以被爆破 dazer
+        if (user.getUserId() == null) {
+            return AjaxResult.error("userId不能为空！");
+        }
+        if (!this.checkUserIdAllowed(user.getUserId())) {
+            return AjaxResult.error("请勿非法操作，你无权操作该用户，userId = " + user.getUserId() );
+        }
+
         user.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(userService.updateUser(user));
     }
@@ -217,6 +242,18 @@ public class SysUserController extends BaseController
     @DeleteMapping("/{userIds}")
     public AjaxResult remove(@PathVariable Long[] userIds)
     {
+        if (ArrayUtils.contains(userIds, SecurityUtils.getUserId())) {
+            return AjaxResult.error("当前用户不能删除");
+        }
+        // 用户信息可以被爆破 dazer
+        for (int i = 0; i < userIds.length; i++) {
+            Long userId = userIds[i];
+            if (userId != null) {
+                if (!this.checkUserIdAllowed(userId)) {
+                    return AjaxResult.error("请勿非法操作，你无权操作该用户，userId = " + userId );
+                }
+            }
+        }
         return toAjax(userService.deleteUserByIds(userIds));
     }
 
@@ -229,9 +266,21 @@ public class SysUserController extends BaseController
     public AjaxResult resetPwd(@RequestBody SysUser user)
     {
         userService.checkUserAllowed(user);
-        user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
-        user.setUpdateBy(SecurityUtils.getUsername());
-        return toAjax(userService.resetPwd(user));
+
+        // 用户信息可以被爆破 dazer
+        if (user.getUserId() == null) {
+            return AjaxResult.error("userId不能为空！");
+        }
+        if (!this.checkUserIdAllowed(user.getUserId())) {
+            return AjaxResult.error("请勿非法操作，你无权操作该用户，userId = " + user.getUserId() );
+        }
+
+        //修改密码接口，只进行密码修改；防止 通过 修改密码 接口 把用户其他信息进行了修改
+        SysUser newSyuser = new SysUser();
+        newSyuser.setUserId(user.getUserId());
+        newSyuser.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
+        newSyuser.setUpdateBy(tokenService.getLoginUser().getUsername());
+        return toAjax(userService.resetPwd(newSyuser));
     }
 
     /**
@@ -272,5 +321,22 @@ public class SysUserController extends BaseController
     {
         userService.insertUserAuth(userId, roleIds);
         return success();
+    }
+
+    /**
+     * @author dazer
+     * 1、检查userId是否越权，必须是自己能查看到的userid才能操作；
+     * 2、检查roleid是否越权，必须是自己能查看到的roleid才能操作 《待开发》
+     * 用户模块必须做该校验，否则 稍微有点经验的人，就能修改 用户的敏感信息
+     * @param userId 被修改的userId
+     */
+    private boolean checkUserIdAllowed(Long userId) {
+        if (userId == null) {
+            throw new CustomException("checkUserIdAllowed中：【userId】不能为空");
+        }
+        SysUser query = new SysUser();
+        query.setUserId(userId);
+        List<SysUser> sysUsers = userService.selectUserList(query);
+        return sysUsers.stream().map(SysUser::getUserId).collect(Collectors.toSet()).contains(userId);
     }
 }
