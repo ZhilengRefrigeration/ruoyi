@@ -157,7 +157,6 @@ public class SysUserController extends BaseController
             return AjaxResult.error("userId不能为空！");
         }
         // 用户信息可以被爆破 dazer
-        //安全漏洞测试fix，增加防止越权的操作；不法分子，可能通过修改 userid 抓取、修改、删除、重置 任意用户敏感信息 (1 getInfo)
         if (!this.checkUserIdAllowed(userId)) {
             return AjaxResult.error("请勿非法操作，你无权操作该用户，userId = " + userId );
         }
