@@ -76,3 +76,12 @@ qiniu:
   bucket-name: guangdong-oss
   domain: http://guangdong-oss.ityun.ltd
   expiry-duration: 32400
+
+# 文件服务器之7 tencent cos 文件存储
+tencent-cos:
+  access-key: AKIDX9hNAzpdUI0XyRpASj098xa7uYzOekmh
+  secret-key: sW5VgkdHlDYqy01xiGbkjV5TghUEvYEw
+  endpoint: ap-chengdu
+  bucket-name: tencent-cloud-cos-dazer-1253883700
+  domain: https://cos.ityun.ltd
+  expiry-duration: 32400

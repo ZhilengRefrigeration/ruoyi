@@ -21,7 +21,7 @@ import com.github.tobato.fastdfs.service.FastFileStorageClient;
  * @author ruoyi
  * @see FastDfsConfig
  */
-@Primary
+//@Primary
 @Service()
 public class FastDfsServiceImpl implements IDfsService
 {

@@ -139,6 +139,14 @@
             <version>[7.7.0, 7.7.99]</version>
         </dependency>
         <!--七牛云文件存储 end -->
+
+        <!--文件服务器7：腾讯云文件存储cos start -->
+        <dependency>
+            <groupId>com.qcloud</groupId>
+            <artifactId>cos_api</artifactId>
+            <version>5.6.45</version>
+        </dependency>
+        <!--文件服务器7：腾讯云文件存储cos end -->
     </dependencies>
 
     <build>
