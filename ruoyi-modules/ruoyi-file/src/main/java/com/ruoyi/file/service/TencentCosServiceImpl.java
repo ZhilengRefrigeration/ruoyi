@@ -162,6 +162,12 @@ public class TencentCosServiceImpl implements IDfsService {
      */
     @Override
     public String presignedUrl(String fileUrl) {
+        if (StringUtils.isBlank(fileUrl)) {
+            return fileUrl;
+        }
+        if (config.getExpiryDuration() == -1) {
+            return fileUrl;
+        }
         // 存储桶的命名格式为 BucketName-APPID，此处填写的存储桶名称必须为此格式
         String bucketName = config.getBucketName();
         if (StringUtils.isBlank(config.getBucketName())) {

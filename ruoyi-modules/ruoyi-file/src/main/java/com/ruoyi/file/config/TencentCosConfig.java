@@ -109,7 +109,7 @@ public class TencentCosConfig {
      * 2、公共读
      * 3、公共读写
      */
-    private Long expiryDuration = 32400L;
+    private Long expiryDuration = -1L;
 
     public String getAccessKey() {
         return accessKey;
@@ -152,6 +152,10 @@ public class TencentCosConfig {
     }
 
     public Long getExpiryDuration() {
+        if (expiryDuration != -1 && expiryDuration < 0) {
+            //  最小是1秒
+            expiryDuration = 1L;
+        }
         return expiryDuration;
     }
 
