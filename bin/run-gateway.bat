@@ -1,6 +1,6 @@
 @echo off
 echo.
-echo [пео╒] ткппgateway╧╓Ёл║ё
+echo [Д©║Ф│╞] Х©░Х║▄gatewayЕ╥╔Г╗▀Ц─┌
 echo.
 
 cd %~dp0

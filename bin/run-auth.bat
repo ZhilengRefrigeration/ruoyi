@@ -1,6 +1,6 @@
 @echo off
 echo.
-echo [пео╒] ткппauth╧╓Ёл║ё
+echo [Д©║Ф│╞] Х©░Х║▄authЕ╥╔Г╗▀Ц─┌
 echo.
 
 cd %~dp0

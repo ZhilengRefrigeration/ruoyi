@@ -1,6 +1,6 @@
 @echo off
 echo.
-echo [ÐÅÏ¢] ÔËÐÐmodules-gen¹¤³Ì¡£
+echo [ä¿¡æ¯] è¿è¡Œmodules-genå·¥ç¨‹ã€‚
 echo.
 
 cd %~dp0
