@@ -1,4 +1,6 @@
 @echo off
+@REM 后续命令使用的是：UTF-8编码
+chcp 65001
 echo.
 echo [信息] 安装Web工程，生成node_modules文件。
 echo.
