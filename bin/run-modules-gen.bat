@@ -1,6 +1,8 @@
 @echo off
+@REM 后续命令使用的是：UTF-8编码
+chcp 65001
 echo.
-echo [��Ϣ] ����modules-gen���̡�
+echo [信息] 运行modules-gen工程。
 echo.
 
 cd %~dp0

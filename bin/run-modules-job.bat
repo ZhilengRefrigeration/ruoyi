@@ -1,6 +1,8 @@
 @echo off
+@REM 后续命令使用的是：UTF-8编码
+chcp 65001
 echo.
-echo [��Ϣ] ����modules-job���̡�
+echo [信息] 运行modules-job工程。
 echo.
 
 cd %~dp0

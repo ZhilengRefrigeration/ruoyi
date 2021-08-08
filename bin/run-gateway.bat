@@ -1,7 +1,11 @@
 @echo off
-echo.
-echo [��Ϣ] ����gateway���̡�
-echo.
+@REM 后续命令使用的是：UTF-8编码
+chcp 65001
+
+echo '... ...'
+echo 'start module [gateway]'
+echo '[信息] 运行gateway工程。'
+echo '... ...'
 
 cd %~dp0
 cd ../ruoyi-gateway/target

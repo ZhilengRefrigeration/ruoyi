@@ -1,6 +1,8 @@
 @echo off
+@REM Е░▌Г╩╜Е▒╫Д╩╓Д╫©Г■╗Г └Ф≤╞О╪ UTF-8Г╪√Г═│
+chcp 65001
 echo.
-echo [пео╒] ╟╡в╟Web╧╓Ёлё╛иЗЁиnode_modulesнд╪Ч║ё
+echo [Д©║Ф│╞] Е╝┴Хё┘WebЕ╥╔Г╗▀О╪▄Г■÷Ф┬░node_modulesФ√┤Д╩╤Ц─┌
 echo.
 
 %~d0
