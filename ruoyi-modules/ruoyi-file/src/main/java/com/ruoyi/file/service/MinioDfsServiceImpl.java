@@ -142,10 +142,15 @@ public class MinioDfsServiceImpl implements IDfsService
      * http://docs.minio.org.cn/docs/master/minio-sts-quickstart-guide
      * minio SDKS Java Client API参考文档 http://docs.minio.org.cn/docs/master/java-client-api-reference
      * Presigned presignedGetObject 预签】
+     * 示例：https://xxxx.xxx.gov.cn/file/2021/08/06/cd9dfbaa-8563-423a-bc3d-d0b15e781931.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=D99KGE6ZTQXSATTJWU24%2F20210809%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210809T075702Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=198c76edc57998f4dde72124952b43f0066c762356e485dd44d21df9cc7dad78
      */
     @Override
     public String presignedUrl(String fileUrl) {
         if (minioConfig.getExpiryDuration() == -1) {
+            return fileUrl;
+        }
+        String signKey = "?X-Amz-Algorithm=";
+        if (fileUrl.contains(signKey)) {
             return fileUrl;
         }
         String objectName = this.getStorePath(fileUrl);

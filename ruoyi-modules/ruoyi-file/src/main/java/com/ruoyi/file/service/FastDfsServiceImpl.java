@@ -88,6 +88,10 @@ public class FastDfsServiceImpl implements IDfsService
         if (StringUtils.isBlank(fastDfsConfig.getTokenSecretKey())) {
             throw new CustomException("防盗链生成token的密钥为空，请检查：tokenSecretKey");
         }
+        String signKey = "?token=";
+        if (fileUrl.contains(signKey)) {
+            return fileUrl;
+        }
         String tokenSecretKey = fastDfsConfig.getTokenSecretKey();
 
         StorePath storePath = StorePath.parseFromUrl(fileUrl);

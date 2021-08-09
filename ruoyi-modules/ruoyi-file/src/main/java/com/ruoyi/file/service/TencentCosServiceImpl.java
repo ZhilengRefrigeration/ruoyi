@@ -23,7 +23,7 @@ import java.util.List;
  * @author yabo
  * @see TencentCosConfig
  */
-@Primary
+//@Primary
 @Service()
 public class TencentCosServiceImpl implements IDfsService {
     private final COSClient cosClient;
@@ -166,6 +166,10 @@ public class TencentCosServiceImpl implements IDfsService {
             return fileUrl;
         }
         if (config.getExpiryDuration() == -1) {
+            return fileUrl;
+        }
+        String signKey = "?sign=";
+        if (fileUrl.contains(signKey)) {
             return fileUrl;
         }
         // 存储桶的命名格式为 BucketName-APPID，此处填写的存储桶名称必须为此格式

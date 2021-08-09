@@ -42,7 +42,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2019/8/6 19:02
  * //@see AliyunMsgUtil
  */
-//@Primary
+@Primary
 @Service()
 public class AliyunOssDsfServiceImpl implements IDfsService {
     private static final Logger log = LoggerFactory.getLogger(AliyunOssDsfServiceImpl.class);
@@ -519,11 +519,15 @@ public class AliyunOssDsfServiceImpl implements IDfsService {
 
     /**
      * @param fileUrl https://react-yuebaoxiao-pro.oss-cn-shanghai.aliyuncs.com/dev/upload/default/20210722-03f07351-ae82-410a-a43c-0797a82f07b4.jpeg
-     * @return
+     * @return 加签之后的示例：http://react-yuebaoxiao-pro.oss-cn-shanghai.aliyuncs.com/dev/upload/default/20210809-1f545f8e-560c-442d-bd94-95656c77d879.png?Expires=1628528557&OSSAccessKeyId=LTAI4GDQSbwgmbsRxxbDXnKT&Signature=6pPP50doxwCC3cMzHFzgdkf95YQ%3D
      */
     @Override
     public String presignedUrl(String fileUrl) {
         if (aliyunOssConfig.getExpiryDuration() == -1) {
+            return fileUrl;
+        }
+        String signKey = "?Expires=";
+        if (fileUrl.contains(signKey)) {
             return fileUrl;
         }
         String objectKey = this.getStorePath(fileUrl);

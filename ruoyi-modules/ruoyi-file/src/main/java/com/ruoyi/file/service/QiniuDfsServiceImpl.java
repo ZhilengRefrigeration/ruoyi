@@ -127,6 +127,10 @@ public class QiniuDfsServiceImpl implements IDfsService {
         if (qiniuKodoConfig.getExpiryDuration() == -1) {
             return fileUrl;
         }
+        String signKey = "?e=";
+        if (fileUrl.contains(signKey)) {
+            return fileUrl;
+        }
         //...其他参数参考类注释
         String accessKey = qiniuKodoConfig.getAccessKey();
         String secretKey = qiniuKodoConfig.getSecretKey();
