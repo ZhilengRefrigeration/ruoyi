@@ -126,9 +126,9 @@ public class MinioDfsServiceImpl implements IDfsService
 
         long size = atomicLong.get();
         if (size > (1024 * 1024)) {
-            result = (new BigDecimal((double) size / 1024 / 1024)).setScale(2, BigDecimal.ROUND_HALF_UP) + "GB";
+            result = (BigDecimal.valueOf((double) size / 1024 / 1024)).setScale(2, BigDecimal.ROUND_HALF_UP) + "GB";
         } else if (size > 1024) {
-            result = (new BigDecimal((double) size / 1024).setScale(2, BigDecimal.ROUND_HALF_UP)) + "MB";
+            result = (BigDecimal.valueOf((double) size / 1024).setScale(2, BigDecimal.ROUND_HALF_UP)) + "MB";
         } else {
             result = size + "KB";
         }
