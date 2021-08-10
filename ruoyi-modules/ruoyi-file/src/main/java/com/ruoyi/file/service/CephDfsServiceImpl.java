@@ -1,5 +1,6 @@
 package com.ruoyi.file.service;
 
+import cn.hutool.core.date.DateTime;
 import cn.hutool.extra.spring.SpringUtil;
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.Protocol;
@@ -8,7 +9,6 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
-import com.ruoyi.common.core.exception.CustomException;
 import com.ruoyi.file.config.CephConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -18,6 +18,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
+import java.net.URL;
+import java.util.Date;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Consumer;
 
 /**
  * @author dazer
@@ -126,12 +131,39 @@ public class CephDfsServiceImpl implements IDfsService {
 
     @Override
     public String objectsCapacityStr() {
-        throw new CustomException("ceph-获取文件占用空间功能，敬请期待");
+        AtomicLong atomicLong = new AtomicLong();
+        atomicLong.set(0);
+        String result;
+
+        amazonS3.listObjects(cephConfig.getBucketName()).getObjectSummaries().forEach(s3ObjectSummary -> {
+            try {
+                atomicLong.addAndGet(s3ObjectSummary.getSize() / 1024);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        long size = atomicLong.get();
+        if (size > (1024 * 1024)) {
+            result = (new BigDecimal((double) size / 1024 / 1024)).setScale(2, BigDecimal.ROUND_HALF_UP) + "GB";
+        } else if (size > 1024) {
+            result = (new BigDecimal((double) size / 1024).setScale(2, BigDecimal.ROUND_HALF_UP)) + "MB";
+        } else {
+            result = size + "KB";
+        }
+
+        return result;
     }
 
     @Override
     public String presignedUrl(String fileUrl) {
-        return fileUrl;
+        String storePath = getStorePath(fileUrl);
+        if (cephConfig.getExpiryDuration() == -1) {
+            return fileUrl;
+        }
+        Date expiration = new DateTime(System.currentTimeMillis() + cephConfig.getExpiryDuration());
+        URL url = amazonS3.generatePresignedUrl(cephConfig.getBucketName(), storePath, expiration);
+        return url.toString();
     }
 
     /**
