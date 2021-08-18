@@ -8,7 +8,7 @@ import com.ruoyi.file.utils.FileUploadUtils;
 
 /**
  * 本地文件存储
- * 
+ *
  * @author ruoyi
  */
 @Primary
@@ -26,7 +26,7 @@ public class LocalSysFileServiceImpl implements ISysFileService
      */
     @Value("${file.domain}")
     public String domain;
-    
+
     /**
      * 上传文件存储在本地的根路径
      */
@@ -35,7 +35,7 @@ public class LocalSysFileServiceImpl implements ISysFileService
 
     /**
      * 本地文件上传接口
-     * 
+     *
      * @param file 上传的文件
      * @return 访问地址
      * @throws Exception
@@ -46,5 +46,10 @@ public class LocalSysFileServiceImpl implements ISysFileService
         String name = FileUploadUtils.upload(localFilePath, file);
         String url = domain + localFilePrefix + name;
         return url;
+    }
+
+    @Override
+    public String presignedUrl(String fileUrl) {
+        return fileUrl;
     }
 }

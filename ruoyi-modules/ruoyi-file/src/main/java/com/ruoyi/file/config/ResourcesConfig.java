@@ -2,6 +2,7 @@ package com.ruoyi.file.config;
 
 import java.io.File;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -9,9 +10,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * 通用映射配置
- * 
+ *
  * @author ruoyi
  */
+@RefreshScope
 @Configuration
 public class ResourcesConfig implements WebMvcConfigurer
 {
@@ -34,7 +36,7 @@ public class ResourcesConfig implements WebMvcConfigurer
         registry.addResourceHandler(localFilePrefix + "/**")
                 .addResourceLocations("file:" + localFilePath + File.separator);
     }
-    
+
     /**
      * 开启跨域
      */
