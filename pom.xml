@@ -239,6 +239,31 @@
         </dependencies>
     </dependencyManagement>
 
+    <profiles>
+        <profile>
+            <!--不同环境Profile的唯一id-->
+            <id>dev</id>
+            <properties>
+                <!--profiles.active是自定义的字段（名字随便起），自定义字段可以有多个-->
+                <spring.profile>dev</spring.profile>
+                <nacos.server.address>127.0.0.1:8848</nacos.server.address>
+                <nacos.server.namespace></nacos.server.namespace>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <!--profiles.active是自定义的字段（名字随便起），自定义字段可以有多个-->
+                <spring.profile>test</spring.profile>
+                <nacos.server.address>127.0.0.1:8848</nacos.server.address>
+                <nacos.server.namespace></nacos.server.namespace>
+            </properties>
+
+        </profile>
+    </profiles>
     <modules>
         <module>ruoyi-auth</module>
         <module>ruoyi-gateway</module>
@@ -269,6 +294,13 @@
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!--开启过滤，用指定的参数替换directory下的文件中的参数-->
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
 
 </project>
