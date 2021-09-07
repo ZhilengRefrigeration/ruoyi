@@ -40,7 +40,7 @@ import com.ruoyi.system.service.ISysUserService;
 
 /**
  * 用户信息
- * 
+ *
  * @author ruoyi
  */
 @RestController
@@ -147,7 +147,7 @@ public class SysUserController extends BaseController
 
     /**
      * 获取用户信息
-     * 
+     *
      * @return 用户信息
      */
     @GetMapping("getInfo")
@@ -302,5 +302,18 @@ public class SysUserController extends BaseController
     {
         userService.insertUserAuth(userId, roleIds);
         return success();
+    }
+
+    /**
+     * 根据用户编号获取用户基础信息(不包含权限信息、不含授权，用于内部调用)
+     */
+    @InnerAuth
+    @GetMapping(value = "getUserById")
+    public R<SysUser> getUserById(Long userId)
+    {
+        if (userId == null) {
+            return R.fail("getUserById:getUserId不能为空!");
+        }
+        return R.ok(userService.selectUserById(userId), "获取用户信息成功");
     }
 }

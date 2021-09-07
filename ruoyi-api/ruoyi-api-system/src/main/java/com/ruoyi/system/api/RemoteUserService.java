@@ -1,11 +1,7 @@
 package com.ruoyi.system.api;
 
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.constant.ServiceNameConstants;
 import com.ruoyi.common.core.domain.R;
@@ -15,7 +11,7 @@ import com.ruoyi.system.api.model.LoginUser;
 
 /**
  * 用户服务
- * 
+ *
  * @author ruoyi
  */
 @FeignClient(contextId = "remoteUserService", value = ServiceNameConstants.SYSTEM_SERVICE, fallbackFactory = RemoteUserFallbackFactory.class)
@@ -40,4 +36,14 @@ public interface RemoteUserService
      */
     @PostMapping("/user/register")
     public R<Boolean> registerUserInfo(@RequestBody SysUser sysUser, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+
+
+    /**
+     * 根据userId获取用户信息
+     * @param userId 用户id，必填；
+     * @param source 可选，header参数。 取值：{@link SecurityConstants#INNER}
+     * @return 用户基础信息
+     */
+    @GetMapping(value = "/user/getUserById")
+    public R<SysUser> getUserById(@RequestParam(value = "userId") Long userId, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }
