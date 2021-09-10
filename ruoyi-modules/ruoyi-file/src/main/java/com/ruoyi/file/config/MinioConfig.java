@@ -1,6 +1,6 @@
 package com.ruoyi.file.config;
 
-import com.ruoyi.file.service.MinioDfsServiceImpl;
+import com.ruoyi.file.service.MinioSysFileServiceImpl;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * Minio 配置信息
  *
  * @author ruoyi
- * @see MinioDfsServiceImpl 实现
+ * @see MinioSysFileServiceImpl 实现
  */
 @RefreshScope
 @Component

@@ -9,7 +9,6 @@ import org.csource.fastdfs.ProtoCommon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
@@ -23,9 +22,9 @@ import com.github.tobato.fastdfs.service.FastFileStorageClient;
  */
 //@Primary
 @Service()
-public class FastDfsServiceImpl implements IDfsService
+public class FastSysFileServiceImpl implements ISysFileService
 {
-    private final Logger logger = LoggerFactory.getLogger(FastDfsServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(FastSysFileServiceImpl.class);
 
     @Autowired
     private FastFileStorageClient storageClient;
@@ -34,7 +33,7 @@ public class FastDfsServiceImpl implements IDfsService
 
     /**
      * FastDfs文件上传接口
-     * 
+     *
      * @param file 上传的文件
      * @return 访问地址
      * @throws Exception

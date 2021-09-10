@@ -1,12 +1,12 @@
 package com.ruoyi.file.config;
 
-import com.ruoyi.file.service.CephDfsServiceImpl;
+import com.ruoyi.file.service.CephSysFileServiceImpl;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @see CephDfsServiceImpl
+ * @see CephSysFileServiceImpl
  * @author dazer
  */
 @RefreshScope

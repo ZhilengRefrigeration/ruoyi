@@ -16,7 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,8 +33,8 @@ import java.io.InputStream;
  */
 //@Primary
 @Service()
-public class QiniuDfsServiceImpl implements IDfsService {
-    private static final Logger log = LoggerFactory.getLogger(QiniuDfsServiceImpl.class);
+public class QiniuSysFileServiceImpl implements ISysFileService {
+    private static final Logger log = LoggerFactory.getLogger(QiniuSysFileServiceImpl.class);
     @Autowired
     private QiniuKodoConfig qiniuKodoConfig;
 

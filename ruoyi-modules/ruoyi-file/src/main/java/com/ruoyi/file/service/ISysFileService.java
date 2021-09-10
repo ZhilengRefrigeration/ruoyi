@@ -26,7 +26,7 @@ import static com.ruoyi.file.utils.FileUploadUtils.*;
  * 6: CEPH 分布式大数据文件存储系统 http://docs.ceph.org.cn/
  * @author ruoyi
  */
-public interface IDfsService
+public interface ISysFileService
 {
     /**
      * 允许上传文件存放的目录
@@ -41,7 +41,7 @@ public interface IDfsService
 
     /**
      * 文件上传接口
-     * 
+     *
      * @param file 上传的文件
      * @return 访问地址
      * @throws Exception

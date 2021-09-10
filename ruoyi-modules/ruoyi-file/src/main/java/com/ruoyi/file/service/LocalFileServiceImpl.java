@@ -4,7 +4,6 @@ import cn.hutool.core.io.FileUtil;
 import com.ruoyi.common.core.exception.CustomException;
 import com.ruoyi.file.config.LocalFileConfig;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.file.utils.FileUploadUtils;
@@ -13,11 +12,11 @@ import java.io.File;
 
 /**
  * 本地文件存储
- * 
+ *
  * @author ruoyi
  */
 @Service()
-public class LocalFileServiceImpl implements IDfsService
+public class LocalFileServiceImpl implements ISysFileService
 {
     private final LocalFileConfig localFileConfig;
 
@@ -27,7 +26,7 @@ public class LocalFileServiceImpl implements IDfsService
 
     /**
      * 本地文件上传接口
-     * 
+     *
      * @param file 上传的文件
      * @return 访问地址
      * @throws Exception

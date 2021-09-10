@@ -22,7 +22,6 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.Consumer;
 
 /**
  * @author dazer
@@ -41,8 +40,8 @@ import java.util.function.Consumer;
  * 3:使用docker 搭建 ceph 开发环境，使用aws sdk 存储数据 https://blog.csdn.net/freewebsys/article/details/79553386
  */
 @Service()
-public class CephDfsServiceImpl implements IDfsService {
-    private static final Logger log = LoggerFactory.getLogger(CephDfsServiceImpl.class);
+public class CephSysFileServiceImpl implements ISysFileService {
+    private static final Logger log = LoggerFactory.getLogger(CephSysFileServiceImpl.class);
     @Autowired
     private CephConfig cephConfig;
 

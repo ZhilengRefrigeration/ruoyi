@@ -7,9 +7,6 @@ import io.minio.http.Method;
 import io.minio.messages.Item;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.file.config.MinioConfig;
@@ -24,7 +21,7 @@ import java.util.function.Consumer;
 
 /**
  * Minio 文件存储
- * 
+ *
  * @author ruoyi
  * 官网博客： http://docs.minio.org.cn/docs/master/java-client-quickstart-guidec
  * 在springboot中使用Minio8 https://springboot.io/t/topic/3109
@@ -38,7 +35,7 @@ import java.util.function.Consumer;
  */
 //@Primary
 @Service()
-public class MinioDfsServiceImpl implements IDfsService
+public class MinioSysFileServiceImpl implements ISysFileService
 {
     @Autowired
     private MinioConfig minioConfig;
@@ -47,7 +44,7 @@ public class MinioDfsServiceImpl implements IDfsService
 
     /**
      * 本地文件上传接口
-     * 
+     *
      * @param file 上传的文件
      * @return 访问地址
      * @throws Exception

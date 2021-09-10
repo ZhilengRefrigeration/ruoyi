@@ -17,7 +17,7 @@ import java.io.IOException;
  * @author dazer
  */
 @Service()
-public class FtpFileServiceImpl implements IDfsService {
+public class FtpFileServiceImpl implements ISysFileService {
     @Autowired
     private FtpConfig ftpConfig;
 

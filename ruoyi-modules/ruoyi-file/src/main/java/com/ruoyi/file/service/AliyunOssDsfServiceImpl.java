@@ -44,7 +44,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Primary
 @Service()
-public class AliyunOssDsfServiceImpl implements IDfsService {
+public class AliyunOssDsfServiceImpl implements ISysFileService {
     private static final Logger log = LoggerFactory.getLogger(AliyunOssDsfServiceImpl.class);
     @Autowired
     private AliyunOssConfig aliyunOssConfig;

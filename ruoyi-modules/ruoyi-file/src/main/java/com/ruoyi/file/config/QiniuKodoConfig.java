@@ -2,7 +2,7 @@ package com.ruoyi.file.config;
 
 import com.qiniu.storage.Region;
 import com.qiniu.storage.UploadManager;
-import com.ruoyi.file.service.QiniuDfsServiceImpl;
+import com.ruoyi.file.service.QiniuSysFileServiceImpl;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * @see UploadManager 上传核心类
  * @see Region 区域 or endpoint 【可选】
  * @see com.qiniu.storage.Configuration 配置类，可以配置 上传区域； 【可选】
- * @see QiniuDfsServiceImpl 实现
+ * @see QiniuSysFileServiceImpl 实现
  */
 @RefreshScope
 @Configuration
