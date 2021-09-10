@@ -2,7 +2,7 @@ package com.ruoyi.file.config;
 
 import java.io.File;
 
-import com.ruoyi.file.service.LocalFileServiceImpl;
+import com.ruoyi.file.service.LocalSysFileServiceImpl;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
@@ -12,15 +12,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * 本地文件配置
  * 通用映射配置
+ * local file config = ResourcesConfig
  *
- * @see LocalFileServiceImpl
- * 
+ * @see LocalSysFileServiceImpl
+ *
  * @author ruoyi
  */
 @RefreshScope
 @Configuration
-@ConfigurationProperties(prefix = LocalFileConfig.PREFIX)
-public class LocalFileConfig implements WebMvcConfigurer
+@ConfigurationProperties(prefix = ResourcesConfig.PREFIX)
+public class ResourcesConfig implements WebMvcConfigurer
 {
     public static final String PREFIX = "file";
     /**

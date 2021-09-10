@@ -2,7 +2,7 @@ package com.ruoyi.file.config;
 
 import com.github.tobato.fastdfs.FdfsClientConstants;
 import com.github.tobato.fastdfs.domain.conn.PooledConnectionFactory;
-import com.ruoyi.file.service.FastSysFileServiceImpl;
+import com.ruoyi.file.service.FastDfsSysFileServiceImpl;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * 阿里 fastdfs 配置
  * @author dazer
- * @see FastSysFileServiceImpl
+ * @see FastDfsSysFileServiceImpl
  *  FastDFS配置 其他参数见：{@link PooledConnectionFactory}
  *
  *  使用: Docker部署FastDFS（附示例代码） https://www.cnblogs.com/cao-lei/p/13470695.html

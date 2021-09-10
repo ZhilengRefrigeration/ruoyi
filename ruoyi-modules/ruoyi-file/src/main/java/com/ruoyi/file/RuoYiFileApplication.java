@@ -10,11 +10,11 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 /**
  * 文件服务
- * 
+ *
  * @author ruoyi
  */
 @EnableConfigurationProperties(value = {
-        LocalFileConfig.class,
+        ResourcesConfig.class,
         FtpConfig.class,
         FastDfsConfig.class,
         AliyunOssConfig.class,

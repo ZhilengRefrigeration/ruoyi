@@ -22,9 +22,9 @@ import com.github.tobato.fastdfs.service.FastFileStorageClient;
  */
 //@Primary
 @Service()
-public class FastSysFileServiceImpl implements ISysFileService
+public class FastDfsSysFileServiceImpl implements ISysFileService
 {
-    private final Logger logger = LoggerFactory.getLogger(FastSysFileServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(FastDfsSysFileServiceImpl.class);
 
     @Autowired
     private FastFileStorageClient storageClient;

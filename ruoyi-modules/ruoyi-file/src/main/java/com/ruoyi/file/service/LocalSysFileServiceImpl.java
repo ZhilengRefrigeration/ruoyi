@@ -2,7 +2,7 @@ package com.ruoyi.file.service;
 
 import cn.hutool.core.io.FileUtil;
 import com.ruoyi.common.core.exception.CustomException;
-import com.ruoyi.file.config.LocalFileConfig;
+import com.ruoyi.file.config.ResourcesConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,12 +16,12 @@ import java.io.File;
  * @author ruoyi
  */
 @Service()
-public class LocalFileServiceImpl implements ISysFileService
+public class LocalSysFileServiceImpl implements ISysFileService
 {
-    private final LocalFileConfig localFileConfig;
+    private final ResourcesConfig resourcesConfig;
 
-    public LocalFileServiceImpl(LocalFileConfig localFileConfig) {
-        this.localFileConfig = localFileConfig;
+    public LocalSysFileServiceImpl(ResourcesConfig resourcesConfig) {
+        this.resourcesConfig = resourcesConfig;
     }
 
     /**
@@ -39,9 +39,9 @@ public class LocalFileServiceImpl implements ISysFileService
 
     @Override
     public String uploadFile(MultipartFile file, String modules) throws Exception {
-        String localFilePath = localFileConfig.getPath();
-        String domain = localFileConfig.getDomain();
-        String localFilePrefix = localFileConfig.getPrefix();
+        String localFilePath = resourcesConfig.getPath();
+        String domain = resourcesConfig.getDomain();
+        String localFilePrefix = resourcesConfig.getPrefix();
         if (StringUtils.isBlank(localFilePath) ||
                 StringUtils.isBlank(localFilePath) ||
                 StringUtils.isBlank(localFilePath) ) {
@@ -58,7 +58,7 @@ public class LocalFileServiceImpl implements ISysFileService
             throw new CustomException("fileUrl不能为空！");
         }
         String key = this.getStorePath(fileUrl);
-        String localFilePath = localFileConfig.getPath();
+        String localFilePath = resourcesConfig.getPath();
 
         String filePath = localFilePath + "/" +  key;
         File file = new File(filePath);
@@ -74,7 +74,7 @@ public class LocalFileServiceImpl implements ISysFileService
 
     @Override
     public String objectsCapacityStr() {
-        String localFilePath = localFileConfig.getPath();
+        String localFilePath = resourcesConfig.getPath();
         File file = new File(localFilePath);
         long total = file.getTotalSpace();
         long free = file.getFreeSpace();
@@ -96,14 +96,14 @@ public class LocalFileServiceImpl implements ISysFileService
      */
     private String getStorePath(String filePath) {
         // 使用方式1
-        String domain = localFileConfig.getDomain();
-        String localFilePrefix = localFileConfig.getPrefix();
+        String domain = resourcesConfig.getDomain();
+        String localFilePrefix = resourcesConfig.getPrefix();
         String publicPath1 = domain + localFilePrefix;
         String key = filePath.replace(publicPath1, "");
 
         if (key.equals(filePath)) {
             // 使用方式2
-            String group = localFileConfig.getPrefix();
+            String group = resourcesConfig.getPrefix();
             // 获取group起始位置
             int pathStartPos = filePath.indexOf(group) + group.length() + 1;
             key = filePath.substring(pathStartPos, filePath.length());
