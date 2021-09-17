@@ -1,0 +1,64 @@
+Manifest-Version: 1.0
+Class-Path: SparseBitSet-1.2.jar netty-common-4.1.66.Final.jar spring-
+ cloud-starter-bootstrap-3.0.3.jar spring-boot-starter-json-2.5.3.jar 
+ feign-core-10.12.jar fastjson-1.2.76.jar netty-codec-4.1.66.Final.jar
+  reactor-extra-3.4.3.jar spring-cloud-starter-openfeign-3.0.3.jar spr
+ ing-cloud-openfeign-core-3.0.3.jar concurrentlinkedhashmap-lru-1.4.2.
+ jar bcpkix-jdk15on-1.68.jar spring-cloud-starter-alibaba-nacos-discov
+ ery-2021.1.jar spring-boot-actuator-autoconfigure-2.5.3.jar mybatis-s
+ pring-boot-starter-2.2.0.jar lettuce-core-6.1.4.RELEASE.jar spring-bo
+ ot-starter-validation-2.5.3.jar spring-boot-starter-actuator-2.5.3.ja
+ r commons-compress-1.19.jar jakarta.validation-api-2.0.2.jar spring-b
+ oot-starter-data-redis-2.5.3.jar spring-boot-starter-logging-2.5.3.ja
+ r pagehelper-5.2.1.jar spring-boot-starter-2.5.3.jar pagehelper-sprin
+ g-boot-starter-1.3.1.jar xmlbeans-3.1.0.jar spring-context-support-5.
+ 3.9.jar spring-boot-starter-cache-2.5.3.jar poi-ooxml-4.1.2.jar senti
+ nel-core-1.8.0.jar sentinel-reactor-adapter-1.8.0.jar commons-codec-1
+ .15.jar classmate-1.5.1.jar commons-fileupload-1.4.jar jackson-dataty
+ pe-jsr310-2.12.4.jar jakarta.annotation-api-1.3.5.jar jackson-module-
+ parameter-names-2.12.4.jar tomcat-embed-core-9.0.50.jar spring-cloud-
+ loadbalancer-3.0.3.jar spring-security-crypto-5.5.1.jar micrometer-co
+ re-1.7.2.jar poi-4.1.2.jar tomcat-embed-websocket-9.0.50.jar swagger-
+ annotations-1.6.2.jar spring-security-rsa-1.0.10.RELEASE.jar sentinel
+ -cluster-client-default-1.8.0.jar httpcore-4.4.14.jar snakeyaml-1.28.
+ jar netty-transport-4.1.66.Final.jar spring-cloud-context-3.0.3.jar g
+ uava-20.0.jar httpcore-nio-4.4.14.jar spring-cloud-circuitbreaker-sen
+ tinel-2021.1.jar sentinel-spring-webmvc-adapter-1.8.0.jar javax.servl
+ et-api-4.0.1.jar spring-context-5.3.9.jar spring-cloud-starter-alibab
+ a-nacos-config-2021.1.jar jackson-datatype-jdk8-2.12.4.jar spring-web
+ -5.3.9.jar spring-context-support-1.0.10.jar mybatis-spring-boot-auto
+ configure-2.2.0.jar spring-cloud-starter-alibaba-sentinel-2021.1.jar 
+ jackson-annotations-2.12.4.jar spring-aop-5.3.9.jar pagehelper-spring
+ -boot-autoconfigure-1.3.1.jar spring-boot-autoconfigure-2.5.3.jar com
+ mons-math3-3.6.1.jar jackson-core-2.12.4.jar commons-collections4-4.4
+ .jar spring-cloud-starter-3.0.3.jar tomcat-embed-el-9.0.50.jar slf4j-
+ api-1.7.32.jar reflections-0.9.11.jar spring-webmvc-5.3.9.jar jboss-l
+ ogging-3.4.2.Final.jar HikariCP-4.0.3.jar spring-cloud-commons-3.0.3.
+ jar nacos-client-2.0.3.jar log4j-to-slf4j-2.14.1.jar javassist-3.21.0
+ -GA.jar LatencyUtils-2.0.3.jar simpleclient-0.10.0.jar spring-beans-5
+ .3.9.jar spring-expression-5.3.9.jar spring-boot-actuator-2.5.3.jar l
+ ogback-core-1.2.4.jar spring-cloud-starter-loadbalancer-3.0.3.jar evi
+ ctor-1.0.0.jar commons-lang3-3.12.0.jar spring-boot-starter-tomcat-2.
+ 5.3.jar sentinel-annotation-aspectj-1.8.0.jar sentinel-datasource-ext
+ ension-1.8.0.jar poi-ooxml-schemas-4.1.2.jar HdrHistogram-2.1.12.jar 
+ spring-data-redis-2.5.3.jar netty-buffer-4.1.66.Final.jar jackson-dat
+ abind-2.12.4.jar bcprov-jdk15on-1.68.jar spring-data-commons-2.5.3.ja
+ r mybatis-spring-2.0.6.jar sentinel-transport-simple-http-1.8.0.jar n
+ etty-handler-4.1.66.Final.jar spring-core-5.3.9.jar commons-io-2.11.0
+ .jar sentinel-parameter-flow-control-1.8.0.jar jsqlparser-4.0.jar log
+ back-classic-1.2.4.jar jul-to-slf4j-1.7.32.jar spring-tx-5.3.9.jar sp
+ ring-boot-starter-aop-2.5.3.jar reactor-core-3.4.8.jar spring-jdbc-5.
+ 3.9.jar log4j-api-2.14.1.jar aspectjrt-1.9.7.jar httpclient-4.5.13.ja
+ r spring-oxm-5.3.9.jar spring-jcl-5.3.9.jar feign-slf4j-10.12.jar spr
+ ing-boot-2.5.3.jar feign-form-spring-3.8.0.jar hibernate-validator-6.
+ 2.0.Final.jar netty-resolver-4.1.66.Final.jar spring-cloud-alibaba-co
+ mmons-2021.1.jar mybatis-3.5.7.jar curvesapi-1.06.jar sentinel-cluste
+ r-server-default-1.8.0.jar sentinel-spring-webflux-adapter-1.8.0.jar 
+ spring-boot-starter-jdbc-2.5.3.jar sentinel-cluster-common-default-1.
+ 8.0.jar httpasyncclient-4.1.4.jar spring-boot-starter-web-2.5.3.jar f
+ eign-form-3.8.0.jar sentinel-transport-common-1.8.0.jar spring-data-k
+ eyvalue-2.5.3.jar commons-pool2-2.10.0.jar spring-cloud-alibaba-senti
+ nel-datasource-2021.1.jar aspectjweaver-1.9.7.jar reactive-streams-1.
+ 0.3.jar
+Main-Class: com.ruoyi.auth.RuoYiAuthApplication
+

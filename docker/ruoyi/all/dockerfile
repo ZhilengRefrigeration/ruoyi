@@ -10,6 +10,8 @@ RUN mkdir -p /home/ruoyi
 # 指定路径
 WORKDIR /home/ruoyi
 # 复制jar文件到路径
-COPY ./jar/*.jar /home/ruoyi/
-# 启动系统服务
-ENTRYPOINT ["java","-jar","ruoyi-visual-monitor.jar"]
+COPY ./jar/*.* /home/ruoyi/
+RUN  chmod +x /home/ruoyi/startup.sh
+# 启动网关服务
+# ENTRYPOINT ["java","-jar","ruoyi-gateway.jar","ruoyi-auth.jar"]
+ENTRYPOINT ["/home/ruoyi/startup.sh"]

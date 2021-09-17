@@ -10,6 +10,6 @@ RUN mkdir -p /home/ruoyi
 # 指定路径
 WORKDIR /home/ruoyi
 # 复制jar文件到路径
-COPY ./jar/ruoyi-auth.jar /home/ruoyi/ruoyi-auth.jar
+COPY ./jar/*.jar /home/ruoyi/
 # 启动认证服务
 ENTRYPOINT ["java","-jar","ruoyi-auth.jar"]

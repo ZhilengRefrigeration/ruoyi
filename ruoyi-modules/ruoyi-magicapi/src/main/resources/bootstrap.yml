@@ -1,12 +1,12 @@
 # Tomcat
 server:
-  port: 9203
+  port: 9205
 
 # Spring
 spring: 
   application:
     # 应用名称
-    name: ruoyi-job
+    name: ruoyi-magic-api
   profiles:
     # 环境配置
     active: dev
@@ -23,3 +23,13 @@ spring:
         # 共享配置
         shared-configs:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+
+magic-api:
+  web: /magic/web
+  resource:
+    type: database  # 配置接口存储方式，这里选择存在数据库中
+    table-name: magic_api_file  # 数据库中的表名
+    datasource: master
+    #prefix: /magic-api  # 前缀
+#    location: classpath:magic-api
+# 其它配置请参考 https://ssssssss.org/config/

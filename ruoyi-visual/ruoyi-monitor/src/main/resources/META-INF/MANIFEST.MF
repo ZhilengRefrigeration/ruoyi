@@ -1,0 +1,58 @@
+Manifest-Version: 1.0
+Class-Path: unbescape-1.1.6.RELEASE.jar spring-context-support-1.0.10.
+ jar httpcore-4.4.14.jar netty-transport-native-unix-common-4.1.66.Fin
+ al.jar spring-cloud-commons-3.0.3.jar netty-resolver-dns-native-macos
+ -4.1.66.Final-osx-x86_64.jar spring-boot-actuator-autoconfigure-2.5.3
+ .jar spring-core-5.3.9.jar spring-cloud-starter-3.0.3.jar log4j-api-2
+ .14.1.jar sentinel-cluster-client-default-1.8.0.jar sentinel-spring-w
+ ebmvc-adapter-1.8.0.jar spring-boot-admin-server-ui-2.4.3.jar spring-
+ cloud-starter-alibaba-sentinel-2021.1.jar reactor-netty-http-1.0.9.ja
+ r spring-cloud-starter-bootstrap-3.0.3.jar spring-security-web-5.5.1.
+ jar spring-boot-starter-webflux-2.5.3.jar spring-aop-5.3.9.jar spring
+ -cloud-alibaba-commons-2021.1.jar netty-handler-proxy-4.1.66.Final.ja
+ r spring-security-crypto-5.5.1.jar netty-codec-dns-4.1.66.Final.jar s
+ pring-boot-actuator-2.5.3.jar netty-buffer-4.1.66.Final.jar spring-cl
+ oud-context-3.0.3.jar netty-transport-native-epoll-4.1.66.Final-linux
+ -x86_64.jar logback-classic-1.2.4.jar spring-cloud-starter-alibaba-na
+ cos-discovery-2021.1.jar sentinel-parameter-flow-control-1.8.0.jar sp
+ ring-cloud-alibaba-sentinel-datasource-2021.1.jar log4j-to-slf4j-2.14
+ .1.jar spring-cloud-starter-alibaba-nacos-config-2021.1.jar httpasync
+ client-4.1.4.jar sentinel-datasource-extension-1.8.0.jar spring-secur
+ ity-core-5.5.1.jar spring-boot-starter-thymeleaf-2.5.3.jar spring-clo
+ ud-circuitbreaker-sentinel-2021.1.jar sentinel-transport-common-1.8.0
+ .jar reactor-netty-core-1.0.9.jar spring-webflux-5.3.9.jar spring-boo
+ t-starter-2.5.3.jar sentinel-transport-simple-http-1.8.0.jar tomcat-e
+ mbed-websocket-9.0.50.jar httpclient-4.5.13.jar netty-resolver-4.1.66
+ .Final.jar aspectjweaver-1.9.7.jar javassist-3.21.0-GA.jar spring-bea
+ ns-5.3.9.jar jackson-annotations-2.12.4.jar aspectjrt-1.9.7.jar netty
+ -codec-socks-4.1.66.Final.jar spring-boot-starter-logging-2.5.3.jar f
+ astjson-1.2.76.jar jackson-databind-2.12.4.jar netty-codec-4.1.66.Fin
+ al.jar spring-boot-starter-web-2.5.3.jar sentinel-annotation-aspectj-
+ 1.8.0.jar netty-codec-http2-4.1.66.Final.jar spring-boot-2.5.3.jar ju
+ l-to-slf4j-1.7.32.jar tomcat-embed-core-9.0.50.jar slf4j-api-1.7.32.j
+ ar spring-boot-starter-security-2.5.3.jar jackson-core-2.12.4.jar spr
+ ing-webmvc-5.3.9.jar concurrentlinkedhashmap-lru-1.4.2.jar nacos-clie
+ nt-2.0.3.jar spring-boot-autoconfigure-2.5.3.jar jackson-datatype-jdk
+ 8-2.12.4.jar jakarta.annotation-api-1.3.5.jar spring-boot-admin-start
+ er-server-2.4.3.jar spring-boot-starter-reactor-netty-2.5.3.jar logba
+ ck-core-1.2.4.jar netty-resolver-dns-4.1.66.Final.jar netty-handler-4
+ .1.66.Final.jar spring-security-config-5.5.1.jar spring-boot-starter-
+ json-2.5.3.jar reactor-core-3.4.8.jar jackson-datatype-jsr310-2.12.4.
+ jar spring-jcl-5.3.9.jar LatencyUtils-2.0.3.jar reactor-extra-3.4.3.j
+ ar reflections-0.9.11.jar jackson-module-parameter-names-2.12.4.jar r
+ eactive-streams-1.0.3.jar spring-security-rsa-1.0.10.RELEASE.jar spri
+ ng-context-5.3.9.jar spring-web-5.3.9.jar HdrHistogram-2.1.12.jar sna
+ keyaml-1.28.jar thymeleaf-3.0.12.RELEASE.jar sentinel-cluster-common-
+ default-1.8.0.jar commons-codec-1.15.jar thymeleaf-extras-java8time-3
+ .0.4.RELEASE.jar tomcat-embed-el-9.0.50.jar netty-transport-4.1.66.Fi
+ nal.jar spring-boot-starter-tomcat-2.5.3.jar guava-20.0.jar attoparse
+ r-2.0.5.RELEASE.jar netty-common-4.1.66.Final.jar bcpkix-jdk15on-1.68
+ .jar micrometer-core-1.7.2.jar sentinel-cluster-server-default-1.8.0.
+ jar sentinel-reactor-adapter-1.8.0.jar spring-boot-admin-server-cloud
+ -2.4.3.jar httpcore-nio-4.4.14.jar spring-expression-5.3.9.jar sentin
+ el-core-1.8.0.jar spring-boot-admin-server-2.4.3.jar thymeleaf-spring
+ 5-3.0.12.RELEASE.jar spring-boot-starter-actuator-2.5.3.jar sentinel-
+ spring-webflux-adapter-1.8.0.jar bcprov-jdk15on-1.68.jar simpleclient
+ -0.10.0.jar netty-codec-http-4.1.66.Final.jar
+Main-Class: com.ruoyi.modules.monitor.RuoYiMonitorApplication
+
