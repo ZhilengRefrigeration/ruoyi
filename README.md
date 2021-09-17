@@ -11,29 +11,29 @@
 ## 系统模块
 
 ~~~
-com.ruoyi     
-├── ruoyi-ui              // 前端框架 [80]
-├── ruoyi-gateway         // 网关模块 [8080]
-├── ruoyi-auth            // 认证中心 [9200]
-├── ruoyi-api             // 接口模块
-│       └── ruoyi-api-system                          // 系统接口
-├── ruoyi-common          // 通用模块
-│       └── ruoyi-common-core                         // 核心模块
-│       └── ruoyi-common-datascope                    // 权限范围
-│       └── ruoyi-common-datasource                   // 多数据源
-│       └── ruoyi-common-log                          // 日志记录
-│       └── ruoyi-common-redis                        // 缓存服务
-│       └── ruoyi-common-security                     // 安全模块
-│       └── ruoyi-common-swagger                      // 系统接口
-├── ruoyi-modules         // 业务模块
-│       └── ruoyi-system                              // 系统模块 [9201]
-│       └── ruoyi-gen                                 // 代码生成 [9202]
-│       └── ruoyi-job                                 // 定时任务 [9203]
-│       └── ruoyi-file                                // 文件服务 [9300]
-│       └── lynn-magic-api                            // 基于magic-api的接口服务 [9400]
-├── ruoyi-visual          // 图形化管理模块
-│       └── ruoyi-visual-monitor                      // 监控中心 [9100]
-├──pom.xml                // 公共依赖
+com.lynn     
+├── lynn-ui              // 前端框架 [80]
+├── lynn-gateway         // 网关模块 [8080]
+├── lynn-auth            // 认证中心 [9200]
+├── lynn-api             // 接口模块
+│       └── lynn-api-system                          // 系统接口
+├── lynn-common                                      // 通用模块
+│       └── lynn-common-core                         // 核心模块
+│       └── lynn-common-datascope                    // 权限范围
+│       └── lynn-common-datasource                   // 多数据源
+│       └── lynn-common-log                          // 日志记录
+│       └── lynn-common-redis                        // 缓存服务
+│       └── lynn-common-security                     // 安全模块
+│       └── lynn-common-swagger                      // 系统接口
+├── lynn-modules                                     // 业务模块
+│       └── lynn-system                              // 系统模块 [9201]
+│       └── lynn-gen                                 // 代码生成 [9202]
+│       └── lynn-job                                 // 定时任务 [9203]
+│       └── lynn-file                                // 文件服务 [9300]
+│       └── lynn-magic-api                           // 基于magic-api的接口服务 [9400]
+├── lynn-visual                                      // 图形化管理模块
+│       └── lynn-visual-monitor                      // 监控中心 [9100]
+├──pom.xml                                           // 公共依赖
 ~~~
 
 ## 架构图
@@ -102,10 +102,6 @@ com.ruoyi
 	<tr>
         <td><img src="https://oscimg.oschina.net/oscnet/up-ece3fd37a3d4bb75a3926e905a3c5629055.png"/></td>
         <td><img src="https://oscimg.oschina.net/oscnet/up-92ffb7f3835855cff100fa0f754a6be0d99.png"/></td>
-    </tr>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-ff9e3066561574aca73005c5730c6a41f15.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-5e4daac0bb59612c5038448acbcef235e3a.png"/></td>
     </tr>
 </table>
 

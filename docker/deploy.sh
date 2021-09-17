@@ -25,35 +25,40 @@ port(){
 }
 
 copy(){
-    cp -f ../ruoyi-gateway/target/ruoyi-gateway.jar ./ruoyi/gateway/jar/ruoyi-gateway.jar
-    cp -f ../ruoyi-auth/target/ruoyi-auth.jar ./ruoyi/auth/jar/ruoyi-auth.jar
-    cp -f ../ruoyi-modules/ruoyi-system/target/ruoyi-modules-system.jar ./ruoyi/modules/system/jar/ruoyi-modules-system.jar
-    cp -f ../ruoyi-modules/ruoyi-file/target/ruoyi-modules-file.jar ./ruoyi/modules/file/jar/ruoyi-modules-file.jar
-    cp -f ../ruoyi-modules/ruoyi-gen/target/ruoyi-modules-gen.jar ./ruoyi/modules/gen/jar/ruoyi-modules-gen.jar
-    cp -f ../ruoyi-modules/ruoyi-job/target/ruoyi-modules-job.jar ./ruoyi/modules/job/jar/ruoyi-modules-job.jar
+    #删除各模块下的jar文件
+    find ./lynn-cloud/*/jar/ -name "*.jar" -exec rm -f {} \;
+    find ./lynn-cloud/*/*/jar/ -name "*.jar" -exec rm -f {} \;
 
-    cp -f ../ruoyi-gateway/target/ruoyi-gateway.jar ./ruoyi/all/jar/ruoyi-gateway.jar
-    cp -f ../ruoyi-auth/target/ruoyi-auth.jar ./ruoyi/all/jar/ruoyi-auth.jar
-    cp -f ../ruoyi-modules/ruoyi-system/target/ruoyi-modules-system.jar ./ruoyi/all/jar/ruoyi-modules-system.jar
-    cp -f ../ruoyi-modules/ruoyi-file/target/ruoyi-modules-file.jar ./ruoyi/all/jar/ruoyi-modules-file.jar
-    cp -f ../ruoyi-modules/ruoyi-gen/target/ruoyi-modules-gen.jar ./ruoyi/all/jar/ruoyi-modules-gen.jar
-    cp -f ../ruoyi-modules/ruoyi-job/target/ruoyi-modules-job.jar ./ruoyi/all/jar/ruoyi-modules-job.jar
-    cp -f ../ruoyi-modules/ruoyi-magicapi/target/ruoyi-magicapi.jar ./ruoyi/all/jar/ruoyi-magicapi.jar
+    #将各个模块的jar文件复制到指定的docker容器文件夹中
+    cp -f ../ruoyi-gateway/target/*.jar ./lynn-cloud/gateway/jar/
+    cp -f ../ruoyi-auth/target/*.jar ./lynn-cloud/auth/jar/
+    cp -f ../ruoyi-modules/ruoyi-system/target/*.jar ./lynn-cloud/modules/system/jar/
+    cp -f ../ruoyi-modules/ruoyi-file/target/*.jar ./lynn-cloud/modules/file/jar/
+    cp -f ../ruoyi-modules/ruoyi-gen/target/*.jar ./lynn-cloud/modules/gen/jar/
+    cp -f ../ruoyi-modules/ruoyi-job/target/*.jar ./lynn-cloud/modules/job/jar/
+    cp -f ../ruoyi-modules/lynn-magic-api/target/*.jar ./lynn-cloud/modules/magic-api/jar/
+
+    #删除all文件夹下的所有jar文件
+    find ./lynn-cloud/all/jar/ -name "*.jar" -exec rm -f {} \;
+
+    #将各模块下的jar文件复制到all/jar文件夹内
+    cp -f ../*/target/*.jar ./lynn-cloud/all/jar/
+    cp -f ../*/*/target/*.jar ./lynn-cloud/all/jar/
 }
 
 # 启动基础环境（必须）
 base(){
-	docker-compose up -d ruoyi-mysql ruoyi-redis ruoyi-nacos ruoyi-nginx
+	docker-compose up -d lynn-mysql lynn-redis lynn-nacos lynn-nginx
 }
 
 # 启动程序模块（必须）
 modules(){
-	docker-compose up -d ruoyi-gateway ruoyi-auth ruoyi-modules-system
+	docker-compose up -d lynn-gateway lynn-auth lynn-modules-system lynn-magic-api
 }
 
 # 启动程序模块（opt）
 opts(){
-	docker-compose up -d ruoyi-modules-file ruoyi-modules-gen ruoyi-modules-job
+	docker-compose up -d lynn-modules-file lynn-modules-gen ruoyi-modules-job
 }
 
 # 关闭所有环境/模块

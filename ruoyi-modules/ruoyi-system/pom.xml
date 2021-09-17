@@ -3,16 +3,16 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.ruoyi</groupId>
-        <artifactId>ruoyi-modules</artifactId>
+        <groupId>cn.lynntech</groupId>
+        <artifactId>lynn-modules</artifactId>
         <version>3.1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 	
-    <artifactId>ruoyi-modules-system</artifactId>
+    <artifactId>lynn-modules-system</artifactId>
 
     <description>
-        ruoyi-modules-system系统模块
+        lynn-modules-system系统模块
     </description>
 	
     <dependencies>
@@ -56,26 +56,26 @@
         
         <!-- RuoYi Common DataSource -->
         <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-datasource</artifactId>
+            <groupId>cn.lynntech</groupId>
+            <artifactId>lynn-common-datasource</artifactId>
         </dependency>
         
         <!-- RuoYi Common DataScope -->
         <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-datascope</artifactId>
+            <groupId>cn.lynntech</groupId>
+            <artifactId>lynn-common-datascope</artifactId>
         </dependency>
         
         <!-- RuoYi Common Log -->
         <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-log</artifactId>
+            <groupId>cn.lynntech</groupId>
+            <artifactId>lynn-common-log</artifactId>
         </dependency>
         
         <!-- RuoYi Common Swagger -->
         <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-swagger</artifactId>
+            <groupId>cn.lynntech</groupId>
+            <artifactId>lynn-common-swagger</artifactId>
         </dependency>
 
     </dependencies>

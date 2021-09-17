@@ -3,13 +3,13 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.ruoyi</groupId>
-        <artifactId>ruoyi-common</artifactId>
+        <groupId>cn.lynntech</groupId>
+        <artifactId>lynn-common</artifactId>
         <version>3.1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     
-    <artifactId>ruoyi-common-redis</artifactId>
+    <artifactId>lynn-common-redis</artifactId>
 	
     <description>
         ruoyi-common-redis缓存服务
@@ -25,8 +25,8 @@
         
         <!-- RuoYi Common Core-->
         <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-core</artifactId>
+            <groupId>cn.lynntech</groupId>
+            <artifactId>lynn-common-core</artifactId>
         </dependency>
         
     </dependencies>

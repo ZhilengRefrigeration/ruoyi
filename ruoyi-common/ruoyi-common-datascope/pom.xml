@@ -3,13 +3,13 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.ruoyi</groupId>
-        <artifactId>ruoyi-common</artifactId>
+        <groupId>cn.lynntech</groupId>
+        <artifactId>lynn-common</artifactId>
         <version>3.1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     
-    <artifactId>ruoyi-common-datascope</artifactId>
+    <artifactId>lynn-common-datascope</artifactId>
 	
     <description>
         ruoyi-common-datascope权限范围
@@ -19,8 +19,8 @@
 		
         <!-- RuoYi Common Security -->
         <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-security</artifactId>
+            <groupId>cn.lynntech</groupId>
+            <artifactId>lynn-common-security</artifactId>
         </dependency>
         
     </dependencies>

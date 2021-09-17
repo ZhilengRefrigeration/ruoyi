@@ -1,8 +1,8 @@
 {
-  "name": "ruoyi",
+  "name": "lynn",
   "version": "3.1.0",
-  "description": "若依管理系统",
-  "author": "若依",
+  "description": "林恩低代码开发平台",
+  "author": "林恩",
   "license": "MIT",
   "scripts": {
     "dev": "vue-cli-service serve",

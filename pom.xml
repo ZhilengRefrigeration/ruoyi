@@ -4,16 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.ruoyi</groupId>
-    <artifactId>ruoyi</artifactId>
+    <groupId>cn.lynntech</groupId>
+    <artifactId>lynn</artifactId>
     <version>3.1.0</version>
 
-    <name>ruoyi</name>
-    <url>http://www.ruoyi.vip</url>
-    <description>若依微服务系统</description>
+    <name>lynnCloud</name>
+    <url>http://www.lynntech.cn</url>
+    <description>林恩低代码开发平台</description>
 
     <properties>
-        <ruoyi.version>3.1.0</ruoyi.version>
+        <lynn.version>3.1.0</lynn.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
@@ -182,58 +182,58 @@
 
             <!-- 核心模块 -->
             <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-common-core</artifactId>
-                <version>${ruoyi.version}</version>
+                <groupId>cn.lynntech</groupId>
+                <artifactId>lynn-common-core</artifactId>
+                <version>${lynn.version}</version>
             </dependency>
 
             <!-- 接口模块 -->
             <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-common-swagger</artifactId>
-                <version>${ruoyi.version}</version>
+                <groupId>cn.lynntech</groupId>
+                <artifactId>lynn-common-swagger</artifactId>
+                <version>${lynn.version}</version>
             </dependency>
 
             <!-- 安全模块 -->
             <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-common-security</artifactId>
-                <version>${ruoyi.version}</version>
+                <groupId>cn.lynntech</groupId>
+                <artifactId>lynn-common-security</artifactId>
+                <version>${lynn.version}</version>
             </dependency>
 
             <!-- 权限范围 -->
             <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-common-datascope</artifactId>
-                <version>${ruoyi.version}</version>
+                <groupId>cn.lynntech</groupId>
+                <artifactId>lynn-common-datascope</artifactId>
+                <version>${lynn.version}</version>
             </dependency>
 
             <!-- 多数据源 -->
             <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-common-datasource</artifactId>
-                <version>${ruoyi.version}</version>
+                <groupId>cn.lynntech</groupId>
+                <artifactId>lynn-common-datasource</artifactId>
+                <version>${lynn.version}</version>
             </dependency>
 
             <!-- 日志记录 -->
             <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-common-log</artifactId>
-                <version>${ruoyi.version}</version>
+                <groupId>cn.lynntech</groupId>
+                <artifactId>lynn-common-log</artifactId>
+                <version>${lynn.version}</version>
             </dependency>
 
             <!-- 缓存服务 -->
             <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-common-redis</artifactId>
-                <version>${ruoyi.version}</version>
+                <groupId>cn.lynntech</groupId>
+                <artifactId>lynn-common-redis</artifactId>
+                <version>${lynn.version}</version>
             </dependency>
 
             <!-- 系统接口 -->
             <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-api-system</artifactId>
-                <version>${ruoyi.version}</version>
+                <groupId>cn.lynntech</groupId>
+                <artifactId>lynn-api-system</artifactId>
+                <version>${lynn.version}</version>
             </dependency>
 
         </dependencies>

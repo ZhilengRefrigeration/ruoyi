@@ -3,13 +3,13 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>com.ruoyi</groupId>
-        <artifactId>ruoyi-modules</artifactId>
+        <groupId>cn.lynntech</groupId>
+        <artifactId>lynn-modules</artifactId>
         <version>3.1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ruoyi-modules-job</artifactId>
+    <artifactId>lynn-modules-job</artifactId>
 
     <description>
         ruoyi-modules-job定时任务
@@ -68,14 +68,14 @@
         
         <!-- RuoYi Common Log -->
         <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-log</artifactId>
+            <groupId>cn.lynntech</groupId>
+            <artifactId>lynn-common-log</artifactId>
         </dependency>
         
         <!-- RuoYi Common Swagger -->
         <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-swagger</artifactId>
+            <groupId>cn.lynntech</groupId>
+            <artifactId>lynn-common-swagger</artifactId>
         </dependency>
         
     </dependencies>

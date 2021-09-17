@@ -6,7 +6,7 @@ server:
 spring: 
   application:
     # 应用名称
-    name: ruoyi-system
+    name: lynn-system
   profiles:
     # 环境配置
     active: dev
@@ -14,10 +14,10 @@ spring:
     nacos:
       discovery:
         # 服务注册地址
-        server-addr: kubernetes.docker.internal:8848
+        server-addr: lynn.server.local:8848
       config:
         # 配置中心地址
-        server-addr: kubernetes.docker.internal:8848
+        server-addr: lynn.server.local:8848
         # 配置文件格式
         file-extension: yml
         # 共享配置
