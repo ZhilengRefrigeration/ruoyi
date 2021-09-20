@@ -5,14 +5,14 @@
     <parent>
         <groupId>cn.lynntech</groupId>
         <artifactId>lynn-common</artifactId>
-        <version>3.1.0</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     
     <artifactId>lynn-common-log</artifactId>
 	
     <description>
-        ruoyi-common-log日志记录
+        lynn-common-log日志记录
     </description>
 
     <dependencies>

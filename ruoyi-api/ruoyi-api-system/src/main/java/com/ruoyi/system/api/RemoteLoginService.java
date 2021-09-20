@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-@FeignClient(contextId = "remoteLoginService",url = "http://ruoyi-system:9200/", value = ServiceNameConstants.AUTH_SERVICE, fallbackFactory = RemoteUserFallbackFactory.class)
+@FeignClient(contextId = "remoteLoginService",url = "http://lynn.server.local:9200/", value = ServiceNameConstants.AUTH_SERVICE, fallbackFactory = RemoteUserFallbackFactory.class)
 public interface RemoteLoginService {
     /**
      * 通过用户名查询用户信息

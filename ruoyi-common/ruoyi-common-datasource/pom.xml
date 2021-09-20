@@ -5,14 +5,14 @@
     <parent>
         <groupId>cn.lynntech</groupId>
         <artifactId>lynn-common</artifactId>
-        <version>3.1.0</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     
     <artifactId>lynn-common-datasource</artifactId>
 	
     <description>
-        ruoyi-common-datasource多数据源
+        lynn-common-datasource多数据源
     </description>
 
     <dependencies>

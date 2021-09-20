@@ -3,35 +3,8 @@
     <el-row :gutter="20">
       <el-col :sm="24" :lg="24">
         <blockquote class="text-warning" style="font-size: 14px">
-          领取阿里云通用云产品1888优惠券
-          <br />
-          <el-link
-            href="https://www.aliyun.com/minisite/goods?userCode=brki8iof"
-            type="primary"
-            target="_blank"
-            >https://www.aliyun.com/minisite/goods?userCode=brki8iof</el-link
-          >
-          <br />
-          领取腾讯云通用云产品2860优惠券
-          <br />
-          <el-link
-            href="https://cloud.tencent.com/redirect.php?redirect=1025&cps_key=198c8df2ed259157187173bc7f4f32fd&from=console"
-            type="primary"
-            target="_blank"
-            >https://cloud.tencent.com/redirect.php?redirect=1025&cps_key=198c8df2ed259157187173bc7f4f32fd&from=console</el-link
-          >
-          <br />
-          阿里云服务器折扣区
-          <el-link href="http://aly.ruoyi.vip" type="primary" target="_blank"
-            >>☛☛点我进入☚☚</el-link
-          >
-          &nbsp;&nbsp;&nbsp; 腾讯云服务器秒杀区
-          <el-link href="http://txy.ruoyi.vip" type="primary" target="_blank"
-            >>☛☛点我进入☚☚</el-link
-          ><br />
-          <h4 class="text-danger">
-            云产品通用红包，可叠加官网常规优惠使用。(仅限新用户)
-          </h4>
+          本平台整合各开源项目，旨在开发一款低代码开发平台。目前需要做的事情如下：<br />
+
         </blockquote>
 
         <hr />
@@ -41,10 +14,10 @@
       <el-col :sm="24" :lg="12" style="padding-left: 20px">
         <h2>林恩低代码平台框架</h2>
         <p>
-          基于开源项目若依并整合其他开源框架，开发一款低代码开发平台。
+          基于开源项目林恩并整合其他开源框架，开发一款低代码开发平台。
           其实自2008年开始就思考着做一套低代码平台，只不过那个时候不叫低代码平台，叫快速开发平台，所以其实低代码从未离开过。
           最开始基于.net，本人超级喜欢.net，后来基于php和java都有自己研究过，但是一直忙于琐事未能真正做出成品。
-          现在国内开源项目环境逐渐成熟，若依是不错的一套，很多思想与我以前所想不谋而合，故基于此进行进一步开发。
+          现在国内开源项目环境逐渐成熟，林恩是不错的一套，很多思想与我以前所想不谋而合，故基于此进行进一步开发。
         </p>
         <p>
           <b>当前版本:</b> <span>v{{ version }}</span>
@@ -54,19 +27,19 @@
         </p>
         <p>
           <el-button
-            type="primary"
+            type="primary"vue-cli-service serve
             size="mini"
             icon="el-icon-cloudy"
             plain
-            @click="goTarget('https://gitee.com/y_project/RuoYi-Cloud')"
+            @click="goTarget('https://gitee.com/lynntech/Lynn-Cloud')"
             >访问码云</el-button
           >
           <el-button
             size="mini"
             icon="el-icon-s-home"
             plain
-            @click="goTarget('http://ruoyi.vip')"
-            >访问主页</el-button
+            @click="goTarget('http://www.lynntech.cn')"
+            >访问主页(暂未开通)</el-button
           >
         </p>
       </el-col>
@@ -78,7 +51,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="6">
+          <el-col :span="4">
             <h4>后端技术</h4>
             <ul>
               <li>SpringBoot</li>
@@ -90,7 +63,7 @@
               <li>...</li>
             </ul>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="4">
             <h4>前端技术</h4>
             <ul>
               <li>Vue</li>
@@ -99,6 +72,14 @@
               <li>Axios</li>
               <li>Echarts</li>
               <li>Quill</li>
+              <li>...</li>
+            </ul>
+          </el-col>
+          <el-col :span="4">
+            <h4>其他组件</h4>
+            <ul>
+              <li>Magic-Api(已整合)</li>
+              <li>DataGear(暂未整合)</li>
               <li>...</li>
             </ul>
           </el-col>
@@ -115,30 +96,20 @@
           <div class="body">
             <p>
               <i class="el-icon-s-promotion"></i> 官网：<el-link
-                href="http://www.ruoyi.vip"
+                href="http://www.lynntech.cn"
                 target="_blank"
-                >http://www.ruoyi.vip</el-link
+                >http://www.lynntech.cn</el-link
               >
             </p>
             <p>
-              <i class="el-icon-user-solid"></i> QQ群：<s>满42799195</s>
-              <s>满170157040</s> <s>满130643120</s> <s>满225920371</s>
-              <a href="https://jq.qq.com/?_wv=1027&k=Kg9CdVdx" target="_blank">
-                201705537</a
-              >
+              <i class="el-icon-user-solid"></i> QQ：<a href="#" target="_blank">
+                1257091060</a>
             </p>
             <p>
-              <i class="el-icon-chat-dot-round"></i> 微信：<a
-                href="javascript:;"
-                >/ *林恩</a
-              >
+              <i class="el-icon-chat-dot-round"></i> 微信：<a href="javascript:;" >/ *林恩</a>
             </p>
             <p>
-              <i class="el-icon-money"></i> 支付宝：<a
-                href="javascript:;"
-                class="支付宝信息"
-                >/ *林恩</a
-              >
+              <i class="el-icon-money"></i> 支付宝：<a href="javascript:;" class="支付宝信息">/ *林恩</a>
             </p>
           </div>
         </el-card>
@@ -149,6 +120,13 @@
             <span>更新日志</span>
           </div>
           <el-collapse accordion>
+            <el-collapse-item title="v1.0.0 - 2021-09-15">
+              <ol>
+                <li>林恩低代码开发平台正式发布</li>
+              </ol>
+            </el-collapse-item>
+          </el-collapse>
+<!--          <el-collapse accordion>
             <el-collapse-item title="v3.1.0 - 2021-08-02">
               <ol>
                 <li>支持配置XSS跨站脚本过滤</li>
@@ -425,7 +403,6 @@
                 <li>其他细节优化</li>
               </ol>
             </el-collapse-item>
-
             <el-collapse-item title="v2.1.0 - 2020-08-02">
               <ol>
                 <li>表格工具栏右侧添加刷新&显隐查询栏</li>
@@ -479,7 +456,6 @@
                 <li>其他细节优化</li>
               </ol>
             </el-collapse-item>
-
             <el-collapse-item title="v2.0.0 - 2019-12-02">
               <ol>
                 <li>新增代码生成</li>
@@ -530,18 +506,13 @@
                 <li>其他细节优化</li>
               </ol>
             </el-collapse-item>
-            <el-collapse-item title="v1.0.0 - 2020-05-20">
-              <ol>
-                <li>林恩低代码开发平台正式发布</li>
-              </ol>
-            </el-collapse-item>
-          </el-collapse>
+          </el-collapse>-->
         </el-card>
       </el-col>
       <el-col :xs="24" :sm="24" :md="12" :lg="8">
         <el-card class="update-log">
           <div slot="header" class="clearfix">
-            <span>捐赠支持</span>
+            <span>向原作者捐赠支持</span>
           </div>
           <div class="body">
             <img

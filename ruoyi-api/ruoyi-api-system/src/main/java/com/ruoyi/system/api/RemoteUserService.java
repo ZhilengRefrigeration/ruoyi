@@ -18,7 +18,7 @@ import com.ruoyi.system.api.model.LoginUser;
  * 
  * @author ruoyi
  */
-@FeignClient(contextId = "remoteUserService",url = "http://ruoyi-system:9201/", value = ServiceNameConstants.SYSTEM_SERVICE, fallbackFactory = RemoteUserFallbackFactory.class)
+@FeignClient(contextId = "remoteUserService",url = "http://lynn.server.local:9201/", value = ServiceNameConstants.SYSTEM_SERVICE, fallbackFactory = RemoteUserFallbackFactory.class)
 public interface RemoteUserService
 {
     /**

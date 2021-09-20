@@ -5,14 +5,14 @@
     <parent>
         <groupId>cn.lynntech</groupId>
         <artifactId>lynn-api</artifactId>
-        <version>3.1.0</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     
     <artifactId>lynn-api-system</artifactId>
 
     <description>
-        ruoyi-api-system系统接口模块
+        lynn-api-system系统接口模块
     </description>
 
     <dependencies>

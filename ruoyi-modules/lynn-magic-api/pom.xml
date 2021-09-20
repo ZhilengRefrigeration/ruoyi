@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<parent>
+    <groupId>cn.lynntech</groupId>
+    <artifactId>lynn-modules</artifactId>
+    <version>1.0.0</version>
+</parent>
+<modelVersion>4.0.0</modelVersion>
+
+<artifactId>lynn-magic-api</artifactId>
+
+<description>
+    lynn-magic-api
+</description>
+<properties>
+    <margic.api.version>1.4.3</margic.api.version>
+</properties>
+<dependencies>
+
+    <!-- SpringCloud Alibaba Nacos -->
+    <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+    </dependency>
+
+    <!-- SpringCloud Alibaba Nacos Config -->
+    <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+    </dependency>
+
+    <!-- SpringCloud Alibaba Sentinel -->
+    <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+    </dependency>
+
+    <!-- SpringBoot Actuator -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+
+    <!-- Swagger UI -->
+    <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-swagger-ui</artifactId>
+        <version>${swagger.fox.version}</version>
+    </dependency>
+
+    <!-- Mysql Connector -->
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+    </dependency>
+
+    <!-- RuoYi Common DataSource -->
+    <dependency>
+        <groupId>cn.lynntech</groupId>
+        <artifactId>lynn-common-datasource</artifactId>
+    </dependency>
+
+    <!-- RuoYi Common DataScope -->
+    <dependency>
+        <groupId>cn.lynntech</groupId>
+        <artifactId>lynn-common-datascope</artifactId>
+    </dependency>
+
+    <!-- RuoYi Common Log -->
+    <dependency>
+        <groupId>cn.lynntech</groupId>
+        <artifactId>lynn-common-log</artifactId>
+    </dependency>
+
+    <!-- RuoYi Common Swagger -->
+    <dependency>
+        <groupId>cn.lynntech</groupId>
+        <artifactId>lynn-common-swagger</artifactId>
+    </dependency>
+
+    <!-- RuoYi Auth -->
+    <dependency>
+        <groupId>cn.lynntech</groupId>
+        <artifactId>lynn-auth</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+    <!-- magic-pai -->
+    <dependency>
+        <groupId>org.ssssssss</groupId>
+        <artifactId>magic-api-spring-boot-starter</artifactId>
+        <version>${margic.api.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-core</artifactId>
+        <version>5.5.1</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-web</artifactId>
+        <version>5.5.1</version>
+        <scope>compile</scope>
+    </dependency>
+</dependencies>
+
+<build>
+    <finalName>${project.artifactId}</finalName>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>repackage</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
+
+</project>

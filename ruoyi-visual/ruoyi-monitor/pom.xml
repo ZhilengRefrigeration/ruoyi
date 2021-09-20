@@ -4,14 +4,14 @@
     <parent>
         <groupId>cn.lynntech</groupId>
         <artifactId>lynn-visual</artifactId>
-        <version>3.1.0</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 	
     <artifactId>lynn-visual-monitor</artifactId>
 
     <description>
-        ruoyi-visual-monitor监控中心
+        lynn-visual-monitor监控中心
     </description>
 
     <dependencies>
