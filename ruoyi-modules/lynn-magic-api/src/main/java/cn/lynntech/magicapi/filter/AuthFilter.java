@@ -1,23 +1,23 @@
 package cn.lynntech.magicapi.filter;
 
-        import com.ruoyi.common.core.utils.StringUtils;
-        import com.ruoyi.common.security.service.TokenService;
-        import com.ruoyi.system.api.model.LoginUser;
-        import org.slf4j.Logger;
-        import org.slf4j.LoggerFactory;
-        import org.springframework.beans.factory.annotation.Autowired;
-        import org.springframework.http.HttpStatus;
-        import org.springframework.http.MediaType;
-        import org.springframework.stereotype.Component;
-        import org.springframework.web.filter.OncePerRequestFilter;
+import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.security.service.TokenService;
+import com.ruoyi.system.api.model.LoginUser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-        import javax.servlet.FilterChain;
-        import javax.servlet.ServletException;
-        import javax.servlet.http.HttpServletRequest;
-        import javax.servlet.http.HttpServletResponse;
-        import java.io.IOException;
-        import java.io.OutputStream;
-        import java.nio.charset.StandardCharsets;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * token过滤器 验证token有效性

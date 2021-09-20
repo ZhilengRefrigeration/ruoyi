@@ -53,6 +53,7 @@ base(){
 
 # 启动程序模块（必须）
 modules(){
+    copy
 	docker-compose up -d lynn-gateway lynn-auth lynn-modules-system lynn-magic-api
 }
 
