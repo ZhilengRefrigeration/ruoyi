@@ -2,7 +2,7 @@ version : '3.8'
 services:
   lynn-nacos:
     container_name: lynn-nacos
-    image: nacos/nacos-server:1.4.2
+    image: nacos/nacos-server:latest
     build:
       context: ./nacos
     environment:
