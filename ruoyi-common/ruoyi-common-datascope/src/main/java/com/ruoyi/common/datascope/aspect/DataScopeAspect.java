@@ -5,14 +5,11 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 import com.ruoyi.common.datascope.annotation.DataScope;
-import com.ruoyi.common.security.service.TokenService;
+import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysRole;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
@@ -56,17 +53,8 @@ public class DataScopeAspect
      */
     public static final String DATA_SCOPE = "dataScope";
 
-    @Autowired
-    private TokenService tokenService;
-
-    // 配置织入点
-    @Pointcut("@annotation(com.ruoyi.common.datascope.annotation.DataScope)")
-    public void dataScopePointCut()
-    {
-    }
-
-    @Before("dataScopePointCut()")
-    public void doBefore(JoinPoint point) throws Throwable
+    @Before("@annotation(controllerDataScope)")
+    public void doBefore(JoinPoint point, DataScope controllerDataScope) throws Throwable
     {
         clearDataScope(point);
         handleDataScope(point);
@@ -81,7 +69,7 @@ public class DataScopeAspect
             return;
         }
         // 获取当前的用户
-        LoginUser loginUser = tokenService.getLoginUser();
+        LoginUser loginUser = SecurityUtils.getLoginUser();
         if (StringUtils.isNotNull(loginUser))
         {
             SysUser currentUser = loginUser.getSysUser();
