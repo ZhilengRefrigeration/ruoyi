@@ -17,7 +17,8 @@ import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
-import com.ruoyi.common.security.annotation.PreAuthorize;
+import com.ruoyi.common.security.annotation.InnerAuth;
+import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.system.api.domain.SysOperLog;
 import com.ruoyi.system.service.ISysOperLogService;
 
@@ -33,7 +34,7 @@ public class SysOperlogController extends BaseController
     @Autowired
     private ISysOperLogService operLogService;
 
-    @PreAuthorize(hasPermi = "system:operlog:list")
+    @RequiresPermissions("system:operlog:list")
     @GetMapping("/list")
     public TableDataInfo list(SysOperLog operLog)
     {
@@ -43,7 +44,7 @@ public class SysOperlogController extends BaseController
     }
 
     @Log(title = "操作日志", businessType = BusinessType.EXPORT)
-    @PreAuthorize(hasPermi = "system:operlog:export")
+    @RequiresPermissions("system:operlog:export")
     @PostMapping("/export")
     public void export(HttpServletResponse response, SysOperLog operLog) throws IOException
     {
@@ -53,14 +54,14 @@ public class SysOperlogController extends BaseController
     }
 
     @Log(title = "操作日志", businessType = BusinessType.DELETE)
-    @PreAuthorize(hasPermi = "system:operlog:remove")
+    @RequiresPermissions("system:operlog:remove")
     @DeleteMapping("/{operIds}")
     public AjaxResult remove(@PathVariable Long[] operIds)
     {
         return toAjax(operLogService.deleteOperLogByIds(operIds));
     }
 
-    @PreAuthorize(hasPermi = "system:operlog:remove")
+    @RequiresPermissions("system:operlog:remove")
     @Log(title = "操作日志", businessType = BusinessType.CLEAN)
     @DeleteMapping("/clean")
     public AjaxResult clean()
@@ -69,6 +70,7 @@ public class SysOperlogController extends BaseController
         return AjaxResult.success();
     }
 
+    @InnerAuth
     @PostMapping
     public AjaxResult add(@RequestBody SysOperLog operLog)
     {

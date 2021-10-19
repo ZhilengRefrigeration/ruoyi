@@ -2,6 +2,7 @@ import { constantRoutes } from '@/router'
 import { getRouters } from '@/api/menu'
 import Layout from '@/layout/index'
 import ParentView from '@/components/ParentView';
+import InnerLink from '@/layout/components/InnerLink'
 
 const permission = {
   state: {
@@ -65,6 +66,8 @@ function filterAsyncRouter(asyncRouterMap, lastRouter = false, type = false) {
         route.component = Layout
       } else if (route.component === 'ParentView') {
         route.component = ParentView
+      } else if (route.component === 'InnerLink') {
+        route.component = InnerLink
       } else {
         route.component = loadView(route.component)
       }
@@ -83,7 +86,7 @@ function filterChildren(childrenMap, lastRouter = false) {
   var children = []
   childrenMap.forEach((el, index) => {
     if (el.children && el.children.length) {
-      if (el.component === 'ParentView') {
+      if (el.component === 'ParentView' && !lastRouter) {
         el.children.forEach(c => {
           c.path = el.path + '/' + c.path
           if (c.children && c.children.length) {
@@ -103,8 +106,13 @@ function filterChildren(childrenMap, lastRouter = false) {
   return children
 }
 
-export const loadView = (view) => { // 路由懒加载
-  return (resolve) => require([`@/views/${view}`], resolve)
+export const loadView = (view) => {
+  if (process.env.NODE_ENV === 'development') {
+    return (resolve) => require([`@/views/${view}`], resolve)
+  } else {
+    // 使用 import 实现生产环境的路由懒加载
+    return () => import(`@/views/${view}`)
+  }
 }
 
 export default permission

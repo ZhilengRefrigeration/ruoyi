@@ -18,6 +18,16 @@ public class Constants
     public static final String GBK = "GBK";
 
     /**
+     * RMI 远程方法调用
+     */
+    public static final String LOOKUP_RMI = "rmi://";
+
+    /**
+     * LDAP 远程方法调用
+     */
+    public static final String LOOKUP_LDAP = "ldap://";
+
+    /**
      * http请求
      */
     public static final String HTTP = "http://";
@@ -87,10 +97,6 @@ public class Constants
      */
     public static final long CAPTCHA_EXPIRATION = 2;
 
-    /**
-     * 令牌有效期（分钟）
-     */
-    public final static long TOKEN_EXPIRE = 720;
 
     /**
      * 参数管理 cache key

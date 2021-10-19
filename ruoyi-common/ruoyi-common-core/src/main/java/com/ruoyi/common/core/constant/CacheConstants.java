@@ -8,32 +8,17 @@ package com.ruoyi.common.core.constant;
 public class CacheConstants
 {
     /**
-     * 令牌自定义标识
+     * 缓存有效期，默认720（分钟）
      */
-    public static final String HEADER = "Authorization";
+    public final static long EXPIRATION = 720;
 
     /**
-     * 令牌前缀
+     * 缓存刷新时间，默认120（分钟）
      */
-    public static final String TOKEN_PREFIX = "Bearer ";
+    public final static long REFRESH_TIME = 120;
 
     /**
      * 权限缓存前缀
      */
     public final static String LOGIN_TOKEN_KEY = "login_tokens:";
-
-    /**
-     * 用户ID字段
-     */
-    public static final String DETAILS_USER_ID = "user_id";
-
-    /**
-     * 用户名字段
-     */
-    public static final String DETAILS_USERNAME = "username";
-
-    /**
-     * 授权信息字段
-     */
-    public static final String AUTHORIZATION_HEADER = "authorization";
 }

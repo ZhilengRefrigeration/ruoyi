@@ -1,11 +1,14 @@
 import axios from 'axios'
-import { Notification, MessageBox, Message } from 'element-ui'
+import { Notification, MessageBox, Message, Loading } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 import errorCode from '@/utils/errorCode'
 import { tansParams } from "@/utils/ruoyi";
+import { saveAs } from 'file-saver'
 
-axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
+let downloadLoadingInstance;
+
+axios.defaults.headers['Conntent-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
 const service = axios.create({
   // axios中请求配置有baseURL选项，表示请求URL公共部分
@@ -23,22 +26,7 @@ service.interceptors.request.use(config => {
   }
   // get请求映射params参数
   if (config.method === 'get' && config.params) {
-    let url = config.url + '?';
-    for (const propName of Object.keys(config.params)) {
-      const value = config.params[propName];
-      var part = encodeURIComponent(propName) + "=";
-      if (value !== null && typeof(value) !== "undefined") {
-        if (typeof value === 'object') {
-          for (const key of Object.keys(value)) {
-            let params = propName + '[' + key + ']';
-            var subPart = encodeURIComponent(params) + "=";
-            url += subPart + encodeURIComponent(value[key]) + "&";
-          }
-        } else {
-          url += part + encodeURIComponent(value) + "&";
-        }
-      }
-    }
+    let url = config.url + '?' + tansParams(config.params);
     url = url.slice(0, -1);
     config.params = {};
     config.url = url;
@@ -66,6 +54,7 @@ service.interceptors.response.use(res => {
           location.href = '/index';
         })
       }).catch(() => {});
+      return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
     } else if (code === 500) {
       Message({
         message: msg,
@@ -104,31 +93,20 @@ service.interceptors.response.use(res => {
 
 // 通用下载方法
 export function download(url, params, filename) {
+  downloadLoadingInstance = Loading.service({ text: "正在下载数据，请稍后", spinner: "el-icon-loading", background: "rgba(0, 0, 0, 0.7)", })
   return service.post(url, params, {
-    transformRequest: [(params) => {
-      return tansParams(params)
-    }],
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-    },
+    transformRequest: [(params) => { return tansParams(params) }],
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     responseType: 'blob'
   }).then((data) => {
     const content = data
     const blob = new Blob([content])
-    if ('download' in document.createElement('a')) {
-      const elink = document.createElement('a')
-      elink.download = filename
-      elink.style.display = 'none'
-      elink.href = URL.createObjectURL(blob)
-      document.body.appendChild(elink)
-      elink.click()
-      URL.revokeObjectURL(elink.href)
-      document.body.removeChild(elink)
-    } else {
-      navigator.msSaveBlob(blob, filename)
-    }
+    saveAs(blob, filename)
+    downloadLoadingInstance.close();
   }).catch((r) => {
     console.error(r)
+    Message.error('下载文件出现错误，请联系管理员！')
+    downloadLoadingInstance.close();
   })
 }
 

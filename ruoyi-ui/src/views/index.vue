@@ -119,9 +119,9 @@
             </p>
             <p>
               <i class="el-icon-user-solid"></i> QQ群：<s>满42799195</s>
-              <s>满170157040</s> <s>满130643120</s>
-              <a href="https://jq.qq.com/?_wv=1027&k=0Ck3PvTe" target="_blank">
-                225920371</a
+              <s>满170157040</s> <s>满130643120</s> <s>满225920371</s>
+              <a href="https://jq.qq.com/?_wv=1027&k=Kg9CdVdx" target="_blank">
+                201705537</a
               >
             </p>
             <p>
@@ -146,6 +146,110 @@
             <span>更新日志</span>
           </div>
           <el-collapse accordion>
+            <el-collapse-item title="v3.2.0 - 2021-10-12">
+              <ol>
+                <li>菜单管理支持配置路由参数</li>
+                <li>定时任务支持在线生成cron表达式</li>
+                <li>自定义弹层溢出滚动样式</li>
+                <li>自定义可拖动弹窗宽度指令</li>
+                <li>自定义可拖动弹窗高度指令</li>
+                <li>修改时检查用户数据权限范围</li>
+                <li>修复保存配置主题颜色失效问题</li>
+                <li>新增暗色菜单风格主题</li>
+                <li>菜单&部门新增展开/折叠功能</li>
+                <li>页签新增关闭左侧&添加图标</li>
+                <li>代码生成主子表多选行数据</li>
+                <li>日期范围支持添加多组</li>
+                <li>Excel导入支持@Excels注解</li>
+                <li>Excel注解支持导入导出标题信息</li>
+                <li>Excel注解支持自定义数据处理器</li>
+                <li>日志注解新增是否保存响应参数</li>
+                <li>定时任务对检查异常进行事务回滚</li>
+                <li>补充定时任务表字段注释</li>
+                <li>定时任务屏蔽ldap远程调用</li>
+                <li>新增通用方法简化下载使用</li>
+                <li>新增通用方法简化模态/缓存使用</li>
+                <li>新增data-dict组件简化数据字典使用</li>
+                <li>禁用dict-tag组件的渐变动画</li>
+                <li>默认首页使用keep-alive缓存</li>
+                <li>升级springcloud到最新版2020.0.4</li>
+                <li>升级spring-boot到最新版本2.5.5</li>
+                <li>升级spring-boot-admin到最新版2.5.2</li>
+                <li>升级pagehelper到最新版1.4.0</li>
+                <li>升级fastjson到最新版1.2.78</li>
+                <li>升级druid到最新版1.2.8</li>
+                <li>升级element-ui到最新版本2.15.6</li>
+                <li>升级sass-loader到最新版本10.1.1</li>
+                <li>升级dart-sass到版本1.32.13</li>
+                <li>升级file-saver到最新版本2.0.5</li>
+                <li>优化异常处理信息</li>
+                <li>验证码默认20s超时</li>
+                <li>优化代码生成导入表按创建时间排序</li>
+                <li>优化代码生成点击预览重置激活tab</li>
+                <li>修复主子表代码模板方法名错误问题</li>
+                <li>修复xss过滤后格式出现的异常</li>
+                <li>修复多图组件验证失败被删除问题</li>
+                <li>请求参数新增reasonable分页合理化属性</li>
+                <li>修复代码生成页面数据编辑保存之后总是跳转第一页的问题</li>
+                <li>修复带safari浏览器无法格式化utc日期格式yyyy-MM-dd'T'HH:mm:ss.SSS问题</li>
+                <li>其他细节优化</li>
+              </ol>
+            </el-collapse-item>
+            <el-collapse-item title="v3.1.0 - 2021-08-02">
+              <ol>
+                <li>支持配置XSS跨站脚本过滤</li>
+                <li>支持配置验证码开关&类型</li>
+                <li>新增是否开启用户注册功能</li>
+                <li>用户管理新增分配角色功能</li>
+                <li>角色管理新增分配用户功能</li>
+                <li>系统布局配置支持动态标题开关</li>
+                <li>增加字典标签样式回显dict组件</li>
+                <li>FileUpload组件支持多文件上传</li>
+                <li>ImageUpload组件支持多图片上传</li>
+                <li>封装通用iframe组件</li>
+                <li>菜单路由配置支持内链访问</li>
+                <li>全局注册通用组件</li>
+                <li>富文本默认上传返回url类型</li>
+                <li>富文本新增上传文件大小限制</li>
+                <li>增加自定义弹窗拖拽指令</li>
+                <li>顶部菜单排除隐藏的默认路由</li>
+                <li>跳转路由高亮相对应的菜单栏</li>
+                <li>日志列表支持排序操作</li>
+                <li>分页组件新增pagerCount属性</li>
+                <li>定时任务屏蔽http(s)远程调用</li>
+                <li>文件服务本地资源允许跨域访问</li>
+                <li>升级spring-boot到最新版本2.5.3</li>
+                <li>升级spring-boot-admin到最新版2.4.3</li>
+                <li>升级spring-boot-mybatis到最新版2.2.0</li>
+                <li>升级nacos到最新版2.0.3</li>
+                <li>升级pagehelper到最新版1.3.1</li>
+                <li>升级minio到最新版本8.2.2</li>
+                <li>升级tobato到最新版本1.27.2</li>
+                <li>升级dynamic-ds到最新版本3.4.1</li>
+                <li>升级commons.io到最新版本v2.11.0</li>
+                <li>升级common-pool到最新版本2.10.0</li>
+                <li>升级commons.fileupload到最新版本v1.4</li>
+                <li>升级element-ui到最新版本2.15.3</li>
+                <li>优化统一网关错误码响应</li>
+                <li>修复导出含params属性对象参数问题</li>
+                <li>修复任意账户越权问题</li>
+                <li>修复定时任务日志执行状态显示</li>
+                <li>修改登录失效返回值code401</li>
+                <li>用户信息长度校验限制</li>
+                <li>角色&菜单新增字段属性提示信息</li>
+                <li>修复用户搜索分页变量错误</li>
+                <li>优化部门父级启用状态</li>
+                <li>启用部门状态排除顶级节点</li>
+                <li>定时任务新增更多操作</li>
+                <li>优化代码生成模板</li>
+                <li>优化顶部菜单显示样式</li>
+                <li>优化导入用户显示样式</li>
+                <li>优化用户不能删除自己</li>
+                <li>密码框新增显示切换密码图标</li>
+                <li>BLOB下载时清除URL对象引用</li>
+                <li>其他细节优化</li>
+              </ol>
+            </el-collapse-item>
             <el-collapse-item title="v3.0.0 - 2021-06-10">
               <ol>
                 <li>新增菜单导航显示风格TopNav（false为左侧导航菜单，true为顶部导航菜单）</li>
@@ -501,11 +605,11 @@
 
 <script>
 export default {
-  name: "index",
+  name: "Index",
   data() {
     return {
       // 版本号
-      version: "3.0.0",
+      version: "3.2.0",
     };
   },
   methods: {

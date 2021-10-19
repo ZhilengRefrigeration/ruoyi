@@ -9,6 +9,18 @@ export function login(username, password, code, uuid) {
   })
 }
 
+// 注册方法
+export function register(data) {
+  return request({
+    url: '/auth/register',
+    headers: {
+      isToken: false
+    },
+    method: 'post',
+    data: data
+  })
+}
+
 // 刷新方法
 export function refreshToken() {
   return request({
@@ -37,6 +49,7 @@ export function logout() {
 export function getCodeImg() {
   return request({
     url: '/code',
-    method: 'get'
+    method: 'get',
+    timeout: 20000
   })
 }
