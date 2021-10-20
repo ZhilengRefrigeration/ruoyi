@@ -98,6 +98,28 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- 把jar包拷贝到指定目录位置 -->
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <tasks>
+                                <copy todir="${copy.jar.directory}">
+                                    <fileset dir="${project.build.directory}">
+                                        <include name="${project.artifactId}.jar" />
+                                    </fileset>
+                                </copy>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
