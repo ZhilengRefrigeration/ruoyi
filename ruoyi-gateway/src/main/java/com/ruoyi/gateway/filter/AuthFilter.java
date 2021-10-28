@@ -96,7 +96,7 @@ public class AuthFilter implements GlobalFilter, Ordered
 
     private void removeHeader(ServerHttpRequest.Builder mutate, String name)
     {
-        mutate.headers(httpHeaders -> httpHeaders.remove(name)).build();
+        mutate.headers(httpHeaders -> httpHeaders.remove(name));
     }
 
     private Mono<Void> unauthorizedResponse(ServerWebExchange exchange, String msg)
