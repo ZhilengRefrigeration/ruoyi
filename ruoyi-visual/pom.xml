@@ -12,6 +12,11 @@
         <module>ruoyi-monitor</module>
     </modules>
 
+    <properties>
+        <publish.dir>${publish.root}/visual</publish.dir>
+    </properties>
+
+
     <artifactId>ruoyi-visual</artifactId>
     <packaging>pom</packaging>
 

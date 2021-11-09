@@ -15,6 +15,10 @@
         ruoyi-api-system系统接口模块
     </description>
 
+    <properties>
+        <publish.dir>${publish.root}/api/system</publish.dir>
+    </properties>
+
     <dependencies>
 		
         <!-- RuoYi Common Core-->

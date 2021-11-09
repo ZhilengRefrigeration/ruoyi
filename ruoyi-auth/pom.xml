@@ -13,6 +13,10 @@
     <description>
         ruoyi-auth认证授权中心
     </description>
+
+    <properties>
+        <publish.dir>${publish.root}/auth</publish.dir>
+    </properties>
     
     <dependencies>
         

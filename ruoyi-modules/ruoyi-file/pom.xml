@@ -15,6 +15,10 @@
         ruoyi-modules-file文件服务
     </description>
 
+    <properties>
+        <publish.dir>${publish.root}/modules/file</publish.dir>
+    </properties>
+
     <dependencies>
     	
     	<!-- SpringCloud Alibaba Nacos -->
