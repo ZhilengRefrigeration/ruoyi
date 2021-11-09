@@ -15,6 +15,10 @@
         ruoyi-modules-job定时任务
     </description>
 
+    <properties>
+        <publish.dir>${publish.root}/modules/job</publish.dir>
+    </properties>
+
     <dependencies>
     	
     	<!-- SpringCloud Alibaba Nacos -->

@@ -22,4 +22,7 @@
         ruoyi-modules业务模块
     </description>
 
+    <properties>
+        <publish.dir>${publish.root}/modules</publish.dir>
+    </properties>
 </project>

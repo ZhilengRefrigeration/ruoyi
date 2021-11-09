@@ -15,6 +15,10 @@
         ruoyi-modules-gen代码生成
     </description>
 
+    <properties>
+        <publish.dir>${publish.root}/modules/gen</publish.dir>
+    </properties>
+
     <dependencies>
     	
     	<!-- SpringCloud Alibaba Nacos -->
