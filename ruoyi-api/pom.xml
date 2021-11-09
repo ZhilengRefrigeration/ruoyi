@@ -22,4 +22,14 @@
     <properties>
         <publish.dir>${publish.root}/api</publish.dir>
     </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <inherited>false</inherited>
+            </plugin>
+        </plugins>
+    </build>
 </project>

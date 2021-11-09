@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ruoyi</groupId>
-    <artifactId>${root.id}</artifactId>
+    <artifactId>ruoyi</artifactId>
     <version>3.2.0</version>
 
     <name>ruoyi</name>
@@ -13,7 +13,6 @@
     <description>若依微服务系统</description>
 
     <properties>
-        <root.id>ruoyi</root.id>
         <ruoyi.version>3.2.0</ruoyi.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -41,7 +40,7 @@
         <common-pool.version>2.10.0</common-pool.version>
         <commons-collections.version>3.2.2</commons-collections.version>
         <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
-        <publish.root>${rootlocation}/docker-test/ruoyi</publish.root>
+        <publish.root>${rootlocation}/docker/ruoyi</publish.root>
         <!-- 将配置文件打包到指定目录 -->
         <publish.dir>${publish.root}</publish.dir>
         <jardir>${project.artifactId}</jardir>
@@ -280,11 +279,6 @@
 
 
     <build>
-<!--        <resources>-->
-<!--            <resource>-->
-<!--                <targetPath></targetPath>-->
-<!--            </resource>-->
-<!--        </resources>-->
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -301,9 +295,18 @@
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <version>3.2.0</version>
                 <executions>
+<!--                    mvn install 时根目录 rootlocation变量注入-->
                     <execution>
                         <id>register-root-location-var</id>
                         <phase>validate</phase>
+                        <goals>
+                            <goal>rootlocation</goal>
+                        </goals>
+                    </execution>
+<!--                    mvn clean 时根目录 rootlocation变量注入-->
+                    <execution>
+                        <id>register-root-location-var-clean</id>
+                        <phase>pre-clean</phase>
                         <goals>
                             <goal>rootlocation</goal>
                         </goals>
@@ -315,26 +318,46 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
-                    <!--拷贝私有配置-->
+                    <!--拷贝jar到docker目录下-->
                     <execution>
-                        <id>copy-private-config</id>
+                        <id>copy-jar</id>
                         <phase>package</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
                             <encoding>UTF-8</encoding>
-                            <outputDirectory>${publish.dir}/${jardir}</outputDirectory>
+                            <outputDirectory>${publish.dir}/jar</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>${project.build.directory}</directory>
-                                    <targetPath>${project.build.directory}/*.jar</targetPath>
+                                    <includes>
+                                        <include>*.jar</include>
+                                    </includes>
                                 </resource>
                             </resources>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+<!--                    清除生成到docker/ruoyi下的jar包-->
+                    <filesets>
+                        <fileset>
+                            <directory>${publish.dir}/jar</directory>
+                            <includes>
+                                <include>*.jar</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
