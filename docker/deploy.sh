@@ -2,7 +2,7 @@
 
 # 使用说明，用来提示输入参数
 usage() {
-	echo "Usage: sh 执行脚本.sh [port|copy|base|modules|stop|rm]"
+	echo "Usage: sh 执行脚本.sh [port|copy|base|allin|modules|stop|rm]"
 	exit 1
 }
 
@@ -48,7 +48,12 @@ copy(){
 
 # 启动基础环境（必须）
 base(){
-	docker-compose up -d lynn-mysql lynn-redis lynn-nacos lynn-nginx
+	docker-compose up -d lynn-mysql lynn-redis lynn-nacos lynn-gateway lynn-nginx
+}
+
+allin(){
+    copy
+    docker-compose up -d lynn-modules-all
 }
 
 # 启动程序模块（必须）
@@ -82,6 +87,9 @@ case "$1" in
 ;;
 "base")
 	base
+;;
+"allin")
+	allin
 ;;
 "modules")
 	modules

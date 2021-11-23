@@ -29,7 +29,7 @@ services:
     volumes:
       - ./mysql/conf:/etc/mysql/conf.d
       - ./mysql/logs:/logs
-      - ./mysql/data:/var/lib/mysql
+      #- ./mysql/data:/var/lib/mysql
     command: [
           'mysqld',
           '--innodb-buffer-pool-size=80M',
@@ -64,8 +64,8 @@ services:
       - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/logs:/var/log/nginx
       - ./nginx/conf.d:/etc/nginx/conf.d
-    #depends_on:
-      #- lynn-gateway
+    depends_on:
+      - lynn-gateway
     links:
       - lynn-gateway
   lynn-gateway:
@@ -171,8 +171,9 @@ services:
       dockerfile: dockerfile
     volumes:
       - ./logs/:/home/lynn/logs
+      - ./lynn-cloud/uploadPath:/home/lynn/uploadPath
     ports:
-      - "8080:8080" #gateway
+      #- "8080:8080" #gateway
       - "9200:9200" #auth
       - "9201:9201" #system
       - "9202:9202" #gen
@@ -180,13 +181,11 @@ services:
       - "9300:9300" #file
       - "9500:9500" #magicapi
     depends_on:
+      - lynn-gateway
+      - lynn-mysql
+      - lynn-nacos
       - lynn-redis
     links:
       - lynn-redis
       - lynn-nacos
       - lynn-mysql
-networks:
-  extnetwork:
-    ipam:
-      config:
-        - subnet: 192.168.222.0/24

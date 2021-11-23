@@ -3,6 +3,9 @@ FROM  openjdk:8-jre
 # author
 MAINTAINER lynn
 
+ENV TimeZone=Asia/Shanghai
+RUN ln -snf /usr/share/zoneinfo/$TimeZone /etc/localtime && echo $TimeZone > /etc/timezone
+
 # 挂载目录
 VOLUME /home/lynn
 # 创建目录
