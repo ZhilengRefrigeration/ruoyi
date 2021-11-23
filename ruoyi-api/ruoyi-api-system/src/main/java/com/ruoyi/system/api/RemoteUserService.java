@@ -17,8 +17,8 @@ import com.ruoyi.system.api.model.LoginUser;
  * 用户服务
  *
  * 若部署环境不同，IP无法相互访问如部分应用在docker中，部分在外部，则最好指定url，明确应用的访问地址
- * lynn.server.local 为指向本机的IP地址的本地域名，若使用则需要在hosts文件中添加
- * url = "http://lynn.server.local:9200/",
+ * kubernetes.docker.internal 为指向本机的IP地址的本地域名，若使用则需要在hosts文件中添加
+ * url = "http://kubernetes.docker.internal:9200/",
  */
 @FeignClient(contextId = "remoteUserService",value = ServiceNameConstants.SYSTEM_SERVICE, fallbackFactory = RemoteUserFallbackFactory.class)
 public interface RemoteUserService
