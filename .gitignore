@@ -43,7 +43,6 @@ nbdist/
 *.xml.versionsBackup
 /docker/nacos/logs/
 /docker/mysql/data/
-/docker/mysql/data/**/
 
 !*/build/*.java
 !*/build/*.html
