@@ -1,8 +1,9 @@
+#使用docker部署时，如果无故出错，请关注分配给docker的内存是否充足。
 version : '3.8'
 services:
   lynn-nacos:
     container_name: lynn-nacos
-    image: nacos/nacos-server:latest
+    image: nacos/nacos-server:2.0.3
     build:
       context: ./nacos
     environment:
@@ -98,6 +99,8 @@ services:
     build:
       context: lynn-cloud/modules/system
       dockerfile: dockerfile
+    volumes:
+      - ./logs/:/tmp/lynn-cloud/logs
     ports:
       - "9201:9201"
     depends_on:
@@ -166,6 +169,8 @@ services:
     build:
       context: lynn-cloud/all
       dockerfile: dockerfile
+    volumes:
+      - ./logs/:/home/lynn/logs
     ports:
       - "8080:8080" #gateway
       - "9200:9200" #auth
@@ -180,3 +185,8 @@ services:
       - lynn-redis
       - lynn-nacos
       - lynn-mysql
+networks:
+  extnetwork:
+    ipam:
+      config:
+        - subnet: 192.168.222.0/24
