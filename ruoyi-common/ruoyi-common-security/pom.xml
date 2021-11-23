@@ -15,6 +15,11 @@
     </description>
 
     <dependencies>
+        <!-- Spring Web -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
     
         <!-- RuoYi Api System -->
         <dependency>
