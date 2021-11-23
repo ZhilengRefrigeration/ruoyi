@@ -1,11 +1,11 @@
-DROP DATABASE IF EXISTS `ry-seata`;
+DROP DATABASE IF EXISTS `lynn-seata`;
 
-CREATE DATABASE  `ry-seata` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE DATABASE  `lynn-seata` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
-USE `ry-seata`;
+USE `lynn-seata`;
 
 -- -------------------------------- The script used when storeMode is 'db' --------------------------------
 -- the table to store GlobalSession data
