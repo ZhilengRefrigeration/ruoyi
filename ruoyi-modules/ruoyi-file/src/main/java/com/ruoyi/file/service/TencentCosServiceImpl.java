@@ -9,7 +9,6 @@ import com.qcloud.cos.model.*;
 import com.ruoyi.common.core.exception.CustomException;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.file.config.TencentCosConfig;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URL;
@@ -22,8 +21,6 @@ import java.util.List;
  * @author yabo
  * @see TencentCosConfig
  */
-//@Primary
-@Service()
 public class TencentCosServiceImpl implements ISysFileService {
     private final COSClient cosClient;
     private final TencentCosConfig config;

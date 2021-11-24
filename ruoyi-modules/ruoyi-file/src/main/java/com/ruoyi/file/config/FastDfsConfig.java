@@ -2,7 +2,9 @@ package com.ruoyi.file.config;
 
 import com.github.tobato.fastdfs.FdfsClientConstants;
 import com.github.tobato.fastdfs.domain.conn.PooledConnectionFactory;
+import com.github.tobato.fastdfs.domain.conn.TrackerConnectionManager;
 import com.ruoyi.file.service.FastDfsSysFileServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +26,7 @@ import org.springframework.context.annotation.Configuration;
 public class FastDfsConfig {
     /**
      * 文件对外访问域名or ip
-     * FastDFS配置 其他参数见：{@link PooledConnectionFactory}
+     * FastDFS配置 其他参数见：{@link PooledConnectionFactory} {@link TrackerConnectionManager}
      * //@Value("${fdfs.domain}")
      */
     private String domain;

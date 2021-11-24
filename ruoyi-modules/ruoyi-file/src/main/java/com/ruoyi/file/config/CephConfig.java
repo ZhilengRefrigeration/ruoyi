@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
         prefix = CephConfig.PREFIX
 )
 public class CephConfig {
-    public static final String PREFIX = "ceph";
+    public static final String PREFIX = "file.ceph";
     /**
      * s3 提供的 accessKey secretKey
      * 示例：

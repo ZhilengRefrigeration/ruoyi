@@ -24,7 +24,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ConfigurationProperties(prefix = ResourcesConfig.PREFIX)
 public class ResourcesConfig implements WebMvcConfigurer
 {
-    public static final String PREFIX = "file";
+    public static final String PREFIX = "file.local-file";
     /**
      * 文件对外访问地址，一般就是应用 或者 nginx对外地址
      * eg: http://127.0.0.1:9300

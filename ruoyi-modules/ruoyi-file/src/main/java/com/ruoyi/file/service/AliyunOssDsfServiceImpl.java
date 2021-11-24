@@ -42,12 +42,14 @@ import java.util.concurrent.TimeUnit;
  * @date 2019/8/6 19:02
  * //@see AliyunMsgUtil
  */
-@Primary
-@Service()
 public class AliyunOssDsfServiceImpl implements ISysFileService {
     private static final Logger log = LoggerFactory.getLogger(AliyunOssDsfServiceImpl.class);
-    @Autowired
-    private AliyunOssConfig aliyunOssConfig;
+    private final AliyunOssConfig aliyunOssConfig;
+
+    public AliyunOssDsfServiceImpl(AliyunOssConfig aliyunOssConfig) {
+        this.aliyunOssConfig = aliyunOssConfig;
+    }
+
     /**
      * demo 地址 https://help.aliyun.com/learn/learningpath/oss.html
      * <p>

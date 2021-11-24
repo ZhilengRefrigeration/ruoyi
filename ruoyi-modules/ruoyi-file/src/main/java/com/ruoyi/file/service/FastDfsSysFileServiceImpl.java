@@ -20,16 +20,17 @@ import com.github.tobato.fastdfs.service.FastFileStorageClient;
  * @author ruoyi
  * @see FastDfsConfig
  */
-//@Primary
-@Service()
 public class FastDfsSysFileServiceImpl implements ISysFileService
 {
     private final Logger logger = LoggerFactory.getLogger(FastDfsSysFileServiceImpl.class);
 
-    @Autowired
-    private FastFileStorageClient storageClient;
-    @Autowired
-    private FastDfsConfig fastDfsConfig;
+    private final FastFileStorageClient storageClient;
+    private final FastDfsConfig fastDfsConfig;
+
+    public FastDfsSysFileServiceImpl(FastFileStorageClient storageClient, FastDfsConfig fastDfsConfig) {
+        this.storageClient = storageClient;
+        this.fastDfsConfig = fastDfsConfig;
+    }
 
     /**
      * FastDfs文件上传接口

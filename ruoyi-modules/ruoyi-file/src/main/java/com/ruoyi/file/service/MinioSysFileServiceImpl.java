@@ -33,14 +33,15 @@ import java.util.function.Consumer;
  * http://docs.minio.org.cn/docs/master/java-client-api-reference#presignedGetObject
  * MinIO STS快速入门指南 http://docs.minio.org.cn/docs/master/minio-sts-quickstart-guide
  */
-//@Primary
-@Service()
 public class MinioSysFileServiceImpl implements ISysFileService
 {
-    @Autowired
-    private MinioConfig minioConfig;
-    @Autowired
-    private MinioClient minioClient;
+    private final MinioConfig minioConfig;
+    private final MinioClient minioClient;
+
+    public MinioSysFileServiceImpl(MinioConfig minioConfig, MinioClient minioClient) {
+        this.minioConfig = minioConfig;
+        this.minioClient = minioClient;
+    }
 
     /**
      * 本地文件上传接口

@@ -16,10 +16,12 @@ import java.io.IOException;
  * ftp, 如：iis、linux ftp、vsftpd、FileZilla Server，需要自己搭建服务
  * @author dazer
  */
-@Service()
 public class FtpFileServiceImpl implements ISysFileService {
-    @Autowired
-    private FtpConfig ftpConfig;
+    private final FtpConfig ftpConfig;
+
+    public FtpFileServiceImpl(FtpConfig ftpConfig) {
+        this.ftpConfig = ftpConfig;
+    }
 
     @Override
     public String uploadFile(MultipartFile file) throws Exception {

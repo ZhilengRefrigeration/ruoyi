@@ -4,6 +4,7 @@ import cn.hutool.core.io.FileUtil;
 import com.ruoyi.common.core.exception.CustomException;
 import com.ruoyi.file.config.ResourcesConfig;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.file.utils.FileUploadUtils;
@@ -15,7 +16,6 @@ import java.io.File;
  *
  * @author ruoyi
  */
-@Service()
 public class LocalSysFileServiceImpl implements ISysFileService
 {
     private final ResourcesConfig resourcesConfig;

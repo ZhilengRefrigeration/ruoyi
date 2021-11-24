@@ -39,13 +39,14 @@ import java.util.concurrent.atomic.AtomicLong;
  * 2:ceph存储，使用docker部署 https://www.cnblogs.com/bladeyul/p/10649049.html
  * 3:使用docker 搭建 ceph 开发环境，使用aws sdk 存储数据 https://blog.csdn.net/freewebsys/article/details/79553386
  */
-@Service()
 public class CephSysFileServiceImpl implements ISysFileService {
     private static final Logger log = LoggerFactory.getLogger(CephSysFileServiceImpl.class);
-    @Autowired
-    private CephConfig cephConfig;
-
+    private final CephConfig cephConfig;
     protected static AmazonS3 amazonS3 = null;
+
+    public CephSysFileServiceImpl(CephConfig cephConfig) {
+        this.cephConfig = cephConfig;
+    }
 
     /**
      * ceph配置初始化

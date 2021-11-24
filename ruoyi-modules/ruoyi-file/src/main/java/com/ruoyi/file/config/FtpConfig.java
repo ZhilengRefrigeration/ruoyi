@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
         prefix = FtpConfig.PREFIX
 )
 public class FtpConfig {
-    public static final String PREFIX = "ftp";
+    public static final String PREFIX = "file.ftp";
     /**
      * ftp访问地址
      * eg1: www.ourslook.com

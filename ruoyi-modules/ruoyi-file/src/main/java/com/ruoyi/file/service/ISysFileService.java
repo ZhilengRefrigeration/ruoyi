@@ -39,6 +39,62 @@ public interface ISysFileService
             // pdf
             "pdf" };
 
+    enum DfsTypeEnum {
+        /**
+         * 最原始,文件移动
+         * @see LocalSysFileServiceImpl
+         * 2014-07-06
+         */
+        DEFAULT,
+        /**
+         * ftp, 如：iis、linux ftp、vsftpd、FileZilla Server，需要自己搭建服务
+         * 这里的FTP要求和主项目在同一个服务器，并且访问路径完全同DEFAULT ,只是DEFAULT: tomcat处理、ftp: 使用 其他ftp工具处理
+         * @see FtpFileServiceImpl
+         * 「「如果使用tomcat,tomcat自己值提供上传能力，不提供访问能力，访问能力比较危险。我们使用nginx 进行代理访问」」
+         * 2019-07-06
+         */
+        FTP,
+        /**
+         * 淘宝 开发的分布式 dfs, 需要自己搭建服务 (FastDFS)
+         * @see FastDfsSysFileServiceImpl
+         * 2016-09-07
+         */
+        FASTDFS,
+        /**
+         * aliyun oss  https://help.aliyun.com/learn/learningpath/oss.html ,需要购买
+         * 【sts】 【临时授权】 -- 对象存储- 使用签名URL进行临时授权 https://help.aliyun.com/document_detail/32016.html?spm=a2c4g.11186623.6.992.7a943b4aPjkyTA#title-pu8-5o8-x7j
+         * @see AliyunOssDsfServiceImpl
+         * 2019-08-06
+         */
+        ALIYUN_OSS,
+        /**
+         * CEPH 分布式大数据文件存储系统 http://docs.ceph.org.cn/
+         * @see CephSysFileServiceImpl
+         * 2020-05-06
+         */
+        CEPH,
+        /**
+         * minio 类似一个阿里云oss、腾讯COS的一个开源、轻量级别的对象存储付;
+         * 英文地址：https://min.io/
+         * 中文地址：http://docs.minio.org.cn/docs/     http://www.minio.org.cn/
+         * 支持对url进行鉴权：【sts】【临时授权】 【Presigned presignedGetObject 预签】 MinIO STS快速入门指南 http://docs.minio.org.cn/docs/master/minio-sts-quickstart-guide
+         * minio SDKS Java Client API参考文档 http://docs.minio.org.cn/docs/master/java-client-api-reference
+         * @see MinioSysFileServiceImpl
+         * 2021-02-09
+         */
+        MINIO,
+        /**
+         * 腾讯云存储 cos
+         * @see TencentCosServiceImpl
+         */
+        TENCENT_COS,
+        /**
+         * 七牛 Kodo
+         * @see QiniuSysFileServiceImpl
+         */
+        QINIU_KODO
+    }
+
     /**
      * 文件上传接口
      *

@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = QiniuKodoConfig.PREFIX)
 public class QiniuKodoConfig {
-    public static final String PREFIX = "qiniu";
+    public static final String PREFIX = "file.qiniu";
     /**
      * AccessKey 简称ak
      * 申请地址=>登录七牛云：https://portal.qiniu.com/user/key

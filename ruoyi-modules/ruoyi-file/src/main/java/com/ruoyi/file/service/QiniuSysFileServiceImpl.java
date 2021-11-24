@@ -31,12 +31,13 @@ import java.io.InputStream;
  *
  * 构建时间戳防盗链访问链接： https://developer.qiniu.com/kodo/1239/java#fusion-antileech
  */
-//@Primary
-@Service()
 public class QiniuSysFileServiceImpl implements ISysFileService {
     private static final Logger log = LoggerFactory.getLogger(QiniuSysFileServiceImpl.class);
-    @Autowired
-    private QiniuKodoConfig qiniuKodoConfig;
+    private final QiniuKodoConfig qiniuKodoConfig;
+
+    public QiniuSysFileServiceImpl(QiniuKodoConfig qiniuKodoConfig) {
+        this.qiniuKodoConfig = qiniuKodoConfig;
+    }
 
     @Override
     public String uploadFile(MultipartFile file) throws Exception {

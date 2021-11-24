@@ -26,7 +26,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = TencentCosConfig.PREFIX)
 public class TencentCosConfig {
-    public static final String PREFIX = "tencent-cos";
+    public static final String PREFIX = "file.tencent-cos";
 
     @Bean
     public COSClient getCosClient() {

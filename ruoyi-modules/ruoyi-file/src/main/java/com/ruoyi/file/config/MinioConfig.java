@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Configuration
 @ConfigurationProperties(prefix = MinioConfig.PREFIX)
 public class MinioConfig {
-    public static final String PREFIX = "minio";
+    public static final String PREFIX = "file.minio";
 
     @Bean
     public MinioClient getMinioClient() {
