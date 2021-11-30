@@ -1,8 +1,6 @@
 <template>
   <el-dropdown trigger="click" @command="handleSetSize">
-    <div>
-      <svg-icon class-name="size-icon" icon-class="size" />
-    </div>
+    <svg-icon class-name="size-icon" icon-class="size" style="height: 100%"/>
     <el-dropdown-menu slot="dropdown">
       <el-dropdown-item v-for="item of sizeOptions" :key="item.value" :disabled="size===item.value" :command="item.value">
         {{ item.label }}
