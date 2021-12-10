@@ -13,6 +13,8 @@
     <description>若依微服务系统</description>
 
     <properties>
+        <!--jar包拷贝到文件夹位置-->
+        <copy.jar.directory>D:/ruoyi/jar/</copy.jar.directory>
         <ruoyi.version>3.2.0</ruoyi.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -156,9 +158,9 @@
             </dependency>
 
             <!-- Collection 增强Java集合框架 -->
-            <dependency> 
-                <groupId>commons-collections</groupId> 
-                <artifactId>commons-collections</artifactId> 
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
                 <version>${commons-collections.version}</version>
             </dependency>
 
