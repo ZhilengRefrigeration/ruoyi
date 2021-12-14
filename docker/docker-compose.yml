@@ -1,5 +1,12 @@
 version : '3.8'
 services:
+  sentinel:
+    container_name: sentinel
+    build:
+      context: ./sentinel
+      dockerfile: dockerfile
+    ports:
+      - "8718:8718"
   ruoyi-nacos:
     container_name: ruoyi-nacos
     image: nacos/nacos-server
