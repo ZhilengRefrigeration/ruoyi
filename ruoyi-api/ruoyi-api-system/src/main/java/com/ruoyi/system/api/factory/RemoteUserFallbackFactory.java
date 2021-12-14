@@ -11,7 +11,7 @@ import com.ruoyi.system.api.model.LoginUser;
 
 /**
  * 用户服务降级处理
- * 
+ *
  * @author ruoyi
  */
 @Component
@@ -35,6 +35,12 @@ public class RemoteUserFallbackFactory implements FallbackFactory<RemoteUserServ
             public R<Boolean> registerUserInfo(SysUser sysUser, String source)
             {
                 return R.fail("注册用户失败:" + throwable.getMessage());
+            }
+
+            @Override
+            public R<SysUser> getUserById(Long userId, String source)
+            {
+                return R.fail("获取用户信息失败:" + throwable.getMessage());
             }
         };
     }
