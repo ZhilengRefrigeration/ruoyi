@@ -65,6 +65,17 @@ services:
       - ruoyi-gateway
     links:
       - ruoyi-gateway
+  ruoyi-sentinel:
+      container_name: yanshi-Sentinel
+      build:
+        context: ./sentinel
+      volumes:
+        - ./sentinel/logs:/logs/sentinel
+      ports:
+        - "8719:8719"
+        - "8858:8858"
+      links:
+        - ruoyi-nacos
   ruoyi-gateway:
     container_name: ruoyi-gateway
     build:
@@ -76,6 +87,7 @@ services:
       - ruoyi-redis
     links:
       - ruoyi-redis
+      - ruoyi-sentinel
   ruoyi-auth:
     container_name: ruoyi-auth
     build:
