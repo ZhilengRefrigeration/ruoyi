@@ -66,7 +66,7 @@ services:
     links:
       - ruoyi-gateway
   ruoyi-sentinel:
-      container_name: yanshi-Sentinel
+      container_name: yanshi-sentinel
       build:
         context: ./sentinel
       volumes:
