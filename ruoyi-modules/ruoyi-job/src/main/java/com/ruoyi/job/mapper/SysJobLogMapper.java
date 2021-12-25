@@ -2,12 +2,14 @@ package com.ruoyi.job.mapper;
 
 import java.util.List;
 import com.ruoyi.job.domain.SysJobLog;
+import org.springframework.stereotype.Service;
 
 /**
  * 调度任务日志信息 数据层
  * 
  * @author ruoyi
  */
+@Service
 public interface SysJobLogMapper
 {
     /**

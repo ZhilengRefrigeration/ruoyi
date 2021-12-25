@@ -3,12 +3,14 @@ package com.ruoyi.system.mapper;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import com.ruoyi.system.api.domain.SysDictData;
+import org.springframework.stereotype.Service;
 
 /**
  * 字典表 数据层
  * 
  * @author ruoyi
  */
+@Service
 public interface SysDictDataMapper
 {
     /**

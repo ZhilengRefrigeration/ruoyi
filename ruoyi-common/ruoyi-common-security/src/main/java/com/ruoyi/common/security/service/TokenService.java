@@ -162,6 +162,11 @@ public class TokenService
         redisService.setCacheObject(userKey, loginUser, expireTime, TimeUnit.MINUTES);
     }
 
+    /**
+     * 获取令牌
+     * @param token 令牌
+     * @return 令牌
+     */
     private String getTokenKey(String token)
     {
         return ACCESS_TOKEN + token;

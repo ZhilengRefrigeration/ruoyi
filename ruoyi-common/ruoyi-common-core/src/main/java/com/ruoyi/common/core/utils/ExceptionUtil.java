@@ -22,6 +22,11 @@ public class ExceptionUtil
         return str;
     }
 
+    /**
+     * 获取根错误消息
+     * @param e
+     * @return 错误消息
+     */
     public static String getRootErrorMessage(Exception e)
     {
         Throwable root = ExceptionUtils.getRootCause(e);

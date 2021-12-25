@@ -58,6 +58,11 @@ public class DataScopeAspect
         handleDataScope(point, controllerDataScope);
     }
 
+    /**
+     * 处理数据范围
+     * @param joinPoint  JoinPoint
+     * @param controllerDataScope DataScope
+     */
     protected void handleDataScope(final JoinPoint joinPoint, DataScope controllerDataScope)
     {
         // 获取当前的用户

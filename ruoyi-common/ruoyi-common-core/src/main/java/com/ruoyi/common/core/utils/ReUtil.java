@@ -1,14 +1,13 @@
 package com.ruoyi.common.core.utils;
 
+import com.ruoyi.common.core.text.Convert;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.ruoyi.common.core.text.Convert;
-import com.ruoyi.common.core.utils.StringUtils;
 
 public class ReUtil
 {
