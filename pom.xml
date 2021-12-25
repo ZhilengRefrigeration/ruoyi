@@ -41,6 +41,10 @@
         <commons-collections.version>3.2.2</commons-collections.version>
         <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
         <log4j2.version>2.17.0</log4j2.version>
+
+        <!--xjs加的-->
+        <knife4j.version>3.0.3</knife4j.version>
+
     </properties>
 
     <!-- 依赖声明 -->
@@ -270,6 +274,7 @@
         <module>ruoyi-modules</module>
         <module>ruoyi-api</module>
         <module>ruoyi-common</module>
+        <module>xjs-business</module>
     </modules>
     <packaging>pom</packaging>
 
