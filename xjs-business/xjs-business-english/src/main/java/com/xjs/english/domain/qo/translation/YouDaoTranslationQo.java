@@ -18,7 +18,7 @@ public class YouDaoTranslationQo{
     /**
      * 目标语言(有道的目标语言无效，中转英、英转中)
      */
-    private String type;
+    private String type="AUTO";
 
     /**
      * 翻译的内容

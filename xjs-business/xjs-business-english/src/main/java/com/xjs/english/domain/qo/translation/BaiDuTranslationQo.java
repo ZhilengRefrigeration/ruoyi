@@ -27,7 +27,7 @@ public class BaiDuTranslationQo {
     /**
      * 翻译目标语言
      */
-    private String to ;
+    private String to ="auto";
 
 
     /**

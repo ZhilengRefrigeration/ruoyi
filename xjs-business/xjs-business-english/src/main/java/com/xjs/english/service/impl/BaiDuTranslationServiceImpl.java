@@ -40,7 +40,6 @@ public class BaiDuTranslationServiceImpl implements TranslationService {
         String sign = SecureUtil.md5(append);
         baiDuTranslationQo.setSign(sign);
         baiDuTranslationQo.setQ(translationQo.getQ());
-        baiDuTranslationQo.setTo(translationQo.getTo());
         String translationStr = baiduFeignClient.translationApi(baiDuTranslationQo);
         JSONObject jsonObject = JSONObject.parseObject(translationStr);
         if(Objects.nonNull(jsonObject.getString("error_code"))){

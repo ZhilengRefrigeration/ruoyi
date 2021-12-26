@@ -32,8 +32,6 @@ public class YouDaoTranslationServiceImpl implements TranslationService {
     public TranslationVo translationApi(TranslationQo translationQo) {
         YouDaoTranslationQo youDaoTranslationQo = new YouDaoTranslationQo();
         youDaoTranslationQo.setI(translationQo.getQ());
-        youDaoTranslationQo.setType(translationQo.getTo());
-
         JSONObject translationApi = youDaoFeignClient.translationApi(youDaoTranslationQo);
         if(!"0".equals(translationApi.getString("errorCode"))){
             throw new BusinessException("有道翻译接口调用异常");
