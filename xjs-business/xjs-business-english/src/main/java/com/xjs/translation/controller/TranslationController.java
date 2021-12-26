@@ -37,6 +37,7 @@ public class TranslationController {
     @ApiOperation("翻译接口")
     @Log(title = "翻译管理")
     @RequiresLogin
+    @RequiresPermissions("english:translation:api")
     public AjaxResult translation(@Validated @RequestBody TranslationQo translationQo) {
         TranslationVo translationVo=new TranslationVo();
         if (BAIDU.equals(translationQo.getTranslationType())) {

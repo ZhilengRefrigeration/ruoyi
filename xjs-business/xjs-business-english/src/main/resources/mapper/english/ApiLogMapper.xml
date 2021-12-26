@@ -24,6 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="apiName != null  and apiName != ''"> and api_name like concat('%', #{apiName}, '%')</if>
             <if test="isSuccess != null "> and is_success = #{isSuccess}</if>
         </where>
+        order by id desc
     </select>
     
     <select id="selectApiLogById" parameterType="Long" resultMap="ApiLogResult">

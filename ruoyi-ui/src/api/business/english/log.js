@@ -17,24 +17,6 @@ export function getLog(id) {
   })
 }
 
-// 新增日志
-export function addLog(data) {
-  return request({
-    url: '/english/log',
-    method: 'post',
-    data: data
-  })
-}
-
-// 修改日志
-export function updateLog(data) {
-  return request({
-    url: '/english/log',
-    method: 'put',
-    data: data
-  })
-}
-
 // 删除日志
 export function delLog(id) {
   return request({
