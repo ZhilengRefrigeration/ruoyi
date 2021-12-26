@@ -43,7 +43,6 @@ public class YouDaoTranslationServiceImpl implements TranslationService {
         translationVo.setElapsedTime(elapsedTime);
         JSONArray translateResult = translationApi.getJSONArray("translateResult");
         JSONArray jsonArray = translateResult.getJSONArray(0);
-        System.out.println(jsonArray);
         ArrayList<Map<String, String>> maps = new ArrayList<>();
         if (jsonArray.size() > 0) {
             for (int i = 0; i < jsonArray.size(); i++) {
