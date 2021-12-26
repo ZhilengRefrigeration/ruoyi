@@ -1,6 +1,6 @@
 package com.xjs.translation.service.impl;
 
-import com.xjs.translation.XjsEnglishApp;
+import com.xjs.XjsEnglishApp;
 import com.xjs.translation.domain.qo.translation.TranslationQo;
 import com.xjs.translation.domain.vo.translation.TranslationVo;
 import com.xjs.translation.service.TranslationService;

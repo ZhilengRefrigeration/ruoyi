@@ -1,5 +1,6 @@
 package com.xjs.translation.client;
 
+import com.xjs.log.aop.ApiLog;
 import com.xjs.translation.domain.qo.translation.BaiDuTranslationQo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 public interface BaiduFeignClient {
 
     @PostMapping(headers = {"Content-Type=application/x-www-form-urlencoded"})
+    @ApiLog(name = "baidu",
+            url = "http://api.fanyi.baidu.com/api/trans/vip/translate",
+            method = "Post")
     String translationApi(BaiDuTranslationQo qo);
 
 }

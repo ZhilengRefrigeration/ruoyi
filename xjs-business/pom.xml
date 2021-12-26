@@ -18,8 +18,7 @@
     </modules>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+
         <mybatisplus.version>3.4.3.4</mybatisplus.version>
         <hutool.version>5.7.17</hutool.version>
     </properties>

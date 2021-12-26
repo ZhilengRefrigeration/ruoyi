@@ -1,4 +1,4 @@
-package com.xjs.translation;
+package com.xjs;
 
 import com.ruoyi.common.security.annotation.EnableCustomConfig;
 import com.ruoyi.common.security.annotation.EnableRyFeignClients;
