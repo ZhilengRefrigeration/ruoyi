@@ -21,6 +21,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <mybatisplus.version>3.4.3.4</mybatisplus.version>
+        <hutool.version>5.7.17</hutool.version>
     </properties>
 
     <dependencies>
@@ -90,6 +91,25 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${mybatisplus.version}</version>
+        </dependency>
+
+        <!--lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <!--测试-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+
+        <!--工具类-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
         </dependency>
 
 
