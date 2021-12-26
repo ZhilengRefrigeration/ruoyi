@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjs.log.mapper.ApiLogMapper">
+    
+    <resultMap type="com.xjs.log.domain.ApiLog" id="ApiLogResult">
+        <result property="id"    column="id"    />
+        <result property="apiName"    column="api_name"    />
+        <result property="url"    column="url"    />
+        <result property="method"    column="method"    />
+        <result property="request"    column="request"    />
+        <result property="response"    column="response"    />
+        <result property="isSuccess"    column="is_success"    />
+    </resultMap>
+
+    <sql id="selectApiLogVo">
+        select id, api_name, url, method, request, response, is_success from api_log
+    </sql>
+
+    <select id="selectApiLogList" parameterType="com.xjs.log.domain.ApiLog" resultMap="ApiLogResult">
+        <include refid="selectApiLogVo"/>
+        <where>  
+            <if test="apiName != null  and apiName != ''"> and api_name like concat('%', #{apiName}, '%')</if>
+            <if test="isSuccess != null "> and is_success = #{isSuccess}</if>
+        </where>
+    </select>
+    
+    <select id="selectApiLogById" parameterType="Long" resultMap="ApiLogResult">
+        <include refid="selectApiLogVo"/>
+        where id = #{id}
+    </select>
+
+    <delete id="deleteApiLogById" parameterType="Long">
+        delete from api_log where id = #{id}
+    </delete>
+
+    <delete id="deleteApiLogByIds" parameterType="String">
+        delete from api_log where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

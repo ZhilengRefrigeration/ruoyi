@@ -3,6 +3,9 @@ package com.xjs.translation.controller;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
+import com.ruoyi.common.security.annotation.RequiresLogin;
+import com.ruoyi.common.security.annotation.RequiresPermissions;
+import com.ruoyi.common.security.annotation.RequiresRoles;
 import com.xjs.translation.domain.qo.translation.TranslationQo;
 import com.xjs.translation.domain.vo.translation.TranslationVo;
 import com.xjs.translation.service.TranslationService;
@@ -33,6 +36,7 @@ public class TranslationController {
     @PostMapping
     @ApiOperation("翻译接口")
     @Log(title = "翻译管理")
+    @RequiresLogin
     public AjaxResult translation(@Validated @RequestBody TranslationQo translationQo) {
         TranslationVo translationVo=new TranslationVo();
         if (BAIDU.equals(translationQo.getTranslationType())) {
