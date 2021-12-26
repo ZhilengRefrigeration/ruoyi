@@ -111,11 +111,11 @@
             <version>${hutool.version}</version>
         </dependency>
 
-        <!--热部署-->
-        <dependency>
+        <!--热部署、有毒，一加上redis就出问题 -->
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
-        </dependency>
+        </dependency>-->
 
 
 

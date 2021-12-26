@@ -35,7 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         delete from api_log where id = #{id}
     </delete>
 
-    <delete id="deleteApiLogByIds" parameterType="String">
+    <delete id="deleteApiLogByIds" parameterType="Long">
         delete from api_log where id in 
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}

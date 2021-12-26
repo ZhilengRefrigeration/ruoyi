@@ -40,20 +40,19 @@ public class BaiDuTranslationServiceImpl implements TranslationService {
         String sign = SecureUtil.md5(append);
         baiDuTranslationQo.setSign(sign);
         baiDuTranslationQo.setQ(translationQo.getQ());
-        String translationStr = baiduFeignClient.translationApi(baiDuTranslationQo);
-        JSONObject jsonObject = JSONObject.parseObject(translationStr);
+        JSONObject jsonObject = baiduFeignClient.translationApi(baiDuTranslationQo);
         if(Objects.nonNull(jsonObject.getString("error_code"))){
             throw new BusinessException("百度翻译接口调用异常");
         }
         TranslationVo translationVo = new TranslationVo();
         String from = jsonObject.getString("from");
         String to = jsonObject.getString("to");
-        String transResultStr = jsonObject.getString("trans_result");
-        JSONArray jsonArray = JSONObject.parseArray(transResultStr);
+
+        JSONArray transResult = jsonObject.getJSONArray("trans_result");
         HashMap<String, String> map = new HashMap<>();
         List<Map<String, String>> maps = new ArrayList<>();
-        map.put("src", jsonArray.getJSONObject(0).getString("src"));
-        map.put("dst", jsonArray.getJSONObject(0).getString("dst"));
+        map.put("src", transResult.getJSONObject(0).getString("src"));
+        map.put("dst", transResult.getJSONObject(0).getString("dst"));
         maps.add(map);
         translationVo.setFrom(from);
         translationVo.setTo(to);

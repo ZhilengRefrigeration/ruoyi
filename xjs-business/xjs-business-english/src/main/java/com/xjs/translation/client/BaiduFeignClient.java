@@ -1,5 +1,6 @@
 package com.xjs.translation.client;
 
+import com.alibaba.fastjson.JSONObject;
 import com.xjs.log.aop.ApiLog;
 import com.xjs.translation.domain.qo.translation.BaiDuTranslationQo;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -17,6 +18,6 @@ public interface BaiduFeignClient {
     @ApiLog(name = "baidu",
             url = "http://api.fanyi.baidu.com/api/trans/vip/translate",
             method = "Post")
-    String translationApi(BaiDuTranslationQo qo);
+    JSONObject translationApi(BaiDuTranslationQo qo);
 
 }
