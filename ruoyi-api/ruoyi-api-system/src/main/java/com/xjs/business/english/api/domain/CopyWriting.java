@@ -1,7 +1,6 @@
 package com.xjs.business.english.api.domain;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author xiejs
@@ -52,5 +51,15 @@ public class CopyWriting implements Serializable {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    @Override
+    public String toString() {
+        return "CopyWriting{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", source='" + source + '\'' +
+                ", createTime='" + createTime + '\'' +
+                '}';
     }
 }
