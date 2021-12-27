@@ -1,6 +1,7 @@
 package com.xjs.copywriting;
 
 import cn.hutool.core.util.RandomUtil;
+import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.security.annotation.RequiresLogin;
@@ -17,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -37,15 +39,40 @@ public class CopyWritingController {
     @Log(title = "文案管理")
     @RequiresLogin
     @RequiresPermissions("english:translation:api")
-    public AjaxResult translation(@Validated RequestBody requestBody) {
+    public AjaxResult copyWriting(@Validated RequestBody requestBody) {
         requestBody = Optional.ofNullable(requestBody).orElseGet(RequestBody::new);
-        ArrayList<CopyWritingFactory> factories = new ArrayList<>();
-        //添加了新接口只需要在这add接口进去
-        factories.add(tianXingcopyWritingFactory);
-        //随机调用集合中的接口
-        CopyWritingFactory copyWritingFactory = RandomUtil.randomEle(factories);
+        CopyWritingFactory copyWritingFactory = this.randomApi();
         CopyWriting copyWriting = copyWritingFactory.productCopyWriting(requestBody);
         return AjaxResult.success(copyWriting);
     }
+
+
+    @GetMapping("forPRC")
+    @ApiOperation("供定时任务服务RPC远程调用")
+    public R<CopyWriting> copyWriting() {
+        CopyWritingFactory copyWritingFactory = this.randomApi();
+        return R.ok(copyWritingFactory.productCopyWriting(new RequestBody()));
+    }
+
+
+    /**
+     * 封装随机调用api
+     * @return 文案工厂
+     */
+    private CopyWritingFactory randomApi() {
+        ArrayList<CopyWritingFactory> factories = new ArrayList<>();
+        //添加了新接口只需要在这add接口进去
+        factories.add(tianXingcopyWritingFactory);
+        //--------add----------------------------;-
+        //随机调用集合中的接口
+        return RandomUtil.randomEle(factories);
+    }
+
+
+
+
+
+
+
 
 }

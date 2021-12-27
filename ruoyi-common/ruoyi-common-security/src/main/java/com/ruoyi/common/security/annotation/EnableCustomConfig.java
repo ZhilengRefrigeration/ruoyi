@@ -8,6 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.annotation.MapperScans;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -26,6 +27,8 @@ import com.ruoyi.common.security.feign.FeignAutoConfiguration;
 @EnableAsync
 // 自动加载类
 @Import({ ApplicationConfig.class, FeignAutoConfiguration.class })
+//自定义bean扫描，添加xjs路径下的bean
+@ComponentScan(basePackages = {"com.ruoyi","com.xjs"})
 public @interface EnableCustomConfig
 {
 
