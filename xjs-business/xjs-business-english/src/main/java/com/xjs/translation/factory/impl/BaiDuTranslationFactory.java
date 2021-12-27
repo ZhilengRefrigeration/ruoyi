@@ -5,10 +5,10 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xjs.common.client.BaiduFeignClient;
 import com.xjs.common.config.BaiduProperties;
+import com.xjs.common.exception.ApiException;
 import com.xjs.translation.domain.qo.translation.BaiDuTranslationQo;
 import com.xjs.translation.domain.qo.translation.TranslationQo;
 import com.xjs.translation.domain.vo.translation.TranslationVo;
-import com.xjs.common.exception.BusinessException;
 import com.xjs.translation.factory.TranslationFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +42,7 @@ public class BaiDuTranslationFactory implements TranslationFactory {
         baiDuTranslationQo.setQ(translationQo.getQ());
         JSONObject jsonObject = baiduFeignClient.translationApi(baiDuTranslationQo);
         if(Objects.nonNull(jsonObject.getString("error_code"))){
-            throw new BusinessException("百度翻译接口调用异常");
+            throw new ApiException("百度翻译接口调用异常");
         }
         TranslationVo translationVo = new TranslationVo();
         String from = jsonObject.getString("from");

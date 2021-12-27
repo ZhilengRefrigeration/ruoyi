@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  * @author xiejs
- * @desc
+ * @desc  百度翻译接口api调用
  * @create 2021-12-25
  */
 @FeignClient(name = "baidu",url = "http://api.fanyi.baidu.com/api/trans/vip/translate?")

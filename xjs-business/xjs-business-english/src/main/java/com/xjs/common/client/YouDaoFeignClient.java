@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * @author xiejs
- * @desc
+ * @desc  有道翻译接口api调用
  * @create 2021-12-25
  */
 @FeignClient(name = "youdao",url = "http://fanyi.youdao.com/translate?")

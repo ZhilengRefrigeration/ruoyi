@@ -3,10 +3,10 @@ package com.xjs.translation.factory.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xjs.common.client.YouDaoFeignClient;
+import com.xjs.common.exception.ApiException;
 import com.xjs.translation.domain.qo.translation.TranslationQo;
 import com.xjs.translation.domain.qo.translation.YouDaoTranslationQo;
 import com.xjs.translation.domain.vo.translation.TranslationVo;
-import com.xjs.common.exception.BusinessException;
 import com.xjs.translation.factory.TranslationFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,7 @@ public class YouDaoTranslationFactory implements TranslationFactory {
         youDaoTranslationQo.setI(translationQo.getQ());
         JSONObject translationApi = youDaoFeignClient.translationApi(youDaoTranslationQo);
         if(!"0".equals(translationApi.getString("errorCode"))){
-            throw new BusinessException("有道翻译接口调用异常");
+            throw new ApiException("有道翻译接口调用异常");
         }
         String type = translationApi.getString("type");
         TranslationVo translationVo = new TranslationVo();
