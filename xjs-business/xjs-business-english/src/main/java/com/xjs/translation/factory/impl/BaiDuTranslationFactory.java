@@ -1,4 +1,4 @@
-package com.xjs.translation.service.impl;
+package com.xjs.translation.factory.impl;
 
 import cn.hutool.crypto.SecureUtil;
 import com.alibaba.fastjson.JSONArray;
@@ -9,7 +9,7 @@ import com.xjs.translation.domain.qo.translation.BaiDuTranslationQo;
 import com.xjs.translation.domain.qo.translation.TranslationQo;
 import com.xjs.translation.domain.vo.translation.TranslationVo;
 import com.xjs.common.exception.BusinessException;
-import com.xjs.translation.service.TranslationService;
+import com.xjs.translation.factory.TranslationFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ import java.util.*;
  * @create 2021-12-25
  */
 @Service
-public class BaiDuTranslationServiceImpl implements TranslationService {
+public class BaiDuTranslationFactory implements TranslationFactory {
 
     @Autowired
     private BaiduProperties baiduProperties;

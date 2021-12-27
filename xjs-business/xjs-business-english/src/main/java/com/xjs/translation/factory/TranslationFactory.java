@@ -1,14 +1,14 @@
-package com.xjs.translation.service;
+package com.xjs.translation.factory;
 
 import com.xjs.translation.domain.qo.translation.TranslationQo;
 import com.xjs.translation.domain.vo.translation.TranslationVo;
 
 /**
  * @author xiejs
- * @desc  翻译统一调用接口
+ * @desc  翻译统一调用接口工厂
  * @create 2021-12-25
  */
-public interface TranslationService {
+public interface TranslationFactory {
 
     /**
      * 翻译接口

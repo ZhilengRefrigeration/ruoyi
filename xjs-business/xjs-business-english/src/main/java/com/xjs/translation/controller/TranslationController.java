@@ -6,7 +6,7 @@ import com.ruoyi.common.security.annotation.RequiresLogin;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.translation.domain.qo.translation.TranslationQo;
 import com.xjs.translation.domain.vo.translation.TranslationVo;
-import com.xjs.translation.service.TranslationService;
+import com.xjs.translation.factory.TranslationFactory;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +27,9 @@ import static com.xjs.common.consts.TranslationTypeConst.YOUDAO;
 public class TranslationController {
 
     @Autowired
-    private TranslationService youDaoTranslationServiceImpl;
+    private TranslationFactory youDaoTranslationFactory;
     @Autowired
-    private TranslationService baiDuTranslationServiceImpl;
+    private TranslationFactory baiDuTranslationFactory;
 
     @PostMapping
     @ApiOperation("翻译接口")
@@ -39,10 +39,10 @@ public class TranslationController {
     public AjaxResult translation(@Validated @RequestBody TranslationQo translationQo) {
         TranslationVo translationVo=new TranslationVo();
         if (BAIDU.equals(translationQo.getTranslationType())) {
-            translationVo = baiDuTranslationServiceImpl.translationApi(translationQo);
+            translationVo = baiDuTranslationFactory.translationApi(translationQo);
         }
         if (YOUDAO.equals(translationQo.getTranslationType())) {
-            translationVo = youDaoTranslationServiceImpl.translationApi(translationQo);
+            translationVo = youDaoTranslationFactory.translationApi(translationQo);
         }
         return AjaxResult.success(translationVo);
     }

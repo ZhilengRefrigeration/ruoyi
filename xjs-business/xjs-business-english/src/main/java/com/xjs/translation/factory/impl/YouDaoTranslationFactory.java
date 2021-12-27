@@ -1,4 +1,4 @@
-package com.xjs.translation.service.impl;
+package com.xjs.translation.factory.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -7,7 +7,7 @@ import com.xjs.translation.domain.qo.translation.TranslationQo;
 import com.xjs.translation.domain.qo.translation.YouDaoTranslationQo;
 import com.xjs.translation.domain.vo.translation.TranslationVo;
 import com.xjs.common.exception.BusinessException;
-import com.xjs.translation.service.TranslationService;
+import com.xjs.translation.factory.TranslationFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ import java.util.Map;
  * @create 2021-12-25
  */
 @Service
-public class YouDaoTranslationServiceImpl implements TranslationService {
+public class YouDaoTranslationFactory implements TranslationFactory {
 
     @Autowired
     private YouDaoFeignClient youDaoFeignClient;
