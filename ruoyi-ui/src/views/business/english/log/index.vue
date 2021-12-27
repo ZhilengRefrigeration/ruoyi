@@ -51,6 +51,7 @@
       <el-table-column label="请求方法" align="center" prop="method" :show-overflow-tooltip="true"/>
       <el-table-column label="请求参数" align="center" prop="request" :show-overflow-tooltip="true"/>
       <el-table-column label="响应参数" align="center" prop="response" :show-overflow-tooltip="true"/>
+      <el-table-column label="创建时间" align="center" prop="createTime" :show-overflow-tooltip="true"/>
         <el-table-column label="是否请求成功" align="center" prop="isSuccess" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <el-tag :type="scope.row.isSuccess==='成功'?'success':'danger'" size="small">{{ scope.row.isSuccess }}</el-tag>
@@ -109,8 +110,7 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        apiName: null,
-        isSuccess: null
+        apiName: null
       },
       // 表单参数
       form: {},
@@ -145,7 +145,8 @@ export default {
         method: null,
         request: null,
         response: null,
-        isSuccess: null
+        isSuccess: null,
+        createTime:null
       };
       this.resetForm("form");
     },

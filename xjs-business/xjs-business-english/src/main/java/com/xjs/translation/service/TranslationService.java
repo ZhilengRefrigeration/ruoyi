@@ -11,7 +11,7 @@ import com.xjs.translation.domain.vo.translation.TranslationVo;
 public interface TranslationService {
 
     /**
-     * 调用百度翻译接口
+     * 翻译接口
      * @param translationQo 翻译条件封装
      * @return 翻译结果封装
      */

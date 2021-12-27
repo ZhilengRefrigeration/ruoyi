@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectApiLogVo">
-        select id, api_name, url, method, request, response, is_success from api_log
+        select id, api_name, url, method, request, response, is_success , create_time from api_log
     </sql>
 
     <select id="selectApiLogList" parameterType="com.xjs.log.domain.ApiLog" resultMap="ApiLogResult">

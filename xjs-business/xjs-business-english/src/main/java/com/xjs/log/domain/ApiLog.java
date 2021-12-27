@@ -1,5 +1,7 @@
 package com.xjs.log.domain;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -9,6 +11,7 @@ import lombok.Data;
 import com.ruoyi.common.core.annotation.Excel;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 日志对象 api_log
@@ -23,7 +26,6 @@ public class ApiLog implements Serializable
     private static final long serialVersionUID = 1L;
 
     @TableId
-    @JsonSerialize(using= ToStringSerializer.class)
     private Long id;
 
     /** 接口名称 */
@@ -49,4 +51,8 @@ public class ApiLog implements Serializable
     /** 是否请求成功 */
     @Excel(name = "是否请求成功")
     private StatusEnum isSuccess;
+
+    @Excel(name = "创建时间")
+    @TableField(fill = FieldFill.INSERT)
+    private Date createTime;
 }
