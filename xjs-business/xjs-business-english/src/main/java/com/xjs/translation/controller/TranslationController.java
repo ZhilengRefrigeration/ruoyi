@@ -2,10 +2,8 @@ package com.xjs.translation.controller;
 
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
-import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresLogin;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
-import com.ruoyi.common.security.annotation.RequiresRoles;
 import com.xjs.translation.domain.qo.translation.TranslationQo;
 import com.xjs.translation.domain.vo.translation.TranslationVo;
 import com.xjs.translation.service.TranslationService;
@@ -15,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import static com.xjs.translation.consts.TranslationTypeConst.BAIDU;
-import static com.xjs.translation.consts.TranslationTypeConst.YOUDAO;
+import static com.xjs.common.consts.TranslationTypeConst.BAIDU;
+import static com.xjs.common.consts.TranslationTypeConst.YOUDAO;
 
 /**
  * @author xiejs

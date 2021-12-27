@@ -1,7 +1,7 @@
-package com.xjs.translation.client;
+package com.xjs.common.client;
 
 import com.alibaba.fastjson.JSONObject;
-import com.xjs.log.aop.ApiLog;
+import com.xjs.common.aop.ApiLog;
 import com.xjs.translation.domain.qo.translation.YouDaoTranslationQo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;

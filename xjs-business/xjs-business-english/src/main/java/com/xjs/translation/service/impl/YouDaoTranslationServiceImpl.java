@@ -2,11 +2,11 @@ package com.xjs.translation.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.xjs.translation.client.YouDaoFeignClient;
+import com.xjs.common.client.YouDaoFeignClient;
 import com.xjs.translation.domain.qo.translation.TranslationQo;
 import com.xjs.translation.domain.qo.translation.YouDaoTranslationQo;
 import com.xjs.translation.domain.vo.translation.TranslationVo;
-import com.xjs.translation.exception.BusinessException;
+import com.xjs.common.exception.BusinessException;
 import com.xjs.translation.service.TranslationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

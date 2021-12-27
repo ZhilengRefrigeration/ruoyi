@@ -1,4 +1,4 @@
-package com.xjs.translation.consts;
+package com.xjs.common.consts;
 
 /**
  * @author xiejs

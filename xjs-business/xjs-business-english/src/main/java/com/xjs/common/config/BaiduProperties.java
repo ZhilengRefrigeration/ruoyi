@@ -1,4 +1,4 @@
-package com.xjs.translation.config;
+package com.xjs.common.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

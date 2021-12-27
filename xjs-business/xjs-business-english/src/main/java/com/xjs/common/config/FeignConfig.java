@@ -1,4 +1,4 @@
-package com.xjs.translation.config;
+package com.xjs.common.config;
 
 import feign.Logger;
 import org.springframework.context.annotation.Bean;

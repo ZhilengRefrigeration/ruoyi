@@ -48,7 +48,7 @@
         <!--        翻译结果显示区域-->
         <div class="grid-content bg-purple ">
           <div class="spans">
-            {{responseTranslation}}
+            {{ responseTranslation }}
           </div>
         </div>
       </el-col>
@@ -60,13 +60,14 @@
 
 <script>
 import {translation} from "@/api/business/english/translation";
+
 export default {
   dicts: ['translation_type'],
   name: "Log",
   data() {
     return {
       //翻译响应数据
-      responseTranslation:'',
+      responseTranslation: '',
 
       translationData: {
         translationType: '',
@@ -78,11 +79,19 @@ export default {
           message: '翻译平台不能为空',
           trigger: 'change'
         }],
-        q: [{
+        q: [
+          {
           required: true,
           message: '请输入翻译内容',
           trigger: 'blur'
-        }],
+        },
+          {
+            min: 1,
+            max: 120,
+            message: '长度在 1 到 120 个字符',
+            trigger: 'blur'
+          }
+        ],
       },
     }
   },
@@ -94,13 +103,13 @@ export default {
       this.$refs['translation'].validate(valid => {
         if (valid) {
           translation(this.translationData).then(res => {
-            let result =res .data.transResult
+            let result = res.data.transResult
             let results = ''
             console.log(result)
-            result.forEach(r =>{
-              results = results +'  '+ r.dst;
+            result.forEach(r => {
+              results = results + '  ' + r.dst;
             })
-            this.responseTranslation=results
+            this.responseTranslation = results
 
           })
         }
@@ -127,15 +136,15 @@ export default {
   padding: 50px;
 }
 
-.spans{
-  margin :100px;
-  margin-top: 100px;
+.spans {
+  margin: 50px;
+  margin-top: 40px;
   padding: 50px;
   font-family: Georgia;
-  font-size:20px;
-  height: 200px;
+  font-size: 20px;
+  height: 300px;
   box-shadow: 0 0 9px 3px #999;
-  color: #00afff;
+  font-style: italic;
 }
 
 </style>

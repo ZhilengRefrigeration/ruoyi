@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -24,6 +25,7 @@ public class TranslationQo implements Serializable {
      */
     @ApiModelProperty("翻译词")
     @NotBlank(message = "翻译内容不能为空")
+    @Size(max=120,message = "长度在 1 到 120 个字符")
     private String q="你傻吗，大傻逼？嗯，哈哈哈";
 
 
