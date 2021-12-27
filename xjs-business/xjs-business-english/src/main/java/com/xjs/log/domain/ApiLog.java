@@ -1,10 +1,13 @@
 package com.xjs.log.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.xjs.log.enums.StatusEnum;
 import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -51,5 +54,5 @@ public class ApiLog implements Serializable
 
     /** 是否请求成功 */
     @Excel(name = "是否请求成功")
-    private Integer isSuccess;
+    private StatusEnum isSuccess;
 }

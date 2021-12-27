@@ -47,8 +47,8 @@
       <el-table-column label="接口名称" align="center" prop="apiName" :show-overflow-tooltip="true"/>
       <el-table-column label="URL" align="center" prop="url" :show-overflow-tooltip="true"/>
       <el-table-column label="请求方法" align="center" prop="method" :show-overflow-tooltip="true"/>
-      <el-table-column label="请求体" align="center" prop="request" :show-overflow-tooltip="true"/>
-      <el-table-column label="响应体" align="center" prop="response" :show-overflow-tooltip="true"/>
+      <el-table-column label="请求参数" align="center" prop="request" :show-overflow-tooltip="true"/>
+      <el-table-column label="响应参数" align="center" prop="response" :show-overflow-tooltip="true"/>
       <el-table-column label="是否请求成功" align="center" prop="isSuccess" :show-overflow-tooltip="true"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">

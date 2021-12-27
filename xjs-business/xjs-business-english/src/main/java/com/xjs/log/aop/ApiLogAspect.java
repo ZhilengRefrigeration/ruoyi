@@ -2,6 +2,7 @@ package com.xjs.log.aop;
 
 import cn.hutool.core.date.DateUtil;
 import com.xjs.log.consts.ReqConst;
+import com.xjs.log.enums.StatusEnum;
 import com.xjs.log.mapper.ApiLogMapper;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.JoinPoint;
@@ -84,9 +85,9 @@ public class ApiLogAspect {
         entity.setRequest(builder.toString());
         entity.setResponse(Optional.ofNullable(jsonResult).toString());
         if (e != null) {
-            entity.setIsSuccess(ReqConst.ERROR);
+            entity.setIsSuccess(StatusEnum.ERROR);
         }else {
-            entity.setIsSuccess(ReqConst.SUCCESS);
+            entity.setIsSuccess(StatusEnum.SUCCESS);
         }
         apiLogMapper.insert(entity);
     }

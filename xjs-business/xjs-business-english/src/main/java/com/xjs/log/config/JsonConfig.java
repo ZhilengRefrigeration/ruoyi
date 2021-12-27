@@ -6,10 +6,12 @@ import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -39,6 +41,7 @@ public class JsonConfig {
         list.add(SerializerFeature.WriteDateUseDateFormat);
         list.add(SerializerFeature.DisableCircularReferenceDetect);
         list.add(SerializerFeature.WriteBigDecimalAsPlain);
+        list.add(SerializerFeature.WriteEnumUsingToString);
         fastJsonConfig.setSerializerFeatures(list.toArray(new SerializerFeature[list.size()]));
         fastConverter.setFastJsonConfig(fastJsonConfig);
         HttpMessageConverter<?> converter = fastConverter;
@@ -54,4 +57,10 @@ public class JsonConfig {
         });
         return new HttpMessageConverters(converter);
     }
+
+    @Bean
+    public Jackson2ObjectMapperBuilderCustomizer customizer(){
+        return builder -> builder.featuresToEnable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
+    }
+
 }
