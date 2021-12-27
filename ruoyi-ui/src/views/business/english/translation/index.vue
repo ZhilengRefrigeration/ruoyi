@@ -1,196 +1,141 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="接口名称" prop="apiName">
-        <el-input
-          v-model="queryParams.apiName"
-          placeholder="请输入接口名称"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-      </el-form-item>
-    </el-form>
-
-    <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['english:log:remove']"
-        >删除</el-button>
+    <el-row>
+      <el-col :span="24">
+        <div class="grid-content bg-purple" style="height: 100px"></div>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['english:log:export']"
-        >导出</el-button>
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="12">
+        <!--        翻译区域-->
+        <div class="grid-content bg-purple">
+          <el-row :gutter="15">
+            <el-form ref="translation" :model="translationData" :rules="translationRules" size="medium"
+                     label-width="100px" label-position="top">
+              <el-col :span="12">
+                <el-form-item label="翻译平台" prop="translationType">
+                  <el-select
+                    v-model="translationData.translationType"
+                    placeholder="翻译平台"
+                    clearable
+                    size="small"
+                    style="width: 150px">
+                    <el-option
+                      v-for="dict in dict.type.translation_type"
+                      :key="dict.value"
+                      :label="dict.label"
+                      :value="dict.value"/>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="20">
+                <el-form-item label="翻译区域" prop="q">
+                  <el-input v-model="translationData.q" type="textarea" placeholder="请输入翻译内容" show-word-limit
+                            :autosize="{minRows: 4, maxRows: 4}" :style="{width: '100%'}"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="24">
+                <el-form-item size="large">
+                  <el-button type="primary" @click="submitForm">提交</el-button>
+                  <el-button @click="resetForm">重置</el-button>
+                </el-form-item>
+              </el-col>
+            </el-form>
+          </el-row>
+        </div>
       </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <el-col :span="12">
+        <!--        翻译结果显示区域-->
+        <div class="grid-content bg-purple ">
+          <div class="spans">
+            {{responseTranslation}}
+          </div>
+        </div>
+      </el-col>
     </el-row>
 
-    <el-table v-loading="loading" :data="logList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center"  />
-      <el-table-column label="接口名称" align="center" prop="apiName" :show-overflow-tooltip="true"/>
-      <el-table-column label="URL" align="center" prop="url" :show-overflow-tooltip="true"/>
-      <el-table-column label="请求方法" align="center" prop="method" :show-overflow-tooltip="true"/>
-      <el-table-column label="请求体" align="center" prop="request" :show-overflow-tooltip="true"/>
-      <el-table-column label="响应体" align="center" prop="response" :show-overflow-tooltip="true"/>
-      <el-table-column label="是否请求成功" align="center" prop="isSuccess" :show-overflow-tooltip="true"/>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['english:log:remove']"
-          >删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
 
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
   </div>
 </template>
 
 <script>
-import { listLog, getLog, delLog} from "@/api/business/english/log";
-
+import {translation} from "@/api/business/english/translation";
 export default {
+  dicts: ['translation_type'],
   name: "Log",
   data() {
     return {
-      // 遮罩层
-      loading: true,
-      // 选中数组
-      ids: [],
-      // 非单个禁用
-      single: true,
-      // 非多个禁用
-      multiple: true,
-      // 显示搜索条件
-      showSearch: true,
-      // 总条数
-      total: 0,
-      // 日志表格数据
-      logList: [],
-      // 弹出层标题
-      title: "",
-      // 是否显示弹出层
-      open: false,
-      // 查询参数
-      queryParams: {
-        pageNum: 1,
-        pageSize: 10,
-        apiName: null,
-        isSuccess: null
+      //翻译响应数据
+      responseTranslation:'',
+
+      translationData: {
+        translationType: '',
+        q: '',
       },
-      // 表单参数
-      form: {},
-      // 表单校验
-      rules: {
-      }
-    };
+      translationRules: {
+        translationType: [{
+          required: true,
+          message: '翻译平台不能为空',
+          trigger: 'change'
+        }],
+        q: [{
+          required: true,
+          message: '请输入翻译内容',
+          trigger: 'blur'
+        }],
+      },
+    }
   },
   created() {
-    this.getList();
+
   },
   methods: {
-    /** 查询日志列表 */
-    getList() {
-      this.loading = true;
-      listLog(this.queryParams).then(response => {
-        this.logList = response.rows;
-        this.total = response.total;
-        this.loading = false;
-      });
+    submitForm() {
+      this.$refs['translation'].validate(valid => {
+        if (valid) {
+          translation(this.translationData).then(res => {
+            let result =res .data.transResult
+            let results = ''
+            console.log(result)
+            result.forEach(r =>{
+              results = results +'  '+ r.dst;
+            })
+            this.responseTranslation=results
+
+          })
+        }
+
+      })
     },
-    // 取消按钮
-    cancel() {
-      this.open = false;
-      this.reset();
+    resetForm() {
+      this.$refs['translation'].resetFields()
     },
-    // 表单重置
-    reset() {
-      this.form = {
-        id: null,
-        apiName: null,
-        url: null,
-        method: null,
-        request: null,
-        response: null,
-        isSuccess: null
-      };
-      this.resetForm("form");
-    },
-    /** 搜索按钮操作 */
-    handleQuery() {
-      this.queryParams.pageNum = 1;
-      this.getList();
-    },
-    /** 重置按钮操作 */
-    resetQuery() {
-      this.resetForm("queryForm");
-      this.handleQuery();
-    },
-    // 多选框选中数据
-    handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
-      this.multiple = !selection.length
-    },
-    /** 新增按钮操作 */
-    handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加日志";
-    },
-    /** 修改按钮操作 */
-    handleUpdate(row) {
-      this.reset();
-      const id = row.id || this.ids
-      getLog(id).then(response => {
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改日志";
-      });
-    },
-    /** 删除按钮操作 */
-    handleDelete(row) {
-      const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除日志编号为"' + ids + '"的数据项？').then(function() {
-        return delLog(ids);
-      }).then(() => {
-        this.getList();
-        this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
-    },
-    /** 导出按钮操作 */
-    handleExport() {
-      this.download('english/log/export', {
-        ...this.queryParams
-      }, `log_${new Date().getTime()}.xlsx`)
-    }
-  }
+  },
 };
 </script>
+
+<style>
+.bg-purple {
+  box-shadow: 0 0 9px 3px #999;
+}
+
+.grid-content {
+  border-radius: 4px;
+  min-height: 36px;
+  height: 500px;
+  margin-top: 20px;
+  padding: 50px;
+}
+
+.spans{
+  margin :100px;
+  margin-top: 100px;
+  padding: 50px;
+  font-family: Georgia;
+  font-size:20px;
+  height: 200px;
+  box-shadow: 0 0 9px 3px #999;
+  color: #00afff;
+}
+
+</style>

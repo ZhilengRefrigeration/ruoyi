@@ -48,7 +48,7 @@ public class YouDaoTranslationServiceImpl implements TranslationService {
             for (int i = 0; i < jsonArray.size(); i++) {
                 Map<String, String> map = new HashMap<String, String>();
                 map.put("src", jsonArray.getJSONObject(i).getString("src"));
-                map.put("tgt", jsonArray.getJSONObject(i).getString("tgt"));
+                map.put("dst", jsonArray.getJSONObject(i).getString("tgt"));
                 maps.add(map);
             }
         }

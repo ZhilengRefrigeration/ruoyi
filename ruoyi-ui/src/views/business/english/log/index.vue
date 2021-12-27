@@ -27,7 +27,8 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['english:log:remove']"
-        >删除</el-button>
+        >删除
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -37,19 +38,24 @@
           size="mini"
           @click="handleExport"
           v-hasPermi="['english:log:export']"
-        >导出</el-button>
+        >导出
+        </el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="logList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center"  />
+      <el-table-column type="selection" width="55" align="center"/>
       <el-table-column label="接口名称" align="center" prop="apiName" :show-overflow-tooltip="true"/>
-      <el-table-column label="URL" align="center" prop="url" :show-overflow-tooltip="true"/>
+      <el-table-column label="请求URL" align="center" prop="url" :show-overflow-tooltip="true"/>
       <el-table-column label="请求方法" align="center" prop="method" :show-overflow-tooltip="true"/>
       <el-table-column label="请求参数" align="center" prop="request" :show-overflow-tooltip="true"/>
       <el-table-column label="响应参数" align="center" prop="response" :show-overflow-tooltip="true"/>
-      <el-table-column label="是否请求成功" align="center" prop="isSuccess" :show-overflow-tooltip="true"/>
+        <el-table-column label="是否请求成功" align="center" prop="isSuccess" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <el-tag :type="scope.row.isSuccess==='成功'?'success':'danger'" size="small">{{ scope.row.isSuccess }}</el-tag>
+          </template>
+        </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -58,7 +64,8 @@
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['english:log:remove']"
-          >删除</el-button>
+          >删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -74,7 +81,7 @@
 </template>
 
 <script>
-import { listLog, getLog, delLog} from "@/api/business/english/log";
+import {listLog, getLog, delLog} from "@/api/business/english/log";
 
 export default {
   name: "Log",
@@ -108,8 +115,7 @@ export default {
       // 表单参数
       form: {},
       // 表单校验
-      rules: {
-      }
+      rules: {}
     };
   },
   created() {
@@ -156,7 +162,7 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
@@ -178,12 +184,13 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除日志编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除日志编号为"' + ids + '"的数据项？').then(function () {
         return delLog(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      }).catch(() => {
+      });
     },
     /** 导出按钮操作 */
     handleExport() {

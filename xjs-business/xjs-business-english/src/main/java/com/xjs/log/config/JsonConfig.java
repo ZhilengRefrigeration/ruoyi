@@ -15,10 +15,12 @@ import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilde
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -41,10 +43,18 @@ public class JsonConfig {
         list.add(SerializerFeature.WriteDateUseDateFormat);
         list.add(SerializerFeature.DisableCircularReferenceDetect);
         list.add(SerializerFeature.WriteBigDecimalAsPlain);
+
+        //返回枚举类型为枚举toString  mp通用枚举用到
         list.add(SerializerFeature.WriteEnumUsingToString);
+
         fastJsonConfig.setSerializerFeatures(list.toArray(new SerializerFeature[list.size()]));
         fastConverter.setFastJsonConfig(fastJsonConfig);
         HttpMessageConverter<?> converter = fastConverter;
+
+        //解决远程调用  ---（Content-Type cannot contain wildcard type '*'）报错
+        fastConverter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON_UTF8));
+
+        //解决mp雪花算法前端精度丢失
         fastJsonConfig.setSerializeFilters(new ValueFilter() {
             @Override
             public Object process(Object object, String name, Object value) {
