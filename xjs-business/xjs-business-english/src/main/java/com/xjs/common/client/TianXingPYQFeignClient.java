@@ -2,7 +2,7 @@ package com.xjs.common.client;
 
 import com.alibaba.fastjson.JSONObject;
 import com.xjs.common.aop.ApiLog;
-import com.xjs.common.client.factory.TianXingFeignFactory;
+import com.xjs.common.client.factory.TianXingPYQFeignFactory;
 import com.xjs.copywriting.domain.RequestBody;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @create 2021-12-27
  */
 @FunctionalInterface
-@FeignClient(name = "tianXing",url = "http://api.tianapi.com/pyqwenan/index",fallbackFactory = TianXingFeignFactory.class)
-public interface TianXingFeignClient {
+@FeignClient(name = "tianXingPYQ",url = "http://api.tianapi.com/pyqwenan/index",fallbackFactory = TianXingPYQFeignFactory.class)
+public interface TianXingPYQFeignClient {
 
     @GetMapping
     @ApiLog(name = "tianXing",

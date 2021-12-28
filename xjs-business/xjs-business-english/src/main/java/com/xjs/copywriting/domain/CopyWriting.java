@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.core.annotation.Excel;
+import com.xjs.common.enums.StatusEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -35,4 +36,7 @@ public class CopyWriting implements Serializable {
     @Excel(name = "创建时间")
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
+
+    @Excel(name = "文案类型")
+    private StatusEnum type;
 }

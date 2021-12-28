@@ -32,7 +32,9 @@ import java.util.Optional;
 public class CopyWritingController {
 
     @Autowired
-    private CopyWritingFactory tianXingcopyWritingFactory;
+    private CopyWritingFactory tianXingPYQCopyWritingFactory;
+    @Autowired
+    private CopyWritingFactory tianXingWYYCopyWritingFactory;
     @Autowired
     private CopyWritingService copyWritingService;
 
@@ -70,7 +72,8 @@ public class CopyWritingController {
     private CopyWritingFactory randomApi() {
         ArrayList<CopyWritingFactory> factories = new ArrayList<>();
         //添加了新接口只需要在这add接口进去
-        factories.add(tianXingcopyWritingFactory);
+        factories.add(tianXingPYQCopyWritingFactory);
+        factories.add(tianXingWYYCopyWritingFactory);
         //--------add----------------------------;-
         //随机调用集合中的接口
         return RandomUtil.randomEle(factories);

@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @create 2021-12-27
  */
 @SpringBootTest(classes = XjsEnglishApp.class)
-class TianXingCopyWritingFactoryTestJob {
+class TianXingPYQCopyWritingFactoryTestJob {
 
     @Autowired
     CopyWritingFactory tianXingCopyWritingFactory;
