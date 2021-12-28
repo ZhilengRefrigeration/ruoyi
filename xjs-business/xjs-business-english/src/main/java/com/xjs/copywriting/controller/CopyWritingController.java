@@ -1,4 +1,4 @@
-package com.xjs.copywriting;
+package com.xjs.copywriting.controller;
 
 import cn.hutool.core.util.RandomUtil;
 import com.ruoyi.common.core.domain.R;
@@ -37,14 +37,13 @@ public class CopyWritingController {
     private CopyWritingService copyWritingService;
 
     //todo 文案管理前端页面，
-    // 第三方api服务降级，
     // 天行数据整合一个菜单，
     // 实现其他天行数据接口，
     // 实现其他朋友圈文案api，
 
     @GetMapping
     @ApiOperation("文案接口")
-    @Log(title = "文案管理")
+    @Log(title = "获取文案")
     @RequiresLogin
     @RequiresPermissions("english:translation:api")
     public AjaxResult copyWriting(@Validated RequestBody requestBody) {
