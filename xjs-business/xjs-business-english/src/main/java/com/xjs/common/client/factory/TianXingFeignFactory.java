@@ -1,9 +1,7 @@
 package com.xjs.common.client.factory;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.xjs.common.client.TianXingFeignClient;
-import com.xjs.copywriting.domain.CopyWriting;
 import com.xjs.copywriting.domain.RequestBody;
 import com.xjs.copywriting.service.CopyWritingService;
 import lombok.extern.log4j.Log4j2;
@@ -29,9 +27,10 @@ public class TianXingFeignFactory implements FallbackFactory<TianXingFeignClient
         return new TianXingFeignClient() {
             @Override
             public JSONObject copyWritingApi(RequestBody requestBody) {
-                CopyWriting copyWriting = copyWritingService.getOneToRandom();
-                String jsonString = JSON.toJSONString(copyWriting);
-                return JSONObject.parseObject(jsonString);
+                JSONObject jsonObject = new JSONObject();
+                //构建一个异常json给下层接口处理
+                jsonObject.put("error", 500);
+                return jsonObject;
             }
         };
     }

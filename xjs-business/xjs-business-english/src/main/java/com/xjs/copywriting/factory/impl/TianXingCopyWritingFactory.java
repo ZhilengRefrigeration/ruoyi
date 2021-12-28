@@ -34,16 +34,25 @@ public class TianXingCopyWritingFactory implements CopyWritingFactory {
     public CopyWriting productCopyWriting(RequestBody requestBody) {
         requestBody.setKey(tianXingProperties.getKey());
         JSONObject jsonObject = tianXingFeignClient.copyWritingApi(requestBody);
-        if (HttpStatus.HTTP_OK != jsonObject.getInteger("code")) {
-            throw new ApiException("天行数据朋友圈文案接口调用异常");
+        //调用服务正常
+        if(jsonObject.containsKey("code")){
+            if (HttpStatus.HTTP_OK !=jsonObject.getInteger("code")) {
+                throw new ApiException("天行数据朋友圈文案接口调用异常");
+            }
+            JSONArray newslist = jsonObject.getJSONArray("newslist");
+            String content = newslist.getJSONObject(0).getString("content");
+            String source = newslist.getJSONObject(0).getString("source");
+            CopyWriting copyWriting = new CopyWriting();
+            copyWriting.setContent(content);
+            copyWriting.setSource(source);
+            copyWritingMapper.insert(copyWriting);
+            return copyWriting;
+        }else {
+            //调用服务失败的降级之后的处理
+            if (jsonObject.containsKey("error")) {
+                return copyWritingMapper.getOneToNew();
+            }
+            return new CopyWriting();
         }
-        JSONArray newslist = jsonObject.getJSONArray("newslist");
-        String content = newslist.getJSONObject(0).getString("content");
-        String source = newslist.getJSONObject(0).getString("source");
-        CopyWriting copyWriting = new CopyWriting();
-        copyWriting.setContent(content);
-        copyWriting.setSource(source);
-        copyWritingMapper.insert(copyWriting);
-        return copyWriting;
     }
 }
