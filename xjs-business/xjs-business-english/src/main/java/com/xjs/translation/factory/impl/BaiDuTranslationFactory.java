@@ -41,7 +41,9 @@ public class BaiDuTranslationFactory implements TranslationFactory {
         baiDuTranslationQo.setSign(sign);
         baiDuTranslationQo.setQ(translationQo.getQ());
         JSONObject jsonObject = baiduFeignClient.translationApi(baiDuTranslationQo);
-        if(Objects.nonNull(jsonObject.getString("error_code"))){
+        System.out.println(jsonObject);
+        //接口内部错误以及网络错误都抛异常
+        if(jsonObject.containsKey("error_code") || jsonObject.containsKey("error")){
             throw new ApiException("百度翻译接口调用异常");
         }
         TranslationVo translationVo = new TranslationVo();

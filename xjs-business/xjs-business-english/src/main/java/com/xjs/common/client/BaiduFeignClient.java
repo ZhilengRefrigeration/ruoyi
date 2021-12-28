@@ -2,6 +2,7 @@ package com.xjs.common.client;
 
 import com.alibaba.fastjson.JSONObject;
 import com.xjs.common.aop.ApiLog;
+import com.xjs.common.client.factory.BaiduFeignFactory;
 import com.xjs.translation.domain.qo.translation.BaiDuTranslationQo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
  * @desc  百度翻译接口api调用
  * @create 2021-12-25
  */
-@FeignClient(name = "baidu",url = "http://api.fanyi.baidu.com/api/trans/vip/translate?")
+@FeignClient(name = "baidu",url = "http://api.fanyi.baidu.com/api/trans/vip/translate?",fallbackFactory = BaiduFeignFactory.class)
 public interface BaiduFeignClient {
 
     @PostMapping(headers = {"Content-Type=application/x-www-form-urlencoded"})

@@ -2,10 +2,7 @@ package com.xjs.common.client.factory;
 
 import com.alibaba.fastjson.JSONObject;
 import com.xjs.common.client.TianXingFeignClient;
-import com.xjs.copywriting.domain.RequestBody;
-import com.xjs.copywriting.service.CopyWritingService;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
 
@@ -17,22 +14,16 @@ import org.springframework.stereotype.Component;
 @Log4j2
 @Component
 public class TianXingFeignFactory implements FallbackFactory<TianXingFeignClient> {
-    @Autowired
-    private CopyWritingService copyWritingService;
 
     @Override
     public TianXingFeignClient create(Throwable cause) {
         log.error("英语模块文案服务调用失败:{},执行降级处理", cause.getMessage());
-        //没用拉姆达考虑后面该feign接口还会调用其他api接口
-        return new TianXingFeignClient() {
-            @Override
-            public JSONObject copyWritingApi(RequestBody requestBody) {
-                JSONObject jsonObject = new JSONObject();
-                //构建一个异常json给下层接口处理
-                jsonObject.put("error", 500);
-                return jsonObject;
-            }
-        };
+        return requestBody -> {
+                    JSONObject jsonObject = new JSONObject();
+                    //构建一个异常json给下层接口处理
+                    jsonObject.put("error", 500);
+                    return jsonObject;
+                };
     }
 
 

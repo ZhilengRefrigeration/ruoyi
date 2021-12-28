@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @desc  天行数据朋友圈文案接口api调用
  * @create 2021-12-27
  */
+@FunctionalInterface
 @FeignClient(name = "tianXing",url = "http://api.tianapi.com/pyqwenan/index",fallbackFactory = TianXingFeignFactory.class)
 public interface TianXingFeignClient {
 
