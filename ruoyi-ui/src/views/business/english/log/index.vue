@@ -60,12 +60,12 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
-            size="mini"
-            type="text"
+            circle
+            type="danger"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['english:log:remove']"
-          >删除
+          >
           </el-button>
         </template>
       </el-table-column>

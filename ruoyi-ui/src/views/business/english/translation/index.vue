@@ -2,7 +2,18 @@
   <div class="app-container">
     <el-row>
       <el-col :span="24">
-        <div class="grid-content bg-purple" style="height: 100px"></div>
+        <div class="grid-content bg-purple" style="height: 180px">
+<!--          文案内容区域-->
+<!--          内容-->
+          <div class="content_div">
+            {{responseCopyWriting.content}}
+          </div>
+<!--          来源-->
+          <div class="source_div">
+            {{responseCopyWriting.source}}
+
+          </div>
+        </div>
       </el-col>
     </el-row>
     <el-row :gutter="20">
@@ -59,7 +70,7 @@
 </template>
 
 <script>
-import {translation} from "@/api/business/english/translation";
+import {translation,getCopyWriting} from "@/api/business/english/translation";
 
 export default {
   dicts: ['translation_type'],
@@ -73,6 +84,13 @@ export default {
         translationType: '',
         q: '',
       },
+
+      //文案参数
+      copyWriting:[],
+
+      //文案响应数据
+      responseCopyWriting:{},
+
       translationRules: {
         translationType: [{
           required: true,
@@ -96,16 +114,22 @@ export default {
     }
   },
   created() {
-
+    this.getCopyWriting()
   },
   methods: {
+    //获取文案
+    getCopyWriting() {
+      getCopyWriting(this.copyWriting).then(res =>{
+        this.responseCopyWriting=res.data
+      })
+    },
+
     submitForm() {
       this.$refs['translation'].validate(valid => {
         if (valid) {
           translation(this.translationData).then(res => {
             let result = res.data.transResult
             let results = ''
-            console.log(result)
             result.forEach(r => {
               results = results + '  ' + r.dst;
             })
@@ -145,6 +169,18 @@ export default {
   height: 300px;
   box-shadow: 0 0 9px 3px #999;
   font-style: italic;
+}
+
+.content_div{
+  float: left;
+  width: 88%;
+  text-shadow: 2px 2px 2px grey;
+}
+.source_div{
+  float: left;
+  padding-top: 70px;
+  width: 12%;
+  text-shadow: 2px 2px 2px grey;
 }
 
 </style>

@@ -78,24 +78,33 @@
 
     <el-table v-loading="loading" :data="copyWritingList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="文案内容" align="center" prop="content" />
-      <el-table-column label="文案来源" align="center" prop="source" />
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+      <el-table-column label="文案内容" align="center" prop="content" :show-overflow-tooltip="true" />
+      <el-table-column label="文案来源" align="center" prop="source" :show-overflow-tooltip="true" />
+      <el-table-column label="创建时间" align="center" prop="createTime" width="180" :show-overflow-tooltip="true">
       </el-table-column>
-      <el-table-column label="文案类型" align="center" prop="type">
+      <el-table-column label="文案类型" align="center" prop="type" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.copywriting_type" :value="scope.row.type"/>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" >
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
+          <el-tooltip class="item" effect="dark" content="点击查看详情" placement="top-start">
+          <el-button circle
+            type=""
+            icon="el-icon-view"
+            @click="handleView(scope.row,scope.index)"
+            v-hasPermi="['english:copywriting:query']"
+          ></el-button>
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="点击删除" placement="top-start">
+          <el-button circle
+            type="danger"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['english:copywriting:remove']"
-          >删除</el-button>
+          ></el-button>
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
@@ -108,13 +117,17 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改文案api，通过api获取文案信息对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <!-- 操作日志详细 -->
+    <el-dialog title="内容详细" :visible.sync="open" width="700px" append-to-body>
+      <el-form ref="form" :model="form" label-width="100px" size="mini">
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="文案内容：">{{ form.content }}</el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
+        <el-button @click="open = false">关 闭</el-button>
       </div>
     </el-dialog>
   </div>
@@ -174,6 +187,12 @@ export default {
     this.getList();
   },
   methods: {
+    /** 详细按钮操作 */
+    handleView(row) {
+      this.open = true;
+      this.form = row;
+    },
+
     /** 查询文案api，通过api获取文案信息列表 */
     getList() {
       this.loading = true;
