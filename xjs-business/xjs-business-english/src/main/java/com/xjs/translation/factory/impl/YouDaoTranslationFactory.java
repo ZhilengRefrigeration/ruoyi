@@ -31,7 +31,8 @@ public class YouDaoTranslationFactory implements TranslationFactory {
         YouDaoTranslationQo youDaoTranslationQo = new YouDaoTranslationQo();
         youDaoTranslationQo.setI(translationQo.getQ());
         JSONObject translationApi = youDaoFeignClient.translationApi(youDaoTranslationQo);
-        if(!"0".equals(translationApi.getString("errorCode"))){
+        //接口内部错误以及网络错误都抛异常
+        if(!"0".equals(translationApi.getString("errorCode"))|| translationApi.containsKey("error") ){
             throw new ApiException("有道翻译接口调用异常");
         }
         String type = translationApi.getString("type");
