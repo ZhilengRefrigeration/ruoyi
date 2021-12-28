@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xjs.common.client.TianXingWYYFeignClient;
 import com.xjs.common.config.TianXingProperties;
-import com.xjs.common.enums.StatusEnum;
+import com.xjs.common.consts.TianXingConst;
 import com.xjs.common.exception.ApiException;
 import com.xjs.copywriting.domain.CopyWriting;
 import com.xjs.copywriting.domain.RequestBody;
@@ -46,7 +46,7 @@ public class TianXingWYYCopyWritingFactory implements CopyWritingFactory {
             CopyWriting copyWriting = new CopyWriting();
             copyWriting.setContent(content);
             copyWriting.setSource(source);
-            copyWriting.setType(StatusEnum.WYY);
+            copyWriting.setType(TianXingConst.WYY);
             copyWritingMapper.insert(copyWriting);
             return copyWriting;
         }else {

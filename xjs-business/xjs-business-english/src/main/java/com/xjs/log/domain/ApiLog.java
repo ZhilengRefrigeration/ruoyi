@@ -50,7 +50,7 @@ public class ApiLog implements Serializable
     @Excel(name = "是否请求成功")
     private StatusEnum isSuccess;
 
-    @Excel(name = "创建时间" ,dateFormat = "yyyy-MM-dd")
+    @Excel(name = "创建时间" ,dateFormat = "yyyy-MM-dd HH:mm:ss")
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 }

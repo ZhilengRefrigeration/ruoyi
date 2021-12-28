@@ -11,9 +11,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum StatusEnum {
 
     SUCCESS(1,"成功"),
-    ERROR(2,"失败"),
-    PYQ(1,"朋友圈文案"),
-    WYY(2,"网易云热评");
+    ERROR(2,"失败");
 
 
     private String desc;

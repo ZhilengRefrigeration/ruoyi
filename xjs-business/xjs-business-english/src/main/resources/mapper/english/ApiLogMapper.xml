@@ -20,7 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectApiLogList" parameterType="com.xjs.log.domain.ApiLog" resultMap="ApiLogResult">
         <include refid="selectApiLogVo"/>
-        <where>  
+        <where>
             <if test="apiName != null  and apiName != ''"> and api_name like concat('%', #{apiName}, '%')</if>
             <if test="isSuccess != null "> and is_success = #{isSuccess}</if>
         </where>

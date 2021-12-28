@@ -1,16 +1,46 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="接口名称" prop="apiName">
+      <el-form-item label="文案内容" prop="content">
         <el-input
-          v-model="queryParams.apiName"
-          placeholder="请输入接口名称"
+          v-model="queryParams.content"
+          placeholder="请输入文案内容"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-
+      <el-form-item label="文案来源" prop="source">
+        <el-input
+          v-model="queryParams.source"
+          placeholder="请输入文案来源"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="文案类型" prop="type">
+        <el-select v-model="queryParams.type" placeholder="请选择文案类型" clearable size="small">
+          <el-option
+            v-for="dict in dict.type.copywriting_type"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="创建时间">
+        <el-date-picker
+          v-model="daterangeCreateTime"
+          size="small"
+          style="width: 240px"
+          value-format="yyyy-MM-dd"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -19,6 +49,10 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
+      </el-col>
+      <el-col :span="1.5">
+      </el-col>
+      <el-col :span="1.5">
         <el-button
           type="danger"
           plain
@@ -26,9 +60,8 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['english:log:remove']"
-        >删除
-        </el-button>
+          v-hasPermi="['english:copywriting:remove']"
+        >删除</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -37,26 +70,23 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['english:log:export']"
-        >导出
-        </el-button>
+          v-hasPermi="['english:copywriting:export']"
+        >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="logList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center"/>
-      <el-table-column label="接口名称" align="center" prop="apiName" :show-overflow-tooltip="true"/>
-      <el-table-column label="请求URL" align="center" prop="url" :show-overflow-tooltip="true"/>
-      <el-table-column label="请求方法" align="center" prop="method" :show-overflow-tooltip="true"/>
-      <el-table-column label="请求参数" align="center" prop="request" :show-overflow-tooltip="true"/>
-      <el-table-column label="响应参数" align="center" prop="response" :show-overflow-tooltip="true"/>
-      <el-table-column label="创建时间" align="center" prop="createTime" :show-overflow-tooltip="true"/>
-        <el-table-column label="是否请求成功" align="center" prop="isSuccess" :show-overflow-tooltip="true">
-          <template slot-scope="scope">
-            <el-tag :type="scope.row.isSuccess==='成功'?'success':'danger'" size="small">{{ scope.row.isSuccess }}</el-tag>
-          </template>
-        </el-table-column>
+    <el-table v-loading="loading" :data="copyWritingList" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="55" align="center" />
+      <el-table-column label="文案内容" align="center" prop="content" />
+      <el-table-column label="文案来源" align="center" prop="source" />
+      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+      </el-table-column>
+      <el-table-column label="文案类型" align="center" prop="type">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.copywriting_type" :value="scope.row.type"/>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -64,9 +94,8 @@
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['english:log:remove']"
-          >删除
-          </el-button>
+            v-hasPermi="['english:copywriting:remove']"
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -78,14 +107,25 @@
       :limit.sync="queryParams.pageSize"
       @pagination="getList"
     />
+
+    <!-- 添加或修改文案api，通过api获取文案信息对话框 -->
+    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button @click="cancel">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import {listLog, getLog, delLog} from "@/api/business/english/log";
+import { listCopyWriting, getCopyWriting, delCopyWriting } from "@/api/business/english/copywriting";
 
 export default {
-  name: "Log",
+  name: "CopyWriting",
+  dicts: ['copywriting_type'],
   data() {
     return {
       // 遮罩层
@@ -100,33 +140,50 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 日志表格数据
-      logList: [],
+      // 文案api，通过api获取文案信息表格数据
+      copyWritingList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
       open: false,
+      // 文案类型时间范围
+      daterangeCreateTime: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        apiName: null
+        content: null,
+        source: null,
+        createTime: null,
+        type: null
       },
       // 表单参数
       form: {},
       // 表单校验
-      rules: {}
+      rules: {
+        content: [
+          { required: true, message: "文案内容不能为空", trigger: "blur" }
+        ],
+        source: [
+          { required: true, message: "文案来源不能为空", trigger: "blur" }
+        ]
+      }
     };
   },
   created() {
     this.getList();
   },
   methods: {
-    /** 查询日志列表 */
+    /** 查询文案api，通过api获取文案信息列表 */
     getList() {
       this.loading = true;
-      listLog(this.queryParams).then(response => {
-        this.logList = response.rows;
+      this.queryParams.params = {};
+      if (null != this.daterangeCreateTime && '' != this.daterangeCreateTime) {
+        this.queryParams.createTime = this.daterangeCreateTime[0];
+        this.queryParams.endCreateTime = this.daterangeCreateTime[1];
+      }
+      listCopyWriting(this.queryParams).then(response => {
+        this.copyWritingList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -140,13 +197,10 @@ export default {
     reset() {
       this.form = {
         id: null,
-        apiName: null,
-        url: null,
-        method: null,
-        request: null,
-        response: null,
-        isSuccess: null,
-        createTime:null
+        content: null,
+        source: null,
+        createTime: null,
+        type: null
       };
       this.resetForm("form");
     },
@@ -157,47 +211,51 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.daterangeCreateTime = [];
       this.resetForm("queryForm");
       this.handleQuery();
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.single = selection.length !== 1
+      this.single = selection.length!==1
       this.multiple = !selection.length
     },
-    /** 新增按钮操作 */
-    handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加日志";
-    },
-    /** 修改按钮操作 */
-    handleUpdate(row) {
-      this.reset();
-      const id = row.id || this.ids
-      getLog(id).then(response => {
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改日志";
+    /** 提交按钮 */
+    submitForm() {
+      this.$refs["form"].validate(valid => {
+        if (valid) {
+          if (this.form.id != null) {
+            updateCopyWriting(this.form).then(response => {
+              this.$modal.msgSuccess("修改成功");
+              this.open = false;
+              this.getList();
+            });
+          } else {
+            addCopyWriting(this.form).then(response => {
+              this.$modal.msgSuccess("新增成功");
+              this.open = false;
+              this.getList();
+            });
+          }
+        }
       });
     },
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除日志编号为"' + ids + '"的数据项？').then(function () {
-        return delLog(ids);
+      this.$modal.confirm('是否确认删除文案api，通过api获取文案信息编号为"' + ids + '"的数据项？').then(function() {
+        return delCopyWriting(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {
-      });
+      }).catch(() => {});
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('english/log/export', {
+      this.download('english/copyWriting/export', {
         ...this.queryParams
-      }, `log_${new Date().getTime()}.xlsx`)
+      }, `copyWriting_${new Date().getTime()}.xlsx`)
     }
   }
 };

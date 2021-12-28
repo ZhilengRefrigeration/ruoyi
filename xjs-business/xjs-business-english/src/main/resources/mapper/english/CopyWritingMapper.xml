@@ -40,10 +40,12 @@
             resultMap="CopyWritingResult">
         <include refid="selectCopyWritingVo"/>
         <where>
-            <if test="content != null  and content != ''">and content = #{content}</if>
-            <if test="source != null  and source != ''">and source = #{source}</if>
+            <if test="content != null  and content != ''">and content like concat('%', #{content}, '%') </if>
+            <if test="source != null  and source != ''">and source like concat('%', #{source}, '%') </if>
             <if test="type != null ">and type = #{type}</if>
+            <if test="createTime != null and endCreateTime != null"> and create_time between #{createTime} and #{endCreateTime}</if>
         </where>
+        order by create_time desc
     </select>
 
     <select id="selectCopyWritingById" parameterType="Long" resultMap="CopyWritingResult">

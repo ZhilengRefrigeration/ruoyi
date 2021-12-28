@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.core.annotation.Excel;
-import com.xjs.common.enums.StatusEnum;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -35,8 +35,13 @@ public class CopyWriting implements Serializable {
 
     @Excel(name = "创建时间")
     @TableField(fill = FieldFill.INSERT)
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
+    @TableField(exist = false)
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date endCreateTime;
+
     @Excel(name = "文案类型" ,readConverterExp = "1=、朋友圈文案2、网易云热评")
-    private StatusEnum type;
+    private Integer type;
 }
