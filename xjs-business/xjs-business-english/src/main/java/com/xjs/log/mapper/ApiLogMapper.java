@@ -1,9 +1,9 @@
 package com.xjs.log.mapper;
 
-import java.util.List;
-
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xjs.log.domain.ApiLog;
+
+import java.util.List;
 
 /**
  * 日志Mapper接口
@@ -12,6 +12,9 @@ import com.xjs.log.domain.ApiLog;
  * @date 2021-12-26
  */
 public interface ApiLogMapper extends BaseMapper<ApiLog> {
+
+    //------------------------代码自动生成-----------------------------------
+
     /**
      * 查询日志
      *

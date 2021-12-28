@@ -4,10 +4,9 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.ruoyi.common.core.annotation.Excel;
 import com.xjs.common.enums.StatusEnum;
 import lombok.Data;
-import com.ruoyi.common.core.annotation.Excel;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -51,7 +50,7 @@ public class ApiLog implements Serializable
     @Excel(name = "是否请求成功")
     private StatusEnum isSuccess;
 
-    @Excel(name = "创建时间")
+    @Excel(name = "创建时间" ,dateFormat = "yyyy-MM-dd")
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 }

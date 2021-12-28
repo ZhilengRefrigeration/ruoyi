@@ -1,12 +1,12 @@
 package com.xjs.log.service.impl;
 
-import java.util.List;
-
+import com.xjs.log.domain.ApiLog;
+import com.xjs.log.mapper.ApiLogMapper;
+import com.xjs.log.service.IApiLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.xjs.log.mapper.ApiLogMapper;
-import com.xjs.log.domain.ApiLog;
-import com.xjs.log.service.IApiLogService;
+
+import java.util.List;
 
 /**
  * 日志Service业务层处理
@@ -18,6 +18,8 @@ import com.xjs.log.service.IApiLogService;
 public class ApiLogServiceImpl implements IApiLogService {
     @Autowired
     private ApiLogMapper apiLogMapper;
+
+    //------------------------代码自动生成-----------------------------------
 
     /**
      * 查询日志

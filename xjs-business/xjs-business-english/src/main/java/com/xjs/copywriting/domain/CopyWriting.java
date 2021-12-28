@@ -37,6 +37,6 @@ public class CopyWriting implements Serializable {
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 
-    @Excel(name = "文案类型")
+    @Excel(name = "文案类型" ,readConverterExp = "1=、朋友圈文案2、网易云热评")
     private StatusEnum type;
 }

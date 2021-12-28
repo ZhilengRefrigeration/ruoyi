@@ -7,6 +7,7 @@ import com.xjs.copywriting.service.CopyWritingService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author xiejs
@@ -27,4 +28,56 @@ public class CopyWritingServiceImpl extends ServiceImpl<CopyWritingMapper, CopyW
     public CopyWriting getOneToRandom() {
         return copyWritingMapper.getOneToRandom();
     }
+
+
+    //----------------------代码自动生成------------------------------------
+    /**
+     * 查询文案api，通过api获取文案信息
+     *
+     * @param id 文案api，通过api获取文案信息主键
+     * @return 文案api，通过api获取文案信息
+     */
+    @Override
+    public CopyWriting selectCopyWritingById(Long id)
+    {
+        return copyWritingMapper.selectCopyWritingById(id);
+    }
+
+    /**
+     * 查询文案api，通过api获取文案信息列表
+     *
+     * @param copyWriting 文案api，通过api获取文案信息
+     * @return 文案api，通过api获取文案信息
+     */
+    @Override
+    public List<CopyWriting> selectCopyWritingList(CopyWriting copyWriting)
+    {
+        return copyWritingMapper.selectCopyWritingList(copyWriting);
+    }
+
+    /**
+     * 批量删除文案api，通过api获取文案信息
+     *
+     * @param ids 需要删除的文案api，通过api获取文案信息主键
+     * @return 结果
+     */
+    @Override
+    public int deleteCopyWritingByIds(Long[] ids)
+    {
+        return copyWritingMapper.deleteCopyWritingByIds(ids);
+    }
+
+    /**
+     * 删除文案api，通过api获取文案信息信息
+     *
+     * @param id 文案api，通过api获取文案信息主键
+     * @return 结果
+     */
+    @Override
+    public int deleteCopyWritingById(Long id)
+    {
+        return copyWritingMapper.deleteCopyWritingById(id);
+    }
+
+
 }

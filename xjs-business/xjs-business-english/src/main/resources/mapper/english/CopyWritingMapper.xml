@@ -6,22 +6,63 @@
 
 
     <select id="getOneToNew" resultType="com.xjs.copywriting.domain.CopyWriting">
-        SELECT
-            id,
-            content,
-            source,
-            mt create_time
-        FROM
-                ( SELECT max( create_time ) mt FROM api_copywriting ) time,
-                api_copywriting al
-        WHERE
-            time.mt = al.create_time
+        SELECT id,
+               content,
+               source,
+               mt create_time
+        FROM (SELECT max(create_time) mt FROM api_copywriting) time,
+             api_copywriting al
+        WHERE time.mt = al.create_time
     </select>
 
     <select id="getOneToRandom" resultType="com.xjs.copywriting.domain.CopyWriting">
-        SELECT * FROM api_copywriting ORDER BY RAND() LIMIT 1
+        SELECT *
+        FROM api_copywriting
+        ORDER BY RAND()
+        LIMIT 1
     </select>
 
+    <!--////////////////////////代码自动生成/////////////////////////////-->
+    <resultMap type="com.xjs.copywriting.domain.CopyWriting" id="CopyWritingResult">
+        <result property="id" column="id"/>
+        <result property="content" column="content"/>
+        <result property="source" column="source"/>
+        <result property="createTime" column="create_time"/>
+        <result property="type" column="type"/>
+    </resultMap>
+
+    <sql id="selectCopyWritingVo">
+        select id, content, source, create_time, type
+        from api_copywriting
+    </sql>
+
+    <select id="selectCopyWritingList" parameterType="com.xjs.copywriting.domain.CopyWriting"
+            resultMap="CopyWritingResult">
+        <include refid="selectCopyWritingVo"/>
+        <where>
+            <if test="content != null  and content != ''">and content = #{content}</if>
+            <if test="source != null  and source != ''">and source = #{source}</if>
+            <if test="type != null ">and type = #{type}</if>
+        </where>
+    </select>
+
+    <select id="selectCopyWritingById" parameterType="Long" resultMap="CopyWritingResult">
+        <include refid="selectCopyWritingVo"/>
+        where id = #{id}
+    </select>
+
+    <delete id="deleteCopyWritingById" parameterType="Long">
+        delete
+        from api_copywriting
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteCopyWritingByIds" parameterType="String">
+        delete from api_copywriting where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 
 </mapper>
