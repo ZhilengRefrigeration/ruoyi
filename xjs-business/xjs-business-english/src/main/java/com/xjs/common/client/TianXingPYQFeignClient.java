@@ -8,6 +8,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import static com.xjs.common.consts.ApiConst.TIANXING_PYQ;
+
 /**
  * @author xiejs
  * @desc  天行数据朋友圈文案接口api调用
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public interface TianXingPYQFeignClient {
 
     @GetMapping
-    @ApiLog(name = "tianXing",
+    @ApiLog(name = TIANXING_PYQ,
             url = "http://api.tianapi.com/pyqwenan/index",
             method = "Get")
     JSONObject copyWritingApi(@SpringQueryMap RequestBody requestBody);

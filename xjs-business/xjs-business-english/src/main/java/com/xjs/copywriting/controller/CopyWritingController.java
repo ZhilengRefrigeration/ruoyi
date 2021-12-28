@@ -42,9 +42,6 @@ public class CopyWritingController extends BaseController {
     @Autowired
     private CopyWritingService copyWritingService;
 
-    //todo 文案管理前端页面，
-    // 实现其他天行数据接口，
-    // 实现其他朋友圈文案api，
 
     @GetMapping
     @ApiOperation("文案接口")
