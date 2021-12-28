@@ -13,6 +13,7 @@
     <artifactId>xjs-business</artifactId>
     <packaging>pom</packaging>
     <description>业务模块</description>
+    <name>业务模块</name>
     <modules>
         <module>xjs-business-english</module>
     </modules>

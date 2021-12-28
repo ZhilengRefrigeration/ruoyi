@@ -9,6 +9,7 @@ import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.copywriting.domain.CopyWriting;
 import com.xjs.copywriting.domain.RequestBody;
 import com.xjs.copywriting.factory.CopyWritingFactory;
+import com.xjs.copywriting.service.CopyWritingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,15 @@ public class CopyWritingController {
 
     @Autowired
     private CopyWritingFactory tianXingcopyWritingFactory;
+    @Autowired
+    private CopyWritingService copyWritingService;
+
+    //todo 文案管理前端页面，
+    // 第三方api服务降级，
+    // 分析错误状态码（天行数据），
+    // 天行数据整合一个菜单，
+    // 实现其他天行数据接口，
+    // 实现其他朋友圈文案api，
 
     @GetMapping
     @ApiOperation("文案接口")
@@ -41,7 +51,7 @@ public class CopyWritingController {
     public AjaxResult copyWriting(@Validated RequestBody requestBody) {
         requestBody = Optional.ofNullable(requestBody).orElseGet(RequestBody::new);
         CopyWritingFactory copyWritingFactory = this.randomApi();
-        CopyWriting copyWriting = copyWritingFactory.productCopyWriting(requestBody);
+        CopyWriting copyWriting = this.handlerException(copyWritingFactory, requestBody);
         return AjaxResult.success(copyWriting);
     }
 
@@ -50,7 +60,8 @@ public class CopyWritingController {
     @ApiOperation("供定时任务服务RPC远程调用")
     public R<CopyWriting> copyWriting() {
         CopyWritingFactory copyWritingFactory = this.randomApi();
-        return R.ok(copyWritingFactory.productCopyWriting(new RequestBody()));
+        CopyWriting copyWriting = this.handlerException(copyWritingFactory, new RequestBody());
+        return R.ok(copyWriting);
     }
 
 
@@ -66,6 +77,26 @@ public class CopyWritingController {
         //随机调用集合中的接口
         return RandomUtil.randomEle(factories);
     }
+
+
+    /**
+     * 捕获apiException异常，直接从数据库查询值然后返回
+     * @param copyWritingFactory 工厂
+     * @param requestBody 请求参数
+     * @return 返回对象
+     */
+    private CopyWriting handlerException(CopyWritingFactory copyWritingFactory, RequestBody requestBody) {
+        CopyWriting copyWriting = null;
+        try {
+            copyWriting = copyWritingFactory.productCopyWriting(requestBody);
+            return copyWriting;
+        } catch (Exception e) {
+            e.printStackTrace();
+            copyWriting = copyWritingService.getOneToRandom();
+            return copyWriting;
+        }
+    }
+
 
 
 

@@ -1,14 +1,15 @@
-package com.xjs.copywriting.mapper;
+package com.xjs.copywriting.service;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.xjs.copywriting.domain.CopyWriting;
 
 /**
  * @author xiejs
- * @desc
- * @create 2021-12-27
+ * @desc  文案服务接口
+ * @create 2021-12-28
  */
-public interface CopyWritingMapper extends BaseMapper<CopyWriting> {
+public interface CopyWritingService extends IService<CopyWriting> {
+
     /**
      * 获取数据库最新一条数据（根据时间分组）
      * @return CopyWriting
@@ -20,5 +21,4 @@ public interface CopyWritingMapper extends BaseMapper<CopyWriting> {
      * @return CopyWriting
      */
     CopyWriting getOneToRandom();
-
 }

@@ -2,6 +2,7 @@ package com.xjs.common.client;
 
 import com.alibaba.fastjson.JSONObject;
 import com.xjs.common.aop.ApiLog;
+import com.xjs.common.client.factory.TianXingFeignFactory;
 import com.xjs.copywriting.domain.RequestBody;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @desc  天行数据朋友圈文案接口api调用
  * @create 2021-12-27
  */
-@FeignClient(name = "tianXing",url = "http://api.tianapi.com/pyqwenan/index")
+@FeignClient(name = "tianXing",url = "http://api.tianapi.com/pyqwenan/index",fallbackFactory = TianXingFeignFactory.class)
 public interface TianXingFeignClient {
 
     @GetMapping
