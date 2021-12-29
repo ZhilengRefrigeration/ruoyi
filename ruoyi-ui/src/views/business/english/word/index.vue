@@ -46,7 +46,8 @@
           size="mini"
           @click="handleAdd"
           v-hasPermi="['english:word:add']"
-        >新增</el-button>
+        >新增
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -57,7 +58,8 @@
           :disabled="single"
           @click="handleUpdate"
           v-hasPermi="['english:word:edit']"
-        >修改</el-button>
+        >修改
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -68,7 +70,8 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['english:word:remove']"
-        >删除</el-button>
+        >删除
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -78,16 +81,17 @@
           size="mini"
           @click="handleExport"
           v-hasPermi="['english:word:export']"
-        >导出</el-button>
+        >导出
+        </el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="wordList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
+      <el-table-column type="selection" width="55" align="center"/>
       <el-table-column label="英语单词" align="center" prop="englishWord" :show-overflow-tooltip="true"/>
       <el-table-column label="中文" align="center" prop="chineseWord" :show-overflow-tooltip="true"/>
-      <el-table-column label="排序" align="center" prop="sort"  :show-overflow-tooltip="true"/>
+      <el-table-column label="排序" align="center" prop="sort" :show-overflow-tooltip="true"/>
       <el-table-column label="收藏" align="center" prop="isCollect">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.english_collect" :value="scope.row.isCollect"/>
@@ -100,19 +104,19 @@
       </el-table-column>
       <el-table-column label="查看次数" align="center" prop="lookCount" :show-overflow-tooltip="true"/>
       <el-table-column label="创建时间" align="center" prop="createTime" :show-overflow-tooltip="true"/>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" >
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button circle
-            type="primary"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['english:word:edit']"
+                     type="primary"
+                     icon="el-icon-edit"
+                     @click="handleUpdate(scope.row)"
+                     v-hasPermi="['english:word:edit']"
           ></el-button>
           <el-button circle
-            type="danger"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['english:word:remove']"
+                     type="danger"
+                     icon="el-icon-delete"
+                     @click="handleDelete(scope.row)"
+                     v-hasPermi="['english:word:remove']"
           ></el-button>
         </template>
       </el-table-column>
@@ -130,13 +134,13 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="英语单词" prop="englishWord">
-          <el-input v-model="form.englishWord" placeholder="请输入英语单词" />
+          <el-input v-model="form.englishWord" placeholder="请输入英语单词"/>
         </el-form-item>
         <el-form-item label="中文" prop="chineseWord">
-          <el-input v-model="form.chineseWord" placeholder="请输入对应的中文" />
+          <el-input v-model="form.chineseWord" placeholder="请输入对应的中文"/>
         </el-form-item>
         <el-form-item label="排序" prop="sort">
-          <el-input v-model="form.sort" placeholder="请输入排序" />
+          <el-input v-model="form.sort" placeholder="请输入排序"/>
         </el-form-item>
         <el-form-item label="收藏" prop="isCollect">
           <el-select v-model="form.isCollect" placeholder="请选择是否收藏">
@@ -144,7 +148,7 @@
               v-for="dict in dict.type.english_collect"
               :key="dict.value"
               :label="dict.label"
-:value="parseInt(dict.value)"
+              :value="parseInt(dict.value)"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -154,7 +158,7 @@
               v-for="dict in dict.type.english_top"
               :key="dict.value"
               :label="dict.label"
-:value="parseInt(dict.value)"
+              :value="parseInt(dict.value)"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -168,7 +172,7 @@
 </template>
 
 <script>
-import { listWord, getWord, delWord, addWord, updateWord } from "@/api/business/english/word";
+import {listWord, getWord, delWord, addWord, updateWord} from "@/api/business/english/word";
 
 export default {
   name: "Word",
@@ -208,16 +212,16 @@ export default {
       // 表单校验
       rules: {
         englishWord: [
-          { required: true, message: "英语单词不能为空", trigger: "blur" }
+          {required: true, message: "英语单词不能为空", trigger: "blur"}
         ],
         isCollect: [
-          { required: true, message: "是否收藏 1收藏 2不收藏不能为空", trigger: "change" }
+          {required: true, message: "是否收藏 1收藏 2不收藏不能为空", trigger: "change"}
         ],
         top: [
-          { required: true, message: "置顶 1置顶 2不置顶不能为空", trigger: "change" }
+          {required: true, message: "置顶 1置顶 2不置顶不能为空", trigger: "change"}
         ],
         createTime: [
-          { required: true, message: "创建时间不能为空", trigger: "blur" }
+          {required: true, message: "创建时间不能为空", trigger: "blur"}
         ]
       }
     };
@@ -273,7 +277,7 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
     /** 新增按钮操作 */
@@ -315,12 +319,13 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除英语单词编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除英语单词编号为"' + ids + '"的数据项？').then(function () {
         return delWord(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      }).catch(() => {
+      });
     },
     /** 导出按钮操作 */
     handleExport() {

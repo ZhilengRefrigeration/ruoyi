@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xjs.common.client.BaiduFeignClient;
 import com.xjs.config.BaiduProperties;
-import com.xjs.common.exception.ApiException;
+import com.xjs.exception.ApiException;
 import com.xjs.translation.domain.qo.translation.BaiDuTranslationQo;
 import com.xjs.translation.domain.qo.translation.TranslationQo;
 import com.xjs.translation.domain.vo.translation.TranslationVo;

@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.xjs.common.client.TianXingJDTCFeignClient;
 import com.xjs.config.TianXingProperties;
 import com.xjs.common.consts.TianXingConst;
-import com.xjs.common.exception.ApiException;
+import com.xjs.exception.ApiException;
 import com.xjs.copywriting.domain.CopyWriting;
 import com.xjs.copywriting.domain.RequestBody;
 import com.xjs.copywriting.factory.CopyWritingFactory;

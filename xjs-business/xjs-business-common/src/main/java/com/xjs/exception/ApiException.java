@@ -1,4 +1,4 @@
-package com.xjs.common.exception;
+package com.xjs.exception;
 
 import lombok.extern.log4j.Log4j2;
 

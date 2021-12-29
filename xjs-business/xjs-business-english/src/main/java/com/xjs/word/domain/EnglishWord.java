@@ -34,6 +34,13 @@ public class EnglishWord  {
     @Excel(name = "中文")
     private String chineseWord;
 
+
+    /**
+     * 前端传递的内容（可能是中、英文）
+     */
+    @TableField(exist = false)
+    private String content;
+
     /**
      * 排序1,2,3,4
      */
