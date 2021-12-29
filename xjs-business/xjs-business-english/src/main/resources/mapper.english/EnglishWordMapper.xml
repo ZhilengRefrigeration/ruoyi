@@ -36,8 +36,8 @@
             <if test="chineseWord != null  and chineseWord != ''">and chinese_word like concat('%', #{chineseWord},
                 '%')
             </if>
-            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''">
-                and create_time between #{params.beginCreateTime} and #{params.endCreateTime}
+            <if test="createTime != null  and endCreateTime != null">
+                and create_time between #{createTime} and #{endCreateTime}
             </if>
         </where>
     </select>
@@ -46,44 +46,6 @@
         <include refid="selectEnglishWordVo"/>
         where id = #{id}
     </select>
-
-    <insert id="insertEnglishWord" parameterType="com.xjs.word.domain.EnglishWord">
-        insert into english_word
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">id,</if>
-            <if test="englishWord != null and englishWord != ''">english_word,</if>
-            <if test="chineseWord != null">chinese_word,</if>
-            <if test="sort != null">sort,</if>
-            <if test="isCollect != null">is_collect,</if>
-            <if test="top != null">top,</if>
-            <if test="lookCount != null">look_count,</if>
-            <if test="createTime != null">create_time,</if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">#{id},</if>
-            <if test="englishWord != null and englishWord != ''">#{englishWord},</if>
-            <if test="chineseWord != null">#{chineseWord},</if>
-            <if test="sort != null">#{sort},</if>
-            <if test="isCollect != null">#{isCollect},</if>
-            <if test="top != null">#{top},</if>
-            <if test="lookCount != null">#{lookCount},</if>
-            <if test="createTime != null">#{createTime},</if>
-        </trim>
-    </insert>
-
-    <update id="updateEnglishWord" parameterType="com.xjs.word.domain.EnglishWord">
-        update english_word
-        <trim prefix="SET" suffixOverrides=",">
-            <if test="englishWord != null and englishWord != ''">english_word = #{englishWord},</if>
-            <if test="chineseWord != null">chinese_word = #{chineseWord},</if>
-            <if test="sort != null">sort = #{sort},</if>
-            <if test="isCollect != null">is_collect = #{isCollect},</if>
-            <if test="top != null">top = #{top},</if>
-            <if test="lookCount != null">look_count = #{lookCount},</if>
-            <if test="createTime != null">create_time = #{createTime},</if>
-        </trim>
-        where id = #{id}
-    </update>
 
     <delete id="deleteEnglishWordById" parameterType="Long">
         delete

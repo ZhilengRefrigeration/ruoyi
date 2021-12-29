@@ -1,6 +1,5 @@
 package com.xjs.word.service.impl;
 
-import com.ruoyi.common.core.utils.DateUtils;
 import com.xjs.word.domain.EnglishWord;
 import com.xjs.word.mapper.EnglishWordMapper;
 import com.xjs.word.service.IEnglishWordService;
@@ -53,8 +52,7 @@ public class EnglishWordServiceImpl implements IEnglishWordService {
      */
     @Override
     public int insertEnglishWord(EnglishWord englishWord) {
-        englishWord.setCreateTime(DateUtils.getNowDate());
-        return englishWordMapper.insertEnglishWord(englishWord);
+        return englishWordMapper.insert(englishWord);
     }
 
     /**
@@ -65,7 +63,7 @@ public class EnglishWordServiceImpl implements IEnglishWordService {
      */
     @Override
     public int updateEnglishWord(EnglishWord englishWord) {
-        return englishWordMapper.updateEnglishWord(englishWord);
+        return englishWordMapper.updateById(englishWord);
     }
 
     /**

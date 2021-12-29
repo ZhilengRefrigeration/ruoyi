@@ -1,10 +1,10 @@
 package com.xjs.word.domain;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import com.baomidou.mybatisplus.annotation.*;
 import com.ruoyi.common.core.annotation.Excel;
-import com.ruoyi.common.core.web.domain.BaseEntity;
+import lombok.Data;
+
+import java.util.Date;
 
 /**
  * 英语单词对象 english_word
@@ -12,13 +12,14 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
  * @author xjs
  * @date 2021-12-29
  */
-public class EnglishWord extends BaseEntity {
-    private static final long serialVersionUID = 1L;
+@Data
+@TableName("english_word")
+public class EnglishWord  {
 
     /**
      * 主键id
      */
-    @TableId
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     /**
@@ -30,100 +31,39 @@ public class EnglishWord extends BaseEntity {
     /**
      * 对应的中文
      */
-    @Excel(name = "对应的中文")
+    @Excel(name = "中文")
     private String chineseWord;
 
     /**
      * 排序1,2,3,4
      */
-    @Excel(name = "排序1,2,3,4")
+    @Excel(name = "排序")
     private Integer sort;
 
     /**
      * 是否收藏 1收藏 2不收藏
      */
-    @Excel(name = "是否收藏 1收藏 2不收藏")
+    @Excel(name = "是否收藏",readConverterExp = "1=收藏,2=不收藏")
     private Integer isCollect;
 
     /**
      * 置顶 1置顶 2不置顶
      */
-    @Excel(name = "置顶 1置顶 2不置顶")
+    @Excel(name = "置顶",readConverterExp = "1=置顶,2=不置顶")
     private Integer top;
 
     /**
      * 查看次数
      */
     @Excel(name = "查看次数")
-    private Long lookCount;
+    private Long lookCount = 0L;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @Excel(name = "创建时间",dateFormat = "yyyy-MM-dd HH:mm:ss")
+    @TableField(fill = FieldFill.INSERT)
+    private Date createTime;
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setEnglishWord(String englishWord) {
-        this.englishWord = englishWord;
-    }
+    @TableField(exist = false)
+    private Date endCreateTime;
 
-    public String getEnglishWord() {
-        return englishWord;
-    }
-
-    public void setChineseWord(String chineseWord) {
-        this.chineseWord = chineseWord;
-    }
-
-    public String getChineseWord() {
-        return chineseWord;
-    }
-
-    public void setSort(Integer sort) {
-        this.sort = sort;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public void setIsCollect(Integer isCollect) {
-        this.isCollect = isCollect;
-    }
-
-    public Integer getIsCollect() {
-        return isCollect;
-    }
-
-    public void setTop(Integer top) {
-        this.top = top;
-    }
-
-    public Integer getTop() {
-        return top;
-    }
-
-    public void setLookCount(Long lookCount) {
-        this.lookCount = lookCount;
-    }
-
-    public Long getLookCount() {
-        return lookCount;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("id", getId())
-                .append("englishWord", getEnglishWord())
-                .append("chineseWord", getChineseWord())
-                .append("sort", getSort())
-                .append("isCollect", getIsCollect())
-                .append("top", getTop())
-                .append("lookCount", getLookCount())
-                .append("createTime", getCreateTime())
-                .toString();
-    }
 }

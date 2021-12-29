@@ -1,4 +1,4 @@
-package com.xjs.common.config;
+package com.xjs.config;
 
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.serializer.ValueFilter;

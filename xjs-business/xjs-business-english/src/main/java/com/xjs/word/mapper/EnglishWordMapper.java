@@ -1,5 +1,6 @@
 package com.xjs.word.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xjs.word.domain.EnglishWord;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @author xjs
  * @date 2021-12-29
  */
-public interface EnglishWordMapper {
+public interface EnglishWordMapper extends BaseMapper<EnglishWord> {
 
     //------------------------代码自动生成-----------------------------------
 
@@ -29,22 +30,6 @@ public interface EnglishWordMapper {
      * @return 英语单词集合
      */
     List<EnglishWord> selectEnglishWordList(EnglishWord englishWord);
-
-    /**
-     * 新增英语单词
-     *
-     * @param englishWord 英语单词
-     * @return 结果
-     */
-    int insertEnglishWord(EnglishWord englishWord);
-
-    /**
-     * 修改英语单词
-     *
-     * @param englishWord 英语单词
-     * @return 结果
-     */
-    int updateEnglishWord(EnglishWord englishWord);
 
     /**
      * 删除英语单词

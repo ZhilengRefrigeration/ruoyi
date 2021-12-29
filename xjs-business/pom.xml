@@ -17,6 +17,7 @@
     <modules>
         <module>xjs-business-openapi</module>
         <module>xjs-business-english</module>
+        <module>xjs-business-common</module>
     </modules>
 
     <properties>

@@ -85,9 +85,9 @@
 
     <el-table v-loading="loading" :data="wordList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="英语单词" align="center" prop="englishWord" />
-      <el-table-column label="中文" align="center" prop="chineseWord" />
-      <el-table-column label="排序" align="center" prop="sort" />
+      <el-table-column label="英语单词" align="center" prop="englishWord" :show-overflow-tooltip="true"/>
+      <el-table-column label="中文" align="center" prop="chineseWord" :show-overflow-tooltip="true"/>
+      <el-table-column label="排序" align="center" prop="sort"  :show-overflow-tooltip="true"/>
       <el-table-column label="收藏" align="center" prop="isCollect">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.english_collect" :value="scope.row.isCollect"/>
@@ -98,28 +98,22 @@
           <dict-tag :options="dict.type.english_top" :value="scope.row.top"/>
         </template>
       </el-table-column>
-      <el-table-column label="查看次数" align="center" prop="lookCount" />
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+      <el-table-column label="查看次数" align="center" prop="lookCount" :show-overflow-tooltip="true"/>
+      <el-table-column label="创建时间" align="center" prop="createTime" :show-overflow-tooltip="true"/>
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" >
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
+          <el-button circle
+            type="primary"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
             v-hasPermi="['english:word:edit']"
-          >修改</el-button>
-          <el-button
-            size="mini"
-            type="text"
+          ></el-button>
+          <el-button circle
+            type="danger"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['english:word:remove']"
-          >删除</el-button>
+          ></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -163,9 +157,6 @@
 :value="parseInt(dict.value)"
             ></el-option>
           </el-select>
-        </el-form-item>
-        <el-form-item label="查看次数" prop="lookCount">
-          <el-input v-model="form.lookCount" placeholder="请输入查看次数" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -240,8 +231,8 @@ export default {
       this.loading = true;
       this.queryParams.params = {};
       if (null != this.daterangeCreateTime && '' != this.daterangeCreateTime) {
-        this.queryParams.params["beginCreateTime"] = this.daterangeCreateTime[0];
-        this.queryParams.params["endCreateTime"] = this.daterangeCreateTime[1];
+        this.queryParams.createTime = this.daterangeCreateTime[0];
+        this.queryParams.endCreateTime = this.daterangeCreateTime[1];
       }
       listWord(this.queryParams).then(response => {
         this.wordList = response.rows;

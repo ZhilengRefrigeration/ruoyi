@@ -1,4 +1,4 @@
-package com.xjs.common.config;
+package com.xjs.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -6,16 +6,23 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author xiejs
- * @desc  天行数据配置
- * @create 2021-12-27
+ * @desc
+ * @create 2021-12-25
  */
-@Component
-@ConfigurationProperties(prefix = "tianxing.open")
 @Data
-public class TianXingProperties {
+@ConfigurationProperties(prefix = "baidu.open")
+@Component
+public class BaiduProperties {
 
     /**
-     * key密钥
+     * APP ID
+     */
+    private String appId;
+
+    /**
+     * 密钥
      */
     private String key;
+
+
 }
