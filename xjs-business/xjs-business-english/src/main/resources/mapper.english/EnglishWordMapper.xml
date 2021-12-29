@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjs.word.mapper.EnglishWordMapper">
+
+    <resultMap type="com.xjs.word.domain.EnglishWord" id="EnglishWordResult">
+        <result property="id" column="id"/>
+        <result property="englishWord" column="english_word"/>
+        <result property="chineseWord" column="chinese_word"/>
+        <result property="sort" column="sort"/>
+        <result property="isCollect" column="is_collect"/>
+        <result property="top" column="top"/>
+        <result property="lookCount" column="look_count"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <sql id="selectEnglishWordVo">
+        select id,
+               english_word,
+               chinese_word,
+               sort,
+               is_collect,
+               top,
+               look_count,
+               create_time
+        from english_word
+    </sql>
+
+    <select id="selectEnglishWordList" parameterType="com.xjs.word.domain.EnglishWord" resultMap="EnglishWordResult">
+        <include refid="selectEnglishWordVo"/>
+        <where>
+            <if test="englishWord != null  and englishWord != ''">and english_word like concat('%', #{englishWord},
+                '%')
+            </if>
+            <if test="chineseWord != null  and chineseWord != ''">and chinese_word like concat('%', #{chineseWord},
+                '%')
+            </if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''">
+                and create_time between #{params.beginCreateTime} and #{params.endCreateTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectEnglishWordById" parameterType="Long" resultMap="EnglishWordResult">
+        <include refid="selectEnglishWordVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertEnglishWord" parameterType="com.xjs.word.domain.EnglishWord">
+        insert into english_word
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="englishWord != null and englishWord != ''">english_word,</if>
+            <if test="chineseWord != null">chinese_word,</if>
+            <if test="sort != null">sort,</if>
+            <if test="isCollect != null">is_collect,</if>
+            <if test="top != null">top,</if>
+            <if test="lookCount != null">look_count,</if>
+            <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="englishWord != null and englishWord != ''">#{englishWord},</if>
+            <if test="chineseWord != null">#{chineseWord},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="isCollect != null">#{isCollect},</if>
+            <if test="top != null">#{top},</if>
+            <if test="lookCount != null">#{lookCount},</if>
+            <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateEnglishWord" parameterType="com.xjs.word.domain.EnglishWord">
+        update english_word
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="englishWord != null and englishWord != ''">english_word = #{englishWord},</if>
+            <if test="chineseWord != null">chinese_word = #{chineseWord},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="isCollect != null">is_collect = #{isCollect},</if>
+            <if test="top != null">top = #{top},</if>
+            <if test="lookCount != null">look_count = #{lookCount},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteEnglishWordById" parameterType="Long">
+        delete
+        from english_word
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteEnglishWordByIds" parameterType="String">
+        delete from english_word where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

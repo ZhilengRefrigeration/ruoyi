@@ -25,3 +25,5 @@ spring:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
         #配置组
         group: xjs
+
+
