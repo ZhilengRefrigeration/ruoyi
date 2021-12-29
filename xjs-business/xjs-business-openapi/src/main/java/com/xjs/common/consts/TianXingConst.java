@@ -7,6 +7,10 @@ package com.xjs.common.consts;
  */
 public class TianXingConst {
 
+    //朋友圈
     public static final Integer PYQ= 1;
+    //网易云
     public static final Integer WYY= 2;
+    //经典台词
+    public static final Integer JDTC= 3;
 }

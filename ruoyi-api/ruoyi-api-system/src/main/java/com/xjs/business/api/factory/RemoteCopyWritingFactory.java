@@ -20,7 +20,7 @@ public class RemoteCopyWritingFactory implements FallbackFactory<RemoteCopyWriti
 
     @Override
     public RemoteCopyWritingFeign create(Throwable cause) {
-        log.error("英语模块文案服务调用失败:{}", cause.getMessage());
+        log.error("api模块文案服务调用失败:{}", cause.getMessage());
         return () -> R.fail("文案服务调用失败" + cause.getMessage());
     }
 }

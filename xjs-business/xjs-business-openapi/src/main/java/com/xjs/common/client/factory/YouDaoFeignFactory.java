@@ -17,7 +17,7 @@ public class YouDaoFeignFactory implements FallbackFactory<YouDaoFeignClient> {
 
     @Override
     public YouDaoFeignClient create(Throwable cause) {
-        log.error("英语模块有道翻译服务调用失败:{},执行降级处理", cause.getMessage());
+        log.error("api模块有道翻译服务调用失败:{},执行降级处理", cause.getMessage());
         return  qo -> {
             JSONObject jsonObject = new JSONObject();
             //构建一个异常json给下层接口处理

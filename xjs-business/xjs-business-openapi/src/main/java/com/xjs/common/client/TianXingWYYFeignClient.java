@@ -18,6 +18,7 @@ import static com.xjs.common.consts.ApiConst.TIANXING_WYY;
 @FunctionalInterface
 @FeignClient(name = "tianXingWYY",url = "http://api.tianapi.com/hotreview/index",fallbackFactory = TianXingWYYFeignFactory.class)
 public interface TianXingWYYFeignClient {
+
     @GetMapping
     @ApiLog(name = TIANXING_WYY,
             url = "http://api.tianapi.com/hotreview/index",

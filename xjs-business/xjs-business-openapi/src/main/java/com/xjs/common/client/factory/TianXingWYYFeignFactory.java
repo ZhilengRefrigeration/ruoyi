@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class TianXingWYYFeignFactory implements FallbackFactory<TianXingWYYFeignClient> {
     @Override
     public TianXingWYYFeignClient create(Throwable cause) {
-        log.error("英语模块朋友圈文案服务调用失败:{},执行降级处理", cause.getMessage());
+        log.error("api模块朋友圈文案服务调用失败:{},执行降级处理", cause.getMessage());
         return requestBody -> {
             JSONObject jsonObject = new JSONObject();
             //构建一个异常json给下层接口处理

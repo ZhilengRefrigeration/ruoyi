@@ -13,4 +13,6 @@ public class ApiConst {
     public static final String TIANXING_PYQ= "天行-朋友圈";
 
     public static final String TIANXING_WYY= "天行-网易云";
+
+    public static final String TIANXING_JDTC= "天行-经典台词";
 }
