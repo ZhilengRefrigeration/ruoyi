@@ -13,4 +13,6 @@ public class TianXingConst {
     public static final Integer WYY= 2;
     //经典台词
     public static final Integer JDTC= 3;
+    //名人名言
+    public static final Integer MMMY= 4;
 }

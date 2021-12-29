@@ -3,7 +3,7 @@ package com.xjs.copywriting.factory.impl;
 import cn.hutool.http.HttpStatus;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.xjs.common.client.TianXingJDTCFeignClient;
+import com.xjs.common.client.TianXingMMMYFeignClient;
 import com.xjs.common.config.TianXingProperties;
 import com.xjs.common.consts.TianXingConst;
 import com.xjs.common.exception.ApiException;
@@ -18,33 +18,33 @@ import javax.annotation.Resource;
 
 /**
  * @author xiejs
- * @desc  天行数据经典台词工厂实现
+ * @desc
  * @create 2021-12-29
  */
 @Service
-public class TianXingJDTCCopyWritingFactory implements CopyWritingFactory {
+public class TianXingMMMYCopyWritingFactory implements CopyWritingFactory {
     @Autowired
     private TianXingProperties tianXingProperties;
     @Autowired
-    private TianXingJDTCFeignClient tianXingJDTCFeignClient;
+    private TianXingMMMYFeignClient tianXingMMMYeignClient;
     @Resource
     private CopyWritingMapper copyWritingMapper;
 
     @Override
     public CopyWriting productCopyWriting(RequestBody requestBody) {
         requestBody.setKey(tianXingProperties.getKey());
-        JSONObject jsonObject = tianXingJDTCFeignClient.copyWritingApi(requestBody);
+        JSONObject jsonObject = tianXingMMMYeignClient.copyWritingApi(requestBody);
         if(jsonObject.containsKey("code")){
             if (HttpStatus.HTTP_OK !=jsonObject.getInteger("code")) {
-                throw new ApiException("天行数据经典台词接口调用异常");
+                throw new ApiException("天行数据名人名言接口调用异常");
             }
             JSONArray newslist = jsonObject.getJSONArray("newslist");
-            String dialogue = newslist.getJSONObject(0).getString("dialogue");
-            String source = newslist.getJSONObject(0).getString("source");
+            String content = newslist.getJSONObject(0).getString("content");
+            String author = newslist.getJSONObject(0).getString("author");
             CopyWriting copyWriting = new CopyWriting();
-            copyWriting.setContent(dialogue);
-            copyWriting.setSource(source);
-            copyWriting.setType(TianXingConst.JDTC);
+            copyWriting.setContent(content);
+            copyWriting.setSource(author);
+            copyWriting.setType(TianXingConst.MMMY);
             copyWritingMapper.insert(copyWriting);
             return copyWriting;
         }else {

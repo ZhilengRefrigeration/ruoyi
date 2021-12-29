@@ -9,18 +9,19 @@ import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import static com.xjs.common.consts.ApiConst.YOUDAO_FY;
+import static com.xjs.common.consts.ApiConst.YOUDAO_FY_URL;
 
 /**
  * @author xiejs
  * @desc  有道翻译接口api调用
  * @create 2021-12-25
  */
-@FeignClient(name = "youdao",url = "http://fanyi.youdao.com/translate?",fallbackFactory = YouDaoFeignFactory.class)
+@FeignClient(name = "youdao",url = YOUDAO_FY_URL,fallbackFactory = YouDaoFeignFactory.class)
 public interface YouDaoFeignClient {
 
     @GetMapping( headers ={ "Accept-Encoding=''"})
     @ApiLog(name = YOUDAO_FY,
-            url = "http://fanyi.youdao.com/translate",
+            url = YOUDAO_FY_URL,
             method = "Get")
     JSONObject translationApi(@SpringQueryMap YouDaoTranslationQo qo);
 }

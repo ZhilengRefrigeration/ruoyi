@@ -42,6 +42,6 @@ public class CopyWriting implements Serializable {
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date endCreateTime;
 
-    @Excel(name = "文案类型" ,readConverterExp = "1=、朋友圈文案2、网易云热评")
+    @Excel(name = "文案类型" ,readConverterExp = "1=朋友圈文案,2=网易云热评,3=经典语句,4=名人名言")
     private Integer type;
 }

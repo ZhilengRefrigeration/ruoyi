@@ -9,6 +9,7 @@ import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import static com.xjs.common.consts.ApiConst.TIANXING_WYY;
+import static com.xjs.common.consts.ApiConst.TIANXING_WYY_URL;
 
 /**
  * @author xiejs
@@ -16,12 +17,12 @@ import static com.xjs.common.consts.ApiConst.TIANXING_WYY;
  * @create 2021-12-28
  */
 @FunctionalInterface
-@FeignClient(name = "tianXingWYY",url = "http://api.tianapi.com/hotreview/index",fallbackFactory = TianXingWYYFeignFactory.class)
+@FeignClient(name = "tianXingWYY",url = TIANXING_WYY_URL,fallbackFactory = TianXingWYYFeignFactory.class)
 public interface TianXingWYYFeignClient {
 
     @GetMapping
     @ApiLog(name = TIANXING_WYY,
-            url = "http://api.tianapi.com/hotreview/index",
+            url = TIANXING_WYY_URL,
             method = "Get")
     JSONObject copyWritingApi(@SpringQueryMap RequestBody requestBody);
 }
