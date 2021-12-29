@@ -1,8 +1,8 @@
 package com.xjs.job.task;
 
 import com.ruoyi.common.core.domain.R;
-import com.xjs.business.english.api.RemoteCopyWritingFeign;
-import com.xjs.business.english.api.domain.CopyWriting;
+import com.xjs.business.api.RemoteCopyWritingFeign;
+import com.xjs.business.api.domain.CopyWriting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

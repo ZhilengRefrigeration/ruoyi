@@ -15,7 +15,7 @@
     <description>业务模块</description>
     <name>业务模块</name>
     <modules>
-        <module>xjs-business-english</module>
+        <module>xjs-business-openapi</module>
     </modules>
 
     <properties>
