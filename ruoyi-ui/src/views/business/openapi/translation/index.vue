@@ -1,19 +1,18 @@
 <template>
   <div class="app-container">
     <el-row>
-      <el-col :span="24">
-        <div class="grid-content bg-purple" style="height: 180px">
-<!--          文案内容区域-->
-<!--          内容-->
-          <div class="content_div">
-            {{responseCopyWriting.content}}
+      <el-col :span="24" v-loading="loading1">
+          <div class="grid-content bg-purple" style="height: 180px">
+              <!--          文案内容区域-->
+              <!--          内容-->
+              <div class="content_div">
+                {{responseCopyWriting.content}}
+              </div>
+              <!--          来源-->
+              <div class="source_div">
+                {{responseCopyWriting.source}}
+              </div>
           </div>
-<!--          来源-->
-          <div class="source_div">
-            {{responseCopyWriting.source}}
-            <el-button type="info" icon="el-icon-check" @click="getCopyWriting" circle></el-button>
-          </div>
-        </div>
       </el-col>
     </el-row>
     <el-row :gutter="20">
@@ -39,7 +38,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="20">
+              <el-col :span="20" >
                 <el-form-item label="翻译区域" prop="q">
                   <el-input v-model="translationData.q" type="textarea" placeholder="请输入翻译内容" show-word-limit
                             :autosize="{minRows: 4, maxRows: 4}" :style="{width: '100%'}"></el-input>
@@ -49,6 +48,7 @@
                 <el-form-item size="large">
                   <el-button type="primary" @click="submitForm">提交</el-button>
                   <el-button @click="resetForm">重置</el-button>
+                  <el-button type="info" icon="el-icon-check" @click="getCopyWriting" circle></el-button>
                 </el-form-item>
               </el-col>
             </el-form>
@@ -58,7 +58,7 @@
       <el-col :span="12">
         <!--        翻译结果显示区域-->
         <div class="grid-content bg-purple ">
-          <div class="spans">
+          <div class="spans" v-loading="loading2">
             {{ responseTranslation }}
           </div>
         </div>
@@ -77,6 +77,10 @@ export default {
   name: "Log",
   data() {
     return {
+      // 遮罩层
+      loading1: true,
+      loading2: false,
+
       //翻译响应数据
       responseTranslation: '',
 
@@ -119,14 +123,17 @@ export default {
   methods: {
     //获取文案
     getCopyWriting() {
+      this.loading1 = true;
       getCopyWriting(this.copyWriting).then(res =>{
         this.responseCopyWriting=res.data
+        this.loading1 = false;
       })
     },
 
     submitForm() {
       this.$refs['translation'].validate(valid => {
         if (valid) {
+          this.loading2 = true;
           translation(this.translationData).then(res => {
             let result = res.data.transResult
             let results = ''
@@ -134,7 +141,7 @@ export default {
               results = results + '  ' + r.dst;
             })
             this.responseTranslation = results
-
+            this.loading2 = false;
           })
         }
 
