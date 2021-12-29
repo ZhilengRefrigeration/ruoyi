@@ -1,12 +1,12 @@
 # Tomcat
 server:
-  port: 9900
+  port: 9901
 
 # Spring
 spring: 
   application:
     # 应用名称
-    name: xjs-openapi
+    name: xjs-english
   profiles:
     # 环境配置
     active: dev

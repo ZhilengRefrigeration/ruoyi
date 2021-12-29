@@ -16,6 +16,7 @@
     <name>业务模块</name>
     <modules>
         <module>xjs-business-openapi</module>
+        <module>xjs-business-english</module>
     </modules>
 
     <properties>
@@ -117,7 +118,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>-->
-
 
 
     </dependencies>
