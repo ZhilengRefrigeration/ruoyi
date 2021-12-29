@@ -173,14 +173,15 @@ export default {
 
 .content_div{
   float: left;
-  width: 88%;
+  width: 75%;
   text-shadow: 2px 2px 2px grey;
 }
 .source_div{
   float: left;
   padding-top: 70px;
-  width: 12%;
+  width: 25%;
   text-shadow: 2px 2px 2px grey;
+  text-align :right
 }
 
 </style>
