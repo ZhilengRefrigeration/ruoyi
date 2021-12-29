@@ -2,7 +2,7 @@ package com.xjs.common.consts;
 
 /**
  * @author xiejs
- * @desc
+ * @desc  翻译类型常量
  * @create 2021-12-25
  */
 public interface TranslationTypeConst {

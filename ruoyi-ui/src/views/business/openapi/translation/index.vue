@@ -11,7 +11,7 @@
 <!--          来源-->
           <div class="source_div">
             {{responseCopyWriting.source}}
-
+            <el-button type="info" icon="el-icon-check" @click="getCopyWriting" circle></el-button>
           </div>
         </div>
       </el-col>

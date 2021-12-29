@@ -13,4 +13,10 @@ public class RequestBody {
      * 平台key密钥
      */
     private String key;
+
+
+    /**
+     * 请求类型 json/js/text
+     */
+    private String format;
 }

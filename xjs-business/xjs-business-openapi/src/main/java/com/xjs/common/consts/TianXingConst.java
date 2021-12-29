@@ -2,7 +2,7 @@ package com.xjs.common.consts;
 
 /**
  * @author xiejs
- * @desc  天行数据平台常量类
+ * @desc  各个数据平台常量类
  * @create 2021-12-28
  */
 public class TianXingConst {
@@ -15,4 +15,6 @@ public class TianXingConst {
     public static final Integer JDTC= 3;
     //名人名言
     public static final Integer MMMY= 4;
+    //Ten-API 一言
+    public static final Integer YY= 5;
 }

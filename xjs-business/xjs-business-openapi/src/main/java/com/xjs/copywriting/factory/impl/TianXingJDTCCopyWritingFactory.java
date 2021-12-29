@@ -50,7 +50,7 @@ public class TianXingJDTCCopyWritingFactory implements CopyWritingFactory {
         }else {
             //调用服务失败的降级之后的处理
             if (jsonObject.containsKey("error")) {
-                return copyWritingMapper.getOneToNew();
+                return copyWritingMapper.getOneToRandom();
             }
             return new CopyWriting();
         }

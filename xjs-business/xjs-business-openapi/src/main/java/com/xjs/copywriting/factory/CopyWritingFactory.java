@@ -13,8 +13,8 @@ public interface CopyWritingFactory {
     /**
      * 统一调用第三方api接口
      *
-     * @param requestBody
-     * @return
+     * @param requestBody 请求体
+     * @return CopyWriting
      */
     CopyWriting productCopyWriting(RequestBody requestBody);
 

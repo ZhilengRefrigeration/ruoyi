@@ -33,7 +33,7 @@ public class CopyWriting implements Serializable {
     @Excel(name = "文案来源")
     private String source;
 
-    @Excel(name = "创建时间")
+    @Excel(name = "创建时间",dateFormat = "yyyy-MM-dd HH:mm:ss")
     @TableField(fill = FieldFill.INSERT)
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
