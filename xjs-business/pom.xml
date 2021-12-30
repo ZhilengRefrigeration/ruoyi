@@ -22,8 +22,6 @@
 
     <properties>
 
-        <mybatisplus.version>3.4.3.4</mybatisplus.version>
-        <hutool.version>5.7.17</hutool.version>
     </properties>
 
     <dependencies>
