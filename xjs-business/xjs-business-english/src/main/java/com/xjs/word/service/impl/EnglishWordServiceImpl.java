@@ -53,7 +53,7 @@ public class EnglishWordServiceImpl implements IEnglishWordService {
      * @return 英语单词
      */
     @Override
-    public EnglishWord selectEnglishWordById(Long id) {
+    public EnglishWord selectEnglishWordToRPC(Long id) {
         EnglishWord englishWord = englishWordMapper.selectById(id);
         Optional.ofNullable(englishWord).orElseThrow(() -> new BusinessException("数据丢失了~~~~"));
         //每次调用查看次数+1
@@ -79,6 +79,11 @@ public class EnglishWordServiceImpl implements IEnglishWordService {
             }
         }
         return englishWord;
+    }
+
+    @Override
+    public EnglishWord selectById(Long id) {
+        return englishWordMapper.selectEnglishWordById(id);
     }
 
     /**

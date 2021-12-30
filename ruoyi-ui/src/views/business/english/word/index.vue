@@ -154,7 +154,7 @@
     />
 
     <!-- 修改英语单词对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body >
       <el-form ref="formEdit" :model="form" :rules="rulesEdit" label-width="80px">
         <el-form-item label="英语单词" prop="englishWord">
           <el-input v-model="form.englishWord" placeholder="请输入英语单词"/>
@@ -189,7 +189,7 @@
           </el-select>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer" class="dialog-footer" v-loading="loadingEdit">
         <el-button type="primary" @click="submitFormEdit">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
@@ -258,7 +258,7 @@
 </template>
 
 <script>
-import {listWord, getWord, delWord, addWord, updateWord} from "@/api/business/english/word";
+import {listWord, getWord, delWord, addWord, updateWord,getWordRPC} from "@/api/business/english/word";
 
 export default {
   name: "Word",
@@ -271,6 +271,7 @@ export default {
       drawer: false,
       // 遮罩层
       loading: true,
+      loadingEdit: false,
       // 选中数组
       ids: [],
       // 非单个禁用
@@ -343,7 +344,7 @@ export default {
     //根据id查询放入抽屉
     findById(id) {
       this.loadingC = true;
-      getWord(id).then(res => {
+      getWordRPC(id).then(res => {
         this.form = res.data
         this.loadingC = false
       })
@@ -435,8 +436,10 @@ export default {
       this.$refs["formEdit"].validate(valid => {
           if (valid) {
             if (this.form.id != null) {
+              this.loadingEdit= true
               updateWord(this.form).then(response => {
                 this.$modal.msgSuccess("修改成功");
+                this.loadingEdit= false
                 this.open = false;
                 this.getList();
               });

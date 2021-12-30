@@ -43,6 +43,25 @@ public class EnglishWordController extends BaseController {
     }
 
 
+    /**
+     * 获取英语单词详细信息RPC
+     */
+    @RequiresPermissions("english:word:query")
+    @GetMapping(value = "/rpc/{id}")
+    public AjaxResult getInfoRPC(@PathVariable("id") Long id) {
+        return AjaxResult.success(englishWordService.selectEnglishWordToRPC(id));
+    }
+
+    /**
+     * 获取英语单词详细信息
+     */
+    @RequiresPermissions("english:word:query")
+    @GetMapping(value = "/{id}")
+    public AjaxResult getInfo(@PathVariable("id") Long id) {
+        return AjaxResult.success(englishWordService.selectById(id));
+    }
+
+
     //------------------------代码自动生成-----------------------------------
 
     /**
@@ -68,14 +87,7 @@ public class EnglishWordController extends BaseController {
         util.exportExcel(response, list, "英语单词数据");
     }
 
-    /**
-     * 获取英语单词详细信息
-     */
-    @RequiresPermissions("english:word:query")
-    @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id) {
-        return AjaxResult.success(englishWordService.selectEnglishWordById(id));
-    }
+
 
     /**
      * 新增英语单词

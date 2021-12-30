@@ -18,15 +18,18 @@ public interface IEnglishWordService {
      */
     List<EnglishWord> getEnglishWordByCollect();
 
-
-    //------------------------代码自动生成-----------------------------------
     /**
      * 查询英语单词
      *
      * @param id 英语单词主键
      * @return 英语单词
      */
-    public EnglishWord selectEnglishWordById(Long id);
+    public EnglishWord selectEnglishWordToRPC(Long id);
+
+    EnglishWord selectById(Long id);
+
+
+    //------------------------代码自动生成-----------------------------------
 
     /**
      * 查询英语单词列表

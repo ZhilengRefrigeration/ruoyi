@@ -17,6 +17,14 @@ export function getWord(id) {
   })
 }
 
+export function getWordRPC(id) {
+  return request({
+    url: '/english/word/rpc/' + id,
+    method: 'get'
+  })
+}
+
+
 // 新增英语单词
 export function addWord(data) {
   return request({
