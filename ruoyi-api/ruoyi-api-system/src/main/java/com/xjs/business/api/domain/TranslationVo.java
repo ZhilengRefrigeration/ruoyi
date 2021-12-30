@@ -1,4 +1,4 @@
-package com.xjs.business.english.domain;
+package com.xjs.business.api.domain;
 
 
 import java.io.Serializable;

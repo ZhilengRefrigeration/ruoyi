@@ -65,7 +65,7 @@ public class TranslationController {
             translationVo = translationFactory.translationApi(translationQo);
         } catch (Exception e) {
             translationVo = new TranslationVo();
-            translationVo.setErrorCode(500L);
+            translationVo.setErrorCode((long) R.FAIL);
             log.error("翻译接口平台异常");
             e.printStackTrace();
         }

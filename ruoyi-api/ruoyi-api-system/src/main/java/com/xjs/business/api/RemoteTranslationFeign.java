@@ -1,9 +1,9 @@
-package com.xjs.business.english;
+package com.xjs.business.api;
 
 import com.ruoyi.common.core.constant.ServiceNameConstants;
 import com.ruoyi.common.core.domain.R;
-import com.xjs.business.english.domain.TranslationVo;
-import com.xjs.business.english.factory.RemoteTranslationFactory;
+import com.xjs.business.api.domain.TranslationVo;
+import com.xjs.business.api.factory.RemoteTranslationFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

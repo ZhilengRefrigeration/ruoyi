@@ -106,6 +106,14 @@
       <el-table-column label="创建时间" align="center" prop="createTime" :show-overflow-tooltip="true"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
+          <el-tooltip class="item" effect="dark" content="点击查看详情" placement="top-start">
+            <el-button circle
+                       type=""
+                       icon="el-icon-view"
+                       @click="handleView(scope.row,scope.index)"
+                       v-hasPermi="['openapi:word:query']"
+            ></el-button>
+          </el-tooltip>
           <el-button circle
                      type="primary"
                      icon="el-icon-edit"
@@ -132,7 +140,7 @@
 
     <!-- 修改英语单词对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rulesEdit" label-width="80px">
+      <el-form ref="formEdit" :model="form" :rules="rulesEdit" label-width="80px">
         <el-form-item label="英语单词" prop="englishWord">
           <el-input v-model="form.englishWord" placeholder="请输入英语单词"/>
         </el-form-item>
@@ -167,14 +175,14 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button type="primary" @click="submitFormEdit">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
 
     <!--添加英语对话框-->
     <el-dialog :title="title" :visible.sync="openAdd" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rulesAdd" label-width="80px">
+      <el-form ref="formAdd" :model="form" :rules="rulesAdd" label-width="80px">
         <el-form-item label="中英文" prop="content">
           <el-input v-model="form.content" placeholder="请输入中文或英文"/>
         </el-form-item>
@@ -206,10 +214,24 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button type="primary" @click="submitFormAdd">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+
+
+    <!--    抽屉  查看详情-->
+    <el-drawer
+      title="单词内容"
+      :visible.sync="drawer"
+      direction="rtl"
+      :before-close="handleClose">
+
+
+      <span>我来啦!</span>
+
+
+    </el-drawer>
   </div>
 </template>
 
@@ -221,6 +243,8 @@ export default {
   dicts: ['english_collect', 'english_top'],
   data() {
     return {
+      //抽屉开关
+      drawer: false,
       // 遮罩层
       loading: true,
       // 选中数组
@@ -251,7 +275,9 @@ export default {
         createTime: null
       },
       // 表单参数
-      form: {},
+      form: {
+        sort: 0
+      },
       // 表单校验
       rulesEdit: {
         englishWord: [
@@ -261,10 +287,10 @@ export default {
           {required: true, message: "中文不能为空", trigger: "blur"}
         ],
         isCollect: [
-          {required: true, message: "是否收藏 1收藏 2不收藏不能为空", trigger: "change"}
+          {required: true, message: "是否收藏 1收藏 2不收藏不能为空", trigger: "blur"}
         ],
         top: [
-          {required: true, message: "置顶 1置顶 2不置顶不能为空", trigger: "change"}
+          {required: true, message: "置顶 1置顶 2不置顶不能为空", trigger: "blur"}
         ],
         createTime: [
           {required: true, message: "创建时间不能为空", trigger: "blur"}
@@ -275,10 +301,10 @@ export default {
           {required: true, message: "中英文不能为空", trigger: "blur"}
         ],
         isCollect: [
-          {required: true, message: "是否收藏 1收藏 2不收藏不能为空", trigger: "change"}
+          {required: true, message: "是否收藏 1收藏 2不收藏不能为空", trigger: "blur"}
         ],
         top: [
-          {required: true, message: "置顶 1置顶 2不置顶不能为空", trigger: "change"}
+          {required: true, message: "置顶 1置顶 2不置顶不能为空", trigger: "blur"}
         ],
         createTime: [
           {required: true, message: "创建时间不能为空", trigger: "blur"}
@@ -290,6 +316,17 @@ export default {
     this.getList();
   },
   methods: {
+    //关闭抽屉
+    handleClose(done) {
+      done();
+    },
+
+    /** 详细按钮操作 */
+    handleView(row) {
+      this.drawer = true
+      this.form = row;
+    },
+
     /** 查询英语单词列表 */
     getList() {
       this.loading = true;
@@ -358,25 +395,37 @@ export default {
       });
     },
     /** 提交按钮 */
-    submitForm() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          if (this.form.id != null) {
-            updateWord(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功");
-              this.open = false;
-              this.getList();
-            });
-          } else {
-            addWord(this.form).then(response => {
-              this.$modal.msgSuccess("新增成功");
-              this.openAdd = false;
-              this.getList();
-            });
+    submitFormEdit() {
+      this.$refs["formEdit"].validate(valid => {
+          if (valid) {
+            if (this.form.id != null) {
+              updateWord(this.form).then(response => {
+                this.$modal.msgSuccess("修改成功");
+                this.open = false;
+                this.getList();
+              });
+            }
           }
         }
-      });
+      );
     },
+
+    submitFormAdd() {
+      this.$refs["formAdd"].validate(valid => {
+          if (valid) {
+            if (this.form.id == null) {
+              addWord(this.form).then(response => {
+                this.$modal.msgSuccess("新增成功");
+                this.openAdd = false;
+                this.getList();
+              });
+            }
+          }
+        }
+      );
+    },
+
+
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;

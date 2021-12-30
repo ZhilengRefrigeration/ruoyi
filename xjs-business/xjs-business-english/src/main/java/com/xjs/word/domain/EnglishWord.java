@@ -8,6 +8,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -31,6 +32,7 @@ public class EnglishWord  {
      */
     @Excel(name = "英语单词")
     @NotBlank(message = "英语单词不能为空",groups = {UpdateGroup.class})
+    @Size(max = 15,message = "请控制长度在5字符",groups = {UpdateGroup.class})
     private String englishWord;
 
     /**
@@ -38,6 +40,7 @@ public class EnglishWord  {
      */
     @Excel(name = "中文")
     @NotBlank(message = "中文不能为空",groups = {UpdateGroup.class})
+    @Size(max = 5,message = "请控制长度在5字符",groups = {UpdateGroup.class})
     private String chineseWord;
 
 
@@ -46,6 +49,7 @@ public class EnglishWord  {
      */
     @TableField(exist = false)
     @NotBlank(message = "内容不能为空",groups = {AddGroup.class})
+    @Size(max = 15,message = "请控制长度在5字符",groups = {AddGroup.class})
     private String content;
 
     /**

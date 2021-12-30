@@ -19,4 +19,9 @@ public class RequestBody {
      * 请求类型 json/js/text
      */
     private String format;
+
+    /**
+     * 词
+     */
+    private String word;
 }

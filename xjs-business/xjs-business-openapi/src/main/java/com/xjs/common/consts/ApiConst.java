@@ -21,6 +21,10 @@ public class ApiConst {
 
     public static final String TIANXING_MMMY= "天行-名人名言";
 
+    public static final String TIANXING_TRAN_DICT= "天行-翻译字典";
+
+
+
     public static final String TEN_YY= "Ten-一言";
 
 
@@ -37,6 +41,10 @@ public class ApiConst {
     public static final String TIANXING_JDTC_URL= "http://api.tianapi.com/dialogue/index";
 
     public static final String TIANXING_MMMY_URL= "http://api.tianapi.com/mingyan/index";
+
+    public static final String TIANXING_TRAN_DICT_URL= "http://api.tianapi.com/enwords/index";
+
+
 
     public static final String TEN_YY_URL= "https://tenapi.cn/yiyan/";
 
