@@ -228,7 +228,14 @@
       :before-close="handleClose">
 
 
-      <span>我来啦!</span>
+      <div>
+        <div class="div1">
+          {{ form.englishWord }}
+        </div>
+        <div class="div2">
+          {{ form.content }}
+        </div>
+      </div>
 
 
     </el-drawer>
@@ -316,6 +323,14 @@ export default {
     this.getList();
   },
   methods: {
+    //根据id查询放入抽屉
+    findById(id) {
+      getWord(id).then(res =>{
+        this.form = res.data
+      })
+    },
+
+
     //关闭抽屉
     handleClose(done) {
       done();
@@ -325,6 +340,7 @@ export default {
     handleView(row) {
       this.drawer = true
       this.form = row;
+      this.findById(row.id)
     },
 
     /** 查询英语单词列表 */
@@ -446,3 +462,25 @@ export default {
   }
 };
 </script>
+<style>
+.div1{
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  height: 180px;
+  margin: 10px;
+  padding: 30px;
+  padding-top: 60px;
+  text-align: center;
+  text-shadow: 2px 2px 2px grey;
+  font-size: 30px;
+}
+.div2{
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  padding: 30px;
+  height: 280px;
+  padding-top: 100px;
+  text-align: center;
+  text-shadow: 2px 2px 2px grey;
+  font-size: 20px;
+}
+</style>
