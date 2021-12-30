@@ -8,8 +8,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import static com.xjs.common.consts.ApiConst.TIANXING_MMMY;
-import static com.xjs.common.consts.ApiConst.TIANXING_MMMY_URL;
+import static com.xjs.consts.ApiConst.TIANXING_MMMY;
+import static com.xjs.consts.ApiConst.TIANXING_MMMY_URL;
 
 /**
  * @author xiejs

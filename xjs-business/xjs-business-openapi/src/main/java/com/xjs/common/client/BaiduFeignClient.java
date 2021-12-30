@@ -7,7 +7,7 @@ import com.xjs.translation.domain.qo.translation.BaiDuTranslationQo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import static com.xjs.common.consts.ApiConst.*;
+import static com.xjs.consts.ApiConst.*;
 
 /**
  * @author xiejs

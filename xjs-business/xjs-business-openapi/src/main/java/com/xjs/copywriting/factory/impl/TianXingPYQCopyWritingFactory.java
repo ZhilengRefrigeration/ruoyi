@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xjs.common.client.TianXingPYQFeignClient;
 import com.xjs.config.TianXingProperties;
-import com.xjs.common.consts.TianXingConst;
+import com.xjs.consts.TianXingConst;
 import com.xjs.exception.ApiException;
 import com.xjs.copywriting.domain.CopyWriting;
 import com.xjs.copywriting.domain.RequestBody;

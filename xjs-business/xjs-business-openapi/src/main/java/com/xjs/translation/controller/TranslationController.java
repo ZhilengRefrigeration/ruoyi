@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
-import static com.xjs.common.consts.TranslationTypeConst.BAIDU;
-import static com.xjs.common.consts.TranslationTypeConst.YOUDAO;
+import static com.xjs.consts.TranslationTypeConst.BAIDU;
+import static com.xjs.consts.TranslationTypeConst.YOUDAO;
 
 /**
  * @author xiejs

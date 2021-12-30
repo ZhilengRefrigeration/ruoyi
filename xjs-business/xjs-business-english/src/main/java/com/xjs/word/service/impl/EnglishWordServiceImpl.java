@@ -2,6 +2,7 @@ package com.xjs.word.service.impl;
 
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.domain.R;
+import com.ruoyi.common.redis.service.RedisService;
 import com.xjs.business.api.RemoteTranDIctFeign;
 import com.xjs.business.api.RemoteTranslationFeign;
 import com.xjs.business.api.domain.TranslationVo;
@@ -14,9 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+
+import static com.xjs.consts.RedisConst.TRAN_DICT;
+import static com.xjs.consts.RedisConst.TRAN_DICT_EXPIRE;
 
 /**
  * 英语单词Service业务层处理
@@ -32,6 +35,8 @@ public class EnglishWordServiceImpl implements IEnglishWordService {
     private RemoteTranslationFeign remoteTranslationFeign;
     @Autowired
     private RemoteTranDIctFeign remoteTranDIctFeign;
+    @Autowired
+    private RedisService redisService;
 
 
     /**
@@ -42,18 +47,28 @@ public class EnglishWordServiceImpl implements IEnglishWordService {
      */
     @Override
     public EnglishWord selectEnglishWordById(Long id) {
-        //todo 查看单个单词详细信息
         EnglishWord englishWord = englishWordMapper.selectById(id);
+        //每次调用查看次数+1
+        Long count = englishWord.getLookCount() + 1;
+        englishWord.setLookCount(count);
+        //redis中的hsah键
+        String hkey = englishWord.getEnglishWord() + ":" + id;
+        Object value = redisService.getCacheMapValue(TRAN_DICT, hkey);
+        if (Objects.nonNull(value)) {
+            return (EnglishWord)value;
+        }
         R<TranslationVo> r = remoteTranDIctFeign.tranDict(englishWord.getEnglishWord());
         if (r.getCode() != R.FAIL) {
             if (Objects.isNull(r.getData().getErrorCode())) {
                 //指定to为翻译字典转换的内容
                 englishWord.setContent(r.getData().getTo());
+                //添加缓存到redis并设置7天有效时间
+                Map<String, Object> build = new HashMap<>();
+                build.put(hkey, englishWord);
+                redisService.setCacheMap(TRAN_DICT, build);
+                redisService.expire(TRAN_DICT, TRAN_DICT_EXPIRE, TimeUnit.DAYS);
             }
         }
-        //每次调用查看次数+1
-        Long count = englishWord.getLookCount() + 1;
-        englishWord.setLookCount(count);
         return englishWord;
     }
 
@@ -75,7 +90,7 @@ public class EnglishWordServiceImpl implements IEnglishWordService {
         if (chinese) {
             englishWord.setChineseWord(englishWord.getContent());
             R<TranslationVo> translationResult = remoteTranslationFeign.translation(englishWord.getContent());
-            if(translationResult.getCode()!= Constants.FAIL){
+            if (translationResult.getCode() != Constants.FAIL) {
                 String dst = translationResult.getData().getTransResult().get(0).get("dst");
                 englishWord.setEnglishWord(dst);
             }
@@ -83,7 +98,7 @@ public class EnglishWordServiceImpl implements IEnglishWordService {
         if (alpha) {
             englishWord.setEnglishWord(englishWord.getContent());
             R<TranslationVo> translationResult = remoteTranslationFeign.translation(englishWord.getContent());
-            if(translationResult.getCode()!= Constants.FAIL){
+            if (translationResult.getCode() != Constants.FAIL) {
                 String dst = translationResult.getData().getTransResult().get(0).get("dst");
                 englishWord.setChineseWord(dst);
             }
@@ -94,9 +109,6 @@ public class EnglishWordServiceImpl implements IEnglishWordService {
         englishWord.setSort(integer);
         return englishWordMapper.insert(englishWord);
     }
-
-
-
 
 
     //------------------------代码自动生成-----------------------------------
@@ -113,13 +125,15 @@ public class EnglishWordServiceImpl implements IEnglishWordService {
     }
 
     /**
-     * 修改英语单词
+     * 修改英语单词 (修改需要清除redis)
      *
      * @param englishWord 英语单词
      * @return 结果
      */
     @Override
     public int updateEnglishWord(EnglishWord englishWord) {
+
+
         return englishWordMapper.updateById(englishWord);
     }
 

@@ -228,8 +228,8 @@
       :before-close="handleClose">
 
 
-      <div>
-        <div class="div1">
+      <div v-loading="loadingC">
+        <div class="div1" >
           {{ form.englishWord }}
         </div>
         <div class="div2">
@@ -250,6 +250,8 @@ export default {
   dicts: ['english_collect', 'english_top'],
   data() {
     return {
+      // 抽屉遮罩层
+      loadingC: true,
       //抽屉开关
       drawer: false,
       // 遮罩层
@@ -325,8 +327,10 @@ export default {
   methods: {
     //根据id查询放入抽屉
     findById(id) {
+      this.loadingC = true;
       getWord(id).then(res =>{
         this.form = res.data
+        this.loadingC=false
       })
     },
 

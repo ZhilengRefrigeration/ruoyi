@@ -8,8 +8,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import static com.xjs.common.consts.ApiConst.TIANXING_TRAN_DICT;
-import static com.xjs.common.consts.ApiConst.TIANXING_TRAN_DICT_URL;
+import static com.xjs.consts.ApiConst.TIANXING_TRAN_DICT;
+import static com.xjs.consts.ApiConst.TIANXING_TRAN_DICT_URL;
 
 /**
  * @author xiejs
