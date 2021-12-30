@@ -11,6 +11,7 @@ import com.xjs.utils.ChineseUtil;
 import com.xjs.word.domain.EnglishWord;
 import com.xjs.word.mapper.EnglishWordMapper;
 import com.xjs.word.service.IEnglishWordService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,7 @@ import static com.xjs.consts.RedisConst.TRAN_DICT_EXPIRE;
  * @date 2021-12-29
  */
 @Service
+@Log4j2
 public class EnglishWordServiceImpl implements IEnglishWordService {
     @Resource
     private EnglishWordMapper englishWordMapper;
@@ -110,6 +112,19 @@ public class EnglishWordServiceImpl implements IEnglishWordService {
         return englishWordMapper.insert(englishWord);
     }
 
+    /**
+     * 修改英语单词 (修改需要清除redis)
+     *
+     * @param englishWord 英语单词
+     * @return 结果
+     */
+    @Override
+    public int updateEnglishWord(EnglishWord englishWord) {
+        String hkey = englishWord.getEnglishWord() + ":" + englishWord.getId();
+        redisService.dHashByKey(TRAN_DICT, hkey);
+        return englishWordMapper.updateById(englishWord);
+    }
+
 
     //------------------------代码自动生成-----------------------------------
 
@@ -122,19 +137,6 @@ public class EnglishWordServiceImpl implements IEnglishWordService {
     @Override
     public List<EnglishWord> selectEnglishWordList(EnglishWord englishWord) {
         return englishWordMapper.selectEnglishWordList(englishWord);
-    }
-
-    /**
-     * 修改英语单词 (修改需要清除redis)
-     *
-     * @param englishWord 英语单词
-     * @return 结果
-     */
-    @Override
-    public int updateEnglishWord(EnglishWord englishWord) {
-
-
-        return englishWordMapper.updateById(englishWord);
     }
 
     /**

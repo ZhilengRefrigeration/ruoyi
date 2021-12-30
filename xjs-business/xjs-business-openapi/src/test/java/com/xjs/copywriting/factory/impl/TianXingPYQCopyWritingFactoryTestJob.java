@@ -1,8 +1,8 @@
 package com.xjs.copywriting.factory.impl;
 
+import com.ruoyi.common.redis.service.RedisService;
 import com.xjs.XjsOpenApiApp;
 import com.xjs.copywriting.domain.RequestBody;
-import com.xjs.copywriting.factory.CopyWritingFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,11 +15,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(classes = XjsOpenApiApp.class)
 class TianXingPYQCopyWritingFactoryTestJob {
 
+    @Autowired(required = false)
+    TianXingPYQCopyWritingFactory tianXingCopyWritingFactory;
+
     @Autowired
-    CopyWritingFactory tianXingCopyWritingFactory;
+    RedisService redisService;
 
     @Test
     void productCopyWriting() {
         tianXingCopyWritingFactory.productCopyWriting(new RequestBody());
+    }
+
+
+    @Test
+    void testRedis() {
+        redisService.dHashByKey("tranDict",
+                "interface:1476499056043425794");
     }
 }
