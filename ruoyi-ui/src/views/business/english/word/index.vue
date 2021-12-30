@@ -360,7 +360,6 @@ export default {
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate(valid => {
-        console.log(valid)
         if (valid) {
           if (this.form.id != null) {
             updateWord(this.form).then(response => {

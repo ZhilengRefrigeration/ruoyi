@@ -7,6 +7,8 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
+import com.xjs.validation.AddGroup;
+import com.xjs.validation.UpdateGroup;
 import com.xjs.word.domain.EnglishWord;
 import com.xjs.word.service.IEnglishWordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +71,7 @@ public class EnglishWordController extends BaseController {
     @RequiresPermissions("english:word:add")
     @Log(title = "英语单词", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@Validated @RequestBody EnglishWord englishWord) {
+    public AjaxResult add(@Validated({AddGroup.class}) @RequestBody EnglishWord englishWord) {
         return toAjax(englishWordService.insertEnglishWord(englishWord));
     }
 
@@ -79,7 +81,7 @@ public class EnglishWordController extends BaseController {
     @RequiresPermissions("english:word:edit")
     @Log(title = "英语单词", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody EnglishWord englishWord) {
+    public AjaxResult edit(@Validated({UpdateGroup.class}) @RequestBody EnglishWord englishWord) {
         return toAjax(englishWordService.updateEnglishWord(englishWord));
     }
 
