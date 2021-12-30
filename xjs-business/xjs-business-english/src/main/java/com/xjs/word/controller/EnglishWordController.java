@@ -31,6 +31,18 @@ public class EnglishWordController extends BaseController {
     private IEnglishWordService englishWordService;
 
 
+    /**
+     * 英语单词收藏夹
+     * @return TableDataInfo
+     */
+    @RequiresPermissions("english:word:collect")
+    @GetMapping("collect")
+    public TableDataInfo collect() {
+        List<EnglishWord> englishWordList=englishWordService.getEnglishWordByCollect();
+        return getDataTable(englishWordList);
+    }
+
+
     //------------------------代码自动生成-----------------------------------
 
     /**

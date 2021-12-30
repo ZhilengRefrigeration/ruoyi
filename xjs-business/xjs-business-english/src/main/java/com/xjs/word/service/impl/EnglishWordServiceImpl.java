@@ -41,6 +41,11 @@ public class EnglishWordServiceImpl implements IEnglishWordService {
     private RedisService redisService;
 
 
+    @Override
+    public List<EnglishWord> getEnglishWordByCollect() {
+        return null;
+    }
+
     /**
      * 查询英语单词、远程调用获取翻译字典
      *
@@ -50,9 +55,11 @@ public class EnglishWordServiceImpl implements IEnglishWordService {
     @Override
     public EnglishWord selectEnglishWordById(Long id) {
         EnglishWord englishWord = englishWordMapper.selectById(id);
+        Optional.ofNullable(englishWord).orElseThrow(() -> new BusinessException("数据丢失了~~~~"));
         //每次调用查看次数+1
         Long count = englishWord.getLookCount() + 1;
         englishWord.setLookCount(count);
+        englishWordMapper.updateById(englishWord);
         //redis中的hsah键
         String hkey = englishWord.getEnglishWord() + ":" + id;
         Object value = redisService.getCacheMapValue(TRAN_DICT, hkey);
@@ -125,6 +132,20 @@ public class EnglishWordServiceImpl implements IEnglishWordService {
         return englishWordMapper.updateById(englishWord);
     }
 
+    /**
+     * 批量删除英语单词 (清除redis缓存)
+     *
+     * @param ids 需要删除的英语单词主键
+     * @return 结果
+     */
+    @Override
+    public int deleteEnglishWordByIds(Long[] ids) {
+        for (Long id : ids) {
+            //需要查出对象才能删除缓存，后续看需求添加
+        }
+        return englishWordMapper.deleteEnglishWordByIds(ids);
+    }
+
 
     //------------------------代码自动生成-----------------------------------
 
@@ -139,16 +160,7 @@ public class EnglishWordServiceImpl implements IEnglishWordService {
         return englishWordMapper.selectEnglishWordList(englishWord);
     }
 
-    /**
-     * 批量删除英语单词
-     *
-     * @param ids 需要删除的英语单词主键
-     * @return 结果
-     */
-    @Override
-    public int deleteEnglishWordByIds(Long[] ids) {
-        return englishWordMapper.deleteEnglishWordByIds(ids);
-    }
+
 
     /**
      * 删除英语单词信息

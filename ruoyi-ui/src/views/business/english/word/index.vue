@@ -84,6 +84,21 @@
         >导出
         </el-button>
       </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="warning"
+          plain
+          icon="el-icon-star-off"
+          size="mini"
+          @click="handleCollect"
+          v-hasPermi="['english:word:collect']"
+        >
+          <router-link :to="'/openapi/english/collect/'" class="link-type">
+            收藏夹
+          </router-link>
+        </el-button>
+
+      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -229,7 +244,7 @@
 
 
       <div v-loading="loadingC">
-        <div class="div1" >
+        <div class="div1">
           {{ form.englishWord }}
         </div>
         <div class="div2">
@@ -328,9 +343,9 @@ export default {
     //根据id查询放入抽屉
     findById(id) {
       this.loadingC = true;
-      getWord(id).then(res =>{
+      getWord(id).then(res => {
         this.form = res.data
-        this.loadingC=false
+        this.loadingC = false
       })
     },
 
@@ -338,6 +353,7 @@ export default {
     //关闭抽屉
     handleClose(done) {
       done();
+      this.getList();
     },
 
     /** 详细按钮操作 */
@@ -462,12 +478,17 @@ export default {
       this.download('english/word/export', {
         ...this.queryParams
       }, `word_${new Date().getTime()}.xlsx`)
+    },
+
+    //收藏夹操作
+    handleCollect() {
+
     }
   }
 };
 </script>
 <style>
-.div1{
+.div1 {
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   height: 180px;
   margin: 10px;
@@ -477,7 +498,8 @@ export default {
   text-shadow: 2px 2px 2px grey;
   font-size: 30px;
 }
-.div2{
+
+.div2 {
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   margin: 10px;
   padding: 30px;

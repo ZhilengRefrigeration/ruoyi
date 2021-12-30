@@ -12,6 +12,12 @@ import java.util.List;
  */
 public interface IEnglishWordService {
 
+    /**
+     * 查询收藏的单词列表
+     * @return
+     */
+    List<EnglishWord> getEnglishWordByCollect();
+
 
     //------------------------代码自动生成-----------------------------------
     /**
