@@ -88,6 +88,7 @@ public class EnglishWordServiceImpl implements IEnglishWordService {
                 englishWord.setChineseWord(dst);
             }
         }
+        englishWord.setLookCount(0L);
         return englishWordMapper.insert(englishWord);
     }
 

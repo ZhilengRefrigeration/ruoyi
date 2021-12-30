@@ -10,6 +10,7 @@ import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.word.domain.EnglishWord;
 import com.xjs.word.service.IEnglishWordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -68,7 +69,7 @@ public class EnglishWordController extends BaseController {
     @RequiresPermissions("english:word:add")
     @Log(title = "英语单词", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody EnglishWord englishWord) {
+    public AjaxResult add(@Validated @RequestBody EnglishWord englishWord) {
         return toAjax(englishWordService.insertEnglishWord(englishWord));
     }
 

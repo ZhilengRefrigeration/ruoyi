@@ -130,9 +130,9 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改英语单词对话框 -->
+    <!-- 修改英语单词对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" :model="form" :rules="rulesEdit" label-width="80px">
         <el-form-item label="英语单词" prop="englishWord">
           <el-input v-model="form.englishWord" placeholder="请输入英语单词"/>
         </el-form-item>
@@ -140,7 +140,49 @@
           <el-input v-model="form.chineseWord" placeholder="请输入对应的中文"/>
         </el-form-item>
         <el-form-item label="排序" prop="sort">
-          <el-input v-model="form.sort" placeholder="请输入排序"/>
+          <el-slider
+            v-model="form.sort"
+            show-input>
+          </el-slider>
+        </el-form-item>
+        <el-form-item label="收藏" prop="isCollect">
+          <el-select v-model="form.isCollect" placeholder="请选择是否收藏">
+            <el-option
+              v-for="dict in dict.type.english_collect"
+              :key="dict.value"
+              :label="dict.label"
+              :value="parseInt(dict.value)"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="置顶" prop="top">
+          <el-select v-model="form.top" placeholder="请选择置顶">
+            <el-option
+              v-for="dict in dict.type.english_top"
+              :key="dict.value"
+              :label="dict.label"
+              :value="parseInt(dict.value)"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button @click="cancel">取 消</el-button>
+      </div>
+    </el-dialog>
+
+    <!--添加英语对话框-->
+    <el-dialog :title="title" :visible.sync="openAdd" width="500px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rulesAdd" label-width="80px">
+        <el-form-item label="中英文" prop="content">
+          <el-input v-model="form.content" placeholder="请输入中文或英文"/>
+        </el-form-item>
+        <el-form-item label="排序" prop="sort">
+          <el-slider
+            v-model="form.sort"
+            show-input>
+          </el-slider>
         </el-form-item>
         <el-form-item label="收藏" prop="isCollect">
           <el-select v-model="form.isCollect" placeholder="请选择是否收藏">
@@ -197,6 +239,7 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      openAdd: false,
       // 查看次数时间范围
       daterangeCreateTime: [],
       // 查询参数
@@ -210,9 +253,26 @@ export default {
       // 表单参数
       form: {},
       // 表单校验
-      rules: {
+      rulesEdit: {
         englishWord: [
           {required: true, message: "英语单词不能为空", trigger: "blur"}
+        ],
+        chineseWord: [
+          {required: true, message: "中文不能为空", trigger: "blur"}
+        ],
+        isCollect: [
+          {required: true, message: "是否收藏 1收藏 2不收藏不能为空", trigger: "change"}
+        ],
+        top: [
+          {required: true, message: "置顶 1置顶 2不置顶不能为空", trigger: "change"}
+        ],
+        createTime: [
+          {required: true, message: "创建时间不能为空", trigger: "blur"}
+        ]
+      },
+      rulesAdd: {
+        content: [
+          {required: true, message: "中英文不能为空", trigger: "blur"}
         ],
         isCollect: [
           {required: true, message: "是否收藏 1收藏 2不收藏不能为空", trigger: "change"}
@@ -247,6 +307,7 @@ export default {
     // 取消按钮
     cancel() {
       this.open = false;
+      this.openAdd = false
       this.reset();
     },
     // 表单重置
@@ -283,7 +344,7 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
-      this.open = true;
+      this.openAdd = true;
       this.title = "添加英语单词";
     },
     /** 修改按钮操作 */
@@ -299,6 +360,7 @@ export default {
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate(valid => {
+        console.log(valid)
         if (valid) {
           if (this.form.id != null) {
             updateWord(this.form).then(response => {
@@ -309,7 +371,7 @@ export default {
           } else {
             addWord(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
-              this.open = false;
+              this.openAdd = false;
               this.getList();
             });
           }

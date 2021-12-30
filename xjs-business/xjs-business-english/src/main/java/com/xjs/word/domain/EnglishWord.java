@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.*;
 import com.ruoyi.common.core.annotation.Excel;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 /**
@@ -39,6 +40,7 @@ public class EnglishWord  {
      * 前端传递的内容（可能是中、英文）
      */
     @TableField(exist = false)
+    @NotBlank(message = "内容不能为空")
     private String content;
 
     /**
@@ -63,7 +65,7 @@ public class EnglishWord  {
      * 查看次数
      */
     @Excel(name = "查看次数")
-    private Long lookCount = 0L;
+    private Long lookCount ;
 
     @Excel(name = "创建时间",dateFormat = "yyyy-MM-dd HH:mm:ss")
     @TableField(fill = FieldFill.INSERT)
