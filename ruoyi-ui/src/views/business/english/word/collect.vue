@@ -1,5 +1,6 @@
 <template xmlns="http://www.w3.org/1999/html">
   <div class="sea_main_con test-5" @mouseenter="onMouseover" @mouseleave="onMouseout">
+
     <div class="infinite-list-wrapper">
       <ul
         class="list"
@@ -12,7 +13,6 @@
             <el-card :body-style="{ padding: '0px' }">
               <div style="padding: 14px;">
                 <span>
-
                   <el-tag type="info"
                           size="medium"
                   >英：{{ say.englishWord }}
@@ -26,7 +26,7 @@
                     >中：{{ say.chineseWord }}
                     </el-tag>
                   </time>
-                  <el-button icon="el-icon-search" circle class="button"></el-button>
+                  <el-button icon="el-icon-search" circle class="button" @click="popoverVisibles(say.id)"></el-button>
                 </div>
               </div>
             </el-card>
@@ -39,11 +39,13 @@
         <p v-if="noMore">没有更多了~~~~</p>
       </div>
     </div>
+
+
   </div>
 </template>
 
 <script>
-import {collectWord} from "@/api/business/english/word";
+import {collectWord, getWordRPC} from "@/api/business/english/word";
 
 export default {
   data() {
@@ -70,11 +72,19 @@ export default {
     }
   },
   methods: {
+    popoverVisibles(id) {
+      getWordRPC(id).then(res =>{
+        this.$notify({
+          title: res.data.englishWord,
+          message: res.data.content,
+          duration: 0
+        });
+      })
+    },
+
     loadMore() {
       this.loading = true
       setTimeout(() => {
-        // this.count += 2
-
         collectWord(this.queryParams).then((response) => {
           console.log(response.data)
           this.everyList = response.data.records.length;
@@ -127,7 +137,7 @@ export default {
 .test-5::-webkit-scrollbar-thumb {
   /*滚动条里面小方块*/
   border-radius: 10px;
-  background-color: rgb(103, 194, 58);
+  background-color: #999093;
   background-image: -webkit-linear-gradient(
     45deg,
     rgba(255, 255, 255, 0.2) 25%,
@@ -184,5 +194,9 @@ export default {
 .load_icon {
   width: 100%;
   text-align: center;
+}
+.load_icon p{
+  font-size: 10px;
+  color: #8492a6;
 }
 </style>
