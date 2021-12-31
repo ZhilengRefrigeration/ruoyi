@@ -8,6 +8,8 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.oneenglish.domain.ApiEnglish;
+import com.xjs.oneenglish.domain.RequestBody;
+import com.xjs.oneenglish.factory.OneEnglishFactory;
 import com.xjs.oneenglish.service.IApiEnglishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,15 @@ import java.util.List;
 public class ApiEnglishController extends BaseController {
     @Autowired
     private IApiEnglishService apiEnglishService;
+    @Autowired
+    private OneEnglishFactory tianXingOneEnglishFactory;
+
+    @RequiresPermissions("openapi:oneenglish:list")
+    @GetMapping("/getOneEnglish")
+    public AjaxResult getOneEnglish() {
+        ApiEnglish oneEnglish = tianXingOneEnglishFactory.getOneEnglish(new RequestBody());
+        return AjaxResult.success(oneEnglish);
+    }
 
 
     //------------------------代码自动生成-----------------------------------

@@ -3,7 +3,7 @@ package com.xjs.translation.factory.impl;
 import cn.hutool.http.HttpStatus;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.xjs.client.TianXingTranDictClient;
+import com.xjs.common.client.TianXingTranDictClient;
 import com.xjs.config.TianXingProperties;
 import com.xjs.copywriting.domain.RequestBody;
 import com.xjs.exception.ApiException;

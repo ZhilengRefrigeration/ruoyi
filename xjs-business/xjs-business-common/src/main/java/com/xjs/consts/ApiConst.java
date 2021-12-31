@@ -23,6 +23,8 @@ public class ApiConst {
 
     public static final String TIANXING_TRAN_DICT= "天行-翻译字典";
 
+    public static final String TIANXING_ONE_ENGLISH= "天行-英语一言";
+
 
 
     public static final String TEN_YY= "Ten-一言";
@@ -43,6 +45,8 @@ public class ApiConst {
     public static final String TIANXING_MMMY_URL= "http://api.tianapi.com/mingyan/index";
 
     public static final String TIANXING_TRAN_DICT_URL= "http://api.tianapi.com/enwords/index";
+
+    public static final String TIANXING_ONE_ENGLISH_URL= "http://api.tianapi.com/ensentence/index";
 
 
 

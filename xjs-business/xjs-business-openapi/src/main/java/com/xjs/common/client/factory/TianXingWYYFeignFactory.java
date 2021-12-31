@@ -1,7 +1,8 @@
-package com.xjs.client.factory;
+package com.xjs.common.client.factory;
 
 import com.alibaba.fastjson.JSONObject;
-import com.xjs.client.TianXingWYYFeignClient;
+import com.ruoyi.common.core.domain.R;
+import com.xjs.common.client.TianXingWYYFeignClient;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ public class TianXingWYYFeignFactory implements FallbackFactory<TianXingWYYFeign
         return requestBody -> {
             JSONObject jsonObject = new JSONObject();
             //构建一个异常json给下层接口处理
-            jsonObject.put("error", 500);
+            jsonObject.put("error", R.FAIL);
             return jsonObject;
         };
     }

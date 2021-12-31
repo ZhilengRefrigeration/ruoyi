@@ -1,5 +1,6 @@
 package com.xjs.oneenglish.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xjs.oneenglish.domain.ApiEnglish;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @author xjs
  * @date 2021-12-31
  */
-public interface ApiEnglishMapper {
+public interface ApiEnglishMapper extends BaseMapper<ApiEnglish> {
 
 
     //------------------------代码自动生成-----------------------------------

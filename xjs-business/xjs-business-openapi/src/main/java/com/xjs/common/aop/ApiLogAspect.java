@@ -1,7 +1,7 @@
-package com.xjs.aop;
+package com.xjs.common.aop;
 
 import cn.hutool.core.date.DateUtil;
-import com.xjs.common.enums.StatusEnum;
+import com.xjs.enums.StatusEnum;
 import com.xjs.log.mapper.ApiLogMapper;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.JoinPoint;
@@ -30,7 +30,7 @@ public class ApiLogAspect {
     /**
      * 声明AOP签名
      */
-    @Pointcut("@annotation(com.xjs.aop.ApiLog)")
+    @Pointcut("@annotation(com.xjs.common.aop.ApiLog)")
     public void pointcut() {
     }
 

@@ -3,7 +3,7 @@ package com.xjs.copywriting.factory.impl;
 import cn.hutool.http.HttpStatus;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.xjs.client.TianXingPYQFeignClient;
+import com.xjs.common.client.TianXingPYQFeignClient;
 import com.xjs.config.TianXingProperties;
 import com.xjs.consts.TianXingConst;
 import com.xjs.exception.ApiException;
