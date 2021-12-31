@@ -23,6 +23,6 @@ public class RedisConst {
     //-------------------有效时间-----------------------
     public static final Integer TRAN_DICT_EXPIRE = 7;   //天
 
-    public static final Integer ONE_ENGLISH_EXPIRE = 10;   //分钟
+    public static final Integer ONE_ENGLISH_EXPIRE = 3;   //分钟
 
 }

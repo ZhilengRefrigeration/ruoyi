@@ -22,6 +22,7 @@
             <if test="en != null  and en != ''">and en like "%"#{en}"%"</if>
             <if test="zh != null  and zh != ''">and zh like "%"#{zh}"%"</if>
         </where>
+        order by create_time desc
     </select>
 
     <select id="selectApiEnglishById" parameterType="Long" resultMap="ApiEnglishResult">
