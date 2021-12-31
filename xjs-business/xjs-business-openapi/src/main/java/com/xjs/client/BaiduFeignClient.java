@@ -1,8 +1,8 @@
-package com.xjs.common.client;
+package com.xjs.client;
 
 import com.alibaba.fastjson.JSONObject;
-import com.xjs.common.aop.ApiLog;
-import com.xjs.common.client.factory.BaiduFeignFactory;
+import com.xjs.aop.ApiLog;
+import com.xjs.client.factory.BaiduFeignFactory;
 import com.xjs.translation.domain.qo.translation.BaiDuTranslationQo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;

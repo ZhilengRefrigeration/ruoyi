@@ -1,23 +1,23 @@
-package com.xjs.common.client.factory;
+package com.xjs.client.factory;
 
 import com.alibaba.fastjson.JSONObject;
-import com.xjs.common.client.BaiduFeignClient;
+import com.xjs.client.TianXingWYYFeignClient;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
 
 /**
  * @author xiejs
- * @desc  百度翻译平台服务降级处理类
+ * @desc  天行数据平台网易云热评接口降级处理
  * @create 2021-12-28
  */
 @Log4j2
 @Component
-public class BaiduFeignFactory implements FallbackFactory<BaiduFeignClient> {
+public class TianXingWYYFeignFactory implements FallbackFactory<TianXingWYYFeignClient> {
     @Override
-    public BaiduFeignClient create(Throwable cause) {
-        log.error("api模块百度翻译服务调用失败:{},执行降级处理", cause.getMessage());
-        return  qo -> {
+    public TianXingWYYFeignClient create(Throwable cause) {
+        log.error("api模块朋友圈文案服务调用失败:{},执行降级处理", cause.getMessage());
+        return requestBody -> {
             JSONObject jsonObject = new JSONObject();
             //构建一个异常json给下层接口处理
             jsonObject.put("error", 500);

@@ -1,7 +1,7 @@
-package com.xjs.common.client.factory;
+package com.xjs.client.factory;
 
 import com.alibaba.fastjson.JSONObject;
-import com.xjs.common.client.TianXingPYQFeignClient;
+import com.xjs.client.TianXingPYQFeignClient;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;

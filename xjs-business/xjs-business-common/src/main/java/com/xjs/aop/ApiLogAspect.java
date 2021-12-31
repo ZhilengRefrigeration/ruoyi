@@ -1,4 +1,4 @@
-package com.xjs.common.aop;
+package com.xjs.aop;
 
 import cn.hutool.core.date.DateUtil;
 import com.xjs.common.enums.StatusEnum;
@@ -30,7 +30,7 @@ public class ApiLogAspect {
     /**
      * 声明AOP签名
      */
-    @Pointcut("@annotation(com.xjs.common.aop.ApiLog)")
+    @Pointcut("@annotation(com.xjs.aop.ApiLog)")
     public void pointcut() {
     }
 

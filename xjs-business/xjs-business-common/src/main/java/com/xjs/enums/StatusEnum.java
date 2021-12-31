@@ -1,4 +1,4 @@
-package com.xjs.common.enums;
+package com.xjs.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;

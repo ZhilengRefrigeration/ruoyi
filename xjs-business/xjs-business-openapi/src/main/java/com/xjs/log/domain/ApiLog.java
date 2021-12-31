@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.core.annotation.Excel;
-import com.xjs.common.enums.StatusEnum;
+import com.xjs.enums.StatusEnum;
 import lombok.Data;
 
 import java.io.Serializable;

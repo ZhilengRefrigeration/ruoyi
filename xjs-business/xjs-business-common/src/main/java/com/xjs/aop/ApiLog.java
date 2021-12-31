@@ -1,4 +1,4 @@
-package com.xjs.common.aop;
+package com.xjs.aop;
 
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.log.enums.OperatorType;
