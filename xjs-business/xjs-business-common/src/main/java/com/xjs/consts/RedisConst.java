@@ -10,12 +10,19 @@ public class RedisConst {
     //----------------------key------------------------
 
     /**
-     * 翻译字典常量
+     * 翻译字典常量key
      */
     public static final String TRAN_DICT= "tranDict";
 
+    /**
+     * 英语一言常量key
+     */
+    public static final String ONE_ENGLISH= "oneEnglish";
+
 
     //-------------------有效时间-----------------------
-    public static final Integer TRAN_DICT_EXPIRE = 7;
+    public static final Integer TRAN_DICT_EXPIRE = 7;   //天
+
+    public static final Integer ONE_ENGLISH_EXPIRE = 10;   //分钟
 
 }

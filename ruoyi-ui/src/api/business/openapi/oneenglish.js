@@ -24,3 +24,10 @@ export function delOneenglish(id) {
     method: 'delete'
   })
 }
+
+//获取英语一言api接口
+export function getOneEnglishApi() {
+  return request({
+    url: '/openapi/oneenglish/getOneEnglish'
+  })
+}

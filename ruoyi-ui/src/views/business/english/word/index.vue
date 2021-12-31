@@ -86,16 +86,16 @@
       </el-col>
       <el-col :span="1.5">
         <router-link :to="'/openapi/english/collect/'" class="link-type">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-star-off"
-          size="mini"
-          @click="handleCollect"
-          v-hasPermi="['english:word:collect']"
-        >
+          <el-button
+            type="warning"
+            plain
+            icon="el-icon-star-off"
+            size="mini"
+            @click="handleCollect"
+            v-hasPermi="['english:word:collect']"
+          >
             收藏夹
-        </el-button>
+          </el-button>
         </router-link>
 
       </el-col>
@@ -154,7 +154,7 @@
     />
 
     <!-- 修改英语单词对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body >
+    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="formEdit" :model="form" :rules="rulesEdit" label-width="80px" v-loading="loadingEdit">
         <el-form-item label="英语单词" prop="englishWord">
           <el-input v-model="form.englishWord" placeholder="请输入英语单词"/>
@@ -189,7 +189,7 @@
           </el-select>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer" >
+      <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitFormEdit">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
@@ -250,6 +250,11 @@
         <div class="div2">
           {{ form.content }}
         </div>
+        <div class="div2" style="height:320px ">
+          {{ oneEnglishData.en }}
+          <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
+          {{ oneEnglishData.zh }}
+        </div>
       </div>
 
 
@@ -258,7 +263,8 @@
 </template>
 
 <script>
-import {listWord, getWord, delWord, addWord, updateWord,getWordRPC} from "@/api/business/english/word";
+import {listWord, getWord, delWord, addWord, updateWord, getWordRPC} from "@/api/business/english/word";
+import {getOneEnglishApi} from "@/api/business/openapi/oneenglish";
 
 export default {
   name: "Word",
@@ -303,6 +309,8 @@ export default {
       form: {
         sort: 0
       },
+      //英语一言数据
+      oneEnglishData: {},
       // 表单校验
       rulesEdit: {
         englishWord: [
@@ -341,6 +349,13 @@ export default {
     this.getList();
   },
   methods: {
+    //获取英语一言api数据
+    getOneEnglishApi() {
+      getOneEnglishApi().then(res => {
+        this.oneEnglishData = res.data
+      })
+    },
+
     //根据id查询放入抽屉
     findById(id) {
       this.loadingC = true;
@@ -362,6 +377,7 @@ export default {
       this.drawer = true
       this.form = row;
       this.findById(row.id)
+      this.getOneEnglishApi()
     },
 
     /** 查询英语单词列表 */
@@ -436,14 +452,14 @@ export default {
       this.$refs["formEdit"].validate(valid => {
           if (valid) {
             if (this.form.id != null) {
-              this.loadingEdit= true
+              this.loadingEdit = true
               updateWord(this.form).then(response => {
                 this.$modal.msgSuccess("修改成功");
-                this.loadingEdit= false
+                this.loadingEdit = false
                 this.open = false;
                 this.getList();
-              }).catch(err =>{
-                this.loadingEdit= false
+              }).catch(err => {
+                this.loadingEdit = false
               });
 
             }
@@ -456,14 +472,14 @@ export default {
       this.$refs["formAdd"].validate(valid => {
           if (valid) {
             if (this.form.id == null) {
-              this.loadingEdit= true
+              this.loadingEdit = true
               addWord(this.form).then(response => {
                 this.$modal.msgSuccess("新增成功");
                 this.openAdd = false;
-                this.loadingEdit= false
+                this.loadingEdit = false
                 this.getList();
-              }).catch(err =>{
-                this.loadingEdit= false
+              }).catch(err => {
+                this.loadingEdit = false
               });
 
             }
