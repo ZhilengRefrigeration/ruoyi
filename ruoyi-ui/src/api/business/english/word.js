@@ -50,3 +50,12 @@ export function delWord(id) {
     method: 'delete'
   })
 }
+
+//查询收藏夹英语单词
+export function collectWord(query){
+  return request({
+    url: '/english/word/collect',
+    method: 'get',
+    params: query
+  })
+}

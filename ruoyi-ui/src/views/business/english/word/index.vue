@@ -85,6 +85,7 @@
         </el-button>
       </el-col>
       <el-col :span="1.5">
+        <router-link :to="'/openapi/english/collect/'" class="link-type">
         <el-button
           type="warning"
           plain
@@ -93,10 +94,9 @@
           @click="handleCollect"
           v-hasPermi="['english:word:collect']"
         >
-          <router-link :to="'/openapi/english/collect/'" class="link-type">
             收藏夹
-          </router-link>
         </el-button>
+        </router-link>
 
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
@@ -155,7 +155,7 @@
 
     <!-- 修改英语单词对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body >
-      <el-form ref="formEdit" :model="form" :rules="rulesEdit" label-width="80px">
+      <el-form ref="formEdit" :model="form" :rules="rulesEdit" label-width="80px" v-loading="loadingEdit">
         <el-form-item label="英语单词" prop="englishWord">
           <el-input v-model="form.englishWord" placeholder="请输入英语单词"/>
         </el-form-item>
@@ -189,7 +189,7 @@
           </el-select>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer" v-loading="loadingEdit">
+      <div slot="footer" class="dialog-footer" >
         <el-button type="primary" @click="submitFormEdit">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
@@ -197,7 +197,7 @@
 
     <!--添加英语对话框-->
     <el-dialog :title="title" :visible.sync="openAdd" width="500px" append-to-body>
-      <el-form ref="formAdd" :model="form" :rules="rulesAdd" label-width="80px">
+      <el-form ref="formAdd" :model="form" :rules="rulesAdd" label-width="80px" v-loading="loadingEdit">
         <el-form-item label="中英文" prop="content">
           <el-input v-model="form.content" placeholder="请输入中文或英文"/>
         </el-form-item>
@@ -442,7 +442,10 @@ export default {
                 this.loadingEdit= false
                 this.open = false;
                 this.getList();
+              }).catch(err =>{
+                this.loadingEdit= false
               });
+
             }
           }
         }
@@ -453,11 +456,16 @@ export default {
       this.$refs["formAdd"].validate(valid => {
           if (valid) {
             if (this.form.id == null) {
+              this.loadingEdit= true
               addWord(this.form).then(response => {
                 this.$modal.msgSuccess("新增成功");
                 this.openAdd = false;
+                this.loadingEdit= false
                 this.getList();
+              }).catch(err =>{
+                this.loadingEdit= false
               });
+
             }
           }
         }
