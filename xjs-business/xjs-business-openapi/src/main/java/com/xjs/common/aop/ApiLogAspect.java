@@ -1,12 +1,14 @@
 package com.xjs.common.aop;
 
 import cn.hutool.core.date.DateUtil;
+import com.xjs.business.warning.RemoteWarningCRUDFeign;
 import com.xjs.enums.StatusEnum;
 import com.xjs.log.mapper.ApiLogMapper;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -27,6 +29,10 @@ public class ApiLogAspect {
     @Resource
     private ApiLogMapper apiLogMapper;
 
+    //用来调用预警，记录预警信息
+    @Autowired
+    private RemoteWarningCRUDFeign remoteWarningCRUDFeign;
+
     /**
      * 声明AOP签名
      */
@@ -45,6 +51,17 @@ public class ApiLogAspect {
             LocalDateTime localDateTime2 = DateUtil.date().toLocalDateTime();
             long between = ChronoUnit.MILLIS.between(localDateTime1, localDateTime2);
             log.info("调用接口耗费时间:{}ms", between);
+
+            //执行预警切入逻辑
+
+
+
+
+
+
+
+
+
             return obj;
         } catch (Throwable e) {
             e.printStackTrace();

@@ -17,4 +17,12 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.xjs</groupId>
+            <artifactId>xjs-business-common</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+    </dependencies>
+
 </project>
