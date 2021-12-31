@@ -1,7 +1,7 @@
 package com.xjs.word.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
-import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
@@ -9,6 +9,7 @@ import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.validation.AddGroup;
 import com.xjs.validation.UpdateGroup;
+import com.xjs.web.MyBaseController;
 import com.xjs.word.domain.EnglishWord;
 import com.xjs.word.service.IEnglishWordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/word")
-public class EnglishWordController extends BaseController {
+public class EnglishWordController extends MyBaseController {
     @Autowired
     private IEnglishWordService englishWordService;
 
@@ -37,9 +38,9 @@ public class EnglishWordController extends BaseController {
      */
     @RequiresPermissions("english:word:collect")
     @GetMapping("collect")
-    public TableDataInfo collect() {
-        List<EnglishWord> englishWordList=englishWordService.getEnglishWordByCollect();
-        return getDataTable(englishWordList);
+    public AjaxResult collect() {
+        IPage<EnglishWord> englishWordList=englishWordService.getEnglishWordByCollect(startPageMP());
+        return AjaxResult.success(englishWordList);
     }
 
 

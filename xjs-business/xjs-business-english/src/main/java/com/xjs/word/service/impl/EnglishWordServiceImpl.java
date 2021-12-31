@@ -1,5 +1,8 @@
 package com.xjs.word.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.redis.service.RedisService;
@@ -19,6 +22,7 @@ import javax.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import static com.xjs.consts.EnglishWordConst.COLLECT;
 import static com.xjs.consts.RedisConst.TRAN_DICT;
 import static com.xjs.consts.RedisConst.TRAN_DICT_EXPIRE;
 
@@ -42,8 +46,12 @@ public class EnglishWordServiceImpl implements IEnglishWordService {
 
 
     @Override
-    public List<EnglishWord> getEnglishWordByCollect() {
-        return null;
+    public IPage<EnglishWord> getEnglishWordByCollect(Page<EnglishWord> page) {
+        QueryWrapper<EnglishWord> wr = new QueryWrapper<EnglishWord>()
+                .eq("is_collect", COLLECT)
+                .orderByDesc("top")
+                .orderByDesc("create_time");
+        return englishWordMapper.selectPage(page,wr);
     }
 
     /**

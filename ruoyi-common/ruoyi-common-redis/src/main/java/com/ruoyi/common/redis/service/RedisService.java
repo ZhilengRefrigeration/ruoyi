@@ -233,7 +233,7 @@ public class RedisService {
 
     /**
      * 删hash集合某个元素
-     *
+     * @author xjs
      * @param key  redis键
      * @param hkey hash键
      */

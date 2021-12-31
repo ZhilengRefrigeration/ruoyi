@@ -1,5 +1,7 @@
 package com.xjs.word.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xjs.word.domain.EnglishWord;
 
 import java.util.List;
@@ -16,7 +18,7 @@ public interface IEnglishWordService {
      * 查询收藏的单词列表
      * @return
      */
-    List<EnglishWord> getEnglishWordByCollect();
+    IPage<EnglishWord> getEnglishWordByCollect(Page<EnglishWord> page);
 
     /**
      * 查询英语单词
