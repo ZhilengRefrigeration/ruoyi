@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjs.oneenglish.mapper.ApiEnglishMapper">
+    
+    <resultMap type="com.xjs.oneenglish.domain.ApiEnglish" id="ApiEnglishResult">
+        <result property="id"    column="id"    />
+        <result property="en"    column="en"    />
+        <result property="zh"    column="zh"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectApiEnglishVo">
+        select id, en, zh, create_time from api_english
+    </sql>
+
+    <select id="selectApiEnglishList" parameterType="com.xjs.oneenglish.domain.ApiEnglish" resultMap="ApiEnglishResult">
+        <include refid="selectApiEnglishVo"/>
+        <where>  
+            <if test="en != null  and en != ''"> and en = #{en}</if>
+            <if test="zh != null  and zh != ''"> and zh = #{zh}</if>
+        </where>
+    </select>
+    
+    <select id="selectApiEnglishById" parameterType="Long" resultMap="ApiEnglishResult">
+        <include refid="selectApiEnglishVo"/>
+        where id = #{id}
+    </select>
+
+    <delete id="deleteApiEnglishById" parameterType="Long">
+        delete from api_english where id = #{id}
+    </delete>
+
+    <delete id="deleteApiEnglishByIds" parameterType="String">
+        delete from api_english where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
