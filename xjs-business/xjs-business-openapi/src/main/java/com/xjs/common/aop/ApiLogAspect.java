@@ -162,7 +162,7 @@ public class ApiLogAspect {
                                 remoteWarningCRUDFeign.updateApiRecord(haveApiRecord);
                                 //判断接口请求是否超过阈值
                                 if (haveApiRecord.getDayCount() > haveApiRecord.getLimitCount()) {
-                                    //TODO 把记录添加到预警表中
+                                    //TODO 把记录添加到预警表中，表还没设计
 
 
                                 }

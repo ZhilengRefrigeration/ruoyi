@@ -28,7 +28,7 @@ public class ApiWarningController extends BaseController {
      * @return apiRecord
      */
     @PostMapping
-    public R<ApiRecord> saveApiRecord(@RequestBody ApiRecord apiRecord) {
+    public R<ApiRecord> saveApiRecordForRPC(@RequestBody ApiRecord apiRecord) {
         return apiWarningService.saveApiRecord(apiRecord) ? R.ok() : R.fail();
     }
 
@@ -39,12 +39,12 @@ public class ApiWarningController extends BaseController {
      * @return ApiRecord
      */
     @PutMapping
-    public R<ApiRecord> updateApiRecord(@RequestBody ApiRecord apiRecord) {
+    public R<ApiRecord> updateApiRecordForRPC(@RequestBody ApiRecord apiRecord) {
         return apiWarningService.updateApiRecord(apiRecord) ? R.ok() : R.fail();
     }
 
     @GetMapping
-    public R<List<ApiRecord>> selectApiRecordList(ApiRecord apiRecord) {
+    public R<List<ApiRecord>> selectApiRecordListForRPC(ApiRecord apiRecord) {
         List<ApiRecord> apiRecords = apiWarningService.selectApiRecordList(apiRecord);
         return R.ok(apiRecords);
     }

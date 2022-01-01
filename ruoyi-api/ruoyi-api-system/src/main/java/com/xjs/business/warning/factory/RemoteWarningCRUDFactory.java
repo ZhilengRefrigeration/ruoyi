@@ -24,19 +24,19 @@ public class RemoteWarningCRUDFactory implements FallbackFactory<RemoteWarningCR
     public RemoteWarningCRUDFeign create(Throwable cause) {
         return new RemoteWarningCRUDFeign() {
             @Override
-            public R<ApiRecord> saveApiRecord(ApiRecord apiRecord) {
+            public R<ApiRecord> saveApiRecordForRPC(ApiRecord apiRecord) {
                 log.error("调用预警服务添加接口失败，执行降级处理----"+apiRecord.getApiName());
                 return R.fail();
             }
 
             @Override
-            public R<ApiRecord> updateApiRecord(ApiRecord apiRecord) {
+            public R<ApiRecord> updateApiRecordForRPC(ApiRecord apiRecord) {
                 log.error("调用预警服务修改接口失败，执行降级处理----"+apiRecord.getApiName());
                 return R.fail();
             }
 
             @Override
-            public R<List<ApiRecord>> selectApiRecordList(ApiRecord apiRecord) {
+            public R<List<ApiRecord>> selectApiRecordListForRPC(ApiRecord apiRecord) {
                 log.error("调用预警服务查询接口失败，执行降级处理----"+apiRecord.getApiName());
                 return R.fail();
             }

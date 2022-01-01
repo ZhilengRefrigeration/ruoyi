@@ -24,14 +24,14 @@ import java.util.List;
 public interface RemoteWarningCRUDFeign {
 
     @PostMapping("apiwarning")
-    public R<ApiRecord> saveApiRecord(@RequestBody ApiRecord apiRecord);
+    public R<ApiRecord> saveApiRecordForRPC(@RequestBody ApiRecord apiRecord);
 
 
     @PutMapping("apiwarning")
-    public R<ApiRecord> updateApiRecord(@RequestBody ApiRecord apiRecord);
+    public R<ApiRecord> updateApiRecordForRPC(@RequestBody ApiRecord apiRecord);
 
     @GetMapping("apiwarning")
-    R<List<ApiRecord>> selectApiRecordList(@SpringQueryMap ApiRecord apiRecord) ;
+    R<List<ApiRecord>> selectApiRecordListForRPC(@SpringQueryMap ApiRecord apiRecord) ;
 
 
 
