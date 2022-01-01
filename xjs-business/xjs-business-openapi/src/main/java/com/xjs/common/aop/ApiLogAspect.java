@@ -138,14 +138,14 @@ public class ApiLogAspect {
                         apiRecord.setApiName(name);
                         apiRecord.setApiUrl(url);
                         apiRecord.setRequestTime((int) between);
-                        R<List<ApiRecord>> listR = remoteWarningCRUDFeign.selectApiRecordList(apiRecord);
+                        R<List<ApiRecord>> listR = remoteWarningCRUDFeign.selectApiRecordListForRPC(apiRecord);
                         if (listR.getCode() == R.SUCCESS) {
                             List<ApiRecord> data = listR.getData();
                             if (CollUtil.isEmpty(data)) {
                                 //设置初始请求次数
                                 apiRecord.setTotalCount(1L);
                                 apiRecord.setDayCount(1L);
-                                remoteWarningCRUDFeign.saveApiRecord(apiRecord);
+                                remoteWarningCRUDFeign.saveApiRecordForRPC(apiRecord);
                             }else {
                                 ApiRecord haveApiRecord = data.get(0);
 
@@ -159,7 +159,7 @@ public class ApiLogAspect {
                                 if (compareTime > 0) {
                                     haveApiRecord.setDayCount(0L);
                                 }
-                                remoteWarningCRUDFeign.updateApiRecord(haveApiRecord);
+                                remoteWarningCRUDFeign.updateApiRecordForRPC(haveApiRecord);
                                 //判断接口请求是否超过阈值
                                 if (haveApiRecord.getDayCount() > haveApiRecord.getLimitCount()) {
                                     //TODO 把记录添加到预警表中，表还没设计
