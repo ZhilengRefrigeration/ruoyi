@@ -1,6 +1,7 @@
 package com.xjs.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.ruoyi.common.core.utils.DateUtils;
 import com.xjs.domain.ApiRecord;
 import com.xjs.exception.BusinessException;
 import com.xjs.mapper.ApiRecordMapper;
@@ -36,17 +37,54 @@ public class ApiWarningServiceImpl implements ApiWarningService {
     }
 
     @Override
-    public boolean updateApiRecord(ApiRecord apiRecord) {
+    public boolean updateApiRecordByUrl(ApiRecord apiRecord) {
         int name = apiRecordMapper.update(apiRecord, new QueryWrapper<ApiRecord>()
                 .eq("api_name", apiRecord.getApiName()));
         return name == 1;
     }
 
     @Override
-    public List<ApiRecord> selectApiRecordList(ApiRecord apiRecord) {
+    public List<ApiRecord> selectApiRecordListByUrl(ApiRecord apiRecord) {
         return apiRecordMapper
-                .selectList(new QueryWrapper<ApiRecord>().eq("api_name",apiRecord.getApiName())
-                        .eq("api_name",apiRecord.getApiName()));
+                .selectList(new QueryWrapper<ApiRecord>().eq("api_name", apiRecord.getApiName())
+                        .eq("api_name", apiRecord.getApiName()));
+    }
+
+
+    //------------------------代码生成-------------------------------
+
+    /**
+     * 查询API预警
+     *
+     * @param id API预警主键
+     * @return API预警
+     */
+    @Override
+    public ApiRecord selectApiRecordById(Long id) {
+        return apiRecordMapper.selectApiRecordById(id);
+    }
+
+    /**
+     * 查询API预警列表
+     *
+     * @param apiRecord API预警
+     * @return API预警
+     */
+    @Override
+    public List<ApiRecord> selectApiRecordList(ApiRecord apiRecord) {
+        return apiRecordMapper.selectApiRecordList(apiRecord);
+    }
+
+    /**
+     * 修改API预警
+     *
+     * @param apiRecord API预警
+     * @return 结果
+     */
+    @Override
+    public int updateApiRecord(ApiRecord apiRecord) {
+        apiRecord.setUpdateTime(DateUtils.getNowDate());
+        return apiRecordMapper.updateApiRecord(apiRecord);
     }
 
 
