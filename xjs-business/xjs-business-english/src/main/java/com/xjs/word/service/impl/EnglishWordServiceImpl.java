@@ -1,5 +1,6 @@
 package com.xjs.word.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -102,6 +103,12 @@ public class EnglishWordServiceImpl implements IEnglishWordService {
      */
     @Override
     public int insertEnglishWord(EnglishWord englishWord) {
+        //校验数据库是否存在该单词
+        List<EnglishWord> englishWordList = englishWordMapper.selectList(new QueryWrapper<EnglishWord>()
+                .eq("english_word", englishWord.getContent()));
+        if (CollUtil.isNotEmpty(englishWordList)) {
+            throw new BusinessException("该单词已存在！！！!");
+        }
         //校验前端传入的是否英文或中文
         boolean alpha = ChineseUtil.isAlpha(englishWord.getContent());
         boolean chinese = ChineseUtil.checkNameChese(englishWord.getContent());
