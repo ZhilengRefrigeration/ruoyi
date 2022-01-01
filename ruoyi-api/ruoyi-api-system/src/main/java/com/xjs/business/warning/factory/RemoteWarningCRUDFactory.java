@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * @author xiejs
  * @desc  调用预警服务降级处理
@@ -23,13 +25,19 @@ public class RemoteWarningCRUDFactory implements FallbackFactory<RemoteWarningCR
         return new RemoteWarningCRUDFeign() {
             @Override
             public R<ApiRecord> saveApiRecord(ApiRecord apiRecord) {
-                log.error("调用预警服务添加接口失败----"+apiRecord.getApiName());
+                log.error("调用预警服务添加接口失败，执行降级处理----"+apiRecord.getApiName());
                 return R.fail();
             }
 
             @Override
             public R<ApiRecord> updateApiRecord(ApiRecord apiRecord) {
-                log.error("调用预警服务修改接口失败----"+apiRecord.getApiName());
+                log.error("调用预警服务修改接口失败，执行降级处理----"+apiRecord.getApiName());
+                return R.fail();
+            }
+
+            @Override
+            public R<List<ApiRecord>> selectApiRecordList(ApiRecord apiRecord) {
+                log.error("调用预警服务查询接口失败，执行降级处理----"+apiRecord.getApiName());
                 return R.fail();
             }
         };

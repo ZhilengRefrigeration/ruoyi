@@ -21,6 +21,11 @@ public class ApiRecord implements Serializable {
     /** api地址 */
     private String apiUrl;
 
+    /**
+     * 请求耗费时间
+     */
+    private Integer requestTime;
+
     /** api总请求次数 */
     private Long totalCount;
 
@@ -85,5 +90,13 @@ public class ApiRecord implements Serializable {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getRequestTime() {
+        return requestTime;
+    }
+
+    public void setRequestTime(Integer requestTime) {
+        this.requestTime = requestTime;
     }
 }

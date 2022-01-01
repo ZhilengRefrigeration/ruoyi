@@ -2,6 +2,8 @@ package com.xjs.service;
 
 import com.xjs.domain.ApiRecord;
 
+import java.util.List;
+
 /**
  * @author xiejs
  * @desc
@@ -23,4 +25,11 @@ public interface ApiWarningService {
      * @return apiRecord
      */
     boolean updateApiRecord(ApiRecord apiRecord);
+
+    /**
+     * 根据 apiurl和name查询
+     * @param apiRecord
+     * @return
+     */
+    List<ApiRecord> selectApiRecordList(ApiRecord apiRecord);
 }

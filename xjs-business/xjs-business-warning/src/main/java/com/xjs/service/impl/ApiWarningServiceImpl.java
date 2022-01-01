@@ -8,6 +8,7 @@ import com.xjs.service.ApiWarningService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -39,6 +40,13 @@ public class ApiWarningServiceImpl implements ApiWarningService {
         int name = apiRecordMapper.update(apiRecord, new QueryWrapper<ApiRecord>()
                 .eq("api_name", apiRecord.getApiName()));
         return name == 1;
+    }
+
+    @Override
+    public List<ApiRecord> selectApiRecordList(ApiRecord apiRecord) {
+        return apiRecordMapper
+                .selectList(new QueryWrapper<ApiRecord>().eq("api_name",apiRecord.getApiName())
+                        .eq("api_name",apiRecord.getApiName()));
     }
 
 

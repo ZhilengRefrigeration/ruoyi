@@ -5,9 +5,13 @@ import com.ruoyi.common.core.domain.R;
 import com.xjs.business.warning.domain.ApiRecord;
 import com.xjs.business.warning.factory.RemoteWarningCRUDFactory;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.cloud.openfeign.SpringQueryMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 /**
  * @author xiejs
@@ -19,12 +23,17 @@ import org.springframework.web.bind.annotation.RequestBody;
         fallbackFactory = RemoteWarningCRUDFactory.class)
 public interface RemoteWarningCRUDFeign {
 
-    @PostMapping
+    @PostMapping("apiwarning")
     public R<ApiRecord> saveApiRecord(@RequestBody ApiRecord apiRecord);
 
 
-    @PutMapping
+    @PutMapping("apiwarning")
     public R<ApiRecord> updateApiRecord(@RequestBody ApiRecord apiRecord);
+
+    @GetMapping("apiwarning")
+    R<List<ApiRecord>> selectApiRecordList(@SpringQueryMap ApiRecord apiRecord) ;
+
+
 
 
 }
