@@ -21,6 +21,9 @@ public class ApiRecord implements Serializable {
     /** api地址 */
     private String apiUrl;
 
+    /** api每天请求次数 */
+    private Long dayCount;
+
     /**
      * 请求耗费时间
      */
@@ -98,5 +101,13 @@ public class ApiRecord implements Serializable {
 
     public void setRequestTime(Integer requestTime) {
         this.requestTime = requestTime;
+    }
+
+    public Long getDayCount() {
+        return dayCount;
+    }
+
+    public void setDayCount(Long dayCount) {
+        this.dayCount = dayCount;
     }
 }

@@ -1,6 +1,7 @@
 package com.xjs.common.aop;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import com.ruoyi.common.core.domain.R;
 import com.xjs.business.warning.RemoteWarningCRUDFeign;
@@ -20,6 +21,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -142,12 +144,29 @@ public class ApiLogAspect {
                             if (CollUtil.isEmpty(data)) {
                                 //设置初始请求次数
                                 apiRecord.setTotalCount(1L);
+                                apiRecord.setDayCount(1L);
                                 remoteWarningCRUDFeign.saveApiRecord(apiRecord);
                             }else {
                                 ApiRecord haveApiRecord = data.get(0);
+
                                 haveApiRecord.setRequestTime((int) between);
                                 haveApiRecord.setTotalCount(haveApiRecord.getTotalCount()+1L);
+                                //统计当前的请求次数，隔天清零
+                                haveApiRecord.setDayCount(haveApiRecord.getDayCount()+1L);
+                                Date updateTime = haveApiRecord.getUpdateTime();
+                                //当前时间和最后一次修改时间间隔天数（超过1 就清零）
+                                long compareTime = DateUtil.between(new Date(), updateTime, DateUnit.DAY);
+                                if (compareTime > 0) {
+                                    haveApiRecord.setDayCount(0L);
+                                }
                                 remoteWarningCRUDFeign.updateApiRecord(haveApiRecord);
+                                //判断接口请求是否超过阈值
+                                if (haveApiRecord.getDayCount() > haveApiRecord.getLimitCount()) {
+                                    //TODO 把记录添加到预警表中
+
+
+                                }
+
                             }
                         }
                     }

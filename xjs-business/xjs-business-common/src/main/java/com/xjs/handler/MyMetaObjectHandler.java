@@ -21,6 +21,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         log.info("start insert fill ....");
         //this.setFieldValByName("createTime", new Date(), metaObject);
         this.strictInsertFill(metaObject, "createTime", Date.class,new Date()); // 起始版本 3.3.3(推荐)
+        this.strictInsertFill(metaObject, "updateTime", Date.class,new Date());
     }
 
     @Override

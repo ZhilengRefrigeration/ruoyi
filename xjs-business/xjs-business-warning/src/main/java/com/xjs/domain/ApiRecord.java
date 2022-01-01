@@ -55,6 +55,9 @@ public class ApiRecord implements Serializable {
     @Excel(name = "api限制请求次数每天")
     private Long limitCount;
 
+    @Excel(name = "api每天请求次数")
+    private Long dayCount;
+
     @Excel(name = "创建时间", dateFormat = "yyyy-MM-dd HH:mm:ss")
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
