@@ -5,6 +5,7 @@ import com.ruoyi.common.security.annotation.EnableRyFeignClients;
 import com.ruoyi.common.security.config.ApplicationConfig;
 import com.ruoyi.common.security.feign.FeignAutoConfiguration;
 import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
+import io.seata.spring.boot.autoconfigure.SeataAutoConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -18,8 +19,10 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * @desc  业务监控服务启动器
  * @create 2022-01-02
  */
-//排除两个关于数据源的自动配置类
-@SpringBootApplication(exclude = {DynamicDataSourceAutoConfiguration.class, DataSourceAutoConfiguration.class})
+//排除两个关于数据源的自动配置类、及seata配置类
+@SpringBootApplication(exclude = {DynamicDataSourceAutoConfiguration.class,
+        DataSourceAutoConfiguration.class,
+        SeataAutoConfiguration.class})
 // 表示通过aop框架暴露该代理对象,AopContext能够访问
 @EnableAspectJAutoProxy(exposeProxy = true)
 // 开启线程异步执行

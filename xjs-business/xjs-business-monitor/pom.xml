@@ -18,27 +18,4 @@
     </properties>
 
 
-    <!--<dependencies>
-        <dependency>
-            <groupId>com.xjs</groupId>
-            <artifactId>xjs-business</artifactId>
-            <version>3.3.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>mysql</groupId>
-                    <artifactId>mysql-connector-java</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.ruoyi</groupId>
-                    <artifactId>ruoyi-common-datasource</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.ruoyi</groupId>
-                    <artifactId>ruoyi-common-datascope</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-    </dependencies>-->
-
-
 </project>
