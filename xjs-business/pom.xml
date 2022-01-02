@@ -19,6 +19,7 @@
         <module>xjs-business-english</module>
         <module>xjs-business-common</module>
         <module>xjs-business-warning</module>
+        <module>xjs-business-monitor</module>
     </modules>
 
     <properties>
