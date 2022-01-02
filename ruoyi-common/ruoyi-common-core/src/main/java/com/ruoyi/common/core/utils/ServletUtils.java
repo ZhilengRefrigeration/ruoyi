@@ -130,6 +130,12 @@ public class ServletUtils
         }
     }
 
+    /**
+     * 获取信息头
+     * @param request 参数
+     * @param name 名字
+     * @return 信息头
+     */
     public static String getHeader(HttpServletRequest request, String name)
     {
         String value = request.getHeader(name);
@@ -140,6 +146,11 @@ public class ServletUtils
         return urlDecode(value);
     }
 
+    /**
+     * 获取信息头
+     * @param request 参数
+     * @return 信息头
+     */
     public static Map<String, String> getHeaders(HttpServletRequest request)
     {
         Map<String, String> map = new LinkedHashMap<>();

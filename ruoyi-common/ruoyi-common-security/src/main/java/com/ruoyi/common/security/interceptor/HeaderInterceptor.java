@@ -45,6 +45,14 @@ public class HeaderInterceptor implements AsyncHandlerInterceptor
         return true;
     }
 
+    /**
+     * 完成后的操作
+     * @param request 参数
+     * @param response 响应
+     * @param handler 处理人
+     * @param ex  参数
+     * @throws Exception 响应异常
+     */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
             throws Exception

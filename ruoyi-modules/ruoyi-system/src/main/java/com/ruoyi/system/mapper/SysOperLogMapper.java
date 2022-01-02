@@ -2,12 +2,14 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.api.domain.SysOperLog;
+import org.springframework.stereotype.Service;
 
 /**
  * 操作日志 数据层
  * 
  * @author ruoyi
  */
+@Service
 public interface SysOperLogMapper
 {
     /**

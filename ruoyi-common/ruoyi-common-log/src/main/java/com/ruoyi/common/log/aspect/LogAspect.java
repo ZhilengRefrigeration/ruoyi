@@ -62,6 +62,13 @@ public class LogAspect
         handleLog(joinPoint, controllerLog, e, null);
     }
 
+    /**
+     * 处理日志
+     * @param joinPoint
+     * @param controllerLog
+     * @param e
+     * @param jsonResult
+     */
     protected void handleLog(final JoinPoint joinPoint, Log controllerLog, final Exception e, Object jsonResult)
     {
         try
