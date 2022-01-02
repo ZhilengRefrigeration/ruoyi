@@ -154,11 +154,15 @@ public class ApiLogAspect {
                                 //统计当前的请求次数，隔天清零
                                 haveApiRecord.setDayCount(haveApiRecord.getDayCount()+1L);
                                 Date updateTime = haveApiRecord.getUpdateTime();
+                                String dateTime = DateUtil.formatDateTime(updateTime);
+                                Date date = DateUtil.parseDate(dateTime).toJdkDate();
                                 //当前时间和最后一次修改时间间隔天数（超过1 就清零）
-                                long compareTime = DateUtil.between(new Date(), updateTime, DateUnit.DAY);
+                                long compareTime = DateUtil.between(date, new Date(), DateUnit.DAY);
                                 if (compareTime > 0) {
                                     haveApiRecord.setDayCount(0L);
                                 }
+                                //置为空让mp自动填充
+                                haveApiRecord.setUpdateTime(null);
                                 remoteWarningCRUDFeign.updateApiRecordForRPC(haveApiRecord);
                                 //判断接口请求是否超过阈值
                                 if (haveApiRecord.getDayCount() > haveApiRecord.getLimitCount()) {

@@ -22,8 +22,9 @@ class ChineseUtilTest {
 
     @Test
     public void test2() {
+        Date date = DateUtil.parse("2022-01-01 23:59:59").toJdkDate();
         long between = DateUtil
-                .between(new Date(), DateUtil.parseDate("2021-12-31 23:59:59").toJdkDate(), DateUnit.DAY);
+                .between(new Date(), date, DateUnit.DAY);
         System.out.println(between);
     }
 

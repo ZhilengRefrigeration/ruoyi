@@ -1,7 +1,6 @@
 package com.xjs.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ruoyi.common.core.utils.DateUtils;
 import com.xjs.domain.ApiRecord;
 import com.xjs.exception.BusinessException;
 import com.xjs.mapper.ApiRecordMapper;
@@ -83,7 +82,6 @@ public class ApiWarningServiceImpl implements ApiWarningService {
      */
     @Override
     public int updateApiRecord(ApiRecord apiRecord) {
-        apiRecord.setUpdateTime(DateUtils.getNowDate());
         return apiRecordMapper.updateApiRecord(apiRecord);
     }
 
