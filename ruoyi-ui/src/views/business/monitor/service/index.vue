@@ -1,120 +1,126 @@
 <template>
-  <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
-      <el-form-item label="登录地址" prop="ipaddr">
-        <el-input
-          v-model="queryParams.ipaddr"
-          placeholder="请输入登录地址"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="用户名称" prop="userName">
-        <el-input
-          v-model="queryParams.userName"
-          placeholder="请输入用户名称"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-      </el-form-item>
+  <div>
+    <el-row :gutter="20">
+      <el-col :span="12">
+        <div class="grid-content bg-purple">
+          <el-tag type="info">jvm版本</el-tag>
+          {{serviceMonitorInfo.jvmVersion}}
+          <br>
+          <el-tag type="info">jre安装路径</el-tag>
+          {{serviceMonitorInfo.jreHoneDir}}
+          <br>
+          <el-tag type="info">jre版本</el-tag>
+          {{serviceMonitorInfo.jreVersion}}
+          <br>
+          <el-tag type="info">jre名称</el-tag>
+          {{serviceMonitorInfo.jreName}}
+          <br>
+        </div>
+      </el-col>
+      <el-col :span="12">
+        <div class="grid-content bg-purple">
+          <el-tag type="info">系统名称</el-tag>
+          {{serviceMonitorInfo.osName}}
+          <br>
+          <el-tag type="info">系统版本</el-tag>
+          {{serviceMonitorInfo.osVersion}}
+          <br>
+          <el-tag type="info">系统架构</el-tag>
+          {{serviceMonitorInfo.osArch}}
+          <br>
+        </div>
+      </el-col>
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="12">
+        <div class="grid-content bg-purple">
+          <el-tag type="info">主机名</el-tag>
+          {{serviceMonitorInfo.hostName}}
+          <br>
+          <el-tag type="info">主机地址</el-tag>
+          {{serviceMonitorInfo.hostAddress}}
+          <br>
+          <el-tag type="info">登录名</el-tag>
+          {{serviceMonitorInfo.userName}}
+          <br>
+          <el-tag type="info">用户路径</el-tag>
+          {{serviceMonitorInfo.homeDir}}
+          <br>
+          <el-tag type="info">当前目录</el-tag>
+          {{serviceMonitorInfo.currentDir}}
+          <br>
+          <el-tag type="info">登录语言</el-tag>
+          {{serviceMonitorInfo.userLanguage}}
+          <br>
+          <el-tag type="info">登录区域</el-tag>
+          {{serviceMonitorInfo.userCountry}}
+          <br>
+        </div>
+      </el-col>
+      <el-col :span="12">
+        <div class="grid-content bg-purple">
+          <el-tag type="info">最大jvm内存</el-tag>
+          {{serviceMonitorInfo.maxMemory/1024/1024+"M"}}
+          <br>
+          <el-tag type="info">已分配内存</el-tag>
+          {{serviceMonitorInfo.totalMemory/1024/1024+"M"}}
+          <br>
+          <el-tag type="info">剩余内存</el-tag>
+          {{parseFloat(Number(serviceMonitorInfo.freeMemory/1024/1024).toFixed(0))+"M"}}
+          <br>
+          <el-tag type="info">最大可用内存</el-tag>
+          {{parseFloat(Number(serviceMonitorInfo.usableMemory/1024/1024).toFixed(0))+"M"}}
+          <br>
 
-    </el-form>
-    <el-table
-      v-loading="loading"
-      :data="list.slice((pageNum-1)*pageSize,pageNum*pageSize)"
-      style="width: 100%;"
-    >
-      <el-table-column label="序号" type="index" align="center">
-        <template slot-scope="scope">
-          <span>{{(pageNum - 1) * pageSize + scope.$index + 1}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="会话编号" align="center" prop="tokenId" :show-overflow-tooltip="true" />
-      <el-table-column label="登录名称" align="center" prop="userName" :show-overflow-tooltip="true" />
-      <el-table-column label="主机" align="center" prop="ipaddr" :show-overflow-tooltip="true" />
-      <el-table-column label="登录时间" align="center" prop="loginTime" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.loginTime) }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleForceLogout(scope.row)"
-            v-hasPermi="['monitor:online:forceLogout']"
-          >强退</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <pagination v-show="total>0" :total="total" :page.sync="pageNum" :limit.sync="pageSize" />
+        </div>
+      </el-col>
+    </el-row>
   </div>
+
 </template>
 
 <script>
-import { list, forceLogout } from "@/api/monitor/online";
+import {getServiceMonitor} from "@/api/business/monitor/service/monitorservice";
 
 export default {
   name: "Online",
   data() {
     return {
-      // 遮罩层
-      loading: true,
-      // 总条数
-      total: 0,
-      // 表格数据
-      list: [],
-      pageNum: 1,
-      pageSize: 10,
-      // 查询参数
-      queryParams: {
-        ipaddr: undefined,
-        userName: undefined
+      serviceMonitorInfo:{
+
       }
-    };
+    }
+
   },
   created() {
-    this.getList();
+    this.getServiceMonitor()
   },
   methods: {
-    /** 查询登录日志列表 */
-    getList() {
-      this.loading = true;
-      list(this.queryParams).then(response => {
-        this.list = response.rows;
-        this.total = response.total;
-        this.loading = false;
-      });
+    getServiceMonitor() {
+      getServiceMonitor().then(res =>{
+        this.serviceMonitorInfo=res.data
+      })
     },
-    /** 搜索按钮操作 */
-    handleQuery() {
-      this.pageNum = 1;
-      this.getList();
-    },
-    /** 重置按钮操作 */
-    resetQuery() {
-      this.resetForm("queryForm");
-      this.handleQuery();
-    },
-    /** 强退按钮操作 */
-    handleForceLogout(row) {
-      this.$modal.confirm('是否确认强退名称为"' + row.userName + '"的用户？').then(function() {
-        return forceLogout(row.tokenId);
-      }).then(() => {
-        this.getList();
-        this.$modal.msgSuccess("强退成功");
-      }).catch(() => {});
-    }
   }
 };
 </script>
+
+<style>
+.el-row {
+  margin: 100px;
+  padding: 0 20px;
+}
+.el-col {
+  border-radius: 4px;
+}
+.grid-content {
+  border-radius: 4px;
+  min-height: 36px;
+  padding: 0 180px;
+}
+.row-bg {
+  padding: 10px 0;
+  background-color: #f9fafc;
+}
+</style>
 

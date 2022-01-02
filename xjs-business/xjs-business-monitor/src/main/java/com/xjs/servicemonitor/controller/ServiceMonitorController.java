@@ -24,6 +24,7 @@ public class ServiceMonitorController {
     private SystemOSService systemOSService;
 
     @GetMapping
+
     public AjaxResult getServiceMonitor() {
         ServiceMonitorInfo serviceMonitorInfo = new ServiceMonitorInfo();
         serviceMonitorInfo.setFreeMemory(systemOSService.getRuntimeInfo().getFreeMemory());
