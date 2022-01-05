@@ -159,7 +159,7 @@ public class ApiLogAspect {
                                 //当前时间和最后一次修改时间间隔天数（超过1 就清零）
                                 long compareTime = DateUtil.between(date, new Date(), DateUnit.DAY);
                                 if (compareTime > 0) {
-                                    haveApiRecord.setDayCount(0L);
+                                    haveApiRecord.setDayCount(1L);
                                 }
                                 //置为空让mp自动填充
                                 haveApiRecord.setUpdateTime(null);

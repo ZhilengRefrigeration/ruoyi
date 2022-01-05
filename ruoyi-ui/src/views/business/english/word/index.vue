@@ -514,7 +514,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .div1 {
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   height: 180px;

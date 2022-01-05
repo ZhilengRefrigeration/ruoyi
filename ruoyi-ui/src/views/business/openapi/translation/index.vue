@@ -154,7 +154,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .bg-purple {
   box-shadow: 0 0 9px 3px #999;
 }

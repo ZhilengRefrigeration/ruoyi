@@ -101,11 +101,11 @@ export default {
         this.serviceMonitorInfo=res.data
       })
     },
-  }
+  },
 };
 </script>
 
-<style>
+<style scoped>
 .el-row {
   margin: 100px;
   padding: 0 20px;
