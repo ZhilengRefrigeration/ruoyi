@@ -66,5 +66,14 @@
         </foreach>
     </delete>
 
+    <delete id="deleteRepeatData">
+        DELETE
+        FROM
+            api_copywriting
+        WHERE
+                content IN ( SELECT t.content FROM ( SELECT content FROM api_copywriting GROUP BY content HAVING count( content ) > 1 ) t )
+          AND id NOT IN ( SELECT c.id FROM ( SELECT max( id ) id FROM api_copywriting GROUP BY content HAVING count( content )> 1 ) c )
+    </delete>
+
 
 </mapper>

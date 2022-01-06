@@ -24,3 +24,10 @@ export function delCopyWriting(id) {
     method: 'delete'
   })
 }
+// 删除重复文案信息
+export function delRepeatCopyWriting() {
+  return request({
+    url: '/openapi/copyWriting/Repeat/',
+    method: 'delete'
+  })
+}

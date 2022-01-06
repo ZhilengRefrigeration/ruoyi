@@ -29,6 +29,11 @@ public class CopyWritingServiceImpl extends ServiceImpl<CopyWritingMapper, CopyW
         return copyWritingMapper.getOneToRandom();
     }
 
+    @Override
+    public int deleteRepeatData() {
+        return copyWritingMapper.deleteRepeatData();
+    }
+
 
     //----------------------代码自动生成------------------------------------
     /**

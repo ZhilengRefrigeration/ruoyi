@@ -24,6 +24,12 @@ public interface CopyWritingService extends IService<CopyWriting> {
      */
     CopyWriting getOneToRandom();
 
+    /**
+     * 删除重复文案数据
+     * @return int 删除条数
+     */
+    int deleteRepeatData();
+
 
     //-------------------------代码自动生成----------------------------------
     /**

@@ -67,6 +67,16 @@ public class CopyWritingController extends BaseController {
         return R.ok(copyWriting);
     }
 
+    @DeleteMapping("Repeat")
+    @ApiOperation("删除重复文案内容")
+    @RequiresPermissions("openapi:copywriting:delete")
+    @Log(title = "删除重复文案", businessType = BusinessType.DELETE)
+    public AjaxResult deleteRepeatData() {
+        int count = copyWritingService.deleteRepeatData();
+        return AjaxResult.success(count);
+    }
+
+
     /**
      * 封装随机调用api
      *

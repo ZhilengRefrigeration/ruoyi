@@ -24,6 +24,13 @@ public interface CopyWritingMapper extends BaseMapper<CopyWriting> {
     CopyWriting getOneToRandom();
 
 
+    /**
+     * 删除重复文案数据
+     * @return int 删除条数
+     */
+    int deleteRepeatData();
+
+
     //---------------------代码自动生成-------------------------
     /**
      * 查询文案api，通过api获取文案信息

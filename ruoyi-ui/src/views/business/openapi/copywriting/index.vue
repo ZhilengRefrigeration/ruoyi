@@ -49,10 +49,6 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-      </el-col>
-      <el-col :span="1.5">
-      </el-col>
-      <el-col :span="1.5">
         <el-button
           type="danger"
           plain
@@ -60,7 +56,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['openapi:copywriting:remove']"
+          v-hasPermi="['openapi:copywriting:delete']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -72,6 +68,17 @@
           @click="handleExport"
           v-hasPermi="['openapi:copywriting:export']"
         >导出</el-button>
+      </el-col>
+
+      <el-col :span="1.5">
+        <el-button
+          type="danger"
+          plain
+          icon="el-icon-delete"
+          size="mini"
+          @click="delRepeatCopyWriting"
+          v-hasPermi="['openapi:copywriting:delete']"
+        >删除重复文案</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -102,7 +109,7 @@
             type="danger"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['openapi:copywriting:remove']"
+            v-hasPermi="['openapi:copywriting:delete']"
           ></el-button>
           </el-tooltip>
         </template>
@@ -134,7 +141,7 @@
 </template>
 
 <script>
-import { listCopyWriting, getCopyWriting, delCopyWriting } from "@/api/business/openapi/copywriting";
+import { listCopyWriting, getCopyWriting,delRepeatCopyWriting, delCopyWriting } from "@/api/business/openapi/copywriting";
 
 export default {
   name: "CopyWriting",
@@ -187,6 +194,13 @@ export default {
     this.getList();
   },
   methods: {
+    //删除重复文案
+    delRepeatCopyWriting() {
+      delRepeatCopyWriting().then(res =>{
+        this.$modal.msgSuccess("删除"+res.data+"条");
+      })
+    },
+
     /** 详细按钮操作 */
     handleView(row) {
       this.open = true;
