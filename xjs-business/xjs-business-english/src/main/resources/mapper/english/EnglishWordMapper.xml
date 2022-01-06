@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjs.word.mapper.EnglishWordMapper">
+
+    <resultMap type="com.xjs.word.domain.EnglishWord" id="EnglishWordResult">
+        <result property="id" column="id"/>
+        <result property="englishWord" column="english_word"/>
+        <result property="chineseWord" column="chinese_word"/>
+        <result property="sort" column="sort"/>
+        <result property="isCollect" column="is_collect"/>
+        <result property="top" column="top"/>
+        <result property="lookCount" column="look_count"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <sql id="selectEnglishWordVo">
+        select id,
+               english_word,
+               chinese_word,
+               sort,
+               is_collect,
+               top,
+               look_count,
+               create_time
+        from english_word
+    </sql>
+
+    <select id="selectEnglishWordList" parameterType="com.xjs.word.domain.EnglishWord" resultMap="EnglishWordResult">
+        <include refid="selectEnglishWordVo"/>
+        <where>
+            <if test="englishWord != null  and englishWord != ''">and english_word like concat('%', #{englishWord},
+                '%')
+            </if>
+            <if test="chineseWord != null  and chineseWord != ''">and chinese_word like concat('%', #{chineseWord},
+                '%')
+            </if>
+            <if test="createTime != null  and endCreateTime != null">
+                and create_time between #{createTime} and #{endCreateTime}
+            </if>
+        </where>
+        order by top asc, sort desc , create_time desc
+    </select>
+
+    <select id="selectEnglishWordById" parameterType="Long" resultMap="EnglishWordResult">
+        <include refid="selectEnglishWordVo"/>
+        where id = #{id}
+    </select>
+
+    <delete id="deleteEnglishWordById" parameterType="Long">
+        delete
+        from english_word
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteEnglishWordByIds" parameterType="String">
+        delete from english_word where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -17,7 +17,7 @@ public @interface EnableRyFeignClients
 {
     String[] value() default {};
 
-    String[] basePackages() default { "com.ruoyi" };
+    String[] basePackages() default { "com.ruoyi" ,"com.xjs"};
 
     Class<?>[] basePackageClasses() default {};
 

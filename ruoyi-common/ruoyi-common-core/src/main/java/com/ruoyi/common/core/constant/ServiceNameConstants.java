@@ -21,4 +21,18 @@ public class ServiceNameConstants
      * 文件服务的serviceid
      */
     public static final String FILE_SERVICE = "ruoyi-file";
+
+    /**
+     * 第三方api业务服务的serviceid
+     */
+    public static final String BUSINESS_OPENAPI_SERVICE= "xjs-openapi" ;
+
+
+    /**
+     * 预警服务的serviceid
+     */
+    public static final String BUSINESS_WARNING_SERVICE= "xjs-warning" ;
+
+
+
 }

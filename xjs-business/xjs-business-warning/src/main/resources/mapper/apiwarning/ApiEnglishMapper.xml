@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjs.mapper.ApiRecordMapper">
+
+    <resultMap type="com.xjs.domain.ApiRecord" id="ApiRecordResult">
+        <result property="id"    column="id"    />
+        <result property="apiName"    column="api_name"    />
+        <result property="apiUrl"    column="api_url"    />
+        <result property="totalCount"    column="total_count"    />
+        <result property="requestTime"    column="request_time"    />
+        <result property="limitCount"    column="limit_count"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="dayCount"    column="day_count"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectApiRecordVo">
+        select id, api_name, api_url, total_count, limit_count, create_time, update_time,day_count,request_time
+        from api_record
+    </sql>
+
+    <select id="selectApiRecordList" parameterType="com.xjs.domain.ApiRecord" resultMap="ApiRecordResult">
+        <include refid="selectApiRecordVo"/>
+        <where>
+            <if test="apiName != null  and apiName != ''"> and api_name like concat('%', #{apiName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectApiRecordById" parameterType="Long" resultMap="ApiRecordResult">
+        <include refid="selectApiRecordVo"/>
+        where id = #{id}
+    </select>
+
+
+    <update id="updateApiRecord" parameterType="com.xjs.domain.ApiRecord">
+        update api_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="apiName != null">api_name = #{apiName},</if>
+            <if test="apiUrl != null">api_url = #{apiUrl},</if>
+            <if test="totalCount != null">total_count = #{totalCount},</if>
+            <if test="limitCount != null">limit_count = #{limitCount},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+
+</mapper>

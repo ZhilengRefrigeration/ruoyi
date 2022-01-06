@@ -17,7 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <spring-boot.version>2.5.8</spring-boot.version>
+        <spring-boot.version>2.5.6</spring-boot.version>
         <spring-cloud.version>2020.0.4</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
         <alibaba.nacos.version>2.0.3</alibaba.nacos.version>
@@ -40,7 +40,13 @@
         <common-pool.version>2.10.0</common-pool.version>
         <commons-collections.version>3.2.2</commons-collections.version>
         <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
-        <log4j2.version>2.17.1</log4j2.version>
+        <log4j2.version>2.17.0</log4j2.version>
+
+        <!--xjs加的-->
+        <knife4j.version>3.0.3</knife4j.version>
+        <hutool.version>5.7.17</hutool.version>
+        <mybatisplus.version>3.4.3.4</mybatisplus.version>
+
     </properties>
 
     <!-- 依赖声明 -->
@@ -197,7 +203,7 @@
                 <artifactId>log4j-api</artifactId>
                 <version>${log4j2.version}</version>
             </dependency>
-
+            
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-to-slf4j</artifactId>
@@ -270,6 +276,7 @@
         <module>ruoyi-modules</module>
         <module>ruoyi-api</module>
         <module>ruoyi-common</module>
+        <module>xjs-business</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -25,6 +25,8 @@ spring:
         # 共享配置
         shared-configs:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+        #命名空间
+        namespace: xjs-666
     sentinel:
       # 取消控制台懒加载
       eager: true
