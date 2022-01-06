@@ -54,7 +54,7 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="英文" align="center" prop="en" />
       <el-table-column label="中文" align="center" prop="zh" />
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="120px">
         <template slot-scope="scope">
           <el-button
             circle

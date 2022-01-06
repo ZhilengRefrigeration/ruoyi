@@ -85,7 +85,7 @@
 
     <el-table v-loading="loading" :data="copyWritingList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="文案内容" align="center" prop="content" :show-overflow-tooltip="true" />
+      <el-table-column label="文案内容" align="center" prop="content" :show-overflow-tooltip="true" width="700px"/>
       <el-table-column label="文案来源" align="center" prop="source" :show-overflow-tooltip="true" />
       <el-table-column label="创建时间" align="center" prop="createTime" width="180" :show-overflow-tooltip="true">
       </el-table-column>
@@ -94,7 +94,7 @@
           <dict-tag :options="dict.type.copywriting_type" :value="scope.row.type"/>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" >
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="120px">
         <template slot-scope="scope">
           <el-tooltip class="item" effect="dark" content="点击查看详情" placement="top-start">
           <el-button circle
@@ -198,6 +198,7 @@ export default {
     delRepeatCopyWriting() {
       delRepeatCopyWriting().then(res =>{
         this.$modal.msgSuccess("删除"+res.data+"条");
+        this.getList();
       })
     },
 
@@ -245,6 +246,8 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.daterangeCreateTime = [];
+      this.queryParams.createTime=null
+      this.queryParams.endCreateTime=null
       this.resetForm("queryForm");
       this.handleQuery();
     },
