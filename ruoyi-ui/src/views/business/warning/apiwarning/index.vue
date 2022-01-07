@@ -19,57 +19,43 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button
-          type="success"
-          plain
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['warning:apiwarning:edit']"
-        >修改
-        </el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
           type="warning"
           plain
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['warning:apiwarning:export']"
+          v-hasPermi="['warning:warning:export']"
         >导出
         </el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="apiwarningList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="warningList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"/>
-      <el-table-column label="API名称" align="center" prop="apiName" :show-overflow-tooltip="true"/>
-      <el-table-column label="API地址" align="center" prop="apiUrl" :show-overflow-tooltip="true"/>
-      <el-table-column label="API总请求次数" align="center" prop="totalCount" :show-overflow-tooltip="true"/>
-      <el-table-column label="请求耗费时间" align="center" prop="requestTime" :show-overflow-tooltip="true">
+      <el-table-column label="api名称" align="center" prop="apiName" width="200px"/>
+      <el-table-column label="预警类型" align="center" prop="warningType" width="100px"/>
+      <el-table-column label="预警等级" align="center" prop="warningLevel" width="130px">
         <template slot-scope="scope">
-          <span>{{scope.row.requestTime+"ms"}}</span>
+          <el-tag type="info" v-if="scope.row.warningLevel==='普通'">
+            {{ scope.row.warningLevel }}
+          </el-tag>
+          <el-tag type="warning" v-if="scope.row.warningLevel==='警告'">
+            {{ scope.row.warningLevel }}
+          </el-tag>
+          <el-tag type="danger" v-if="scope.row.warningLevel==='严重'">
+            {{ scope.row.warningLevel }}
+          </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="API每天限制请求次数" align="center" prop="limitCount" :show-overflow-tooltip="true"/>
-
-      <el-table-column label="API每天请求次数" align="center" prop="dayCount"/>
-      <el-table-column label="调用时间" align="center" prop="updateTime" width="180"/>
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180" :show-overflow-tooltip="true">
+      <el-table-column label="预警记录信息" align="center" prop="warningMessage" :show-overflow-tooltip="true"/>
+      <el-table-column label="限定值" align="center" prop="limitValue" width="100px"/>
+      <el-table-column label="实际值" align="center" prop="realValue" width="100px"/>
+      <el-table-column label="是否处理" align="center" prop="handle" width="100px">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
-        <template slot-scope="scope">
-          <el-button circle
-                     type="primary"
-                     icon="el-icon-edit"
-                     @click="handleUpdate(scope.row)"
-                     v-hasPermi="['warning:apiwarning:edit']"
-          ></el-button>
+          <el-tag :type="scope.row.handle==='1'?'success':'danger'" size="small">
+            {{ scope.row.handle === 1 ? '是' : '否' }}
+          </el-tag>
         </template>
       </el-table-column>
     </el-table>
@@ -82,26 +68,14 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改API预警对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="请求次数" prop="limitCount">
-          <el-input v-model="form.limitCount" placeholder="请输入api限制请求次数每天"/>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
 <script>
-import {listApiwarning, getApiwarning, updateApiwarning} from "@/api/business/warning/apiwarning";
+import {listApiwarning} from "@/api/business/warning/apiwarning";
 
 export default {
-  name: "Apiwarning",
+  name: "Warning",
   data() {
     return {
       // 遮罩层
@@ -116,8 +90,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // API预警表格数据
-      apiwarningList: [],
+      // api预警表格数据
+      warningList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -138,11 +112,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询API预警列表 */
+    /** 查询api预警列表 */
     getList() {
       this.loading = true;
       listApiwarning(this.queryParams).then(response => {
-        this.apiwarningList = response.rows;
+        this.warningList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -157,13 +131,13 @@ export default {
       this.form = {
         id: null,
         apiName: null,
-        apiUrl: null,
-        totalCount: null,
-        requestTime: null,
-        limitCount: null,
-        createTime: null,
-        dayCount: null,
-        updateTime: null
+        warningType: null,
+        warningLevel: null,
+        warningMessage: null,
+        limitValue: null,
+        realValue: null,
+        handle: null,
+        createTime: null
       };
       this.resetForm("form");
     },
@@ -183,36 +157,13 @@ export default {
       this.single = selection.length !== 1
       this.multiple = !selection.length
     },
-    /** 修改按钮操作 */
-    handleUpdate(row) {
-      this.reset();
-      const id = row.id || this.ids
-      getApiwarning(id).then(response => {
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改API预警";
-      });
-    },
-    /** 提交按钮 */
-    submitForm() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          if (this.form.id != null) {
-            updateApiwarning(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功");
-              this.open = false;
-              this.getList();
-            });
-          }
-        }
-      });
-    },
+
 
     /** 导出按钮操作 */
     handleExport() {
-      this.download('warning/apiwarning/export', {
+      this.download('warning/apiwarning/apiwarnexport', {
         ...this.queryParams
-      }, `apiwarning_${new Date().getTime()}.xlsx`)
+      }, `warning_${new Date().getTime()}.xlsx`)
     }
   }
 };

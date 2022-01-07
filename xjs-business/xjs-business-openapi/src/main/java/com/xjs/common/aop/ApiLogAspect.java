@@ -178,7 +178,8 @@ public class ApiLogAspect {
                                     apiWarning.setApiName(haveApiRecord.getApiName());
                                     apiWarning.setHandle(NO);
                                     apiWarning.setWarningLevel(WarnLevelEnum.NOEMAL.getMessage());
-                                    if(haveApiRecord.getDayCount()>haveApiRecord.getLimitCount()*2){
+                                    if(haveApiRecord.getDayCount()>haveApiRecord.getLimitCount()*2 &&
+                                            haveApiRecord.getDayCount() < haveApiRecord.getLimitCount() * 3){
                                         apiWarning.setWarningLevel(WarnLevelEnum.WARNING.getMessage());
                                     } else if (haveApiRecord.getDayCount() > haveApiRecord.getLimitCount() * 3) {
                                         apiWarning.setWarningLevel(WarnLevelEnum.DANGER.getMessage());
@@ -188,6 +189,8 @@ public class ApiLogAspect {
                                             haveApiRecord.getLimitCount(), haveApiRecord.getDayCount());
                                     apiWarning.setWarningMessage(message);
                                     remoteWarningCRUDFeign.saveApiWarningForRPC(apiWarning);
+
+                                    // todo websocket实现即时推送到客户端
                                 }
 
                             }

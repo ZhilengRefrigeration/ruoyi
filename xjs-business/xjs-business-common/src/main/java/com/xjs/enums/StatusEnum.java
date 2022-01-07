@@ -11,7 +11,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum StatusEnum {
 
     SUCCESS(1,"成功"),
-    ERROR(2,"失败");
+    ERROR(2,"失败"),
+
+    YES(1,"是"),
+    NO(2,"否");
 
 
     private String desc;

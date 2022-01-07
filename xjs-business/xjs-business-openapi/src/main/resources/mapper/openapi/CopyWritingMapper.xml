@@ -72,7 +72,7 @@
             api_copywriting
         WHERE
                 content IN ( SELECT t.content FROM ( SELECT content FROM api_copywriting GROUP BY content HAVING count( content ) > 1 ) t )
-          AND id NOT IN ( SELECT c.id FROM ( SELECT max( id ) id FROM api_copywriting GROUP BY content HAVING count( content )> 1 ) c )
+          AND id NOT IN ( SELECT c.id FROM ( SELECT min( id ) id FROM api_copywriting GROUP BY content HAVING count( content )> 1 ) c )
     </delete>
 
 
