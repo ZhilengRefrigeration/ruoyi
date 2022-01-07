@@ -111,7 +111,9 @@ public class ApiLogAspect {
         }
         entity.setMethod(apiLog.method());
         entity.setRequest(builder.toString());
-        entity.setResponse(jsonResult.toString());
+        if (Objects.nonNull(jsonResult)) {
+            entity.setResponse(jsonResult.toString());
+        }
         if (e != null) {
             entity.setIsSuccess(StatusEnum.ERROR);
         }else {

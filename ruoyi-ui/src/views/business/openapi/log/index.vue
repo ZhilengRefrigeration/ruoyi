@@ -52,13 +52,21 @@
       <el-table-column label="请求参数" align="center" prop="request" :show-overflow-tooltip="true"/>
       <el-table-column label="响应参数" align="center" prop="response" :show-overflow-tooltip="true"/>
       <el-table-column label="创建时间" align="center" prop="createTime" :show-overflow-tooltip="true"/>
-        <el-table-column label="是否请求成功" align="center" prop="isSuccess" :show-overflow-tooltip="true">
-          <template slot-scope="scope">
-            <el-tag :type="scope.row.isSuccess==='成功'?'success':'danger'" size="small">{{ scope.row.isSuccess }}</el-tag>
-          </template>
-        </el-table-column>
+      <el-table-column label="是否请求成功" align="center" prop="isSuccess" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.isSuccess==='成功'?'success':'danger'" size="small">{{ scope.row.isSuccess }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
+          <el-tooltip class="item" effect="dark" content="点击查看详情" placement="top-start">
+            <el-button circle
+                       type=""
+                       icon="el-icon-view"
+                       @click="handleView(scope.row,scope.index)"
+                       v-hasPermi="['openapi:log:query']"
+            ></el-button>
+          </el-tooltip>
           <el-button
             circle
             type="danger"
@@ -70,6 +78,35 @@
         </template>
       </el-table-column>
     </el-table>
+
+
+    <el-dialog title="内容详细" :visible.sync="open" width="700px" append-to-body>
+      <el-row>
+        <el-col :span="24">
+          请求参数：
+        </el-col>
+        <el-col :span="24">
+          <json-viewer :value=request
+                       :expand-depth=5
+                       copyable
+                       boxed
+                       sort></json-viewer>
+        </el-col>
+        <el-col :span="24">
+          响应参数：
+        </el-col>
+        <el-col :span="24">
+          <json-viewer :value="response"
+                       :expand-depth=5
+                       copyable
+                       boxed
+                       sort></json-viewer>
+        </el-col>
+      </el-row>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="open = false">关 闭</el-button>
+      </div>
+    </el-dialog>
 
     <pagination
       v-show="total>0"
@@ -114,6 +151,11 @@ export default {
       },
       // 表单参数
       form: {},
+
+      //json格式数据
+      request: {},
+      response: {},
+
       // 表单校验
       rules: {}
     };
@@ -146,7 +188,7 @@ export default {
         request: null,
         response: null,
         isSuccess: null,
-        createTime:null
+        createTime: null
       };
       this.resetForm("form");
     },
@@ -154,6 +196,13 @@ export default {
     handleQuery() {
       this.queryParams.pageNum = 1;
       this.getList();
+    },
+    /** 详细按钮操作 */
+    handleView(row) {
+      this.open = true;
+      this.form = row;
+      this.request = eval('(' + this.form.request + ')');
+      this.response=JSON.parse(this.form.response)
     },
     /** 重置按钮操作 */
     resetQuery() {

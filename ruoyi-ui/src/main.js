@@ -63,6 +63,10 @@ Vue.use(plugins)
 Vue.use(VueMeta)
 DictData.install()
 
+// json格式化显示
+import JsonViewer from 'vue-json-viewer'
+Vue.use(JsonViewer)
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
