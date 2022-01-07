@@ -6,7 +6,10 @@ import cn.hutool.core.date.DateUtil;
 import com.ruoyi.common.core.domain.R;
 import com.xjs.business.warning.RemoteWarningCRUDFeign;
 import com.xjs.business.warning.domain.ApiRecord;
+import com.xjs.business.warning.domain.ApiWarning;
 import com.xjs.enums.StatusEnum;
+import com.xjs.enums.WarnLevelEnum;
+import com.xjs.enums.WarnTypeEnum;
 import com.xjs.log.mapper.ApiLogMapper;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.JoinPoint;
@@ -24,6 +27,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import static com.xjs.consts.ApiWarnHandleConst.NO;
 
 /**
  * @author xiejs
@@ -166,9 +171,23 @@ public class ApiLogAspect {
                                 remoteWarningCRUDFeign.updateApiRecordForRPC(haveApiRecord);
                                 //判断接口请求是否超过阈值
                                 if (haveApiRecord.getDayCount() > haveApiRecord.getLimitCount()) {
-                                    //TODO 把记录添加到预警表中，表还没设计
-
-
+                                    //把记录添加到预警表中
+                                    ApiWarning apiWarning = new ApiWarning();
+                                    apiWarning.setLimitValue(String.valueOf(haveApiRecord.getLimitCount()));
+                                    apiWarning.setRealValue(String.valueOf(haveApiRecord.getDayCount()));
+                                    apiWarning.setApiName(haveApiRecord.getApiName());
+                                    apiWarning.setHandle(NO);
+                                    apiWarning.setWarningLevel(WarnLevelEnum.NOEMAL.getMessage());
+                                    if(haveApiRecord.getDayCount()>haveApiRecord.getLimitCount()*2){
+                                        apiWarning.setWarningLevel(WarnLevelEnum.WARNING.getMessage());
+                                    } else if (haveApiRecord.getDayCount() > haveApiRecord.getLimitCount() * 3) {
+                                        apiWarning.setWarningLevel(WarnLevelEnum.DANGER.getMessage());
+                                    }
+                                    apiWarning.setWarningType(WarnTypeEnum.API.getType());
+                                    String message = String.format(WarnTypeEnum.API.getMessage(),
+                                            haveApiRecord.getLimitCount(), haveApiRecord.getDayCount());
+                                    apiWarning.setWarningMessage(message);
+                                    remoteWarningCRUDFeign.saveApiWarningForRPC(apiWarning);
                                 }
 
                             }

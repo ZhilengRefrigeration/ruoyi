@@ -3,6 +3,7 @@ package com.xjs.business.warning;
 import com.ruoyi.common.core.constant.ServiceNameConstants;
 import com.ruoyi.common.core.domain.R;
 import com.xjs.business.warning.domain.ApiRecord;
+import com.xjs.business.warning.domain.ApiWarning;
 import com.xjs.business.warning.factory.RemoteWarningCRUDFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
@@ -31,9 +32,9 @@ public interface RemoteWarningCRUDFeign {
     public R<ApiRecord> updateApiRecordForRPC(@RequestBody ApiRecord apiRecord);
 
     @GetMapping("apiwarning")
-    R<List<ApiRecord>> selectApiRecordListForRPC(@SpringQueryMap ApiRecord apiRecord) ;
+    R<List<ApiRecord>> selectApiRecordListForRPC(@SpringQueryMap ApiRecord apiRecord);
 
-
-
+    @PostMapping("apiwarning/saveApiwarningForRPC")
+    R<ApiWarning> saveApiWarningForRPC(@RequestBody ApiWarning apiWarning);
 
 }

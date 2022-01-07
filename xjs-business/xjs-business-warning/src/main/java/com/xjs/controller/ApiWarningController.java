@@ -9,6 +9,7 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.domain.ApiRecord;
+import com.xjs.domain.ApiWarning;
 import com.xjs.service.ApiWarningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -50,10 +51,26 @@ public class ApiWarningController extends BaseController {
         return apiWarningService.updateApiRecordByUrl(apiRecord) ? R.ok() : R.fail();
     }
 
+    /**
+     * 远程查询api记录信息
+     * @param apiRecord
+     * @return  R<List<ApiRecord>>
+     */
     @GetMapping
     public R<List<ApiRecord>> selectApiRecordListForRPC(ApiRecord apiRecord) {
         List<ApiRecord> apiRecords = apiWarningService.selectApiRecordListByUrl(apiRecord);
         return R.ok(apiRecords);
+    }
+
+    /**
+     * 远程保存api预警信息
+     * @param apiWarning 预警实体类
+     * @return  R
+     */
+    @PostMapping("saveApiwarningForRPC")
+    public R<ApiWarning> saveApiWarningForRPC(@RequestBody ApiWarning apiWarning) {
+        boolean save = apiWarningService.save(apiWarning);
+        return save? R.ok():R.fail();
     }
 
 

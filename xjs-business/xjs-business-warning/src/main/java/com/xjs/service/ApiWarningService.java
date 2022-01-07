@@ -1,6 +1,8 @@
 package com.xjs.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.xjs.domain.ApiRecord;
+import com.xjs.domain.ApiWarning;
 
 import java.util.List;
 
@@ -9,7 +11,7 @@ import java.util.List;
  * @desc
  * @create 2021-12-31
  */
-public interface ApiWarningService {
+public interface ApiWarningService extends IService<ApiWarning> {
 
     /**
      * 保存apirecord 当存在相同api时，不允许保存

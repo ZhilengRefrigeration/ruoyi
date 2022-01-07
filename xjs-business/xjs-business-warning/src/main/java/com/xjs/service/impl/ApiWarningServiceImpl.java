@@ -1,9 +1,12 @@
 package com.xjs.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xjs.domain.ApiRecord;
+import com.xjs.domain.ApiWarning;
 import com.xjs.exception.BusinessException;
 import com.xjs.mapper.ApiRecordMapper;
+import com.xjs.mapper.ApiWarningMapper;
 import com.xjs.service.ApiWarningService;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +20,7 @@ import java.util.Objects;
  * @create 2021-12-31
  */
 @Service
-public class ApiWarningServiceImpl implements ApiWarningService {
+public class ApiWarningServiceImpl extends ServiceImpl<ApiWarningMapper, ApiWarning> implements ApiWarningService {
 
     @Resource
     private ApiRecordMapper apiRecordMapper;

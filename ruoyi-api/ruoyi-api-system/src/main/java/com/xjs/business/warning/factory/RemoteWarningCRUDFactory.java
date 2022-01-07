@@ -3,6 +3,7 @@ package com.xjs.business.warning.factory;
 import com.ruoyi.common.core.domain.R;
 import com.xjs.business.warning.RemoteWarningCRUDFeign;
 import com.xjs.business.warning.domain.ApiRecord;
+import com.xjs.business.warning.domain.ApiWarning;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.FallbackFactory;
@@ -38,6 +39,12 @@ public class RemoteWarningCRUDFactory implements FallbackFactory<RemoteWarningCR
             @Override
             public R<List<ApiRecord>> selectApiRecordListForRPC(ApiRecord apiRecord) {
                 log.error("调用预警服务查询接口失败，执行降级处理----"+apiRecord.getApiName());
+                return R.fail();
+            }
+
+            @Override
+            public R<ApiWarning> saveApiWarningForRPC(ApiWarning apiWarning) {
+                log.error("调用预警服务api预警查询接口失败，执行降级处理----"+apiWarning.getApiName());
                 return R.fail();
             }
         };
