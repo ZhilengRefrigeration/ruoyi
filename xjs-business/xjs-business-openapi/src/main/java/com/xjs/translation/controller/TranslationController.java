@@ -18,8 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
-import static com.xjs.consts.TranslationTypeConst.BAIDU;
-import static com.xjs.consts.TranslationTypeConst.YOUDAO;
+import static com.xjs.consts.TranslationTypeConst.*;
 
 /**
  * @author xiejs
@@ -36,6 +35,8 @@ public class TranslationController {
     private TranslationFactory youDaoTranslationFactory;
     @Autowired
     private TranslationFactory baiDuTranslationFactory;
+    @Autowired
+    private TranslationFactory rollTranslationFactory;
 
     @PostMapping
     @ApiOperation("翻译接口")
@@ -49,6 +50,9 @@ public class TranslationController {
         }
         if (YOUDAO.equals(translationQo.getTranslationType())) {
             translationVo = youDaoTranslationFactory.translationApi(translationQo);
+        }
+        if (ROLL.equals(translationQo.getTranslationType())) {
+            translationVo = rollTranslationFactory.translationApi(translationQo);
         }
         return AjaxResult.success(translationVo);
     }
@@ -75,13 +79,14 @@ public class TranslationController {
     /**
      * 封装随机调用api
      *
-     * @return 文案工厂
+     * @return 翻译工厂
      */
     private TranslationFactory randomApi() {
         ArrayList<TranslationFactory> factories = new ArrayList<>();
         //添加了新接口只需要在这add接口进去
         factories.add(youDaoTranslationFactory);
         factories.add(baiDuTranslationFactory);
+        factories.add(rollTranslationFactory);
         //--------add----------------------------;-
         //随机调用集合中的接口
         return RandomUtil.randomEle(factories);

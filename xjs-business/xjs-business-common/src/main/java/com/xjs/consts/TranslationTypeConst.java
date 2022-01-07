@@ -8,5 +8,5 @@ package com.xjs.consts;
 public interface TranslationTypeConst {
     Integer BAIDU = 1;
     Integer YOUDAO = 2;
-    Integer GOOGLE = 3;
+    Integer ROLL = 3;
 }

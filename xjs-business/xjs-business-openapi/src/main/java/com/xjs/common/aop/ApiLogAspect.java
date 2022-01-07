@@ -3,6 +3,7 @@ package com.xjs.common.aop;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
+import com.alibaba.fastjson.JSON;
 import com.ruoyi.common.core.domain.R;
 import com.xjs.business.warning.RemoteWarningCRUDFeign;
 import com.xjs.business.warning.domain.ApiRecord;
@@ -26,7 +27,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 import static com.xjs.consts.ApiWarnHandleConst.NO;
 
@@ -105,11 +106,12 @@ public class ApiLogAspect {
         Object[] args = joinPoint.getArgs();//请求体
         StringBuilder builder = new StringBuilder();
         for (Object arg : args) {
-            builder.append(arg);
+            String json = JSON.toJSONString(arg);
+            builder.append(json);
         }
         entity.setMethod(apiLog.method());
         entity.setRequest(builder.toString());
-        entity.setResponse(Optional.ofNullable(jsonResult).toString());
+        entity.setResponse(jsonResult.toString());
         if (e != null) {
             entity.setIsSuccess(StatusEnum.ERROR);
         }else {
@@ -170,29 +172,30 @@ public class ApiLogAspect {
                                 haveApiRecord.setUpdateTime(null);
                                 remoteWarningCRUDFeign.updateApiRecordForRPC(haveApiRecord);
                                 //判断接口请求是否超过阈值
-                                if (haveApiRecord.getDayCount() > haveApiRecord.getLimitCount()) {
-                                    //把记录添加到预警表中
-                                    ApiWarning apiWarning = new ApiWarning();
-                                    apiWarning.setLimitValue(String.valueOf(haveApiRecord.getLimitCount()));
-                                    apiWarning.setRealValue(String.valueOf(haveApiRecord.getDayCount()));
-                                    apiWarning.setApiName(haveApiRecord.getApiName());
-                                    apiWarning.setHandle(NO);
-                                    apiWarning.setWarningLevel(WarnLevelEnum.NOEMAL.getMessage());
-                                    if(haveApiRecord.getDayCount()>haveApiRecord.getLimitCount()*2 &&
-                                            haveApiRecord.getDayCount() < haveApiRecord.getLimitCount() * 3){
-                                        apiWarning.setWarningLevel(WarnLevelEnum.WARNING.getMessage());
-                                    } else if (haveApiRecord.getDayCount() > haveApiRecord.getLimitCount() * 3) {
-                                        apiWarning.setWarningLevel(WarnLevelEnum.DANGER.getMessage());
+                                if(Objects.nonNull(haveApiRecord.getLimitCount())){
+                                    if (haveApiRecord.getDayCount() > haveApiRecord.getLimitCount()) {
+                                        //把记录添加到预警表中
+                                        ApiWarning apiWarning = new ApiWarning();
+                                        apiWarning.setLimitValue(String.valueOf(haveApiRecord.getLimitCount()));
+                                        apiWarning.setRealValue(String.valueOf(haveApiRecord.getDayCount()));
+                                        apiWarning.setApiName(haveApiRecord.getApiName());
+                                        apiWarning.setHandle(NO);
+                                        apiWarning.setWarningLevel(WarnLevelEnum.NOEMAL.getMessage());
+                                        if(haveApiRecord.getDayCount()>haveApiRecord.getLimitCount()*2 &&
+                                                haveApiRecord.getDayCount() < haveApiRecord.getLimitCount() * 3){
+                                            apiWarning.setWarningLevel(WarnLevelEnum.WARNING.getMessage());
+                                        } else if (haveApiRecord.getDayCount() > haveApiRecord.getLimitCount() * 3) {
+                                            apiWarning.setWarningLevel(WarnLevelEnum.DANGER.getMessage());
+                                        }
+                                        apiWarning.setWarningType(WarnTypeEnum.API.getType());
+                                        String message = String.format(WarnTypeEnum.API.getMessage(),
+                                                haveApiRecord.getLimitCount(), haveApiRecord.getDayCount());
+                                        apiWarning.setWarningMessage(message);
+                                        remoteWarningCRUDFeign.saveApiWarningForRPC(apiWarning);
+
+                                        // todo websocket实现即时推送到客户端
                                     }
-                                    apiWarning.setWarningType(WarnTypeEnum.API.getType());
-                                    String message = String.format(WarnTypeEnum.API.getMessage(),
-                                            haveApiRecord.getLimitCount(), haveApiRecord.getDayCount());
-                                    apiWarning.setWarningMessage(message);
-                                    remoteWarningCRUDFeign.saveApiWarningForRPC(apiWarning);
-
-                                    // todo websocket实现即时推送到客户端
                                 }
-
                             }
                         }
                     }

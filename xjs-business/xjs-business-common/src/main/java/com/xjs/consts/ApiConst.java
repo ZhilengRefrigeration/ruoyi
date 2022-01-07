@@ -13,6 +13,8 @@ public class ApiConst {
 
     public static final String BAIDU_FY= "百度翻译";
 
+    public static final String ROLL_FY= "ROLL翻译";
+
     public static final String TIANXING_PYQ= "天行-朋友圈";
 
     public static final String TIANXING_WYY= "天行-网易云";
@@ -35,6 +37,8 @@ public class ApiConst {
     public static final String BAIDU_FY_URL= "http://api.fanyi.baidu.com/api/trans/vip/translate";
 
     public static final String YOUDAO_FY_URL= "http://fanyi.youdao.com/translate";
+
+    public static final String ROLL_FY_URL= "https://www.mxnzp.com/api/convert/translate";
 
     public static final String TIANXING_PYQ_URL= "http://api.tianapi.com/pyqwenan/index";
 

@@ -86,6 +86,7 @@ public class ApiWarningController extends BaseController {
     public TableDataInfo list(ApiWarning apiWarning) {
         startPage();
         List<ApiWarning> list = apiWarningService.list(new QueryWrapper<ApiWarning>()
+                .orderByDesc("create_time")
                 .like(Objects.nonNull(apiWarning.getApiName()),"api_name", apiWarning.getApiName()));
         return getDataTable(list);
     }
