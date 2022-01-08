@@ -31,7 +31,6 @@ public class TianXingAWordFactory implements AWordFactory {
 
     @Override
     public ApiAWord productApiAWord(RequestBody requestBody) {
-        requestBody.setRand(1);
         requestBody.setKey(tianXingProperties.getKey());
         JSONObject jsonObject = tianXingMMYJFeignClient.aWordApi(requestBody);
         if (jsonObject.containsKey("error")) {

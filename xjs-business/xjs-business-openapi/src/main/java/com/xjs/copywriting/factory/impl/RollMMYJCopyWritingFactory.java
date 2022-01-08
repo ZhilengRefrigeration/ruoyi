@@ -11,6 +11,7 @@ import com.xjs.copywriting.factory.CopyWritingFactory;
 import com.xjs.copywriting.service.CopyWritingService;
 import com.xjs.exception.ApiException;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -48,6 +49,9 @@ public class RollMMYJCopyWritingFactory implements CopyWritingFactory {
             copyWriting.setContent(toJSON.getString("content"));
             copyWriting.setSource(toJSON.getString("author"));
             copyWriting.setType(TianXingConst.MRYJ);
+            if (StringUtils.isBlank(copyWriting.getSource())) {
+                copyWriting.setSource("匿名");
+            }
             return copyWriting;
         }).collect(Collectors.toList());
         log.info("批量插入成功了嘛---"+copyWritingService.saveBatch(collect));
