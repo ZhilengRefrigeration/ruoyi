@@ -31,6 +31,8 @@ spring:
       transport:
         # 控制台地址
         dashboard: 127.0.0.1:8718
+        # docker部署的sentinel  需要配置下本机IP client-ip
+        # client-ip: 127.0.0.1
       # nacos配置持久化
       datasource:
         ds1:
