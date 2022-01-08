@@ -15,7 +15,7 @@ public class RequestBody {
     private String key;
 
     /**
-     * 每日一句是否随机
+     * 每日一句是否随机（为空代表当天，0或1代表随机）
      */
     private Integer rand;
 

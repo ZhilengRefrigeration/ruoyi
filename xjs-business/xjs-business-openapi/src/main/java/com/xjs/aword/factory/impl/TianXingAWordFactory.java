@@ -1,8 +1,10 @@
 package com.xjs.aword.factory.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.http.HttpStatus;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xjs.aword.domain.ApiAWord;
 import com.xjs.aword.domain.RequestBody;
 import com.xjs.aword.factory.AWordFactory;
@@ -14,9 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 天行数据平台每日一句工厂实现
+ *
  * @author xiejs
  * @since 2022-01-08
  */
@@ -47,10 +51,16 @@ public class TianXingAWordFactory implements AWordFactory {
                     .setImgurl(newslistJSONObject.getString("imgurl"))
                     .setNote(newslistJSONObject.getString("note"))
                     .setTts(newslistJSONObject.getString("tts"));
-            apiAWordMapper.insert(apiAWord);
+            List<ApiAWord> apiAWordList = apiAWordMapper.selectList(new QueryWrapper<ApiAWord>()
+                    .eq("data_id", apiAWord.getDataId()));
+            if (CollUtil.isEmpty(apiAWordList)) {
+                apiAWordMapper.insert(apiAWord);
+            }
             return apiAWord;
-        }else {
-            return new ApiAWord();
+        } else {
+            return apiAWordMapper.selectOne(new QueryWrapper<ApiAWord>()
+                    .orderByDesc("date")
+                    .last("limit 1"));
         }
     }
 }

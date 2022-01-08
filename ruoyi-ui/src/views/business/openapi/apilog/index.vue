@@ -59,7 +59,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-tooltip class="item" effect="dark" content="点击查看详情" placement="top-start">
+          <el-tooltip class="item" effect="dark" content="点击查看json格式" placement="top-start">
             <el-button circle
                        type=""
                        icon="el-icon-view"
@@ -119,7 +119,7 @@
 </template>
 
 <script>
-import {listLog, getLog, delLog} from "@/api/business/openapi/log";
+import {listLog, getLog, delLog} from "@/api/business/openapi/apilog";
 
 export default {
   name: "Log",

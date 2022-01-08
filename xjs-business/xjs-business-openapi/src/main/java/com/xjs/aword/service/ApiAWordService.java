@@ -1,20 +1,19 @@
-package com.xjs.aword.mapper;
+package com.xjs.aword.service;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xjs.aword.domain.ApiAWord;
 
 import java.util.List;
 
 /**
- * mapper
- *
+ * 每日一句service接口
  * @author xiejs
  * @since 2022-01-08
  */
-public interface ApiAWordMapper extends BaseMapper<ApiAWord> {
+public interface ApiAWordService {
 
 
-    //---------------------代码生成-------------------------------
+
+    //------------------代码生成--------------------------------
 
     /**
      * 查询每日一句
@@ -33,18 +32,18 @@ public interface ApiAWordMapper extends BaseMapper<ApiAWord> {
     public List<ApiAWord> selectApiAWordList(ApiAWord apiAWord);
 
     /**
-     * 删除每日一句
+     * 批量删除每日一句
+     *
+     * @param ids 需要删除的每日一句主键集合
+     * @return 结果
+     */
+    public int deleteApiAWordByIds(Long[] ids);
+
+    /**
+     * 删除每日一句信息
      *
      * @param id 每日一句主键
      * @return 结果
      */
     public int deleteApiAWordById(Long id);
-
-    /**
-     * 批量删除每日一句
-     *
-     * @param ids 需要删除的数据主键集合
-     * @return 结果
-     */
-    public int deleteApiAWordByIds(Long[] ids);
 }
