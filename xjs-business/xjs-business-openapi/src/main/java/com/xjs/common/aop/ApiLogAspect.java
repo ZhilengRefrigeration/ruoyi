@@ -105,10 +105,16 @@ public class ApiLogAspect {
         entity.setUrl(url);
         Object[] args = joinPoint.getArgs();//请求体
         StringBuilder builder = new StringBuilder();
-        for (Object arg : args) {
-            String json = JSON.toJSONString(arg);
-            builder.append(json);
+        for (int i = 0; i < args.length; i++) {
+            String json = JSON.toJSONString(args[i]);
+            //判断最后一位
+            if (i == args.length - 1) {
+                builder.append(json);
+            }else {
+                builder.append(json + ",");
+            }
         }
+
         entity.setMethod(apiLog.method());
         entity.setRequest(builder.toString());
         if (Objects.nonNull(jsonResult)) {

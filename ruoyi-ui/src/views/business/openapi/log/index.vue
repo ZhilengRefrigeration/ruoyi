@@ -190,6 +190,8 @@ export default {
         isSuccess: null,
         createTime: null
       };
+      this.request=null
+      this.response=null
       this.resetForm("form");
     },
     /** 搜索按钮操作 */
@@ -201,8 +203,19 @@ export default {
     handleView(row) {
       this.open = true;
       this.form = row;
-      this.request = eval('(' + this.form.request + ')');
-      this.response=JSON.parse(this.form.response)
+      try {
+        this.request = JSON.parse(this.form.request)
+        this.response=JSON.parse(this.form.response)
+      } catch(err) {
+        this.open = false;
+        this.$notify({
+          title: '警告',
+          message: '参数不是json格式！！！',
+          type: 'warning'
+        });
+
+      }
+
     },
     /** 重置按钮操作 */
     resetQuery() {
