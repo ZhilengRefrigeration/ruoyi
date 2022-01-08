@@ -24,4 +24,20 @@ public class RequestBody {
      * 词
      */
     private String word;
+
+    /**
+     * 应用id
+     */
+    private String app_id;
+
+
+    /**
+     * 应用密钥
+     */
+    private String app_secret;
+
+    /**
+     * 返回值数量
+     */
+    private Integer count;
 }

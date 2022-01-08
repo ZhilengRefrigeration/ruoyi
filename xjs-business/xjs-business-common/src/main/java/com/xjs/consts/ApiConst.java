@@ -27,9 +27,11 @@ public class ApiConst {
 
     public static final String TIANXING_ONE_ENGLISH= "天行-英语一言";
 
+    public static final String ROLL_A_WORD= "ROLL-每日一句";
 
 
-    public static final String TEN_YY= "Ten-一言";
+
+
 
 
     //-------------------url------------------------------
@@ -52,8 +54,10 @@ public class ApiConst {
 
     public static final String TIANXING_ONE_ENGLISH_URL= "http://api.tianapi.com/ensentence/index";
 
+    public static final String ROLL_A_WORD_URL= "https://www.mxnzp.com/api/daily_word/recommend";
 
 
-    public static final String TEN_YY_URL= "https://tenapi.cn/yiyan/";
+
+
 
 }

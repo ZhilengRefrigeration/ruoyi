@@ -44,6 +44,8 @@ public class CopyWritingController extends BaseController {
     @Autowired
     private CopyWritingFactory tianXingMMMYCopyWritingFactory;
     @Autowired
+    private CopyWritingFactory rollMMYJCopyWritingFactory;
+    @Autowired
     private CopyWritingService copyWritingService;
 
 
@@ -89,6 +91,9 @@ public class CopyWritingController extends BaseController {
         factories.add(tianXingWYYCopyWritingFactory);
         factories.add(tianXingJDTCCopyWritingFactory);
         factories.add(tianXingMMMYCopyWritingFactory);
+        factories.add(rollMMYJCopyWritingFactory);
+        factories.add(rollMMYJCopyWritingFactory);
+        factories.add(rollMMYJCopyWritingFactory);
         //--------add----------------------------;-
         //随机调用集合中的接口
         return RandomUtil.randomEle(factories);

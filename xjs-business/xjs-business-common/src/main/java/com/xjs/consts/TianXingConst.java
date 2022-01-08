@@ -7,6 +7,8 @@ package com.xjs.consts;
  */
 public class TianXingConst {
 
+    //---------------天行平台参数---------------------------
+
     //朋友圈
     public static final Integer PYQ= 1;
     //网易云
@@ -15,6 +17,10 @@ public class TianXingConst {
     public static final Integer JDTC= 3;
     //名人名言
     public static final Integer MMMY= 4;
-    //Ten-API 一言
-    public static final Integer YY= 5;
+
+
+    //--------------------roll平台参数-------------------
+
+    //每日一句
+    public static final Integer MRYJ= 5;
 }
