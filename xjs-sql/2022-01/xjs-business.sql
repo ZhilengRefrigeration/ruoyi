@@ -5215,7 +5215,7 @@ CREATE TABLE `gen_table`  (
 -- Records of gen_table
 -- ----------------------------
 INSERT INTO `gen_table` VALUES (1, 'english_word', '英语单词记录表', NULL, NULL, 'EnglishWord', 'crud', 'com.xjs', 'english', 'word', '英语单词', 'xjs', '0', '/', '{}', 'admin', '2021-12-26 11:05:34', '', '2021-12-29 17:05:32', '英语单词记录表');
-INSERT INTO `gen_table` VALUES (2, 'api_log', 'api日志表', NULL, NULL, 'ApiLog', 'crud', 'com.xjs.log', 'english', 'log', '日志', 'xjs', '0', '/', '{\"parentMenuId\":2001}', 'admin', '2021-12-26 15:43:16', '', '2021-12-26 16:02:48', NULL);
+INSERT INTO `gen_table` VALUES (2, 'api_log', 'api日志表', NULL, NULL, 'ApiLog', 'crud', 'com.xjs.apilog', 'english', 'log', '日志', 'xjs', '0', '/', '{\"parentMenuId\":2001}', 'admin', '2021-12-26 15:43:16', '', '2021-12-26 16:02:48', NULL);
 INSERT INTO `gen_table` VALUES (3, 'api_copywriting', '文案api表，通过api获取文案信息', NULL, NULL, 'CopyWriting', 'crud', 'com.ruoyi.system', 'english', 'copyWriting', '文案api，通过api获取文案信息', 'xjs', '0', '/', '{}', 'admin', '2021-12-28 20:13:07', '', '2021-12-28 21:24:40', NULL);
 INSERT INTO `gen_table` VALUES (4, 'api_english', '英语一言', NULL, NULL, 'ApiEnglish', 'crud', 'com.xjs.oneenglish', 'openapi', 'oneenglish', '英语一言', 'xjs', '0', '/', '{\"parentMenuId\":\"2016\"}', 'admin', '2021-12-31 15:45:06', '', '2021-12-31 17:58:37', NULL);
 INSERT INTO `gen_table` VALUES (5, 'api_record', '第三方api记录表', NULL, NULL, 'ApiRecord', 'crud', 'com.xjs.warning', 'warning', 'apiwarning', 'API预警', 'xjs', '0', '/', '{\"parentMenuId\":\"2037\"}', 'admin', '2021-12-31 21:41:45', '', '2022-01-01 22:16:13', NULL);

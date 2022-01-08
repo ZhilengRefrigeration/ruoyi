@@ -1,4 +1,4 @@
-package com.xjs.log.controller;
+package com.xjs.apilog.controller;
 
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
@@ -7,8 +7,8 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
-import com.xjs.log.domain.ApiLog;
-import com.xjs.log.service.IApiLogService;
+import com.xjs.apilog.domain.ApiLog;
+import com.xjs.apilog.service.IApiLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

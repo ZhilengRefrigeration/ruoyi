@@ -1,7 +1,7 @@
-package com.xjs.log.mapper;
+package com.xjs.apilog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.xjs.log.domain.ApiLog;
+import com.xjs.apilog.domain.ApiLog;
 
 import java.util.List;
 

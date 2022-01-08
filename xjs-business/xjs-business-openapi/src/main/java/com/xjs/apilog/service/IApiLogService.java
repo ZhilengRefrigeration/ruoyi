@@ -1,6 +1,6 @@
-package com.xjs.log.service;
+package com.xjs.apilog.service;
 
-import com.xjs.log.domain.ApiLog;
+import com.xjs.apilog.domain.ApiLog;
 
 import java.util.List;
 

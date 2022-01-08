@@ -11,7 +11,7 @@ import com.xjs.business.warning.domain.ApiWarning;
 import com.xjs.enums.StatusEnum;
 import com.xjs.enums.WarnLevelEnum;
 import com.xjs.enums.WarnTypeEnum;
-import com.xjs.log.mapper.ApiLogMapper;
+import com.xjs.apilog.mapper.ApiLogMapper;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -98,7 +98,7 @@ public class ApiLogAspect {
 
 
     private void handleApiLog(JoinPoint joinPoint, ApiLog apiLog, final Exception e, Object jsonResult) {
-        com.xjs.log.domain.ApiLog entity = new com.xjs.log.domain.ApiLog();
+        com.xjs.apilog.domain.ApiLog entity = new com.xjs.apilog.domain.ApiLog();
         String name = apiLog.name();//请求名称
         entity.setApiName(name);
         String url = apiLog.url();//请求地址

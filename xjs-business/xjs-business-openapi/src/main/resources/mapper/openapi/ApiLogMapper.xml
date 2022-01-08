@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xjs.log.mapper.ApiLogMapper">
+<mapper namespace="com.xjs.apilog.mapper.ApiLogMapper">
     
-    <resultMap type="com.xjs.log.domain.ApiLog" id="ApiLogResult">
+    <resultMap type="com.xjs.apilog.domain.ApiLog" id="ApiLogResult">
         <result property="id"    column="id"    />
         <result property="apiName"    column="api_name"    />
         <result property="url"    column="url"    />
@@ -18,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, api_name, url, method, request, response, is_success , create_time from api_log
     </sql>
 
-    <select id="selectApiLogList" parameterType="com.xjs.log.domain.ApiLog" resultMap="ApiLogResult">
+    <select id="selectApiLogList" parameterType="com.xjs.apilog.domain.ApiLog" resultMap="ApiLogResult">
         <include refid="selectApiLogVo"/>
         <where>
             <if test="apiName != null  and apiName != ''"> and api_name like concat('%', #{apiName}, '%')</if>

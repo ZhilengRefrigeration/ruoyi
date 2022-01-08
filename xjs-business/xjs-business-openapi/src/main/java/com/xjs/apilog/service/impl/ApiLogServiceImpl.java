@@ -1,8 +1,8 @@
-package com.xjs.log.service.impl;
+package com.xjs.apilog.service.impl;
 
-import com.xjs.log.domain.ApiLog;
-import com.xjs.log.mapper.ApiLogMapper;
-import com.xjs.log.service.IApiLogService;
+import com.xjs.apilog.domain.ApiLog;
+import com.xjs.apilog.mapper.ApiLogMapper;
+import com.xjs.apilog.service.IApiLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

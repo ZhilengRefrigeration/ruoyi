@@ -1,4 +1,4 @@
-package com.xjs.log.domain;
+package com.xjs.apilog.domain;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
