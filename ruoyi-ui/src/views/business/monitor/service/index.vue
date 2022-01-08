@@ -1,80 +1,95 @@
 <template>
   <div>
-    <el-row :gutter="20">
-      <el-col :span="12">
-        <div class="grid-content bg-purple">
-          <el-tag type="info">jvm版本</el-tag>
-          {{serviceMonitorInfo.jvmVersion}}
-          <br>
-          <el-tag type="info">jre安装路径</el-tag>
-          {{serviceMonitorInfo.jreHoneDir}}
-          <br>
-          <el-tag type="info">jre版本</el-tag>
-          {{serviceMonitorInfo.jreVersion}}
-          <br>
-          <el-tag type="info">jre名称</el-tag>
-          {{serviceMonitorInfo.jreName}}
-          <br>
-        </div>
+    <el-row :gutter="24">
+      <el-col :md="12" :sm="24">
+        <el-card header="系统信息" style="margin-bottom: 20px" :bordered="false">
+          <table class="sysInfo_table">
+            <tr>
+              <td class="sysInfo_td">系统名称：</td>
+              <td class="sysInfo_td">{{ serviceMonitorInfo.osName }}</td>
+            </tr>
+            <tr>
+              <td class="sysInfo_td">系统架构：</td>
+              <td class="sysInfo_td">{{ serviceMonitorInfo.osArch }}</td>
+            </tr>
+            <tr>
+              <td class="sysInfo_td">系统版本：</td>
+              <td class="sysInfo_td">{{ serviceMonitorInfo.osVersion }}</td>
+            </tr>
+            <tr>
+              <td class="sysInfo_td">主机名称：</td>
+              <td class="sysInfo_td">{{ serviceMonitorInfo.hostName }}</td>
+            </tr>
+            <tr>
+              <td>主机IP地址：</td>
+              <td>{{ serviceMonitorInfo.hostAddress }}</td>
+            </tr>
+          </table>
+        </el-card>
       </el-col>
-      <el-col :span="12">
-        <div class="grid-content bg-purple">
-          <el-tag type="info">系统名称</el-tag>
-          {{serviceMonitorInfo.osName}}
-          <br>
-          <el-tag type="info">系统版本</el-tag>
-          {{serviceMonitorInfo.osVersion}}
-          <br>
-          <el-tag type="info">系统架构</el-tag>
-          {{serviceMonitorInfo.osArch}}
-          <br>
-        </div>
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :span="12">
-        <div class="grid-content bg-purple">
-          <el-tag type="info">主机名</el-tag>
-          {{serviceMonitorInfo.hostName}}
-          <br>
-          <el-tag type="info">主机地址</el-tag>
-          {{serviceMonitorInfo.hostAddress}}
-          <br>
-          <el-tag type="info">登录名</el-tag>
-          {{serviceMonitorInfo.userName}}
-          <br>
-          <el-tag type="info">用户路径</el-tag>
-          {{serviceMonitorInfo.homeDir}}
-          <br>
-          <el-tag type="info">当前目录</el-tag>
-          {{serviceMonitorInfo.currentDir}}
-          <br>
-          <el-tag type="info">登录语言</el-tag>
-          {{serviceMonitorInfo.userLanguage}}
-          <br>
-          <el-tag type="info">登录区域</el-tag>
-          {{serviceMonitorInfo.userCountry}}
-          <br>
-        </div>
-      </el-col>
-      <el-col :span="12">
-        <div class="grid-content bg-purple">
-          <el-tag type="info">最大jvm内存</el-tag>
-          {{serviceMonitorInfo.maxMemory/1024/1024+"M"}}
-          <br>
-          <el-tag type="info">已分配内存</el-tag>
-          {{serviceMonitorInfo.totalMemory/1024/1024+"M"}}
-          <br>
-          <el-tag type="info">剩余内存</el-tag>
-          {{parseFloat(Number(serviceMonitorInfo.freeMemory/1024/1024).toFixed(0))+"M"}}
-          <br>
-          <el-tag type="info">最大可用内存</el-tag>
-          {{parseFloat(Number(serviceMonitorInfo.usableMemory/1024/1024).toFixed(0))+"M"}}
-          <br>
-
-        </div>
+      <el-col :md="12" :sm="24">
+        <el-card header="Java信息" style="margin-bottom: 20px">
+          <table class="sysInfo_table">
+            <tr>
+              <td class="sysInfo_td">虚拟机名称：</td>
+              <td class="sysInfo_td">{{ serviceMonitorInfo.jreName }}</td>
+            </tr>
+            <tr>
+              <td class="sysInfo_td">虚拟机版本：</td>
+              <td class="sysInfo_td">{{ serviceMonitorInfo.jvmVersion }}</td>
+            </tr>
+            <tr>
+              <td class="sysInfo_td">JAVA版本：</td>
+              <td class="sysInfo_td">{{ serviceMonitorInfo.jreVersion }}</td>
+            </tr>
+            <tr>
+              <td class="sysInfo_td">JRE安装路径：</td>
+              <td class="sysInfo_td">{{ serviceMonitorInfo.jreHoneDir }}</td>
+            </tr>
+            <tr>
+              <td class="sysInfo_td">项目路径：</td>
+              <td class="sysInfo_td">{{ serviceMonitorInfo.currentDir }}</td>
+            </tr>
+          </table>
+        </el-card>
       </el-col>
     </el-row>
+    <el-card header="JVM内存信息">
+      <table class="sysInfo_table">
+        <tr>
+          <td class="sysInfo_td">可用内存：</td>
+          <td class="sysInfo_td">
+            {{ parseFloat(Number(serviceMonitorInfo.usableMemory / 1024 / 1024).toFixed(0)) + "M" }}
+          </td>
+          <td class="sysInfo_td">已使用内存：</td>
+          <td class="sysInfo_td">{{ serviceMonitorInfo.totalMemory / 1024 / 1024 + "M" }}</td>
+        </tr>
+        <tr>
+          <td class="sysInfo_td">总内存：</td>
+          <td class="sysInfo_td">{{ serviceMonitorInfo.maxMemory / 1024 / 1024 + "M" }}</td>
+          <td class="sysInfo_td">空余内存：</td>
+          <td class="sysInfo_td">
+            {{ parseFloat(Number(serviceMonitorInfo.freeMemory / 1024 / 1024).toFixed(0)) + "M" }}
+          </td>
+        </tr>
+      </table>
+    </el-card>
+    <el-card header="浏览器信息">
+      <table class="sysInfo_table">
+        <tr>
+          <td class="sysInfo_td">端口号：</td>
+          <td class="sysInfo_td">{{ serviceMonitorInfo.serverPort }}</td>
+        </tr>
+        <tr>
+          <td class="sysInfo_td">字符编码：</td>
+          <td class="sysInfo_td">{{ serviceMonitorInfo.characterEncoding }}</td>
+        </tr>
+        <tr>
+          <td class="sysInfo_td">浏览器标识：</td>
+          <td class="sysInfo_td">{{ serviceMonitorInfo.userAgent }}</td>
+        </tr>
+      </table>
+    </el-card>
   </div>
 
 </template>
@@ -86,9 +101,7 @@ export default {
   name: "Online",
   data() {
     return {
-      serviceMonitorInfo:{
-
-      }
+      serviceMonitorInfo: {}
     }
 
   },
@@ -97,8 +110,8 @@ export default {
   },
   methods: {
     getServiceMonitor() {
-      getServiceMonitor().then(res =>{
-        this.serviceMonitorInfo=res.data
+      getServiceMonitor().then(res => {
+        this.serviceMonitorInfo = res.data
       })
     },
   },
@@ -106,21 +119,15 @@ export default {
 </script>
 
 <style scoped>
-.el-row {
-  margin: 100px;
-  padding: 0 20px;
+.sysInfo_table {
+  width: 100%;
+  min-height: 45px;
+  line-height: 45px;
+  text-align: center;
 }
-.el-col {
-  border-radius: 4px;
-}
-.grid-content {
-  border-radius: 4px;
-  min-height: 36px;
-  padding: 0 180px;
-}
-.row-bg {
-  padding: 10px 0;
-  background-color: #f9fafc;
+
+.sysInfo_td {
+  border-bottom: 1px solid #e8e8e8;
 }
 </style>
 

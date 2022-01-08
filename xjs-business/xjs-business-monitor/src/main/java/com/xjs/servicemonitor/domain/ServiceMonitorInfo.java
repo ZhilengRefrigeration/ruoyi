@@ -101,4 +101,19 @@ public class ServiceMonitorInfo {
      */
     private Long usableMemory;
 
+    /**
+     * 编码
+     */
+    private String characterEncoding;
+
+    /**
+     * 端口
+     */
+    private Integer serverPort;
+
+    /**
+     * 浏览器标识
+     */
+    private String userAgent;
+
 }

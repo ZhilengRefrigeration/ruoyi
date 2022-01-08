@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author xiejs
  * @desc  业务监控控制器
@@ -25,8 +27,16 @@ public class ServiceMonitorController {
 
     @GetMapping
 
-    public AjaxResult getServiceMonitor() {
+    public AjaxResult getServiceMonitor(HttpServletRequest request) {
         ServiceMonitorInfo serviceMonitorInfo = new ServiceMonitorInfo();
+        //获取客户端信息
+        String characterEncoding = request.getCharacterEncoding();
+        int serverPort = request.getServerPort();
+        String userAgent = request.getHeader("user-agent");
+        serviceMonitorInfo.setCharacterEncoding(characterEncoding);
+        serviceMonitorInfo.setServerPort(serverPort);
+        serviceMonitorInfo.setUserAgent(userAgent);
+        //获取服务器信息
         serviceMonitorInfo.setFreeMemory(systemOSService.getRuntimeInfo().getFreeMemory());
         serviceMonitorInfo.setCurrentDir(systemOSService.getUserInfo().getCurrentDir());
         serviceMonitorInfo.setHomeDir(systemOSService.getUserInfo().getHomeDir());
