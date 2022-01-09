@@ -9,7 +9,7 @@ import com.xjs.aword.domain.ApiAWord;
 import com.xjs.aword.domain.RequestBody;
 import com.xjs.aword.factory.AWordFactory;
 import com.xjs.aword.mapper.ApiAWordMapper;
-import com.xjs.common.client.TianXingMMYJFeignClient;
+import com.xjs.common.client.api.tianxing.TianXingMMYJFeignClient;
 import com.xjs.config.TianXingProperties;
 import com.xjs.exception.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;

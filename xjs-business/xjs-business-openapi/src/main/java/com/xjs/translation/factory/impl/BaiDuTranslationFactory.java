@@ -3,7 +3,7 @@ package com.xjs.translation.factory.impl;
 import cn.hutool.crypto.SecureUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.xjs.common.client.BaiduFeignClient;
+import com.xjs.common.client.api.baidu.BaiduFeignClient;
 import com.xjs.config.BaiduProperties;
 import com.xjs.exception.ApiException;
 import com.xjs.translation.domain.qo.translation.BaiDuTranslationQo;

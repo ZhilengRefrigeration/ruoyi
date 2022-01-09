@@ -2,7 +2,7 @@ package com.xjs.copywriting.factory.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.xjs.common.client.RollMMYJFeignClient;
+import com.xjs.common.client.api.roll.RollMMYJFeignClient;
 import com.xjs.config.RollProperties;
 import com.xjs.consts.TianXingConst;
 import com.xjs.copywriting.domain.CopyWriting;

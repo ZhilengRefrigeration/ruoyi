@@ -4,7 +4,7 @@ import cn.hutool.http.HttpStatus;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.redis.service.RedisService;
-import com.xjs.common.client.TianXingOneEnglishFeignClient;
+import com.xjs.common.client.api.tianxing.TianXingOneEnglishFeignClient;
 import com.xjs.config.TianXingProperties;
 import com.xjs.exception.ApiException;
 import com.xjs.oneenglish.domain.ApiEnglish;

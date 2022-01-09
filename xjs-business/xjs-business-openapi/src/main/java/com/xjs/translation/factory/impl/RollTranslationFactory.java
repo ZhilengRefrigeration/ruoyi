@@ -1,7 +1,7 @@
 package com.xjs.translation.factory.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.xjs.common.client.RollTranslationFeignClient;
+import com.xjs.common.client.api.roll.RollTranslationFeignClient;
 import com.xjs.config.RollProperties;
 import com.xjs.exception.ApiException;
 import com.xjs.translation.domain.qo.translation.RollTranslationQo;

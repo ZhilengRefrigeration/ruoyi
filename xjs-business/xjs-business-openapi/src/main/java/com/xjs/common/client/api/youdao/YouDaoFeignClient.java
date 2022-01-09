@@ -1,4 +1,4 @@
-package com.xjs.common.client;
+package com.xjs.common.client.api.youdao;
 
 import com.alibaba.fastjson.JSONObject;
 import com.xjs.common.aop.ApiLog;
