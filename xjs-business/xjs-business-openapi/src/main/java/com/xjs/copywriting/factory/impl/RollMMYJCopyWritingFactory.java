@@ -14,6 +14,7 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +35,7 @@ public class RollMMYJCopyWritingFactory implements CopyWritingFactory {
     private CopyWritingService copyWritingService;
 
     @Override
+    @Transactional
     public CopyWriting productCopyWriting(RequestBody requestBody) {
         requestBody.setCount(20);
         requestBody.setApp_id(rollProperties.getApp_id());

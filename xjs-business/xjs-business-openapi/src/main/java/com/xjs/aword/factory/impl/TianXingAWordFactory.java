@@ -14,6 +14,7 @@ import com.xjs.config.TianXingProperties;
 import com.xjs.exception.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -34,6 +35,7 @@ public class TianXingAWordFactory implements AWordFactory {
     private ApiAWordMapper apiAWordMapper;
 
     @Override
+    @Transactional
     public ApiAWord productApiAWord(RequestBody requestBody) {
         requestBody.setKey(tianXingProperties.getKey());
         JSONObject jsonObject = tianXingMMYJFeignClient.aWordApi(requestBody);

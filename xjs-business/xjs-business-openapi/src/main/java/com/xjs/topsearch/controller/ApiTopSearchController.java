@@ -8,12 +8,15 @@ import com.xjs.topsearch.factory.TopserachFactory;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 热搜榜控制器
@@ -45,7 +48,11 @@ public class ApiTopSearchController {
 
         //获取百度热搜
 
-        return AjaxResult.success();
+
+        Map<String, List> listHashMap = new HashMap<>();
+        listHashMap.put("allnetworkList", allnetworkList);
+
+        return AjaxResult.success(listHashMap);
     }
 
 

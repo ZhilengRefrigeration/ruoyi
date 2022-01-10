@@ -3,11 +3,12 @@ package com.xjs.common.client.api.tianxing;
 import com.alibaba.fastjson.JSONObject;
 import com.xjs.common.aop.ApiLog;
 import com.xjs.common.client.factory.TianXingQWRSFeignFactory;
-import com.xjs.copywriting.domain.RequestBody;
-import feign.Param;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Map;
 
 import static com.xjs.consts.ApiConst.*;
 
@@ -21,9 +22,9 @@ import static com.xjs.consts.ApiConst.*;
 public interface TianXingQWRSFeignClient {
 
     @GetMapping
-    @ApiLog(name = TIANXING_TOPSEARCHALLNETWORK_URL,
-            url = TIANXING_PYQ_URL,
+    @ApiLog(name = TIANXING_TOPSEARCHALLNETWORK,
+            url = TIANXING_TOPSEARCHALLNETWORK_URL,
             method = "Get")
-    JSONObject topSearchApi(@Param("key") String key);
+    JSONObject topSearchApi(@RequestParam("key") String key);
 
 }

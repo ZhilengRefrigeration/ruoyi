@@ -12,6 +12,7 @@ import com.xjs.oneenglish.domain.RequestBody;
 import com.xjs.oneenglish.mapper.ApiEnglishMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -39,6 +40,7 @@ public class TianXingOneEnglishFactory implements OneEnglishFactory {
     private RedisService redisService;
 
     @Override
+    @Transactional
     public ApiEnglish getOneEnglish(RequestBody requestBody) {
         ApiEnglish apiEnglish = new ApiEnglish();
         //redis中有值直接返回

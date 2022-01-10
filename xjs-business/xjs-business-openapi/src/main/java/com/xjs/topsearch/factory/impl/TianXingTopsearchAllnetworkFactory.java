@@ -1,5 +1,6 @@
 package com.xjs.topsearch.factory.impl;
 
+import cn.hutool.core.map.MapUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.core.constant.HttpStatus;
@@ -12,9 +13,11 @@ import com.xjs.topsearch.service.ApiTopsearchAllnetworkService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -36,9 +39,11 @@ public class TianXingTopsearchAllnetworkFactory implements TopserachFactory<ApiT
 
 
     @Override
+    @Transactional
     public List<ApiTopsearchAllnetwork> topSearchApi() {
-
-        JSONObject jsonObject = tianXingQWRSFeignClient.topSearchApi(tianXingProperties.getKey());
+        String key = tianXingProperties.getKey();
+        Map<Object, Object> map = MapUtil.builder().put("key", key).map();
+        JSONObject jsonObject = tianXingQWRSFeignClient.topSearchApi(key);
         if (!jsonObject.containsKey("error")) {
             if (jsonObject.getInteger("code") == HttpStatus.SUCCESS) {
                 JSONArray newslist = jsonObject.getJSONArray("newslist");

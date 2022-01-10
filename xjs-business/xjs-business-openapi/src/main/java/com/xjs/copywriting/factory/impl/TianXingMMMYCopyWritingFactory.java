@@ -13,6 +13,7 @@ import com.xjs.copywriting.factory.CopyWritingFactory;
 import com.xjs.copywriting.mapper.CopyWritingMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -31,6 +32,7 @@ public class TianXingMMMYCopyWritingFactory implements CopyWritingFactory {
     private CopyWritingMapper copyWritingMapper;
 
     @Override
+    @Transactional
     public CopyWriting productCopyWriting(RequestBody requestBody) {
         requestBody.setKey(tianXingProperties.getKey());
         JSONObject jsonObject = tianXingMMMYeignClient.copyWritingApi(requestBody);

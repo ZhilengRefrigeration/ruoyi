@@ -11,6 +11,8 @@ import com.xjs.oneenglish.domain.ApiEnglish;
 import com.xjs.oneenglish.domain.RequestBody;
 import com.xjs.oneenglish.factory.OneEnglishFactory;
 import com.xjs.oneenglish.service.IApiEnglishService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +27,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/oneenglish")
+@Api(tags = "业务模块-英语一言")
 public class ApiEnglishController extends BaseController {
     @Autowired
     private IApiEnglishService apiEnglishService;
@@ -33,6 +36,7 @@ public class ApiEnglishController extends BaseController {
 
     @RequiresPermissions("openapi:oneenglish:list")
     @GetMapping("/getOneEnglish")
+    @ApiOperation("英语一言接口")
     public AjaxResult getOneEnglish() {
         ApiEnglish oneEnglish = tianXingOneEnglishFactory.getOneEnglish(new RequestBody());
         return AjaxResult.success(oneEnglish);
@@ -47,6 +51,7 @@ public class ApiEnglishController extends BaseController {
      */
     @RequiresPermissions("openapi:oneenglish:list")
     @GetMapping("/list")
+    @ApiOperation("查询英语一言列表")
     public TableDataInfo list(ApiEnglish apiEnglish) {
         startPage();
         List<ApiEnglish> list = apiEnglishService.selectApiEnglishList(apiEnglish);
@@ -58,6 +63,7 @@ public class ApiEnglishController extends BaseController {
      */
     @RequiresPermissions("openapi:oneenglish:export")
     @Log(title = "英语一言", businessType = BusinessType.EXPORT)
+    @ApiOperation("导出英语一言列表")
     @PostMapping("/export")
     public void export(HttpServletResponse response, ApiEnglish apiEnglish) {
         List<ApiEnglish> list = apiEnglishService.selectApiEnglishList(apiEnglish);
@@ -69,6 +75,7 @@ public class ApiEnglishController extends BaseController {
      * 获取英语一言详细信息
      */
     @RequiresPermissions("openapi:oneenglish:query")
+    @ApiOperation("获取英语一言详细信息")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
         return AjaxResult.success(apiEnglishService.selectApiEnglishById(id));
@@ -80,6 +87,7 @@ public class ApiEnglishController extends BaseController {
     @RequiresPermissions("openapi:oneenglish:remove")
     @Log(title = "英语一言", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
+    @ApiOperation("删除英语一言")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(apiEnglishService.deleteApiEnglishByIds(ids));
     }
