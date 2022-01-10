@@ -7,7 +7,11 @@
           <!--每日一句-->
           <div class="box-card">
             <div class="aWordImage">
-              <img :src=apiAWord.imgurl class="aWordImage">
+              <el-image
+                class="aWordImage"
+                :src=apiAWord.imgurl
+                :preview-src-list=[apiAWord.imgurl]>
+              </el-image>
             </div>
             <div class="aWordAudio">
               <audio :src=apiAWord.tts controls="controls">

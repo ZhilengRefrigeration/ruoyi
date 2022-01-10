@@ -31,6 +31,8 @@ public class ApiConst {
 
     public static final String TIANXING_A_WORD= "天行-每日一句";
 
+    public static final String TIANXING_TOPSEARCHALLNETWORK= "天行-全网热搜榜";
+
 
 
 
@@ -59,6 +61,8 @@ public class ApiConst {
     public static final String ROLL_A_WORD_URL= "https://www.mxnzp.com/api/daily_word/recommend";
 
     public static final String TIANXING_A_WORD_URL= "http://api.tianapi.com/everyday/index";
+
+    public static final String TIANXING_TOPSEARCHALLNETWORK_URL= "http://api.tianapi.com/networkhot/index";
 
 
 

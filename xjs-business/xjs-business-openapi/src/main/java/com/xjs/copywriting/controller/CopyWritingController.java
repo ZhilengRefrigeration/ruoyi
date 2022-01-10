@@ -94,6 +94,11 @@ public class CopyWritingController extends BaseController {
         factories.add(rollMMYJCopyWritingFactory);
         factories.add(rollMMYJCopyWritingFactory);
         factories.add(rollMMYJCopyWritingFactory);
+        factories.add(rollMMYJCopyWritingFactory);
+        factories.add(rollMMYJCopyWritingFactory);
+        factories.add(rollMMYJCopyWritingFactory);
+        factories.add(rollMMYJCopyWritingFactory);
+        factories.add(rollMMYJCopyWritingFactory);
         //--------add----------------------------;-
         //随机调用集合中的接口
         return RandomUtil.randomEle(factories);
