@@ -13,6 +13,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,10 +53,12 @@ public class TianXingTopsearchAllnetworkFactory implements TopserachFactory<ApiT
                 log.info("全网热搜批量插入成功了嘛---" + apiTopsearchAllnetworkService.saveBatch(collect));
                 return collect;
             } else {
-                throw new ApiException("天行全网热搜服务调用成功，但返回异常");
+                log.error("天行全网热搜服务调用成功，但返回异常");
+                return new ArrayList<>();
             }
         } else {
-            throw new ApiException("天行全网热搜服务调用失败，被降级！！");
+            log.error("天行全网热搜服务调用失败，被降级！！");
+            return new ArrayList<>();
         }
     }
 }
