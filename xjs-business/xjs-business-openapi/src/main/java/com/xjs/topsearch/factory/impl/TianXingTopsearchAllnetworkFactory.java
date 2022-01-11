@@ -41,9 +41,7 @@ public class TianXingTopsearchAllnetworkFactory implements TopserachFactory<ApiT
     @Override
     @Transactional
     public List<ApiTopsearchAllnetwork> topSearchApi() {
-        String key = tianXingProperties.getKey();
-        Map<Object, Object> map = MapUtil.builder().put("key", key).map();
-        JSONObject jsonObject = tianXingQWRSFeignClient.topSearchApi(key);
+        JSONObject jsonObject = tianXingQWRSFeignClient.topSearchApi(tianXingProperties.getKey());
         if (!jsonObject.containsKey("error")) {
             if (jsonObject.getInteger("code") == HttpStatus.SUCCESS) {
                 JSONArray newslist = jsonObject.getJSONArray("newslist");
