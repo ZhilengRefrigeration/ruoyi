@@ -4,6 +4,7 @@ import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.security.annotation.RequiresLogin;
 import com.xjs.topsearch.domain.ApiTopsearchAllnetwork;
+import com.xjs.topsearch.domain.ApiTopsearchBaidu;
 import com.xjs.topsearch.domain.ApiTopsearchWechat;
 import com.xjs.topsearch.factory.TopserachFactory;
 import io.swagger.annotations.Api;
@@ -34,6 +35,8 @@ public class ApiTopSearchController {
     private TopserachFactory<ApiTopsearchAllnetwork> tianXingTopsearchAllnetworkFactory;
     @Autowired
     private TopserachFactory<ApiTopsearchWechat> tianXingTopsearchWechatFactory;
+    @Autowired
+    private TopserachFactory<ApiTopsearchBaidu> tianXingTopsearchBaiduFactory;
 
 
     @GetMapping
@@ -44,17 +47,18 @@ public class ApiTopSearchController {
         //获取全网热搜
         List<ApiTopsearchAllnetwork> allnetworkList = tianXingTopsearchAllnetworkFactory.topSearchApi();
         //获取微博热搜
-        List<ApiTopsearchWechat> wechatList = tianXingTopsearchWechatFactory.topSearchApi();
+
         //获取抖音热搜
 
         //获取微信热搜
-
+        List<ApiTopsearchWechat> wechatList = tianXingTopsearchWechatFactory.topSearchApi();
         //获取百度热搜
-
+        List<ApiTopsearchBaidu> baiduList = tianXingTopsearchBaiduFactory.topSearchApi();
 
         Map<String, List> listHashMap = new HashMap<>();
         listHashMap.put("allnetworkList", allnetworkList);
         listHashMap.put("wechatList", wechatList);
+        listHashMap.put("baiduList", baiduList);
 
         return AjaxResult.success(listHashMap);
     }

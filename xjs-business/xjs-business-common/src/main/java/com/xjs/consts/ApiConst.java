@@ -35,6 +35,8 @@ public class ApiConst {
 
     public static final String TIANXING_TOPSEARCHWECHAT= "天行-微信热搜榜";
 
+    public static final String TIANXING_TOPSEARCHBAIDU= "天行-百度热搜榜";
+
 
 
 
@@ -66,7 +68,9 @@ public class ApiConst {
 
     public static final String TIANXING_TOPSEARCHALLNETWORK_URL= "http://api.tianapi.com/networkhot/index";
 
-    public static final String TIANXING_TOPSEARCHALLWECHAT_URL= "http://api.tianapi.com/wxhottopic/index";
+    public static final String TIANXING_TOPSEARCHWECHAT_URL= "http://api.tianapi.com/wxhottopic/index";
+
+    public static final String TIANXING_TOPSEARCHBAIDU_URL= "http://api.tianapi.com/nethot/index";
 
 
 
