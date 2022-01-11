@@ -8,4 +8,9 @@ import com.xjs.topsearch.domain.ApiTopsearchWechat;
  * @since 2022-01-11
  */
 public interface ApiTopsearchWechatService extends IService<ApiTopsearchWechat> {
+    /**
+     * 删除全网热搜重复数据
+     * @return Integer
+     */
+    Integer deleteRepeatData();
 }

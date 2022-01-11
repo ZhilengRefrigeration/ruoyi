@@ -9,5 +9,11 @@ import com.xjs.topsearch.domain.ApiTopsearchAllnetwork;
  */
 public interface ApiTopsearchAllnetworkMapper extends BaseMapper<ApiTopsearchAllnetwork> {
 
+    /**
+     * 删除全网热搜重复数据
+     * @return Integer
+     */
+    Integer deleteRepeatData();
+
 
 }

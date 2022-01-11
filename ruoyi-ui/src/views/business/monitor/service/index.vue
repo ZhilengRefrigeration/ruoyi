@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading="loading">
     <el-row :gutter="24">
       <el-col :md="12" :sm="24">
         <el-card header="系统信息" style="margin-bottom: 20px" :bordered="false">
@@ -101,6 +101,9 @@ export default {
   name: "Online",
   data() {
     return {
+      //遮罩层
+      loading: true,
+
       serviceMonitorInfo: {}
     }
 
@@ -110,8 +113,10 @@ export default {
   },
   methods: {
     getServiceMonitor() {
+      this.loading = true
       getServiceMonitor().then(res => {
         this.serviceMonitorInfo = res.data
+        this.loading = false
       })
     },
   },
