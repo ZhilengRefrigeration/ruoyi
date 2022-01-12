@@ -48,7 +48,7 @@ public class ApiTopSearchController {
     private RedisService redisService;
 
 
-    @GetMapping
+    @GetMapping("getTopsearch")
     @ApiOperation("热搜榜接口")
     @Log(title = "获取热搜榜")
     @RequiresLogin

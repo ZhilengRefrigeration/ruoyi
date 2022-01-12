@@ -44,7 +44,14 @@ public class TianXingTopsearchBaiduFactory implements TopserachFactory<ApiTopsea
                     ApiTopsearchBaidu apiTopsearchBaidu = new ApiTopsearchBaidu();
                     JSONObject json = (JSONObject) arrayJson;
                     apiTopsearchBaidu.setTitle(json.getString("keyword"));
-                    apiTopsearchBaidu.setDigest(json.getString("brief"));
+
+                    String brief = json.getString("brief");
+                    //截取无用字符
+                    if (brief.contains("查看更多&gt;")) {
+                        brief = brief.substring(0, brief.length() - 8);
+                    }
+                    apiTopsearchBaidu.setDigest(brief);
+
                     apiTopsearchBaidu.setHotnum(json.getLong("index"));
                     apiTopsearchBaidu.setTrend(json.getString("trend"));
                     return apiTopsearchBaidu;
