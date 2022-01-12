@@ -1,6 +1,7 @@
 package com.xjs.servicemonitor.controller;
 
 import com.ruoyi.common.core.web.domain.AjaxResult;
+import com.ruoyi.common.security.annotation.RequiresLogin;
 import com.xjs.servicemonitor.domain.ServiceMonitorInfo;
 import com.xjs.servicemonitor.service.JvmMonitorService;
 import com.xjs.servicemonitor.service.SystemOSService;
@@ -26,7 +27,7 @@ public class ServiceMonitorController {
     private SystemOSService systemOSService;
 
     @GetMapping
-
+    @RequiresLogin
     public AjaxResult getServiceMonitor(HttpServletRequest request) {
         ServiceMonitorInfo serviceMonitorInfo = new ServiceMonitorInfo();
         //获取客户端信息
