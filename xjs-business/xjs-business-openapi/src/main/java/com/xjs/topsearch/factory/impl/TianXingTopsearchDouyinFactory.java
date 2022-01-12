@@ -63,7 +63,7 @@ public class TianXingTopsearchDouyinFactory implements TopserachFactory<ApiTopse
                         default:
                             apiTopsearchDouyin.setLabel("-");
                     }
-                    apiTopsearchDouyin.setWord(json.getString("hotindex"));
+                    apiTopsearchDouyin.setWord(json.getString("word"));
                     return apiTopsearchDouyin;
                 }).collect(Collectors.toList());
                 log.info("抖音热搜批量插入成功了嘛---" + apiTopsearchDouyinService.saveBatch(collect));

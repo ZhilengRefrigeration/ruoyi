@@ -2,6 +2,7 @@ package com.xjs.topsearch.controller;
 
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
+import com.ruoyi.common.redis.service.RedisService;
 import com.ruoyi.common.security.annotation.RequiresLogin;
 import com.xjs.topsearch.domain.*;
 import com.xjs.topsearch.factory.TopserachFactory;
@@ -17,6 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import static com.xjs.consts.RedisConst.HOT;
+import static com.xjs.consts.RedisConst.HOT_EXPIRE;
 
 /**
  * 热搜榜控制器
@@ -39,6 +44,8 @@ public class ApiTopSearchController {
     private TopserachFactory<ApiTopsearchWeibo> tianXingTopsearchWeiboFactory;
     @Autowired
     private TopserachFactory<ApiTopsearchDouyin> tianXingTopsearchDouyinFactory;
+    @Autowired
+    private RedisService redisService;
 
 
     @GetMapping
@@ -46,6 +53,11 @@ public class ApiTopSearchController {
     @Log(title = "获取热搜榜")
     @RequiresLogin
     public AjaxResult topSearch() {
+        if (redisService.hasKey(HOT)) {
+            Map<String, List> cacheObject = redisService.getCacheObject(HOT);
+            return AjaxResult.success(cacheObject);
+        }
+
         //获取全网热搜
         List<ApiTopsearchAllnetwork> allnetworkList = tianXingTopsearchAllnetworkFactory.topSearchApi();
         //获取微博热搜
@@ -63,6 +75,9 @@ public class ApiTopSearchController {
         listHashMap.put("baiduList", baiduList);
         listHashMap.put("weiboList", weiboList);
         listHashMap.put("douyinList", douyinList);
+
+        //把数据存入redis，十分钟过期
+        redisService.setCacheObject(HOT,listHashMap,HOT_EXPIRE, TimeUnit.MINUTES);
         return AjaxResult.success(listHashMap);
     }
 
