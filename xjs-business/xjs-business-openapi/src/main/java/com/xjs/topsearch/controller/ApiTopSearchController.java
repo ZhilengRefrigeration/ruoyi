@@ -3,9 +3,7 @@ package com.xjs.topsearch.controller;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.security.annotation.RequiresLogin;
-import com.xjs.topsearch.domain.ApiTopsearchAllnetwork;
-import com.xjs.topsearch.domain.ApiTopsearchBaidu;
-import com.xjs.topsearch.domain.ApiTopsearchWechat;
+import com.xjs.topsearch.domain.*;
 import com.xjs.topsearch.factory.TopserachFactory;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,6 +35,10 @@ public class ApiTopSearchController {
     private TopserachFactory<ApiTopsearchWechat> tianXingTopsearchWechatFactory;
     @Autowired
     private TopserachFactory<ApiTopsearchBaidu> tianXingTopsearchBaiduFactory;
+    @Autowired
+    private TopserachFactory<ApiTopsearchWeibo> tianXingTopsearchWeiboFactory;
+    @Autowired
+    private TopserachFactory<ApiTopsearchDouyin> tianXingTopsearchDouyinFactory;
 
 
     @GetMapping
@@ -47,9 +49,9 @@ public class ApiTopSearchController {
         //获取全网热搜
         List<ApiTopsearchAllnetwork> allnetworkList = tianXingTopsearchAllnetworkFactory.topSearchApi();
         //获取微博热搜
-
+        List<ApiTopsearchWeibo> weiboList = tianXingTopsearchWeiboFactory.topSearchApi();
         //获取抖音热搜
-
+        List<ApiTopsearchDouyin> douyinList = tianXingTopsearchDouyinFactory.topSearchApi();
         //获取微信热搜
         List<ApiTopsearchWechat> wechatList = tianXingTopsearchWechatFactory.topSearchApi();
         //获取百度热搜
@@ -59,7 +61,8 @@ public class ApiTopSearchController {
         listHashMap.put("allnetworkList", allnetworkList);
         listHashMap.put("wechatList", wechatList);
         listHashMap.put("baiduList", baiduList);
-
+        listHashMap.put("weiboList", weiboList);
+        listHashMap.put("douyinList", douyinList);
         return AjaxResult.success(listHashMap);
     }
 

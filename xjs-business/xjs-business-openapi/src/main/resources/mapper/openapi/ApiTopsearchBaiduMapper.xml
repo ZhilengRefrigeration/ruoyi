@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjs.topsearch.mapper.ApiTopsearchBaiduMapper">
+
+    <delete id="deleteRepeatData">
+        DELETE
+        FROM
+            api_topsearch_baidu
+        WHERE
+                title IN ( SELECT t.title FROM ( SELECT title FROM api_topsearch_baidu GROUP BY title HAVING count( title ) > 1 ) t )
+          AND id NOT IN (
+            SELECT
+                c.id
+            FROM
+                ( SELECT min( id ) id FROM api_topsearch_baidu GROUP BY title HAVING count( title )> 1 ) c
+        )
+    </delete>
+
+</mapper>

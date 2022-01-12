@@ -1,15 +1,15 @@
 package com.xjs.topsearch.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xjs.topsearch.domain.ApiTopsearchBaidu;
+import com.xjs.topsearch.domain.ApiTopsearchWeibo;
 
 /**
  * @author xiejs
- * @since 2022-01-11
+ * @since 2022-01-12
  */
-public interface ApiTopsearchBaiduService extends IService<ApiTopsearchBaidu> {
+public interface ApiTopsearchWeiboService extends IService<ApiTopsearchWeibo> {
     /**
-     * 删除百度热搜重复数据
+     * 删除微博热搜重复数据
      * @return Integer
      */
     Integer deleteRepeatData();

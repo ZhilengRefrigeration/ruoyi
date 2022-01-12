@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjs.topsearch.mapper.ApiTopsearchWeiboMapper">
+
+    <delete id="deleteRepeatData">
+        DELETE
+        FROM
+            api_topsearch_weibo
+        WHERE
+                hotword IN ( SELECT t.hotword FROM ( SELECT hotword FROM api_topsearch_weibo GROUP BY hotword HAVING count( hotword ) > 1 ) t )
+          AND id NOT IN (
+            SELECT
+                c.id
+            FROM
+                ( SELECT min( id ) id FROM api_topsearch_weibo GROUP BY hotword HAVING count( hotword )> 1 ) c
+        )
+    </delete>
+
+</mapper>

@@ -37,6 +37,10 @@ public class ApiConst {
 
     public static final String TIANXING_TOPSEARCHBAIDU= "天行-百度热搜榜";
 
+    public static final String TIANXING_TOPSEARCHWEIBO= "天行-微博热搜榜";
+
+    public static final String TIANXING_TOPSEARCHDOUYIN= "天行-抖音热搜榜";
+
 
 
 
@@ -71,6 +75,10 @@ public class ApiConst {
     public static final String TIANXING_TOPSEARCHWECHAT_URL= "http://api.tianapi.com/wxhottopic/index";
 
     public static final String TIANXING_TOPSEARCHBAIDU_URL= "http://api.tianapi.com/nethot/index";
+
+    public static final String TIANXING_TOPSEARCHWEIBO_URL= "http://api.tianapi.com/weibohot/index";
+
+    public static final String TIANXING_TOPSEARCHDOUYIN_URL= "http://api.tianapi.com/douyinhot/index";
 
 
 

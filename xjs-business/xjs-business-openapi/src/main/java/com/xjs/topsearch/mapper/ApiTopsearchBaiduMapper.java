@@ -8,4 +8,9 @@ import com.xjs.topsearch.domain.ApiTopsearchBaidu;
  * @since 2022-01-11
  */
 public interface ApiTopsearchBaiduMapper extends BaseMapper<ApiTopsearchBaidu> {
+    /**
+     * 删除百度热搜重复数据
+     * @return Integer
+     */
+    Integer deleteRepeatData();
 }
