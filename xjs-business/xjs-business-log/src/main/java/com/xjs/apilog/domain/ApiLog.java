@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.core.annotation.Excel;
+import com.xjs.annotation.MappingField;
 import com.xjs.enums.StatusEnum;
 import lombok.Data;
 
@@ -47,7 +48,7 @@ public class ApiLog implements Serializable
     private String response;
 
     /** 是否请求成功 */
-    @Excel(name = "是否请求成功")
+    @Excel(name = "是否请求成功",readConverterExp = "1=成功,2=失败")
     private Integer isSuccess;
 
     @Excel(name = "创建时间" ,dateFormat = "yyyy-MM-dd HH:mm:ss")

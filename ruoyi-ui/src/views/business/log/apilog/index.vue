@@ -54,7 +54,9 @@
       <el-table-column label="创建时间" align="center" prop="createTime" :show-overflow-tooltip="true"/>
       <el-table-column label="是否请求成功" align="center" prop="isSuccess" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.isSuccess==='成功'?'success':'danger'" size="small">{{ scope.row.isSuccess }}</el-tag>
+          <el-tag :type="scope.row.isSuccess=== 1 ?'success':'danger'" size="small">
+            {{ scope.row.isSuccess === 1 ? '成功' : '失败' }}
+          </el-tag>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -190,8 +192,8 @@ export default {
         isSuccess: null,
         createTime: null
       };
-      this.request=null
-      this.response=null
+      this.request = null
+      this.response = null
       this.resetForm("form");
     },
     /** 搜索按钮操作 */
@@ -205,8 +207,8 @@ export default {
       this.form = row;
       try {
         this.request = JSON.parse(this.form.request)
-        this.response=JSON.parse(this.form.response)
-      } catch(err) {
+        this.response = JSON.parse(this.form.response)
+      } catch (err) {
         this.open = false;
         this.$notify({
           title: '警告',

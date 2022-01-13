@@ -1,7 +1,5 @@
 package com.xjs.annotation;
 
-import com.ruoyi.common.log.enums.BusinessType;
-import com.ruoyi.common.log.enums.OperatorType;
 
 import java.lang.annotation.*;
 
