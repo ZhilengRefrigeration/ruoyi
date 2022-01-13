@@ -33,6 +33,13 @@ public class ServiceNameConstants
      */
     public static final String BUSINESS_WARNING_SERVICE= "xjs-warning" ;
 
+    /**
+     * 日志服务的serviceid
+     */
+    public static final String BUSINESS_LOG_SERVICE= "xjs-log" ;
+
+
+
 
 
 }

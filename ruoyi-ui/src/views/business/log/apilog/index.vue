@@ -26,7 +26,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['openapi:log:remove']"
+          v-hasPermi="['log:apilog:remove']"
         >删除
         </el-button>
       </el-col>
@@ -37,7 +37,7 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['openapi:log:export']"
+          v-hasPermi="['log:apilog:export']"
         >导出
         </el-button>
       </el-col>
@@ -64,7 +64,7 @@
                        type=""
                        icon="el-icon-view"
                        @click="handleView(scope.row,scope.index)"
-                       v-hasPermi="['openapi:log:query']"
+                       v-hasPermi="['log:apilog:query']"
             ></el-button>
           </el-tooltip>
           <el-button
@@ -72,7 +72,7 @@
             type="danger"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['openapi:log:remove']"
+            v-hasPermi="['log:apilog:remove']"
           >
           </el-button>
         </template>
@@ -119,7 +119,7 @@
 </template>
 
 <script>
-import {listLog, getLog, delLog} from "@/api/business/openapi/apilog";
+import {listLog, getLog, delLog} from "@/api/business/log/apilog";
 
 export default {
   name: "Log",

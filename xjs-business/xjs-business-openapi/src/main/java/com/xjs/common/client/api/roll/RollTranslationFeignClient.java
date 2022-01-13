@@ -1,7 +1,7 @@
 package com.xjs.common.client.api.roll;
 
 import com.alibaba.fastjson.JSONObject;
-import com.xjs.common.aop.ApiLog;
+import com.xjs.annotation.ApiLog;
 import com.xjs.common.client.factory.RollTranslationFeignFactory;
 import com.xjs.translation.domain.qo.translation.RollTranslationQo;
 import org.springframework.cloud.openfeign.FeignClient;

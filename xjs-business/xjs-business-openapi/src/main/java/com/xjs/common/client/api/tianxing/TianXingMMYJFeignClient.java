@@ -2,7 +2,7 @@ package com.xjs.common.client.api.tianxing;
 
 import com.alibaba.fastjson.JSONObject;
 import com.xjs.aword.domain.RequestBody;
-import com.xjs.common.aop.ApiLog;
+import com.xjs.annotation.ApiLog;
 import com.xjs.common.client.factory.TianXingMMYJFeignFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;

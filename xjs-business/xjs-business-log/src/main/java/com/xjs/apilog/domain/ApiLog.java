@@ -48,7 +48,7 @@ public class ApiLog implements Serializable
 
     /** 是否请求成功 */
     @Excel(name = "是否请求成功")
-    private StatusEnum isSuccess;
+    private Integer isSuccess;
 
     @Excel(name = "创建时间" ,dateFormat = "yyyy-MM-dd HH:mm:ss")
     @TableField(fill = FieldFill.INSERT)

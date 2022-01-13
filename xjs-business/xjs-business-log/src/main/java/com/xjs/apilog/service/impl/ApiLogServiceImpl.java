@@ -1,5 +1,6 @@
 package com.xjs.apilog.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xjs.apilog.domain.ApiLog;
 import com.xjs.apilog.mapper.ApiLogMapper;
 import com.xjs.apilog.service.IApiLogService;
@@ -15,7 +16,7 @@ import java.util.List;
  * @date 2021-12-26
  */
 @Service
-public class ApiLogServiceImpl implements IApiLogService {
+public class ApiLogServiceImpl extends ServiceImpl<ApiLogMapper,ApiLog> implements IApiLogService {
     @Autowired
     private ApiLogMapper apiLogMapper;
 

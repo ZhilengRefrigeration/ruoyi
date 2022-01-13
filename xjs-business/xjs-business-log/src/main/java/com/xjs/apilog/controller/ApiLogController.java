@@ -1,5 +1,6 @@
 package com.xjs.apilog.controller;
 
+import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
@@ -9,6 +10,7 @@ import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.apilog.domain.ApiLog;
 import com.xjs.apilog.service.IApiLogService;
+import com.xjs.business.api.domain.CopyWriting;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +26,20 @@ import java.util.List;
  * @date 2021-12-26
  */
 @RestController
-@RequestMapping("log")
+@RequestMapping("apilog")
 @Api(tags = "业务模块-API日志")
 public class ApiLogController extends BaseController {
     @Autowired
     private IApiLogService apiLogService;
 
 
+    @PostMapping("forPRC")
+    @ApiOperation("供AOP切面RPC远程调用")
+    public R<Object> saveApiLog(@RequestBody ApiLog apiLog) {
+
+        boolean save = apiLogService.save(apiLog);
+        return save?R.ok():R.fail();
+    }
 
 
     //------------------------代码自动生成-----------------------------------
@@ -38,7 +47,7 @@ public class ApiLogController extends BaseController {
     /**
      * 查询日志列表
      */
-    @RequiresPermissions("openapi:log:list")
+    @RequiresPermissions("log:apilog:list")
     @GetMapping("/list")
     @ApiOperation("查询日志列表")
     public TableDataInfo list(ApiLog apiLog) {
@@ -50,7 +59,7 @@ public class ApiLogController extends BaseController {
     /**
      * 导出日志列表
      */
-    @RequiresPermissions("openapi:log:export")
+    @RequiresPermissions("log:apilog:export")
     @Log(title = "API日志", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ApiOperation("导出日志列表")
@@ -63,7 +72,7 @@ public class ApiLogController extends BaseController {
     /**
      * 获取日志详细信息
      */
-    @RequiresPermissions("openapi:log:query")
+    @RequiresPermissions("log:apilog:query")
     @GetMapping(value = "/{id}")
     @ApiOperation("获取日志详细信息")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
@@ -74,7 +83,7 @@ public class ApiLogController extends BaseController {
     /**
      * 删除日志
      */
-    @RequiresPermissions("openapi:log:remove")
+    @RequiresPermissions("log:apilog:remove")
     @Log(title = "API日志", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     @ApiOperation("删除日志")

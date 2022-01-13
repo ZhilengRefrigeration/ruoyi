@@ -20,6 +20,7 @@
         <module>xjs-business-common</module>
         <module>xjs-business-warning</module>
         <module>xjs-business-monitor</module>
+        <module>xjs-business-log</module>
     </modules>
 
     <properties>

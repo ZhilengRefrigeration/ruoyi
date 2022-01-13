@@ -1,5 +1,6 @@
 package com.xjs.apilog.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.xjs.apilog.domain.ApiLog;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @author xjs
  * @date 2021-12-26
  */
-public interface IApiLogService {
+public interface IApiLogService extends IService<ApiLog> {
 
     //------------------------代码自动生成-----------------------------------
 

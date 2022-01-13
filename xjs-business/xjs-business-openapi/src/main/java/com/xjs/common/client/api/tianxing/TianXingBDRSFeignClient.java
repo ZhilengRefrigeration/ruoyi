@@ -1,9 +1,8 @@
 package com.xjs.common.client.api.tianxing;
 
 import com.alibaba.fastjson.JSONObject;
-import com.xjs.common.aop.ApiLog;
+import com.xjs.annotation.ApiLog;
 import com.xjs.common.client.factory.TianXingBDRSFeignFactory;
-import com.xjs.common.client.factory.TianXingQWRSFeignFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

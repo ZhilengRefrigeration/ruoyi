@@ -5,13 +5,14 @@ import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.ruoyi.common.core.domain.R;
+import com.xjs.annotation.ApiLog;
+import com.xjs.business.log.RemoteLogFeign;
 import com.xjs.business.warning.RemoteWarningCRUDFeign;
 import com.xjs.business.warning.domain.ApiRecord;
 import com.xjs.business.warning.domain.ApiWarning;
-import com.xjs.enums.StatusEnum;
+import com.xjs.consts.ReqConst;
 import com.xjs.enums.WarnLevelEnum;
 import com.xjs.enums.WarnTypeEnum;
-import com.xjs.apilog.mapper.ApiLogMapper;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -20,7 +21,6 @@ import org.aspectj.lang.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
@@ -41,8 +41,8 @@ import static com.xjs.consts.ApiWarnHandleConst.NO;
 @Log4j2
 public class ApiLogAspect {
 
-    @Resource
-    private ApiLogMapper apiLogMapper;
+    @Autowired
+    private RemoteLogFeign remoteLogFeign;
 
     //用来调用预警，记录预警信息
     @Autowired
@@ -51,7 +51,7 @@ public class ApiLogAspect {
     /**
      * 声明AOP签名
      */
-    @Pointcut("@annotation(com.xjs.common.aop.ApiLog)")
+    @Pointcut("@annotation(com.xjs.annotation.ApiLog)")
     public void pointcut() {
     }
 
@@ -98,7 +98,7 @@ public class ApiLogAspect {
 
 
     private void handleApiLog(JoinPoint joinPoint, ApiLog apiLog, final Exception e, Object jsonResult) {
-        com.xjs.apilog.domain.ApiLog entity = new com.xjs.apilog.domain.ApiLog();
+        com.xjs.business.log.domain.ApiLog entity = new com.xjs.business.log.domain.ApiLog();
         String name = apiLog.name();//请求名称
         entity.setApiName(name);
         String url = apiLog.url();//请求地址
@@ -121,11 +121,11 @@ public class ApiLogAspect {
             entity.setResponse(jsonResult.toString());
         }
         if (e != null) {
-            entity.setIsSuccess(StatusEnum.ERROR);
+            entity.setIsSuccess(ReqConst.ERROR);
         }else {
-            entity.setIsSuccess(StatusEnum.SUCCESS);
+            entity.setIsSuccess(ReqConst.SUCCESS);
         }
-        apiLogMapper.insert(entity);
+        remoteLogFeign.saveApiLog(entity);
     }
 
     /**

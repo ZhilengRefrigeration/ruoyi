@@ -1,7 +1,7 @@
 package com.xjs.common.client.api.youdao;
 
 import com.alibaba.fastjson.JSONObject;
-import com.xjs.common.aop.ApiLog;
+import com.xjs.annotation.ApiLog;
 import com.xjs.common.client.factory.YouDaoFeignFactory;
 import com.xjs.translation.domain.qo.translation.YouDaoTranslationQo;
 import org.springframework.cloud.openfeign.FeignClient;

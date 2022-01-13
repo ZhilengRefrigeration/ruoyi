@@ -1,4 +1,4 @@
-package com.xjs.common.aop;
+package com.xjs.annotation;
 
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.log.enums.OperatorType;
@@ -6,8 +6,8 @@ import com.ruoyi.common.log.enums.OperatorType;
 import java.lang.annotation.*;
 
 /**
+ * 自定义api日志注解
  * @author xiejs
- * @desc 自定义api日志注解
  * @create 2021-12-26
  */
 @Target({ ElementType.PARAMETER, ElementType.METHOD })
