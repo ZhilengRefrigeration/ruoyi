@@ -23,6 +23,12 @@
             <artifactId>xjs-business-common</artifactId>
             <version>3.3.0</version>
         </dependency>
+
+        <!-- websocket -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
