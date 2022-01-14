@@ -6,7 +6,9 @@ const state = {
     withoutAnimation: false
   },
   device: 'desktop',
-  size: Cookies.get('size') || 'medium'
+  size: Cookies.get('size') || 'medium',
+  // websocket实例
+  $socket: null
 }
 
 const mutations = {
@@ -30,21 +32,27 @@ const mutations = {
   SET_SIZE: (state, size) => {
     state.size = size
     Cookies.set('size', size)
+  },
+  SET_$SOCKET: (state, socket) => {
+    state.$socket = socket
   }
 }
 
 const actions = {
-  toggleSideBar({ commit }) {
+  toggleSideBar({commit}) {
     commit('TOGGLE_SIDEBAR')
   },
-  closeSideBar({ commit }, { withoutAnimation }) {
+  closeSideBar({commit}, {withoutAnimation}) {
     commit('CLOSE_SIDEBAR', withoutAnimation)
   },
-  toggleDevice({ commit }, device) {
+  toggleDevice({commit}, device) {
     commit('TOGGLE_DEVICE', device)
   },
-  setSize({ commit }, size) {
+  setSize({commit}, size) {
     commit('SET_SIZE', size)
+  },
+  set$Socket({commit}, socket) {
+    commit('SET_$SOCKET', socket)
   }
 }
 

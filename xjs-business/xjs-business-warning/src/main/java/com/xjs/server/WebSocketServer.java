@@ -1,14 +1,22 @@
 package com.xjs.server;
 
+import com.alibaba.fastjson.JSONObject;
+import com.ruoyi.common.redis.service.RedisService;
+import com.xjs.service.ApiWarningService;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static com.xjs.consts.RedisConst.WEBSOCKET;
 
 /**
  * api预警websocket
@@ -17,9 +25,25 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since 2022-01-13
  */
 @Log4j2
-@ServerEndpoint("warning/api/{userId}")
+@ServerEndpoint("/warning/api/{userId}")
 @Component
 public class WebSocketServer {
+    /**
+     * 之所有需要set注入，因为WebSocketServer是静态类，需要注入属性就需要用set注入
+     */
+    private static RedisService redisService;
+    @Autowired
+    public void setRedisService(RedisService redisService) {
+        WebSocketServer.redisService = redisService;
+    }
+
+    private static ApiWarningService apiWarningService;
+    @Autowired
+    public void setApiWarningService(ApiWarningService apiWarningService) {
+        WebSocketServer.apiWarningService = apiWarningService;
+    }
+
+
     /**
      * 静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
      */
@@ -56,12 +80,21 @@ public class WebSocketServer {
         }
 
         log.info("用户连接:" + userId + ",当前在线人数为:" + getOnlineCount());
+        Set<String> set = new HashSet<>();
+        set.add(userId);
+        redisService.setCacheSet(WEBSOCKET, set);
 
+        long count = apiWarningService.count();
+        JSONObject jsonData =new JSONObject();
+        jsonData.put("count", count);
+        jsonData.put("socketType", "apiWarning");
+        jsonData.put("data", "{}");
         try {
-            sendMessage("连接成功");
+            sendMessage(jsonData.toJSONString());
         } catch (IOException e) {
-            log.error("用户:" + userId + ",网络异常!!!!!!");
+            e.printStackTrace();
         }
+
     }
 
     /**
@@ -73,6 +106,9 @@ public class WebSocketServer {
             webSocketMap.remove(userId);
             //从set中删除
             subOnlineCount();
+
+            //退出移出用户
+            redisService.removeSet(WEBSOCKET, this.userId);
         }
         log.info("用户退出:" + userId + ",当前在线人数为:" + getOnlineCount());
     }
@@ -107,6 +143,7 @@ public class WebSocketServer {
     @OnError
     public void onError(Session session, Throwable error) {
         log.error("用户错误:" + this.userId + ",原因:" + error.getMessage());
+        redisService.removeSet(WEBSOCKET, this.userId);
         error.printStackTrace();
     }
 

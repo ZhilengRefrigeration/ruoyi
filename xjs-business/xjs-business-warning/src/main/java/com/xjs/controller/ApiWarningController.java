@@ -1,5 +1,6 @@
 package com.xjs.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
@@ -8,16 +9,23 @@ import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
+import com.ruoyi.common.redis.service.RedisService;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.domain.ApiRecord;
 import com.xjs.domain.ApiWarning;
+import com.xjs.server.WebSocketServer;
 import com.xjs.service.ApiWarningService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+
+import static com.xjs.consts.RedisConst.WEBSOCKET;
 
 /**
  * @author xiejs
@@ -30,6 +38,8 @@ public class ApiWarningController extends BaseController {
 
     @Autowired
     private ApiWarningService apiWarningService;
+    @Autowired
+    private RedisService redisService;
 
     /**
      * 远程保存 apiRecord
@@ -66,15 +76,39 @@ public class ApiWarningController extends BaseController {
     }
 
     /**
-     * 远程保存api预警信息
+     * 远程保存api预警信息并websocket推送
      *
      * @param apiWarning 预警实体类
      * @return R
      */
     @PostMapping("saveApiwarningForRPC")
+    @Transactional
     public R<ApiWarning> saveApiWarningForRPC(@RequestBody ApiWarning apiWarning) {
         boolean save = apiWarningService.save(apiWarning);
+
+        this.websocketPush(apiWarning);
+
         return save ? R.ok() : R.fail();
+    }
+
+    /**
+     *  websocket推送
+     */
+    private void websocketPush(ApiWarning apiWarning) {
+        long count = apiWarningService.count();
+        Set<String> cacheSet = redisService.getCacheSet(WEBSOCKET);
+        JSONObject jsonData =new JSONObject();
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(apiWarning);
+        jsonData.put("count", count);
+        jsonData.put("data", jsonObject.toJSONString());
+        jsonData.put("socketType", "apiWarning");
+        for (String userId : cacheSet) {
+            try {
+                WebSocketServer.sendInfo(jsonData.toString(),userId);
+            } catch (IOException e) {
+                logger.error(e.getMessage());
+            }
+        }
     }
 
 

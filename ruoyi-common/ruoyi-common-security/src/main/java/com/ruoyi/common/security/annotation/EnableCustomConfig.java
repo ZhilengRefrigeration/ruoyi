@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.lang.annotation.*;
 
@@ -24,6 +25,7 @@ import java.lang.annotation.*;
 @Import({ ApplicationConfig.class, FeignAutoConfiguration.class })
 //自定义bean扫描，添加xjs路径下的bean
 @ComponentScan(basePackages = {"com.ruoyi","com.xjs"})
+@EnableTransactionManagement
 public @interface EnableCustomConfig
 {
 

@@ -164,6 +164,25 @@ public class RedisService {
         return redisTemplate.opsForSet().members(key);
     }
 
+
+    /**
+     * set中移除指定元素
+     * @param key redis键
+     * @param value set值
+     * @param <T> obj
+     * @return 删除数量
+     */
+    public <T> Long removeSet(String key, T value) {
+        Long size = null;
+        try {
+            size = redisTemplate.opsForSet().remove(key, value);
+        } catch (Exception e) {
+            return size;
+        }
+        return size;
+    }
+
+
     /**
      * 缓存Map
      *

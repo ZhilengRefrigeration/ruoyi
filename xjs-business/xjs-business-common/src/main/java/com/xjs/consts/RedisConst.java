@@ -24,6 +24,11 @@ public class RedisConst {
      */
     public static final String HOT = "hot";
 
+    /**
+     * websocket常量key
+     */
+    public static final String WEBSOCKET= "WEBSOCKET";
+
 
     //-------------------有效时间-----------------------
     public static final Integer TRAN_DICT_EXPIRE = 7;   //天
