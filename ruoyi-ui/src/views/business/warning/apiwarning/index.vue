@@ -54,7 +54,7 @@
       <el-table-column label="预警时间" align="center" prop="createTime" width="180"/>
       <el-table-column label="是否处理" align="center" prop="handle" width="100px">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.handle==='1'?'success':'danger'" size="small">
+          <el-tag :type="scope.row.handle===1?'success':'danger'" size="small">
             {{ scope.row.handle === 1 ? '是' : '否' }}
           </el-tag>
         </template>

@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import static com.xjs.consts.ApiWarnHandleConst.NO;
+import static com.xjs.consts.ApiWarnHandleConst.YES;
 import static com.xjs.consts.RedisConst.WEBSOCKET;
 
 /**
@@ -76,6 +78,20 @@ public class ApiWarningController extends BaseController {
     }
 
     /**
+     * 处理预警单个预警
+     * @param id 预警id
+     * @return R
+     */
+    @PutMapping("handle/{id}")
+    //@RequiresPermissions("warning:apiwarning:list")
+    public R<Object> handleWarning(@PathVariable("id") Long id) {
+        ApiWarning apiWarning = new ApiWarning();
+        apiWarning.setId(id);
+        apiWarning.setHandle(YES);
+        return apiWarningService.updateById(apiWarning)?R.ok():R.fail();
+    }
+
+    /**
      * 远程保存api预警信息并websocket推送
      *
      * @param apiWarning 预警实体类
@@ -95,10 +111,12 @@ public class ApiWarningController extends BaseController {
      *  websocket推送
      */
     private void websocketPush(ApiWarning apiWarning) {
-        long count = apiWarningService.count();
+        long count = apiWarningService.count(new QueryWrapper<ApiWarning>().eq("handle",NO));
         Set<String> cacheSet = redisService.getCacheSet(WEBSOCKET);
         JSONObject jsonData =new JSONObject();
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(apiWarning);
+        //把id设置成字符串防止前端精度丢失
+        jsonObject.put("id", apiWarning.getId().toString());
         jsonData.put("count", count);
         jsonData.put("data", jsonObject.toJSONString());
         jsonData.put("socketType", "apiWarning");

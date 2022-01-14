@@ -8,9 +8,25 @@
     <top-nav id="topmenu-container" class="topmenu-container" v-if="topNav"/>
 
     <div class="right-menu">
+
       <el-badge :value="warnData.count" class=" hover-effect share-button">
-        <el-button type="warning" icon="el-icon-check" circle style="max-width: 22px;max-height: 22px;"></el-button>
+        <el-popover
+          placement="bottom"
+          width="220"
+          v-model="visible">
+          <p>{{ append() }}</p>
+          <div style="text-align: right; margin: 0">
+            <el-button type="primary" size="mini" @click="haveRead">已读</el-button>
+          </div>
+          <el-button type="warning" icon="el-icon-check"
+                     circle style="max-width: 22px;max-height: 22px;"
+                     @click=""
+                     slot="reference"
+          ></el-button>
+        </el-popover>
+
       </el-badge>
+
 
       <template v-if="device!=='mobile'">
         <search id="header-search" class="right-menu-item"/>
@@ -22,7 +38,6 @@
         </el-tooltip>
 
       </template>
-
 
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
@@ -56,6 +71,8 @@ import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
 import RuoYiGit from '@/components/RuoYi/Git'
 import RuoYiDoc from '@/components/RuoYi/Doc'
+import {handleWarning} from "@/api/business/warning/apiwarning";
+
 
 export default {
   components: {
@@ -72,6 +89,8 @@ export default {
   data() {
     return {
       warnData: {},
+
+      visible: false,
     }
   },
 
@@ -108,6 +127,38 @@ export default {
   },
 
   methods: {
+
+    //已读操作
+    haveRead() {
+      this.visible = false
+      if (this.warnData) {
+        let str = this.warnData.data;
+        if (str) {
+          var json = eval("(" + str + ")");
+          if (json.id !== undefined) {
+            handleWarning(json.id).then(res => {
+              this.$modal.msgSuccess("处理成功");
+              this.warnData.data= "{}"
+            });
+          }
+        }
+      }
+
+
+    },
+
+    append() {
+      let str = this.warnData.data;
+      if (str != null) {
+        var json = eval("(" + str + ")");
+        if (json.apiName !== undefined && json.warningMessage !== undefined) {
+          let data = json.apiName + "-" + json.warningMessage;
+          this.visible = true
+          return data
+        }
+      }
+    },
+
     getData(data) {
       if (data) {
         this.warnData = data

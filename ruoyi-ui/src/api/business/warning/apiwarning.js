@@ -35,3 +35,11 @@ export function listApiwarning(query) {
     params: query
   })
 }
+
+// 处理单个预警
+export function handleWarning(id) {
+  return request({
+    url: '/warning/apiwarning/handle/'+id,
+    method: 'put',
+  })
+}

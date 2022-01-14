@@ -1,7 +1,9 @@
 package com.xjs.server;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ruoyi.common.redis.service.RedisService;
+import com.xjs.domain.ApiWarning;
 import com.xjs.service.ApiWarningService;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +18,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.xjs.consts.ApiWarnHandleConst.NO;
 import static com.xjs.consts.RedisConst.WEBSOCKET;
 
 /**
@@ -84,7 +87,7 @@ public class WebSocketServer {
         set.add(userId);
         redisService.setCacheSet(WEBSOCKET, set);
 
-        long count = apiWarningService.count();
+        long count = apiWarningService.count(new QueryWrapper<ApiWarning>().eq("handle",NO));
         JSONObject jsonData =new JSONObject();
         jsonData.put("count", count);
         jsonData.put("socketType", "apiWarning");
