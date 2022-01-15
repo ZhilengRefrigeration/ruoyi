@@ -5,7 +5,7 @@ package com.xjs.utils;
  * @desc  中文工具类
  * @create 2021-12-29
  */
-public class ChineseUtil {
+public class ChineseUtils {
 
     /**
      * 校验String是否全是中文

@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  * @author xiejs
  * @since 2022-01-15
  */
-public class IPUtil {
+public class IPUtils {
 
     /**
      * 获取外网ip
@@ -26,7 +26,7 @@ public class IPUtil {
         String ip = null;
         // 第一种方式
         try {
-            ip = IPUtil.getNowIP1();
+            ip = IPUtils.getNowIP1();
             ip.trim();
         } catch (Exception e) {
             System.out.println("getPublicIP - getNowIP1 failed ~ ");
@@ -35,7 +35,7 @@ public class IPUtil {
             return ip;
         // 第二种方式
         try {
-            ip = IPUtil.getNowIP2();
+            ip = IPUtils.getNowIP2();
             ip.trim();
         } catch (Exception e) {
             System.out.println("getPublicIP - getNowIP2 failed ~ ");
@@ -44,7 +44,7 @@ public class IPUtil {
             return ip;
         // 第三种方式
         try {
-            ip = IPUtil.getNowIP3();
+            ip = IPUtils.getNowIP3();
             ip.trim();
         } catch (Exception e) {
             System.out.println("getPublicIP - getNowIP3 failed ~ ");
@@ -53,7 +53,7 @@ public class IPUtil {
             return ip;
         // 第四种方式
         try {
-            ip = IPUtil.getNowIP4();
+            ip = IPUtils.getNowIP4();
             ip.trim();
         } catch (Exception e) {
             System.out.println("getPublicIP - getNowIP4 failed ~ ");

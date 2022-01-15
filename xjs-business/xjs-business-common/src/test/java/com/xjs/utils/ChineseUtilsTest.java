@@ -11,11 +11,11 @@ import java.util.Date;
  * @desc
  * @create 2021-12-29
  */
-class ChineseUtilTest {
+class ChineseUtilsTest {
 
     @Test
     public void test1() {
-        boolean b = ChineseUtil.checkNameChese("爱喔爱");
+        boolean b = ChineseUtils.checkNameChese("爱喔爱");
         System.out.println(b);
     }
 

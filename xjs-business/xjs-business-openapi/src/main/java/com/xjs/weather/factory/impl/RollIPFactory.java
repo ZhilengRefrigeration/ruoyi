@@ -5,7 +5,7 @@ import com.ruoyi.common.redis.service.RedisService;
 import com.xjs.common.client.api.roll.RollIPFeignClient;
 import com.xjs.config.RollProperties;
 import com.xjs.copywriting.domain.RequestBody;
-import com.xjs.utils.IPUtil;
+import com.xjs.utils.IPUtils;
 import com.xjs.weather.domain.IPInfoVo;
 import com.xjs.weather.factory.IPFactory;
 import lombok.extern.log4j.Log4j2;
@@ -35,7 +35,7 @@ public class RollIPFactory implements IPFactory<IPInfoVo> {
     public IPInfoVo IpApi() {
         RequestBody requestBody = new RequestBody();
         try {
-            requestBody.setIp(IPUtil.getV4IP());
+            requestBody.setIp(IPUtils.getV4IP());
         } catch (Exception e) {
             requestBody.setIp("127.0.0.1");
         }

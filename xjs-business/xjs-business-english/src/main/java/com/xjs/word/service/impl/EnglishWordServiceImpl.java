@@ -11,7 +11,7 @@ import com.xjs.business.api.RemoteTranDIctFeign;
 import com.xjs.business.api.RemoteTranslationFeign;
 import com.xjs.business.api.domain.TranslationVo;
 import com.xjs.exception.BusinessException;
-import com.xjs.utils.ChineseUtil;
+import com.xjs.utils.ChineseUtils;
 import com.xjs.word.domain.EnglishWord;
 import com.xjs.word.mapper.EnglishWordMapper;
 import com.xjs.word.service.IEnglishWordService;
@@ -110,8 +110,8 @@ public class EnglishWordServiceImpl implements IEnglishWordService {
             throw new BusinessException("该单词已存在！！！!");
         }
         //校验前端传入的是否英文或中文
-        boolean alpha = ChineseUtil.isAlpha(englishWord.getContent());
-        boolean chinese = ChineseUtil.checkNameChese(englishWord.getContent());
+        boolean alpha = ChineseUtils.isAlpha(englishWord.getContent());
+        boolean chinese = ChineseUtils.checkNameChese(englishWord.getContent());
         if (!alpha && !chinese) {
             throw new BusinessException("不能包含其他符号！！！");
         }
