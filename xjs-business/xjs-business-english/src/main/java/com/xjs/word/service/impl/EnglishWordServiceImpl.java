@@ -86,7 +86,7 @@ public class EnglishWordServiceImpl implements IEnglishWordService {
         Map<String, Object> build = new HashMap<>();
         build.put(hkey, englishWord);
         redisService.setCacheMap(TRAN_DICT, build);
-        redisService.expire(TRAN_DICT, TRAN_DICT_EXPIRE, TimeUnit.DAYS);
+        redisService.expire(TRAN_DICT, TRAN_DICT_EXPIRE, TimeUnit.HOURS);
         return englishWord;
     }
 

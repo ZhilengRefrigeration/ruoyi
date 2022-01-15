@@ -41,6 +41,8 @@ public class ApiConst {
 
     public static final String TIANXING_TOPSEARCHDOUYIN= "天行-抖音热搜榜";
 
+    public static final String ROLL_IP= "ROLL-IP信息";
+
 
 
 
@@ -79,6 +81,10 @@ public class ApiConst {
     public static final String TIANXING_TOPSEARCHWEIBO_URL= "http://api.tianapi.com/weibohot/index";
 
     public static final String TIANXING_TOPSEARCHDOUYIN_URL= "http://api.tianapi.com/douyinhot/index";
+
+    public static final String ROLL_IP_URL= "https://www.mxnzp.com/api/ip/aim_ip";
+
+
 
 
 

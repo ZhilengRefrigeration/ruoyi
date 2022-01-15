@@ -27,14 +27,22 @@ public class RedisConst {
     /**
      * websocket常量key
      */
-    public static final String WEBSOCKET= "WEBSOCKET";
+    public static final String WEBSOCKET = "WEBSOCKET";
+
+    /**
+     * ip信息常量key
+     */
+    public static final String IP_INFO = "IPInfo";
 
 
     //-------------------有效时间-----------------------
-    public static final Integer TRAN_DICT_EXPIRE = 7;   //天
+    public static final Integer TRAN_DICT_EXPIRE = 1;   //小时
 
     public static final Integer ONE_ENGLISH_EXPIRE = 3;   //分钟
 
     public static final Long HOT_EXPIRE = 10L;    //分钟
+
+    public static final Long IP_INFO_EXPIRE = 30L;    //分钟
+
 
 }

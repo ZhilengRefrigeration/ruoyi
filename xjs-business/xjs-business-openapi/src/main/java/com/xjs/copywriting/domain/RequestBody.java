@@ -40,4 +40,9 @@ public class RequestBody {
      * 返回值数量
      */
     private Integer count;
+
+    /**
+     * ip
+     */
+    private String ip;
 }
