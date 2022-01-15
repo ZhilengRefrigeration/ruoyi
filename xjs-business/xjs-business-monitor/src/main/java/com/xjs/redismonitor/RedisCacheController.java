@@ -1,7 +1,9 @@
 package com.xjs.redismonitor;
 
 import com.ruoyi.common.core.web.domain.AjaxResult;
-import com.ruoyi.common.security.annotation.RequiresLogin;
+import com.ruoyi.common.security.annotation.RequiresPermissions;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisCallback;
@@ -18,12 +20,14 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("redismonitor")
+@Api(tags = "业务模块-Redis监控")
 public class RedisCacheController {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
     @GetMapping()
-    @RequiresLogin
+    @RequiresPermissions("monitor:redis:list")
+    @ApiOperation("获取Redis监控信息")
     public AjaxResult getInfo() {
         Properties info = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info());
         Properties commandStats = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info("commandstats"));

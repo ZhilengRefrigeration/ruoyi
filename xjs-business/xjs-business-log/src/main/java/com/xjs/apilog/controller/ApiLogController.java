@@ -10,7 +10,6 @@ import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.apilog.domain.ApiLog;
 import com.xjs.apilog.service.IApiLogService;
-import com.xjs.business.api.domain.CopyWriting;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -6,6 +6,7 @@ import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
+import com.ruoyi.common.security.annotation.RequiresLogin;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.oneenglish.domain.ApiEnglish;
 import com.xjs.oneenglish.domain.RequestBody;
@@ -34,9 +35,10 @@ public class ApiEnglishController extends BaseController {
     @Autowired
     private OneEnglishFactory tianXingOneEnglishFactory;
 
-    @RequiresPermissions("openapi:oneenglish:list")
+    @RequiresLogin
     @GetMapping("/getOneEnglish")
     @ApiOperation("英语一言接口")
+    @Log(title = "获取英语一言")
     public AjaxResult getOneEnglish() {
         ApiEnglish oneEnglish = tianXingOneEnglishFactory.getOneEnglish(new RequestBody());
         return AjaxResult.success(oneEnglish);

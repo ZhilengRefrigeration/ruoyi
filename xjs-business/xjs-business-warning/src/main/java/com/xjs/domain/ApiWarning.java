@@ -45,7 +45,7 @@ public class ApiWarning implements Serializable {
     private String realValue;
 
     /** 是否处理 1 处理 2未处理 */
-    @Excel(name = "是否处理",readConverterExp=" 1=处理,2=未处理")
+    @Excel(name = "是否处理",readConverterExp=" 1=已处理,2=未处理")
     private Integer handle;
 
     @Excel(name = "创建时间", dateFormat = "yyyy-MM-dd HH:mm:ss")

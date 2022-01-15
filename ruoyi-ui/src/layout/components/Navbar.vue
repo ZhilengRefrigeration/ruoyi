@@ -9,8 +9,8 @@
 
     <div class="right-menu">
 
-      <el-badge :value="warnData.count" class=" hover-effect share-button">
-        <el-popover
+      <el-badge :value="warnData.count" class=" hover-effect share-button" v-hasPermi="['warning:warning:handle']">
+        <el-popover v-hasPermi="['warning:warning:handle']"
           placement="bottom"
           width="220"
           v-model="visible">
@@ -27,7 +27,6 @@
 
       </el-badge>
 
-
       <template v-if="device!=='mobile'">
         <search id="header-search" class="right-menu-item"/>
 
@@ -38,7 +37,6 @@
         </el-tooltip>
 
       </template>
-
 
       <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
         <div class="avatar-wrapper">
@@ -138,7 +136,9 @@ export default {
           if (json.id !== undefined) {
             handleWarning(json.id).then(res => {
               this.$modal.msgSuccess("处理成功");
-              this.warnData.data= "{}"
+              this.warnData.data = "{}"
+              this.visible = false
+              this.warnData.count = this.warnData.count - 1
             });
           }
         }

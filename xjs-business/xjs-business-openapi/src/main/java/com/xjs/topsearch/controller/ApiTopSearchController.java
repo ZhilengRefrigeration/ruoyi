@@ -3,13 +3,12 @@ package com.xjs.topsearch.controller;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.redis.service.RedisService;
-import com.ruoyi.common.security.annotation.RequiresLogin;
+import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.topsearch.domain.*;
 import com.xjs.topsearch.factory.TopserachFactory;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,7 +50,7 @@ public class ApiTopSearchController {
     @GetMapping("getTopsearch")
     @ApiOperation("热搜榜接口")
     @Log(title = "获取热搜榜")
-    @RequiresLogin
+    @RequiresPermissions("openapi:topsearch:list")
     public AjaxResult topSearch() {
         if (redisService.hasKey(HOT)) {
             Map<String, List> cacheObject = redisService.getCacheObject(HOT);

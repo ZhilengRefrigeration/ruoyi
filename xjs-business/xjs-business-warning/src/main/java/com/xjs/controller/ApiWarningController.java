@@ -15,6 +15,8 @@ import com.xjs.domain.ApiRecord;
 import com.xjs.domain.ApiWarning;
 import com.xjs.server.WebSocketServer;
 import com.xjs.service.ApiWarningService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +38,7 @@ import static com.xjs.consts.RedisConst.WEBSOCKET;
  */
 @RestController
 @RequestMapping("apiwarning")
+@Api(tags = "业务模块-预警管理")
 public class ApiWarningController extends BaseController {
 
     @Autowired
@@ -50,6 +53,7 @@ public class ApiWarningController extends BaseController {
      * @return apiRecord
      */
     @PostMapping
+    @ApiOperation("远程保存预警信息")
     public R<ApiRecord> saveApiRecordForRPC(@RequestBody ApiRecord apiRecord) {
         return apiWarningService.saveApiRecord(apiRecord) ? R.ok() : R.fail();
     }
@@ -61,6 +65,7 @@ public class ApiWarningController extends BaseController {
      * @return ApiRecord
      */
     @PutMapping
+    @ApiOperation("远程修改预警信息")
     public R<ApiRecord> updateApiRecordForRPC(@RequestBody ApiRecord apiRecord) {
         return apiWarningService.updateApiRecordByUrl(apiRecord) ? R.ok() : R.fail();
     }
@@ -72,6 +77,7 @@ public class ApiWarningController extends BaseController {
      * @return R<List < ApiRecord>>
      */
     @GetMapping
+    @ApiOperation("远程查询预警信息")
     public R<List<ApiRecord>> selectApiRecordListForRPC(ApiRecord apiRecord) {
         List<ApiRecord> apiRecords = apiWarningService.selectApiRecordListByUrl(apiRecord);
         return R.ok(apiRecords);
@@ -83,7 +89,9 @@ public class ApiWarningController extends BaseController {
      * @return R
      */
     @PutMapping("handle/{id}")
-    //@RequiresPermissions("warning:apiwarning:list")
+    @RequiresPermissions("warning:warning:handle")
+    @ApiOperation("处理预警单个预警")
+    @Log(title = "处理单个预警")
     public R<Object> handleWarning(@PathVariable("id") Long id) {
         ApiWarning apiWarning = new ApiWarning();
         apiWarning.setId(id);
@@ -99,6 +107,7 @@ public class ApiWarningController extends BaseController {
      */
     @PostMapping("saveApiwarningForRPC")
     @Transactional
+    @ApiOperation("远程保存api预警信息并websocket推送")
     public R<ApiWarning> saveApiWarningForRPC(@RequestBody ApiWarning apiWarning) {
         boolean save = apiWarningService.save(apiWarning);
 
@@ -135,6 +144,7 @@ public class ApiWarningController extends BaseController {
      */
     @RequiresPermissions("warning:warning:list")
     @GetMapping("/apiwarnlist")
+    @ApiOperation("查询api预警列表")
     public TableDataInfo list(ApiWarning apiWarning) {
         startPage();
         List<ApiWarning> list = apiWarningService.list(new QueryWrapper<ApiWarning>()
@@ -149,6 +159,7 @@ public class ApiWarningController extends BaseController {
     @RequiresPermissions("warning:warning:export")
     @Log(title = "api预警", businessType = BusinessType.EXPORT)
     @PostMapping("/apiwarnexport")
+    @ApiOperation("导出api预警列表")
     public void export(HttpServletResponse response, ApiWarning apiWarning) {
         List<ApiWarning> list = apiWarningService.list(new QueryWrapper<ApiWarning>()
                 .like(Objects.nonNull(apiWarning.getApiName()),"api_name", apiWarning.getApiName()));
@@ -165,6 +176,7 @@ public class ApiWarningController extends BaseController {
      */
     @RequiresPermissions("warning:apiwarning:list")
     @GetMapping("/list")
+    @ApiOperation("查询API预警信息列表")
     public TableDataInfo list(ApiRecord apiRecord) {
         startPage();
         List<ApiRecord> list = apiWarningService.selectApiRecordList(apiRecord);
@@ -177,6 +189,7 @@ public class ApiWarningController extends BaseController {
     @RequiresPermissions("warning:apiwarning:export")
     @Log(title = "API预警", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
+    @ApiOperation("导出API预警信息列表")
     public void export(HttpServletResponse response, ApiRecord apiRecord) {
         List<ApiRecord> list = apiWarningService.selectApiRecordList(apiRecord);
         ExcelUtil<ApiRecord> util = new ExcelUtil<ApiRecord>(ApiRecord.class);
@@ -188,6 +201,7 @@ public class ApiWarningController extends BaseController {
      */
     @RequiresPermissions("warning:apiwarning:query")
     @GetMapping(value = "/{id}")
+    @ApiOperation("获取API预警详细信息信息")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
         return AjaxResult.success(apiWarningService.selectApiRecordById(id));
     }
@@ -198,6 +212,7 @@ public class ApiWarningController extends BaseController {
     @RequiresPermissions("warning:apiwarning:edit")
     @Log(title = "API预警", businessType = BusinessType.UPDATE)
     @PutMapping("edit")
+    @ApiOperation("修改API预警信息")
     public AjaxResult edit(@RequestBody ApiRecord apiRecord) {
         return toAjax(apiWarningService.updateApiRecord(apiRecord));
     }

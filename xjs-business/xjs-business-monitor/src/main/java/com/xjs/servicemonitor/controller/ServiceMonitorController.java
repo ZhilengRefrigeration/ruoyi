@@ -1,10 +1,12 @@
 package com.xjs.servicemonitor.controller;
 
 import com.ruoyi.common.core.web.domain.AjaxResult;
-import com.ruoyi.common.security.annotation.RequiresLogin;
+import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.servicemonitor.domain.ServiceMonitorInfo;
 import com.xjs.servicemonitor.service.JvmMonitorService;
 import com.xjs.servicemonitor.service.SystemOSService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @RestController
 @RequestMapping("servicemonitor")
+@Api(tags = "业务模块-服务监控")
 public class ServiceMonitorController {
     @Autowired
     private JvmMonitorService jvmMonitorService;
@@ -27,7 +30,8 @@ public class ServiceMonitorController {
     private SystemOSService systemOSService;
 
     @GetMapping
-    @RequiresLogin
+    @RequiresPermissions("monitor:service:list")
+    @ApiOperation("获取服务监控信息")
     public AjaxResult getServiceMonitor(HttpServletRequest request) {
         ServiceMonitorInfo serviceMonitorInfo = new ServiceMonitorInfo();
         //获取客户端信息

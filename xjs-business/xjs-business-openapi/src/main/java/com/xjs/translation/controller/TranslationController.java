@@ -4,7 +4,6 @@ import cn.hutool.core.util.RandomUtil;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
-import com.ruoyi.common.security.annotation.RequiresLogin;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.translation.domain.qo.translation.TranslationQo;
 import com.xjs.translation.domain.vo.translation.TranslationVo;
@@ -41,7 +40,6 @@ public class TranslationController {
     @PostMapping
     @ApiOperation("翻译接口")
     @Log(title = "获取翻译")
-    @RequiresLogin
     @RequiresPermissions("openapi:translation:api")
     public AjaxResult translation(@Validated @RequestBody TranslationQo translationQo) {
         TranslationVo translationVo = new TranslationVo();

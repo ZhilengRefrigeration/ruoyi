@@ -12,6 +12,8 @@ import com.xjs.validation.UpdateGroup;
 import com.xjs.web.MyBaseController;
 import com.xjs.word.domain.EnglishWord;
 import com.xjs.word.service.IEnglishWordService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +29,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/word")
+@Api(tags = "业务模块-英语管理")
 public class EnglishWordController extends MyBaseController {
     @Autowired
     private IEnglishWordService englishWordService;
@@ -38,6 +41,8 @@ public class EnglishWordController extends MyBaseController {
      */
     @RequiresPermissions("english:word:collect")
     @GetMapping("collect")
+    @Log(title = "查看单词夹")
+    @ApiOperation("英语单词收藏夹")
     public AjaxResult collect() {
         IPage<EnglishWord> englishWordList=englishWordService.getEnglishWordByCollect(startPageMP());
         return AjaxResult.success(englishWordList);
@@ -47,8 +52,8 @@ public class EnglishWordController extends MyBaseController {
     /**
      * 获取英语单词详细信息RPC
      */
-    @RequiresPermissions("english:word:query")
     @GetMapping(value = "/rpc/{id}")
+    @ApiOperation("获取英语单词详细信息RPC")
     public AjaxResult getInfoRPC(@PathVariable("id") Long id) {
         return AjaxResult.success(englishWordService.selectEnglishWordToRPC(id));
     }
@@ -58,6 +63,7 @@ public class EnglishWordController extends MyBaseController {
      */
     @RequiresPermissions("english:word:query")
     @GetMapping(value = "/{id}")
+    @ApiOperation("获取英语单词详细信息")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
         return AjaxResult.success(englishWordService.selectById(id));
     }
@@ -70,6 +76,7 @@ public class EnglishWordController extends MyBaseController {
      */
     @RequiresPermissions("english:word:list")
     @GetMapping("/list")
+    @ApiOperation("查询英语单词列表")
     public TableDataInfo list(EnglishWord englishWord) {
         startPage();
         List<EnglishWord> list = englishWordService.selectEnglishWordList(englishWord);
@@ -80,6 +87,7 @@ public class EnglishWordController extends MyBaseController {
      * 导出英语单词列表
      */
     @RequiresPermissions("english:word:export")
+    @ApiOperation("导出英语单词列表")
     @Log(title = "英语单词", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, EnglishWord englishWord) {
@@ -94,6 +102,7 @@ public class EnglishWordController extends MyBaseController {
      * 新增英语单词
      */
     @RequiresPermissions("english:word:add")
+    @ApiOperation("新增英语单词")
     @Log(title = "英语单词", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated({AddGroup.class}) @RequestBody EnglishWord englishWord) {
@@ -104,6 +113,7 @@ public class EnglishWordController extends MyBaseController {
      * 修改英语单词
      */
     @RequiresPermissions("english:word:edit")
+    @ApiOperation("修改英语单词")
     @Log(title = "英语单词", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@Validated({UpdateGroup.class}) @RequestBody EnglishWord englishWord) {
@@ -114,6 +124,7 @@ public class EnglishWordController extends MyBaseController {
      * 删除英语单词
      */
     @RequiresPermissions("english:word:remove")
+    @ApiOperation("删除英语单词")
     @Log(title = "英语单词", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {

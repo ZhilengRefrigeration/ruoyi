@@ -56,7 +56,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['openapi:copywriting:delete']"
+          v-hasPermi="['openapi:copywriting:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -77,7 +77,7 @@
           icon="el-icon-delete"
           size="mini"
           @click="delRepeatCopyWriting"
-          v-hasPermi="['openapi:copywriting:delete']"
+          v-hasPermi="['openapi:copywriting:remove']"
         >删除重复文案</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
@@ -109,7 +109,7 @@
             type="danger"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['openapi:copywriting:delete']"
+            v-hasPermi="['openapi:copywriting:remove']"
           ></el-button>
           </el-tooltip>
         </template>

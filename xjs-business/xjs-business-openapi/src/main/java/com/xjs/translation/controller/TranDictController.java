@@ -1,7 +1,6 @@
 package com.xjs.translation.controller;
 
 import com.ruoyi.common.core.domain.R;
-import com.ruoyi.common.security.annotation.RequiresLogin;
 import com.xjs.translation.domain.qo.translation.TranslationQo;
 import com.xjs.translation.domain.vo.translation.TranslationVo;
 import com.xjs.translation.factory.TranslationFactory;
@@ -27,7 +26,6 @@ public class TranDictController {
     private TranslationFactory tianXingTranDictFactory;
 
     @GetMapping("tranDictForRPC")
-    @RequiresLogin
     public R<TranslationVo> tranDict(String content) {
         TranslationQo translationQo = new TranslationQo();
         translationQo.setQ(content);

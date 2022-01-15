@@ -71,7 +71,7 @@ public class CopyWritingController extends BaseController {
 
     @DeleteMapping("Repeat")
     @ApiOperation("删除重复文案内容")
-    @RequiresPermissions("openapi:copywriting:delete")
+    @RequiresPermissions("openapi:copywriting:remove")
     @Log(title = "删除重复文案", businessType = BusinessType.DELETE)
     public AjaxResult deleteRepeatData() {
         int count = copyWritingService.deleteRepeatData();
