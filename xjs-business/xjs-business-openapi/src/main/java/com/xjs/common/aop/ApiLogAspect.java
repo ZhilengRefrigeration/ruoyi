@@ -197,7 +197,9 @@ public class ApiLogAspect {
                                         }
                                         apiWarning.setWarningType(WarnTypeEnum.API.getType());
                                         String message = String.format(WarnTypeEnum.API.getMessage(),
-                                                haveApiRecord.getLimitCount(), haveApiRecord.getDayCount());
+                                                haveApiRecord.getApiName(),
+                                                haveApiRecord.getLimitCount(),
+                                                haveApiRecord.getDayCount());
                                         apiWarning.setWarningMessage(message);
                                         remoteWarningCRUDFeign.saveApiWarningForRPC(apiWarning);
 

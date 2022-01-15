@@ -23,9 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 import static com.xjs.consts.ApiWarnHandleConst.NO;
 import static com.xjs.consts.ApiWarnHandleConst.YES;
@@ -176,6 +174,14 @@ public class ApiWarningController extends BaseController {
         return integer > 0 ? R.ok(integer) : R.fail();
     }
 
+    @RequiresPermissions("warning:warning:handleAll")
+    @PutMapping("handleAll")
+    @ApiOperation("全部标记已读")
+    @Log(title = "全部标记已读")
+    public R<Object> AllHaveRead() {
+        Integer integer = apiWarningService.AllHaveRead();
+        return integer > 0 ? R.ok(integer) : R.fail();
+    }
 
 
     //-------------------------代码生成------------------------------------

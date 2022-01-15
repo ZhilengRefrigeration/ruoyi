@@ -7,7 +7,7 @@ package com.xjs.enums;
  */
 public enum WarnTypeEnum {
 
-    API("API","API接口调用超出限定值。限定值--%s次，实际值--%s次");
+    API("API","API接口(%s)调用超出限定值。限定值--%s次，实际值--%s次");
 
     private final String type;
 

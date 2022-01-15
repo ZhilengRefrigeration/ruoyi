@@ -122,9 +122,17 @@ export default {
       "apiWarning",
       this.getData
     );
+
+    this.$bus.$on('clearCount', this.clearCount)
   },
 
   methods: {
+    //小红点清零
+    clearCount(data) {
+      if (data) {
+        this.warnData.count = 0
+      }
+    },
 
     //已读操作
     haveRead() {
@@ -143,18 +151,15 @@ export default {
           }
         }
       }
-
-
     },
 
     append() {
       let str = this.warnData.data;
       if (str != null) {
         var json = eval("(" + str + ")");
-        if (json.apiName !== undefined && json.warningMessage !== undefined) {
-          let data = json.apiName + "-" + json.warningMessage;
+        if (json.warningMessage !== undefined) {
           // this.visible = true
-          return data
+          return json.warningMessage
         }
       }
     },

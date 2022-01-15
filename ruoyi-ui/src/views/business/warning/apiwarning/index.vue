@@ -35,8 +35,20 @@
           icon="el-icon-delete-solid"
           size="mini"
           @click="clearAll"
+
           v-hasPermi="['warning:warning:remove']"
         >清空
+        </el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="primary"
+          plain
+          icon="el-icon-success"
+          size="mini"
+          @click="AllHaveRead"
+          v-hasPermi="['warning:warning:handleAll']"
+        >全部标记已读
         </el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
@@ -84,7 +96,7 @@
 </template>
 
 <script>
-import {listApiwarning,clearAll } from "@/api/business/warning/apiwarning";
+import {listApiwarning,clearAll,AllHaveRead } from "@/api/business/warning/apiwarning";
 
 export default {
   name: "Warning",
@@ -124,6 +136,16 @@ export default {
     this.getList();
   },
   methods: {
+    //全部标记已读
+    AllHaveRead() {
+      AllHaveRead().then(res =>{
+        this.$modal.msgSuccess("处理"+res.data+"条");
+        this.getList();
+        //组件传值
+        this.$bus.$emit('clearCount',true)
+      })
+    },
+
     //清空预警信息
     clearAll() {
       clearAll().then(res =>{

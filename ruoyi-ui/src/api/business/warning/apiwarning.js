@@ -52,3 +52,11 @@ export function clearAll() {
     method: 'delete',
   })
 }
+
+// 全部标记已读
+export function AllHaveRead() {
+  return request({
+    url: '/warning/apiwarning/handleAll',
+    method: 'put',
+  })
+}

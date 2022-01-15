@@ -17,4 +17,11 @@ public interface ApiWarningMapper extends BaseMapper<ApiWarning> {
      * @return Integer
      */
     Integer clearAll();
+
+
+    /**
+     * 一键标记已读
+     * @return Integer
+     */
+    Integer AllHaveRead();
 }

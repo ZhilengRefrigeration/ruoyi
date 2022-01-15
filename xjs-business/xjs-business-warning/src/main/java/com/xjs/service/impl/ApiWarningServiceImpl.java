@@ -59,6 +59,11 @@ public class ApiWarningServiceImpl extends ServiceImpl<ApiWarningMapper, ApiWarn
         return apiWarningMapper.clearAll();
     }
 
+    @Override
+    public Integer AllHaveRead() {
+        return apiWarningMapper.AllHaveRead();
+    }
+
 
     //------------------------代码生成-------------------------------
 

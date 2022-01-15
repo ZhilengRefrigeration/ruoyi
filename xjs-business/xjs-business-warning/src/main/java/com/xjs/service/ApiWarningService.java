@@ -44,6 +44,12 @@ public interface ApiWarningService extends IService<ApiWarning> {
      */
     Integer clearAll();
 
+    /**
+     * 一键标记已读
+     * @return Integer
+     */
+    Integer AllHaveRead();
+
     //---------------------代码生成---------------------------------
 
     /**
