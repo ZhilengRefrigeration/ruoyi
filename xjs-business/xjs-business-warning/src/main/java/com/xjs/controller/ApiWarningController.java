@@ -167,6 +167,16 @@ public class ApiWarningController extends BaseController {
         util.exportExcel(response, list, "api预警数据");
     }
 
+    @RequiresPermissions("warning:warning:remove")
+    @Log(title = "api预警", businessType = BusinessType.DELETE)
+    @DeleteMapping("all")
+    @ApiOperation("清空已处理api预警列表")
+    public R<Object> clearAll() {
+        Integer integer = apiWarningService.clearAll();
+        return integer > 0 ? R.ok(integer) : R.fail();
+    }
+
+
 
     //-------------------------代码生成------------------------------------
 

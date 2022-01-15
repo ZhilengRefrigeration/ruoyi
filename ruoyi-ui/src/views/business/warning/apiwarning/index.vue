@@ -28,6 +28,17 @@
         >导出
         </el-button>
       </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="info"
+          plain
+          icon="el-icon-delete-solid"
+          size="mini"
+          @click="clearAll"
+          v-hasPermi="['warning:warning:remove']"
+        >清空
+        </el-button>
+      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -73,7 +84,7 @@
 </template>
 
 <script>
-import {listApiwarning} from "@/api/business/warning/apiwarning";
+import {listApiwarning,clearAll } from "@/api/business/warning/apiwarning";
 
 export default {
   name: "Warning",
@@ -113,6 +124,14 @@ export default {
     this.getList();
   },
   methods: {
+    //清空预警信息
+    clearAll() {
+      clearAll().then(res =>{
+        this.$modal.msgSuccess("清空"+res.data+"条");
+        this.getList();
+      })
+    },
+
     /** 查询api预警列表 */
     getList() {
       this.loading = true;

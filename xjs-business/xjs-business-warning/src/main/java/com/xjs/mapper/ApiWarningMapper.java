@@ -10,4 +10,11 @@ import com.xjs.domain.ApiWarning;
  */
 
 public interface ApiWarningMapper extends BaseMapper<ApiWarning> {
+
+
+    /**
+     * 清空所有已处理
+     * @return Integer
+     */
+    Integer clearAll();
 }

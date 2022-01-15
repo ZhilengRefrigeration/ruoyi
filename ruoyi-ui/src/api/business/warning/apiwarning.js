@@ -43,3 +43,12 @@ export function handleWarning(id) {
     method: 'put',
   })
 }
+
+
+// 清空预警记录信息
+export function clearAll() {
+  return request({
+    url: '/warning/apiwarning/all',
+    method: 'delete',
+  })
+}

@@ -28,7 +28,7 @@ import static com.xjs.consts.RedisConst.WEBSOCKET;
  * @since 2022-01-13
  */
 @Log4j2
-@ServerEndpoint("/warning/api/{userId}")
+@ServerEndpoint("/webSocket/warning/api/{userId}")
 @Component
 public class WebSocketServer {
     /**

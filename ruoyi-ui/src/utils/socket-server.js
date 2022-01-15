@@ -39,7 +39,7 @@ export default class SocketService {
       return console.log("您的浏览器不支持WebSocket");
     }
     //网关转发
-    let wsUrl = 'ws://localhost:8080/warning/warning/api';
+    let wsUrl = 'ws://localhost:8080/warning/webSocket/warning/api';
     wsUrl += `/${store.getters.name}`
     this.ws = new WebSocket(wsUrl)
 

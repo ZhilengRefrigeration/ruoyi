@@ -38,6 +38,12 @@ public interface ApiWarningService extends IService<ApiWarning> {
      */
     List<ApiRecord> selectApiRecordListByUrl(ApiRecord apiRecord);
 
+    /**
+     * 清空已处理预警信息数据
+     * @return int
+     */
+    Integer clearAll();
+
     //---------------------代码生成---------------------------------
 
     /**

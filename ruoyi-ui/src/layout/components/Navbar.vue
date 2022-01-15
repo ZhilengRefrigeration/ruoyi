@@ -10,7 +10,7 @@
     <div class="right-menu">
 
       <el-badge :value="warnData.count" class=" hover-effect share-button" v-hasPermi="['warning:warning:handle']">
-        <el-popover v-hasPermi="['warning:warning:handle']"
+        <el-popover
           placement="bottom"
           width="220"
           v-model="visible">
@@ -153,7 +153,7 @@ export default {
         var json = eval("(" + str + ")");
         if (json.apiName !== undefined && json.warningMessage !== undefined) {
           let data = json.apiName + "-" + json.warningMessage;
-          this.visible = true
+          // this.visible = true
           return data
         }
       }

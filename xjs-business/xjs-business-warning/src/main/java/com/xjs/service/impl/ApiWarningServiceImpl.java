@@ -24,6 +24,8 @@ public class ApiWarningServiceImpl extends ServiceImpl<ApiWarningMapper, ApiWarn
 
     @Resource
     private ApiRecordMapper apiRecordMapper;
+    @Resource
+    private ApiWarningMapper apiWarningMapper;
 
     @Override
     public Boolean saveApiRecord(ApiRecord apiRecord) {
@@ -50,6 +52,11 @@ public class ApiWarningServiceImpl extends ServiceImpl<ApiWarningMapper, ApiWarn
         return apiRecordMapper
                 .selectList(new QueryWrapper<ApiRecord>().eq("api_name", apiRecord.getApiName())
                         .eq("api_name", apiRecord.getApiName()));
+    }
+
+    @Override
+    public Integer clearAll() {
+        return apiWarningMapper.clearAll();
     }
 
 
