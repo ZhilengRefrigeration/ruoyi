@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
+
 /**
  * roll平台每日一句工厂实现
  * @author xiejs
@@ -41,7 +43,7 @@ public class RollMMYJCopyWritingFactory implements CopyWritingFactory {
         requestBody.setApp_id(rollProperties.getApp_id());
         requestBody.setApp_secret(rollProperties.getApp_secret());
         JSONObject jsonObject = rollMMYJFeignClient.copyWritingApi(requestBody);
-        if (jsonObject.containsKey("error")) {
+        if (jsonObject.containsKey(DEMOTE_ERROR)) {
             throw new ApiException("roll每日一句接口调用异常");
         }
         JSONArray jsonArray = jsonObject.getJSONArray("data");

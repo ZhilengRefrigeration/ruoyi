@@ -12,6 +12,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
+import static com.xjs.consts.ApiConst.ROLL_CODE_SUCCESS;
 import static com.xjs.consts.RedisConst.IP_INFO;
 
 /**
@@ -42,7 +44,7 @@ public class RollIPFactory implements IPFactory<IPInfoVo> {
         requestBody.setApp_id(rollProperties.getApp_id());
         requestBody.setApp_secret(rollProperties.getApp_secret());
         JSONObject jsonObject = rollIPFeignClient.IpApi(requestBody);
-        if (!jsonObject.containsKey("error") && jsonObject.getInteger("code") == 1) {
+        if (!jsonObject.containsKey(DEMOTE_ERROR) && jsonObject.getInteger("code") == ROLL_CODE_SUCCESS.intValue()) {
             JSONObject data = jsonObject.getJSONObject("data");
             return data.toJavaObject(IPInfoVo.class);
         } else {

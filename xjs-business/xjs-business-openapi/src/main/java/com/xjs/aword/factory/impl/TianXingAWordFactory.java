@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
+import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
+
 /**
  * 天行数据平台每日一句工厂实现
  *
@@ -39,7 +41,7 @@ public class TianXingAWordFactory implements AWordFactory {
     public ApiAWord productApiAWord(RequestBody requestBody) {
         requestBody.setKey(tianXingProperties.getKey());
         JSONObject jsonObject = tianXingMMYJFeignClient.aWordApi(requestBody);
-        if (jsonObject.containsKey("error")) {
+        if (jsonObject.containsKey(DEMOTE_ERROR)) {
             throw new ApiException("天行每日一句接口调用异常");
         }
         if (HttpStatus.HTTP_OK == jsonObject.getInteger("code")) {

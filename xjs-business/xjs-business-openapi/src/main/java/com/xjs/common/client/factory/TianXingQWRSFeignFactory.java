@@ -7,6 +7,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
 
+import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
+
 /**
  * @author xiejs
  * @since 2022-01-10
@@ -20,8 +22,7 @@ public class TianXingQWRSFeignFactory implements FallbackFactory<TianXingQWRSFei
         log.error("api模块天行全网热搜榜服务调用失败:{},执行降级处理", cause.getMessage());
         return key -> {
             JSONObject jsonObject = new JSONObject();
-            //构建一个异常json给下层接口处理
-            jsonObject.put("error", R.FAIL);
+            jsonObject.put(DEMOTE_ERROR, R.FAIL);
             return jsonObject;
         };
     }

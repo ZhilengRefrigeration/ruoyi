@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
+
 /**
  * 微博热搜api工厂实现
  *
@@ -42,7 +44,7 @@ public class TianXingTopsearchWeiboFactory implements TopserachFactory<ApiTopsea
     @Transactional
     public List<ApiTopsearchWeibo> topSearchApi() {
         JSONObject jsonObject = tianXingWBRSFeignClient.topSearchApi(tianXingProperties.getKey());
-        if (!jsonObject.containsKey("error")) {
+        if (!jsonObject.containsKey(DEMOTE_ERROR)) {
             if (jsonObject.getInteger("code") == HttpStatus.SUCCESS) {
                 JSONArray newslist = jsonObject.getJSONArray("newslist");
                 List<ApiTopsearchWeibo> collect = newslist.stream().map(arrayJson -> {

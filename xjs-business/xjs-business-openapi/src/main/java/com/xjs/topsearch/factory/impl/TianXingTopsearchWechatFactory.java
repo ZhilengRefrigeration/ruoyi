@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
+
 /**
  * 微信热搜api工厂实现
  *
@@ -40,7 +42,7 @@ public class TianXingTopsearchWechatFactory implements TopserachFactory<ApiTopse
     @Transactional
     public List<ApiTopsearchWechat> topSearchApi() {
         JSONObject jsonObject = tianXingWXRSFeignClient.topSearchApi(tianXingProperties.getKey());
-        if (!jsonObject.containsKey("error")) {
+        if (!jsonObject.containsKey(DEMOTE_ERROR)) {
             if (jsonObject.getInteger("code") == HttpStatus.SUCCESS) {
                 JSONArray newslist = jsonObject.getJSONArray("newslist");
                 List<ApiTopsearchWechat> collect = newslist.stream().map(arrayJson -> {

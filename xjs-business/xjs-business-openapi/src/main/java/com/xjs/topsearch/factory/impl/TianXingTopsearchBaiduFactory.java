@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
+
 /**
  * 天行百度热搜工厂实现
  *
@@ -37,7 +39,7 @@ public class TianXingTopsearchBaiduFactory implements TopserachFactory<ApiTopsea
     @Override
     public List<ApiTopsearchBaidu> topSearchApi() {
         JSONObject jsonObject = tianXingBDRSFeignClient.topSearchApi(tianXingProperties.getKey());
-        if (!jsonObject.containsKey("error")) {
+        if (!jsonObject.containsKey(DEMOTE_ERROR)) {
             if (jsonObject.getInteger("code") == HttpStatus.SUCCESS) {
                 JSONArray newslist = jsonObject.getJSONArray("newslist");
                 List<ApiTopsearchBaidu> collect = newslist.stream().map(arrayJson -> {

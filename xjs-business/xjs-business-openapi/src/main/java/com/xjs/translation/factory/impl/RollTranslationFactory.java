@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
+
 /**
  * roll翻译平台工厂实现
  *
@@ -35,7 +37,7 @@ public class RollTranslationFactory implements TranslationFactory {
         rollTranslationQo.setApp_secret(rollProperties.getApp_secret());
         rollTranslationQo.setContent(translationQo.getQ());
         JSONObject translationApi = rollTranslationFeignClient.translationApi(rollTranslationQo);
-        if (translationApi.containsKey("error")) {
+        if (translationApi.containsKey(DEMOTE_ERROR)) {
             throw new ApiException("ROLL翻译接口调用异常");
         }
         if (translationApi.getInteger("code") == 1) {

@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
+
 /**
  * @author xiejs
  * @desc
@@ -32,7 +34,7 @@ public class YouDaoTranslationFactory implements TranslationFactory {
         youDaoTranslationQo.setI(translationQo.getQ());
         JSONObject translationApi = youDaoFeignClient.translationApi(youDaoTranslationQo);
         //接口内部错误以及网络错误都抛异常
-        if(!"0".equals(translationApi.getString("errorCode"))|| translationApi.containsKey("error") ){
+        if(!"0".equals(translationApi.getString("errorCode"))|| translationApi.containsKey(DEMOTE_ERROR) ){
             if(!"40".equals(translationApi.getString("errorCode"))){
                 throw new ApiException("有道翻译接口调用异常");
             }

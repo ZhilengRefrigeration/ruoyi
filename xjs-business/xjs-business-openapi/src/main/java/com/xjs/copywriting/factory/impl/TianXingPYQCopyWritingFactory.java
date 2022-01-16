@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
+import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
+
 /**
  * @author xiejs
  * @desc  天行数据朋友圈文案平台工厂实现
@@ -53,7 +55,7 @@ public class TianXingPYQCopyWritingFactory implements CopyWritingFactory {
             return copyWriting;
         }else {
             //调用服务失败的降级之后的处理
-            if (jsonObject.containsKey("error")) {
+            if (jsonObject.containsKey(DEMOTE_ERROR)) {
                 return copyWritingMapper.getOneToRandom();
             }
             return new CopyWriting();

@@ -7,6 +7,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
 
+import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
+
 /**
  * @author xiejs
  * @since 2022-01-11
@@ -20,7 +22,7 @@ public class TianXingWXRSFeignFactory implements FallbackFactory<TianXingWXRSFei
         return key -> {
             JSONObject jsonObject = new JSONObject();
             //构建一个异常json给下层接口处理
-            jsonObject.put("error", R.FAIL);
+            jsonObject.put(DEMOTE_ERROR, R.FAIL);
             return jsonObject;
         };
     }

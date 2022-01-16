@@ -1,12 +1,10 @@
 package com.xjs.topsearch.factory.impl;
 
-import cn.hutool.core.map.MapUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.core.constant.HttpStatus;
 import com.xjs.common.client.api.tianxing.TianXingQWRSFeignClient;
 import com.xjs.config.TianXingProperties;
-import com.xjs.exception.ApiException;
 import com.xjs.topsearch.domain.ApiTopsearchAllnetwork;
 import com.xjs.topsearch.factory.TopserachFactory;
 import com.xjs.topsearch.service.ApiTopsearchAllnetworkService;
@@ -17,8 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
 
 /**
  * 天行全网热搜工厂实现
@@ -42,7 +41,7 @@ public class TianXingTopsearchAllnetworkFactory implements TopserachFactory<ApiT
     @Transactional
     public List<ApiTopsearchAllnetwork> topSearchApi() {
         JSONObject jsonObject = tianXingQWRSFeignClient.topSearchApi(tianXingProperties.getKey());
-        if (!jsonObject.containsKey("error")) {
+        if (!jsonObject.containsKey(DEMOTE_ERROR)) {
             if (jsonObject.getInteger("code") == HttpStatus.SUCCESS) {
                 JSONArray newslist = jsonObject.getJSONArray("newslist");
                 List<ApiTopsearchAllnetwork> collect = newslist.stream().map(arrayJson -> {

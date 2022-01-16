@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
+
 /**
  * @author xiejs
  * @desc
@@ -43,7 +45,7 @@ public class BaiDuTranslationFactory implements TranslationFactory {
         JSONObject jsonObject = baiduFeignClient.translationApi(baiDuTranslationQo);
         System.out.println(jsonObject);
         //接口内部错误以及网络错误都抛异常
-        if(jsonObject.containsKey("error_code") || jsonObject.containsKey("error")){
+        if(jsonObject.containsKey("error_code") || jsonObject.containsKey(DEMOTE_ERROR)){
             throw new ApiException("百度翻译接口调用异常");
         }
         TranslationVo translationVo = new TranslationVo();

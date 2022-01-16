@@ -85,7 +85,7 @@
         </el-button>
       </el-col>
       <el-col :span="1.5">
-        <router-link :to="'/openapi/english/collect/'" class="link-type">
+        <router-link :to="'/business/english/collect/'" class="link-type">
           <el-button
             type="warning"
             plain

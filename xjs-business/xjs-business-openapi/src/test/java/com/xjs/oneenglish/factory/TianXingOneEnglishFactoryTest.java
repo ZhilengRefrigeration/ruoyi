@@ -7,6 +7,7 @@ import com.xjs.copywriting.mapper.CopyWritingMapper;
 import com.xjs.copywriting.service.CopyWritingService;
 import com.xjs.oneenglish.domain.ApiEnglish;
 import com.xjs.oneenglish.domain.RequestBody;
+import com.xjs.oneenglish.factory.impl.TianXingOneEnglishFactory;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;

@@ -43,6 +43,8 @@ public class ApiConst {
 
     public static final String ROLL_IP= "ROLL-IP信息";
 
+    public static final String GAODE_WEATHER= "高德-天气预报";
+
 
 
 
@@ -83,6 +85,51 @@ public class ApiConst {
     public static final String TIANXING_TOPSEARCHDOUYIN_URL= "http://api.tianapi.com/douyinhot/index";
 
     public static final String ROLL_IP_URL= "https://www.mxnzp.com/api/ip/aim_ip";
+
+    /**
+     * 接口文档：
+     * https://lbs.amap.com/api/webservice/guide/api/weatherinfo
+     */
+    public static final String GAODE_WEATHER_URL= "https://restapi.amap.com/v3/weather/weatherInfo";
+
+
+
+
+    //-----------------------api请求参数常量-----------------------------
+
+    /**
+     * 高德Extensions请求参数条件
+     */
+    public static final String GAODE_EXTENSIONS_ALL="all" ;
+    public static final String GAODE_EXTENSIONS_BASE="base" ;
+
+
+
+
+
+
+
+
+
+
+
+    //-----------------------api响应参数-----------------------------------
+
+
+    /**
+     * roll平台返回值code成功参数
+     */
+    public static final Integer ROLL_CODE_SUCCESS=1 ;
+
+
+
+
+    //---------------------自定义相关请求响应常量----------------------------
+
+    /**
+     * 降级返回结果key
+     */
+    public static final String DEMOTE_ERROR= "error";
 
 
 

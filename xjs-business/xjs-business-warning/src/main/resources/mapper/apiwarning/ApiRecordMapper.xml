@@ -26,6 +26,7 @@
         <where>
             <if test="apiName != null  and apiName != ''"> and api_name like concat('%', #{apiName}, '%')</if>
         </where>
+        order by create_time desc
     </select>
 
     <select id="selectApiRecordById" parameterType="Long" resultMap="ApiRecordResult">

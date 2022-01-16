@@ -1,4 +1,4 @@
-package com.xjs.oneenglish.factory;
+package com.xjs.oneenglish.factory.impl;
 
 import cn.hutool.http.HttpStatus;
 import com.alibaba.fastjson.JSONArray;
@@ -9,6 +9,7 @@ import com.xjs.config.TianXingProperties;
 import com.xjs.exception.ApiException;
 import com.xjs.oneenglish.domain.ApiEnglish;
 import com.xjs.oneenglish.domain.RequestBody;
+import com.xjs.oneenglish.factory.OneEnglishFactory;
 import com.xjs.oneenglish.mapper.ApiEnglishMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
 import static com.xjs.consts.RedisConst.ONE_ENGLISH;
 import static com.xjs.consts.RedisConst.ONE_ENGLISH_EXPIRE;
 
@@ -52,7 +54,7 @@ public class TianXingOneEnglishFactory implements OneEnglishFactory {
         }
         requestBody.setKey(tianXingProperties.getKey());
         JSONObject jsonObject = tianXingOneEnglishFeignClient.oneEnglishApi(requestBody);
-        if (!jsonObject.containsKey("error")) {
+        if (!jsonObject.containsKey(DEMOTE_ERROR)) {
             if (jsonObject.getInteger("code") == HttpStatus.HTTP_OK) {
                 JSONArray newslist = jsonObject.getJSONArray("newslist");
                 JSONObject content = newslist.getJSONObject(0);

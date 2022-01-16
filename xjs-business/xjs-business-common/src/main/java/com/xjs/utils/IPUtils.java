@@ -19,26 +19,26 @@ import java.util.regex.Pattern;
 public class IPUtils {
 
     /**
-     * 获取外网ip
+     * 获取公网ip
      * @return
      */
     public static String getV4IP() throws Exception {
         String ip = null;
-        // 第一种方式
-        try {
-            ip = IPUtils.getNowIP1();
-            ip.trim();
-        } catch (Exception e) {
-            System.out.println("getPublicIP - getNowIP1 failed ~ ");
-        }
-        if (!StringUtils.isEmpty(ip))
-            return ip;
         // 第二种方式
         try {
             ip = IPUtils.getNowIP2();
             ip.trim();
         } catch (Exception e) {
             System.out.println("getPublicIP - getNowIP2 failed ~ ");
+        }
+        if (!StringUtils.isEmpty(ip))
+            return ip;
+        // 第一种方式
+        try {
+            ip = IPUtils.getNowIP1();
+            ip.trim();
+        } catch (Exception e) {
+            System.out.println("getPublicIP - getNowIP1 failed ~ ");
         }
         if (!StringUtils.isEmpty(ip))
             return ip;

@@ -7,6 +7,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
 
+import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
+
 /**
  * @author xiejs
  * @since 2022-01-15
@@ -20,7 +22,7 @@ public class RollIPFeignFactory implements FallbackFactory<RollIPFeignClient> {
         log.error("api模块roll IP服务调用失败:{},执行降级处理", cause.getMessage());
         return requestBody -> {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("error", R.FAIL);
+            jsonObject.put(DEMOTE_ERROR, R.FAIL);
             return jsonObject;
         };
     }
