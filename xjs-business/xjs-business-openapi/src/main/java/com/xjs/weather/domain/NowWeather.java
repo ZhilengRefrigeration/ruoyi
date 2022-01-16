@@ -82,7 +82,7 @@ public class NowWeather implements Serializable {
 
     @Excel(name = "创建时间" ,dateFormat = "yyyy-MM-dd HH:mm:ss")
     @TableField(fill = FieldFill.INSERT)
-    private Date create_time;
+    private Date createTime;
 
 
 

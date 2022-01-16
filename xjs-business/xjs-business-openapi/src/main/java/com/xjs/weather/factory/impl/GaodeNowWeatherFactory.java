@@ -12,10 +12,11 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static com.xjs.consts.ApiConst.GAODE_EXTENSIONS_BASE;
+import static com.xjs.consts.ApiConst.*;
 
 /**
  * 高德实时天气工厂实现
+ *
  * @author xiejs
  * @since 2022-01-16
  */
@@ -40,9 +41,11 @@ public class GaodeNowWeatherFactory implements WeatherFactory<NowWeather> {
                 .setCity(ipApiData.getCityId())
                 .setExtensions(GAODE_EXTENSIONS_BASE);
         JSONObject jsonObject = gaodeWeatherFeignClient.WeatherApi(requestBody);
-
-
-
+        if (!jsonObject.containsKey(DEMOTE_ERROR)) {
+            if (INFOCODE_VALUE.equals(jsonObject.getString(INFOCODE))) {
+                return jsonObject.getJSONArray(LIVES).getJSONObject(0).toJavaObject(NowWeather.class);
+            }
+        }
         return null;
     }
 }

@@ -16,7 +16,7 @@ import static com.xjs.consts.ApiConst.GAODE_WEATHER_URL;
  * @author xiejs
  * @since 2022-01-16
  */
-@FeignClient(name = "gaodeWeather", url = GAODE_WEATHER, fallbackFactory = GaodeWeatherFeignFactory.class)
+@FeignClient(name = "gaodeWeather", url = GAODE_WEATHER_URL, fallbackFactory = GaodeWeatherFeignFactory.class)
 public interface GaodeWeatherFeignClient {
 
     @GetMapping()

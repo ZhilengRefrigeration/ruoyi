@@ -1,9 +1,9 @@
 package com.xjs.consts;
 
 /**
+ * redis key常量
  * @author xiejs
- * @desc redis key常量
- * @create 2021-12-30
+ * @since 2021-12-30
  */
 public class RedisConst {
 
@@ -34,6 +34,11 @@ public class RedisConst {
      */
     public static final String IP_INFO = "IPInfo";
 
+    /**
+     * 天气常量信息key
+     */
+    public static final String NOW_WEATHER = "nowWeather";
+
 
     //-------------------有效时间-----------------------
     public static final Integer TRAN_DICT_EXPIRE = 1;   //小时
@@ -43,6 +48,8 @@ public class RedisConst {
     public static final Long HOT_EXPIRE = 10L;    //分钟
 
     public static final Long IP_INFO_EXPIRE = 30L;    //分钟
+
+    public static final Long NOW_WHEATHER_EXPIRE = 10L;    //分钟
 
 
 }

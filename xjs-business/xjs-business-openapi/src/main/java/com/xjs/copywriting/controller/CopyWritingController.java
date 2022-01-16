@@ -91,13 +91,10 @@ public class CopyWritingController extends BaseController {
         factories.add(tianXingWYYCopyWritingFactory);
         factories.add(tianXingJDTCCopyWritingFactory);
         factories.add(tianXingMMMYCopyWritingFactory);
-        factories.add(rollMMYJCopyWritingFactory);
-        factories.add(rollMMYJCopyWritingFactory);
-        factories.add(rollMMYJCopyWritingFactory);
-        factories.add(rollMMYJCopyWritingFactory);
-        factories.add(rollMMYJCopyWritingFactory);
-        factories.add(rollMMYJCopyWritingFactory);
-        factories.add(rollMMYJCopyWritingFactory);
+        factories.add(tianXingPYQCopyWritingFactory);
+        factories.add(tianXingWYYCopyWritingFactory);
+        factories.add(tianXingJDTCCopyWritingFactory);
+        factories.add(tianXingMMMYCopyWritingFactory);
         factories.add(rollMMYJCopyWritingFactory);
         //--------add----------------------------;-
         //随机调用集合中的接口
