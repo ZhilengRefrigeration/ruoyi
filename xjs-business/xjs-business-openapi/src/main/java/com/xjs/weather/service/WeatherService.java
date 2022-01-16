@@ -15,5 +15,11 @@ public interface WeatherService {
      */
     NowWeather saveNowWeather();
 
+    /**
+     * 只保存
+     * @return NowWeather
+     */
+    NowWeather save();
+
 
 }

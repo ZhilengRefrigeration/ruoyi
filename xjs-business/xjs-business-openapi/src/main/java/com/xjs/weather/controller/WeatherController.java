@@ -1,6 +1,7 @@
 package com.xjs.weather.controller;
 
 import com.ruoyi.common.core.domain.R;
+import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.security.annotation.RequiresLogin;
 import com.xjs.weather.domain.NowWeather;
@@ -13,8 +14,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
+
 /**
  * 天气控制器
+ *
  * @author xiejs
  * @since 2022-01-16
  */
@@ -27,11 +31,20 @@ public class WeatherController {
     @Autowired
     private WeatherService weatherService;
 
+
     @GetMapping
     @ApiOperation("获取天气信息")
     @Log(title = "获取天气")
     @RequiresLogin
-    public R<NowWeather> getWeatherApiData() {
-        return R.ok(weatherService.saveNowWeather());
+    public AjaxResult getWeatherApiData() {
+        return AjaxResult.success(weatherService.saveNowWeather());
     }
+
+    @GetMapping("getWeatherForRPC")
+    @ApiOperation("远程调用获取天气信息ForRPC")
+    public R getWeatherForRPC() {
+        NowWeather nowWeather = weatherService.save();
+        return Objects.nonNull(nowWeather.getCity()) ? R.ok() : R.fail();
+    }
+
 }

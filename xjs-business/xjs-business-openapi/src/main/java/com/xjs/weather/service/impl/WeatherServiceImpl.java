@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import static com.xjs.consts.RedisConst.NOW_WEATHER;
@@ -49,6 +50,13 @@ public class WeatherServiceImpl implements WeatherService {
         } else {
             return (NowWeather) redisService.getCacheObject(NOW_WEATHER);
         }
+    }
+
+    @Override
+    public NowWeather save() {
+        NowWeather nowWeather = Optional.ofNullable(gaodeNowWeatherFactory.weatherApi()).orElseGet(NowWeather::new);
+        nowWeatherMapper.insert(nowWeather);
+        return nowWeather;
     }
 
 

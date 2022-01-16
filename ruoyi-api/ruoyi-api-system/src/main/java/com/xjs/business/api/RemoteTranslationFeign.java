@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
+ * rpc远程调用其他服务翻译接口
  * @author xiejs
- * @desc  rpc远程调用其他服务翻译接口
- * @create 2021-12-29
+ * @since  2021-12-29
  */
 @FeignClient(contextId = "remoteTranslationFeign",
         value = ServiceNameConstants.BUSINESS_OPENAPI_SERVICE,

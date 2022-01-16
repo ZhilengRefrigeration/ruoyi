@@ -8,9 +8,9 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
+ * RPC远程调用文案接口服务
  * @author xiejs
- * @desc RPC远程调用文案接口服务
- * @create 2021-12-27
+ * @since  2021-12-27
  */
 @FeignClient(contextId = "remoteCopyWritingFeign",
         value = ServiceNameConstants.BUSINESS_OPENAPI_SERVICE,
