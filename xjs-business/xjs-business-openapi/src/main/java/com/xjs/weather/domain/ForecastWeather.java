@@ -39,6 +39,6 @@ public class ForecastWeather implements Serializable {
     /**
      * 预报数据list结构，元素cast,按顺序为当天、第二天、第三天的预报数据
      */
-    private List<Casts> CastsList;
+    private List<Casts> casts;
 
 }

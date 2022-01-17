@@ -66,7 +66,7 @@ public class IPUtils {
     // 方法1
     private static String getNowIP1() throws IOException {
         String ip = null;
-        String chinaz = "http://ip.chinaz.com";
+        String chinaz = "https://ip.chinaz.com";
         StringBuilder inputLine = new StringBuilder();
         String read = "";
         URL url = null;
@@ -171,6 +171,18 @@ public class IPUtils {
             throw new RuntimeException();
         }
         return ip;
+    }
+
+
+    public static void main(String[] args) throws IOException {
+        String nowIP1 = IPUtils.getNowIP1();
+        //String nowIP2 = IPUtils.getNowIP2();
+        //String nowIP3 = IPUtils.getNowIP3();
+        //String nowIP4 = IPUtils.getNowIP4();
+        System.out.println(nowIP1);
+        //System.out.println(nowIP2);
+        //System.out.println(nowIP3);
+        //System.out.println(nowIP4);
     }
 
 

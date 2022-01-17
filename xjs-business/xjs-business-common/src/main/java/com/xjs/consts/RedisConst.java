@@ -12,32 +12,37 @@ public class RedisConst {
     /**
      * 翻译字典常量key
      */
-    public static final String TRAN_DICT = "tranDict";
+    public static final String TRAN_DICT = "tianxing:tran_dict";
 
     /**
      * 英语一言常量key
      */
-    public static final String ONE_ENGLISH = "oneEnglish";
+    public static final String ONE_ENGLISH = "tianxing:one_english";
 
     /**
      * 热搜常量key
      */
-    public static final String HOT = "hot";
+    public static final String HOT = "tianxing:hot";
 
     /**
      * websocket常量key
      */
-    public static final String WEBSOCKET = "WEBSOCKET";
+    public static final String WEBSOCKET = "websocket";
 
     /**
      * ip信息常量key
      */
-    public static final String IP_INFO = "IPInfo";
+    public static final String IP_INFO = "ip_info";
 
     /**
-     * 天气常量信息key
+     * 实时天气常量信息key
      */
-    public static final String NOW_WEATHER = "nowWeather";
+    public static final String NOW_WEATHER = "weather:now";
+
+    /**
+     * 预报天气常量信息key
+     */
+    public static final String FORECAST_WEATHER = "weather:forecast";
 
 
     //-------------------有效时间-----------------------
@@ -50,6 +55,8 @@ public class RedisConst {
     public static final Long IP_INFO_EXPIRE = 30L;    //分钟
 
     public static final Long NOW_WHEATHER_EXPIRE = 10L;    //分钟
+
+    public static final Long FORECAST_WHEATHER_EXPIRE = 10L;    //分钟
 
 
 }

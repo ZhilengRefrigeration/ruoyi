@@ -32,13 +32,23 @@ public class WeatherController {
     private WeatherService weatherService;
 
 
-    @GetMapping
-    @ApiOperation("获取天气信息")
-    @Log(title = "获取天气")
+    @GetMapping("now")
+    @ApiOperation("获取实时天气信息")
+    @Log(title = "获取实时天气")
     @RequiresLogin
-    public AjaxResult getWeatherApiData() {
+    public AjaxResult getNowWeatherApiData() {
         return AjaxResult.success(weatherService.saveNowWeather());
     }
+
+    @GetMapping("forecast")
+    @ApiOperation("获取预报天气信息")
+    @Log(title = "获取预报天气")
+    @RequiresLogin
+    public AjaxResult getForecastWeatherApiData() {
+        return AjaxResult.success(weatherService.cacheForecastWeather());
+    }
+
+
 
     @GetMapping("getWeatherForRPC")
     @ApiOperation("远程调用获取天气信息ForRPC")

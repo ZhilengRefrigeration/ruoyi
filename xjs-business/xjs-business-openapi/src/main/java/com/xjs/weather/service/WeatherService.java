@@ -1,5 +1,6 @@
 package com.xjs.weather.service;
 
+import com.xjs.weather.domain.ForecastWeather;
 import com.xjs.weather.domain.NowWeather;
 
 /**
@@ -20,6 +21,12 @@ public interface WeatherService {
      * @return NowWeather
      */
     NowWeather save();
+
+    /**
+     * 预报天气放入缓存
+     * @return ForecastWeather
+     */
+    ForecastWeather cacheForecastWeather();
 
 
 }

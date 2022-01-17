@@ -119,9 +119,13 @@ public class ApiConst {
      */
     public static final String INFOCODE_VALUE = "10000";
     /**
-     * 高德返回值lives名称(需要的天气参数)
+     * 高德返回值lives名称(需要的天气参数) （实时天气数据）
      */
     public static final String LIVES= "lives";
+    /**
+     * 高德返回值forecasts名称（预报天气数据）
+     */
+    public static final String FORECASTS= "forecasts";
 
 
     //---------------------自定义相关请求响应常量----------------------------
