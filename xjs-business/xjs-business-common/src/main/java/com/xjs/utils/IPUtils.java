@@ -20,9 +20,10 @@ public class IPUtils {
 
     /**
      * 获取公网ip
+     *
      * @return
      */
-    public static String getV4IP() throws Exception {
+    public static String getV4IP() {
         String ip = null;
         // 第二种方式
         try {
@@ -39,6 +40,24 @@ public class IPUtils {
             ip.trim();
         } catch (Exception e) {
             System.out.println("getPublicIP - getNowIP1 failed ~ ");
+        }
+        if (!StringUtils.isEmpty(ip))
+            return ip;
+        // 第五种方式
+        try {
+            ip = IPUtils.getNowIP5();
+            ip.trim();
+        } catch (Exception e) {
+            System.out.println("getPublicIP - getNowIP5 failed ~ ");
+        }
+        if (!StringUtils.isEmpty(ip))
+            return ip;
+        // 第六种方式
+        try {
+            ip = IPUtils.getNowIP6();
+            ip.trim();
+        } catch (Exception e) {
+            System.out.println("getPublicIP - getNowIP6 failed ~ ");
         }
         if (!StringUtils.isEmpty(ip))
             return ip;
@@ -95,6 +114,7 @@ public class IPUtils {
         }
         return ip;
     }
+
     // 方法2
     private static String getNowIP2() throws IOException {
         String ip = null;
@@ -122,6 +142,7 @@ public class IPUtils {
         }
         return ip;
     }
+
     // 方法3
     private static String getNowIP3() throws IOException {
         String ip = null;
@@ -147,6 +168,7 @@ public class IPUtils {
         }
         return ip;
     }
+
     // 方法4
     private static String getNowIP4() throws IOException {
         String ip = null;
@@ -156,7 +178,6 @@ public class IPUtils {
             URL url = new URL(objWebURL);
             br = new BufferedReader(new InputStreamReader(url.openStream()));
             String s = "";
-            String webContent = "";
             while ((s = br.readLine()) != null) {
                 if (s.indexOf("互联网IP") != -1) {
                     ip = s.substring(s.indexOf("'") + 1, s.lastIndexOf("'"));
@@ -173,16 +194,65 @@ public class IPUtils {
         return ip;
     }
 
+    /**
+     * 方法5
+     * @return ip
+     * @throws IOException 异常
+     */
+    private static String getNowIP5() throws IOException {
+        String ip = null;
+        String objWebURL = "https://www.slogra.com/";
+        BufferedReader br = null;
+        URL url = new URL(objWebURL);
+        br = new BufferedReader(new InputStreamReader(url.openStream()));
+        String s = "";
+        while ((s = br.readLine()) != null) {
+            if (s.indexOf("您的IP地址是") != -1) {
+                String[] split = s.split("<font color=#FF0000>");
+                String ipInfo = split[1];
+                String[] strings = ipInfo.split("</font>");
+                ip = strings[0];
+            }
+        }
+        return ip;
+    }
+
+
+    private static String getNowIP6() throws IOException {
+        String ip = null;
+        String objWebURL = "http://www.133ip.com/";
+        BufferedReader br = null;
+        URL url = new URL(objWebURL);
+        br = new BufferedReader(new InputStreamReader(url.openStream()));
+        String s = "";
+        while ((s = br.readLine()) != null) {
+            if (s.indexOf("[<font color=#0000FF>") != -1) {
+                String[] split = s.split("<font color=#0000FF>");
+                String ipInfo = split[1];
+                String[] strings = ipInfo.split("</font>");
+                ip = strings[0];
+            }
+        }
+            return ip;
+    }
+
 
     public static void main(String[] args) throws IOException {
-        String nowIP1 = IPUtils.getNowIP1();
+        //String nowIP1 = IPUtils.getNowIP1();
         //String nowIP2 = IPUtils.getNowIP2();
         //String nowIP3 = IPUtils.getNowIP3();
         //String nowIP4 = IPUtils.getNowIP4();
-        System.out.println(nowIP1);
+        //System.out.println(nowIP1);
         //System.out.println(nowIP2);
         //System.out.println(nowIP3);
         //System.out.println(nowIP4);
+
+        //String nowIP5 = IPUtils.getNowIP5();
+        //System.out.println(nowIP5);
+
+        String nowIP6 = IPUtils.getNowIP6();
+        System.out.println(nowIP6);
+
     }
 
 
