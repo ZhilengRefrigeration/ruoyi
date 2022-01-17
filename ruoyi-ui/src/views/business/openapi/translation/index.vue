@@ -2,19 +2,20 @@
   <div class="app-container">
     <el-row>
       <el-col :span="24" v-loading="loading1">
-          <div class="grid-content bg-purple" style="height: 180px">
-              <!--          文案内容区域-->
-              <!--          内容-->
-              <div class="content_div">
-                {{responseCopyWriting.content}}
-              </div>
-              <!--          来源-->
-              <div class="source_div">
-                {{responseCopyWriting.source}}
-              </div>
+        <div class="grid-content bg-purple" style="height: 180px">
+          <!--          文案内容区域-->
+          <!--          内容-->
+          <div class="content_div">
+            {{ responseCopyWriting.content }}
           </div>
+          <!--          来源-->
+          <div class="source_div">
+            {{ responseCopyWriting.source }}
+          </div>
+        </div>
       </el-col>
     </el-row>
+
     <el-row :gutter="20">
       <el-col :span="12">
         <!--        翻译区域-->
@@ -38,7 +39,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="20" >
+              <el-col :span="20">
                 <el-form-item label="翻译区域" prop="q">
                   <el-input v-model="translationData.q" type="textarea" placeholder="请输入翻译内容" show-word-limit
                             :autosize="{minRows: 4, maxRows: 4}" :style="{width: '100%'}"></el-input>
@@ -65,14 +66,51 @@
       </el-col>
     </el-row>
 
+    <el-row :gutter="0">
+      <el-col :span="24" v-loading="loading3"></el-col>
+      <div class="aword">
+        <div class="div1">
+          <el-image
+            style="width: 120px; height: 148px"
+            :src=apiAWord.imgurl
+            :preview-src-list=[apiAWord.imgurl]
+          >
+          </el-image>
+        </div>
+
+        <div class="div2 div23">
+          <audio :src=apiAWord.tts controls="controls">
+            您的浏览器不支持 audio 标签。
+          </audio>
+        </div>
+
+        <div class="div3 div23 div34" style="margin-left: 0px">
+          <p>
+            {{apiAWord.content}}
+          </p>
+        </div>
+
+        <div class="div4 div34">
+          <p>
+            {{apiAWord.note}}
+          </p>
+        </div>
+      </div>
+
+    </el-row>
+
 
   </div>
 </template>
 
 <script>
-import {translation,getCopyWriting} from "@/api/business/openapi/translation";
+import {translation, getCopyWriting} from "@/api/business/openapi/translation";
+
+import {getApiAWord} from "@/api/business/openapi/aword";
+import Aword from "@/views/business/openapi/aword";
 
 export default {
+  components: {Aword},
   dicts: ['translation_type'],
   name: "Log",
   data() {
@@ -80,6 +118,15 @@ export default {
       // 遮罩层
       loading1: true,
       loading2: false,
+      loading3: false,
+
+      //响应数据
+      apiAWord: {},
+
+      //apiAWord请求参数
+      apiAWordParams: {
+        rand: 1
+      },
 
       //翻译响应数据
       responseTranslation: '',
@@ -90,10 +137,10 @@ export default {
       },
 
       //文案参数
-      copyWriting:[],
+      copyWriting: [],
 
       //文案响应数据
-      responseCopyWriting:{},
+      responseCopyWriting: {},
 
       translationRules: {
         translationType: [{
@@ -103,10 +150,10 @@ export default {
         }],
         q: [
           {
-          required: true,
-          message: '请输入翻译内容',
-          trigger: 'blur'
-        },
+            required: true,
+            message: '请输入翻译内容',
+            trigger: 'blur'
+          },
           {
             min: 1,
             max: 120,
@@ -119,13 +166,21 @@ export default {
   },
   created() {
     this.getCopyWriting()
+    this.getApiAWord()
   },
   methods: {
+    //随机获取一条每日一句
+    getApiAWord() {
+      getApiAWord(this.apiAWordParams).then(res => {
+        this.apiAWord = res.data
+      })
+    },
+
     //获取文案
     getCopyWriting() {
       this.loading1 = true;
-      getCopyWriting(this.copyWriting).then(res =>{
-        this.responseCopyWriting=res.data
+      getCopyWriting(this.copyWriting).then(res => {
+        this.responseCopyWriting = res.data
         this.loading1 = false;
       })
     },
@@ -155,6 +210,44 @@ export default {
 </script>
 
 <style scoped>
+.aword div {
+  float: left;
+  width: 24%;
+  height: 100%;
+}
+
+.aword .div1 {
+  padding-left: 110px;
+}
+.aword .div2 {
+  padding: 50px 0px;
+}
+
+.aword .div23{
+  margin: 0 18px;
+}
+
+.aword .div34{
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.aword {
+  box-shadow: 0 0 9px 3px #999;
+  font-style: italic;
+  height: 200px;
+  font-family: Georgia;
+  border-radius: 4px;
+  margin-top: 20px;
+
+  padding: 25px;
+  min-height: 36px;
+
+}
+
 .bg-purple {
   box-shadow: 0 0 9px 3px #999;
 }
@@ -162,15 +255,15 @@ export default {
 .grid-content {
   border-radius: 4px;
   min-height: 36px;
-  height: 500px;
-  margin-top: 20px;
-  padding: 50px;
+  height: 360px;
+  margin-top: 15px;
+  padding: 25px;
 }
 
 .spans {
-  margin: 50px;
-  margin-top: 40px;
-  padding: 50px;
+  margin: 25px;
+  margin-top: 5px;
+  padding: 30px;
   font-family: Georgia;
   font-size: 20px;
   height: 300px;
@@ -178,17 +271,18 @@ export default {
   font-style: italic;
 }
 
-.content_div{
+.content_div {
   float: left;
   width: 75%;
   text-shadow: 2px 2px 2px grey;
 }
-.source_div{
+
+.source_div {
   float: left;
-  padding-top: 70px;
+  padding-top: 100px;
   width: 25%;
   text-shadow: 2px 2px 2px grey;
-  text-align :right
+  text-align: right
 }
 
 </style>

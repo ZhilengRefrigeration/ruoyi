@@ -32,9 +32,10 @@ import java.util.Objects;
 import static com.xjs.consts.ApiWarnHandleConst.NO;
 
 /**
+ * api日志切面类
+ *
  * @author xiejs
- * @desc  api日志切面类
- * @create 2021-12-26
+ * @since 2021-12-26
  */
 @Component
 @Aspect
@@ -44,7 +45,9 @@ public class ApiLogAspect {
     @Autowired
     private RemoteLogFeign remoteLogFeign;
 
-    //用来调用预警，记录预警信息
+    /**
+     * 用来调用预警，记录预警信息
+     */
     @Autowired
     private RemoteWarningCRUDFeign remoteWarningCRUDFeign;
 
@@ -77,6 +80,7 @@ public class ApiLogAspect {
 
     /**
      * 处理完请求后执行
+     *
      * @param joinPoint 切点
      */
     @AfterReturning(pointcut = "@annotation(apiLog)", returning = "jsonResult")
@@ -87,9 +91,10 @@ public class ApiLogAspect {
 
     /**
      * 异常切点
+     *
      * @param joinPoint 连接点
-     * @param apiLog 自定义注解
-     * @param e 抛出的异常
+     * @param apiLog    自定义注解
+     * @param e         抛出的异常
      */
     @AfterThrowing(value = "@annotation(apiLog)", throwing = "e")
     public void doAfterThrowing(JoinPoint joinPoint, ApiLog apiLog, Exception e) {
@@ -110,7 +115,7 @@ public class ApiLogAspect {
             //判断最后一位
             if (i == args.length - 1) {
                 builder.append(json);
-            }else {
+            } else {
                 builder.append(json + ",");
             }
         }
@@ -122,15 +127,16 @@ public class ApiLogAspect {
         }
         if (e != null) {
             entity.setIsSuccess(ReqConst.ERROR);
-        }else {
+        } else {
             entity.setIsSuccess(ReqConst.SUCCESS);
         }
         remoteLogFeign.saveApiLog(entity);
     }
 
     /**
-     *  预警切入
-     * @param between api接口调用时间
+     * 预警切入
+     *
+     * @param between   api接口调用时间
      * @param joinPoint aop连接对象
      */
     private void warning(long between, ProceedingJoinPoint joinPoint) {
@@ -161,13 +167,13 @@ public class ApiLogAspect {
                                 apiRecord.setTotalCount(1L);
                                 apiRecord.setDayCount(1L);
                                 remoteWarningCRUDFeign.saveApiRecordForRPC(apiRecord);
-                            }else {
+                            } else {
                                 ApiRecord haveApiRecord = data.get(0);
 
                                 haveApiRecord.setRequestTime((int) between);
-                                haveApiRecord.setTotalCount(haveApiRecord.getTotalCount()+1L);
+                                haveApiRecord.setTotalCount(haveApiRecord.getTotalCount() + 1L);
                                 //统计当前的请求次数，隔天清零
-                                haveApiRecord.setDayCount(haveApiRecord.getDayCount()+1L);
+                                haveApiRecord.setDayCount(haveApiRecord.getDayCount() + 1L);
                                 Date updateTime = haveApiRecord.getUpdateTime();
                                 String dateTime = DateUtil.formatDateTime(updateTime);
                                 Date date = DateUtil.parseDate(dateTime).toJdkDate();
@@ -180,7 +186,7 @@ public class ApiLogAspect {
                                 haveApiRecord.setUpdateTime(null);
                                 remoteWarningCRUDFeign.updateApiRecordForRPC(haveApiRecord);
                                 //判断接口请求是否超过阈值
-                                if(Objects.nonNull(haveApiRecord.getLimitCount())){
+                                if (Objects.nonNull(haveApiRecord.getLimitCount())) {
                                     if (haveApiRecord.getDayCount() > haveApiRecord.getLimitCount()) {
                                         //把记录添加到预警表中
                                         ApiWarning apiWarning = new ApiWarning();
@@ -189,8 +195,8 @@ public class ApiLogAspect {
                                         apiWarning.setApiName(haveApiRecord.getApiName());
                                         apiWarning.setHandle(NO);
                                         apiWarning.setWarningLevel(WarnLevelEnum.NOEMAL.getMessage());
-                                        if(haveApiRecord.getDayCount()>haveApiRecord.getLimitCount()*2 &&
-                                                haveApiRecord.getDayCount() < haveApiRecord.getLimitCount() * 3){
+                                        if (haveApiRecord.getDayCount() > haveApiRecord.getLimitCount() * 2 &&
+                                                haveApiRecord.getDayCount() < haveApiRecord.getLimitCount() * 3) {
                                             apiWarning.setWarningLevel(WarnLevelEnum.WARNING.getMessage());
                                         } else if (haveApiRecord.getDayCount() > haveApiRecord.getLimitCount() * 3) {
                                             apiWarning.setWarningLevel(WarnLevelEnum.DANGER.getMessage());
@@ -202,8 +208,6 @@ public class ApiLogAspect {
                                                 haveApiRecord.getDayCount());
                                         apiWarning.setWarningMessage(message);
                                         remoteWarningCRUDFeign.saveApiWarningForRPC(apiWarning);
-
-                                        // todo websocket实现即时推送到客户端
                                     }
                                 }
                             }

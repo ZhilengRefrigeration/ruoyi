@@ -13,8 +13,9 @@
       <el-popover
         placement="top"
         width="400"
+        title="❉预报天气❉"
         v-model="weatherVisible">
-        <table style="text-align: center">
+        <table style="text-align: center" v-loading="loading">
           <td v-for="(cast,index) in forecastWeatherData.casts" width="100px">
             <tr>{{cast.dayweather}}</tr>
             <tr>
@@ -149,6 +150,9 @@ export default {
 
   data() {
     return {
+      // 遮罩层
+      loading: false,
+
       //预警数据
       warnData: {},
 
@@ -205,9 +209,10 @@ export default {
   methods: {
     //获取预报天气
     getForecastWeather() {
-      console.log("点击了")
+      this.loading = true;
       getForecastWeather().then(res => {
         this.forecastWeatherData = res.data
+        this.loading = false;
       })
 
     },
