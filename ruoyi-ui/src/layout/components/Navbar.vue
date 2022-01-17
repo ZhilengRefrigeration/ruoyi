@@ -9,6 +9,67 @@
 
     <div class="right-menu">
 
+      <!--天气-->
+      <el-popover
+        placement="top"
+        width="400"
+        v-model="weatherVisible">
+        <table style="text-align: center">
+          <td v-for="(cast,index) in forecastWeatherData.casts" width="100px">
+            <tr>{{cast.dayweather}}</tr>
+            <tr>
+              {{cast.nighttemp+"℃~"+cast.daytemp+"℃"}}
+            </tr>
+            <tr v-if="index===0">
+              今天
+            </tr>
+            <tr v-if="index===1">
+              明天
+            </tr>
+            <tr v-if="index===2">
+              后天
+            </tr>
+            <tr v-if="index===3">
+              大后天
+            </tr>
+
+            <tr v-if="cast.week==='1'">
+              星期一
+            </tr>
+            <tr v-if="cast.week==='2'">
+              星期二
+            </tr>
+            <tr v-if="cast.week==='3'">
+              星期三
+            </tr>
+            <tr v-if="cast.week==='4'">
+              星期四
+            </tr>
+            <tr v-if="cast.week==='5'">
+              星期五
+            </tr>
+            <tr v-if="cast.week==='6'">
+              星期六
+            </tr>
+            <tr v-if="cast.week==='7'">
+              星期日
+            </tr>
+          </td>
+        </table>
+
+      <div class="right-menu-item weather" @click="getForecastWeather()" slot="reference">
+        <img :src="weather" class="img">
+        <span class="span1">
+          {{ nowWeatherData.temperature + "℃" }}
+        </span>
+        <span class="span2">
+          {{ nowWeatherData.weather }}
+        </span>
+      </div>
+      </el-popover>
+
+
+      <!--预警-->
       <el-badge :value="warnData.count" class=" hover-effect share-button" v-hasPermi="['warning:warning:handle']">
         <el-popover
           placement="bottom"
@@ -18,13 +79,12 @@
           <div style="text-align: right; margin: 0">
             <el-button type="primary" size="mini" @click="haveRead">已读</el-button>
           </div>
-          <el-button type="warning" icon="el-icon-check"
+          <el-button type="info" icon="el-icon-check"
                      circle style="max-width: 22px;max-height: 22px;"
                      @click=""
                      slot="reference"
           ></el-button>
         </el-popover>
-
       </el-badge>
 
       <template v-if="device!=='mobile'">
@@ -70,6 +130,9 @@ import Search from '@/components/HeaderSearch'
 import RuoYiGit from '@/components/RuoYi/Git'
 import RuoYiDoc from '@/components/RuoYi/Doc'
 import {handleWarning} from "@/api/business/warning/apiwarning";
+import {getNowWeather, getForecastWeather} from "@/api/business/openapi/weather";
+
+import weather from "@/assets/icons/weather/天气.png"
 
 
 export default {
@@ -86,9 +149,18 @@ export default {
 
   data() {
     return {
+      //预警数据
       warnData: {},
 
+      //实时天气数据
+      nowWeatherData: {},
+      //预报天气数据
+      forecastWeatherData: {},
+
       visible: false,
+      weatherVisible:false,
+
+      weather,
     }
   },
 
@@ -126,7 +198,27 @@ export default {
     this.$bus.$on('clearCount', this.clearCount)
   },
 
+  created() {
+    this.getNowWeather()
+  },
+
   methods: {
+    //获取预报天气
+    getForecastWeather() {
+      console.log("点击了")
+      getForecastWeather().then(res => {
+        this.forecastWeatherData = res.data
+      })
+
+    },
+
+    //获取实时天气
+    getNowWeather() {
+      getNowWeather().then(res => {
+        this.nowWeatherData = res.data
+      })
+    },
+
     //小红点清零
     clearCount(data) {
       if (data) {
@@ -195,10 +287,37 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.weather {
+  width: 120px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.weather img {
+  margin-top: 10px;
+  margin-left: 5px;
+  width: 30px;
+  height: 30px;
+  float: left;
+}
+
+.span1 {
+  float: left;
+  margin-left: 5px;
+  font-size: 14px;
+}
+
+.span2 {
+  float: left;
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+
 .share-button {
-  margin-right: 23px;
+  margin-right: 5px;
   color: #5a5e66;
-  padding-bottom: 22px;
+  padding-bottom: 23px;
 
   &.hover-effect {
     cursor: pointer;
