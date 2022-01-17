@@ -17,10 +17,6 @@
         v-model="weatherVisible">
         <table style="text-align: center" v-loading="loading">
           <td v-for="(cast,index) in forecastWeatherData.casts" width="100px">
-            <tr>{{cast.dayweather}}</tr>
-            <tr>
-              {{cast.nighttemp+"℃~"+cast.daytemp+"℃"}}
-            </tr>
             <tr v-if="index===0">
               今天
             </tr>
@@ -33,7 +29,10 @@
             <tr v-if="index===3">
               大后天
             </tr>
-
+            <tr>{{cast.dayweather}}</tr>
+            <tr>
+              {{cast.nighttemp+"℃~"+cast.daytemp+"℃"}}
+            </tr>
             <tr v-if="cast.week==='1'">
               星期一
             </tr>

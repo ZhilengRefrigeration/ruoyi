@@ -12,8 +12,9 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
-import static com.xjs.consts.ApiConst.ROLL_CODE_SUCCESS;
+import java.util.Optional;
+
+import static com.xjs.consts.ApiConst.*;
 import static com.xjs.consts.RedisConst.IP_INFO;
 
 /**
@@ -36,11 +37,8 @@ public class RollIPFactory implements IPFactory<IPInfoVo> {
     @Override
     public IPInfoVo IpApi() {
         RequestBody requestBody = new RequestBody();
-        try {
-            requestBody.setIp(IPUtils.getV4IP());
-        } catch (Exception e) {
-            requestBody.setIp("127.0.0.1");
-        }
+        String ip = Optional.ofNullable(IPUtils.getV4IP()).orElse(LOCAL_IP);
+        requestBody.setIp(ip);
         requestBody.setApp_id(rollProperties.getApp_id());
         requestBody.setApp_secret(rollProperties.getApp_secret());
         JSONObject jsonObject = rollIPFeignClient.IpApi(requestBody);
@@ -49,9 +47,9 @@ public class RollIPFactory implements IPFactory<IPInfoVo> {
             return data.toJavaObject(IPInfoVo.class);
         } else {
             log.error("天行全网热搜服务调用成功，但返回异常");
-            if (redisService.hasKey(IP_INFO)){
+            if (redisService.hasKey(IP_INFO)) {
                 return (IPInfoVo) redisService.getCacheObject(IP_INFO);
-            }else {
+            } else {
                 return null;
             }
         }

@@ -8,6 +8,8 @@ import com.xjs.copywriting.service.CopyWritingService;
 import com.xjs.oneenglish.domain.ApiEnglish;
 import com.xjs.oneenglish.domain.RequestBody;
 import com.xjs.oneenglish.factory.impl.TianXingOneEnglishFactory;
+import com.xjs.weather.domain.IPInfoVo;
+import com.xjs.weather.factory.impl.SpeedTestIPFactory;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -34,6 +36,9 @@ class TianXingOneEnglishFactoryTest {
     @Autowired
     private SqlSessionFactory sqlSessionFactory;
 
+    @Autowired
+    private SpeedTestIPFactory speedTestIPFactory;
+
     @Test
     void getOneEnglish() {
         RequestBody requestBody = new RequestBody();
@@ -42,6 +47,11 @@ class TianXingOneEnglishFactoryTest {
         System.out.println(oneEnglish);
     }
 
+    @Test
+    void ip() {
+        IPInfoVo ipInfoVo = speedTestIPFactory.IpApi();
+        System.out.println(ipInfoVo.toString());
+    }
 
     @Test
     void insert() {

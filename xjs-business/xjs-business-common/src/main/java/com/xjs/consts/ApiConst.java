@@ -44,7 +44,11 @@ public class ApiConst {
 
     public static final String ROLL_IP = "ROLL-IP信息";
 
+    public static final String SPEED_TEST_IP = "测速网-IP信息";
+
     public static final String GAODE_WEATHER = "高德-天气预报";
+
+    public static final String ROLL_HOLIDAYS = "ROLL-节假日";
 
 
     //-------------------url------------------------------
@@ -83,11 +87,17 @@ public class ApiConst {
 
     public static final String ROLL_IP_URL = "https://www.mxnzp.com/api/ip/aim_ip";
 
+    public static final String SPEED_TEST_IP_URL = "https://api-v3-ipv6.speedtest.cn/ip";
+
     /**
-     * 接口文档：
-     * https://lbs.amap.com/api/webservice/guide/api/weatherinfo
+     * 接口文档：https://lbs.amap.com/api/webservice/guide/api/weatherinfo
      */
     public static final String GAODE_WEATHER_URL = "https://restapi.amap.com/v3/weather/weatherInfo";
+
+    /**
+     * 接口文档：https://www.mxnzp.com/doc/detail?id=1
+     */
+    public static final String ROLL_HOLIDAYS_URL = "https://www.mxnzp.com/api/holiday/recent/list";
 
 
     //-----------------------api请求参数常量-----------------------------
@@ -109,6 +119,12 @@ public class ApiConst {
      * roll平台返回值code成功参数
      */
     public static final Integer ROLL_CODE_SUCCESS = 1;
+    /**
+     * speedtest平台返回值code成功参数
+     */
+    public static final Integer SPEED_TEST_CODE_SUCCESS = 0;
+
+
 
     /**
      * 高德返回值infocode
@@ -121,11 +137,11 @@ public class ApiConst {
     /**
      * 高德返回值lives名称(需要的天气参数) （实时天气数据）
      */
-    public static final String LIVES= "lives";
+    public static final String LIVES = "lives";
     /**
      * 高德返回值forecasts名称（预报天气数据）
      */
-    public static final String FORECASTS= "forecasts";
+    public static final String FORECASTS = "forecasts";
 
 
     //---------------------自定义相关请求响应常量----------------------------
@@ -134,6 +150,11 @@ public class ApiConst {
      * 降级返回结果key
      */
     public static final String DEMOTE_ERROR = "error";
+
+
+    //--------------------其他常量------------------------------
+
+    public static final String LOCAL_IP = "127.0.0.1";
 
 
 }
