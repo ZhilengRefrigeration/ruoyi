@@ -25,4 +25,9 @@ public class RequestBody {
      * 目标手机
      */
     private String mobile;
+
+    /**
+     * 目标城市
+     */
+    private String city;
 }

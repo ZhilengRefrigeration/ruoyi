@@ -5,15 +5,13 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.apitools.domain.ApiHoliday;
 import com.xjs.apitools.domain.ApiMobileBelong;
+import com.xjs.apitools.domain.ApiNowWeather;
 import com.xjs.apitools.service.ApiToolsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -57,6 +55,16 @@ public class ApiToolsController {
         }
         return R.ok(apiToolsService.getApiMobileBelong(mobile));
     }
+
+    @GetMapping("nowweather/{city}")
+    @ApiOperation("获取实时天气信息")
+    @Log(title = "获取实时天气")
+    public R<ApiNowWeather> getNowWeatherApiData(@PathVariable("city") String city) {
+        return R.ok(apiToolsService.getNowWeather(city));
+    }
+
+
+
 
 
 }

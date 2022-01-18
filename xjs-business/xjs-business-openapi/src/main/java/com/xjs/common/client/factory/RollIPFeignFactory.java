@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
 
 /**
+ * roll ip信息api降级处理
  * @author xiejs
  * @since 2022-01-15
  */

@@ -62,8 +62,6 @@ public class WeatherController {
 
     /**
      * week类型转换
-     *
-     * @return ForecastWeather
      */
     private void weekConvert(ForecastWeather forecastWeather) {
         forecastWeather.getCasts().forEach(cast -> {

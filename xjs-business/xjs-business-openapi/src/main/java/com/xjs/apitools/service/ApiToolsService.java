@@ -2,6 +2,7 @@ package com.xjs.apitools.service;
 
 import com.xjs.apitools.domain.ApiHoliday;
 import com.xjs.apitools.domain.ApiMobileBelong;
+import com.xjs.apitools.domain.ApiNowWeather;
 
 import java.util.List;
 
@@ -25,5 +26,13 @@ public interface ApiToolsService {
      * @return ApiMobileBelong
      */
     ApiMobileBelong getApiMobileBelong(String mobile);
+
+
+    /**
+     * 获取实时天气
+     * @param city 目标城市
+     * @return ApiWeather
+     */
+    ApiNowWeather getNowWeather(String city);
 
 }

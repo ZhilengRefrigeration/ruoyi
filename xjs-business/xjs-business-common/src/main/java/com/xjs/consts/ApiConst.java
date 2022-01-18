@@ -52,6 +52,8 @@ public class ApiConst {
 
     public static final String ROLL_MOBILE_BELONG = "ROLL-手机归属地";
 
+    public static final String ROLL_WEATHER = "ROLL-天气预报";
+
 
     //-------------------url------------------------------
 
@@ -105,6 +107,14 @@ public class ApiConst {
      * 接口文档：https://www.mxnzp.com/doc/detail?id=13
      */
     public static final String ROLL_MOBILE_BELONG_URL = "https://www.mxnzp.com/api/mobile_location/aim_mobile";
+
+    /**
+     * 接口文档：https://www.mxnzp.com/doc/detail?id=7
+     */
+    public static final String ROLL_WEATHER_URL = "https://www.mxnzp.com/api/weather";
+
+
+
 
     //-----------------------api请求参数常量-----------------------------
 
