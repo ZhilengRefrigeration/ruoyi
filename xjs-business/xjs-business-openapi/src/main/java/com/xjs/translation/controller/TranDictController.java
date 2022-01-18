@@ -5,6 +5,7 @@ import com.xjs.translation.domain.qo.translation.TranslationQo;
 import com.xjs.translation.domain.vo.translation.TranslationVo;
 import com.xjs.translation.factory.TranslationFactory;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,7 @@ public class TranDictController {
     private TranslationFactory tianXingTranDictFactory;
 
     @GetMapping("tranDictForRPC")
+    @ApiOperation("获取翻译字典RPC")
     public R<TranslationVo> tranDict(String content) {
         TranslationQo translationQo = new TranslationQo();
         translationQo.setQ(content);

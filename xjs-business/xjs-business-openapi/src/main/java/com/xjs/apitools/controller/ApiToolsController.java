@@ -3,6 +3,7 @@ package com.xjs.apitools.controller;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
+import com.xjs.apitools.domain.ApiForecastWeather;
 import com.xjs.apitools.domain.ApiHoliday;
 import com.xjs.apitools.domain.ApiMobileBelong;
 import com.xjs.apitools.domain.ApiNowWeather;
@@ -63,6 +64,12 @@ public class ApiToolsController {
         return R.ok(apiToolsService.getNowWeather(city));
     }
 
+    @GetMapping("forecastweather/{city}")
+    @ApiOperation("获取预报天气信息")
+    @Log(title = "获取预报天气")
+    public R<ApiForecastWeather> getForecastWeatherApiData(@PathVariable("city") String city) {
+        return R.ok(apiToolsService.getForecastWeather(city));
+    }
 
 
 

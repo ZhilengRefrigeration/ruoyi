@@ -1,10 +1,8 @@
 package com.xjs.apitools.service.impl;
 
-import com.xjs.apitools.domain.ApiHoliday;
-import com.xjs.apitools.domain.ApiMobileBelong;
-import com.xjs.apitools.domain.ApiNowWeather;
-import com.xjs.apitools.domain.RequestBody;
+import com.xjs.apitools.domain.*;
 import com.xjs.apitools.factory.ApiToolsFactory;
+import com.xjs.apitools.factory.impl.RollForecastWeatherFactory;
 import com.xjs.apitools.factory.impl.RollHolidayFactory;
 import com.xjs.apitools.factory.impl.RollMobileBelongFactory;
 import com.xjs.apitools.factory.impl.RollNowWeatherFactory;
@@ -30,6 +28,7 @@ public class ApiToolsServiceImpl implements ApiToolsService {
     private ApiToolsFactory<ApiHoliday, Object> holidayFactory;
     private ApiToolsFactory<ApiMobileBelong, RequestBody> mobileBelongFactory;
     private ApiToolsFactory<ApiNowWeather, RequestBody> nowWeatherFactory;
+    private ApiToolsFactory<ApiForecastWeather,RequestBody> forecastWeatherFactory;
 
     @Autowired
     public void setHolidayFactory(RollHolidayFactory rollHolidayFactory) {
@@ -44,6 +43,11 @@ public class ApiToolsServiceImpl implements ApiToolsService {
     @Autowired
     public void setNowWeatherFactory(RollNowWeatherFactory rollNowWeatherFactory) {
         this.nowWeatherFactory = rollNowWeatherFactory;
+    }
+
+    @Autowired
+    public void setForecastWeatherFactory(RollForecastWeatherFactory rollForecastWeatherFactory) {
+        this.forecastWeatherFactory = rollForecastWeatherFactory;
     }
 
 
@@ -75,6 +79,14 @@ public class ApiToolsServiceImpl implements ApiToolsService {
         RequestBody requestBody = new RequestBody();
         requestBody.setCity(city);
         return Optional.ofNullable(nowWeatherFactory.apiData(requestBody))
+                .orElseThrow(ApiException::new);
+    }
+
+    @Override
+    public ApiForecastWeather getForecastWeather(String city) {
+        RequestBody requestBody = new RequestBody();
+        requestBody.setCity(city);
+        return Optional.ofNullable(forecastWeatherFactory.apiData(requestBody))
                 .orElseThrow(ApiException::new);
     }
 }

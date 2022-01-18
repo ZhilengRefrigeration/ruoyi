@@ -52,7 +52,9 @@ public class ApiConst {
 
     public static final String ROLL_MOBILE_BELONG = "ROLL-手机归属地";
 
-    public static final String ROLL_WEATHER = "ROLL-天气预报";
+    public static final String ROLL_NOW_WEATHER = "ROLL-实时天气";
+
+    public static final String ROLL_FORECAST_WEATHER = "ROLL-预报天气";
 
 
     //-------------------url------------------------------

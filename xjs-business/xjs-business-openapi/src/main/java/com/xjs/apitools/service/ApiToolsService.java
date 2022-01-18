@@ -1,5 +1,6 @@
 package com.xjs.apitools.service;
 
+import com.xjs.apitools.domain.ApiForecastWeather;
 import com.xjs.apitools.domain.ApiHoliday;
 import com.xjs.apitools.domain.ApiMobileBelong;
 import com.xjs.apitools.domain.ApiNowWeather;
@@ -34,5 +35,14 @@ public interface ApiToolsService {
      * @return ApiWeather
      */
     ApiNowWeather getNowWeather(String city);
+
+    /**
+     * 获取预报天气
+     * @param city 目标城市
+     * @return ApiForecastWeather
+     */
+    ApiForecastWeather getForecastWeather(String city);
+
+
 
 }

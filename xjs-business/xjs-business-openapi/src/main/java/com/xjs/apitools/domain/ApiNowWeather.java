@@ -1,10 +1,11 @@
 package com.xjs.apitools.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.xjs.weather.domain.NowWeather;
 import lombok.Data;
 
 /**
- * api天气实体
+ * api实时天气实体
  *
  * @author xiejs
  * @since 2022-01-18

@@ -1,12 +1,13 @@
 package com.xjs.weather.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
 
 /**
- * 预报天气实体
+ * 高德预报天气实体
  *
  * @author xiejs
  * @since 2022-01-16

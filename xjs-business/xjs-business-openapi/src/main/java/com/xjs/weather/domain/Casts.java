@@ -1,9 +1,10 @@
 package com.xjs.weather.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 /**
- * 预报天气某天数据
+ * 高德预报天气某天数据
  * @author xiejs
  * @since 2022-01-16
  */

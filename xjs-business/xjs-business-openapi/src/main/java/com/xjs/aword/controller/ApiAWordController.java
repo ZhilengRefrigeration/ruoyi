@@ -53,6 +53,7 @@ public class ApiAWordController extends BaseController {
     /**
      * 查询每日一句列表
      */
+    @ApiOperation("查询每日一句列表")
     @RequiresPermissions("openapi:aword:list")
     @GetMapping("/list")
     public TableDataInfo list(ApiAWord apiAWord) {
@@ -67,6 +68,7 @@ public class ApiAWordController extends BaseController {
     @RequiresPermissions("openapi:aword:export")
     @Log(title = "每日一句", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
+    @ApiOperation("导出每日一句列表")
     public void export(HttpServletResponse response, ApiAWord apiAWord) {
         List<ApiAWord> list = apiAWordService.selectApiAWordList(apiAWord);
         ExcelUtil<ApiAWord> util = new ExcelUtil<ApiAWord>(ApiAWord.class);
@@ -78,6 +80,7 @@ public class ApiAWordController extends BaseController {
      */
     @RequiresPermissions("openapi:aword:query")
     @GetMapping(value = "/{id}")
+    @ApiOperation("获取每日一句详细信息")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
         return AjaxResult.success(apiAWordService.selectApiAWordById(id));
     }
@@ -88,6 +91,7 @@ public class ApiAWordController extends BaseController {
     @RequiresPermissions("openapi:aword:remove")
     @Log(title = "每日一句", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
+    @ApiOperation("删除每日一句")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(apiAWordService.deleteApiAWordByIds(ids));
     }
