@@ -2,8 +2,8 @@ package com.xjs.common.client.api.roll;
 
 import com.alibaba.fastjson.JSONObject;
 import com.xjs.annotation.ApiLog;
+import com.xjs.apitools.domain.RequestBody;
 import com.xjs.common.client.factory.RollHolidayFeignFactory;
-import com.xjs.copywriting.domain.RequestBody;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;

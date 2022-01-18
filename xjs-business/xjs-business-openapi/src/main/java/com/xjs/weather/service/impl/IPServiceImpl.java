@@ -1,7 +1,7 @@
 package com.xjs.weather.service.impl;
 
 import com.ruoyi.common.redis.service.RedisService;
-import com.xjs.exception.BusinessException;
+import com.xjs.exception.ApiException;
 import com.xjs.weather.domain.IPInfoVo;
 import com.xjs.weather.factory.impl.RollIPFactory;
 import com.xjs.weather.service.IPService;
@@ -37,7 +37,7 @@ public class IPServiceImpl implements IPService {
                 redisService.setCacheObject(IP_INFO, ipInfoVo, IP_INFO_EXPIRE, TimeUnit.MINUTES);
                 return ipInfoVo;
             }else {
-                throw new BusinessException("获取IP信息异常！！");
+                throw new ApiException("获取IP信息异常！！");
             }
         }
     }

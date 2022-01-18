@@ -1,6 +1,7 @@
 package com.xjs.apitools.service;
 
 import com.xjs.apitools.domain.ApiHoliday;
+import com.xjs.apitools.domain.ApiMobileBelong;
 
 import java.util.List;
 
@@ -16,5 +17,13 @@ public interface ApiToolsService {
      * @return List<ApiHoliday>
      */
     List<ApiHoliday> getApiHolidayList();
+
+
+    /**
+     * 获取手机归属地信息
+     * @param mobile 手机号
+     * @return ApiMobileBelong
+     */
+    ApiMobileBelong getApiMobileBelong(String mobile);
 
 }

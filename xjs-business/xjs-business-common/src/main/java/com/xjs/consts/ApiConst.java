@@ -50,6 +50,8 @@ public class ApiConst {
 
     public static final String ROLL_HOLIDAYS = "ROLL-节假日";
 
+    public static final String ROLL_MOBILE_BELONG = "ROLL-手机归属地";
+
 
     //-------------------url------------------------------
 
@@ -99,6 +101,10 @@ public class ApiConst {
      */
     public static final String ROLL_HOLIDAYS_URL = "https://www.mxnzp.com/api/holiday/recent/list";
 
+    /**
+     * 接口文档：https://www.mxnzp.com/doc/detail?id=13
+     */
+    public static final String ROLL_MOBILE_BELONG_URL = "https://www.mxnzp.com/api/mobile_location/aim_mobile";
 
     //-----------------------api请求参数常量-----------------------------
 
