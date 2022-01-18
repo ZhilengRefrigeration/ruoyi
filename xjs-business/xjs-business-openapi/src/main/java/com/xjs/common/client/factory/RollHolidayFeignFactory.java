@@ -2,7 +2,7 @@ package com.xjs.common.client.factory;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.core.domain.R;
-import com.xjs.common.client.api.baidu.BaiduFeignClient;
+import com.xjs.common.client.api.roll.RollHolidayFeignClient;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
@@ -10,17 +10,17 @@ import org.springframework.stereotype.Component;
 import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
 
 /**
- * 百度翻译平台服务降级处理类
+ * roll节假日api feign 降级
  * @author xiejs
- * @since  2021-12-28
+ * @since 2022-01-18
  */
-@Log4j2
 @Component
-public class BaiduFeignFactory implements FallbackFactory<BaiduFeignClient> {
+@Log4j2
+public class RollHolidayFeignFactory implements FallbackFactory<RollHolidayFeignClient> {
     @Override
-    public BaiduFeignClient create(Throwable cause) {
-        log.error("api模块百度翻译服务调用失败:{},执行降级处理", cause.getMessage());
-        return  qo -> {
+    public RollHolidayFeignClient create(Throwable cause) {
+        log.error("api模块roll 节假日服务调用失败:{},执行降级处理", cause.getMessage());
+        return requestBody -> {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put(DEMOTE_ERROR, R.FAIL);
             return jsonObject;

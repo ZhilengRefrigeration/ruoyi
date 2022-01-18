@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-
 /**
  * @author xiejs
  * @desc 删除重复文案数据
@@ -37,7 +35,7 @@ public class DeleteRepeatTask {
      * 2022-01-07 09:00:00
      * 2022-01-07 10:00:00
      */
-    @Scheduled(cron = "0 0 7-23 * * ? ")
+    @Scheduled(cron = "0 0 10,14,20 * * ? ")
     public void execute() {
         int copyWritingCount = copyWritingService.deleteRepeatData();
         log.info("thread id:{},定时清除文案重复数据，重复数：{}", Thread.currentThread().getId(),copyWritingCount);

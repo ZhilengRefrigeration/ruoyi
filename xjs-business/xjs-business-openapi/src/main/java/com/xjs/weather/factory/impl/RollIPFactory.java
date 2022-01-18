@@ -41,7 +41,7 @@ public class RollIPFactory implements IPFactory<IPInfoVo> {
         requestBody.setIp(ip);
         requestBody.setApp_id(rollProperties.getApp_id());
         requestBody.setApp_secret(rollProperties.getApp_secret());
-        JSONObject jsonObject = rollIPFeignClient.IpApi(requestBody);
+        JSONObject jsonObject = rollIPFeignClient.ipApi(requestBody);
         if (!jsonObject.containsKey(DEMOTE_ERROR) && jsonObject.getInteger("code") == ROLL_CODE_SUCCESS.intValue()) {
             JSONObject data = jsonObject.getJSONObject("data");
             return data.toJavaObject(IPInfoVo.class);

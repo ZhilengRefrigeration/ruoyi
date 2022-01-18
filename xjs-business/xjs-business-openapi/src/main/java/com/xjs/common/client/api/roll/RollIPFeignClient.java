@@ -24,6 +24,6 @@ public interface RollIPFeignClient {
     @ApiLog(name = ROLL_IP,
             url = ROLL_IP_URL,
             method = "Get")
-    JSONObject IpApi(@SpringQueryMap RequestBody requestBody);
+    JSONObject ipApi(@SpringQueryMap RequestBody requestBody);
 
 }
