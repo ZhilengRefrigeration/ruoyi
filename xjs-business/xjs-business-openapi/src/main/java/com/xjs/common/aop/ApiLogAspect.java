@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.ruoyi.common.core.domain.R;
 import com.xjs.annotation.ApiLog;
 import com.xjs.business.log.RemoteLogFeign;
@@ -109,19 +110,19 @@ public class ApiLogAspect {
         String url = apiLog.url();//请求地址
         entity.setUrl(url);
         Object[] args = joinPoint.getArgs();//请求体
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < args.length; i++) {
-            String json = JSON.toJSONString(args[i]);
-            //判断最后一位
-            if (i == args.length - 1) {
-                builder.append(json);
-            } else {
-                builder.append(json + ",");
-            }
-        }
 
+        if (args.length > 1) {
+            JSONArray objects = new JSONArray();
+            for (Object arg : args) {
+                String json = JSON.toJSONString(arg);
+                objects.add(json);
+                entity.setRequest(objects.toJSONString());
+            }
+        } else {
+            String jsonString = JSON.toJSONString(args[0]);
+            entity.setRequest(jsonString);
+        }
         entity.setMethod(apiLog.method());
-        entity.setRequest(builder.toString());
         if (Objects.nonNull(jsonResult)) {
             entity.setResponse(jsonResult.toString());
         }
