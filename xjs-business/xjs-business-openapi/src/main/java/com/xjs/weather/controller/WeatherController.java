@@ -4,6 +4,7 @@ import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.security.annotation.RequiresLogin;
+import com.xjs.weather.domain.ForecastWeather;
 import com.xjs.weather.domain.NowWeather;
 import com.xjs.weather.service.WeatherService;
 import io.swagger.annotations.Api;
@@ -45,9 +46,10 @@ public class WeatherController {
     @Log(title = "获取预报天气")
     @RequiresLogin
     public AjaxResult getForecastWeatherApiData() {
-        return AjaxResult.success(weatherService.cacheForecastWeather());
+        ForecastWeather forecastWeather = weatherService.cacheForecastWeather();
+        this.weekConvert(forecastWeather);
+        return AjaxResult.success(forecastWeather);
     }
-
 
 
     @GetMapping("getWeatherForRPC")
@@ -56,5 +58,41 @@ public class WeatherController {
         NowWeather nowWeather = weatherService.save();
         return Objects.nonNull(nowWeather.getCity()) ? R.ok() : R.fail();
     }
+
+
+    /**
+     * week类型转换
+     *
+     * @return ForecastWeather
+     */
+    private void weekConvert(ForecastWeather forecastWeather) {
+        forecastWeather.getCasts().forEach(cast -> {
+            switch (cast.getWeek()) {
+                case "1":
+                    cast.setWeek("周一");
+                    break;
+                case "2":
+                    cast.setWeek("周二");
+                    break;
+                case "3":
+                    cast.setWeek("周三");
+                    break;
+                case "4":
+                    cast.setWeek("周四");
+                    break;
+                case "5":
+                    cast.setWeek("周五");
+                    break;
+                case "6":
+                    cast.setWeek("周六");
+                    break;
+                case "7":
+                    cast.setWeek("周日");
+                    break;
+            }
+        });
+
+    }
+
 
 }

@@ -18,42 +18,22 @@
         <table style="text-align: center" v-loading="loading">
           <td v-for="(cast,index) in forecastWeatherData.casts" width="100px">
             <tr v-if="index===0">
-              今天
+              今天({{cast.week}})
             </tr>
             <tr v-if="index===1">
-              明天
+              明天({{cast.week}})
             </tr>
             <tr v-if="index===2">
-              后天
+              后天({{cast.week}})
             </tr>
             <tr v-if="index===3">
-              大后天
+              大后天({{cast.week}})
             </tr>
             <tr>{{cast.dayweather}}</tr>
             <tr>
               {{cast.nighttemp+"℃~"+cast.daytemp+"℃"}}
             </tr>
-            <tr v-if="cast.week==='1'">
-              星期一
-            </tr>
-            <tr v-if="cast.week==='2'">
-              星期二
-            </tr>
-            <tr v-if="cast.week==='3'">
-              星期三
-            </tr>
-            <tr v-if="cast.week==='4'">
-              星期四
-            </tr>
-            <tr v-if="cast.week==='5'">
-              星期五
-            </tr>
-            <tr v-if="cast.week==='6'">
-              星期六
-            </tr>
-            <tr v-if="cast.week==='7'">
-              星期日
-            </tr>
+
           </td>
         </table>
 
