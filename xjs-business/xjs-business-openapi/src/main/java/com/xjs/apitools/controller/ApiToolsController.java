@@ -76,6 +76,14 @@ public class ApiToolsController {
         return R.ok(apiToolsService.getGarbageSorting(name));
     }
 
+    @GetMapping("beautypicture")
+    @ApiOperation("获取mm图片信息")
+    @Log(title = "获取mm图片分类")
+    public R<List<ApiBeautyPicture>> getBeautyPictureApiData() {
+        return R.ok(apiToolsService.getBeautyPicture());
+    }
+
+
 
 
 

@@ -1,5 +1,6 @@
 package com.xjs.apitools.service.impl;
 
+import com.ruoyi.common.core.utils.StringUtils;
 import com.xjs.apitools.domain.*;
 import com.xjs.apitools.factory.ApiToolsFactory;
 import com.xjs.apitools.factory.impl.*;
@@ -8,6 +9,8 @@ import com.xjs.exception.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -22,11 +25,17 @@ import java.util.stream.Collectors;
 @Service
 public class ApiToolsServiceImpl implements ApiToolsService {
 
+    /**
+     * 文件单位
+     */
+    public static final String KB= "KB";
+
     private ApiToolsFactory<ApiHoliday, Object> holidayFactory;
     private ApiToolsFactory<ApiMobileBelong, RequestBody> mobileBelongFactory;
     private ApiToolsFactory<ApiNowWeather, RequestBody> nowWeatherFactory;
-    private ApiToolsFactory<ApiForecastWeather,RequestBody> forecastWeatherFactory;
-    private ApiToolsFactory<ApiGarbageSorting,RequestBody> garbageSortingFactory;
+    private ApiToolsFactory<ApiForecastWeather, RequestBody> forecastWeatherFactory;
+    private ApiToolsFactory<ApiGarbageSorting, RequestBody> garbageSortingFactory;
+    private ApiToolsFactory<ApiBeautyPicture, Object> beautyPictureFactory;
 
     @Autowired
     public void setHolidayFactory(RollHolidayFactory rollHolidayFactory) {
@@ -51,6 +60,11 @@ public class ApiToolsServiceImpl implements ApiToolsService {
     @Autowired
     public void setGarbageSortingFactory(RollGarbageSortingFactory rollGarbageSortingFactory) {
         this.garbageSortingFactory = rollGarbageSortingFactory;
+    }
+
+    @Autowired
+    public void setBeautyPictureFactory(RollBeautyPictureFactory rollBeautyPictureFactory) {
+        this.beautyPictureFactory = rollBeautyPictureFactory;
     }
 
 
@@ -99,5 +113,20 @@ public class ApiToolsServiceImpl implements ApiToolsService {
         requestBody.setName(name);
         return Optional.ofNullable(garbageSortingFactory.apiData(requestBody))
                 .orElseThrow(ApiException::new);
+    }
+
+    @Override
+    public List<ApiBeautyPicture> getBeautyPicture() {
+        List<ApiBeautyPicture> beautyPictureList = Optional.ofNullable(beautyPictureFactory.apiDataList())
+                .orElseThrow(ApiException::new);
+        beautyPictureList.forEach(bp ->{
+            String imageFileLength = bp.getImageFileLength();
+            if (StringUtils.isNotEmpty(imageFileLength)) {
+                BigDecimal decimal = new BigDecimal(imageFileLength);
+                BigDecimal divide = decimal.divide(new BigDecimal(1024), 0, RoundingMode.HALF_UP);
+                bp.setImageFileLength(divide.toPlainString()+KB);
+            }
+        });
+        return beautyPictureList;
     }
 }

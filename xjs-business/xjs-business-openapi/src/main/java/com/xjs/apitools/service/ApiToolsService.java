@@ -49,5 +49,12 @@ public interface ApiToolsService {
     ApiGarbageSorting getGarbageSorting(String name);
 
 
+    /**
+     * 获取mm图片
+     * @return ApiBeautyPicture
+     */
+    List<ApiBeautyPicture> getBeautyPicture();
+
+
 
 }

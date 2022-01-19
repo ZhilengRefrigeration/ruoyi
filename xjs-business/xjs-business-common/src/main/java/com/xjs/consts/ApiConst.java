@@ -58,6 +58,8 @@ public class ApiConst {
 
     public static final String ROLL_GARBAGE_SORTING = "ROLL-垃圾分类";
 
+    public static final String ROLL_BEAUTY_PICTURE = "ROLL-美女图片";
+
 
     //-------------------url------------------------------
 
@@ -120,7 +122,12 @@ public class ApiConst {
     /**
      * 接口文档：https://www.mxnzp.com/doc/detail?id=14
      */
-    public static final String ROLL_GARBAGE_SORTING_URL = "https://www.mxnzp.com/api/rubbish/type";
+    public static final String ROLL_GARBAGE_SORTING_URL = "http://www.mxnzp.com/api/rubbish/type";
+
+    /**
+     * 接口文档：https://www.mxnzp.com/doc/detail?id=15
+     */
+    public static final String ROLL_BEAUTY_PICTURE_URL = "https://www.mxnzp.com/api/image/girl/list/random";
 
 
 
@@ -144,6 +151,10 @@ public class ApiConst {
      * roll平台返回值code成功参数
      */
     public static final Integer ROLL_CODE_SUCCESS = 1;
+    /**
+     * roll平台返回值code失败参数
+     */
+    public static final Integer ROLL_CODE_ERROR = 0;
     /**
      * speedtest平台返回值code成功参数
      */
