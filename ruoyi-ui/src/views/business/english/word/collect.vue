@@ -48,6 +48,7 @@
 import {collectWord, getWordRPC} from "@/api/business/english/word";
 
 export default {
+  name: "Collect",
   data() {
     return {
       loading: false,

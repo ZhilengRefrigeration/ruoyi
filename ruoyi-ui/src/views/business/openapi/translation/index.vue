@@ -112,7 +112,7 @@ import Aword from "@/views/business/openapi/aword";
 export default {
   components: {Aword},
   dicts: ['translation_type'],
-  name: "Log",
+  name: "Translation",
   data() {
     return {
       // 遮罩层
@@ -162,11 +162,26 @@ export default {
           }
         ],
       },
+
+
+
     }
   },
   created() {
     this.getCopyWriting()
     this.getApiAWord()
+
+
+
+    //下拉框默认选中
+  },
+
+  watch: {
+    'dict.type.translation_type'(newVal) {
+      if (newVal[0]) {
+        this.translationData.translationType= newVal[0].value
+      }
+    }
   },
   methods: {
     //随机获取一条每日一句

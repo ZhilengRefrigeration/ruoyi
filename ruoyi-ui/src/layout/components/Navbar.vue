@@ -193,6 +193,7 @@ export default {
         this.forecastWeatherData = res.data
         this.loading = false;
       })
+      this.getNowWeather()
 
     },
 
@@ -272,8 +273,8 @@ export default {
 
 <style lang="scss" scoped>
 .weather {
-  width: 120px;
-  margin-right: 10px;
+  width: 125px;
+  margin-right: 2px;
   cursor: pointer;
 }
 
@@ -359,7 +360,7 @@ export default {
 
     .right-menu-item {
       display: inline-block;
-      padding: 0 8px;
+      padding: 0 6px;
       height: 100%;
       font-size: 18px;
       color: #5a5e66;

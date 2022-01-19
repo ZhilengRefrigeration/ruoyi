@@ -71,7 +71,7 @@
 import {getTopsearch} from "@/api/business/openapi/topsearch";
 
 export default {
-  name: "index",
+  name: "Topsearch",
   data() {
     return {
       //遮罩层

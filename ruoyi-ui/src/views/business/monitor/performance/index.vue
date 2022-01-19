@@ -140,7 +140,7 @@ import 'echarts/lib/chart/line'
 import 'echarts/lib/component/polar'
 import { getPerformance } from '@/api/business/monitor/performance/performancemonitor'
 export default {
-  name: 'Index',
+  name: 'Performance',
   components: {
     'v-chart': ECharts
   },

@@ -124,7 +124,7 @@
 import {listLog, getLog, delLog} from "@/api/business/log/apilog";
 
 export default {
-  name: "Log",
+  name: "Apilog",
   data() {
     return {
       // 遮罩层

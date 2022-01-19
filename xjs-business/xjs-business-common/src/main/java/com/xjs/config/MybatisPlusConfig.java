@@ -7,15 +7,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * mp配置类
  * @author xiejs
- * @desc
- * @create 2021-12-31
+ * @since  2021-12-31
  */
 @Configuration
 public class MybatisPlusConfig {
 
     /**
-     *  mysql分页插件
+     *  mp分页插件
      * @return MybatisPlusInterceptor
      */
     @Bean

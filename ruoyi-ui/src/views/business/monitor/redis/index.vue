@@ -71,7 +71,7 @@ import { getRedisCache } from "@/api/business/monitor/redis/cache";
 import echarts from "echarts";
 
 export default {
-  name: "Index",
+  name: "Redis",
   data() {
     return {
       // 统计命令信息

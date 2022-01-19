@@ -98,7 +98,7 @@
 import {getServiceMonitor} from "@/api/business/monitor/service/monitorservice";
 
 export default {
-  name: "Online",
+  name: "Service",
   data() {
     return {
       //遮罩层
