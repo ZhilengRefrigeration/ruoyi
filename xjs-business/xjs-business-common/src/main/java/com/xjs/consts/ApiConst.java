@@ -56,6 +56,8 @@ public class ApiConst {
 
     public static final String ROLL_FORECAST_WEATHER = "ROLL-预报天气";
 
+    public static final String ROLL_GARBAGE_SORTING = "ROLL-垃圾分类";
+
 
     //-------------------url------------------------------
 
@@ -114,6 +116,11 @@ public class ApiConst {
      * 接口文档：https://www.mxnzp.com/doc/detail?id=7
      */
     public static final String ROLL_WEATHER_URL = "https://www.mxnzp.com/api/weather";
+
+    /**
+     * 接口文档：https://www.mxnzp.com/doc/detail?id=14
+     */
+    public static final String ROLL_GARBAGE_SORTING_URL = "https://www.mxnzp.com/api/rubbish/type";
 
 
 

@@ -237,6 +237,8 @@ export default {
         if (json.warningMessage !== undefined) {
           // this.visible = true
           return json.warningMessage
+        }else {
+          return '暂无提示！！！'
         }
       }
     },

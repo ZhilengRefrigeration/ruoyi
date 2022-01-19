@@ -178,8 +178,8 @@ export default {
 
   watch: {
     'dict.type.translation_type'(newVal) {
-      if (newVal[0]) {
-        this.translationData.translationType= newVal[0].value
+      if (newVal[2]) {
+        this.translationData.translationType= newVal[2].value
       }
     }
   },

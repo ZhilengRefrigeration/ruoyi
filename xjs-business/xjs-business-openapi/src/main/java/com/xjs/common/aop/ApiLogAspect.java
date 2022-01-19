@@ -167,6 +167,7 @@ public class ApiLogAspect {
                                 //设置初始请求次数
                                 apiRecord.setTotalCount(1L);
                                 apiRecord.setDayCount(1L);
+                                apiRecord.setLimitCount(30L);
                                 remoteWarningCRUDFeign.saveApiRecordForRPC(apiRecord);
                             } else {
                                 ApiRecord haveApiRecord = data.get(0);

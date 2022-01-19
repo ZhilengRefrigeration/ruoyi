@@ -2,10 +2,7 @@ package com.xjs.apitools.service.impl;
 
 import com.xjs.apitools.domain.*;
 import com.xjs.apitools.factory.ApiToolsFactory;
-import com.xjs.apitools.factory.impl.RollForecastWeatherFactory;
-import com.xjs.apitools.factory.impl.RollHolidayFactory;
-import com.xjs.apitools.factory.impl.RollMobileBelongFactory;
-import com.xjs.apitools.factory.impl.RollNowWeatherFactory;
+import com.xjs.apitools.factory.impl.*;
 import com.xjs.apitools.service.ApiToolsService;
 import com.xjs.exception.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +26,7 @@ public class ApiToolsServiceImpl implements ApiToolsService {
     private ApiToolsFactory<ApiMobileBelong, RequestBody> mobileBelongFactory;
     private ApiToolsFactory<ApiNowWeather, RequestBody> nowWeatherFactory;
     private ApiToolsFactory<ApiForecastWeather,RequestBody> forecastWeatherFactory;
+    private ApiToolsFactory<ApiGarbageSorting,RequestBody> garbageSortingFactory;
 
     @Autowired
     public void setHolidayFactory(RollHolidayFactory rollHolidayFactory) {
@@ -48,6 +46,11 @@ public class ApiToolsServiceImpl implements ApiToolsService {
     @Autowired
     public void setForecastWeatherFactory(RollForecastWeatherFactory rollForecastWeatherFactory) {
         this.forecastWeatherFactory = rollForecastWeatherFactory;
+    }
+
+    @Autowired
+    public void setGarbageSortingFactory(RollGarbageSortingFactory rollGarbageSortingFactory) {
+        this.garbageSortingFactory = rollGarbageSortingFactory;
     }
 
 
@@ -87,6 +90,14 @@ public class ApiToolsServiceImpl implements ApiToolsService {
         RequestBody requestBody = new RequestBody();
         requestBody.setCity(city);
         return Optional.ofNullable(forecastWeatherFactory.apiData(requestBody))
+                .orElseThrow(ApiException::new);
+    }
+
+    @Override
+    public ApiGarbageSorting getGarbageSorting(String name) {
+        RequestBody requestBody = new RequestBody();
+        requestBody.setName(name);
+        return Optional.ofNullable(garbageSortingFactory.apiData(requestBody))
                 .orElseThrow(ApiException::new);
     }
 }

@@ -3,10 +3,7 @@ package com.xjs.apitools.controller;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
-import com.xjs.apitools.domain.ApiForecastWeather;
-import com.xjs.apitools.domain.ApiHoliday;
-import com.xjs.apitools.domain.ApiMobileBelong;
-import com.xjs.apitools.domain.ApiNowWeather;
+import com.xjs.apitools.domain.*;
 import com.xjs.apitools.service.ApiToolsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -69,6 +66,14 @@ public class ApiToolsController {
     @Log(title = "获取预报天气")
     public R<ApiForecastWeather> getForecastWeatherApiData(@PathVariable("city") String city) {
         return R.ok(apiToolsService.getForecastWeather(city));
+    }
+
+
+    @GetMapping("garbagesorting/{name}")
+    @ApiOperation("获取垃圾分类信息")
+    @Log(title = "获取垃圾分类")
+    public R<ApiGarbageSorting> getGarbageSortingApiData(@PathVariable("name") String name) {
+        return R.ok(apiToolsService.getGarbageSorting(name));
     }
 
 

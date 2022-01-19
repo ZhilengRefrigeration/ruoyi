@@ -1,9 +1,6 @@
 package com.xjs.apitools.service;
 
-import com.xjs.apitools.domain.ApiForecastWeather;
-import com.xjs.apitools.domain.ApiHoliday;
-import com.xjs.apitools.domain.ApiMobileBelong;
-import com.xjs.apitools.domain.ApiNowWeather;
+import com.xjs.apitools.domain.*;
 
 import java.util.List;
 
@@ -42,6 +39,14 @@ public interface ApiToolsService {
      * @return ApiForecastWeather
      */
     ApiForecastWeather getForecastWeather(String city);
+
+
+    /**
+     * 获取垃圾分类
+     * @param name 垃圾名称
+     * @return ApiGarbageSorting
+     */
+    ApiGarbageSorting getGarbageSorting(String name);
 
 
 

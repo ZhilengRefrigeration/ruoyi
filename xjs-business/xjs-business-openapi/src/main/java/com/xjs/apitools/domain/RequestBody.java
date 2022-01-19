@@ -30,4 +30,9 @@ public class RequestBody {
      * 目标城市
      */
     private String city;
+
+    /**
+     * 物品名称
+     */
+    private String name;
 }
