@@ -80,8 +80,16 @@ public class ApiToolsController {
     @ApiOperation("获取mm图片信息")
     @Log(title = "获取mm图片分类")
     public R<List<ApiBeautyPicture>> getBeautyPictureApiData() {
-        return R.ok(apiToolsService.getBeautyPicture());
+        return R.ok(apiToolsService.getBeautyPictureList());
     }
+
+    @GetMapping("historytoday")
+    @ApiOperation("获取历史今天信息")
+    @Log(title = "获取历史今天分类")
+    public R<List<ApiHistoryToday>> getHistoryTodayApiData() {
+        return R.ok(apiToolsService.getHistoryTodayList());
+    }
+
 
 
 

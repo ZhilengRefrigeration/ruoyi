@@ -60,6 +60,8 @@ public class ApiConst {
 
     public static final String ROLL_BEAUTY_PICTURE = "ROLL-美女图片";
 
+    public static final String ROLL_HISTORY_TODAY = "ROLL-历史今天";
+
 
     //-------------------url------------------------------
 
@@ -128,6 +130,11 @@ public class ApiConst {
      * 接口文档：https://www.mxnzp.com/doc/detail?id=15
      */
     public static final String ROLL_BEAUTY_PICTURE_URL = "https://www.mxnzp.com/api/image/girl/list/random";
+
+    /**
+     * 接口文档：https://www.mxnzp.com/doc/detail?id=18
+     */
+    public static final String ROLL_HISTORY_TODAY_URL = "https://www.mxnzp.com/api/history/today";
 
 
 

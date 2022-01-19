@@ -1,5 +1,6 @@
 package com.xjs.apitools.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.xjs.apitools.domain.*;
 import com.xjs.apitools.factory.ApiToolsFactory;
@@ -36,6 +37,7 @@ public class ApiToolsServiceImpl implements ApiToolsService {
     private ApiToolsFactory<ApiForecastWeather, RequestBody> forecastWeatherFactory;
     private ApiToolsFactory<ApiGarbageSorting, RequestBody> garbageSortingFactory;
     private ApiToolsFactory<ApiBeautyPicture, Object> beautyPictureFactory;
+    private ApiToolsFactory<ApiHistoryToday,Object> historyTodayFactory;
 
     @Autowired
     public void setHolidayFactory(RollHolidayFactory rollHolidayFactory) {
@@ -65,6 +67,11 @@ public class ApiToolsServiceImpl implements ApiToolsService {
     @Autowired
     public void setBeautyPictureFactory(RollBeautyPictureFactory rollBeautyPictureFactory) {
         this.beautyPictureFactory = rollBeautyPictureFactory;
+    }
+
+    @Autowired
+    private void setHistoryTodayFactory(RollHistoryTodayFactory rollHistoryTodayFactory) {
+        this.historyTodayFactory = rollHistoryTodayFactory;
     }
 
 
@@ -116,7 +123,7 @@ public class ApiToolsServiceImpl implements ApiToolsService {
     }
 
     @Override
-    public List<ApiBeautyPicture> getBeautyPicture() {
+    public List<ApiBeautyPicture> getBeautyPictureList() {
         List<ApiBeautyPicture> beautyPictureList = Optional.ofNullable(beautyPictureFactory.apiDataList())
                 .orElseThrow(ApiException::new);
         beautyPictureList.forEach(bp ->{
@@ -128,5 +135,15 @@ public class ApiToolsServiceImpl implements ApiToolsService {
             }
         });
         return beautyPictureList;
+    }
+
+    @Override
+    public List<ApiHistoryToday> getHistoryTodayList() {
+        List<ApiHistoryToday> historyTodayList = historyTodayFactory.apiDataList();
+        if (CollUtil.isNotEmpty(historyTodayList)) {
+            return historyTodayList.stream().limit(5).collect(Collectors.toList());
+        }else {
+            throw new ApiException("获取历史上的今天api调用异常！！！");
+        }
     }
 }

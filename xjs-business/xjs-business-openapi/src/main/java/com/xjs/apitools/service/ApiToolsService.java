@@ -53,7 +53,14 @@ public interface ApiToolsService {
      * 获取mm图片
      * @return ApiBeautyPicture
      */
-    List<ApiBeautyPicture> getBeautyPicture();
+    List<ApiBeautyPicture> getBeautyPictureList();
+
+
+    /**
+     * 获取历史上的今天数据
+     * @return ApiHistoryToday
+     */
+    List<ApiHistoryToday> getHistoryTodayList();
 
 
 

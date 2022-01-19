@@ -35,4 +35,9 @@ public class RequestBody {
      * 物品名称
      */
     private String name;
+
+    /**
+     * 是否需要详情，0：不需要详情 1：需要详情 默认值 0 可不传
+     */
+    private Integer type;
 }
