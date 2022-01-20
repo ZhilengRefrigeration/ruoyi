@@ -1,6 +1,9 @@
 package com.xjs.apitools.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.date.ChineseDate;
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.xjs.apitools.domain.*;
 import com.xjs.apitools.factory.ApiToolsFactory;
@@ -94,6 +97,14 @@ public class ApiToolsServiceImpl implements ApiToolsService {
         Optional.ofNullable(apiHolidayList).orElseThrow(ApiException::new);
         List<ApiHoliday> collect = apiHolidayList.stream().map(holidayFactory -> {
             if (holidayFactory.getResidueDays() >= 0) {
+                if (holidayFactory.getLunarHoliday()) {
+                    //是农历
+                    DateTime lunarDate = DateUtil.parseDate(holidayFactory.getLunarDate());
+                    ChineseDate chineseDate = new ChineseDate(lunarDate.toJdkDate());
+                    holidayFactory.setReturnDate(chineseDate.toString());
+                }else {
+                    holidayFactory.setReturnDate(holidayFactory.getDate());
+                }
                 return holidayFactory;
             } else {
                 return null;

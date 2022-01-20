@@ -59,7 +59,7 @@ public class ApiHistoryToday implements Serializable {
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-        return this.year + "-" + m + "-" + this.day;
+        return this.year + "年" + m + "月" + this.day+"日";
 
     }
 

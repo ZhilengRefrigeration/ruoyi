@@ -39,4 +39,10 @@ public class ApiHoliday implements Serializable {
      * 是否是农历节日
      */
     private Boolean lunarHoliday;
+
+
+    /**
+     * 最后返回的日期(可能是公历可能是农历)
+     */
+    private String returnDate;
 }

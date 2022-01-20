@@ -58,6 +58,7 @@ public class ApiToolsController {
     @GetMapping("nowweather/{city}")
     @ApiOperation("获取实时天气信息")
     @Log(title = "获取实时天气")
+    @RequiresPermissions("open:apitools:nowweather")
     public R<ApiNowWeather> getNowWeatherApiData(@PathVariable("city") String city) {
         return R.ok(apiToolsService.getNowWeather(city));
     }
@@ -65,6 +66,7 @@ public class ApiToolsController {
     @GetMapping("forecastweather/{city}")
     @ApiOperation("获取预报天气信息")
     @Log(title = "获取预报天气")
+    @RequiresPermissions("open:apitools:forecastweather")
     public R<ApiForecastWeather> getForecastWeatherApiData(@PathVariable("city") String city) {
         return R.ok(apiToolsService.getForecastWeather(city));
     }
@@ -73,6 +75,7 @@ public class ApiToolsController {
     @GetMapping("garbagesorting/{name}")
     @ApiOperation("获取垃圾分类信息")
     @Log(title = "获取垃圾分类")
+    @RequiresPermissions("open:apitools:garbagesorting")
     public R<ApiGarbageSorting> getGarbageSortingApiData(@PathVariable("name") String name) {
         return R.ok(apiToolsService.getGarbageSorting(name));
     }
@@ -80,6 +83,7 @@ public class ApiToolsController {
     @GetMapping("beautypicture")
     @ApiOperation("获取mm图片信息")
     @Log(title = "获取mm图片分类")
+    @RequiresPermissions("open:apitools:beautypicture")
     public R<List<ApiBeautyPicture>> getBeautyPictureApiData() {
         return R.ok(apiToolsService.getBeautyPictureList());
     }
@@ -87,6 +91,7 @@ public class ApiToolsController {
     @GetMapping("historytoday")
     @ApiOperation("获取历史今天信息")
     @Log(title = "获取历史今天")
+    @RequiresPermissions("open:apitools:historytoday")
     public R<List<ApiHistoryToday>> getHistoryTodayApiData() {
         return R.ok(apiToolsService.getHistoryTodayList());
     }
@@ -94,6 +99,7 @@ public class ApiToolsController {
     @GetMapping("simplecomplex/{content}")
     @ApiOperation("获取简繁转换信息")
     @Log(title = "获取简繁转换")
+    @RequiresPermissions("open:apitools:simplecomplex")
     public R<ApiSimpleComplex> getSimpleComplexApiData(@PathVariable("content") String content) {
         boolean b = ChineseUtils.checkNameChese(content);
         if (b) {
@@ -107,6 +113,7 @@ public class ApiToolsController {
     @GetMapping("chinesedict/{content}")
     @ApiOperation("获取汉语字典信息")
     @Log(title = "获取汉语字典")
+    @RequiresPermissions("open:apitools:chinesedict")
     public R<ApiChineseDict> getChineseDictApiData(@PathVariable("content") String content) {
         boolean b1 = ChineseUtils.checkNameChese(content);
         if (b1 && content.length() == 1) {
@@ -120,6 +127,7 @@ public class ApiToolsController {
     @GetMapping("idcardquery/{idcard}")
     @ApiOperation("获取身份证信息")
     @Log(title = "获取身份证信息")
+    @RequiresPermissions("open:apitools:idcardquery")
     public R<ApiIdcardQuery> getIdcardQueryApiData(@PathVariable("idcard") String idcard) {
         boolean id15 = Pattern.matches(IDCARD_15_REGEX, idcard);
         boolean id18 = Pattern.matches(IDCARD_18_REGEX, idcard);
