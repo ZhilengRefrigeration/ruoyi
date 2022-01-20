@@ -8,9 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
+ * openApi启动器
  * @author xiejs
- * @desc
- * @create 2021-12-25
+ * @since  2021-12-25
  */
 @SpringBootApplication
 @EnableCustomConfig

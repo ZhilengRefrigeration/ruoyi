@@ -37,7 +37,16 @@ public class RequestBody {
     private String name;
 
     /**
-     * 是否需要详情，0：不需要详情 1：需要详情 默认值 0 可不传
+     * 是否需要详情，0：不需要详情 1：需要详情 默认值 0 可不传  <br>
+     * 1 简体转繁体 2 繁体转简体
      */
     private Integer type;
+
+
+    /**
+     * 待转换的内容
+     */
+    private String content;
+
+
 }

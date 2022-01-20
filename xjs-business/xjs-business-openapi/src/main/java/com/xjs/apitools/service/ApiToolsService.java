@@ -63,5 +63,13 @@ public interface ApiToolsService {
     List<ApiHistoryToday> getHistoryTodayList();
 
 
+    /**
+     * 获取简繁转换数据
+     * @param content 传入的简体
+     * @return ApiSimpleComplex
+     */
+    ApiSimpleComplex getSimpleComplex(String content);
+
+
 
 }

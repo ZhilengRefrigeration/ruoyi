@@ -62,6 +62,8 @@ public class ApiConst {
 
     public static final String ROLL_HISTORY_TODAY = "ROLL-历史今天";
 
+    public static final String ROLL_SIMPLE_COMPLEX = "ROLL-简繁转换";
+
 
     //-------------------url------------------------------
 
@@ -135,6 +137,13 @@ public class ApiConst {
      * 接口文档：https://www.mxnzp.com/doc/detail?id=18
      */
     public static final String ROLL_HISTORY_TODAY_URL = "https://www.mxnzp.com/api/history/today";
+
+    /**
+     * 接口文档：https://www.mxnzp.com/doc/detail?id=20
+     */
+    public static final String ROLL_SIMPLE_COMPLEX_URL = "https://www.mxnzp.com/api/convert/zh";
+
+
 
 
 

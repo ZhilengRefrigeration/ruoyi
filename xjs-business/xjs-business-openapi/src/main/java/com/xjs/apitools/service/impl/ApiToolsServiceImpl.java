@@ -8,6 +8,7 @@ import com.xjs.apitools.factory.impl.*;
 import com.xjs.apitools.service.ApiToolsService;
 import com.xjs.exception.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -38,6 +39,10 @@ public class ApiToolsServiceImpl implements ApiToolsService {
     private ApiToolsFactory<ApiGarbageSorting, RequestBody> garbageSortingFactory;
     private ApiToolsFactory<ApiBeautyPicture, Object> beautyPictureFactory;
     private ApiToolsFactory<ApiHistoryToday,Object> historyTodayFactory;
+
+    @Autowired
+    @Qualifier("rollSimpleComplexFactory")
+    private ApiToolsFactory<ApiSimpleComplex,RequestBody> simpleComplexFactory;
 
     @Autowired
     public void setHolidayFactory(RollHolidayFactory rollHolidayFactory) {
@@ -145,5 +150,12 @@ public class ApiToolsServiceImpl implements ApiToolsService {
         }else {
             throw new ApiException("获取历史上的今天api调用异常！！！");
         }
+    }
+
+    @Override
+    public ApiSimpleComplex getSimpleComplex(String content) {
+        RequestBody requestBody = new RequestBody();
+        requestBody.setContent(content);
+        return simpleComplexFactory.apiData(requestBody);
     }
 }

@@ -5,6 +5,7 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.apitools.domain.*;
 import com.xjs.apitools.service.ApiToolsService;
+import com.xjs.utils.ChineseUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
@@ -85,14 +86,23 @@ public class ApiToolsController {
 
     @GetMapping("historytoday")
     @ApiOperation("获取历史今天信息")
-    @Log(title = "获取历史今天分类")
+    @Log(title = "获取历史今天")
     public R<List<ApiHistoryToday>> getHistoryTodayApiData() {
         return R.ok(apiToolsService.getHistoryTodayList());
     }
 
+    @GetMapping("simplecomplex/{content}")
+    @ApiOperation("获取简繁转换信息")
+    @Log(title = "获取简繁转换")
+    public R<ApiSimpleComplex> getSimpleComplexApiData(@PathVariable("content") String content) {
+        boolean b = ChineseUtils.checkNameChese(content);
+        if (b) {
+            return R.ok(apiToolsService.getSimpleComplex(content));
 
-
-
+        }else {
+            return R.fail("请输入中文！！！");
+        }
+    }
 
 
 }
