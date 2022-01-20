@@ -71,5 +71,13 @@ public interface ApiToolsService {
     ApiSimpleComplex getSimpleComplex(String content);
 
 
+    /**
+     * 获取汉语字典数据
+     * @param content 被查询的汉字内容
+     * @return ApiChineseDict
+     */
+    ApiChineseDict getChineseDict(String content);
+
+
 
 }

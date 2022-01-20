@@ -45,6 +45,10 @@ public class ApiToolsServiceImpl implements ApiToolsService {
     private ApiToolsFactory<ApiSimpleComplex,RequestBody> simpleComplexFactory;
 
     @Autowired
+    @Qualifier("rollChineseDictFactory")
+    private ApiToolsFactory<ApiChineseDict,RequestBody> chineseDictFactory;
+
+    @Autowired
     public void setHolidayFactory(RollHolidayFactory rollHolidayFactory) {
         this.holidayFactory = rollHolidayFactory;
     }
@@ -157,5 +161,12 @@ public class ApiToolsServiceImpl implements ApiToolsService {
         RequestBody requestBody = new RequestBody();
         requestBody.setContent(content);
         return simpleComplexFactory.apiData(requestBody);
+    }
+
+    @Override
+    public ApiChineseDict getChineseDict(String content) {
+        RequestBody requestBody = new RequestBody();
+        requestBody.setContent(content);
+        return chineseDictFactory.apiData(requestBody);
     }
 }

@@ -99,8 +99,20 @@ public class ApiToolsController {
         if (b) {
             return R.ok(apiToolsService.getSimpleComplex(content));
 
-        }else {
+        } else {
             return R.fail("请输入中文！！！");
+        }
+    }
+
+    @GetMapping("chinesedict/{content}")
+    @ApiOperation("获取汉语字典信息")
+    @Log(title = "获取汉语字典")
+    public R<ApiChineseDict> getChineseDictApiData(@PathVariable("content") String content) {
+        boolean b1 = ChineseUtils.checkNameChese(content);
+        if (b1 && content.length() == 1) {
+            return R.ok(apiToolsService.getChineseDict(content));
+        } else {
+            return R.fail("请输入单个中文！！！");
         }
     }
 

@@ -44,7 +44,8 @@ public class RequestBody {
 
 
     /**
-     * 待转换的内容
+     * 待转换的内容 <br>
+     * 被查询的汉字内容
      */
     private String content;
 

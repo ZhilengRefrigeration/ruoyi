@@ -64,6 +64,8 @@ public class ApiConst {
 
     public static final String ROLL_SIMPLE_COMPLEX = "ROLL-简繁转换";
 
+    public static final String ROLL_CHINESE_DICT = "ROLL-汉语字典";
+
 
     //-------------------url------------------------------
 
@@ -142,6 +144,11 @@ public class ApiConst {
      * 接口文档：https://www.mxnzp.com/doc/detail?id=20
      */
     public static final String ROLL_SIMPLE_COMPLEX_URL = "https://www.mxnzp.com/api/convert/zh";
+
+    /**
+     * 接口文档：https://www.mxnzp.com/doc/detail?id=22
+     */
+    public static final String ROLL_CHINESE_DICT_URL = "https://www.mxnzp.com/api/convert/dictionary";
 
 
 
