@@ -11,7 +11,7 @@ import com.ruoyi.system.api.domain.SysFile;
 
 /**
  * 文件服务降级处理
- * 
+ *
  * @author ruoyi
  */
 @Component
@@ -29,6 +29,11 @@ public class RemoteFileFallbackFactory implements FallbackFactory<RemoteFileServ
             public R<SysFile> upload(MultipartFile file)
             {
                 return R.fail("上传文件失败:" + throwable.getMessage());
+            }
+
+            @Override
+            public R<String> getPresignedUrl(String fileUrl) {
+                return R.fail("文件加签失败:" + throwable.getMessage());
             }
         };
     }
