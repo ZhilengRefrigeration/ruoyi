@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import static com.xjs.consts.RegexConst.MOBILE_REGEX;
+import static com.xjs.consts.RegexConst.*;
 
 /**
  * api小工具控制器
@@ -116,5 +116,18 @@ public class ApiToolsController {
         }
     }
 
+
+    @GetMapping("idcardquery/{idcard}")
+    @ApiOperation("获取身份证信息")
+    @Log(title = "获取身份证信息")
+    public R<ApiIdcardQuery> getIdcardQueryApiData(@PathVariable("idcard") String idcard) {
+        boolean id15 = Pattern.matches(IDCARD_15_REGEX, idcard);
+        boolean id18 = Pattern.matches(IDCARD_18_REGEX, idcard);
+        if (id15 || id18) {
+            return R.ok(apiToolsService.getIdcardQuery(idcard));
+        }
+        return R.fail("请输入正确的身份证号！！！");
+
+    }
 
 }

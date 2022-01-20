@@ -79,5 +79,13 @@ public interface ApiToolsService {
     ApiChineseDict getChineseDict(String content);
 
 
+    /**
+     * 获取身份证查询数据
+     * @param idcard 身份证号码
+     * @return ApiIdcardQuery
+     */
+    ApiIdcardQuery getIdcardQuery(String idcard);
+
+
 
 }

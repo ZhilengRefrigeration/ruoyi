@@ -50,4 +50,10 @@ public class RequestBody {
     private String content;
 
 
+    /**
+     * 身份证号码
+     */
+    private String idcard;
+
+
 }

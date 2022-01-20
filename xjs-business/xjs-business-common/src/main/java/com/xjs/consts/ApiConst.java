@@ -66,6 +66,8 @@ public class ApiConst {
 
     public static final String ROLL_CHINESE_DICT = "ROLL-汉语字典";
 
+    public static final String ROLL_IDCARD_QUERY = "ROLL-身份证查询";
+
 
     //-------------------url------------------------------
 
@@ -150,9 +152,10 @@ public class ApiConst {
      */
     public static final String ROLL_CHINESE_DICT_URL = "https://www.mxnzp.com/api/convert/dictionary";
 
-
-
-
+    /**
+     * 接口文档：https://www.mxnzp.com/doc/detail?id=28
+     */
+    public static final String ROLL_IDCARD_QUERY_URL = "https://www.mxnzp.com/api/idcard/search";
 
 
     //-----------------------api请求参数常量-----------------------------
@@ -182,7 +185,6 @@ public class ApiConst {
      * speedtest平台返回值code成功参数
      */
     public static final Integer SPEED_TEST_CODE_SUCCESS = 0;
-
 
 
     /**
