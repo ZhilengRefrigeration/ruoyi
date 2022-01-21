@@ -1,5 +1,7 @@
 package com.ruoyi.auth.service;
 
+import com.ruoyi.common.core.constant.CacheConstants;
+import com.ruoyi.common.redis.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.constant.Constants;
@@ -18,9 +20,12 @@ import com.ruoyi.system.api.domain.SysLogininfor;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 /**
  * 登录校验方法
- * 
+ *
  * @author ruoyi
  */
 @Component
@@ -31,6 +36,9 @@ public class SysLoginService
 
     @Autowired
     private RemoteUserService remoteUserService;
+
+    @Autowired
+    private RedisService redisService;
 
     /**
      * 登录
@@ -87,6 +95,7 @@ public class SysLoginService
             recordLogininfor(username, Constants.LOGIN_FAIL, "用户密码错误");
             throw new ServiceException("用户不存在/密码错误");
         }
+
         recordLogininfor(username, Constants.LOGIN_SUCCESS, "登录成功");
         return userInfo;
     }
@@ -133,7 +142,7 @@ public class SysLoginService
 
     /**
      * 记录登录信息
-     * 
+     *
      * @param username 用户名
      * @param status 状态
      * @param message 消息内容
@@ -155,5 +164,40 @@ public class SysLoginService
             logininfor.setStatus("1");
         }
         remoteLogService.saveLogininfor(logininfor, SecurityConstants.INNER);
+
+        //记录错误次数， 防止无限重试，进行暴力破解
+        recordLoginErrorTimes(username, status);
+    }
+
+    /**
+     * @author dazer
+     * @date 2022-01-21
+     * 记录username错误次数，超过指定次数 锁定xx分钟，防止暴力破解
+     * @param username 登录用户名
+     * @param status {@link Constants#LOGIN_SUCCESS}
+     *               {@link Constants#LOGIN_FAIL}
+     */
+    private void recordLoginErrorTimes(String username, String status)
+    {
+        String loginErrorTimesKey = CacheConstants.REDIS_KEY_ERROR_TIMES + username;
+        Long redisKeyTimeout = 30L;
+        long maxErrorTimes = 5L;
+
+        if (Constants.LOGIN_SUCCESS.equals(status)) {
+            redisService.deleteObject(loginErrorTimesKey);
+        } else if (Constants.LOGIN_FAIL.equals(status)) {
+            Integer errorTimes = redisService.getCacheObject(loginErrorTimesKey);
+            if (errorTimes == null) {
+                errorTimes = 0;
+            }
+            // 登录错误，进行累加错误次数
+            errorTimes++;
+            // 登录错误，缓存：30分钟
+            redisService.setCacheObject(loginErrorTimesKey, errorTimes, redisKeyTimeout, TimeUnit.MINUTES);
+            // 连续错误5次，进行账号锁定
+            if (errorTimes >= maxErrorTimes) {
+                throw new ServiceException("用户名密码错误次数已达上限,账号已被锁定请" + redisKeyTimeout + "分钟后再试!");
+            }
+        }
     }
 }
