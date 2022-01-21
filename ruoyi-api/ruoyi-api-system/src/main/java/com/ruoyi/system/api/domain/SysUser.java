@@ -1,10 +1,5 @@
 package com.ruoyi.system.api.domain;
 
-import java.util.Date;
-import java.util.List;
-import javax.validation.constraints.*;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.annotation.Excel.ColumnType;
@@ -12,11 +7,19 @@ import com.ruoyi.common.core.annotation.Excel.Type;
 import com.ruoyi.common.core.annotation.Excels;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 import com.ruoyi.common.core.xss.Xss;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 用户对象 sys_user
- * 
- * @author ruoyi
+ * @since 2022-01-21 11:06:11
+ * @author ruoyi,xjs
  */
 public class SysUser extends BaseEntity
 {
@@ -55,6 +58,19 @@ public class SysUser extends BaseEntity
 
     /** 密码 */
     private String password;
+
+
+    /**
+     * 登录次数
+     */
+    private Integer loginCount;
+
+
+    /**
+     * 登录总时长
+     */
+    private Long loginTimes;
+
 
     /** 帐号状态（0正常 1停用） */
     @Excel(name = "帐号状态", readConverterExp = "0=正常,1=停用")
@@ -98,6 +114,23 @@ public class SysUser extends BaseEntity
     public SysUser(Long userId)
     {
         this.userId = userId;
+    }
+
+
+    public Integer getLoginCount() {
+        return loginCount;
+    }
+
+    public void setLoginCount(Integer loginCount) {
+        this.loginCount = loginCount;
+    }
+
+    public Long getLoginTimes() {
+        return loginTimes;
+    }
+
+    public void setLoginTimes(Long loginTimes) {
+        this.loginTimes = loginTimes;
     }
 
     public Long getUserId()

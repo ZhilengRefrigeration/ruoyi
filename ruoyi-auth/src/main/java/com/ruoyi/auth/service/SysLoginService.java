@@ -19,9 +19,10 @@ import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
 
 /**
- * 登录校验方法
- * 
- * @author ruoyi
+ * 登录校验方法<br>
+ * 新增功能统计用户登录次数
+ * @since 2022-01-21 11:22:16
+ * @author ruoyi,xjs
  */
 @Component
 public class SysLoginService
@@ -88,6 +89,13 @@ public class SysLoginService
             throw new ServiceException("用户不存在/密码错误");
         }
         recordLogininfor(username, Constants.LOGIN_SUCCESS, "登录成功");
+
+        //累加登录次数
+        if (StringUtils.isNull(user.getLoginCount())) {
+            user.setLoginCount(0);
+        }
+        Integer count = user.getLoginCount() + 1;
+        remoteUserService.updateForRPC(String.valueOf(user.getUserId()),count,SecurityConstants.INNER);
         return userInfo;
     }
 

@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="24">
         <div class="top_col">
-          <span style="cursor: crosshair">小工具</span>
+          <span style="cursor: pointer">小工具</span>
         </div>
       </el-col>
     </el-row>
@@ -102,7 +102,7 @@
                 placement="bottom"
                 width="300"
                 v-model="idCardVisible">
-                <el-card shadow="hover">
+                <el-card shadow="hover" v-loading="loading4">
                   <div style="font-size: 12px">
                     <span>身份证号：{{ idCardData.idCardNum }}</span> <br>
                     <hr>
@@ -129,7 +129,7 @@
     <el-row>
       <el-col :span="24">
         <div class="top_col">
-          <span style="cursor: crosshair">实用工具</span>
+          <span style="cursor: pointer">实用工具</span>
         </div>
       </el-col>
     </el-row>

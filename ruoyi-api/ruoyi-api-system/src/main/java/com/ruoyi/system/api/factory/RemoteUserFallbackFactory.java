@@ -36,6 +36,11 @@ public class RemoteUserFallbackFactory implements FallbackFactory<RemoteUserServ
             {
                 return R.fail("注册用户失败:" + throwable.getMessage());
             }
+
+            @Override
+            public R<Integer> updateForRPC(String id, Integer count, String source) {
+                return R.fail("修改用户登录次数失败:" + throwable.getMessage());
+            }
         };
     }
 }

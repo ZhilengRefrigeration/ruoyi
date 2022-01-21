@@ -1,12 +1,13 @@
 package com.ruoyi.system.service;
 
-import java.util.List;
 import com.ruoyi.system.api.domain.SysUser;
+
+import java.util.List;
 
 /**
  * 用户 业务层
- * 
- * @author ruoyi
+ * @since 2022-01-21
+ * @author ruoyi,xjs
  */
 public interface ISysUserService
 {
@@ -203,4 +204,12 @@ public interface ISysUserService
      * @return 结果
      */
     public String importUser(List<SysUser> userList, Boolean isUpdateSupport, String operName);
+
+    /**
+     * 修改用户登录次数（统计）
+     * @param id 用户id
+     * @param count 登录次数
+     * @return int
+     */
+    int updateUserLoginCount(String id, Integer count);
 }
