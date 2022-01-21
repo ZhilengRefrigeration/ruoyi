@@ -21,6 +21,7 @@
         <module>xjs-business-warning</module>
         <module>xjs-business-monitor</module>
         <module>xjs-business-log</module>
+        <module>xjs-business-statistics</module>
     </modules>
 
     <properties>

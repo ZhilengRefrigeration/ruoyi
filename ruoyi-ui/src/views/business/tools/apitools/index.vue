@@ -30,7 +30,12 @@
                   </div>
                   <el-button @click="close" icon="el-icon-close" circle plain size="mini"
                              style="float: right"></el-button>
-                  <el-button type="primary" icon="el-icon-search" size="mini" @click="getHoliday()" slot="reference">
+                  <el-button type="primary"
+                             v-hasPermi="['open:apitools:holiday']"
+                             icon="el-icon-search"
+                             size="mini"
+                             @click="getHoliday()"
+                             slot="reference">
                     搜索
                   </el-button>
                 </el-popover>
@@ -221,23 +226,23 @@
                         <ul style="margin: 0 0; padding: 0 0 0 10px; list-style-type: none">
                           <li>
                             <span v-if="index===0">
-                              今天({{data.dayOfWeek}})
+                              今天({{ data.dayOfWeek }})
                             </span>
                             <span v-if="index===1">
-                              明天({{data.dayOfWeek}})
+                              明天({{ data.dayOfWeek }})
                             </span>
                             <span v-if="index===2">
-                              后天({{data.dayOfWeek}})
+                              后天({{ data.dayOfWeek }})
                             </span>
                             <span v-if="index===3">
-                              大后({{data.dayOfWeek}})
+                              大后({{ data.dayOfWeek }})
                             </span>
 
                             <span style="color: red;margin-left: 10px;margin-right: 10px">
-                              {{data.nighttemp}}~{{data.daytemp}}
+                              {{ data.nighttemp }}~{{ data.daytemp }}
                             </span>
                             <span>
-                              {{data.dayweather}}
+                              {{ data.dayweather }}
                             </span>
                           </li>
                         </ul>
