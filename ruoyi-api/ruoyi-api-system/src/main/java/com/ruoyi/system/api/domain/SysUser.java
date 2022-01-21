@@ -66,12 +66,6 @@ public class SysUser extends BaseEntity
     private Integer loginCount;
 
 
-    /**
-     * 登录总时长
-     */
-    private Long loginTimes;
-
-
     /** 帐号状态（0正常 1停用） */
     @Excel(name = "帐号状态", readConverterExp = "0=正常,1=停用")
     private String status;
@@ -125,13 +119,6 @@ public class SysUser extends BaseEntity
         this.loginCount = loginCount;
     }
 
-    public Long getLoginTimes() {
-        return loginTimes;
-    }
-
-    public void setLoginTimes(Long loginTimes) {
-        this.loginTimes = loginTimes;
-    }
 
     public Long getUserId()
     {
