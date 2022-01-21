@@ -165,7 +165,7 @@ public class ApiToolsServiceImpl implements ApiToolsService {
     public List<ApiHistoryToday> getHistoryTodayList() {
         List<ApiHistoryToday> historyTodayList = historyTodayFactory.apiDataList();
         if (CollUtil.isNotEmpty(historyTodayList)) {
-            return historyTodayList.stream().limit(5).collect(Collectors.toList());
+            return historyTodayList.stream().limit(7).collect(Collectors.toList());
         }else {
             throw new ApiException("获取历史上的今天api调用异常！！！");
         }

@@ -15,6 +15,7 @@
             <el-form label-width="80px" label-position="right">
               <el-form-item label="节假日" label-width="auto">
                 <el-popover
+                  v-loading="loading1"
                   placement="bottom"
                   width="400"
                   v-model="holidayVisible">
@@ -39,6 +40,7 @@
               <el-form-item label="MM图片" label-width="auto">
 
                 <el-popover
+                  v-loading="loading2"
                   placement="bottom"
                   width="988"
                   v-model="beautyPictureVisible">
@@ -61,9 +63,21 @@
               <el-form-item label="历史今天" label-width="auto">
 
                 <el-popover
-                  placement="bottom"
-                  width="988"
+                  v-loading="loading3"
+                  placement="right"
+                  width="400"
                   v-model="historyTodayVisible">
+
+                  <div v-for="data in historyTodayData" v-loading="loading3">
+                    <span>
+                      {{ data.date }}
+                    </span>
+                    <br>
+                    <span style="font-size: 12px">
+                      {{ data.title }}
+                    </span>
+                    <el-divider><i class="el-icon-chat-round"></i></el-divider>
+                  </div>
 
                   <el-button type="primary" icon="el-icon-search" @click="getHistoryToday()" size="mini"
                              slot="reference">搜索
@@ -199,6 +213,7 @@ export default {
       //遮罩层
       loading1: false,
       loading2: false,
+      loading3: false,
 
 
     }
@@ -211,8 +226,12 @@ export default {
   methods: {
     //获取历史今天数据信息
     getHistoryToday() {
+      this.loading3 = true
       getHistoryToday().then(res => {
+        this.loading3 = false
         this.historyTodayData = res.data
+      }).catch(err =>{
+        this.loading3 = false
       })
     },
 
@@ -222,7 +241,9 @@ export default {
       getHoliday().then(res => {
         this.loading1 = false
         this.holidayData = res.data
-      });
+      }).catch(err =>{
+        this.loading3 = false
+      })
     },
 
     //获取mm图片信息
@@ -236,6 +257,8 @@ export default {
         res.data.forEach(data => {
           this.pictureList.push(data.imageUrl)
         })
+      }).catch(err =>{
+        this.loading3 = false
       })
     },
 
