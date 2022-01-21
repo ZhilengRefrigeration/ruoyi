@@ -25,3 +25,12 @@ export function getHistoryToday() {
     method: 'get',
   })
 }
+
+
+//获取身份证信息
+export function getIdCardQuery(idCard) {
+  return request({
+    url: '/openapi/apitools/idcardquery/'+idCard,
+    method: 'get',
+  })
+}
