@@ -41,6 +41,15 @@ public class ApiLogController extends BaseController {
     }
 
 
+    @GetMapping("getApiName")
+    @ApiOperation("获取所有Api名称")
+    @RequiresPermissions("log:apilog:list")
+    public AjaxResult getApiName() {
+        List<String> apiNameList = apiLogService.getApiName();
+        return AjaxResult.success(apiNameList);
+    }
+
+
     //------------------------代码自动生成-----------------------------------
 
     /**

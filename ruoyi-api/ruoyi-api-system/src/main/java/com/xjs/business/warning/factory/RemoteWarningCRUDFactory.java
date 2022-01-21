@@ -47,6 +47,12 @@ public class RemoteWarningCRUDFactory implements FallbackFactory<RemoteWarningCR
                 log.error("调用预警服务api预警查询接口失败，执行降级处理----"+apiWarning.getApiName());
                 return R.fail();
             }
+
+            @Override
+            public R<List<String>> getApiName() {
+                log.error("调用预警服务api预警查询所有api名称接口失败，执行降级处理----");
+                return R.fail();
+            }
         };
     }
 }

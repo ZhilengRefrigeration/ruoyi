@@ -82,6 +82,17 @@ public class ApiWarningController extends BaseController {
     }
 
     /**
+     * 远程获取所有Api名称
+     * @return api名称
+     */
+    @GetMapping("getApiNameForRPC")
+    @ApiOperation("远程获取所有Api名称")
+    public R<List<String>> getApiName() {
+        List<String> apiNameList = apiWarningService.getApiName();
+        return R.ok(apiNameList);
+    }
+
+    /**
      * 处理预警单个预警
      * @param id 预警id
      * @return R

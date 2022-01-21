@@ -22,7 +22,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectApiLogVo"/>
         <where>
             <if test="apiName != null  and apiName != ''"> and api_name like concat('%', #{apiName}, '%')</if>
+            <if test="url != null  and url != ''"> and url like concat('%', #{url}, '%')</if>
+            <if test="method != null  and method != ''"> and method like concat('%', #{method}, '%')</if>
+            <if test="request != null  and request != ''"> and request like concat('%', #{request}, '%')</if>
+            <if test="response != null  and response != ''"> and response like concat('%', #{response}, '%')</if>
             <if test="isSuccess != null "> and is_success = #{isSuccess}</if>
+            <if test="createTime != null and endCreateTime != null"> and create_time between #{createTime} and #{endCreateTime}</if>
         </where>
         order by id desc
     </select>

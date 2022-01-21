@@ -46,4 +46,10 @@ public interface IApiLogService extends IService<ApiLog> {
      * @return 结果
      */
     int deleteApiLogById(Long id);
+
+    /**
+     * 获取所有api名称
+     * @return
+     */
+    List<String> getApiName();
 }

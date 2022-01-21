@@ -76,4 +76,10 @@ public interface ApiWarningService extends IService<ApiWarning> {
      * @return 结果
      */
     public int updateApiRecord(ApiRecord apiRecord);
+
+    /**
+     * 获取所有api名称
+     * @return List<String>
+     */
+    List<String> getApiName();
 }

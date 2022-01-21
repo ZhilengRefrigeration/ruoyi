@@ -24,3 +24,11 @@ export function delLog(id) {
     method: 'delete'
   })
 }
+
+//获取所有api名称
+export function getApiName() {
+  return request({
+    url: '/log/apilog/getApiName' ,
+    method: 'get'
+  })
+}

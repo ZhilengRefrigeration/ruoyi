@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author xiejs
@@ -98,6 +99,14 @@ public class ApiWarningServiceImpl extends ServiceImpl<ApiWarningMapper, ApiWarn
     @Override
     public int updateApiRecord(ApiRecord apiRecord) {
         return apiRecordMapper.updateApiRecord(apiRecord);
+    }
+
+    @Override
+    public List<String> getApiName() {
+        List<ApiRecord> recordList = apiRecordMapper.selectList(new QueryWrapper<ApiRecord>().orderByDesc("create_time"));
+        return recordList.stream()
+                .map(ApiRecord::getApiName)
+                .collect(Collectors.toList());
     }
 
 

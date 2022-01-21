@@ -1,12 +1,16 @@
 package com.xjs.apilog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ruoyi.common.core.constant.HttpStatus;
+import com.ruoyi.common.core.domain.R;
 import com.xjs.apilog.domain.ApiLog;
 import com.xjs.apilog.mapper.ApiLogMapper;
 import com.xjs.apilog.service.IApiLogService;
+import com.xjs.business.warning.RemoteWarningCRUDFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +23,8 @@ import java.util.List;
 public class ApiLogServiceImpl extends ServiceImpl<ApiLogMapper,ApiLog> implements IApiLogService {
     @Autowired
     private ApiLogMapper apiLogMapper;
+    @Autowired
+    private RemoteWarningCRUDFeign remoteWarningCRUDFeign;
 
     //------------------------代码自动生成-----------------------------------
 
@@ -64,5 +70,14 @@ public class ApiLogServiceImpl extends ServiceImpl<ApiLogMapper,ApiLog> implemen
     @Override
     public int deleteApiLogById(Long id) {
         return apiLogMapper.deleteApiLogById(id);
+    }
+
+    @Override
+    public List<String> getApiName() {
+        R<List<String>> apiName = remoteWarningCRUDFeign.getApiName();
+        if (apiName.getCode() == HttpStatus.SUCCESS) {
+            return apiName.getData();
+        }
+        return new ArrayList<String>();
     }
 }

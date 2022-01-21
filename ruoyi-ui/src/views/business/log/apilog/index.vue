@@ -1,15 +1,95 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="70px">
       <el-form-item label="接口名称" prop="apiName">
-        <el-input
+        <el-select
           v-model="queryParams.apiName"
-          placeholder="请输入接口名称"
+          placeholder="请输入"
+          clearable
+          size="small"
+          style="width: 150px">
+          <el-option
+            v-for="index in apiName"
+            :key="index"
+            :label="index"
+            :value="index"/>
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="请求URL" prop="url">
+        <el-input
+          v-model="queryParams.url"
+          placeholder="请输入请求URL"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+
+      <el-form-item label="请求参数" prop="request">
+        <el-input
+          v-model="queryParams.request"
+          placeholder="请输入请求参数"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+
+      <el-form-item label="响应参数" prop="response">
+        <el-input
+          v-model="queryParams.response"
+          placeholder="请输入响应参数"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+
+      <el-form-item label="是否成功" prop="isSuccess">
+        <el-select
+          v-model="queryParams.isSuccess"
+          placeholder="请输入"
+          clearable
+          size="small"
+          style="width: 150px">
+          <el-option
+            v-for="dict in dict.type.request_status"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"/>
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="请求方法" prop="method">
+        <el-select
+          v-model="queryParams.method"
+          placeholder="请输入"
+          clearable
+          size="small"
+          style="width: 150px">
+          <el-option
+            v-for="dict in dict.type.request_method"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"/>
+        </el-select>
+      </el-form-item>
+
+
+      <el-form-item label="创建时间">
+        <el-date-picker
+          v-model="daterangeCreateTime"
+          size="small"
+          style="width: 240px"
+          value-format="yyyy-MM-dd"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
+      </el-form-item>
+
 
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -121,10 +201,11 @@
 </template>
 
 <script>
-import {listLog, getLog, delLog} from "@/api/business/log/apilog";
+import {listLog, getLog, delLog,getApiName} from "@/api/business/log/apilog";
 
 export default {
   name: "Apilog",
+  dicts: ['request_status','request_method'],
   data() {
     return {
       // 遮罩层
@@ -159,16 +240,35 @@ export default {
       response: {},
 
       // 表单校验
-      rules: {}
+      rules: {},
+
+      //检查查询范围
+      daterangeCreateTime: [],
+
+      //api名称
+      apiName:[],
     };
   },
   created() {
     this.getList();
+    this.getApiName()
   },
   methods: {
+    //获取所有api名称
+    getApiName() {
+      getApiName().then(res =>{
+        this.apiName=res.data
+      })
+
+    },
+
     /** 查询日志列表 */
     getList() {
       this.loading = true;
+      if (null != this.daterangeCreateTime && '' != this.daterangeCreateTime) {
+        this.queryParams.createTime = this.daterangeCreateTime[0];
+        this.queryParams.endCreateTime = this.daterangeCreateTime[1];
+      }
       listLog(this.queryParams).then(response => {
         this.logList = response.rows;
         this.total = response.total;
@@ -221,6 +321,9 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.daterangeCreateTime = [];
+      this.queryParams.createTime=null
+      this.queryParams.endCreateTime=null
       this.resetForm("queryForm");
       this.handleQuery();
     },
