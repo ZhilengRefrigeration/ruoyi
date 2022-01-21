@@ -18,8 +18,8 @@
                   v-loading="loading1"
                   placement="bottom"
                   width="400"
+                  trigger="manual"
                   v-model="holidayVisible">
-
                   <div v-for="data in holidayData" v-loading="loading1">
                     <span>&nbsp;{{ data.holidayName }}&nbsp;</span>
                     <span>&nbsp;------&nbsp;</span>
@@ -28,6 +28,8 @@
                     <span>还剩&nbsp;<span style="color: red">{{ data.residueDays }}</span>&nbsp;天</span>
                     <el-divider><i class="el-icon-chat-round"></i></el-divider>
                   </div>
+                  <el-button @click="close" icon="el-icon-close" circle plain size="mini"
+                             style="float: right"></el-button>
                   <el-button type="primary" icon="el-icon-search" size="mini" @click="getHoliday()" slot="reference">
                     搜索
                   </el-button>
@@ -44,12 +46,15 @@
                   v-loading="loading2"
                   placement="bottom"
                   width="988"
+                  trigger="manual"
                   v-model="beautyPictureVisible">
                   <el-image v-for="data in BeautyPictureData" v-loading="loading2"
                             style="width: 192px; height: 108px"
                             :src="data.imageUrl"
                             :preview-src-list="pictureList">
                   </el-image>
+                  <el-button @click="close" icon="el-icon-close" circle plain size="mini"
+                             style="float: right"></el-button>
                   <el-button type="primary" icon="el-icon-search" size="mini" @click="getBeautyPicture()"
                              slot="reference">搜索
                   </el-button>
@@ -67,6 +72,7 @@
                   v-loading="loading3"
                   placement="right"
                   width="400"
+                  trigger="manual"
                   v-model="historyTodayVisible">
 
                   <div v-for="data in historyTodayData" v-loading="loading3">
@@ -79,7 +85,8 @@
                     </span>
                     <el-divider><i class="el-icon-chat-round"></i></el-divider>
                   </div>
-
+                  <el-button @click="close" icon="el-icon-close" circle plain size="mini"
+                             style="float: right"></el-button>
                   <el-button type="primary" icon="el-icon-search" @click="getHistoryToday()" size="mini"
                              slot="reference">搜索
                   </el-button>
@@ -98,9 +105,9 @@
             </el-form-item>
             <el-form-item>
               <el-popover
-                v-loading="loading4"
                 placement="bottom"
                 width="300"
+                trigger="manual"
                 v-model="idCardVisible">
                 <el-card shadow="hover" v-loading="loading4">
                   <div style="font-size: 12px">
@@ -118,6 +125,8 @@
                     <hr>
                   </div>
                 </el-card>
+                <el-button @click="close" icon="el-icon-close" circle plain size="mini"
+                           style="float: right"></el-button>
                 <el-button type="primary" @click="getIdCardQuery('idCardForm')" slot="reference">搜索</el-button>
               </el-popover>
             </el-form-item>
@@ -137,36 +146,111 @@
     <el-row>
       <el-col :span="24">
         <div class="table2_col">
-
           <div class="table2_col_div">
-            <el-form :inline="true" class="">
-              <el-form-item label="手机归属地" label-width="100px">
-                <el-input placeholder="请输入手机号码"></el-input>
+            <el-form :inline="true" :rules="rules" :model="mobileBelongForm" ref="mobileBelongForm">
+              <el-form-item label="手机归属地" label-width="100px" prop="mobile">
+                <el-input v-model="mobileBelongForm.mobile" placeholder="请输入手机号码"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary">搜索</el-button>
+                <el-popover
+                  placement="bottom"
+                  width="220"
+                  trigger="manual"
+                  v-model="mobileBelongVisible">
+                  <div v-loading="loading5">
+                    <el-result icon="info" title="手机归属地" :subTitle="mobileBelongData.carrier">
+                    </el-result>
+                  </div>
+                  <el-button @click="close" icon="el-icon-close" circle plain size="mini"
+                             style="float: right"></el-button>
+                  <el-button type="primary" slot="reference" @click="getMobileBelong('mobileBelongForm')">搜索</el-button>
+                </el-popover>
               </el-form-item>
             </el-form>
           </div>
 
           <div class="table2_col_div">
-            <el-form :inline="true" class="">
-              <el-form-item label="实时天气" label-width="100px">
-                <el-input placeholder="请输入城市名称"></el-input>
+            <el-form :inline="true" :rules="rules" :model="nowWeatherForm" ref="nowWeatherForm">
+              <el-form-item label="实时天气" label-width="100px" prop="city">
+                <el-input v-model="nowWeatherForm.city" placeholder="请输入城市名称"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary">搜索</el-button>
+                <el-popover
+                  placement="bottom"
+                  width="250"
+                  trigger="manual"
+                  v-model="nowWeatherVisible">
+                  <div v-loading="loading6">
+                    <span>地理位置：{{ nowWeatherData.address }}</span><br>
+                    <span>空气湿度：<span style="color: red">{{ nowWeatherData.humidity }}</span></span><br>
+                    <span>实时温度：<span style="color: red">{{ nowWeatherData.temp }}</span></span><br>
+                    <span>实时风力：{{ nowWeatherData.winddirection }} {{ nowWeatherData.windpower }}</span><br>
+                    <span>
+                      <img :src="weather"
+                           style="width: 30px;height: 30px;float: left;">
+                      <span style="margin-left:40px;float: left;width: 30px;height: 30px; line-height: 30px;color: red">{{
+                          nowWeatherData.weather
+                        }}</span>
+                    </span>
+                  </div>
+                  <el-button @click="close" icon="el-icon-close" circle plain size="mini"
+                             style="float: right"></el-button>
+                  <el-button type="primary" slot="reference" @click="getNowWeather('nowWeatherForm')">搜索</el-button>
+                </el-popover>
               </el-form-item>
             </el-form>
           </div>
 
           <div class="table2_col_div">
-            <el-form :inline="true" class="">
-              <el-form-item label="预报天气" label-width="100px">
-                <el-input placeholder="请输入城市名称"></el-input>
+            <el-form :inline="true" :rules="rules" :model="forecastWeatherForm" ref="forecastWeatherForm">
+              <el-form-item label="预报天气" label-width="100px" prop="city">
+                <el-input v-model="forecastWeatherForm.city" placeholder="请输入城市名称"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary">搜索</el-button>
+                <el-popover
+                  placement="left"
+                  width="300"
+                  trigger="manual"
+                  v-model="forecastWeatherVisible">
+                  <div v-loading="loading7">
+                    <el-card shadow="hover">
+                      <div slot="header" class="clearfix">
+                        <span>{{ forecastWeatherData.address }}</span>
+                      </div>
+                      <div v-for="(data,index) in forecastWeatherData.forecasts">
+                        <ul style="margin: 0 0; padding: 0 0 0 10px; list-style-type: none">
+                          <li>
+                            <span v-if="index===0">
+                              今天({{data.dayOfWeek}})
+                            </span>
+                            <span v-if="index===1">
+                              明天({{data.dayOfWeek}})
+                            </span>
+                            <span v-if="index===2">
+                              后天({{data.dayOfWeek}})
+                            </span>
+                            <span v-if="index===3">
+                              大后({{data.dayOfWeek}})
+                            </span>
+
+                            <span style="color: red;margin-left: 10px;margin-right: 10px">
+                              {{data.nighttemp}}~{{data.daytemp}}
+                            </span>
+                            <span>
+                              {{data.dayweather}}
+                            </span>
+                          </li>
+                        </ul>
+                        <hr>
+                      </div>
+                    </el-card>
+                  </div>
+                  <el-button @click="close" icon="el-icon-close" circle plain size="mini"
+                             style="float: right"></el-button>
+                  <el-button type="primary" slot="reference"
+                             @click="getForecastWeather('forecastWeatherForm')">搜索
+                  </el-button>
+                </el-popover>
               </el-form-item>
             </el-form>
           </div>
@@ -213,7 +297,17 @@
 
 <script>
 
-import {getHoliday, getHistoryToday, getBeautyPicture, getIdCardQuery} from "@/api/business/openapi/apitools";
+import {
+  getHoliday,
+  getHistoryToday,
+  getBeautyPicture,
+  getIdCardQuery,
+  getMobileBelong,
+  getNowWeather,
+  getForecastWeather,
+} from "@/api/business/openapi/apitools";
+
+import weather from "@/assets/icons/weather/天气.png"
 
 export default {
   name: "Apitools",
@@ -226,11 +320,23 @@ export default {
       pictureList: [],   //单独存放图片路径
       historyTodayData: [],
       idCardData: {},
+      mobileBelongData: {},
+      nowWeatherData: {},
+      forecastWeatherData: {},
 
 
       //-------------input框数据-------------------
       idCardForm: {
         idCard: ''
+      },
+      mobileBelongForm: {
+        mobile: ''
+      },
+      nowWeatherForm: {
+        city: ''
+      },
+      forecastWeatherForm: {
+        city: ''
       },
 
 
@@ -239,6 +345,9 @@ export default {
       beautyPictureVisible: false,
       historyTodayVisible: false,
       idCardVisible: false,
+      mobileBelongVisible: false,
+      nowWeatherVisible: false,
+      forecastWeatherVisible: false,
 
 
       //----------------遮罩层-------------------
@@ -246,16 +355,33 @@ export default {
       loading2: false,
       loading3: false,
       loading4: false,
+      loading5: false,
+      loading6: false,
+      loading7: false,
+      loading8: false,
+      loading9: false,
+      loading10: false,
 
 
       //---------------校验规则--------------------
       rules: {
         idCard: [
           {required: true, message: '请输入身份证号！！！', trigger: 'blur'},
+          {required: true, validator: this.validatorIdNum, trigger: 'blur'},
         ],
-      }
+        mobile: [
+          {required: true, message: '请输入手机号码！！！', trigger: 'blur'},
+          {required: true, validator: this.validatorPhone, trigger: 'blur'},
+        ],
+        city: [
+          {required: true, message: '请输入地名！！！', trigger: 'blur'},
+        ]
+
+      },
 
 
+      //----------------其他参数-------------------
+      weather,
     }
   },
 
@@ -265,10 +391,105 @@ export default {
   ,
 
   methods: {
+    //获取预报天气信息
+    getForecastWeather(forecastWeatherForm) {
+      this.$refs[forecastWeatherForm].validate((valid) => {
+        this.forecastWeatherData = {}
+        if (valid) {
+          this.loading7 = true
+          getForecastWeather(this.forecastWeatherForm.city).then(res => {
+            this.loading7 = false
+            this.forecastWeatherVisible = true
+            this.forecastWeatherData = res.data
+          }).catch(err => {
+            this.loading7 = false
+          })
+        } else {
+          return false
+        }
+      })
+
+
+    },
+
+    //获取实时天气信息
+    getNowWeather(nowWeatherForm) {
+      this.$refs[nowWeatherForm].validate((valid) => {
+        this.nowWeatherData = {}
+        if (valid) {
+          this.loading6 = true
+          getNowWeather(this.nowWeatherForm.city).then(res => {
+            this.loading6 = false
+            this.nowWeatherVisible = true
+            this.nowWeatherData = res.data
+          }).catch(err => {
+            this.loading6 = false
+          })
+        } else {
+          return false
+        }
+      })
+    },
+
+    //自定义rules校验方法：手机号校验
+    validatorPhone(rule, value, callback) {
+      if (value === '') {
+        callback(new Error('手机号不能为空'))
+      } else if (!/^1\d{10}$/.test(value)) {
+        callback(new Error('手机号格式错误'))
+      } else {
+        callback()
+      }
+    },
+
+    //自定义rules校验方法：身份证校验
+    validatorIdNum(rule, value, callback) {
+      const reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
+      if (!value) {
+        return callback(new Error('证件号码不能为空'))
+      } else if (!reg.test(value)) {
+        return callback(new Error('证件号码不正确'))
+      } else {
+        callback()
+      }
+    },
+
+    //关闭窗口
+    close() {
+      this.mobileBelongVisible = false;
+      this.idCardVisible = false;
+      this.historyTodayVisible = false;
+      this.beautyPictureVisible = false;
+      this.holidayVisible = false;
+      this.nowWeatherVisible = false;
+      this.forecastWeatherVisible = false;
+    },
+
+    //获取手机归属地信息
+    getMobileBelong(mobileBelongForm) {
+      this.$refs[mobileBelongForm].validate((valid) => {
+        this.mobileBelongData = {}
+        if (valid) {
+          this.mobileBelongVisible = true
+          this.loading5 = true
+          getMobileBelong(this.mobileBelongForm.mobile).then(res => {
+            this.loading5 = false
+            this.mobileBelongData = res.data
+          }).catch(err => {
+            this.loading5 = false
+          })
+        } else {
+          return false;
+        }
+      });
+    },
+
     //获取身份证信息
     getIdCardQuery(idCardForm) {
       this.$refs[idCardForm].validate((valid) => {
+        this.idCardData = {}
         if (valid) {
+          this.idCardVisible = true
           this.loading4 = true
           getIdCardQuery(this.idCardForm.idCard).then(res => {
             this.loading4 = false
@@ -280,37 +501,37 @@ export default {
           return false;
         }
       });
-    }
-    ,
+    },
 
     //获取历史今天数据信息
     getHistoryToday() {
       this.loading3 = true
+      this.historyTodayVisible = true
       getHistoryToday().then(res => {
         this.loading3 = false
         this.historyTodayData = res.data
       }).catch(err => {
         this.loading3 = false
       })
-    }
-    ,
+    },
 
     //获取节假日信息
     getHoliday() {
       this.loading1 = true
+      this.holidayVisible = true
       getHoliday().then(res => {
         this.loading1 = false
         this.holidayData = res.data
       }).catch(err => {
         this.loading3 = false
       })
-    }
-    ,
+    },
 
     //获取mm图片信息
     getBeautyPicture() {
       this.loading2 = true
       this.pictureList = []
+      this.beautyPictureVisible = true
       getBeautyPicture().then(res => {
         this.loading2 = false
         this.BeautyPictureData = res.data
@@ -321,8 +542,7 @@ export default {
       }).catch(err => {
         this.loading3 = false
       })
-    }
-    ,
+    },
 
   }
 

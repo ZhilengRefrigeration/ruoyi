@@ -34,3 +34,33 @@ export function getIdCardQuery(idCard) {
     method: 'get',
   })
 }
+
+
+//获取手机归属地信息
+export function getMobileBelong(mobile) {
+  return request({
+    url: '/openapi/apitools/mobilebelong/'+mobile,
+    method: 'get',
+  })
+}
+
+
+//获取实时天气信息
+export function getNowWeather(city) {
+  return request({
+    url: '/openapi/apitools/nowweather/'+city,
+    method: 'get',
+  })
+}
+
+
+//获取预报天气信息
+export function getForecastWeather(city) {
+  return request({
+    url: '/openapi/apitools/forecastweather/'+city,
+    method: 'get',
+  })
+}
+
+
+

@@ -4,6 +4,8 @@ import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.security.annotation.RequiresLogin;
+import com.xjs.utils.WeekUtils;
+import com.xjs.weather.domain.Casts;
 import com.xjs.weather.domain.ForecastWeather;
 import com.xjs.weather.domain.NowWeather;
 import com.xjs.weather.service.WeatherService;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -64,32 +67,11 @@ public class WeatherController {
      * week类型转换
      */
     private void weekConvert(ForecastWeather forecastWeather) {
-        forecastWeather.getCasts().forEach(cast -> {
-            switch (cast.getWeek()) {
-                case "1":
-                    cast.setWeek("周一");
-                    break;
-                case "2":
-                    cast.setWeek("周二");
-                    break;
-                case "3":
-                    cast.setWeek("周三");
-                    break;
-                case "4":
-                    cast.setWeek("周四");
-                    break;
-                case "5":
-                    cast.setWeek("周五");
-                    break;
-                case "6":
-                    cast.setWeek("周六");
-                    break;
-                case "7":
-                    cast.setWeek("周日");
-                    break;
-            }
+        List<Casts> casts = forecastWeather.getCasts();
+        casts.forEach(cast -> {
+            String week = WeekUtils.weekConvert(cast.getWeek());
+            cast.setWeek(week);
         });
-
     }
 
 

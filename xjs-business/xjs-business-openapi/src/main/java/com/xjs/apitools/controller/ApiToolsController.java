@@ -43,11 +43,11 @@ public class ApiToolsController {
     }
 
 
-    @GetMapping("mobilebelong")
+    @GetMapping("mobilebelong/{mobile}")
     @ApiOperation("获取手机归属地信息")
     @Log(title = "获取手机归属地")
     @RequiresPermissions("open:apitools:mobilebelong")
-    public R<ApiMobileBelong> getMobileBelongApiData(@RequestParam(name = "mobile") String mobile) {
+    public R<ApiMobileBelong> getMobileBelongApiData(@PathVariable("mobile") String mobile) {
         boolean matches = Pattern.matches(MOBILE_REGEX, mobile);
         if (!matches) {
             return R.fail("请输入正确的手机号码！！！");
