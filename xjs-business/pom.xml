@@ -22,6 +22,7 @@
         <module>xjs-business-monitor</module>
         <module>xjs-business-log</module>
         <module>xjs-business-statistics</module>
+        <module>xjs-business-webmagic</module>
     </modules>
 
     <properties>
@@ -116,17 +117,7 @@
             <version>${hutool.version}</version>
         </dependency>
 
-        <!--爬虫-->
-        <dependency>
-            <groupId>us.codecraft</groupId>
-            <artifactId>webmagic-core</artifactId>
-            <version>0.7.5</version>
-        </dependency>
-        <dependency>
-            <groupId>us.codecraft</groupId>
-            <artifactId>webmagic-extension</artifactId>
-            <version>0.7.5</version>
-        </dependency>
+
 
         <!--热部署、有毒，一加上redis就出问题 -->
         <!--<dependency>
