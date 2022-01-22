@@ -5,19 +5,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * @author xiejs
  * @since 2022-01-12
  */
 @SpringBootTest(classes = XjsOpenApiApp.class)
-class DeleteRepeatTaskTest {
+class OpenApiTaskTest {
     @Autowired
-    private DeleteRepeatTask deleteRepeatTask;
+    private OpenApiTask openApiTask;
 
     @Test
     void execute() {
-        deleteRepeatTask.execute();
+        openApiTask.deleteRepeat();
     }
 }
