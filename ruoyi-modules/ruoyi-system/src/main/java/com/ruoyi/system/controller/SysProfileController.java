@@ -95,7 +95,7 @@ public class SysProfileController extends BaseController
     /**
      * 重置密码
      */
-    @Log(title = "个人信息", businessType = BusinessType.UPDATE)
+    @Log(title = "个人信息", isSaveRequestData=false, businessType = BusinessType.UPDATE)
     @PutMapping("/updatePwd")
     public AjaxResult updatePwd(String oldPassword, String newPassword)
     {
