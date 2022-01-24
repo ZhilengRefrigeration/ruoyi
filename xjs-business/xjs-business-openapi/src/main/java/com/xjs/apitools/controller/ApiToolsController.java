@@ -6,11 +6,16 @@ import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.apitools.domain.*;
 import com.xjs.apitools.service.ApiToolsService;
 import com.xjs.utils.ChineseUtils;
+import com.xjs.weather.domain.IPInfoVo;
+import com.xjs.weather.service.IPService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -32,6 +37,8 @@ public class ApiToolsController {
 
     @Autowired
     private ApiToolsService apiToolsService;
+    @Autowired
+    private IPService ipService;
 
 
     @GetMapping("holiday")
@@ -135,7 +142,14 @@ public class ApiToolsController {
             return R.ok(apiToolsService.getIdcardQuery(idcard));
         }
         return R.fail("请输入正确的身份证号！！！");
+    }
 
+    @GetMapping("ipinfo/{ip}")
+    @ApiOperation("获取IP信息")
+    @Log(title = "获取IP")
+    @RequiresPermissions("open:apitools:ipinfo")
+    public R<IPInfoVo> getIPApiData(@PathVariable("ip")String ip) {
+        return R.ok(ipService.getIPApiData());
     }
 
 }

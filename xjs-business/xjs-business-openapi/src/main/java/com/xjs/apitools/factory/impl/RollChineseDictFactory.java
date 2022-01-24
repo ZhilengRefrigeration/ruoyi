@@ -7,12 +7,12 @@ import com.xjs.apitools.domain.RequestBody;
 import com.xjs.apitools.factory.ApiToolsFactory;
 import com.xjs.common.client.api.roll.RollChineseDictFeignClient;
 import com.xjs.config.RollProperties;
+import com.xjs.exception.ApiException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
-import static com.xjs.consts.ApiConst.ROLL_CODE_SUCCESS;
+import static com.xjs.consts.ApiConst.*;
 
 /**
  * roll平台获取汉语字典api工厂实现
@@ -39,6 +39,8 @@ public class RollChineseDictFactory implements ApiToolsFactory<ApiChineseDict, R
             JSONArray jsonArrayData = jsonObject.getJSONArray("data");
             JSONObject jsonData = jsonArrayData.getJSONObject(0);
             return jsonData.toJavaObject(ApiChineseDict.class);
+        }else if (jsonObject.containsKey("code") && jsonObject.getInteger("code") == ROLL_CODE_ERROR.intValue()) {
+            throw new ApiException("未查询到相关内容");
         }
         return null;
     }

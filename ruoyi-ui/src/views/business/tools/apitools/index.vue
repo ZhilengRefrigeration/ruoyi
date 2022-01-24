@@ -299,23 +299,72 @@
           </div>
 
           <div class="table2_col_div">
-            <el-form :inline="true" class="">
-              <el-form-item label="简繁转换" label-width="100px">
-                <el-input placeholder="请输入简体中文"></el-input>
+            <el-form :inline="true" :rules="rules" :model="simpleComplexForm" ref="simpleComplexForm">
+              <el-form-item label="简繁转换" label-width="100px" prop="content">
+                <el-input v-model="simpleComplexForm.content" placeholder="请输入简体中文"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary">搜索</el-button>
+                <el-popover
+                  placement="bottom"
+                  width="300"
+                  trigger="manual"
+                  v-model="simpleComplexVisible">
+                  <div>
+                    <el-card shadow="hover">
+                      <span>简体：{{ simpleComplexData.originContent }}</span>
+                    </el-card>
+                    <el-card shadow="hover">
+                      <span>繁体：{{ simpleComplexData.convertContent }}</span>
+                    </el-card>
+                  </div>
+                  <el-button @click="close" icon="el-icon-close" circle plain size="mini"
+                             style="float: right"></el-button>
+                  <el-button v-loading="loading9" type="primary" slot="reference"
+                             @click="getSimpleComplex('simpleComplexForm')">搜索
+                  </el-button>
+                </el-popover>
               </el-form-item>
             </el-form>
           </div>
 
           <div class="table2_col_div">
-            <el-form :inline="true" class="">
-              <el-form-item label="汉语字典" label-width="100px">
-                <el-input placeholder="请输入单个中文"></el-input>
+            <el-form :inline="true" :rules="rules" :model="chineseDictForm" ref="chineseDictForm">
+              <el-form-item label="汉语字典" label-width="100px" prop="dict">
+                <el-input v-model="chineseDictForm.dict" placeholder="请输入单个中文"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary">搜索</el-button>
+                <el-popover
+                  placement="left"
+                  width="560"
+                  trigger="manual"
+                  v-model="chineseDictVisible">
+                  <div>
+                    <el-card shadow="hover">
+                      <span>原内容：{{ chineseDictData.word }}</span>
+                    </el-card>
+                    <el-card shadow="hover">
+                      <span>繁体：{{ chineseDictData.traditional }}</span>
+                    </el-card>
+                    <el-card shadow="hover">
+                      <span>拼音：{{ chineseDictData.pinyin }}</span>
+                    </el-card>
+                    <el-card shadow="hover">
+                      <span>笔画数：{{ chineseDictData.strokes }}</span>
+                    </el-card>
+                    <el-card shadow="hover">
+                      <span>偏旁部首：{{ chineseDictData.radicals }}</span>
+                    </el-card>
+                    <el-card shadow="hover">
+                      <span>汉字释义：{{ chineseDictData.explanation }}</span>
+                    </el-card>
+                  </div>
+
+                  <el-button @click="close" icon="el-icon-close" circle plain size="mini"
+                             style="float: right"></el-button>
+                  <el-button v-loading="loading10" type="primary" slot="reference"
+                             @click="getChineseDict('chineseDictForm')">搜索
+                  </el-button>
+                </el-popover>
               </el-form-item>
             </el-form>
           </div>
@@ -371,7 +420,6 @@ export default {
       simpleComplexData: {},
       chineseDictData: {},
 
-
       //-------------input框数据-------------------
       idCardForm: {
         idCard: ''
@@ -395,7 +443,6 @@ export default {
         content: ''
       },
 
-
       //------------控制弹出显示隐藏-----------------
       holidayVisible: false,
       beautyPictureVisible: false,
@@ -408,7 +455,6 @@ export default {
       simpleComplexVisible: false,
       chineseDictVisible: false,
 
-
       //----------------遮罩层-------------------
       loading1: false,
       loading2: false,
@@ -420,7 +466,6 @@ export default {
       loading8: false,
       loading9: false,
       loading10: false,
-
 
       //---------------校验规则--------------------
       rules: {
@@ -438,9 +483,12 @@ export default {
         name: [
           {required: true, message: '请输入垃圾名称！！！', trigger: 'blur'},
         ],
+        dict: [
+          {required: true, message: '请输入简体中文！！！', trigger: 'blur'},
+          {min: 1, max: 1, message: '长度在 1 个字符', trigger: 'blur'}
+        ],
 
       },
-
 
       //----------------其他参数-------------------
       weather,
@@ -448,11 +496,50 @@ export default {
   },
 
   created() {
-
   }
   ,
 
   methods: {
+    //获取汉语字典信息
+    getChineseDict(chineseDictForm) {
+      this.$refs[chineseDictForm].validate((valid) => {
+        this.chineseDictData = {}
+        if (valid) {
+          this.loading10 = true
+          getChineseDict(this.chineseDictForm.dict).then(res => {
+            this.loading10 = false
+            this.chineseDictVisible = true
+            this.chineseDictData = res.data
+          }).catch(err => {
+            this.loading10 = false
+          })
+        } else {
+          return false
+        }
+      })
+    },
+
+
+    //获取简繁转换信息
+    getSimpleComplex(simpleComplexForm) {
+      this.$refs[simpleComplexForm].validate((valid) => {
+        this.simpleComplexData = {}
+        if (valid) {
+          this.loading9 = true
+          getSimpleComplex(this.simpleComplexForm.content).then(res => {
+            this.loading9 = false
+            this.simpleComplexVisible = true
+            this.simpleComplexData = res.data
+          }).catch(err => {
+            this.loading9 = false
+          })
+        } else {
+          return false
+        }
+      })
+    }
+    ,
+
     //获取垃圾分类信息
     getGarbageSorting(garbageSortingForm) {
       this.$refs[garbageSortingForm].validate((valid) => {
