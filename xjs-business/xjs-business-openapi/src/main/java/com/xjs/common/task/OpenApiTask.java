@@ -33,7 +33,7 @@ public class OpenApiTask {
     public void deleteRepeat() {
         int copyWritingCount = copyWritingService.deleteRepeatData();
         log.info("thread id:{},定时清除文案重复数据，重复数：{}", Thread.currentThread().getId(),copyWritingCount);
-        Integer integer = topSearchService.deleteRepeat();
+        Integer integer = topSearchService.deleteRepeatData();
         log.info("thread id:{},定时清除重复数据总数，重复数：{}", Thread.currentThread().getId(),integer);
 
     }

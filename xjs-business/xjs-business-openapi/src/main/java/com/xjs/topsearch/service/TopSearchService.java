@@ -21,7 +21,7 @@ public interface TopSearchService {
      * 删除重复数据
      * @return
      */
-    Integer deleteRepeat();
+    Integer deleteRepeatData();
 
 
     /**

@@ -11,6 +11,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -51,6 +52,16 @@ public class ApiTopSearchController {
         //把数据存入redis，十分钟过期
         redisService.setCacheObject(HOT,listHashMap,HOT_EXPIRE, TimeUnit.MINUTES);
         return AjaxResult.success(listHashMap);
+    }
+
+
+    @GetMapping("getHistoryTopSearch")
+    @ApiOperation("历史热搜榜接口")
+    @Log(title = "获取历史热搜榜")
+    @RequiresPermissions("openapi:topsearch:list")
+    public AjaxResult getHistoryTopSearchByDate(@RequestParam("date") String date) {
+        Map<String, List> data = topSearchService.getHistoryTopSearchByDate(date);
+        return AjaxResult.success(data);
     }
 
 

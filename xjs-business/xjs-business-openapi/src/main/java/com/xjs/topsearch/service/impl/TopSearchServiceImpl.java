@@ -68,7 +68,7 @@ public class TopSearchServiceImpl implements TopSearchService {
     }
 
     @Override
-    public Integer deleteRepeat() {
+    public Integer deleteRepeatData() {
         Integer allNetworkCount = apiTopsearchAllnetworkService.deleteRepeatData();
         log.info("thread id:{},清除全网热搜榜重复数据，重复数：{}", Thread.currentThread().getId(),allNetworkCount);
         Integer wechatCount = apiTopsearchWechatService.deleteRepeatData();
@@ -86,20 +86,26 @@ public class TopSearchServiceImpl implements TopSearchService {
     public Map<String, List> getHistoryTopSearchByDate(String date) {
         DateTime dateTime = DateUtil.parseDate(date);
         String dateStr = dateTime.toDateStr();
-
         String StartDate = dateStr + " 00:00:00";
         String EndDate = dateStr + " 23:59:59";
-
-        List<ApiTopsearchAllnetwork> allnetworkList = apiTopsearchAllnetworkService
-                .list(new QueryWrapper<ApiTopsearchAllnetwork>()
+        List<ApiTopsearchAllnetwork> allnetworkList = apiTopsearchAllnetworkService.list(new QueryWrapper<ApiTopsearchAllnetwork>()
                 .between("create_time", StartDate, EndDate));
-
-
-        // todo 热搜榜历史数据显示实现
+        List<ApiTopsearchWechat> wechatList = apiTopsearchWechatService.list(new QueryWrapper<ApiTopsearchWechat>()
+                .between("create_time", StartDate, EndDate));
+        List<ApiTopsearchBaidu> baiduList = apiTopsearchBaiduService.list(new QueryWrapper<ApiTopsearchBaidu>()
+                .between("create_time", StartDate, EndDate));
+        List<ApiTopsearchDouyin> douyinList = apiTopsearchDouyinService.list(new QueryWrapper<ApiTopsearchDouyin>()
+                .between("create_time", StartDate, EndDate));
+        List<ApiTopsearchWeibo> weiboList = apiTopsearchWeiboService.list(new QueryWrapper<ApiTopsearchWeibo>()
+                .between("create_time", StartDate, EndDate));
 
 
         HashMap<String, List> hashMap = new HashMap<>();
         hashMap.put("allnetworkList", allnetworkList);
+        hashMap.put("wechatList", wechatList);
+        hashMap.put("baiduList", baiduList);
+        hashMap.put("douyinList", douyinList);
+        hashMap.put("weiboList", weiboList);
         return hashMap;
     }
 }

@@ -7,3 +7,12 @@ export function getTopsearch() {
     method: 'get',
   })
 }
+
+//获取历史热搜榜
+export function getHistoryTopSearch(value) {
+  return request({
+    url: '/openapi/topsearch/getHistoryTopSearch',
+    method: 'get',
+    params: {date:value}
+  })
+}
