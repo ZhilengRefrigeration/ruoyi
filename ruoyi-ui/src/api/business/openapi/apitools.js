@@ -86,6 +86,14 @@ export function getChineseDict(content) {
   })
 }
 
+//获取ip信息
+export function getIpInfo(ip) {
+  return request({
+    url: '/openapi/apitools/ipinfo/'+ip,
+    method: 'get',
+  })
+}
+
 
 
 

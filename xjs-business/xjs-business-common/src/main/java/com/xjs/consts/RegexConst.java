@@ -22,4 +22,9 @@ public class RegexConst {
      * 15位身份证正则
      */
     public static final String IDCARD_15_REGEX = "^([1-6][1-9]|50)\\d{4}\\d{2}((0[1-9])|10|11|12)(([0-2][1-9])|10|20|30|31)\\d{3}$";
+
+    /**
+     * ip地址v4、v6正则
+     */
+    public static final String IP_REGEX ="^((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)$";
 }

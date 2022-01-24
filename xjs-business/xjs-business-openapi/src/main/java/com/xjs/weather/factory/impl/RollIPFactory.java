@@ -51,7 +51,7 @@ public class RollIPFactory implements IPFactory<IPInfoVo> {
             JSONObject data = jsonObject.getJSONObject("data");
             return data.toJavaObject(IPInfoVo.class);
         } else {
-            log.error("天行全网热搜服务调用成功，但返回异常");
+            log.error("roll 获取ip信息，返回异常（ip不合法）");
             if (redisService.hasKey(IP_INFO)) {
                 return (IPInfoVo) redisService.getCacheObject(IP_INFO);
             } else {

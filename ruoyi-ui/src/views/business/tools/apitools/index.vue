@@ -370,21 +370,37 @@
           </div>
 
           <div class="table2_col_div">
-            <el-form :inline="true" :rules="rules" :model="chineseDictForm" ref="chineseDictForm">
-              <el-form-item label="IP查询" label-width="100px" prop="dict">
-                <el-input v-model="chineseDictForm.dict" placeholder="请输入单个中文"></el-input>
+            <el-form :inline="true" :rules="rules" :model="ipInfoForm" ref="ipInfoForm">
+              <el-form-item label="IP查询" label-width="100px" prop="ip">
+                <el-input v-model="ipInfoForm.ip" placeholder="请输入单个中文"></el-input>
               </el-form-item>
               <el-form-item>
                 <el-popover
-                  placement="left"
-                  width="560"
+                  placement="bottom"
+                  width="360"
                   trigger="manual"
-                  v-model="chineseDictVisible">
-
+                  v-model="ipInfoVisible">
+                  <div>
+                    <el-card shadow="hover">
+                      <span>城市：{{ ipInfoData.city }}</span>
+                    </el-card>
+                    <el-card shadow="hover">
+                      <span>省份：{{ ipInfoData.province }}</span>
+                    </el-card>
+                    <el-card shadow="hover">
+                      <span>服务商：{{ ipInfoData.isp }}</span>
+                    </el-card>
+                    <el-card shadow="hover">
+                      <span>IP：{{ ipInfoData.ip }}</span>
+                    </el-card>
+                    <el-card shadow="hover">
+                      <span>描述：{{ ipInfoData.desc }}</span>
+                    </el-card>
+                  </div>
                   <el-button @click="close" icon="el-icon-close" circle plain size="mini"
                              style="float: right"></el-button>
-                  <el-button v-loading="loading10" type="primary" slot="reference"
-                             @click="getChineseDict('chineseDictForm')">搜索
+                  <el-button v-loading="loading11" type="primary" slot="reference"
+                             @click="getIpInfo('ipInfoForm')">搜索
                   </el-button>
                 </el-popover>
               </el-form-item>
@@ -410,7 +426,8 @@ import {
   getForecastWeather,
   getGarbageSorting,
   getSimpleComplex,
-  getChineseDict
+  getChineseDict,
+  getIpInfo
 } from "@/api/business/openapi/apitools";
 
 import weather from "@/assets/icons/weather/天气.png"
@@ -437,10 +454,9 @@ export default {
         goodsName: '-',
         goodsType: '-',
       }],
-
-
       simpleComplexData: {},
       chineseDictData: {},
+      ipInfoData: {},
 
       //-------------input框数据-------------------
       idCardForm: {
@@ -464,6 +480,9 @@ export default {
       chineseDictForm: {
         content: ''
       },
+      ipInfoForm: {
+        ip: ''
+      },
 
       //------------控制弹出显示隐藏-----------------
       holidayVisible: false,
@@ -476,6 +495,7 @@ export default {
       garbageSortingVisible: false,
       simpleComplexVisible: false,
       chineseDictVisible: false,
+      ipInfoVisible: false,
 
       //----------------遮罩层-------------------
       loading1: false,
@@ -488,6 +508,7 @@ export default {
       loading8: false,
       loading9: false,
       loading10: false,
+      loading11: false,
 
       //---------------校验规则--------------------
       rules: {
@@ -505,12 +526,16 @@ export default {
         name: [
           {required: true, message: '请输入垃圾名称！！！', trigger: 'blur'},
         ],
-        content:[
+        content: [
           {required: true, message: '请输入垃圾名称！！！', trigger: 'blur'},
         ],
         dict: [
           {required: true, message: '请输入简体中文！！！', trigger: 'blur'},
           {min: 1, max: 1, message: '长度在 1 个字符', trigger: 'blur'}
+        ],
+        ip: [
+          {required: true, message: '请输入IP地址！！！', trigger: 'blur'},
+          {required: true, validator: this.validatorIp, trigger: 'blur'},
         ],
 
       },
@@ -525,6 +550,25 @@ export default {
   ,
 
   methods: {
+    //获取Ip信息
+    getIpInfo(ipInfoForm) {
+      this.$refs[ipInfoForm].validate((valid) => {
+        this.ipInfoData = {}
+        if (valid) {
+          this.loading11 = true
+          getIpInfo(this.ipInfoForm.ip).then(res => {
+            this.loading11 = false
+            this.ipInfoVisible = true
+            this.ipInfoData = res.data
+          }).catch(err => {
+            this.loading11 = false
+          })
+        } else {
+          return false
+        }
+      })
+    },
+
     //获取汉语字典信息
     getChineseDict(chineseDictForm) {
       this.$refs[chineseDictForm].validate((valid) => {
@@ -652,6 +696,17 @@ export default {
       }
     },
 
+    validatorIp(rule, value, callback) {
+      const reg = /^((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)$/
+      if (!value) {
+        return callback(new Error('ip地址不能为空'))
+      } else if (!reg.test(value)) {
+        return callback(new Error('ip地址不正确'))
+      } else {
+        callback()
+      }
+    },
+
     //关闭窗口
     close() {
       this.mobileBelongVisible = false;
@@ -664,6 +719,7 @@ export default {
       this.garbageSortingVisible = false;
       this.simpleComplexVisible = false;
       this.chineseDictVisible = false;
+      this.ipInfoVisible = false
     },
 
     //获取手机归属地信息

@@ -130,7 +130,6 @@ public class ApiToolsController {
         }
     }
 
-
     @GetMapping("idcardquery/{idcard}")
     @ApiOperation("获取身份证信息")
     @Log(title = "获取身份证信息")
@@ -149,7 +148,11 @@ public class ApiToolsController {
     @Log(title = "获取IP")
     @RequiresPermissions("open:apitools:ipinfo")
     public R<IPInfoVo> getIPApiData(@PathVariable("ip")String ip) {
-        return R.ok(ipService.getIPApiData(ip));
+        boolean matches = Pattern.matches(IP_REGEX, ip);
+        if (matches) {
+            return R.ok(ipService.getIPApiData(ip));
+        }
+        return R.fail("请输入正确的IP地址");
     }
 
 }
