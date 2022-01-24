@@ -1,5 +1,8 @@
 package com.xjs.topsearch.service.impl;
 
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xjs.topsearch.domain.*;
 import com.xjs.topsearch.factory.TopserachFactory;
 import com.xjs.topsearch.service.*;
@@ -77,5 +80,26 @@ public class TopSearchServiceImpl implements TopSearchService {
         Integer weiboCount = apiTopsearchWeiboService.deleteRepeatData();
         log.info("thread id:{},清除微博热搜榜重复数据，重复数：{}", Thread.currentThread().getId(),weiboCount);
         return allNetworkCount+wechatCount+baiduCount+douyinCount+weiboCount;
+    }
+
+    @Override
+    public Map<String, List> getHistoryTopSearchByDate(String date) {
+        DateTime dateTime = DateUtil.parseDate(date);
+        String dateStr = dateTime.toDateStr();
+
+        String StartDate = dateStr + " 00:00:00";
+        String EndDate = dateStr + " 23:59:59";
+
+        List<ApiTopsearchAllnetwork> allnetworkList = apiTopsearchAllnetworkService
+                .list(new QueryWrapper<ApiTopsearchAllnetwork>()
+                .between("create_time", StartDate, EndDate));
+
+
+        // todo 热搜榜历史数据显示实现
+
+
+        HashMap<String, List> hashMap = new HashMap<>();
+        hashMap.put("allnetworkList", allnetworkList);
+        return hashMap;
     }
 }

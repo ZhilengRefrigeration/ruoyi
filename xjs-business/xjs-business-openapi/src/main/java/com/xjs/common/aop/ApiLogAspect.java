@@ -5,6 +5,7 @@ import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.core.domain.R;
 import com.xjs.annotation.ApiLog;
 import com.xjs.business.log.RemoteLogFeign;
@@ -30,6 +31,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
 import static com.xjs.consts.ApiWarnHandleConst.NO;
 
 /**
@@ -70,8 +72,13 @@ public class ApiLogAspect {
             LocalDateTime localDateTime2 = DateUtil.date().toLocalDateTime();
             long between = ChronoUnit.MILLIS.between(localDateTime1, localDateTime2);
             log.info("调用接口耗费时间:{}ms", between);
-            //执行预警切入逻辑
-            warning(between, joinPoint);
+            //执行预警切入逻辑（降级不预警）
+            if (obj instanceof JSONObject) {
+                JSONObject jsonObject = (JSONObject) obj;
+                if (!jsonObject.containsKey(DEMOTE_ERROR)) {
+                    warning(between, joinPoint);
+                }
+            }
             return obj;
         } catch (Throwable e) {
             e.printStackTrace();

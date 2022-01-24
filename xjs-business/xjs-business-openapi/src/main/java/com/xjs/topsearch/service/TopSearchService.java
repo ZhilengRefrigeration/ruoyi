@@ -24,4 +24,12 @@ public interface TopSearchService {
     Integer deleteRepeat();
 
 
+    /**
+     * 根据日期获取历史热搜数据
+     * @param date 日期
+     * @return 热搜数据
+     */
+    Map<String, List> getHistoryTopSearchByDate(String date);
+
+
 }
