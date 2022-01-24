@@ -15,7 +15,6 @@
             <el-form label-width="80px" label-position="right">
               <el-form-item label="节假日" label-width="80px">
                 <el-popover
-                  v-loading="loading1"
                   placement="bottom"
                   width="400"
                   trigger="manual"
@@ -31,6 +30,7 @@
                   <el-button @click="close" icon="el-icon-close" circle plain size="mini"
                              style="float: right"></el-button>
                   <el-button type="primary"
+                             v-loading="loading1"
                              v-hasPermi="['open:apitools:holiday']"
                              icon="el-icon-search"
                              size="mini"
@@ -48,7 +48,6 @@
               <el-form-item label="MM图片" label-width="80px">
 
                 <el-popover
-                  v-loading="loading2"
                   placement="bottom"
                   width="988"
                   trigger="manual"
@@ -60,7 +59,8 @@
                   </el-image>
                   <el-button @click="close" icon="el-icon-close" circle plain size="mini"
                              style="float: right"></el-button>
-                  <el-button type="primary" icon="el-icon-search" size="mini" @click="getBeautyPicture()"
+                  <el-button v-loading="loading2" type="primary" icon="el-icon-search" size="mini"
+                             @click="getBeautyPicture()"
                              slot="reference">搜索
                   </el-button>
                 </el-popover>
@@ -74,7 +74,6 @@
               <el-form-item label="历史今天" label-width="80px">
 
                 <el-popover
-                  v-loading="loading3"
                   placement="right"
                   width="400"
                   trigger="manual"
@@ -92,7 +91,8 @@
                   </div>
                   <el-button @click="close" icon="el-icon-close" circle plain size="mini"
                              style="float: right"></el-button>
-                  <el-button type="primary" icon="el-icon-search" @click="getHistoryToday()" size="mini"
+                  <el-button v-loading="loading3" type="primary" icon="el-icon-search" @click="getHistoryToday()"
+                             size="mini"
                              slot="reference">搜索
                   </el-button>
 
@@ -132,7 +132,9 @@
                 </el-card>
                 <el-button @click="close" icon="el-icon-close" circle plain size="mini"
                            style="float: right"></el-button>
-                <el-button type="primary" @click="getIdCardQuery('idCardForm')" slot="reference">搜索</el-button>
+                <el-button v-loading="loading4" type="primary" @click="getIdCardQuery('idCardForm')" slot="reference">
+                  搜索
+                </el-button>
               </el-popover>
             </el-form-item>
           </el-form>
@@ -200,7 +202,9 @@
                   </div>
                   <el-button @click="close" icon="el-icon-close" circle plain size="mini"
                              style="float: right"></el-button>
-                  <el-button type="primary" slot="reference" @click="getNowWeather('nowWeatherForm')">搜索</el-button>
+                  <el-button v-loading="loading6" type="primary" slot="reference"
+                             @click="getNowWeather('nowWeatherForm')">搜索
+                  </el-button>
                 </el-popover>
               </el-form-item>
             </el-form>
@@ -252,7 +256,7 @@
                   </div>
                   <el-button @click="close" icon="el-icon-close" circle plain size="mini"
                              style="float: right"></el-button>
-                  <el-button type="primary" slot="reference"
+                  <el-button v-loading="loading7" type="primary" slot="reference"
                              @click="getForecastWeather('forecastWeatherForm')">搜索
                   </el-button>
                 </el-popover>
@@ -261,12 +265,35 @@
           </div>
 
           <div class="table2_col_div">
-            <el-form :inline="true" class="">
-              <el-form-item label="垃圾分类" label-width="100px">
-                <el-input placeholder="请输入垃圾名称"></el-input>
+            <el-form :inline="true" :rules="rules" :model="garbageSortingForm" ref="garbageSortingForm">
+              <el-form-item label="垃圾分类" label-width="100px" prop="name">
+                <el-input v-model="garbageSortingForm.name" placeholder="请输入垃圾名称"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary">搜索</el-button>
+                <el-popover
+                  placement="bottom"
+                  width="350"
+                  trigger="manual"
+                  v-model="garbageSortingVisible">
+                  <div v-loading="loading8">
+                    <el-card shadow="hover">
+                      <span>名称：{{ aim.goodsName }}</span>
+                      <el-divider direction="vertical"></el-divider>
+                      <span>类型：{{ aim.goodsType }}</span>
+                    </el-card>
+                    <el-divider content-position="center">推荐</el-divider>
+                    <el-card shadow="hover" v-for="data in recommendList">
+                      <span>名称：{{ data.goodsName }}</span>
+                      <el-divider direction="vertical"></el-divider>
+                      <span>类型：{{ data.goodsType }}</span>
+                    </el-card>
+                  </div>
+                  <el-button @click="close" icon="el-icon-close" circle plain size="mini"
+                             style="float: right"></el-button>
+                  <el-button v-loading="loading8" type="primary" slot="reference"
+                             @click="getGarbageSorting('garbageSortingForm')">搜索
+                  </el-button>
+                </el-popover>
               </el-form-item>
             </el-form>
           </div>
@@ -310,6 +337,9 @@ import {
   getMobileBelong,
   getNowWeather,
   getForecastWeather,
+  getGarbageSorting,
+  getSimpleComplex,
+  getChineseDict
 } from "@/api/business/openapi/apitools";
 
 import weather from "@/assets/icons/weather/天气.png"
@@ -328,6 +358,18 @@ export default {
       mobileBelongData: {},
       nowWeatherData: {},
       forecastWeatherData: {},
+      aim: {
+        goodsName: '-',
+        goodsType: '-',
+      },
+      recommendList: [{
+        goodsName: '-',
+        goodsType: '-',
+      }],
+
+
+      simpleComplexData: {},
+      chineseDictData: {},
 
 
       //-------------input框数据-------------------
@@ -343,6 +385,15 @@ export default {
       forecastWeatherForm: {
         city: ''
       },
+      garbageSortingForm: {
+        name: ''
+      },
+      simpleComplexForm: {
+        content: ''
+      },
+      chineseDictForm: {
+        content: ''
+      },
 
 
       //------------控制弹出显示隐藏-----------------
@@ -353,6 +404,9 @@ export default {
       mobileBelongVisible: false,
       nowWeatherVisible: false,
       forecastWeatherVisible: false,
+      garbageSortingVisible: false,
+      simpleComplexVisible: false,
+      chineseDictVisible: false,
 
 
       //----------------遮罩层-------------------
@@ -380,7 +434,10 @@ export default {
         ],
         city: [
           {required: true, message: '请输入地名！！！', trigger: 'blur'},
-        ]
+        ],
+        name: [
+          {required: true, message: '请输入垃圾名称！！！', trigger: 'blur'},
+        ],
 
       },
 
@@ -396,6 +453,32 @@ export default {
   ,
 
   methods: {
+    //获取垃圾分类信息
+    getGarbageSorting(garbageSortingForm) {
+      this.$refs[garbageSortingForm].validate((valid) => {
+        this.aim = {}
+        this.recommendList = []
+        if (valid) {
+          this.loading8 = true
+          getGarbageSorting(this.garbageSortingForm.name).then(res => {
+            this.loading8 = false
+            this.garbageSortingVisible = true
+            if (res.data.aim !== null) {
+              this.aim = res.data.aim;
+            }
+            if (res.data.recommendList !== null) {
+              this.recommendList = res.data.recommendList;
+            }
+          }).catch(err => {
+            this.loading8 = false
+          })
+        } else {
+          return false
+        }
+      })
+    },
+
+
     //获取预报天气信息
     getForecastWeather(forecastWeatherForm) {
       this.$refs[forecastWeatherForm].validate((valid) => {
@@ -413,8 +496,6 @@ export default {
           return false
         }
       })
-
-
     },
 
     //获取实时天气信息
@@ -468,6 +549,9 @@ export default {
       this.holidayVisible = false;
       this.nowWeatherVisible = false;
       this.forecastWeatherVisible = false;
+      this.garbageSortingVisible = false;
+      this.simpleComplexVisible = false;
+      this.chineseDictVisible = false;
     },
 
     //获取手机归属地信息

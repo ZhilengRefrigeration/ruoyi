@@ -62,5 +62,33 @@ export function getForecastWeather(city) {
   })
 }
 
+//获取垃圾分类信息
+export function getGarbageSorting(name) {
+  return request({
+    url: '/openapi/apitools/garbagesorting/'+name,
+    method: 'get',
+  })
+}
+
+//获取简繁转换信息
+export function getSimpleComplex(content) {
+  return request({
+    url: '/openapi/apitools/simplecomplex/'+content,
+    method: 'get',
+  })
+}
+
+//获取汉语字典信息
+export function getChineseDict(content) {
+  return request({
+    url: '/openapi/apitools/chinesedict/'+content,
+    method: 'get',
+  })
+}
+
+
+
+
+
 
 

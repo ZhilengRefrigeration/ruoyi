@@ -130,7 +130,7 @@ public class ApiConst {
     /**
      * 接口文档：https://www.mxnzp.com/doc/detail?id=14
      */
-    public static final String ROLL_GARBAGE_SORTING_URL = "http://www.mxnzp.com/api/rubbish/type";
+    public static final String ROLL_GARBAGE_SORTING_URL = "https://www.mxnzp.com/api/rubbish/type";
 
     /**
      * 接口文档：https://www.mxnzp.com/doc/detail?id=15

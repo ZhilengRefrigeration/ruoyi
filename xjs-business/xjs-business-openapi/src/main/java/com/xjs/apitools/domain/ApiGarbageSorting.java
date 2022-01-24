@@ -3,6 +3,7 @@ package com.xjs.apitools.domain;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,7 +26,7 @@ public class ApiGarbageSorting implements Serializable {
     /**
      * 物品垃圾分类类型
      */
-    private Map<String, String> recommendList;
+    private List<Map<String, String>> recommendList;
 
 
 

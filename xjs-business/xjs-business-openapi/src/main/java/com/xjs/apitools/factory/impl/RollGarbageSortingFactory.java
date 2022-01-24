@@ -15,6 +15,7 @@ import static com.xjs.consts.ApiConst.*;
 
 /**
  * roll平台获取垃圾分类api工厂实现
+ *
  * @author xiejs
  * @since 2022-01-19
  */
@@ -36,7 +37,7 @@ public class RollGarbageSortingFactory implements ApiToolsFactory<ApiGarbageSort
         if (!jsonObject.containsKey(DEMOTE_ERROR) && jsonObject.getInteger("code") == ROLL_CODE_SUCCESS.intValue()) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
             return jsonData.toJavaObject(ApiGarbageSorting.class);
-        } else if (jsonObject.getInteger("code") == ROLL_CODE_ERROR.intValue()) {
+        } else if (jsonObject.containsKey("code") && jsonObject.getInteger("code") == ROLL_CODE_ERROR.intValue()) {
             throw new ApiException("未搜索到相关物品垃圾分类信息，该关键词已上报，感谢您的使用");
         }
         return null;

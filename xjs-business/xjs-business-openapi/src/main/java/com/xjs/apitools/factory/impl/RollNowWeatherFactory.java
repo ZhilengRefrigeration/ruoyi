@@ -15,6 +15,7 @@ import static com.xjs.consts.ApiConst.*;
 
 /**
  * roll天气预报api工厂实现
+ *
  * @author xiejs
  * @since 2022-01-18
  */
@@ -36,7 +37,7 @@ public class RollNowWeatherFactory implements ApiToolsFactory<ApiNowWeather, Req
         if (!jsonObject.containsKey(DEMOTE_ERROR) && jsonObject.getInteger("code") == ROLL_CODE_SUCCESS.intValue()) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
             return jsonData.toJavaObject(ApiNowWeather.class);
-        }else if (jsonObject.getInteger("code") == ROLL_CODE_ERROR.intValue()) {
+        } else if (jsonObject.containsKey("code") && jsonObject.getInteger("code") == ROLL_CODE_ERROR.intValue()) {
             throw new ApiException("未找到对应城市，请检查后重试");
         }
         return null;
