@@ -49,7 +49,7 @@ class TianXingOneEnglishFactoryTest {
 
     @Test
     void ip() {
-        IPInfoVo ipInfoVo = speedTestIPFactory.IpApi();
+        IPInfoVo ipInfoVo = speedTestIPFactory.ipApi();
         System.out.println(ipInfoVo.toString());
     }
 

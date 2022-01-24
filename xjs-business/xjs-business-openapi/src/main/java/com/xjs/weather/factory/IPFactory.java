@@ -11,6 +11,13 @@ public interface IPFactory<T> {
      * 获取ip工厂方法
      * @return T
      */
-    T IpApi();
+    T ipApi();
+
+    /**
+     * 获取ip工厂方法
+     * @param ip ip
+     * @return T
+     */
+    T ipApi(String ip);
 
 }

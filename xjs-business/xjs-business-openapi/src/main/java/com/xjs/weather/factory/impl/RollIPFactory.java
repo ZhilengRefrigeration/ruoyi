@@ -35,9 +35,14 @@ public class RollIPFactory implements IPFactory<IPInfoVo> {
     private RedisService redisService;
 
     @Override
-    public IPInfoVo IpApi() {
-        RequestBody requestBody = new RequestBody();
+    public IPInfoVo ipApi() {
         String ip = Optional.ofNullable(IPUtils.getV4IP()).orElse(LOCAL_IP);
+        return ipApi(ip);
+    }
+
+    @Override
+    public IPInfoVo ipApi(String ip) {
+        RequestBody requestBody = new RequestBody();
         requestBody.setIp(ip);
         requestBody.setApp_id(rollProperties.getApp_id());
         requestBody.setApp_secret(rollProperties.getApp_secret());

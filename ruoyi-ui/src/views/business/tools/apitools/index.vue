@@ -368,6 +368,28 @@
               </el-form-item>
             </el-form>
           </div>
+
+          <div class="table2_col_div">
+            <el-form :inline="true" :rules="rules" :model="chineseDictForm" ref="chineseDictForm">
+              <el-form-item label="IP查询" label-width="100px" prop="dict">
+                <el-input v-model="chineseDictForm.dict" placeholder="请输入单个中文"></el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-popover
+                  placement="left"
+                  width="560"
+                  trigger="manual"
+                  v-model="chineseDictVisible">
+
+                  <el-button @click="close" icon="el-icon-close" circle plain size="mini"
+                             style="float: right"></el-button>
+                  <el-button v-loading="loading10" type="primary" slot="reference"
+                             @click="getChineseDict('chineseDictForm')">搜索
+                  </el-button>
+                </el-popover>
+              </el-form-item>
+            </el-form>
+          </div>
         </div>
       </el-col>
     </el-row>
@@ -481,6 +503,9 @@ export default {
           {required: true, message: '请输入地名！！！', trigger: 'blur'},
         ],
         name: [
+          {required: true, message: '请输入垃圾名称！！！', trigger: 'blur'},
+        ],
+        content:[
           {required: true, message: '请输入垃圾名称！！！', trigger: 'blur'},
         ],
         dict: [

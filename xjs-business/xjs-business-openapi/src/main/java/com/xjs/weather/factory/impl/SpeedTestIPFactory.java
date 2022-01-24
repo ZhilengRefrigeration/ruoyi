@@ -25,7 +25,7 @@ public class SpeedTestIPFactory implements IPFactory<IPInfoVo> {
 
     @Override
     @Deprecated
-    public IPInfoVo IpApi() {
+    public IPInfoVo ipApi() {
         String v4IP = IPUtils.getV4IP();
         String ip = Optional.ofNullable(v4IP).orElse(LOCAL_IP);
         JSONObject jsonObject = speedTestIPFeignClient.IpApi(ip);
@@ -39,6 +39,11 @@ public class SpeedTestIPFactory implements IPFactory<IPInfoVo> {
             System.out.println("json!!!"+data.toJSONString());
             return ipInfoVo;
         }
+        return null;
+    }
+
+    @Override
+    public IPInfoVo ipApi(String ip) {
         return null;
     }
 }

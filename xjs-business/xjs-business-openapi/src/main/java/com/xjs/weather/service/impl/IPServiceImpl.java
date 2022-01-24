@@ -16,6 +16,7 @@ import static com.xjs.consts.RedisConst.IP_INFO_EXPIRE;
 
 /**
  * ip api服务实现
+ *
  * @author xiejs
  * @since 2022-01-15
  */
@@ -31,14 +32,19 @@ public class IPServiceImpl implements IPService {
     public IPInfoVo getIPApiData() {
         if (redisService.hasKey(IP_INFO)) {
             return (IPInfoVo) redisService.getCacheObject(IP_INFO);
-        }else {
-            IPInfoVo ipInfoVo = rollIPFactory.IpApi();
+        } else {
+            IPInfoVo ipInfoVo = rollIPFactory.ipApi();
             if (Objects.nonNull(ipInfoVo)) {
                 redisService.setCacheObject(IP_INFO, ipInfoVo, IP_INFO_EXPIRE, TimeUnit.MINUTES);
                 return ipInfoVo;
-            }else {
+            } else {
                 throw new ApiException("获取IP信息异常！！");
             }
         }
+    }
+
+    @Override
+    public IPInfoVo getIPApiData(String ip) {
+        return rollIPFactory.ipApi(ip);
     }
 }

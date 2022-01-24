@@ -15,4 +15,12 @@ public interface IPService {
      */
     IPInfoVo getIPApiData();
 
+
+    /**
+     * 获取IP的数据
+     * @param ip ip
+     * @return IPInfoVo
+     */
+    IPInfoVo getIPApiData(String ip);
+
 }

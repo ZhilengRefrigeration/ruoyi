@@ -149,7 +149,7 @@ public class ApiToolsController {
     @Log(title = "获取IP")
     @RequiresPermissions("open:apitools:ipinfo")
     public R<IPInfoVo> getIPApiData(@PathVariable("ip")String ip) {
-        return R.ok(ipService.getIPApiData());
+        return R.ok(ipService.getIPApiData(ip));
     }
 
 }
