@@ -9,6 +9,7 @@ import com.ruoyi.file.utils.FileUploadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -17,12 +18,13 @@ import java.util.Date;
 
 /**
  * 阿里云oss文件上传实现
+ *
  * @author xiejs
  * @since 2022-01-25
  */
 @Service
 @Primary
-public class AliyunOssFileServiceImpl implements ISysFileService{
+public class AliyunOssFileServiceImpl implements ISysFileService {
 
 
     @Autowired
@@ -30,6 +32,7 @@ public class AliyunOssFileServiceImpl implements ISysFileService{
 
     @Override
     public String uploadFile(MultipartFile file) throws Exception {
+        Assert.notNull(file, "file is null");
         try {
             String endpoint = aliyunOssProperties.getEndpoint();
             String keyId = aliyunOssProperties.getKeyId();
@@ -42,13 +45,13 @@ public class AliyunOssFileServiceImpl implements ISysFileService{
             //获取文件后缀
             String extension = FileUploadUtils.getExtension(file);
             //获取文件名称
-            String fileName = getDataTime()+"."+extension;
+            String fileName = getDataTime() + "." + extension;
             //执行文件上传         bucket名称  文件名称  文件流
-            ossClient.putObject(bucketName,fileName,is);
+            ossClient.putObject(bucketName, fileName, is);
             //关闭ossClient
             ossClient.shutdown();
             //拼接文件地址
-            return "https://"+bucketName+"."+endpoint+"/"+fileName;
+            return "https://" + bucketName + "." + endpoint + "/" + fileName;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -57,13 +60,14 @@ public class AliyunOssFileServiceImpl implements ISysFileService{
 
     /**
      * 生成一个当前日期文件名
-     * @return
+     *
+     * @return 文件名
      */
-    private String getDataTime(){
+    private String getDataTime() {
         String today = DateUtil.format(new Date(), "yyyy-MM");
         String time = DateUtil.formatDateTime(new Date());
-        int random = RandomUtil.randomInt(1000, 10000);
+        int random = RandomUtil.randomInt(100, 10000);
         //防止同一时间生成文件名重复
-        return today+"/"+time+"-"+random;
+        return today + "/" + time + "-" + random;
     }
 }

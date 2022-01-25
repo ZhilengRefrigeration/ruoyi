@@ -25,11 +25,11 @@ import java.util.List;
 public interface RemoteWarningCRUDFeign {
 
     @PostMapping("apiwarning")
-    public R<ApiRecord> saveApiRecordForRPC(@RequestBody ApiRecord apiRecord);
+    R<ApiRecord> saveApiRecordForRPC(@RequestBody ApiRecord apiRecord);
 
 
     @PutMapping("apiwarning")
-    public R<ApiRecord> updateApiRecordForRPC(@RequestBody ApiRecord apiRecord);
+    R<ApiRecord> updateApiRecordForRPC(@RequestBody ApiRecord apiRecord);
 
     @GetMapping("apiwarning")
     R<List<ApiRecord>> selectApiRecordListForRPC(@SpringQueryMap ApiRecord apiRecord);
@@ -38,6 +38,9 @@ public interface RemoteWarningCRUDFeign {
     R<ApiWarning> saveApiWarningForRPC(@RequestBody ApiWarning apiWarning);
 
     @GetMapping("apiwarning/getApiNameForRPC")
-    public R<List<String>> getApiName();
+    R<List<String>> getApiName();
+
+    @GetMapping("apistatistics")
+    R<List<ApiRecord>> selectApiRecordListForRPC();
 
 }

@@ -59,8 +59,12 @@
                   </el-image>
                   <el-button @click="close" icon="el-icon-close" circle plain size="mini"
                              style="float: right"></el-button>
-                  <el-button v-loading="loading2" type="primary" icon="el-icon-search" size="mini"
+                  <el-button v-loading="loading2"
+                             type="primary"
+                             icon="el-icon-search"
+                             size="mini"
                              @click="getBeautyPicture()"
+                             v-hasPermi="['open:apitools:beautypicture']"
                              slot="reference">搜索
                   </el-button>
                 </el-popover>
@@ -91,8 +95,12 @@
                   </div>
                   <el-button @click="close" icon="el-icon-close" circle plain size="mini"
                              style="float: right"></el-button>
-                  <el-button v-loading="loading3" type="primary" icon="el-icon-search" @click="getHistoryToday()"
+                  <el-button v-loading="loading3"
+                             type="primary"
+                             icon="el-icon-search"
+                             @click="getHistoryToday()"
                              size="mini"
+                             v-hasPermi="['open:apitools:historytoday']"
                              slot="reference">搜索
                   </el-button>
 
@@ -132,7 +140,10 @@
                 </el-card>
                 <el-button @click="close" icon="el-icon-close" circle plain size="mini"
                            style="float: right"></el-button>
-                <el-button v-loading="loading4" type="primary" @click="getIdCardQuery('idCardForm')" slot="reference">
+                <el-button v-loading="loading4" type="primary"
+                           @click="getIdCardQuery('idCardForm')"
+                           v-hasPermi="['open:apitools:idcardquery']"
+                           slot="reference">
                   搜索
                 </el-button>
               </el-popover>
@@ -170,7 +181,11 @@
                   </div>
                   <el-button @click="close" icon="el-icon-close" circle plain size="mini"
                              style="float: right"></el-button>
-                  <el-button type="primary" slot="reference" @click="getMobileBelong('mobileBelongForm')">搜索</el-button>
+                  <el-button type="primary"
+                             slot="reference"
+                             v-hasPermi="['open:apitools:mobilebelong']"
+                             @click="getMobileBelong('mobileBelongForm')">搜索
+                  </el-button>
                 </el-popover>
               </el-form-item>
             </el-form>
@@ -202,7 +217,10 @@
                   </div>
                   <el-button @click="close" icon="el-icon-close" circle plain size="mini"
                              style="float: right"></el-button>
-                  <el-button v-loading="loading6" type="primary" slot="reference"
+                  <el-button v-loading="loading6"
+                             type="primary"
+                             slot="reference"
+                             v-hasPermi="['open:apitools:nowweather']"
                              @click="getNowWeather('nowWeatherForm')">搜索
                   </el-button>
                 </el-popover>
@@ -256,7 +274,10 @@
                   </div>
                   <el-button @click="close" icon="el-icon-close" circle plain size="mini"
                              style="float: right"></el-button>
-                  <el-button v-loading="loading7" type="primary" slot="reference"
+                  <el-button v-loading="loading7"
+                             type="primary"
+                             slot="reference"
+                             v-hasPermi="['open:apitools:forecastweather']"
                              @click="getForecastWeather('forecastWeatherForm')">搜索
                   </el-button>
                 </el-popover>
@@ -290,7 +311,10 @@
                   </div>
                   <el-button @click="close" icon="el-icon-close" circle plain size="mini"
                              style="float: right"></el-button>
-                  <el-button v-loading="loading8" type="primary" slot="reference"
+                  <el-button v-loading="loading8"
+                             type="primary"
+                             slot="reference"
+                             v-hasPermi="['open:apitools:garbagesorting']"
                              @click="getGarbageSorting('garbageSortingForm')">搜索
                   </el-button>
                 </el-popover>
@@ -319,7 +343,10 @@
                   </div>
                   <el-button @click="close" icon="el-icon-close" circle plain size="mini"
                              style="float: right"></el-button>
-                  <el-button v-loading="loading9" type="primary" slot="reference"
+                  <el-button v-loading="loading9"
+                             type="primary"
+                             slot="reference"
+                             v-hasPermi="['open:apitools:simplecomplex']"
                              @click="getSimpleComplex('simpleComplexForm')">搜索
                   </el-button>
                 </el-popover>
@@ -361,7 +388,10 @@
 
                   <el-button @click="close" icon="el-icon-close" circle plain size="mini"
                              style="float: right"></el-button>
-                  <el-button v-loading="loading10" type="primary" slot="reference"
+                  <el-button v-loading="loading10"
+                             type="primary"
+                             slot="reference"
+                             v-hasPermi="['open:apitools:chinesedict']"
                              @click="getChineseDict('chineseDictForm')">搜索
                   </el-button>
                 </el-popover>
@@ -399,7 +429,10 @@
                   </div>
                   <el-button @click="close" icon="el-icon-close" circle plain size="mini"
                              style="float: right"></el-button>
-                  <el-button v-loading="loading11" type="primary" slot="reference"
+                  <el-button v-loading="loading11"
+                             type="primary"
+                             slot="reference"
+                             v-hasPermi="['open:apitools:ipinfo']"
                              @click="getIpInfo('ipInfoForm')">搜索
                   </el-button>
                 </el-popover>
