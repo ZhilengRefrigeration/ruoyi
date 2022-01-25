@@ -5,7 +5,6 @@ import com.ruoyi.file.config.FtpProperties;
 import com.ruoyi.file.utils.FileUploadUtils;
 import com.ruoyi.file.utils.FtpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +17,6 @@ import java.util.UUID;
  * @since 2022-01-24
  */
 @Service
-@Primary
 public class FtpSysFileServiceImpl implements ISysFileService{
 
     @Autowired
