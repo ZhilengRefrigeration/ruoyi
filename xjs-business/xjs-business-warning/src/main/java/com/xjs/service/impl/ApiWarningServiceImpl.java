@@ -53,8 +53,7 @@ public class ApiWarningServiceImpl extends ServiceImpl<ApiWarningMapper, ApiWarn
     public List<ApiRecord> selectApiRecordListByUrl(ApiRecord apiRecord) {
         return apiRecordMapper
                 .selectList(new QueryWrapper<ApiRecord>()
-                        .eq(StringUtils.isNotEmpty(apiRecord.getApiName()),"api_name", apiRecord.getApiName())
-                        .eq(StringUtils.isNotEmpty(apiRecord.getApiUrl()),"api_url", apiRecord.getApiUrl()));
+                        .eq(StringUtils.isNotEmpty(apiRecord.getApiName()),"api_name", apiRecord.getApiName()));
     }
 
     @Override
