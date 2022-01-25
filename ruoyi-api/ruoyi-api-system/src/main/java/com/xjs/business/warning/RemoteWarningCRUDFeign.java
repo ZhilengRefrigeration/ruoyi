@@ -1,5 +1,6 @@
 package com.xjs.business.warning;
 
+import com.alibaba.fastjson.JSONArray;
 import com.ruoyi.common.core.constant.ServiceNameConstants;
 import com.ruoyi.common.core.domain.R;
 import com.xjs.business.warning.domain.ApiRecord;
@@ -24,23 +25,26 @@ import java.util.List;
         fallbackFactory = RemoteWarningCRUDFactory.class)
 public interface RemoteWarningCRUDFeign {
 
-    @PostMapping("apiwarning")
+    @PostMapping("/apiwarning")
     R<ApiRecord> saveApiRecordForRPC(@RequestBody ApiRecord apiRecord);
 
 
-    @PutMapping("apiwarning")
+    @PutMapping("/apiwarning")
     R<ApiRecord> updateApiRecordForRPC(@RequestBody ApiRecord apiRecord);
 
-    @GetMapping("apiwarning")
+    @GetMapping("/apiwarning")
     R<List<ApiRecord>> selectApiRecordListForRPC(@SpringQueryMap ApiRecord apiRecord);
 
-    @PostMapping("apiwarning/saveApiwarningForRPC")
+    @PostMapping("/apiwarning/saveApiwarningForRPC")
     R<ApiWarning> saveApiWarningForRPC(@RequestBody ApiWarning apiWarning);
 
-    @GetMapping("apiwarning/getApiNameForRPC")
+    @GetMapping("/apiwarning/getApiNameForRPC")
     R<List<String>> getApiName();
 
-    @GetMapping("apistatistics")
+    @GetMapping("/apistatistics/")
     R<List<ApiRecord>> selectApiRecordListForRPC();
+
+    @GetMapping("/apiwarning/findRecordListForRPC")
+    R<JSONArray> findRecordListForRPC();
 
 }

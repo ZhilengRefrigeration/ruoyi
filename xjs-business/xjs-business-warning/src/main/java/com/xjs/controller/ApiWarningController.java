@@ -1,5 +1,6 @@
 package com.xjs.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ruoyi.common.core.domain.R;
@@ -45,54 +46,6 @@ public class ApiWarningController extends BaseController {
     private RedisService redisService;
 
     /**
-     * 远程保存 apiRecord
-     *
-     * @param apiRecord api记录
-     * @return apiRecord
-     */
-    @PostMapping
-    @ApiOperation("远程保存预警信息")
-    public R<ApiRecord> saveApiRecordForRPC(@RequestBody ApiRecord apiRecord) {
-        return apiWarningService.saveApiRecord(apiRecord) ? R.ok() : R.fail();
-    }
-
-    /**
-     * 远程修改
-     *
-     * @param apiRecord api记录
-     * @return ApiRecord
-     */
-    @PutMapping
-    @ApiOperation("远程修改预警信息")
-    public R<ApiRecord> updateApiRecordForRPC(@RequestBody ApiRecord apiRecord) {
-        return apiWarningService.updateApiRecordByUrl(apiRecord) ? R.ok() : R.fail();
-    }
-
-    /**
-     * 远程查询api记录信息
-     *
-     * @param apiRecord
-     * @return R<List < ApiRecord>>
-     */
-    @GetMapping
-    @ApiOperation("远程查询预警信息")
-    public R<List<ApiRecord>> selectApiRecordListForRPC(ApiRecord apiRecord) {
-        List<ApiRecord> apiRecords = apiWarningService.selectApiRecordListByUrl(apiRecord);
-        return R.ok(apiRecords);
-    }
-
-    /**
-     * 远程获取所有Api名称
-     * @return api名称
-     */
-    @GetMapping("getApiNameForRPC")
-    @ApiOperation("远程获取所有Api名称")
-    public R<List<String>> getApiName() {
-        List<String> apiNameList = apiWarningService.getApiName();
-        return R.ok(apiNameList);
-    }
-
-    /**
      * 处理预警单个预警
      * @param id 预警id
      * @return R
@@ -107,46 +60,6 @@ public class ApiWarningController extends BaseController {
         apiWarning.setHandle(YES);
         return apiWarningService.updateById(apiWarning)?R.ok():R.fail();
     }
-
-    /**
-     * 远程保存api预警信息并websocket推送
-     *
-     * @param apiWarning 预警实体类
-     * @return R
-     */
-    @PostMapping("saveApiwarningForRPC")
-    @Transactional
-    @ApiOperation("远程保存api预警信息并websocket推送")
-    public R<ApiWarning> saveApiWarningForRPC(@RequestBody ApiWarning apiWarning) {
-        boolean save = apiWarningService.save(apiWarning);
-
-        this.websocketPush(apiWarning);
-
-        return save ? R.ok() : R.fail();
-    }
-
-    /**
-     *  websocket推送
-     */
-    private void websocketPush(ApiWarning apiWarning) {
-        long count = apiWarningService.count(new QueryWrapper<ApiWarning>().eq("handle",NO));
-        Set<String> cacheSet = redisService.getCacheSet(WEBSOCKET);
-        JSONObject jsonData =new JSONObject();
-        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(apiWarning);
-        //把id设置成字符串防止前端精度丢失
-        jsonObject.put("id", apiWarning.getId().toString());
-        jsonData.put("count", count);
-        jsonData.put("data", jsonObject.toJSONString());
-        jsonData.put("socketType", "apiWarning");
-        for (String userId : cacheSet) {
-            try {
-                WebSocketServer.sendInfo(jsonData.toString(),userId);
-            } catch (IOException e) {
-                logger.error(e.getMessage());
-            }
-        }
-    }
-
 
     /**
      * 查询api预警列表
@@ -193,6 +106,108 @@ public class ApiWarningController extends BaseController {
         Integer integer = apiWarningService.AllHaveRead();
         return integer > 0 ? R.ok(integer) : R.fail();
     }
+
+
+    //--------------------内部调用rpc-----------------------------------
+
+    /**
+     * 远程保存 apiRecord
+     *
+     * @param apiRecord api记录
+     * @return apiRecord
+     */
+    @PostMapping
+    @ApiOperation("远程保存预警信息")
+    public R<ApiRecord> saveApiRecordForRPC(@RequestBody ApiRecord apiRecord) {
+        return apiWarningService.saveApiRecord(apiRecord) ? R.ok() : R.fail();
+    }
+
+    /**
+     * 远程修改
+     *
+     * @param apiRecord api记录
+     * @return ApiRecord
+     */
+    @PutMapping
+    @ApiOperation("远程修改预警信息")
+    public R<ApiRecord> updateApiRecordForRPC(@RequestBody ApiRecord apiRecord) {
+        return apiWarningService.updateApiRecordByUrl(apiRecord) ? R.ok() : R.fail();
+    }
+
+    /**
+     * 远程查询api记录信息
+     *
+     * @param apiRecord
+     * @return R<List < ApiRecord>>
+     */
+    @GetMapping
+    @ApiOperation("远程查询预警信息")
+    public R<List<ApiRecord>> selectApiRecordListForRPC(ApiRecord apiRecord) {
+        List<ApiRecord> apiRecords = apiWarningService.selectApiRecordListByUrl(apiRecord);
+        return R.ok(apiRecords);
+    }
+
+    @GetMapping("findRecordListForRPC")
+    @ApiOperation("远程查询预警信息")
+    public R<JSONArray> findRecordListForRPC() {
+        List<ApiRecord> apiRecordList = apiWarningService.selectApiRecordList(new ApiRecord());
+        JSONArray jo= (JSONArray) JSONArray.toJSON(apiRecordList);
+        return R.ok(jo);
+    }
+
+    /**
+     * 远程获取所有Api名称
+     * @return api名称
+     */
+    @GetMapping("getApiNameForRPC")
+    @ApiOperation("远程获取所有Api名称")
+    public R<List<String>> getApiName() {
+        List<String> apiNameList = apiWarningService.getApiName();
+        return R.ok(apiNameList);
+    }
+
+
+
+    /**
+     * 远程保存api预警信息并websocket推送
+     *
+     * @param apiWarning 预警实体类
+     * @return R
+     */
+    @PostMapping("saveApiwarningForRPC")
+    @Transactional
+    @ApiOperation("远程保存api预警信息并websocket推送")
+    public R<ApiWarning> saveApiWarningForRPC(@RequestBody ApiWarning apiWarning) {
+        boolean save = apiWarningService.save(apiWarning);
+
+        this.websocketPush(apiWarning);
+
+        return save ? R.ok() : R.fail();
+    }
+
+    /**
+     *  websocket推送
+     */
+    private void websocketPush(ApiWarning apiWarning) {
+        long count = apiWarningService.count(new QueryWrapper<ApiWarning>().eq("handle",NO));
+        Set<String> cacheSet = redisService.getCacheSet(WEBSOCKET);
+        JSONObject jsonData =new JSONObject();
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(apiWarning);
+        //把id设置成字符串防止前端精度丢失
+        jsonObject.put("id", apiWarning.getId().toString());
+        jsonData.put("count", count);
+        jsonData.put("data", jsonObject.toJSONString());
+        jsonData.put("socketType", "apiWarning");
+        for (String userId : cacheSet) {
+            try {
+                WebSocketServer.sendInfo(jsonData.toString(),userId);
+            } catch (IOException e) {
+                logger.error(e.getMessage());
+            }
+        }
+    }
+
+
 
 
     //-------------------------代码生成------------------------------------

@@ -1,5 +1,6 @@
 package com.xjs.business.warning.factory;
 
+import com.alibaba.fastjson.JSONArray;
 import com.ruoyi.common.core.domain.R;
 import com.xjs.business.warning.RemoteWarningCRUDFeign;
 import com.xjs.business.warning.domain.ApiRecord;
@@ -57,6 +58,12 @@ public class RemoteWarningCRUDFactory implements FallbackFactory<RemoteWarningCR
             @Override
             public R<List<ApiRecord>> selectApiRecordListForRPC() {
                 log.error("调用预警服务api统计查询所有api接口失败，执行降级处理----");
+                return R.fail();
+            }
+
+            @Override
+            public R<JSONArray> findRecordListForRPC() {
+                log.error("调用预警服务api预警查询所有api接口失败，执行降级处理----");
                 return R.fail();
             }
         };

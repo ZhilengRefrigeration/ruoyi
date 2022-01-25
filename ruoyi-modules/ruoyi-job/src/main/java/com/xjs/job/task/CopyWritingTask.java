@@ -35,7 +35,7 @@ public class CopyWritingTask {
         log.info("文案定时任务结果:code={},msg={},data={}",r.getCode(),r.getMsg(),r.getData());
         LocalDateTime localDateTime2 = DateUtil.date().toLocalDateTime();
         long between = ChronoUnit.MILLIS.between(localDateTime1, localDateTime2);
-        log.info("Job耗费时间:{}ms", between);
+        log.info("文案定时任务Job耗费时间:{}ms", between);
         log.info("---------------文案定时任务end---------------------");
     }
 }

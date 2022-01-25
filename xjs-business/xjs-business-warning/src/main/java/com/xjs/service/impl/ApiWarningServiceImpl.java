@@ -2,6 +2,7 @@ package com.xjs.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ruoyi.common.core.utils.StringUtils;
 import com.xjs.domain.ApiRecord;
 import com.xjs.domain.ApiWarning;
 import com.xjs.exception.BusinessException;
@@ -51,8 +52,9 @@ public class ApiWarningServiceImpl extends ServiceImpl<ApiWarningMapper, ApiWarn
     @Override
     public List<ApiRecord> selectApiRecordListByUrl(ApiRecord apiRecord) {
         return apiRecordMapper
-                .selectList(new QueryWrapper<ApiRecord>().eq("api_name", apiRecord.getApiName())
-                        .eq("api_name", apiRecord.getApiName()));
+                .selectList(new QueryWrapper<ApiRecord>()
+                        .eq(StringUtils.isNotEmpty(apiRecord.getApiName()),"api_name", apiRecord.getApiName())
+                        .eq(StringUtils.isNotEmpty(apiRecord.getApiUrl()),"api_url", apiRecord.getApiUrl()));
     }
 
     @Override
