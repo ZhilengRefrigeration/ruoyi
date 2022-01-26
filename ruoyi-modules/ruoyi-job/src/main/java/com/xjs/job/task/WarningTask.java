@@ -45,7 +45,7 @@ public class WarningTask {
         });
         LocalDateTime localDateTime2 = DateUtil.date().toLocalDateTime();
         long between = ChronoUnit.MILLIS.between(localDateTime1, localDateTime2);
-        log.info("文案定时任务Job耗费时间:{}ms", between);
+        log.info("预警次数初始化定时任务Job耗费时间:{}ms", between);
         log.info("---------------预警次数初始化定时任务end---------------------");
     }
 

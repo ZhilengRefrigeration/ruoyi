@@ -16,6 +16,7 @@ import com.xjs.copywriting.factory.CopyWritingFactory;
 import com.xjs.copywriting.service.CopyWritingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("copyWriting")
 @Api(tags = "业务模块-文案管理")
+@Log4j2
 public class CopyWritingController extends BaseController {
 
     @Autowired
@@ -66,6 +68,11 @@ public class CopyWritingController extends BaseController {
     public R<CopyWriting> copyWriting() {
         CopyWritingFactory copyWritingFactory = this.randomApi();
         CopyWriting copyWriting = this.handlerException(copyWritingFactory, new RequestBody());
+
+        //清理重复内容
+        int i = copyWritingService.deleteRepeatData();
+        log.info("清理文案重复数："+i);
+
         return R.ok(copyWriting);
     }
 

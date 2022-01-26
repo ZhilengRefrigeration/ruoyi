@@ -11,7 +11,7 @@ import java.util.Map;
 public interface TopSearchService {
 
     /**
-     * 获取所有热搜
+     * 获取所有热搜(内含插入)
      * @return
      */
     Map<String, List> getAllTopSearch();

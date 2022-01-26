@@ -1,5 +1,6 @@
 package com.xjs.topsearch.controller;
 
+import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.redis.service.RedisService;
@@ -62,6 +63,15 @@ public class ApiTopSearchController {
     public AjaxResult getHistoryTopSearchByDate(@RequestParam("date") String date) {
         Map<String, List> data = topSearchService.getHistoryTopSearchByDate(date);
         return AjaxResult.success(data);
+    }
+
+
+    //-----------------------内部远程调用rpc-------------------------------------
+    @GetMapping("getTopsearchForRPC")
+    @ApiOperation("内部远程调用热搜榜接口")
+    public R<Map<String, List>> topSearchForRPC() {
+        Map<String, List> map = topSearchService.getAllTopSearch();
+        return R.ok(map);
     }
 
 
