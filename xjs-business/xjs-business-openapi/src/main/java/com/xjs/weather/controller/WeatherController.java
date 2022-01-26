@@ -15,9 +15,11 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -56,11 +58,21 @@ public class WeatherController {
 
 
     @GetMapping("getWeatherForRPC")
-    @ApiOperation("远程调用获取天气信息ForRPC")
+    @ApiOperation("远程调用获取天气信息")
     public R getWeatherForRPC() {
         NowWeather nowWeather = weatherService.save();
         return Objects.nonNull(nowWeather.getCity()) ? R.ok() : R.fail();
     }
+
+    @GetMapping("getHistoryWeatherForRPC")
+    @ApiOperation("远程调用获取历史天气信息")
+    public R<Map<String, List>> getHistoryWeatherForRPC(@RequestParam("startDate")String startDate,
+                                     @RequestParam("endDate")String endDate) {
+        Map<String, List> map =  weatherService.getHistoryWeather(startDate,endDate);
+        return R.ok(map);
+    }
+
+
 
 
     /**

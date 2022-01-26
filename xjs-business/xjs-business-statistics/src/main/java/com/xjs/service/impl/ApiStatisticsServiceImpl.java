@@ -18,6 +18,7 @@ import java.util.Map;
  * @since 2022-01-25
  */
 @Service
+@SuppressWarnings("all")
 public class ApiStatisticsServiceImpl implements ApiStatisticsService {
 
     @Autowired

@@ -9,14 +9,13 @@ import com.xjs.weather.domain.NowWeather;
 import com.xjs.weather.factory.WeatherFactory;
 import com.xjs.weather.mapper.NowWeatherMapper;
 import com.xjs.weather.service.WeatherService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static com.xjs.consts.RedisConst.*;
@@ -78,6 +77,25 @@ public class WeatherServiceImpl implements WeatherService {
         }
     }
 
+    @Override
+    public Map<String, List> getHistoryWeather(String startDate, String endDate) {
+        List<NowWeather> weatherList = nowWeatherMapper.selectList(new QueryWrapper<NowWeather>()
+                .between("create_time", startDate, endDate));
+
+        ArrayList<String> dateTime = new ArrayList<>();
+        ArrayList<String> temperature = new ArrayList<>();
+        weatherList.forEach(weather ->{
+            dateTime.add(DateUtil.format(weather.getReporttime(),"MM-dd HH"));
+            temperature.add(weather.getTemperature());
+        });
+
+        Map<String, List> listMap = new HashMap<>();
+        listMap.put("reportTime", dateTime);
+        listMap.put("temperature", temperature);
+
+        return listMap;
+    }
+
 
     /**
      * 校验当前天气数据数据库是否存在
@@ -89,6 +107,7 @@ public class WeatherServiceImpl implements WeatherService {
         String dateTime = DateUtil.formatDateTime(reporttime);
         NowWeather selectOne = nowWeatherMapper.selectOne(new QueryWrapper<NowWeather>().eq("reporttime", dateTime));
         if (Objects.isNull(selectOne)) {
+            if(StringUtils.isNotBlank(nowWeather.getTemperature()))
             nowWeatherMapper.insert(nowWeather);
         }
     }

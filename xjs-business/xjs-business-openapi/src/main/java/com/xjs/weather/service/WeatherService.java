@@ -3,6 +3,9 @@ package com.xjs.weather.service;
 import com.xjs.weather.domain.ForecastWeather;
 import com.xjs.weather.domain.NowWeather;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 天气服务
  * @author xiejs
@@ -29,4 +32,11 @@ public interface WeatherService {
     ForecastWeather cacheForecastWeather();
 
 
+    /**
+     * 获取历史天气
+     * @param startDate 开始时间
+     * @param endDate 结束时间
+     * @return key: value:
+     */
+    Map<String, List> getHistoryWeather(String startDate, String endDate);
 }
