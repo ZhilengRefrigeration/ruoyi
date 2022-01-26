@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div v-loading="loading"
+       element-loading-text="拼命加载中"
+       element-loading-spinner="el-icon-loading"
+       element-loading-background="rgba(0, 0, 0, 0.8)">
 
     <div ref="historyChart" style="height: 400px;width: 100%;margin-top: 25px">
 
@@ -33,6 +36,9 @@ export default {
     return {
       historyApiData: {},
       todayApiData: {},
+
+      //遮罩层
+      loading: false,
     }
   },
 
@@ -93,7 +99,7 @@ export default {
         },
         yAxis: {
           splitNumber: 10,
-          max:80,
+          max:60,
         },
         series: [{
           name: '次数',
@@ -106,7 +112,9 @@ export default {
 
     //查询API历史记录统计
     getStatisticsHistoryApi() {
+      this.loading=true
       getStatisticsHistoryApi().then(res => {
+        this.loading=false
         this.historyApiData = res.data
         this.initHistory()
       })

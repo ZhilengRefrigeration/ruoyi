@@ -45,6 +45,9 @@ public class ApiTopSearchController {
     @Log(title = "获取热搜榜")
     @RequiresPermissions("openapi:topsearch:list")
     public AjaxResult topSearch() {
+        //清理重复数据
+        topSearchService.deleteRepeatData();
+
         if (redisService.hasKey(HOT)) {
             Map<String, List> cacheObject = redisService.getCacheObject(HOT);
             return AjaxResult.success(cacheObject);
@@ -70,6 +73,8 @@ public class ApiTopSearchController {
     @GetMapping("getTopsearchForRPC")
     @ApiOperation("内部远程调用热搜榜接口")
     public R<Map<String, List>> topSearchForRPC() {
+        //清理重复数据
+        topSearchService.deleteRepeatData();
         Map<String, List> map = topSearchService.getAllTopSearch();
         return R.ok(map);
     }

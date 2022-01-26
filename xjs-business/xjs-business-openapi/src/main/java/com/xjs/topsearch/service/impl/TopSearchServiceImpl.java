@@ -64,10 +64,6 @@ public class TopSearchServiceImpl implements TopSearchService {
         listHashMap.put("baiduList", baiduList);
         listHashMap.put("weiboList", weiboList);
         listHashMap.put("douyinList", douyinList);
-
-        //清理重复数据
-        this.deleteRepeatData();
-
         return listHashMap;
     }
 
