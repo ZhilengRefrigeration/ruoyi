@@ -26,4 +26,7 @@ public interface RemoteWeatherFeign {
     @GetMapping("/weather/getHistoryWeatherForRPC")
     R<Map<String, List>> getHistoryWeatherForRPC(@RequestParam("startDate")String startDate,
                                                  @RequestParam("endDate")String endDate);
+
+    @GetMapping("/weather/getFutureWeatherForRPC")
+    R<Map<String, List<String>>> getFutureWeatherForRPC();
 }

@@ -56,6 +56,7 @@ public class WeatherController {
         return AjaxResult.success(forecastWeather);
     }
 
+    //----------------------内部远程调用rpc----------------------------
 
     @GetMapping("getWeatherForRPC")
     @ApiOperation("远程调用获取天气信息")
@@ -69,6 +70,13 @@ public class WeatherController {
     public R<Map<String, List>> getHistoryWeatherForRPC(@RequestParam("startDate")String startDate,
                                      @RequestParam("endDate")String endDate) {
         Map<String, List> map =  weatherService.getHistoryWeather(startDate,endDate);
+        return R.ok(map);
+    }
+
+    @GetMapping("getFutureWeatherForRPC")
+    @ApiOperation("远程调用获取未来天气信息")
+    R<Map<String, List<String>>> getFutureWeatherForRPC() {
+        Map<String, List<String>> map =  weatherService.getFutureWeather();
         return R.ok(map);
     }
 

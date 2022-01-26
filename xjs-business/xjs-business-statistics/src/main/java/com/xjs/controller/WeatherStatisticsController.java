@@ -36,4 +36,12 @@ public class WeatherStatisticsController {
         return AjaxResult.success(map);
     }
 
+    @GetMapping("future")
+    @ApiOperation("统计未来天气")
+    @RequiresPermissions("statistics:weatherstatistics:list")
+    public AjaxResult futureWeather() {
+        Map<String, List<String>> map = weatherStatisticsService.futureWeather();
+        return AjaxResult.success(map);
+    }
+
 }

@@ -112,9 +112,7 @@ export default {
 
     //查询API历史记录统计
     getStatisticsHistoryApi() {
-      this.loading=true
       getStatisticsHistoryApi().then(res => {
-        this.loading=false
         this.historyApiData = res.data
         this.initHistory()
       })
@@ -122,9 +120,13 @@ export default {
 
     //查询API当天记录统计
     getStatisticsTodayApi() {
+      this.loading=true
       getStatisticsTodayApi().then(res => {
+        this.loading=false
         this.todayApiData = res.data
         this.initToday()
+      }).catch(err =>{
+        this.loading=false
       })
     },
 

@@ -28,16 +28,16 @@
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
-    <div ref="historyChart" style="height: 280px;width: 100%;"></div>
+    <div ref="historyChart" style="height:350px;width: 100%;"></div>
 
-    <div ref="futureChart" style="height: 400px;width: 100%"></div>
+    <div ref="futureChart" style="height: 350px;width: 100%;margin-top: 20px"></div>
 
   </div>
 </template>
 
 <script>
 
-import {getHistoryWeather} from "@/api/business/statistics/weatherstatistics";
+import {getHistoryWeather, getFutureWeather} from "@/api/business/statistics/weatherstatistics";
 
 // 引入 ECharts 主模块
 var echarts = require('echarts/lib/echarts');
@@ -52,6 +52,7 @@ export default {
   data() {
     return {
       historyWeatherData: {},
+      futureWeatherData: {},
 
       historyWeatherParams: {
         startDate: null,
@@ -70,10 +71,10 @@ export default {
           onClick(picker) {
             const end = new Date();
             const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 );
+            start.setTime(start.getTime() - 3600 * 1000 * 24);
             picker.$emit('pick', [start, end]);
           }
-        },{
+        }, {
           text: '最近一周',
           onClick(picker) {
             const end = new Date();
@@ -104,6 +105,7 @@ export default {
 
   created() {
     this.getHistoryWeather()
+    this.getFutureWeather()
   },
 
 
@@ -126,7 +128,10 @@ export default {
           data: this.historyWeatherData.reportTime,
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          axisLabel: {
+            formatter: '{value} °C'
+          }
         },
         series: [
           {
@@ -139,22 +144,117 @@ export default {
 
     },
 
+    initFuture() {
+      let futureChart = echarts.init(this.$refs.futureChart)
+      futureChart.setOption({
+        title: {
+          text: '预报天气（单位℃）',
+          textStyle: {
+            color: '#541264',
+            fontWeight: '1000',
+            align: 'center',
+          },
+          left: "center",
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {},
+        toolbox: {
+          show: true,
+          feature: {
+            dataZoom: {
+              yAxisIndex: 'none'
+            },
+            dataView: {readOnly: false},
+            magicType: {type: ['line', 'bar']},
+            restore: {},
+            saveAsImage: {}
+          }
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: this.futureWeatherData.dateWeek
+        },
+        yAxis: {
+          type: 'value',
+          axisLabel: {
+            formatter: '{value} °C'
+          }
+        },
+        series: [
+          {
+            name: '最高温度',
+            type: 'line',
+            data: this.futureWeatherData.maxTemperature,
+            markPoint: {
+              data: [
+                {type: 'max', name: 'Max'},
+                {type: 'min', name: 'Min'}
+              ]
+            },
+            markLine: {
+              data: [{type: 'average', name: 'Avg'}]
+            }
+          },
+          {
+            name: '最低温度',
+            type: 'line',
+            data: this.futureWeatherData.minTemperature,
+            markPoint: {
+              data: [{name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}]
+            },
+            markLine: {
+              data: [
+                {type: 'average', name: 'Avg'},
+                [
+                  {
+                    symbol: 'none',
+                    x: '90%',
+                    yAxis: 'max'
+                  },
+                  {
+                    symbol: 'circle',
+                    label: {
+                      position: 'start',
+                      formatter: 'Max'
+                    },
+                    type: 'max',
+                    name: '最高点'
+                  }
+                ]
+              ]
+            }
+          }
+        ]
+      })
+    },
+
+    //获取未来天气
+    getFutureWeather() {
+      this.loading = true
+      getFutureWeather().then(res => {
+        this.loading = false
+        this.futureWeatherData = res.data
+        this.initFuture()
+      }).catch(err => {
+        this.loading = false
+      })
+    },
 
     //获取历史天气
     getHistoryWeather() {
-      this.loading = true
       if (null != this.daterangeCreateTime && '' != this.daterangeCreateTime) {
         this.historyWeatherParams.startDate = this.daterangeCreateTime[0];
         this.historyWeatherParams.endDate = this.daterangeCreateTime[1];
       }
       getHistoryWeather(this.historyWeatherParams).then(res => {
-        this.loading = false
         this.historyWeatherData = res.data;
         this.initHistory()
-      }).catch(err => {
       })
-      this.loading = false
     },
+
 
     /** 搜索按钮操作 */
     handleQuery() {
@@ -167,7 +267,6 @@ export default {
       this.historyWeatherParams.endDate = null
       this.handleQuery();
     },
-
 
   },
 

@@ -31,7 +31,12 @@ public class RemoteWeatherFactory implements FallbackFactory<RemoteWeatherFeign>
 
             @Override
             public R<Map<String, List>> getHistoryWeatherForRPC(String startDate, String endDate) {
-                return R.fail("获取统计天气服务调用失败" + cause.getMessage());
+                return R.fail("获取统计历史天气服务调用失败" + cause.getMessage());
+            }
+
+            @Override
+            public R<Map<String, List<String>>> getFutureWeatherForRPC() {
+                return R.fail("获取统计未来天气服务调用失败" + cause.getMessage());
             }
         };
 

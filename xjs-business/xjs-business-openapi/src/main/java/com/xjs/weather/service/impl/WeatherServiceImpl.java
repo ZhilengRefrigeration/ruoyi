@@ -1,13 +1,17 @@
 package com.xjs.weather.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ruoyi.common.redis.service.RedisService;
+import com.xjs.exception.ApiException;
 import com.xjs.exception.BusinessException;
 import com.xjs.weather.domain.ForecastWeather;
+import com.xjs.weather.domain.IPInfoVo;
 import com.xjs.weather.domain.NowWeather;
 import com.xjs.weather.factory.WeatherFactory;
 import com.xjs.weather.mapper.NowWeatherMapper;
+import com.xjs.weather.service.IPService;
 import com.xjs.weather.service.WeatherService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +41,8 @@ public class WeatherServiceImpl implements WeatherService {
     private NowWeatherMapper nowWeatherMapper;
     @Autowired
     private RedisService redisService;
+    @Autowired
+    private IPService ipService;
 
 
     @Override
@@ -72,20 +78,29 @@ public class WeatherServiceImpl implements WeatherService {
         if (Objects.nonNull(forecastWeather)) {
             redisService.setCacheObject(FORECAST_WEATHER, forecastWeather, FORECAST_WHEATHER_EXPIRE, TimeUnit.MINUTES);
             return forecastWeather;
-        }else {
+        } else {
             throw new BusinessException("获取预报天气数据为空");
         }
     }
 
     @Override
     public Map<String, List> getHistoryWeather(String startDate, String endDate) {
+        IPInfoVo ipApiData = null;
+        String city = "";
+        try {
+            ipApiData = ipService.getIPApiData();
+            city = ipApiData.getCity();
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
         List<NowWeather> weatherList = nowWeatherMapper.selectList(new QueryWrapper<NowWeather>()
+                .likeRight(Objects.nonNull(ipApiData), "city", city)
                 .between("create_time", startDate, endDate));
 
         ArrayList<String> dateTime = new ArrayList<>();
         ArrayList<String> temperature = new ArrayList<>();
-        weatherList.forEach(weather ->{
-            dateTime.add(DateUtil.format(weather.getReporttime(),"MM-dd HH"));
+        weatherList.forEach(weather -> {
+            dateTime.add(DateUtil.format(weather.getReporttime(), "MM-dd HH"));
             temperature.add(weather.getTemperature());
         });
 
@@ -93,6 +108,28 @@ public class WeatherServiceImpl implements WeatherService {
         listMap.put("reportTime", dateTime);
         listMap.put("temperature", temperature);
 
+        return listMap;
+    }
+
+    @Override
+    public Map<String, List<String>> getFutureWeather() {
+        ForecastWeather forecastWeather = this.cacheForecastWeather();
+        ArrayList<String> date = new ArrayList<>();
+        ArrayList<String> week = new ArrayList<>();
+        ArrayList<String> minTemperature = new ArrayList<>();
+        ArrayList<String> maxTemperature = new ArrayList<>();
+
+        forecastWeather.getCasts().forEach(casts -> {
+            date.add(casts.getDate());
+            week.add(casts.getWeek());
+            minTemperature.add(casts.getNighttemp());
+            maxTemperature.add(casts.getDaytemp());
+        });
+        Map<String, List<String>> listMap = new HashMap<>();
+        listMap.put("date", date);
+        listMap.put("week", week);
+        listMap.put("minTemperature", minTemperature);
+        listMap.put("maxTemperature", maxTemperature);
         return listMap;
     }
 
@@ -105,10 +142,10 @@ public class WeatherServiceImpl implements WeatherService {
     private void checkExistSave(NowWeather nowWeather) {
         Date reporttime = nowWeather.getReporttime();
         String dateTime = DateUtil.formatDateTime(reporttime);
-        NowWeather selectOne = nowWeatherMapper.selectOne(new QueryWrapper<NowWeather>().eq("reporttime", dateTime));
-        if (Objects.isNull(selectOne)) {
-            if(StringUtils.isNotBlank(nowWeather.getTemperature()))
-            nowWeatherMapper.insert(nowWeather);
+        List<NowWeather> nowWeatherList = nowWeatherMapper.selectList(new QueryWrapper<NowWeather>().eq("reporttime", dateTime));
+        if (CollUtil.isEmpty(nowWeatherList)) {
+            if (StringUtils.isNotBlank(nowWeather.getTemperature()))
+                nowWeatherMapper.insert(nowWeather);
         }
     }
 

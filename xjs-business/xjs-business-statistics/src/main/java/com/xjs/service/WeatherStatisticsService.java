@@ -18,4 +18,10 @@ public interface WeatherStatisticsService {
      */
     Map<String, List> historyWeather(String startDate, String endDate);
 
+    /**
+     * 获取未来天气
+     * @return map
+     */
+    Map<String, List<String>> futureWeather();
+
 }

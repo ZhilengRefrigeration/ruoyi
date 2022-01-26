@@ -39,4 +39,10 @@ public interface WeatherService {
      * @return key: value:
      */
     Map<String, List> getHistoryWeather(String startDate, String endDate);
+
+    /**
+     * 获取未来天气
+     * @return
+     */
+    Map<String, List<String>> getFutureWeather();
 }

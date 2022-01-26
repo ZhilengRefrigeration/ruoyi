@@ -8,3 +8,11 @@ export function getHistoryWeather(params) {
     params: params,
   })
 }
+
+//查询未来天气统计
+export function getFutureWeather() {
+  return request({
+    url: '/statistics/weatherstatistics/future',
+    method: 'get',
+  })
+}
