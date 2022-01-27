@@ -42,7 +42,7 @@
 var echarts = require('echarts/lib/echarts');
 require('echarts/lib/component/tooltip');
 require('echarts/lib/chart/gauge');
-
+require('echarts/lib/component/title');
 
 export default {
   name: "Index",
@@ -51,6 +51,7 @@ export default {
   },
 
   created() {
+
   },
 
   mounted() {
@@ -62,10 +63,20 @@ export default {
     initRenderers() {
       var myDate = new Date();
       var s = myDate.getSeconds();
+      let time = myDate.toLocaleTimeString();
       let renderersChart = echarts.init(this.$refs.renderersChart.$el)
       renderersChart.setOption({
         tooltip: {
           formatter: '单位：{a} <br/>当前 : {c}s'
+        },
+        title: {
+          text: time,
+          textStyle:{
+            color: '#541264',
+            fontWeight:'1000',
+            align:'center',
+          },
+          left:"center",
         },
         series: [
           {
@@ -93,14 +104,19 @@ export default {
 
       //定时获取秒数定时执行
       setInterval(function () {
-        var myDate = new Date();
-        var s = myDate.getSeconds();
+        let myDate = new Date();
+        let s = myDate.getSeconds();
+        let time = myDate.toLocaleTimeString();
         renderersChart.setOption({
+          title: {
+            text: time,
+          },
           series: [
             {
               data: [
                 {
-                  value: s
+                  value: s,
+                  name: '单位：秒',
                 }
               ]
             },
