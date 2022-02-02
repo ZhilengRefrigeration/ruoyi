@@ -100,13 +100,23 @@ public class WeatherServiceImpl implements WeatherService {
         ArrayList<String> dateTime = new ArrayList<>();
         ArrayList<String> temperature = new ArrayList<>();
         weatherList.forEach(weather -> {
-            dateTime.add(DateUtil.format(weather.getReporttime(), "MM-dd HH"));
+            String today = DateUtil.today();
+            if (StringUtils.contains(startDate, today) && StringUtils.contains(endDate,today)) {
+                dateTime.add(DateUtil.format(weather.getReporttime(), "HH:mm"));
+            } else {
+                dateTime.add(DateUtil.format(weather.getReporttime(), "MM-dd"));
+
+            }
             temperature.add(weather.getTemperature());
         });
 
         Map<String, List> listMap = new HashMap<>();
         listMap.put("reportTime", dateTime);
         listMap.put("temperature", temperature);
+
+        ArrayList<String> cityList = new ArrayList<>();
+        cityList.add(city);
+        listMap.put("city", cityList);
 
         return listMap;
     }
@@ -130,6 +140,10 @@ public class WeatherServiceImpl implements WeatherService {
         listMap.put("week", week);
         listMap.put("minTemperature", minTemperature);
         listMap.put("maxTemperature", maxTemperature);
+        ArrayList<String> cityList = new ArrayList<>();
+        cityList.add(forecastWeather.getCity());
+        listMap.put("city", cityList);
+
         return listMap;
     }
 

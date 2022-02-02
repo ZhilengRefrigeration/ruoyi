@@ -114,7 +114,7 @@ export default {
       let historyChart = echarts.init(this.$refs.historyChart)
       historyChart.setOption({
         title: {
-          text: '天气（单位℃）',
+          text: '天气(单位℃)'+'-'+this.historyWeatherData.city[0],
           textStyle: {
             color: '#541264',
             fontWeight: '1000',
@@ -148,7 +148,7 @@ export default {
       let futureChart = echarts.init(this.$refs.futureChart)
       futureChart.setOption({
         title: {
-          text: '预报天气（单位℃）',
+          text: '预报天气(单位℃)'+'-'+this.futureWeatherData.city[0],
           textStyle: {
             color: '#541264',
             fontWeight: '1000',

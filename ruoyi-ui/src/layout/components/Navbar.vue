@@ -275,7 +275,7 @@ export default {
 
 <style lang="scss" scoped>
 .weather {
-  width: 125px;
+  width: 126px;
   margin-right: 2px;
   cursor: pointer;
 }
