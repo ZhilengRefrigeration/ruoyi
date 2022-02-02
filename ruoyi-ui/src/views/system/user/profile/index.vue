@@ -32,6 +32,10 @@
                 <div class="pull-right">{{ roleGroup }}</div>
               </li>
               <li class="list-group-item">
+                <svg-icon icon-class="peoples" />登录次数
+                <div class="pull-right">{{ user.loginCount }}次</div>
+              </li>
+              <li class="list-group-item">
                 <svg-icon icon-class="date" />创建日期
                 <div class="pull-right">{{ user.createTime }}</div>
               </li>

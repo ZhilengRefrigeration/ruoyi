@@ -104,7 +104,7 @@ public class WeatherServiceImpl implements WeatherService {
             if (StringUtils.contains(startDate, today) && StringUtils.contains(endDate,today)) {
                 dateTime.add(DateUtil.format(weather.getReporttime(), "HH:mm"));
             } else {
-                dateTime.add(DateUtil.format(weather.getReporttime(), "MM-dd"));
+                dateTime.add(DateUtil.format(weather.getReporttime(), "MM-dd HH:mm"));
 
             }
             temperature.add(weather.getTemperature());

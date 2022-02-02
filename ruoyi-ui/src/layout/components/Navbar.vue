@@ -13,6 +13,7 @@
       <el-popover
         placement="top"
         width="400"
+        trigger="hover"
         title="❉预报天气❉"
         v-model="weatherVisible">
         <table style="text-align: center" v-loading="loading">
@@ -183,18 +184,15 @@ export default {
 
   created() {
     this.getNowWeather()
+    this.getForecastWeather()
   },
 
   methods: {
     //获取预报天气
     getForecastWeather() {
-      this.loading = true;
       getForecastWeather().then(res => {
         this.forecastWeatherData = res.data
-        this.loading = false;
       })
-      this.getNowWeather()
-
     },
 
     //获取实时天气
