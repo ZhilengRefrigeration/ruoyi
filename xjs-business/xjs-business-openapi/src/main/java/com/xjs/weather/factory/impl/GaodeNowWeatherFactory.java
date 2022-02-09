@@ -2,7 +2,7 @@ package com.xjs.weather.factory.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.xjs.common.client.api.gaode.GaodeWeatherFeignClient;
-import com.xjs.config.GaodeProperties;
+import com.xjs.properties.GaodeProperties;
 import com.xjs.weather.domain.IPInfoVo;
 import com.xjs.weather.domain.NowWeather;
 import com.xjs.weather.domain.RequestBody;

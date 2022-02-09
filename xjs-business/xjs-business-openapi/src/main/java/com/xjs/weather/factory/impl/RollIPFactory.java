@@ -3,7 +3,7 @@ package com.xjs.weather.factory.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.redis.service.RedisService;
 import com.xjs.common.client.api.roll.RollIPFeignClient;
-import com.xjs.config.RollProperties;
+import com.xjs.properties.RollProperties;
 import com.xjs.copywriting.domain.RequestBody;
 import com.xjs.utils.IPUtils;
 import com.xjs.weather.domain.IPInfoVo;

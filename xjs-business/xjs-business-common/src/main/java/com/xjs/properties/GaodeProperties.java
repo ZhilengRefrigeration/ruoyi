@@ -1,21 +1,18 @@
-package com.xjs.config;
+package com.xjs.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
+ * 高德秘钥
  * @author xiejs
- * @desc  天行数据配置
- * @create 2021-12-27
+ * @since 2022-01-16
  */
-@Component
-@ConfigurationProperties(prefix = "tianxing.open")
 @Data
-public class TianXingProperties {
+@ConfigurationProperties(prefix = "gaode.open")
+@Component
+public class GaodeProperties {
 
-    /**
-     * key密钥
-     */
     private String key;
 }

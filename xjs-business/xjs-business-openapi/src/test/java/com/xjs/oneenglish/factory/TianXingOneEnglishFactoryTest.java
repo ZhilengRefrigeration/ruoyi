@@ -1,7 +1,7 @@
 package com.xjs.oneenglish.factory;
 
 import com.xjs.XjsOpenApiApp;
-import com.xjs.config.TianXingProperties;
+import com.xjs.properties.TianXingProperties;
 import com.xjs.copywriting.domain.CopyWriting;
 import com.xjs.copywriting.mapper.CopyWritingMapper;
 import com.xjs.copywriting.service.CopyWritingService;

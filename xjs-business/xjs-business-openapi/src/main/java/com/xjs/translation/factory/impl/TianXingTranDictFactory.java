@@ -4,7 +4,7 @@ import cn.hutool.http.HttpStatus;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xjs.common.client.api.tianxing.TianXingTranDictClient;
-import com.xjs.config.TianXingProperties;
+import com.xjs.properties.TianXingProperties;
 import com.xjs.copywriting.domain.RequestBody;
 import com.xjs.exception.ApiException;
 import com.xjs.translation.domain.qo.translation.TranslationQo;

@@ -5,7 +5,7 @@ import com.xjs.apitools.domain.ApiIdcardQuery;
 import com.xjs.apitools.domain.RequestBody;
 import com.xjs.apitools.factory.ApiToolsFactory;
 import com.xjs.common.client.api.roll.RollIdcardQueryFeignClient;
-import com.xjs.config.RollProperties;
+import com.xjs.properties.RollProperties;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
