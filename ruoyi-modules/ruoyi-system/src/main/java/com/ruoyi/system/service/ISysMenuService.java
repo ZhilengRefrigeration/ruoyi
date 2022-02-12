@@ -56,11 +56,12 @@ public interface ISysMenuService
 
     /**
      * 构建前端路由所需要的菜单
-     * 
+     *
      * @param menus 菜单列表
+     * @param parentRouter 父级菜单
      * @return 路由列表
      */
-    public List<RouterVo> buildMenus(List<SysMenu> menus);
+    public List<RouterVo> buildMenus(List<SysMenu> menus, RouterVo parentRouter);
 
     /**
      * 构建前端所需要树结构

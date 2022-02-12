@@ -154,6 +154,6 @@ public class SysMenuController extends BaseController
     {
         Long userId = SecurityUtils.getUserId();
         List<SysMenu> menus = menuService.selectMenuTreeByUserId(userId);
-        return AjaxResult.success(menuService.buildMenus(menus));
+        return AjaxResult.success(menuService.buildMenus(menus, null));
     }
 }
