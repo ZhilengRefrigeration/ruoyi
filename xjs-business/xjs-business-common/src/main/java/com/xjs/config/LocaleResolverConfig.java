@@ -11,7 +11,7 @@ import java.util.Locale;
 
 /**
  * 自定义国际化解析器
- *
+ * todo 暂时未配置国际化
  * @author xiejs
  * @since 2022-02-09
  */

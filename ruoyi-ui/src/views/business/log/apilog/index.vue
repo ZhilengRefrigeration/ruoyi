@@ -362,7 +362,7 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('openapi/log/export', {
+      this.download('log/apilog/export', {
         ...this.queryParams
       }, `log_${new Date().getTime()}.xlsx`)
     }
