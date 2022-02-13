@@ -165,6 +165,8 @@ export default {
       getGenTable(tableId).then(res => {
         this.columns = res.data.rows;
         this.info = res.data.info;
+        const route = Object.assign({},Object.assign({},this.$route), {title:'修改生成配置_'+this.info.tableName})
+        this.$store.dispatch('tagsView/updateVisitedView', route);
         this.tables = res.data.tables;
       });
       /** 查询字典下拉列表 */
