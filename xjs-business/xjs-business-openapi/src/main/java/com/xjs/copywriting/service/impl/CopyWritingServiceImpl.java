@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xjs.copywriting.domain.CopyWriting;
 import com.xjs.copywriting.mapper.CopyWritingMapper;
 import com.xjs.copywriting.service.CopyWritingService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -43,6 +45,8 @@ public class CopyWritingServiceImpl extends ServiceImpl<CopyWritingMapper, CopyW
      * @return 文案api，通过api获取文案信息
      */
     @Override
+    //将该方法的查询结果存放阿紫springboot的默认缓存中   cacheNames：缓存空间唯一名称 key：缓存id
+    @Cacheable(cacheNames = "copyWriting",key = "#id")
     public CopyWriting selectCopyWritingById(Long id)
     {
         return copyWritingMapper.selectCopyWritingById(id);
@@ -67,6 +71,7 @@ public class CopyWritingServiceImpl extends ServiceImpl<CopyWritingMapper, CopyW
      * @return 结果
      */
     @Override
+    @CacheEvict(cacheNames = "copyWriting",key = "#ids")
     public int deleteCopyWritingByIds(Long[] ids)
     {
         return copyWritingMapper.deleteCopyWritingByIds(ids);
@@ -79,6 +84,7 @@ public class CopyWritingServiceImpl extends ServiceImpl<CopyWritingMapper, CopyW
      * @return 结果
      */
     @Override
+    @CacheEvict(cacheNames = "copyWriting",key = "#id")
     public int deleteCopyWritingById(Long id)
     {
         return copyWritingMapper.deleteCopyWritingById(id);
