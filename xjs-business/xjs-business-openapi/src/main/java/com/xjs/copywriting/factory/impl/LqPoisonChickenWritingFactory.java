@@ -1,6 +1,6 @@
 package com.xjs.copywriting.factory.impl;
 
-import com.xjs.common.client.api.lq.LqDogDiaryFeignClient;
+import com.xjs.common.client.api.lq.LqPoisonChickenFeignClient;
 import com.xjs.consts.TianXingConst;
 import com.xjs.copywriting.domain.CopyWriting;
 import com.xjs.copywriting.domain.RequestBody;
@@ -13,30 +13,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * 零七平台 舔狗日记api工厂实现
+ * 零七平台 毒鸡汤api工厂实现
  * @author xiejs
  * @since 2022-02-14
  */
 @Component
 @Log4j2
-public class LqDogDiaryCopyWritingFactory implements CopyWritingFactory {
+public class LqPoisonChickenWritingFactory implements CopyWritingFactory {
 
     @Autowired
     private CopyWritingService copyWritingService;
     @Autowired
-    private LqDogDiaryFeignClient lqDogDiaryFeignClient;
+    private LqPoisonChickenFeignClient lqPoisonChickenFeignClient;
 
     @Override
     public CopyWriting productCopyWriting(RequestBody requestBody) {
-        String data = lqDogDiaryFeignClient.dogDiaryApi();
+        String data = lqPoisonChickenFeignClient.poisonChickenApi();
         if (StringUtils.isEmpty(data)) {
-            throw new ApiException("零七-舔狗日记接口调用异常");
+            throw new ApiException("零七-毒鸡汤接口调用异常");
         }
         CopyWriting copyWriting = new CopyWriting();
         copyWriting.setContent(data);
-        copyWriting.setSource("舔狗日记");
-        copyWriting.setType(TianXingConst.TGRJ);
-
+        copyWriting.setSource("毒鸡汤");
+        copyWriting.setType(TianXingConst.DJT);
         copyWritingService.save(copyWriting);
         return copyWriting;
     }

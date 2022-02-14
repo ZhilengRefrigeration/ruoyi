@@ -51,6 +51,8 @@ public class CopyWritingController extends BaseController {
     private CopyWritingService copyWritingService;
     @Autowired
     private CopyWritingFactory lqDogDiaryCopyWritingFactory;
+    @Autowired
+    private CopyWritingFactory lqPoisonChickenWritingFactory;
 
 
     @GetMapping
@@ -102,6 +104,7 @@ public class CopyWritingController extends BaseController {
         factories.add(tianXingMMMYCopyWritingFactory);
         factories.add(rollMMYJCopyWritingFactory);
         factories.add(lqDogDiaryCopyWritingFactory);
+        factories.add(lqPoisonChickenWritingFactory);
         //--------add----------------------------;-
         //随机调用集合中的接口
         return RandomUtil.randomEle(factories);

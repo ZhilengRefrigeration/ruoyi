@@ -29,4 +29,6 @@ public class TianXingConst {
 
     //舔狗日记
     public static final Integer TGRJ= 6;
+    //毒鸡汤
+    public static final Integer DJT= 7;
 }

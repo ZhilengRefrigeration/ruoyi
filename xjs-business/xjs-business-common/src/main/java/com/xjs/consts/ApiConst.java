@@ -70,6 +70,8 @@ public class ApiConst {
 
     public static final String LQ_DOG_DIARY = "零七-舔狗日记";
 
+    public static final String LQ_POISON_CHICKEN = "零七-毒鸡汤";
+
 
     //-------------------url------------------------------
 
@@ -163,6 +165,11 @@ public class ApiConst {
      * 接口文档：https://api.oick.cn/dog/
      */
     public static final String LQ_DOG_DIARY_URL = "https://api.oick.cn/dog/api.php";
+
+    /**
+     *https://api.oick.cn/dutang/
+     */
+    public static final String LQ_POISON_CHICKEN_URL = "https://api.oick.cn/dutang/api.php";
 
 
 
