@@ -1,7 +1,7 @@
 package com.xjs.copywriting.factory.impl;
 
 import com.xjs.common.client.api.lq.LqPoisonChickenFeignClient;
-import com.xjs.consts.TianXingConst;
+import com.xjs.consts.CopyWritingConst;
 import com.xjs.copywriting.domain.CopyWriting;
 import com.xjs.copywriting.domain.RequestBody;
 import com.xjs.copywriting.factory.CopyWritingFactory;
@@ -35,7 +35,7 @@ public class LqPoisonChickenWritingFactory implements CopyWritingFactory {
         CopyWriting copyWriting = new CopyWriting();
         copyWriting.setContent(data);
         copyWriting.setSource("毒鸡汤");
-        copyWriting.setType(TianXingConst.DJT);
+        copyWriting.setType(CopyWritingConst.DJT);
         copyWritingService.save(copyWriting);
         return copyWriting;
     }

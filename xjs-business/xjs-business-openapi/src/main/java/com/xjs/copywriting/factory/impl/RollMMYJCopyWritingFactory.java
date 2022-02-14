@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xjs.common.client.api.roll.RollMMYJFeignClient;
 import com.xjs.properties.RollProperties;
-import com.xjs.consts.TianXingConst;
+import com.xjs.consts.CopyWritingConst;
 import com.xjs.copywriting.domain.CopyWriting;
 import com.xjs.copywriting.domain.RequestBody;
 import com.xjs.copywriting.factory.CopyWritingFactory;
@@ -52,7 +52,7 @@ public class RollMMYJCopyWritingFactory implements CopyWritingFactory {
             JSONObject toJSON = (JSONObject) JSONObject.toJSON(json);
             copyWriting.setContent(toJSON.getString("content"));
             copyWriting.setSource(toJSON.getString("author"));
-            copyWriting.setType(TianXingConst.MRYJ);
+            copyWriting.setType(CopyWritingConst.MRYJ);
             if (StringUtils.isBlank(copyWriting.getSource())) {
                 copyWriting.setSource("匿名");
             }

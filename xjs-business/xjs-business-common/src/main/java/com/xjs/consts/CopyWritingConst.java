@@ -5,7 +5,7 @@ package com.xjs.consts;
  * @desc  各个数据平台常量类
  * @create 2021-12-28
  */
-public class TianXingConst {
+public class CopyWritingConst {
 
     //---------------天行平台参数---------------------------
 
@@ -25,7 +25,7 @@ public class TianXingConst {
     public static final Integer MRYJ= 5;
 
 
-    //--------------------零七平台-----------------------
+    //--------------------零七平台参数-----------------------
 
     //舔狗日记
     public static final Integer TGRJ= 6;
@@ -33,4 +33,9 @@ public class TianXingConst {
     public static final Integer DJT= 7;
     //一言
     public static final Integer YY= 8;
+
+    //-------------------Uomg平台参数------------------------
+
+    //土味情话
+    public static final Integer TWQH= 9;
 }

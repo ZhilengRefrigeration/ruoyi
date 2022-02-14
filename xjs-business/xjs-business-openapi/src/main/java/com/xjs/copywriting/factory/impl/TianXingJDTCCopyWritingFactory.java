@@ -4,8 +4,8 @@ import cn.hutool.http.HttpStatus;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xjs.common.client.api.tianxing.TianXingJDTCFeignClient;
+import com.xjs.consts.CopyWritingConst;
 import com.xjs.properties.TianXingProperties;
-import com.xjs.consts.TianXingConst;
 import com.xjs.exception.ApiException;
 import com.xjs.copywriting.domain.CopyWriting;
 import com.xjs.copywriting.domain.RequestBody;
@@ -48,7 +48,7 @@ public class TianXingJDTCCopyWritingFactory implements CopyWritingFactory {
             CopyWriting copyWriting = new CopyWriting();
             copyWriting.setContent(dialogue);
             copyWriting.setSource(source);
-            copyWriting.setType(TianXingConst.JDTC);
+            copyWriting.setType(CopyWritingConst.JDTC);
             copyWritingMapper.insert(copyWriting);
             return copyWriting;
         }else {

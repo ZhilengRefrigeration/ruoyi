@@ -1,7 +1,7 @@
 package com.xjs.copywriting.factory.impl;
 
 import com.xjs.common.client.api.lq.LqAWordFeignClient;
-import com.xjs.consts.TianXingConst;
+import com.xjs.consts.CopyWritingConst;
 import com.xjs.copywriting.domain.CopyWriting;
 import com.xjs.copywriting.domain.RequestBody;
 import com.xjs.copywriting.factory.CopyWritingFactory;
@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
+ * 零七平台 一言api工厂实现
  * @author xiejs
  * @since 2022-02-14
  */
@@ -33,7 +34,7 @@ public class LqAWordCopyWritingFactory implements CopyWritingFactory {
         CopyWriting copyWriting = new CopyWriting();
         copyWriting.setContent(data);
         copyWriting.setSource("一言");
-        copyWriting.setType(TianXingConst.YY);
+        copyWriting.setType(CopyWritingConst.YY);
         copyWritingService.save(copyWriting);
         return copyWriting;
     }

@@ -4,8 +4,8 @@ import cn.hutool.http.HttpStatus;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xjs.common.client.api.tianxing.TianXingPYQFeignClient;
+import com.xjs.consts.CopyWritingConst;
 import com.xjs.properties.TianXingProperties;
-import com.xjs.consts.TianXingConst;
 import com.xjs.exception.ApiException;
 import com.xjs.copywriting.domain.CopyWriting;
 import com.xjs.copywriting.domain.RequestBody;
@@ -50,7 +50,7 @@ public class TianXingPYQCopyWritingFactory implements CopyWritingFactory {
             CopyWriting copyWriting = new CopyWriting();
             copyWriting.setContent(content);
             copyWriting.setSource(source);
-            copyWriting.setType(TianXingConst.PYQ);
+            copyWriting.setType(CopyWritingConst.PYQ);
             copyWritingMapper.insert(copyWriting);
             return copyWriting;
         }else {

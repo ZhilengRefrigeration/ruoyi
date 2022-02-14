@@ -74,6 +74,8 @@ public class ApiConst {
 
     public static final String LQ_A_WORD = "零七-一言";
 
+    public static final String UOMG_EARTH_LOVE = "Uomg-土味情话";
+
 
     //-------------------url------------------------------
 
@@ -177,6 +179,11 @@ public class ApiConst {
      * 接口文档：https://api.oick.cn/yiyan/
      */
     public static final String LQ_A_WORD_URL = "https://api.oick.cn/yiyan/api.php";
+
+    /**
+     * 接口文档：https://api.uomg.com/doc-rand.qinghua.html
+     */
+    public static final String UOMG_EARTH_LOVE_URL = "https://api.uomg.com/api/rand.qinghua";
 
 
     //-----------------------api请求参数常量-----------------------------

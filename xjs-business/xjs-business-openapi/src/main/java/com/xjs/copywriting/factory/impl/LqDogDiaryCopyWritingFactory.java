@@ -1,7 +1,7 @@
 package com.xjs.copywriting.factory.impl;
 
 import com.xjs.common.client.api.lq.LqDogDiaryFeignClient;
-import com.xjs.consts.TianXingConst;
+import com.xjs.consts.CopyWritingConst;
 import com.xjs.copywriting.domain.CopyWriting;
 import com.xjs.copywriting.domain.RequestBody;
 import com.xjs.copywriting.factory.CopyWritingFactory;
@@ -35,7 +35,7 @@ public class LqDogDiaryCopyWritingFactory implements CopyWritingFactory {
         CopyWriting copyWriting = new CopyWriting();
         copyWriting.setContent(data);
         copyWriting.setSource("舔狗日记");
-        copyWriting.setType(TianXingConst.TGRJ);
+        copyWriting.setType(CopyWritingConst.TGRJ);
 
         copyWritingService.save(copyWriting);
         return copyWriting;

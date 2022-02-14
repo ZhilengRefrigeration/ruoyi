@@ -7,9 +7,9 @@ import com.ruoyi.common.core.web.page.PageDomain;
 import com.ruoyi.common.core.web.page.TableSupport;
 
 /**
+ * 自定义通用controller
  * @author xiejs
- * @desc  自定义通用controller
- * @create 2021-12-31
+ * @since  2021-12-31
  */
 public class MyBaseController extends BaseController {
 
