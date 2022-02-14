@@ -31,4 +31,6 @@ public class TianXingConst {
     public static final Integer TGRJ= 6;
     //毒鸡汤
     public static final Integer DJT= 7;
+    //一言
+    public static final Integer YY= 8;
 }

@@ -72,6 +72,8 @@ public class ApiConst {
 
     public static final String LQ_POISON_CHICKEN = "零七-毒鸡汤";
 
+    public static final String LQ_A_WORD = "零七-一言";
+
 
     //-------------------url------------------------------
 
@@ -167,12 +169,14 @@ public class ApiConst {
     public static final String LQ_DOG_DIARY_URL = "https://api.oick.cn/dog/api.php";
 
     /**
-     *https://api.oick.cn/dutang/
+     * 接口文档：https://api.oick.cn/dutang/
      */
     public static final String LQ_POISON_CHICKEN_URL = "https://api.oick.cn/dutang/api.php";
 
-
-
+    /**
+     * 接口文档：https://api.oick.cn/yiyan/
+     */
+    public static final String LQ_A_WORD_URL = "https://api.oick.cn/yiyan/api.php";
 
 
     //-----------------------api请求参数常量-----------------------------
