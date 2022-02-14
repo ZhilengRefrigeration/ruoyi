@@ -16,6 +16,7 @@ import com.xjs.consts.ReqConst;
 import com.xjs.enums.WarnLevelEnum;
 import com.xjs.enums.WarnTypeEnum;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -79,6 +80,13 @@ public class ApiLogAspect {
                     warning(between, joinPoint);
                 }
             }
+            //返回值为String情况
+            if (obj instanceof String) {
+                if (StringUtils.isNotEmpty(String.valueOf(obj))) {
+                    warning(between, joinPoint);
+                }
+            }
+
             return obj;
         } catch (Throwable e) {
             e.printStackTrace();
@@ -126,8 +134,10 @@ public class ApiLogAspect {
                 entity.setRequest(objects.toJSONString());
             }
         } else {
-            String jsonString = JSON.toJSONString(args[0]);
-            entity.setRequest(jsonString);
+            if(args.length>0){
+                String jsonString = JSON.toJSONString(args[0]);
+                entity.setRequest(jsonString);
+            }
         }
         entity.setMethod(apiLog.method());
         if (Objects.nonNull(jsonResult)) {

@@ -68,6 +68,8 @@ public class ApiConst {
 
     public static final String ROLL_IDCARD_QUERY = "ROLL-身份证查询";
 
+    public static final String LQ_DOG_DIARY = "零七-舔狗日记";
+
 
     //-------------------url------------------------------
 
@@ -156,6 +158,14 @@ public class ApiConst {
      * 接口文档：https://www.mxnzp.com/doc/detail?id=28
      */
     public static final String ROLL_IDCARD_QUERY_URL = "https://www.mxnzp.com/api/idcard/search";
+
+    /**
+     * 接口文档：https://api.oick.cn/dog/
+     */
+    public static final String LQ_DOG_DIARY_URL = "https://api.oick.cn/dog/api.php";
+
+
+
 
 
     //-----------------------api请求参数常量-----------------------------

@@ -23,4 +23,10 @@ public class TianXingConst {
 
     //每日一句
     public static final Integer MRYJ= 5;
+
+
+    //--------------------零七平台-----------------------
+
+    //舔狗日记
+    public static final Integer TGRJ= 6;
 }
