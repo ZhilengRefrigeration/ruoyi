@@ -59,6 +59,8 @@ public class CopyWritingController extends BaseController {
     private CopyWritingFactory uomgEarthLoveCopyWritingFactory;
     @Autowired
     private CopyWritingFactory alapiJokeAllCopyWritingFactory;
+    @Autowired
+    private CopyWritingFactory rollJokeCopyWritingFactory;
 
 
     @GetMapping
@@ -113,6 +115,7 @@ public class CopyWritingController extends BaseController {
         factories.add(lqPoisonChickenWritingFactory);
         factories.add(lqAWordCopyWritingFactory);
         factories.add(alapiJokeAllCopyWritingFactory);
+        factories.add(rollJokeCopyWritingFactory);
         //factories.add(uomgEarthLoveCopyWritingFactory);
         //--------add----------------------------;-
         //随机调用集合中的接口

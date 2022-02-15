@@ -23,6 +23,8 @@ public class CopyWritingConst {
 
     //每日一句
     public static final Integer MRYJ= 5;
+    //搞笑段子
+    public static final Integer GXDZ= 11;
 
 
     //--------------------零七平台参数-----------------------

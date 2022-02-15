@@ -58,7 +58,7 @@ public class RollMMYJCopyWritingFactory implements CopyWritingFactory {
             }
             return copyWriting;
         }).collect(Collectors.toList());
-        log.info("批量插入成功了嘛---"+copyWritingService.saveBatch(collect));
+        log.info("每日一句批量插入成功了嘛---"+copyWritingService.saveBatch(collect));
         return collect.get(0);
     }
 }

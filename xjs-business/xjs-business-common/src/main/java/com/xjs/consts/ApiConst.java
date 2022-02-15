@@ -78,6 +78,8 @@ public class ApiConst {
 
     public static final String ALAPI_JOKE_ALL = "ALAPI-笑话大全";
 
+    public static final String ROLL_JOKE = "ROLL-搞笑段子";
+
 
     //-------------------url------------------------------
 
@@ -191,6 +193,11 @@ public class ApiConst {
      * 接口文档：https://www.alapi.cn/api/view/11
      */
     public static final String ALAPI_JOKE_ALL_URL = "http://v2.alapi.cn/api/joke/random";
+
+    /**
+     * 接口文档：https://www.mxnzp.com/doc/detail?id=5
+     */
+    public static final String ROLL_JOKE_URL = "https://www.mxnzp.com/api/jokes/list/random";
 
 
     //-----------------------api请求参数常量-----------------------------
