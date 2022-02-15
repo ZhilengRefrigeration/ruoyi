@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjs.sina.mapper.SinaNewsMapper">
+
+
+    <delete id="deleteRepeatData">
+        DELETE
+        FROM
+            webmagic_sina_news
+        WHERE
+                title IN ( SELECT t.title FROM ( SELECT title FROM webmagic_sina_news GROUP BY title HAVING count( title ) > 1 ) t )
+          AND id NOT IN (
+            SELECT
+                c.id
+            FROM
+                ( SELECT min( id ) id FROM webmagic_sina_news GROUP BY title HAVING count( title )> 1 ) c
+        )
+    </delete>
+</mapper>

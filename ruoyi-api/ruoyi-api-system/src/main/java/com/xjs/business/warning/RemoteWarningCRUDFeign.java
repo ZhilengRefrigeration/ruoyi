@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 /**
+ * 远程rpc调用预警服务crud接口
  * @author xiejs
- * @desc 远程rpc调用预警服务crud接口
- * @create 2021-12-31
+ * @since  2021-12-31
  */
 @FeignClient(contextId = "remoteWarningCRUDFeign",
         value = ServiceNameConstants.BUSINESS_WARNING_SERVICE,

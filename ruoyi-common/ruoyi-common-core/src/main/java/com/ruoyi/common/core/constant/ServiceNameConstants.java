@@ -38,6 +38,12 @@ public class ServiceNameConstants
      */
     public static final String BUSINESS_LOG_SERVICE= "xjs-log" ;
 
+    /**
+     * 爬虫服务的serviceid
+     */
+    public static final String BUSINESS_WEBMAGIC_SERVICE= "xjs-webmagic" ;
+
+
 
 
 
