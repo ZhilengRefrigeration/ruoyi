@@ -290,6 +290,11 @@ export default {
   float: left;
   width: 75%;
   text-shadow: 2px 2px 2px grey;
+  /*显示6行*/
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+  overflow: hidden;
 }
 
 .source_div {

@@ -38,4 +38,9 @@ public class CopyWritingConst {
 
     //土味情话
     public static final Integer TWQH= 9;
+
+    //------------------alapi平台参数--------------------------
+
+    //笑话大去哪
+    public static final Integer XHDQ= 10;
 }

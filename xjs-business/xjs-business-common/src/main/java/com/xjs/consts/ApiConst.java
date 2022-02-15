@@ -76,6 +76,8 @@ public class ApiConst {
 
     public static final String UOMG_EARTH_LOVE = "Uomg-土味情话";
 
+    public static final String ALAPI_JOKE_ALL = "ALAPI-笑话大全";
+
 
     //-------------------url------------------------------
 
@@ -184,6 +186,11 @@ public class ApiConst {
      * 接口文档：https://api.uomg.com/doc-rand.qinghua.html
      */
     public static final String UOMG_EARTH_LOVE_URL = "https://api.uomg.com/api/rand.qinghua";
+
+    /**
+     * 接口文档：https://www.alapi.cn/api/view/11
+     */
+    public static final String ALAPI_JOKE_ALL_URL = "http://v2.alapi.cn/api/joke/random";
 
 
     //-----------------------api请求参数常量-----------------------------

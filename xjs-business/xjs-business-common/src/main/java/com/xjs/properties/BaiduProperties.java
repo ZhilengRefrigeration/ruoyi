@@ -5,9 +5,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
+ * 百度平台密钥
  * @author xiejs
- * @desc
- * @create 2021-12-25
+ * @since  2021-12-25
  */
 @Data
 @ConfigurationProperties(prefix = "baidu.open")

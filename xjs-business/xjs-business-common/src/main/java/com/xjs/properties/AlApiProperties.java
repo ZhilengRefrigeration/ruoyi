@@ -5,17 +5,15 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
- * 天行数据配置
+ * ALAPI平台token参数
  * @author xiejs
- * @since  2021-12-27
+ * @since 2022-02-15
  */
-@Component
-@ConfigurationProperties(prefix = "tianxing.open")
 @Data
-public class TianXingProperties {
+@ConfigurationProperties(prefix = "alapi.open")
+@Component
+public class AlApiProperties {
 
-    /**
-     * key密钥
-     */
-    private String key;
+    private String token;
+
 }

@@ -29,13 +29,15 @@ public class CopyWritingTask {
      * 任务执行
      */
     public void execute() {
-        LocalDateTime localDateTime1 = DateUtil.date().toLocalDateTime();
         log.info("---------------文案定时任务Start-------------------");
-        R<CopyWriting> r = remoteCopyWritingFeign.copyWriting();
-        log.info("文案定时任务结果:code={},msg={},data={}",r.getCode(),r.getMsg(),r.getData());
-        LocalDateTime localDateTime2 = DateUtil.date().toLocalDateTime();
-        long between = ChronoUnit.MILLIS.between(localDateTime1, localDateTime2);
-        log.info("文案定时任务Job耗费时间:{}ms", between);
+        for (int i = 0; i < 3; i++) {
+            LocalDateTime localDateTime1 = DateUtil.date().toLocalDateTime();
+            R<CopyWriting> r = remoteCopyWritingFeign.copyWriting();
+            log.info("文案定时任务[{}]结果:code={},msg={},data={}",i,r.getCode(),r.getMsg(),r.getData());
+            LocalDateTime localDateTime2 = DateUtil.date().toLocalDateTime();
+            long between = ChronoUnit.MILLIS.between(localDateTime1, localDateTime2);
+            log.info("文案[{}]定时任务Job耗费时间:{}ms", i,between);
+        }
         log.info("---------------文案定时任务end---------------------");
     }
 }
