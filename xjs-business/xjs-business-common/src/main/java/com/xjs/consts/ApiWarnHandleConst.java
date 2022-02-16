@@ -1,9 +1,9 @@
 package com.xjs.consts;
 
 /**
+ * api预警处理常量
  * @author xiejs
- * @desc api预警处理常量
- * @create 2022-01-07
+ * @since  2022-01-07
  */
 public class ApiWarnHandleConst {
     //已处理

@@ -27,4 +27,9 @@ public class RegexConst {
      * ip地址v4、v6正则
      */
     public static final String IP_REGEX ="^((2[0-4]\\d|25[0-5]|[01]?\\d\\d?)\\.){3}(2[0-4]\\d|25[0-5]|[01]?\\d\\d?)$";
+
+    /**
+     * 数字校验正则
+     */
+    public static final String NUMBER_REGEX= "[0-9]*";
 }
