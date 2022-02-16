@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xjs.topsearch.mapper.ApiTopsearchDouyinMapper">
 
-    <delete id="deleteRepeatData">
+    <delete id="deleteRepeatData_copy">
         DELETE
         FROM
             api_topsearch_douyin
@@ -15,6 +15,15 @@
                 c.id
             FROM
                 ( SELECT min( id ) id FROM api_topsearch_douyin GROUP BY word HAVING count( word )> 1 ) c
+        )
+    </delete>
+
+    <delete id="deleteRepeatData">
+        delete from api_topsearch_douyin where id not in	(
+            SELECT
+                t.min_id
+            FROM
+                    ( SELECT min( id ) AS min_id FROM api_topsearch_douyin GROUP BY word ) AS t
         )
     </delete>
 

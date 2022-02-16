@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjs.copywritingNetwork.mapper.CopyWritingNetworkMapper">
+
+    <delete id="deleteRepeatData">
+        delete from webmagic_copywriting_network where id not in	(
+            SELECT
+                t.min_id
+            FROM
+                ( SELECT min( id ) AS min_id FROM webmagic_copywriting_network GROUP BY content ) AS t
+        )
+    </delete>
+</mapper>

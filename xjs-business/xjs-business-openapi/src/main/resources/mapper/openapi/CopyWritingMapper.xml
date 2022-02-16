@@ -66,13 +66,22 @@
         </foreach>
     </delete>
 
-    <delete id="deleteRepeatData">
+    <delete id="deleteRepeatData_copy">/*弃用--效率不行*/
         DELETE
         FROM
             api_copywriting
         WHERE
                 content IN ( SELECT t.content FROM ( SELECT content FROM api_copywriting GROUP BY content HAVING count( content ) > 1 ) t )
           AND id NOT IN ( SELECT c.id FROM ( SELECT min( id ) id FROM api_copywriting GROUP BY content HAVING count( content )> 1 ) c )
+    </delete>
+
+    <delete id="deleteRepeatData">
+        delete from api_copywriting where id not in	(
+            SELECT
+                t.min_id
+            FROM
+                ( SELECT min( id ) AS min_id FROM api_copywriting GROUP BY content ) AS t
+        )
     </delete>
 
 

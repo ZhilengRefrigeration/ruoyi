@@ -30,7 +30,7 @@ public class CopyWritingTask {
      */
     public void execute() {
         log.info("---------------文案定时任务Start-------------------");
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 6; i++) {
             LocalDateTime localDateTime1 = DateUtil.date().toLocalDateTime();
             R<CopyWriting> r = remoteCopyWritingFeign.copyWriting();
             log.info("文案定时任务[{}]结果:code={},msg={},data={}",i,r.getCode(),r.getMsg(),r.getData());

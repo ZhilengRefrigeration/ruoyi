@@ -38,16 +38,11 @@
     </delete>
 
     <delete id="deleteRepeatData">
-        DELETE
-        FROM
-            webmagic_sina_news
-        WHERE
-                title IN ( SELECT t.title FROM ( SELECT title FROM webmagic_sina_news GROUP BY title HAVING count( title ) > 1 ) t )
-          AND id NOT IN (
+        delete from webmagic_sina_news where id not in	(
             SELECT
-                c.id
+                t.min_id
             FROM
-                ( SELECT min( id ) id FROM webmagic_sina_news GROUP BY title HAVING count( title )> 1 ) c
+                ( SELECT min( id ) AS min_id FROM webmagic_sina_news GROUP BY title ) AS t
         )
     </delete>
 </mapper>
