@@ -4,6 +4,38 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xjs.sina.mapper.SinaNewsMapper">
 
+    <resultMap type="com.xjs.sina.pojo.SinaNews" id="SinaNewsResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="category"    column="category"    />
+        <result property="url"    column="url"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectSinaNewsVo">
+        select id, title, category, url, create_time from webmagic_sina_news
+    </sql>
+
+    <select id="selectSinaNewsList" parameterType="com.xjs.sina.pojo.SinaNews" resultMap="SinaNewsResult">
+        <include refid="selectSinaNewsVo"/>
+        <where>
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+            <if test="category != null  and category != ''"> and category = #{category}</if>
+            <if test="createTime != null and endCreateTime != null"> and create_time between #{createTime} and #{endCreateTime}</if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <delete id="deleteSinaNewsById" parameterType="Long">
+        delete from webmagic_sina_news where id = #{id}
+    </delete>
+
+    <delete id="deleteSinaNewsByIds" parameterType="String">
+        delete from webmagic_sina_news where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 
     <delete id="deleteRepeatData">
         DELETE

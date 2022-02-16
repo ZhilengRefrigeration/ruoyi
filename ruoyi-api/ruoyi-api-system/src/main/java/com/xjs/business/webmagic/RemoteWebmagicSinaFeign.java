@@ -16,6 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
         fallbackFactory = RemoteWebmagicSinaFactory.class)
 public interface RemoteWebmagicSinaFeign {
 
-    @GetMapping("/sina/taskForPRC")
+    @GetMapping("/sinaNews/taskForPRC")
     R sinaTaskForPRC();
 }

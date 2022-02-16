@@ -8,6 +8,7 @@
         <version>3.3.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <name>业务模块-博客模块</name>
 
     <artifactId>xjs-business-blog</artifactId>
 

@@ -1,5 +1,6 @@
 package com.xjs.sina.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -35,5 +36,14 @@ public class SinaNews implements Serializable {
      */
     private String url;
 
+    /**
+     * 创建时间
+     */
     private Date createTime;
+
+    /**
+     * 查询条件的结束时间
+     */
+    @TableField(exist = false)
+    private Date endCreateTime;
 }
