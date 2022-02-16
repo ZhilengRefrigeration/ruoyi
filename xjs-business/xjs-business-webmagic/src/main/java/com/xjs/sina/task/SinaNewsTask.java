@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  */
 @Component
 @Log4j2
-public class SinaTask {
+public class SinaNewsTask {
 
     @Autowired
     private HttpUtils httpUtils;

@@ -8,7 +8,7 @@ import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.sina.pojo.SinaNews;
 import com.xjs.sina.service.SinaNewsService;
-import com.xjs.sina.task.SinaTask;
+import com.xjs.sina.task.SinaNewsTask;
 import com.xjs.web.MyBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,7 +28,7 @@ import java.util.List;
 @Api(tags = "爬虫模块-新浪新闻")
 public class SinaNewsController extends MyBaseController {
     @Autowired
-    private SinaTask sinaTask;
+    private SinaNewsTask sinaNewsTask;
     @Autowired
     private SinaNewsService sinaNewsService;
 
@@ -37,7 +37,7 @@ public class SinaNewsController extends MyBaseController {
     @GetMapping("taskForPRC")
     @ApiOperation("供定时任务服务RPC远程调用")
     public R sinaTaskForPRC() {
-        sinaTask.reptileSinaNews();
+        sinaNewsTask.reptileSinaNews();
         return R.ok();
     }
 

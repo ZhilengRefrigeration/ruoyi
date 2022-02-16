@@ -61,7 +61,7 @@
       <el-table-column type="selection" width="55" align="center"/>
       <el-table-column label="标题" align="center" prop="title" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <p style="cursor:pointer" v-text="scope.row.title" @click="to(scope.row.url)"></p>
+          <div style="cursor:pointer" v-text="scope.row.title" @click="to(scope.row.url)"></div>
         </template>
       </el-table-column>
       <el-table-column label="新闻分类" align="center" prop="category" width="250px"/>
