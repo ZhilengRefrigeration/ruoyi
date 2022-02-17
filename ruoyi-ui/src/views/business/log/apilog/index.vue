@@ -131,7 +131,7 @@
       <el-table-column label="请求方法" align="center" prop="method" :show-overflow-tooltip="true"/>
       <el-table-column label="请求参数" align="center" prop="request" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <span>{{scope.row.request!==""?scope.row.request:"-"}}</span>
+          <span>{{ scope.row.request !== "" ? scope.row.request : "-" }}</span>
         </template>
       </el-table-column>
       <el-table-column label="响应参数" align="center" prop="response" :show-overflow-tooltip="true"/>
@@ -205,7 +205,7 @@
 </template>
 
 <script>
-import {listLog, getLog, delLog, getApiName} from "@/api/business/log/apilog";
+import {listLog, delLog, getApiName} from "@/api/business/log/apilog";
 
 export default {
   name: "Apilog",
@@ -230,11 +230,16 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
-      // 查询参数
+      // 查询参数  需要给一个null值，否则input框等无法输入
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        apiName: null
+        apiName: null,
+        url:null,
+        request:null,
+        response:null,
+        isSuccess:null,
+        method:null,
       },
       // 表单参数
       form: {},
@@ -257,6 +262,9 @@ export default {
     this.getList();
     this.getApiName()
   },
+
+  // todo 条件搜索bug
+
   methods: {
     //获取所有api名称
     getApiName() {
@@ -279,27 +287,7 @@ export default {
         this.loading = false;
       });
     },
-    // 取消按钮
-    cancel() {
-      this.open = false;
-      this.reset();
-    },
-    // 表单重置
-    reset() {
-      this.form = {
-        id: null,
-        apiName: null,
-        url: null,
-        method: null,
-        request: null,
-        response: null,
-        isSuccess: null,
-        createTime: null
-      };
-      this.request = null
-      this.response = null
-      this.resetForm("form");
-    },
+
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageNum = 1;
@@ -337,22 +325,7 @@ export default {
       this.single = selection.length !== 1
       this.multiple = !selection.length
     },
-    /** 新增按钮操作 */
-    handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加日志";
-    },
-    /** 修改按钮操作 */
-    handleUpdate(row) {
-      this.reset();
-      const id = row.id || this.ids
-      getLog(id).then(response => {
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改日志";
-      });
-    },
+
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;

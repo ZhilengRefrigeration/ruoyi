@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 /**
  * 新浪新闻爬虫任务
+ *
  * @author xiejs
  * @since 2022-02-15
  */
@@ -44,7 +45,7 @@ public class SinaNewsTask {
 
             Document document = Jsoup.parse(html);
 
-            count = this.parse(document,count);
+            count = this.parse(document, count);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -55,36 +56,32 @@ public class SinaNewsTask {
      * 解析dom
      *
      * @param document dom
-     * @param count 循环次数
+     * @param count    循环次数
      */
-    private Long parse(Document document,Long count) {
-        try {
-            //获取子链接
-            Elements nav_mod_1 = document.getElementsByClass("nav-mod-1");
-            Elements link = nav_mod_1.select("ul > li > a");
-            List<Map<String, String>> hrefList = link.stream().map(a -> {
-                String href = a.attr("href");
-                String text = a.text();
-                Map<String, String> map = new HashMap<>();
-                map.put(text, href);
-                return map;
-            }).collect(Collectors.toList());
-            hrefList.removeIf(s -> s.containsKey("javascript:;"));
+    private Long parse(Document document, Long count) {
+        //获取子链接
+        Elements nav_mod_1 = document.getElementsByClass("nav-mod-1");
+        Elements link = nav_mod_1.select("ul > li > a");
+        List<Map<String, String>> hrefList = link.stream().map(a -> {
+            String href = a.attr("href");
+            String text = a.text();
+            Map<String, String> map = new HashMap<>();
+            map.put(text, href);
+            return map;
+        }).collect(Collectors.toList());
+        hrefList.removeIf(s -> s.containsKey("javascript:;"));
 
-            for (Map<String, String> map : hrefList) {
-                Set<Map.Entry<String, String>> entrySet = map.entrySet();
-                for (Map.Entry<String, String> entry : entrySet) {
-                    String html = httpUtils.doGetHtml(entry.getValue());
-                    Document docChild = Jsoup.parse(html);
+        for (Map<String, String> map : hrefList) {
+            Set<Map.Entry<String, String>> entrySet = map.entrySet();
+            for (Map.Entry<String, String> entry : entrySet) {
+                String html = httpUtils.doGetHtml(entry.getValue());
+                Document docChild = Jsoup.parse(html);
 
-                    //计数
-                    count++;
+                Long newCount = this.parseChile(docChild, entry.getKey(), count);
 
-                    count =this.parseChile(docChild, entry.getKey(),count);
-                }
+                count = count + newCount;
             }
-        } catch (Exception e) {
-            log.error(e.getMessage());
+
         }
         return count;
     }
@@ -95,7 +92,7 @@ public class SinaNewsTask {
      * @param docChild 子
      * @param key      key
      */
-    private Long parseChile(Document docChild, String key,Long count) {
+    private Long parseChile(Document docChild, String key, Long count) {
         try {
             Elements a = docChild.getElementsByTag("a");
             ArrayList<String> link = new ArrayList<>();

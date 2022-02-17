@@ -47,4 +47,19 @@ public class WebmagicLog implements Serializable  {
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 
+    @TableField(exist = false)
+    private Date endCreateTime;
+
+    /**
+     * 查询条件：耗费时间Start
+     */
+    @TableField(exist = false)
+    private Long beginRequestTime;
+
+    /**
+     * 查询条件：耗费时间End
+     */
+    @TableField(exist = false)
+    private Long endRequestTime;
+
 }

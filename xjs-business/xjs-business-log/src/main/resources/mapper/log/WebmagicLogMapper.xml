@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjs.reptileLog.mapper.WebmagicLogMapper">
+
+    <resultMap type="com.xjs.reptileLog.domain.WebmagicLog" id="WebmagicLogResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="url" column="url"/>
+        <result property="status" column="status"/>
+        <result property="requestTime" column="request_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="complexRate" column="complex_rate"/>
+    </resultMap>
+
+    <sql id="selectWebmagicLogVo">
+        select id, name, url, request_time, create_time, complex_rate, status
+        from webmagic_log
+    </sql>
+
+    <select id="selectWebmagicLogList" parameterType="com.xjs.reptileLog.domain.WebmagicLog"
+            resultMap="WebmagicLogResult">
+        <include refid="selectWebmagicLogVo"/>
+        <where>
+            <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
+            <if test="url != null  and url != ''">and url like concat('%', #{url}, '%')</if>
+            <if test="beginRequestTime != null and endRequestTime != null">
+                and request_time between #{beginRequestTime} and #{endRequestTime}
+            </if>
+            <if test="createTime != null and endCreateTime != null">and create_time between #{createTime} and
+                #{endCreateTime}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <delete id="deleteWebmagicLogById" parameterType="Long">
+        delete
+        from webmagic_log
+        where id = #{id}
+    </delete>
+
+    <delete id="deleteWebmagicLogByIds" parameterType="String">
+        delete from webmagic_log where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>
