@@ -263,8 +263,6 @@ export default {
     this.getApiName()
   },
 
-  // todo 条件搜索bug
-
   methods: {
     //获取所有api名称
     getApiName() {

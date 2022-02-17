@@ -32,20 +32,20 @@ public class SinaNewsTask {
     @Autowired
     private SinaNewsService sinaNewsService;
 
-    public static final String URL = "https://news.sina.com.cn/";
+    private static final String URL = "https://news.sina.com.cn/";
+
+    //定义循环次数计时器
+    private Long count = 0L;
 
     @ReptileLog(name = "新浪新闻", url = URL)
     public Long reptileSinaNews() {
-        //定义循环次数计时器
-        Long count = 0L;
-
         try {
 
             String html = httpUtils.doGetHtml(URL);
 
             Document document = Jsoup.parse(html);
 
-            count = this.parse(document, count);
+            this.parse(document);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -56,9 +56,8 @@ public class SinaNewsTask {
      * 解析dom
      *
      * @param document dom
-     * @param count    循环次数
      */
-    private Long parse(Document document, Long count) {
+    private void parse(Document document) {
         //获取子链接
         Elements nav_mod_1 = document.getElementsByClass("nav-mod-1");
         Elements link = nav_mod_1.select("ul > li > a");
@@ -77,13 +76,10 @@ public class SinaNewsTask {
                 String html = httpUtils.doGetHtml(entry.getValue());
                 Document docChild = Jsoup.parse(html);
 
-                Long newCount = this.parseChile(docChild, entry.getKey(), count);
+                this.parseChile(docChild, entry.getKey());
 
-                count = count + newCount;
             }
-
         }
-        return count;
     }
 
     /**
@@ -92,7 +88,7 @@ public class SinaNewsTask {
      * @param docChild 子
      * @param key      key
      */
-    private Long parseChile(Document docChild, String key, Long count) {
+    private void parseChile(Document docChild, String key) {
         try {
             Elements a = docChild.getElementsByTag("a");
             ArrayList<String> link = new ArrayList<>();
@@ -170,10 +166,12 @@ public class SinaNewsTask {
 
                     sinaNewsList.add(sinaNews);
                 }
+
+                //计数
+                count++;
             }
 
-            //计数
-            count++;
+
 
             sinaNewsService.saveBatch(sinaNewsList, 30);
 
@@ -184,8 +182,6 @@ public class SinaNewsTask {
         } catch (Exception e) {
             log.error(e.getMessage());
         }
-
-        return count;
     }
 
 }
