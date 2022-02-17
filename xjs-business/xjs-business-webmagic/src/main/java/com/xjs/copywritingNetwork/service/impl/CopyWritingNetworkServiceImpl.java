@@ -1,5 +1,6 @@
 package com.xjs.copywritingNetwork.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xjs.copywritingNetwork.mapper.CopyWritingNetworkMapper;
 import com.xjs.copywritingNetwork.pojo.CopyWritingNetwork;
@@ -57,5 +58,14 @@ public class CopyWritingNetworkServiceImpl extends ServiceImpl<CopyWritingNetwor
     @Override
     public int deleteCopyWritingNetworkById(Long id) {
         return copyWritingNetworkMapper.deleteCopyWritingNetworkById(id);
+    }
+
+    @Override
+    public List<Object> getType() {
+        QueryWrapper<CopyWritingNetwork> wrapper = new QueryWrapper<>();
+        wrapper.groupBy("type");
+        wrapper.select("type");
+
+        return this.listObjs(wrapper);
     }
 }

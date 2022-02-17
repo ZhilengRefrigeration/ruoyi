@@ -35,6 +35,16 @@ public class CopyWritingNetworkController extends MyBaseController {
     @Autowired
     private CopyWritingNetworkTask copyWritingNetworkTask;
 
+
+    @GetMapping("getType")
+    @ApiOperation("获取标签")
+    public AjaxResult getType() {
+        List<Object> typeList=copyWritingNetworkService.getType();
+        return AjaxResult.success(typeList);
+    }
+
+
+
     //----------------------远程rpc调用---------------------------
     @GetMapping("taskForPRC")
     @ApiOperation("供定时任务服务RPC远程调用")

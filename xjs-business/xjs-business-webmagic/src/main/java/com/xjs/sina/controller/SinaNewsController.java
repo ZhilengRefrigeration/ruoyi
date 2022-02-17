@@ -33,6 +33,14 @@ public class SinaNewsController extends MyBaseController {
     private SinaNewsService sinaNewsService;
 
 
+    @GetMapping("getType")
+    @ApiOperation("获取标签")
+    public AjaxResult getType() {
+        List<Object> typeList=sinaNewsService.getType();
+        return AjaxResult.success(typeList);
+    }
+
+
     //----------------------远程rpc调用---------------------------
     @GetMapping("taskForPRC")
     @ApiOperation("供定时任务服务RPC远程调用")

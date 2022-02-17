@@ -44,4 +44,11 @@ public interface CopyWritingNetworkService extends IService<CopyWritingNetwork> 
      * @return 结果
      */
     int deleteCopyWritingNetworkById(Long id);
+
+    /**
+     * 获取文案的标签
+     * @return list
+     */
+    List<Object> getType();
+
 }

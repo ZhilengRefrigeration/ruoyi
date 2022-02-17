@@ -29,6 +29,16 @@
         order by create_time desc
     </select>
 
+
+    <select id="getType" resultType="java.lang.String">
+        SELECT
+            type
+        FROM
+            webmagic_copywriting_network
+        GROUP BY
+            type
+    </select>
+
     <delete id="deleteRepeatData">
         delete from webmagic_copywriting_network where id not in	(
             SELECT

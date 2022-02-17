@@ -42,4 +42,10 @@ public interface SinaNewsService extends IService<SinaNews> {
      * @return 结果
      */
     public int deleteSinaNewsById(Long id);
+
+    /**
+     * 获取新闻分类
+     * @return List
+     */
+    List<Object> getType();
 }

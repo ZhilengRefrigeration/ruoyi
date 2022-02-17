@@ -16,3 +16,12 @@ export function delCopyWritingNetwork(id) {
     method: 'delete'
   })
 }
+
+
+// 获取类型
+export function getType() {
+  return request({
+    url: '/webmagic/copyWritingNetwork/getType',
+    method: 'get',
+  })
+}

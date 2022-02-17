@@ -3,6 +3,7 @@ package com.xjs.copywritingNetwork.pojo;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.ruoyi.common.core.annotation.Excel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -21,16 +22,20 @@ public class CopyWritingNetwork implements Serializable {
     private Long id;
 
     /** 文案标签 */
+    @Excel(name = "文案标签")
     private String type;
 
     /** 文案主题 */
+    @Excel(name = "文案主题")
     private String theme;
 
     /** 文案内容 */
+    @Excel(name = "文案内容")
     private String content;
 
     /** 创建时间 */
     @TableField(fill = FieldFill.INSERT)
+    @Excel(name = "创建时间",dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
 

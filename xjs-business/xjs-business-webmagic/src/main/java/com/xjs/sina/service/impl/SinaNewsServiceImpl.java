@@ -1,5 +1,6 @@
 package com.xjs.sina.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xjs.sina.mapper.SinaNewsMapper;
 import com.xjs.sina.pojo.SinaNews;
@@ -58,5 +59,14 @@ public class SinaNewsServiceImpl extends ServiceImpl<SinaNewsMapper, SinaNews> i
     @Override
     public int deleteSinaNewsById(Long id) {
         return sinaNewsMapper.deleteSinaNewsById(id);
+    }
+
+    @Override
+    public List<Object> getType() {
+        QueryWrapper<SinaNews> wrapper = new QueryWrapper<>();
+        wrapper.groupBy("category");
+        wrapper.select("category");
+
+        return this.listObjs(wrapper);
     }
 }

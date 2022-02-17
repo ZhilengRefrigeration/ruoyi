@@ -16,3 +16,11 @@ export function delSinaNews(id) {
     method: 'delete'
   })
 }
+
+// 获取类型
+export function getType() {
+  return request({
+    url: '/webmagic/sinaNews/getType',
+    method: 'get',
+  })
+}

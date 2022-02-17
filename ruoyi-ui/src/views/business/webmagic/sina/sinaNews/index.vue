@@ -2,6 +2,17 @@
   <div class="app-container">
 
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+      <el-form-item label="新闻分类" prop="category">
+        <el-select v-model="queryParams.category" placeholder="请输入新闻分类" clearable size="small">
+          <el-option
+            v-for="index in typeList"
+            :key="index"
+            :label="index"
+            :value="index"
+          />
+        </el-select>
+      </el-form-item>
+
       <el-form-item label="标题" prop="title">
         <el-input
           v-model="queryParams.title"
@@ -11,15 +22,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="新闻分类" prop="category">
-        <el-input
-          v-model="queryParams.category"
-          placeholder="请输入新闻分类"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+
       <el-form-item label="创建时间">
         <el-date-picker
           v-model="daterangeCreateTime"
@@ -95,7 +98,7 @@
 
 <script>
 
-import {listSinaNews, delSinaNews} from "@/api/business/webmagic/sina/sinaNews"
+import {listSinaNews, delSinaNews,getType} from "@/api/business/webmagic/sina/sinaNews"
 
 export default {
   name: "SinaNews",
@@ -133,6 +136,9 @@ export default {
 
       //检查查询范围
       daterangeCreateTime: [],
+
+      //类型集合
+      typeList:[],
 
       //日期组件
       pickerOptions: {
@@ -175,8 +181,16 @@ export default {
 
   created() {
     this.getList();
+    this.getType();
   },
   methods: {
+    //获取类型
+    getType() {
+      getType().then(res =>{
+        this.typeList=res.data
+      })
+    },
+
     //跳转链接
     to(url) {
       window.open(url, "_blank");

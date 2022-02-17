@@ -1,16 +1,16 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <!--      <el-form-item label="文案标签" prop="type">
-              <el-select v-model="queryParams.type" placeholder="请选择文案标签" clearable size="small">
-                <el-option
-                  v-for="dict in dict.type.sys_user_sex"
-                  :key="dict.value"
-                  :label="dict.label"
-                  :value="dict.value"
-                />
-              </el-select>
-            </el-form-item>-->
+      <el-form-item label="文案标签" prop="type">
+        <el-select v-model="queryParams.type" placeholder="请选择文案标签" clearable size="small">
+          <el-option
+            v-for="index in typeList"
+            :key="index"
+            :label="index"
+            :value="index"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item label="文案主题" prop="theme">
         <el-input
           v-model="queryParams.theme"
@@ -79,7 +79,7 @@
 
     <el-table v-loading="loading" :data="copyWritingNetworkList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"/>
-      <el-table-column label="文案标签" align="center" prop="type" :show-overflow-tooltip="true" width="120px" />
+      <el-table-column label="文案标签" align="center" prop="type" :show-overflow-tooltip="true" width="120px"/>
       <el-table-column label="文案主题" align="center" prop="theme" :show-overflow-tooltip="true" width="200px"/>
       <el-table-column label="文案内容" align="center" prop="content" :show-overflow-tooltip="true"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="150px">
@@ -108,7 +108,11 @@
 </template>
 <script>
 
-import {listCopyWritingNetwork, delCopyWritingNetwork} from "@/api/business/webmagic/copywritingnetwork/copyWritingNetwork"
+import {
+  listCopyWritingNetwork,
+  delCopyWritingNetwork,
+  getType
+} from "@/api/business/webmagic/copywritingnetwork/copyWritingNetwork"
 
 export default {
   name: "CopyWritingNetwork",
@@ -147,8 +151,10 @@ export default {
       // 表单参数
       form: {},
       // 表单校验
-      rules: {
-      },
+      rules: {},
+
+      //类型集合
+      typeList:[],
 
       //日期组件
       pickerOptions: {
@@ -190,8 +196,16 @@ export default {
   },
   created() {
     this.getList();
+    this.getType();
   },
   methods: {
+    //获取类型
+    getType() {
+      getType().then(res =>{
+        this.typeList=res.data
+      })
+    },
+
     /** 查询文案网列表 */
     getList() {
       this.loading = true;
@@ -238,19 +252,20 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
 
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除文案网编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除文案网编号为"' + ids + '"的数据项？').then(function () {
         return delCopyWritingNetwork(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      }).catch(() => {
+      });
     },
 
 

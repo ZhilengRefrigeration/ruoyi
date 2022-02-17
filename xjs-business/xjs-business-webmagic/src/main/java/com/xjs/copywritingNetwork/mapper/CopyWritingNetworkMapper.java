@@ -45,4 +45,9 @@ public interface CopyWritingNetworkMapper extends BaseMapper<CopyWritingNetwork>
      */
     public int deleteCopyWritingNetworkByIds(Long[] ids);
 
+    /**
+     * 获取文案的标签
+     * @return list
+     */
+    List<String> getType();
 }
