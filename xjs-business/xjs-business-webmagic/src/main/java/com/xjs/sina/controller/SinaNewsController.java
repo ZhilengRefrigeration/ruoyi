@@ -45,8 +45,8 @@ public class SinaNewsController extends MyBaseController {
     @GetMapping("taskForPRC")
     @ApiOperation("供定时任务服务RPC远程调用")
     public R sinaTaskForPRC() {
-        sinaNewsTask.reptileSinaNews();
-        return R.ok();
+        Long count = sinaNewsTask.reptileSinaNews();
+        return R.ok(count);
     }
 
 

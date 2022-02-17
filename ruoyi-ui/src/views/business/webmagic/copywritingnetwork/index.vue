@@ -82,6 +82,8 @@
       <el-table-column label="文案标签" align="center" prop="type" :show-overflow-tooltip="true" width="120px"/>
       <el-table-column label="文案主题" align="center" prop="theme" :show-overflow-tooltip="true" width="200px"/>
       <el-table-column label="文案内容" align="center" prop="content" :show-overflow-tooltip="true"/>
+      <el-table-column label="创建时间" align="center" prop="createTime" width="250px" :show-overflow-tooltip="true">
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="150px">
         <template slot-scope="scope">
           <el-button

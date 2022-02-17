@@ -1,5 +1,6 @@
 package com.xjs.copywritingNetwork.task;
 
+import com.xjs.annotation.ReptileLog;
 import com.xjs.common.util.HttpUtils;
 import com.xjs.copywritingNetwork.pojo.CopyWritingNetwork;
 import com.xjs.copywritingNetwork.service.CopyWritingNetworkService;
@@ -39,25 +40,33 @@ public class CopyWritingNetworkTask {
 
     private static final Pattern pattern = Pattern.compile(NUMBER_REGEX);
 
-    public void reptileCopyWriting() {
+    @ReptileLog(name = "文案网", url = URL)
+    public Long reptileCopyWriting() {
+        //定义循环次数计时器
+        Long count = 0L;
+
         try {
+
             String html = httpUtils.doGetHtml(URL);
 
             Document document = Jsoup.parse(html);
 
-            this.parseHtmlGetUrl(document);
+            count = this.parseHtmlGetUrl(document, count);
 
         } catch (Exception e) {
             log.error(e.getMessage());
         }
+        return count;
     }
 
     /**
      * 解析html获取url
      *
-     * @param document
+     * @param document dom
+     * @param count    循环次数
+     * @return 返回循环次数
      */
-    private void parseHtmlGetUrl(Document document) {
+    private Long parseHtmlGetUrl(Document document, Long count) {
         Elements zyzt = document.getElementsByClass("zyzt");
 
         Map<String, String> map = new HashMap<>();
@@ -67,19 +76,24 @@ public class CopyWritingNetworkTask {
                 String text = elementA.text();
                 String href = elementA.attr("href");
                 map.put(text, href);
+
+                //计数
+                count++;
             }
         }
 
-        this.parseHtmlGetCopyWriting(map);
+        return this.parseHtmlGetCopyWriting(map, count);
 
     }
 
     /**
      * 解析html获取文案内容并持久化
      *
-     * @param map 存放了url和名称
+     * @param map   存放了url和名称
+     * @param count 循环次数
+     * @return 返回循环次数
      */
-    private void parseHtmlGetCopyWriting(Map<String, String> map) {
+    private Long parseHtmlGetCopyWriting(Map<String, String> map, Long count) {
         ArrayList<CopyWritingNetwork> copyWritingNetworks = new ArrayList<>();
 
         for (Map.Entry<String, String> entry : map.entrySet()) {
@@ -110,6 +124,9 @@ public class CopyWritingNetworkTask {
                     if (StringUtils.isNotEmpty(content) && !matches) {
                         copyWritingNetworks.add(copyWritingNetwork);
                     }
+
+                    //计数
+                    count++;
                 }
             }
         }
@@ -119,6 +136,7 @@ public class CopyWritingNetworkTask {
         int i = copyWritingNetworkService.deleteRepeatData();
         log.info("删除文案网数据重复数：" + i);
 
+        return count;
     }
 
 

@@ -49,8 +49,8 @@ public class CopyWritingNetworkController extends MyBaseController {
     @GetMapping("taskForPRC")
     @ApiOperation("供定时任务服务RPC远程调用")
     public R copyWritingNetworkTaskForPRC() {
-        copyWritingNetworkTask.reptileCopyWriting();
-        return R.ok();
+        Long count = copyWritingNetworkTask.reptileCopyWriting();
+        return R.ok(count);
     }
 
 

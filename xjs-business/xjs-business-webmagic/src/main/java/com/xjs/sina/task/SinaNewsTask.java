@@ -2,6 +2,7 @@ package com.xjs.sina.task;
 
 import cn.hutool.core.collection.CollUtil;
 import com.ruoyi.common.core.utils.StringUtils;
+import com.xjs.annotation.ReptileLog;
 import com.xjs.common.util.HttpUtils;
 import com.xjs.sina.pojo.SinaNews;
 import com.xjs.sina.service.SinaNewsService;
@@ -32,25 +33,31 @@ public class SinaNewsTask {
 
     public static final String URL = "https://news.sina.com.cn/";
 
-    public void reptileSinaNews() {
+    @ReptileLog(name = "新浪新闻", url = URL)
+    public Long reptileSinaNews() {
+        //定义循环次数计时器
+        Long count = 0L;
+
         try {
 
             String html = httpUtils.doGetHtml(URL);
 
             Document document = Jsoup.parse(html);
 
-            this.parse(document);
+            count = this.parse(document,count);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
+        return count;
     }
 
     /**
      * 解析dom
      *
      * @param document dom
+     * @param count 循环次数
      */
-    private void parse(Document document) {
+    private Long parse(Document document,Long count) {
         try {
             //获取子链接
             Elements nav_mod_1 = document.getElementsByClass("nav-mod-1");
@@ -69,13 +76,17 @@ public class SinaNewsTask {
                 for (Map.Entry<String, String> entry : entrySet) {
                     String html = httpUtils.doGetHtml(entry.getValue());
                     Document docChild = Jsoup.parse(html);
-                    this.parseChile(docChild, entry.getKey());
+
+                    //计数
+                    count++;
+
+                    count =this.parseChile(docChild, entry.getKey(),count);
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
-
+        return count;
     }
 
     /**
@@ -84,7 +95,7 @@ public class SinaNewsTask {
      * @param docChild 子
      * @param key      key
      */
-    private void parseChile(Document docChild, String key) {
+    private Long parseChile(Document docChild, String key,Long count) {
         try {
             Elements a = docChild.getElementsByTag("a");
             ArrayList<String> link = new ArrayList<>();
@@ -163,15 +174,21 @@ public class SinaNewsTask {
                     sinaNewsList.add(sinaNews);
                 }
             }
+
+            //计数
+            count++;
+
             sinaNewsService.saveBatch(sinaNewsList, 30);
 
             //删除重复
-            int count = sinaNewsService.deleteRepeatData();
-            log.info("重复数据为:{}", count);
+            int num = sinaNewsService.deleteRepeatData();
+            log.info("重复数据为:{}", num);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
+
+        return count;
     }
 
 }
