@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.regex.Pattern;
+
+import static com.xjs.consts.RegexConst.NUMBER_REGEX;
 
 /**
  * @author xiejs
@@ -20,12 +23,13 @@ public class CopyWritingNetworkServiceImpl extends ServiceImpl<CopyWritingNetwor
     @Resource
     private CopyWritingNetworkMapper copyWritingNetworkMapper;
 
+    private static final Pattern pattern = Pattern.compile(NUMBER_REGEX);
+
     @Override
     public int deleteRepeatData() {
         return copyWritingNetworkMapper.deleteRepeatData();
     }
 
-    //-----------------------------代码生成-----------------------------
 
     /**
      * 查询文案网列表
@@ -35,8 +39,52 @@ public class CopyWritingNetworkServiceImpl extends ServiceImpl<CopyWritingNetwor
      */
     @Override
     public List<CopyWritingNetwork> selectCopyWritingNetworkList(CopyWritingNetwork copyWritingNetwork) {
-        return copyWritingNetworkMapper.selectCopyWritingNetworkList(copyWritingNetwork);
+        List<CopyWritingNetwork> list = copyWritingNetworkMapper.selectCopyWritingNetworkList(copyWritingNetwork);
+        list.forEach(data ->{
+            data.setContent(this.filterContent(data.getContent()));
+        });
+        return list;
     }
+
+
+    /**
+     * 过滤数据
+     *
+     * @param oldStr 原始数据
+     * @return newStr
+     */
+    private String filterContent(String oldStr) {
+        try {
+            char index0 = oldStr.charAt(0);
+            char index1 = oldStr.charAt(1);
+            char index2 = oldStr.charAt(2);
+            boolean matches0 = pattern.matcher(String.valueOf(index0)).matches();
+            boolean matches1 = pattern.matcher(String.valueOf(index1)).matches();
+            //  1、
+            if (matches0 && index1=='、') {
+                return oldStr.substring(2,oldStr.length()-2);
+            }
+            // 15、
+            if (matches0 && matches1 && index2 == '、') {
+                return oldStr.substring(3,oldStr.length()-3);
+            }
+            //1.
+            if (matches0 && index1=='.') {
+                return oldStr.substring(2,oldStr.length()-2);
+            }
+            //13.
+            if (matches0 && matches1 && index2 == '.') {
+                return oldStr.substring(3,oldStr.length()-3);
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return oldStr;
+        }
+        return oldStr;
+    }
+
+    //-----------------------------代码生成-----------------------------
+
 
     /**
      * 批量删除文案网

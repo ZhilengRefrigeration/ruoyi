@@ -117,7 +117,7 @@ public class CopyWritingNetworkTask {
         copyWritingNetworkService.saveBatch(copyWritingNetworks, 20);
 
         int i = copyWritingNetworkService.deleteRepeatData();
-        log.info("删除文案网数据重复数："+i);
+        log.info("删除文案网数据重复数：" + i);
 
     }
 
