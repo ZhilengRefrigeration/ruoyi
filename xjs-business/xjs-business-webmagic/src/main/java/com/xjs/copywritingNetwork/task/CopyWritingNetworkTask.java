@@ -18,9 +18,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import static com.xjs.consts.RegexConst.NUMBER_REGEX;
-import static com.xjs.consts.ReptileUrlConst.COPY_WRITING_NETWORK_URL;
-
 /**
  * 文案网爬虫任务   url:https://www.wenanwang.com/
  *
@@ -37,21 +34,23 @@ public class CopyWritingNetworkTask {
     private CopyWritingNetworkService copyWritingNetworkService;
 
 
-    private static final Pattern pattern = Pattern.compile(NUMBER_REGEX);
+    public static final String URL = "https://www.wenanwang.com/";
 
-    @Scheduled(fixedDelay = 1000 * 5 * 60 * 10)
+    private static Pattern pattern = Pattern.compile("[0-9]*");
+
+    @Scheduled(fixedDelay = 1000 * 5)
     public void reptileCopyWriting() {
         try {
-            String html = httpUtils.doGetHtml(COPY_WRITING_NETWORK_URL);
+            String html = httpUtils.doGetHtml(URL);
 
             Document document = Jsoup.parse(html);
 
             this.parseHtmlGetUrl(document);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
+        }finally {
             int i = copyWritingNetworkService.deleteRepeatData();
-            log.info("删除文案网数据重复数：" + i);
+            log.info("删除文案网数据重复数："+i);
         }
     }
 
@@ -93,7 +92,7 @@ public class CopyWritingNetworkTask {
             for (Element element : a) {
 
                 String href = element.attr("href");
-                String newUrl = COPY_WRITING_NETWORK_URL + href;
+                String newUrl = URL + href;
 
                 String cw = httpUtils.doGetHtml(newUrl);
                 Document cwDocument = Jsoup.parse(cw);

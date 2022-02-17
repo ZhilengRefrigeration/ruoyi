@@ -16,8 +16,6 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.xjs.consts.ReptileUrlConst.SINA_NEWS_URL;
-
 /**
  * 新浪新闻爬虫任务
  * @author xiejs
@@ -32,12 +30,11 @@ public class SinaNewsTask {
     @Autowired
     private SinaNewsService sinaNewsService;
 
-
-
     public void reptileSinaNews() {
         try {
+            String url = "https://news.sina.com.cn/";
 
-            String html = httpUtils.doGetHtml(SINA_NEWS_URL);
+            String html = httpUtils.doGetHtml(url);
 
             Document document = Jsoup.parse(html);
 

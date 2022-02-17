@@ -1,9 +1,9 @@
 package com.xjs.consts;
 
 /**
- * 各个数据平台常量类
  * @author xiejs
- * @since  2021-12-28
+ * @desc  各个数据平台常量类
+ * @create 2021-12-28
  */
 public class CopyWritingConst {
 

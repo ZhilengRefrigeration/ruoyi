@@ -1,9 +1,9 @@
 package com.xjs.consts;
 
 /**
- * 请求是否成功常量
  * @author xiejs
- * @since  2021-12-26
+ * @desc  请求是否成功常量
+ * @create 2021-12-26
  */
 public class ReqConst {
     public static final Integer SUCCESS = 1;
