@@ -32,4 +32,11 @@ public class CopyWritingNetwork implements Serializable {
     /** 创建时间 */
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
+
+
+    /**
+     * 查询条件的结束时间
+     */
+    @TableField(exist = false)
+    private Date endCreateTime;
 }

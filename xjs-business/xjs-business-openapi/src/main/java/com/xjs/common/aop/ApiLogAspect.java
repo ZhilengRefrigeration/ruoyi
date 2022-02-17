@@ -134,16 +134,18 @@ public class ApiLogAspect {
                 entity.setRequest(objects.toJSONString());
             }
         } else {
-            if(args.length>0){
+            if (args.length > 0) {
                 String jsonString = JSON.toJSONString(args[0]);
                 entity.setRequest(jsonString);
             }
         }
         entity.setMethod(apiLog.method());
+        String response = null;
         if (Objects.nonNull(jsonResult)) {
-            entity.setResponse(jsonResult.toString());
+            response = jsonResult.toString();
+            entity.setResponse(response);
         }
-        if (e != null) {
+        if (e != null || StringUtils.isEmpty(response)) {
             entity.setIsSuccess(ReqConst.ERROR);
         } else {
             entity.setIsSuccess(ReqConst.SUCCESS);

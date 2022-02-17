@@ -1,6 +1,7 @@
 package com.xjs.common.util;
 
 import com.ruoyi.common.core.constant.HttpStatus;
+import lombok.extern.log4j.Log4j2;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -22,6 +23,7 @@ import java.util.UUID;
  * @since 2022-02-15
  */
 @Component
+@Log4j2
 public class HttpUtils {
 
     private PoolingHttpClientConnectionManager cm;
@@ -30,9 +32,9 @@ public class HttpUtils {
         this.cm = new PoolingHttpClientConnectionManager();
 
         //设置最大连接数
-        this.cm.setMaxTotal(100);
+        this.cm.setMaxTotal(1000);
         //设置每个主机最大连接数
-        this.cm.setDefaultMaxPerRoute(10);
+        this.cm.setDefaultMaxPerRoute(100);
     }
 
     /**
@@ -67,14 +69,14 @@ public class HttpUtils {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         } finally {
             //关闭response
             if (response != null) {
                 try {
                     response.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error(e.getMessage());
                 }
             }
         }
@@ -122,14 +124,14 @@ public class HttpUtils {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         } finally {
             //关闭response
             if (response != null) {
                 try {
                     response.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error(e.getMessage());
                 }
             }
         }

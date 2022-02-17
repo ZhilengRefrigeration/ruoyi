@@ -129,7 +129,11 @@
       <el-table-column label="接口名称" align="center" prop="apiName" :show-overflow-tooltip="true"/>
       <el-table-column label="请求URL" align="center" prop="url" :show-overflow-tooltip="true"/>
       <el-table-column label="请求方法" align="center" prop="method" :show-overflow-tooltip="true"/>
-      <el-table-column label="请求参数" align="center" prop="request" :show-overflow-tooltip="true"/>
+      <el-table-column label="请求参数" align="center" prop="request" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          <span>{{scope.row.request!==""?scope.row.request:"-"}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="响应参数" align="center" prop="response" :show-overflow-tooltip="true"/>
       <el-table-column label="创建时间" align="center" prop="createTime" :show-overflow-tooltip="true"/>
       <el-table-column label="是否请求成功" align="center" prop="isSuccess" :show-overflow-tooltip="true">
@@ -201,11 +205,11 @@
 </template>
 
 <script>
-import {listLog, getLog, delLog,getApiName} from "@/api/business/log/apilog";
+import {listLog, getLog, delLog, getApiName} from "@/api/business/log/apilog";
 
 export default {
   name: "Apilog",
-  dicts: ['request_status','request_method'],
+  dicts: ['request_status', 'request_method'],
   data() {
     return {
       // 遮罩层
@@ -246,7 +250,7 @@ export default {
       daterangeCreateTime: [],
 
       //api名称
-      apiName:[],
+      apiName: [],
     };
   },
   created() {
@@ -256,8 +260,8 @@ export default {
   methods: {
     //获取所有api名称
     getApiName() {
-      getApiName().then(res =>{
-        this.apiName=res.data
+      getApiName().then(res => {
+        this.apiName = res.data
       })
 
     },
@@ -322,8 +326,8 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.daterangeCreateTime = [];
-      this.queryParams.createTime=null
-      this.queryParams.endCreateTime=null
+      this.queryParams.createTime = null
+      this.queryParams.endCreateTime = null
       this.resetForm("queryForm");
       this.handleQuery();
     },

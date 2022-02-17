@@ -1,20 +1,29 @@
 <template>
   <div class="app-container">
-
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="标题" prop="title">
+      <!--      <el-form-item label="文案标签" prop="type">
+              <el-select v-model="queryParams.type" placeholder="请选择文案标签" clearable size="small">
+                <el-option
+                  v-for="dict in dict.type.sys_user_sex"
+                  :key="dict.value"
+                  :label="dict.label"
+                  :value="dict.value"
+                />
+              </el-select>
+            </el-form-item>-->
+      <el-form-item label="文案主题" prop="theme">
         <el-input
-          v-model="queryParams.title"
-          placeholder="请输入标题"
+          v-model="queryParams.theme"
+          placeholder="请输入文案主题"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="新闻分类" prop="category">
+      <el-form-item label="文案内容" prop="content">
         <el-input
-          v-model="queryParams.category"
-          placeholder="请输入新闻分类"
+          v-model="queryParams.content"
+          placeholder="请输入文案内容"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -50,23 +59,29 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['webmagic:sinaNews:remove']"
+          v-hasPermi="['webmagic:copyWritingNetwork:remove']"
         >删除
+        </el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="warning"
+          plain
+          icon="el-icon-download"
+          size="mini"
+          @click="handleExport"
+          v-hasPermi="['webmagic:copyWritingNetwork:export']"
+        >导出
         </el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="sinaNewsList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="copyWritingNetworkList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"/>
-      <el-table-column label="标题" align="center" prop="title" :show-overflow-tooltip="true">
-        <template slot-scope="scope">
-          <div style="cursor:pointer" v-text="scope.row.title" @click="to(scope.row.url)"></div>
-        </template>
-      </el-table-column>
-      <el-table-column label="新闻分类" align="center" prop="category" width="250px"/>
-      <el-table-column label="创建时间" align="center" prop="createTime" width="250px" :show-overflow-tooltip="true">
-      </el-table-column>
+      <el-table-column label="文案标签" align="center" prop="type" :show-overflow-tooltip="true" width="120px" />
+      <el-table-column label="文案主题" align="center" prop="theme" :show-overflow-tooltip="true" width="200px"/>
+      <el-table-column label="文案内容" align="center" prop="content" :show-overflow-tooltip="true"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="150px">
         <template slot-scope="scope">
           <el-button
@@ -74,7 +89,7 @@
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['webmagic:sinaNews:remove']"
+            v-hasPermi="['webmagic:copyWritingNetwork:remove']"
           >删除
           </el-button>
         </template>
@@ -89,16 +104,15 @@
       @pagination="getList"
     />
 
-
   </div>
 </template>
-
 <script>
 
-import {listSinaNews, delSinaNews} from "@/api/business/webmagic/sina/sinaNews"
+import {listCopyWritingNetwork, delCopyWritingNetwork} from "@/api/business/webmagic/copywritingnetwork/copyWritingNetwork"
 
 export default {
-  name: "SinaNews",
+  name: "CopyWritingNetwork",
+
   data() {
     return {
       // 遮罩层
@@ -113,26 +127,28 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 新浪新闻表格数据
-      sinaNewsList: [],
+      // 文案网表格数据
+      copyWritingNetworkList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
       open: false,
+      // 创建时间时间范围
+      daterangeCreateTime: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        title: null,
-        category: null,
+        type: null,
+        theme: null,
+        content: null,
+        createTime: null
       },
       // 表单参数
       form: {},
       // 表单校验
-      rules: {},
-
-      //检查查询范围
-      daterangeCreateTime: [],
+      rules: {
+      },
 
       //日期组件
       pickerOptions: {
@@ -172,26 +188,20 @@ export default {
       },
     };
   },
-
   created() {
     this.getList();
   },
   methods: {
-    //跳转链接
-    to(url) {
-      window.open(url, "_blank");
-    },
-
-    /** 查询新浪新闻列表 */
+    /** 查询文案网列表 */
     getList() {
+      this.loading = true;
+      this.queryParams.params = {};
       if (null != this.daterangeCreateTime && '' != this.daterangeCreateTime) {
         this.queryParams.createTime = this.daterangeCreateTime[0];
         this.queryParams.endCreateTime = this.daterangeCreateTime[1];
       }
-
-      this.loading = true;
-      listSinaNews(this.queryParams).then(response => {
-        this.sinaNewsList = response.rows;
+      listCopyWritingNetwork(this.queryParams).then(response => {
+        this.copyWritingNetworkList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -205,9 +215,9 @@ export default {
     reset() {
       this.form = {
         id: null,
-        title: null,
-        category: null,
-        url: null,
+        type: null,
+        theme: null,
+        content: null,
         createTime: null
       };
       this.resetForm("form");
@@ -228,23 +238,28 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.single = selection.length !== 1
+      this.single = selection.length!==1
       this.multiple = !selection.length
     },
-
 
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除新浪新闻编号为"' + ids + '"的数据项？').then(function () {
-        return delSinaNews(ids);
+      this.$modal.confirm('是否确认删除文案网编号为"' + ids + '"的数据项？').then(function() {
+        return delCopyWritingNetwork(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {
-      });
+      }).catch(() => {});
     },
 
+
+    /** 导出按钮操作 */
+    handleExport() {
+      this.download('webmagic/copyWritingNetwork/export', {
+        ...this.queryParams
+      }, `copyWritingNetwork_${new Date().getTime()}.xlsx`)
+    }
   }
 }
 </script>

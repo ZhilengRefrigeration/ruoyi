@@ -4,6 +4,31 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xjs.copywritingNetwork.mapper.CopyWritingNetworkMapper">
 
+
+    <resultMap type="com.xjs.copywritingNetwork.pojo.CopyWritingNetwork" id="CopyWritingNetworkResult">
+        <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
+        <result property="theme"    column="theme"    />
+        <result property="content"    column="content"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectCopyWritingNetworkVo">
+        select id, type, theme, content, create_time from webmagic_copywriting_network
+    </sql>
+
+
+    <select id="selectCopyWritingNetworkList" parameterType="com.xjs.copywritingNetwork.pojo.CopyWritingNetwork" resultMap="CopyWritingNetworkResult">
+        <include refid="selectCopyWritingNetworkVo"/>
+        <where>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="theme != null  and theme != ''"> and theme like concat('%', #{theme}, '%')</if>
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+            <if test="createTime != null and endCreateTime != null"> and create_time between #{createTime} and #{endCreateTime}</if>
+        </where>
+        order by create_time desc
+    </select>
+
     <delete id="deleteRepeatData">
         delete from webmagic_copywriting_network where id not in	(
             SELECT
@@ -11,5 +36,16 @@
             FROM
                 ( SELECT min( id ) AS min_id FROM webmagic_copywriting_network GROUP BY content ) AS t
         )
+    </delete>
+
+    <delete id="deleteCopyWritingNetworkById" parameterType="Long">
+        delete from webmagic_copywriting_network where id = #{id}
+    </delete>
+
+    <delete id="deleteCopyWritingNetworkByIds" parameterType="String">
+        delete from webmagic_copywriting_network where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </delete>
 </mapper>

@@ -22,7 +22,7 @@ public class SinaTask {
     private RemoteWebmagicSinaFeign remoteWebmagicSinaFeign;
 
     /**
-     * 任务执行
+     * 爬虫 新浪新闻 定时任务执行
      */
     public void sinaNews() {
         log.info("---------------爬虫-新浪新闻定时任务Start-------------------");

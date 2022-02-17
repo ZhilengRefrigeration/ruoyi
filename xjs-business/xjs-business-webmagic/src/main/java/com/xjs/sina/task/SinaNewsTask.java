@@ -30,17 +30,18 @@ public class SinaNewsTask {
     @Autowired
     private SinaNewsService sinaNewsService;
 
+    public static final String URL = "https://news.sina.com.cn/";
+
     public void reptileSinaNews() {
         try {
-            String url = "https://news.sina.com.cn/";
 
-            String html = httpUtils.doGetHtml(url);
+            String html = httpUtils.doGetHtml(URL);
 
             Document document = Jsoup.parse(html);
 
             this.parse(document);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
     }
 

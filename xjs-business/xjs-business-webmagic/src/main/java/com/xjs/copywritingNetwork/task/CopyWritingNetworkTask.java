@@ -10,13 +10,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import static com.xjs.consts.RegexConst.NUMBER_REGEX;
 
 /**
  * 文案网爬虫任务   url:https://www.wenanwang.com/
@@ -36,9 +37,8 @@ public class CopyWritingNetworkTask {
 
     public static final String URL = "https://www.wenanwang.com/";
 
-    private static Pattern pattern = Pattern.compile("[0-9]*");
+    private static final Pattern pattern = Pattern.compile(NUMBER_REGEX);
 
-    @Scheduled(fixedDelay = 1000 * 5)
     public void reptileCopyWriting() {
         try {
             String html = httpUtils.doGetHtml(URL);
@@ -46,11 +46,9 @@ public class CopyWritingNetworkTask {
             Document document = Jsoup.parse(html);
 
             this.parseHtmlGetUrl(document);
+
         } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            int i = copyWritingNetworkService.deleteRepeatData();
-            log.info("删除文案网数据重复数："+i);
+            log.error(e.getMessage());
         }
     }
 
@@ -117,6 +115,9 @@ public class CopyWritingNetworkTask {
         }
 
         copyWritingNetworkService.saveBatch(copyWritingNetworks, 20);
+
+        int i = copyWritingNetworkService.deleteRepeatData();
+        log.info("删除文案网数据重复数："+i);
 
     }
 
