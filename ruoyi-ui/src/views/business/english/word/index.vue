@@ -6,6 +6,7 @@
           v-model="queryParams.englishWord"
           placeholder="英语单词"
           clearable
+          maxlength="20"
           size="small"
           @keyup.enter.native="handleQuery"
         />
@@ -15,6 +16,7 @@
           v-model="queryParams.chineseWord"
           placeholder="请输入中文"
           clearable
+          maxlength="10"
           size="small"
           @keyup.enter.native="handleQuery"
         />
@@ -314,34 +316,33 @@ export default {
       // 表单校验
       rulesEdit: {
         englishWord: [
-          {required: true, message: "英语单词不能为空", trigger: "blur"}
+          {required: true, message: "英语单词不能为空", trigger: "blur"},
+          { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
         ],
         chineseWord: [
-          {required: true, message: "中文不能为空", trigger: "blur"}
+          {required: true, message: "中文不能为空", trigger: "blur"},
+          { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' }
         ],
         isCollect: [
-          {required: true, message: "是否收藏 1收藏 2不收藏不能为空", trigger: "blur"}
+          {required: true, message: "收藏不能为空", trigger: "blur"}
         ],
         top: [
-          {required: true, message: "置顶 1置顶 2不置顶不能为空", trigger: "blur"}
+          {required: true, message: "置顶不能为空", trigger: "blur"}
         ],
-        createTime: [
-          {required: true, message: "创建时间不能为空", trigger: "blur"}
-        ]
+
       },
       rulesAdd: {
         content: [
-          {required: true, message: "中英文不能为空", trigger: "blur"}
+          {required: true, message: "中英文不能为空", trigger: "blur"},
+          { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
         ],
         isCollect: [
-          {required: true, message: "是否收藏 1收藏 2不收藏不能为空", trigger: "blur"}
+          {required: true, message: "收藏不能为空", trigger: "blur"}
         ],
         top: [
-          {required: true, message: "置顶 1置顶 2不置顶不能为空", trigger: "blur"}
+          {required: true, message: "置顶不能为空", trigger: "blur"}
         ],
-        createTime: [
-          {required: true, message: "创建时间不能为空", trigger: "blur"}
-        ]
+
       }
     };
   },

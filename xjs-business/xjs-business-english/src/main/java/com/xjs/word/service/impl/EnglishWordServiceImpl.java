@@ -31,7 +31,7 @@ import static com.xjs.consts.RedisConst.TRAN_DICT_EXPIRE;
  * 英语单词Service业务层处理
  *
  * @author xjs
- * @date 2021-12-29
+ * @since  2021-12-29
  */
 @Service
 @Log4j2
@@ -106,9 +106,12 @@ public class EnglishWordServiceImpl implements IEnglishWordService {
         //校验数据库是否存在该单词
         List<EnglishWord> englishWordList = englishWordMapper.selectList(new QueryWrapper<EnglishWord>()
                 .eq("english_word", englishWord.getContent()));
-        if (CollUtil.isNotEmpty(englishWordList)) {
-            throw new BusinessException("该单词已存在！！！!");
+        List<EnglishWord> chineseWordList = englishWordMapper.selectList(new QueryWrapper<EnglishWord>()
+                .eq("chinese_word", englishWord.getContent()));
+        if (CollUtil.isNotEmpty(englishWordList)|| CollUtil.isNotEmpty(chineseWordList)) {
+            throw new BusinessException("该词汇已存在！！！!");
         }
+
         //校验前端传入的是否英文或中文
         boolean alpha = ChineseUtils.isAlpha(englishWord.getContent());
         boolean chinese = ChineseUtils.checkNameChese(englishWord.getContent());

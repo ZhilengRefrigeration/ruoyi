@@ -8,6 +8,7 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.validation.AddGroup;
+import com.xjs.validation.SelectGroup;
 import com.xjs.validation.UpdateGroup;
 import com.xjs.web.MyBaseController;
 import com.xjs.word.domain.EnglishWord;
@@ -77,7 +78,7 @@ public class EnglishWordController extends MyBaseController {
     @RequiresPermissions("english:word:list")
     @GetMapping("/list")
     @ApiOperation("查询英语单词列表")
-    public TableDataInfo list(EnglishWord englishWord) {
+    public TableDataInfo list(@Validated({SelectGroup.class}) EnglishWord englishWord) {
         startPage();
         List<EnglishWord> list = englishWordService.selectEnglishWordList(englishWord);
         return getDataTable(list);

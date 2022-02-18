@@ -1,9 +1,10 @@
 package com.xjs.validation;
 
 /**
+ * 修改校验分组
+ *
  * @author xiejs
- * @desc  修改校验分组
- * @create 2021-12-30
+ * @since 2021-12-30
  */
 public interface UpdateGroup {
 }
