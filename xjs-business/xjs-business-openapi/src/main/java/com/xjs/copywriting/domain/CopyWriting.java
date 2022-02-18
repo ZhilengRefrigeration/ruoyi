@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.core.annotation.Excel;
+import com.xjs.validation.group.SelectGroup;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -27,10 +29,12 @@ public class CopyWriting implements Serializable {
 
     /** 文案内容 */
     @Excel(name = "文案内容")
+    @Size(max = 100, message = "请控制文案内容长度在100字符", groups = {SelectGroup.class})
     private String content;
 
     /** 文案来源 */
     @Excel(name = "文案来源")
+    @Size(max = 50, message = "请控制文案来源长度在50字符", groups = {SelectGroup.class})
     private String source;
 
     @Excel(name = "创建时间",dateFormat = "yyyy-MM-dd HH:mm:ss")

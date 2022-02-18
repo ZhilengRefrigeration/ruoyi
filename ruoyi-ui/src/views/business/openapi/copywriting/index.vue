@@ -7,6 +7,7 @@
           placeholder="请输入文案内容"
           clearable
           size="small"
+          maxlength="100"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
@@ -16,6 +17,7 @@
           placeholder="请输入文案来源"
           clearable
           size="small"
+          maxlength="50"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
@@ -36,6 +38,7 @@
           style="width: 240px"
           value-format="yyyy-MM-dd"
           type="daterange"
+          :picker-options="pickerOptions"
           range-separator="-"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
@@ -57,7 +60,8 @@
           :disabled="multiple"
           @click="handleDelete"
           v-hasPermi="['openapi:copywriting:remove']"
-        >删除</el-button>
+        >删除
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -67,7 +71,8 @@
           size="mini"
           @click="handleExport"
           v-hasPermi="['openapi:copywriting:export']"
-        >导出</el-button>
+        >导出
+        </el-button>
       </el-col>
 
       <el-col :span="1.5">
@@ -78,15 +83,16 @@
           size="mini"
           @click="delRepeatCopyWriting"
           v-hasPermi="['openapi:copywriting:remove']"
-        >删除重复文案</el-button>
+        >删除重复文案
+        </el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="copyWritingList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
+      <el-table-column type="selection" width="55" align="center"/>
       <el-table-column label="文案内容" align="center" prop="content" :show-overflow-tooltip="true" width="700px"/>
-      <el-table-column label="文案来源" align="center" prop="source" :show-overflow-tooltip="true" />
+      <el-table-column label="文案来源" align="center" prop="source" :show-overflow-tooltip="true"/>
       <el-table-column label="创建时间" align="center" prop="createTime" width="180" :show-overflow-tooltip="true">
       </el-table-column>
       <el-table-column label="文案类型" align="center" prop="type" :show-overflow-tooltip="true">
@@ -97,20 +103,20 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="120px">
         <template slot-scope="scope">
           <el-tooltip class="item" effect="dark" content="点击查看详情" placement="top-start">
-          <el-button circle
-            type=""
-            icon="el-icon-view"
-            @click="handleView(scope.row,scope.index)"
-            v-hasPermi="['openapi:copywriting:query']"
-          ></el-button>
+            <el-button circle
+                       type=""
+                       icon="el-icon-view"
+                       @click="handleView(scope.row,scope.index)"
+                       v-hasPermi="['openapi:copywriting:query']"
+            ></el-button>
           </el-tooltip>
           <el-tooltip class="item" effect="dark" content="点击删除" placement="top-start">
-          <el-button circle
-            type="danger"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['openapi:copywriting:remove']"
-          ></el-button>
+            <el-button circle
+                       type="danger"
+                       icon="el-icon-delete"
+                       @click="handleDelete(scope.row)"
+                       v-hasPermi="['openapi:copywriting:remove']"
+            ></el-button>
           </el-tooltip>
         </template>
       </el-table-column>
@@ -141,11 +147,13 @@
 </template>
 
 <script>
-import { listCopyWriting, getCopyWriting,delRepeatCopyWriting, delCopyWriting } from "@/api/business/openapi/copywriting";
+import {listCopyWriting, delRepeatCopyWriting, delCopyWriting} from "@/api/business/openapi/copywriting";
+import {pickerOptions} from "@/layout/mixin/PickerOptions"
 
 export default {
   name: "CopyWriting",
   dicts: ['copywriting_type'],
+  mixins: [pickerOptions],
   data() {
     return {
       // 遮罩层
@@ -179,15 +187,8 @@ export default {
       },
       // 表单参数
       form: {},
-      // 表单校验
-      rules: {
-        content: [
-          { required: true, message: "文案内容不能为空", trigger: "blur" }
-        ],
-        source: [
-          { required: true, message: "文案来源不能为空", trigger: "blur" }
-        ]
-      }
+
+
     };
   },
   created() {
@@ -196,8 +197,8 @@ export default {
   methods: {
     //删除重复文案
     delRepeatCopyWriting() {
-      delRepeatCopyWriting().then(res =>{
-        this.$modal.msgSuccess("删除"+res.data+"条");
+      delRepeatCopyWriting().then(res => {
+        this.$modal.msgSuccess("删除" + res.data + "条");
         this.getList();
       })
     },
@@ -222,22 +223,7 @@ export default {
         this.loading = false;
       });
     },
-    // 取消按钮
-    cancel() {
-      this.open = false;
-      this.reset();
-    },
-    // 表单重置
-    reset() {
-      this.form = {
-        id: null,
-        content: null,
-        source: null,
-        createTime: null,
-        type: null
-      };
-      this.resetForm("form");
-    },
+
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageNum = 1;
@@ -246,46 +232,28 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.daterangeCreateTime = [];
-      this.queryParams.createTime=null
-      this.queryParams.endCreateTime=null
+      this.queryParams.createTime = null
+      this.queryParams.endCreateTime = null
       this.resetForm("queryForm");
       this.handleQuery();
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.id)
-      this.single = selection.length!==1
+      this.single = selection.length !== 1
       this.multiple = !selection.length
     },
-    /** 提交按钮 */
-    submitForm() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          if (this.form.id != null) {
-            updateCopyWriting(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功");
-              this.open = false;
-              this.getList();
-            });
-          } else {
-            addCopyWriting(this.form).then(response => {
-              this.$modal.msgSuccess("新增成功");
-              this.open = false;
-              this.getList();
-            });
-          }
-        }
-      });
-    },
+
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除文案api，通过api获取文案信息编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除文案api，通过api获取文案信息编号为"' + ids + '"的数据项？').then(function () {
         return delCopyWriting(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+      }).catch(() => {
+      });
     },
     /** 导出按钮操作 */
     handleExport() {

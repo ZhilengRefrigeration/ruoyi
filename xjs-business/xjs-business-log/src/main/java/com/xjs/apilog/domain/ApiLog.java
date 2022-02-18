@@ -46,12 +46,12 @@ public class ApiLog implements Serializable
 
     /** 请求request */
     @Excel(name = "请求request")
-    @Size(max = 1000, message = "请控制请求request长度在1000字符", groups = { SelectGroup.class})
+    @Size(max = 100, message = "请控制请求request长度在100字符", groups = { SelectGroup.class})
     private String request;
 
     /** 响应体 */
     @Excel(name = "响应体")
-    @Size(max = 15000, message = "请控制响应体长度在15000字符", groups = { SelectGroup.class})
+    @Size(max = 100, message = "请控制响应体长度在100字符", groups = { SelectGroup.class})
     private String response;
 
     /** 是否请求成功 */

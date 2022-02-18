@@ -33,7 +33,7 @@
           placeholder="请输入请求参数"
           clearable
           size="small"
-          maxlength="1000"
+          maxlength="100"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
@@ -44,7 +44,7 @@
           placeholder="请输入响应参数"
           clearable
           size="small"
-          maxlength="15000"
+          maxlength="100"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>

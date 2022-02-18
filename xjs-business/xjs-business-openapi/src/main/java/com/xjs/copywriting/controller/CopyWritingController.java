@@ -14,6 +14,7 @@ import com.xjs.copywriting.domain.CopyWriting;
 import com.xjs.copywriting.domain.RequestBody;
 import com.xjs.copywriting.factory.CopyWritingFactory;
 import com.xjs.copywriting.service.CopyWritingService;
+import com.xjs.validation.group.SelectGroup;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
@@ -151,7 +152,7 @@ public class CopyWritingController extends BaseController {
     @ApiOperation("文案列表")
     @RequiresPermissions("openapi:copywriting:list")
     @GetMapping("/list")
-    public TableDataInfo list(CopyWriting copyWriting) {
+    public TableDataInfo list(@Validated({SelectGroup.class}) CopyWriting copyWriting) {
         startPage();
         List<CopyWriting> list = copyWritingService.selectCopyWritingList(copyWriting);
         return getDataTable(list);
