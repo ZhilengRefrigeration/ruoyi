@@ -1,4 +1,4 @@
-package com.xjs.validation;
+package com.xjs.validation.group;
 
 /**
  * 查询校验分组

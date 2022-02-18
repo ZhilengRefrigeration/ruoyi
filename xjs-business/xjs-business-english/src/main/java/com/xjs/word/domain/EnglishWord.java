@@ -2,9 +2,9 @@ package com.xjs.word.domain;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.ruoyi.common.core.annotation.Excel;
-import com.xjs.validation.AddGroup;
-import com.xjs.validation.SelectGroup;
-import com.xjs.validation.UpdateGroup;
+import com.xjs.validation.group.AddGroup;
+import com.xjs.validation.group.SelectGroup;
+import com.xjs.validation.group.UpdateGroup;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;

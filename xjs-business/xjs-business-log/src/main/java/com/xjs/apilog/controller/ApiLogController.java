@@ -10,9 +10,11 @@ import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.apilog.domain.ApiLog;
 import com.xjs.apilog.service.IApiLogService;
+import com.xjs.validation.group.SelectGroup;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -37,7 +39,7 @@ public class ApiLogController extends BaseController {
     public R<Object> saveApiLog(@RequestBody ApiLog apiLog) {
 
         boolean save = apiLogService.save(apiLog);
-        return save?R.ok():R.fail();
+        return save ? R.ok() : R.fail();
     }
 
 
@@ -58,7 +60,7 @@ public class ApiLogController extends BaseController {
     @RequiresPermissions("log:apilog:list")
     @GetMapping("/list")
     @ApiOperation("查询日志列表")
-    public TableDataInfo list(ApiLog apiLog) {
+    public TableDataInfo list(@Validated({SelectGroup.class}) ApiLog apiLog) {
         startPage();
         List<ApiLog> list = apiLogService.selectApiLogList(apiLog);
         return getDataTable(list);

@@ -22,6 +22,7 @@
           placeholder="请输入请求URL"
           clearable
           size="small"
+          maxlength="100"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
@@ -32,6 +33,7 @@
           placeholder="请输入请求参数"
           clearable
           size="small"
+          maxlength="1000"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
@@ -42,6 +44,7 @@
           placeholder="请输入响应参数"
           clearable
           size="small"
+          maxlength="15000"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
@@ -134,7 +137,11 @@
           <span>{{ scope.row.request !== "" ? scope.row.request : "-" }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="响应参数" align="center" prop="response" :show-overflow-tooltip="true"/>
+      <el-table-column label="响应参数" align="center" prop="response" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          <span>{{ scope.row.response !== "" ? scope.row.response : "-" }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="创建时间" align="center" prop="createTime" :show-overflow-tooltip="true"/>
       <el-table-column label="是否请求成功" align="center" prop="isSuccess" :show-overflow-tooltip="true">
         <template slot-scope="scope">

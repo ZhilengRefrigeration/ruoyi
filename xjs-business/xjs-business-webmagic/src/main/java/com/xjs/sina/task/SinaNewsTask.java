@@ -39,6 +39,7 @@ public class SinaNewsTask {
 
     @ReptileLog(name = "新浪新闻", url = URL)
     public Long reptileSinaNews() {
+        Long thisCount = 0L;
         try {
 
             String html = httpUtils.doGetHtml(URL);
@@ -46,10 +47,15 @@ public class SinaNewsTask {
             Document document = Jsoup.parse(html);
 
             this.parse(document);
+
+            thisCount = count;
         } catch (Exception e) {
             log.error(e.getMessage());
+        } finally {
+            //执行完初始化
+            this.count = 0L;
         }
-        return count;
+        return thisCount;
     }
 
     /**
@@ -170,7 +176,6 @@ public class SinaNewsTask {
                 //计数
                 count++;
             }
-
 
 
             sinaNewsService.saveBatch(sinaNewsList, 30);
