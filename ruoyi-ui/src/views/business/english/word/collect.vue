@@ -6,7 +6,8 @@
         class="list"
         v-infinite-scroll="loadMore"
         infinite-scroll-disabled="disabled"
-        infinite-scroll-distance="20"
+        infinite-scroll-distance="1"
+        :infinite-scroll-immediate = true
       >
         <el-row>
           <el-col :span="8" v-for="(say, index) in sayLists" :key="index" class="item-img">
@@ -60,7 +61,7 @@ export default {
 
       queryParams: {
         pageNum: 1,
-        pageSize: 21
+        pageSize: 3
       },
     }
   },
@@ -97,7 +98,7 @@ export default {
         })
         this.queryParams.pageNum += 1;
         this.loading = false
-      }, 150)
+      }, 200)
     },
     onMouseover() {
       this.seen = true;
@@ -118,7 +119,7 @@ export default {
 }
 
 .sea_main_con {
-  width: 1002px;
+  width: 1000px;
   height: 800px;
   border: 1px #b8b7b7 solid;
   overflow-y: scroll;

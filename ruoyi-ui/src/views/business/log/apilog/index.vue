@@ -124,7 +124,7 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="logList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="logList" border height="585" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"/>
       <el-table-column label="接口名称" align="center" prop="apiName" :show-overflow-tooltip="true"/>
       <el-table-column label="请求URL" align="center" prop="url" :show-overflow-tooltip="true"/>
