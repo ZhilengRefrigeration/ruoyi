@@ -7,6 +7,7 @@
           v-model="queryParams.name"
           placeholder="请输入爬虫名称"
           clearable
+          maxlength="20"
           size="small"
           @keyup.enter.native="handleQuery"
         />
@@ -16,6 +17,7 @@
           v-model="queryParams.url"
           placeholder="请输入爬虫地址"
           clearable
+          maxlength="100"
           size="small"
           @keyup.enter.native="handleQuery"
         />
@@ -23,7 +25,8 @@
       <el-form-item label="请求时间" prop="beginRequestTime">
         <el-input
           v-model.number="queryParams.beginRequestTime"
-          placeholder=""
+          placeholder="单位：秒"
+          maxlength="9"
           size="small"
           style="width: 90px"
           @keyup.enter.native="handleQuery"
@@ -33,8 +36,9 @@
         -
         <el-input
           v-model.number="queryParams.endRequestTime"
-          placeholder=""
+          placeholder="单位：秒"
           size="small"
+          maxlength="9"
           style="width: 90px"
           @keyup.enter.native="handleQuery"
         />
@@ -89,7 +93,7 @@
       <el-table-column type="selection" width="55" align="center"/>
       <el-table-column label="爬虫名称" align="center" prop="name"/>
       <el-table-column label="爬虫地址" align="center" prop="url" :show-overflow-tooltip="true"/>
-      <el-table-column label="请求时间" align="center" prop="requestTime">
+      <el-table-column label="请求时间(秒)" align="center" prop="requestTime">
         <template slot-scope="scope">
           <span>{{
               scope.row.requestTime < 1000
@@ -206,11 +210,24 @@ export default {
         this.queryParams.createTime = this.daterangeCreateTime[0];
         this.queryParams.endCreateTime = this.daterangeCreateTime[1];
       }
+      let beginRequestTime = this.queryParams.beginRequestTime;
+      let endRequestTime = this.queryParams.endRequestTime;
+      if (beginRequestTime != null && '' !== beginRequestTime && endRequestTime != null && '' !== endRequestTime) {
+        this.queryParams.beginRequestTime = beginRequestTime * 1000
+        this.queryParams.endRequestTime = endRequestTime * 1000
+      }
+
       listWebmagicLog(this.queryParams).then(response => {
         this.webmagicLogList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
+
+      //回显的时候正常回显
+      if (beginRequestTime != null && '' !== beginRequestTime && endRequestTime != null && '' !== endRequestTime) {
+        this.queryParams.beginRequestTime = beginRequestTime ;
+        this.queryParams.endRequestTime = endRequestTime ;
+      }
     },
 
     /** 搜索按钮操作 */

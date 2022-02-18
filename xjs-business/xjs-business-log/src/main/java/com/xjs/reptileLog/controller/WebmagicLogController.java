@@ -9,10 +9,12 @@ import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.reptileLog.domain.WebmagicLog;
 import com.xjs.reptileLog.service.WebmagicLogService;
+import com.xjs.validation.group.SelectGroup;
 import com.xjs.web.MyBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -50,7 +52,7 @@ public class WebmagicLogController extends MyBaseController {
      */
     @RequiresPermissions("log:webmagicLog:list")
     @GetMapping("/list")
-    public TableDataInfo list(WebmagicLog webmagicLog) {
+    public TableDataInfo list(@Validated({SelectGroup.class}) WebmagicLog webmagicLog) {
         startPage();
         List<WebmagicLog> list = webmagicLogService.selectWebmagicLogList(webmagicLog);
         return getDataTable(list);
