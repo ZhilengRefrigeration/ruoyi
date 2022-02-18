@@ -309,7 +309,8 @@ export default {
       },
       // 表单参数
       form: {
-        sort: 0
+        sort: 0,
+        isCollect: '',
       },
       //英语一言数据
       oneEnglishData: {},
@@ -317,11 +318,11 @@ export default {
       rulesEdit: {
         englishWord: [
           {required: true, message: "英语单词不能为空", trigger: "blur"},
-          { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
+          {min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur'}
         ],
         chineseWord: [
           {required: true, message: "中文不能为空", trigger: "blur"},
-          { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' }
+          {min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur'}
         ],
         isCollect: [
           {required: true, message: "收藏不能为空", trigger: "blur"}
@@ -334,7 +335,7 @@ export default {
       rulesAdd: {
         content: [
           {required: true, message: "中英文不能为空", trigger: "blur"},
-          { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
+          {min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur'}
         ],
         isCollect: [
           {required: true, message: "收藏不能为空", trigger: "blur"}
@@ -349,6 +350,8 @@ export default {
   created() {
     this.getList();
   },
+
+
   methods: {
     //获取英语一言api数据
     getOneEnglishApi() {
@@ -423,8 +426,8 @@ export default {
     /** 重置按钮操作 */
     resetQuery() {
       this.daterangeCreateTime = [];
-      this.queryParams.createTime=null
-      this.queryParams.endCreateTime=null
+      this.queryParams.createTime = null
+      this.queryParams.endCreateTime = null
       this.resetForm("queryForm");
       this.handleQuery();
     },
@@ -439,6 +442,10 @@ export default {
       this.reset();
       this.openAdd = true;
       this.title = "添加英语单词";
+      //下拉框默认选中
+      this.form.isCollect= parseInt(this.dict.type.english_collect[0].value)
+      this.form.top = parseInt(this.dict.type.english_top[1].value)
+
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

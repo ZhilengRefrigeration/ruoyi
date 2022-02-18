@@ -91,7 +91,13 @@
       <el-table-column label="爬虫地址" align="center" prop="url" :show-overflow-tooltip="true"/>
       <el-table-column label="请求时间" align="center" prop="requestTime">
         <template slot-scope="scope">
-          <span>{{ Math.round(scope.row.requestTime / 1000) }}秒</span>
+          <span>{{
+              scope.row.requestTime < 1000
+                ?
+                scope.row.requestTime + '毫秒'
+                :
+                Math.round(scope.row.requestTime / 1000) + '秒'
+            }}</span>
         </template>
       </el-table-column>
       <el-table-column label="复杂度" align="center" prop="complexRate">
@@ -180,10 +186,10 @@ export default {
       // 表单校验
       queryRules: {
         beginRequestTime: [
-          { type: 'number', message: '必须数字！', trigger: 'blur'}
+          {type: 'number', message: '必须数字！', trigger: 'blur'}
         ],
         endRequestTime: [
-          { type: 'number', message: '必须数字！', trigger: 'blur'}
+          {type: 'number', message: '必须数字！', trigger: 'blur'}
         ],
       },
 

@@ -1,6 +1,5 @@
 package com.xjs.common.aop;
 
-import cn.hutool.core.date.DateUtil;
 import com.ruoyi.common.core.domain.R;
 import com.xjs.annotation.ReptileLog;
 import com.xjs.business.log.RemoteLogFeign;
@@ -16,8 +15,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 import static com.xjs.consts.ReqConst.ERROR;
 import static com.xjs.consts.ReqConst.SUCCESS;
@@ -51,13 +48,15 @@ public class reptileLogAspect {
         Object obj = null;
         try {
             //切入前-----
-            LocalDateTime localDateTime1 = DateUtil.date().toLocalDateTime();
+            // 开始时间
+            long startTime = System.currentTimeMillis();
 
             obj = joinPoint.proceed();
 
             //切入后-----
-            LocalDateTime localDateTime2 = DateUtil.date().toLocalDateTime();
-            long between = ChronoUnit.MILLIS.between(localDateTime1, localDateTime2);
+            // 结束时间
+            long endTime = System.currentTimeMillis();
+            long between = endTime - startTime;
             log.info("调用爬虫接口耗费时间:{}ms", between);
 
             this.handle(joinPoint, between, obj);
