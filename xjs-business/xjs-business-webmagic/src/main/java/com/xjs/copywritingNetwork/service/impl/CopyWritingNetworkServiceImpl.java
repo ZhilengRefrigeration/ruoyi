@@ -46,6 +46,15 @@ public class CopyWritingNetworkServiceImpl extends ServiceImpl<CopyWritingNetwor
         return list;
     }
 
+    @Override
+    public List<Object> getType() {
+        QueryWrapper<CopyWritingNetwork> wrapper = new QueryWrapper<>();
+        wrapper.groupBy("type");
+        wrapper.select("type");
+
+        return this.listObjs(wrapper);
+    }
+
 
     /**
      * 过滤数据
@@ -108,12 +117,5 @@ public class CopyWritingNetworkServiceImpl extends ServiceImpl<CopyWritingNetwor
         return copyWritingNetworkMapper.deleteCopyWritingNetworkById(id);
     }
 
-    @Override
-    public List<Object> getType() {
-        QueryWrapper<CopyWritingNetwork> wrapper = new QueryWrapper<>();
-        wrapper.groupBy("type");
-        wrapper.select("type");
 
-        return this.listObjs(wrapper);
-    }
 }

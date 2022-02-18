@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="文案标签" prop="type">
-        <el-select v-model="queryParams.type" placeholder="请选择文案标签" clearable size="small">
+        <el-select v-model="queryParams.type" placeholder="请选择文案标签" @change="handleQuery" clearable size="small">
           <el-option
             v-for="index in typeList"
             :key="index"

@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import static com.xjs.consts.RegexConst.NUMBER_REGEX;
+import static com.xjs.consts.ReptileConst.COPY_WRITING_NETWORK_URL;
 
 /**
  * 文案网爬虫任务   url:https://www.wenanwang.com/
@@ -36,18 +37,17 @@ public class CopyWritingNetworkTask {
     private CopyWritingNetworkService copyWritingNetworkService;
 
 
-    public static final String URL = "https://www.wenanwang.com/";
 
     private static final Pattern pattern = Pattern.compile(NUMBER_REGEX);
 
-    @ReptileLog(name = "文案网", url = URL)
+    @ReptileLog(name = "文案网", url = COPY_WRITING_NETWORK_URL)
     public Long reptileCopyWriting() {
         //定义循环次数计时器
         Long count = 0L;
 
         try {
 
-            String html = httpUtils.doGetHtml(URL);
+            String html = httpUtils.doGetHtml(COPY_WRITING_NETWORK_URL);
 
             Document document = Jsoup.parse(html);
 
@@ -104,7 +104,7 @@ public class CopyWritingNetworkTask {
             for (Element element : a) {
 
                 String href = element.attr("href");
-                String newUrl = URL + href;
+                String newUrl = COPY_WRITING_NETWORK_URL + href;
 
                 String cw = httpUtils.doGetHtml(newUrl);
                 Document cwDocument = Jsoup.parse(cw);

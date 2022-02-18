@@ -19,6 +19,12 @@ public interface CopyWritingNetworkService extends IService<CopyWritingNetwork> 
      */
     int deleteRepeatData();
 
+    /**
+     * 获取文案的标签
+     * @return list
+     */
+    List<Object> getType();
+
     //---------------------------代码生成--------------------------------
 
     /**
@@ -45,10 +51,6 @@ public interface CopyWritingNetworkService extends IService<CopyWritingNetwork> 
      */
     int deleteCopyWritingNetworkById(Long id);
 
-    /**
-     * 获取文案的标签
-     * @return list
-     */
-    List<Object> getType();
+
 
 }

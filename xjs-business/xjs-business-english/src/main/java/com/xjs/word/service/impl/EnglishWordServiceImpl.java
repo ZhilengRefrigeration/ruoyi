@@ -80,13 +80,15 @@ public class EnglishWordServiceImpl implements IEnglishWordService {
             if (Objects.isNull(r.getData().getErrorCode())) {
                 //指定to为翻译字典转换的内容
                 englishWord.setContent(r.getData().getTo());
+
+                //添加缓存到redis并设置1小时有效时间
+                Map<String, Object> build = new HashMap<>();
+                build.put(hkey, englishWord);
+                redisService.setCacheMap(TRAN_DICT, build);
+                redisService.expire(TRAN_DICT, TRAN_DICT_EXPIRE, TimeUnit.HOURS);
             }
         }
-        //添加缓存到redis并设置7天有效时间
-        Map<String, Object> build = new HashMap<>();
-        build.put(hkey, englishWord);
-        redisService.setCacheMap(TRAN_DICT, build);
-        redisService.expire(TRAN_DICT, TRAN_DICT_EXPIRE, TimeUnit.HOURS);
+
         return englishWord;
     }
 

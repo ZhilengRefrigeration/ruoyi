@@ -26,6 +26,15 @@ public class SinaNewsServiceImpl extends ServiceImpl<SinaNewsMapper, SinaNews> i
         return sinaNewsMapper.deleteRepeatData();
     }
 
+    @Override
+    public List<Object> getType() {
+        QueryWrapper<SinaNews> wrapper = new QueryWrapper<>();
+        wrapper.groupBy("category");
+        wrapper.select("category");
+
+        return this.listObjs(wrapper);
+    }
+
     //-------------------------代码生成----------------------------
 
     /**
@@ -61,12 +70,5 @@ public class SinaNewsServiceImpl extends ServiceImpl<SinaNewsMapper, SinaNews> i
         return sinaNewsMapper.deleteSinaNewsById(id);
     }
 
-    @Override
-    public List<Object> getType() {
-        QueryWrapper<SinaNews> wrapper = new QueryWrapper<>();
-        wrapper.groupBy("category");
-        wrapper.select("category");
 
-        return this.listObjs(wrapper);
-    }
 }

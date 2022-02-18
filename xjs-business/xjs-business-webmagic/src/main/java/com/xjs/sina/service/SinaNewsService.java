@@ -17,6 +17,12 @@ public interface SinaNewsService extends IService<SinaNews> {
      */
     int deleteRepeatData();
 
+    /**
+     * 获取新闻分类
+     * @return List
+     */
+    List<Object> getType();
+
     //-------------------------代码生成----------------------------
 
     /**
@@ -43,9 +49,5 @@ public interface SinaNewsService extends IService<SinaNews> {
      */
     public int deleteSinaNewsById(Long id);
 
-    /**
-     * 获取新闻分类
-     * @return List
-     */
-    List<Object> getType();
+
 }

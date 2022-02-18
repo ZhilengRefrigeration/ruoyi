@@ -3,7 +3,7 @@
 
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="新闻分类" prop="category">
-        <el-select v-model="queryParams.category" placeholder="请输入新闻分类" clearable size="small">
+        <el-select v-model="queryParams.category" placeholder="请输入新闻分类" @change="handleQuery" clearable size="small">
           <el-option
             v-for="index in typeList"
             :key="index"
