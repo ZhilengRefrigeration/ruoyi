@@ -9,10 +9,12 @@ import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.sina.pojo.SinaNews;
 import com.xjs.sina.service.SinaNewsService;
 import com.xjs.sina.task.SinaNewsTask;
+import com.xjs.validation.group.SelectGroup;
 import com.xjs.web.MyBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -58,7 +60,7 @@ public class SinaNewsController extends MyBaseController {
     @RequiresPermissions("webmagic:sinaNews:list")
     @GetMapping("/list")
     @ApiOperation("查询新浪新闻列表")
-    public TableDataInfo list(SinaNews sinaNews) {
+    public TableDataInfo list(@Validated({SelectGroup.class}) SinaNews sinaNews) {
         startPage();
         List<SinaNews> list = sinaNewsService.selectSinaNewsList(sinaNews);
         return getDataTable(list);

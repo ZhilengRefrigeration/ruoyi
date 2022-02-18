@@ -17,6 +17,7 @@
         <el-input
           v-model="queryParams.title"
           placeholder="请输入标题"
+          maxlength="100"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -99,7 +100,6 @@
 <script>
 
 import {listSinaNews, delSinaNews, getType} from "@/api/business/webmagic/sina/sinaNews"
-
 import {pickerOptions} from "@/layout/mixin/PickerOptions"
 
 export default {
@@ -136,8 +136,6 @@ export default {
       },
       // 表单参数
       form: {},
-      // 表单校验
-      rules: {},
 
       //检查查询范围
       daterangeCreateTime: [],
@@ -180,22 +178,7 @@ export default {
         this.loading = false;
       });
     },
-    // 取消按钮
-    cancel() {
-      this.open = false;
-      this.reset();
-    },
-    // 表单重置
-    reset() {
-      this.form = {
-        id: null,
-        title: null,
-        category: null,
-        url: null,
-        createTime: null
-      };
-      this.resetForm("form");
-    },
+
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageNum = 1;

@@ -7,6 +7,7 @@
           placeholder="请输入"
           clearable
           size="small"
+          @change="handleQuery"
           style="width: 150px">
           <el-option
             v-for="index in apiName"
@@ -55,6 +56,7 @@
           placeholder="请输入"
           clearable
           size="small"
+          @change="handleQuery"
           style="width: 150px">
           <el-option
             v-for="dict in dict.type.request_status"
@@ -70,6 +72,7 @@
           placeholder="请输入"
           clearable
           size="small"
+          @change="handleQuery"
           style="width: 150px">
           <el-option
             v-for="dict in dict.type.request_method"
@@ -91,6 +94,7 @@
           range-separator="-"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
+          @change="handleQuery"
         ></el-date-picker>
       </el-form-item>
 

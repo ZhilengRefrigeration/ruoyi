@@ -10,10 +10,12 @@ import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.copywritingNetwork.pojo.CopyWritingNetwork;
 import com.xjs.copywritingNetwork.service.CopyWritingNetworkService;
 import com.xjs.copywritingNetwork.task.CopyWritingNetworkTask;
+import com.xjs.validation.group.SelectGroup;
 import com.xjs.web.MyBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -62,7 +64,7 @@ public class CopyWritingNetworkController extends MyBaseController {
     @RequiresPermissions("webmagic:copyWritingNetwork:list")
     @GetMapping("/list")
     @ApiOperation("查询文案网列表")
-    public TableDataInfo list(CopyWritingNetwork copyWritingNetwork) {
+    public TableDataInfo list(@Validated({SelectGroup.class}) CopyWritingNetwork copyWritingNetwork) {
         startPage();
         List<CopyWritingNetwork> list = copyWritingNetworkService.selectCopyWritingNetworkList(copyWritingNetwork);
         return getDataTable(list);

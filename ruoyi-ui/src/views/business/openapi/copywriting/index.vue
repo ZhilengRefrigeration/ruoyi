@@ -22,7 +22,12 @@
         />
       </el-form-item>
       <el-form-item label="文案类型" prop="type">
-        <el-select v-model="queryParams.type" placeholder="请选择文案类型" clearable size="small">
+        <el-select
+          v-model="queryParams.type"
+          placeholder="请选择文案类型"
+          @change="handleQuery"
+          clearable
+          size="small">
           <el-option
             v-for="dict in dict.type.copywriting_type"
             :key="dict.value"
@@ -42,6 +47,7 @@
           range-separator="-"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
+          @change="handleQuery"
         ></el-date-picker>
       </el-form-item>
       <el-form-item>

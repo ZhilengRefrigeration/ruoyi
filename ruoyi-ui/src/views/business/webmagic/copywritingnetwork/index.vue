@@ -17,6 +17,7 @@
           placeholder="请输入文案主题"
           clearable
           size="small"
+          maxlength="50"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
@@ -26,6 +27,7 @@
           placeholder="请输入文案内容"
           clearable
           size="small"
+          maxlength="100"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
@@ -115,9 +117,11 @@ import {
   delCopyWritingNetwork,
   getType
 } from "@/api/business/webmagic/copywritingnetwork/copyWritingNetwork"
+import {pickerOptions} from "@/layout/mixin/PickerOptions";
 
 export default {
   name: "CopyWritingNetwork",
+  mixins: [pickerOptions],
 
   data() {
     return {
@@ -152,48 +156,10 @@ export default {
       },
       // 表单参数
       form: {},
-      // 表单校验
-      rules: {},
 
       //类型集合
       typeList:[],
 
-      //日期组件
-      pickerOptions: {
-        shortcuts: [{
-          text: '昨天',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24);
-            picker.$emit('pick', [start, end]);
-          }
-        }, {
-          text: '最近一周',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', [start, end]);
-          }
-        }, {
-          text: '最近一个月',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-            picker.$emit('pick', [start, end]);
-          }
-        }, {
-          text: '最近三个月',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-            picker.$emit('pick', [start, end]);
-          }
-        }]
-      },
     };
   },
   created() {
@@ -222,22 +188,7 @@ export default {
         this.loading = false;
       });
     },
-    // 取消按钮
-    cancel() {
-      this.open = false;
-      this.reset();
-    },
-    // 表单重置
-    reset() {
-      this.form = {
-        id: null,
-        type: null,
-        theme: null,
-        content: null,
-        createTime: null
-      };
-      this.resetForm("form");
-    },
+
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.pageNum = 1;

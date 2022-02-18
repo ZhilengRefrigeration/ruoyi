@@ -32,6 +32,7 @@
           range-separator="-"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
+          @change="handleQuery"
         ></el-date-picker>
       </el-form-item>
       <el-form-item>

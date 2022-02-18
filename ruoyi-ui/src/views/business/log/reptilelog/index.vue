@@ -9,7 +9,7 @@
           clearable
           maxlength="20"
           size="small"
-          @keyup.enter.native="handleQuery"
+          @keyup.enter.native="handleQuery('queryForm')"
         />
       </el-form-item>
       <el-form-item label="爬虫地址" prop="url">
@@ -19,7 +19,7 @@
           clearable
           maxlength="100"
           size="small"
-          @keyup.enter.native="handleQuery"
+          @keyup.enter.native="handleQuery('queryForm')"
         />
       </el-form-item>
       <el-form-item label="请求时间" prop="beginRequestTime">
@@ -29,7 +29,7 @@
           maxlength="9"
           size="small"
           style="width: 90px"
-          @keyup.enter.native="handleQuery"
+          @keyup.enter.native="handleQuery('queryForm')"
         />
       </el-form-item>
       <el-form-item prop="endRequestTime">
@@ -40,7 +40,7 @@
           size="small"
           maxlength="9"
           style="width: 90px"
-          @keyup.enter.native="handleQuery"
+          @keyup.enter.native="handleQuery('queryForm')"
         />
       </el-form-item>
 
@@ -52,6 +52,7 @@
           style="width: 240px"
           value-format="yyyy-MM-dd"
           type="daterange"
+          @change="handleQuery('queryForm')"
           range-separator="-"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
@@ -193,10 +194,10 @@ export default {
       // 表单校验
       queryRules: {
         beginRequestTime: [
-          {type: 'number', message: '必须数字！', trigger: 'blur'}
+          {type: 'number',min: 0, max: 200000, message: '必须数字！且数字在 0 到 200000 之间！', trigger: 'blur'}
         ],
         endRequestTime: [
-          {type: 'number', message: '必须数字！', trigger: 'blur'}
+          {type: 'number',min: 0, max: 200000, message: '必须数字！且数字在 0 到 200000 之间！', trigger: 'blur'}
         ],
       },
 
@@ -224,6 +225,8 @@ export default {
         this.webmagicLogList = response.rows;
         this.total = response.total;
         this.loading = false;
+      }).catch(err =>{
+        this.loading = false;
       });
 
       //回显的时候正常回显
@@ -240,7 +243,6 @@ export default {
           this.queryParams.pageNum = 1;
           this.getList();
         } else {
-          console.log('error submit!!');
           return false;
         }
       });
