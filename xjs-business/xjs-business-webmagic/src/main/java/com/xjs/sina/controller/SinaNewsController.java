@@ -57,6 +57,7 @@ public class SinaNewsController extends MyBaseController {
      */
     @RequiresPermissions("webmagic:sinaNews:list")
     @GetMapping("/list")
+    @ApiOperation("查询新浪新闻列表")
     public TableDataInfo list(SinaNews sinaNews) {
         startPage();
         List<SinaNews> list = sinaNewsService.selectSinaNewsList(sinaNews);
@@ -69,6 +70,7 @@ public class SinaNewsController extends MyBaseController {
     @RequiresPermissions("webmagic:sinaNews:remove")
     @Log(title = "新浪新闻", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
+    @ApiOperation("删除新浪新闻")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(sinaNewsService.deleteSinaNewsByIds(ids));
     }

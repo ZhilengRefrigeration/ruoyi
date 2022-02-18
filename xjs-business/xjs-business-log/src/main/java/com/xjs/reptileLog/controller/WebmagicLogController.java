@@ -52,6 +52,7 @@ public class WebmagicLogController extends MyBaseController {
      */
     @RequiresPermissions("log:webmagicLog:list")
     @GetMapping("/list")
+    @ApiOperation("查询爬虫日志列表")
     public TableDataInfo list(@Validated({SelectGroup.class}) WebmagicLog webmagicLog) {
         startPage();
         List<WebmagicLog> list = webmagicLogService.selectWebmagicLogList(webmagicLog);
@@ -64,6 +65,7 @@ public class WebmagicLogController extends MyBaseController {
     @RequiresPermissions("log:webmagicLog:export")
     @Log(title = "爬虫日志", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
+    @ApiOperation("导出爬虫日志列表")
     public void export(HttpServletResponse response, WebmagicLog webmagicLog) {
         List<WebmagicLog> list = webmagicLogService.selectWebmagicLogList(webmagicLog);
         ExcelUtil<WebmagicLog> util = new ExcelUtil<>(WebmagicLog.class);
@@ -76,6 +78,7 @@ public class WebmagicLogController extends MyBaseController {
     @RequiresPermissions("log:webmagicLog:remove")
     @Log(title = "爬虫日志", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
+    @ApiOperation("删除爬虫日志")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(webmagicLogService.deleteWebmagicLogByIds(ids));
     }

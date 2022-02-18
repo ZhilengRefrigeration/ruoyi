@@ -12,9 +12,11 @@ import com.xjs.oneenglish.domain.ApiEnglish;
 import com.xjs.oneenglish.domain.RequestBody;
 import com.xjs.oneenglish.factory.OneEnglishFactory;
 import com.xjs.oneenglish.service.IApiEnglishService;
+import com.xjs.validation.group.SelectGroup;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -54,7 +56,7 @@ public class ApiEnglishController extends BaseController {
     @RequiresPermissions("openapi:oneenglish:list")
     @GetMapping("/list")
     @ApiOperation("查询英语一言列表")
-    public TableDataInfo list(ApiEnglish apiEnglish) {
+    public TableDataInfo list(@Validated({SelectGroup.class}) ApiEnglish apiEnglish) {
         startPage();
         List<ApiEnglish> list = apiEnglishService.selectApiEnglishList(apiEnglish);
         return getDataTable(list);

@@ -3,8 +3,10 @@ package com.xjs.oneenglish.domain;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.ruoyi.common.core.annotation.Excel;
+import com.xjs.validation.group.SelectGroup;
 import lombok.Data;
 
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -27,12 +29,14 @@ public class ApiEnglish implements Serializable {
      * 英文
      */
     @Excel(name = "英文")
+    @Size(max = 255, message = "请控制英文长度在255字符", groups = { SelectGroup.class})
     private String en;
 
     /**
      * 中文
      */
     @Excel(name = "中文")
+    @Size(max = 255, message = "请控制中文长度在255字符", groups = { SelectGroup.class})
     private String zh;
 
 

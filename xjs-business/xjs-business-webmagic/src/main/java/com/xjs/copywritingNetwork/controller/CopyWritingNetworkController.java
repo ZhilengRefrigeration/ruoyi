@@ -61,6 +61,7 @@ public class CopyWritingNetworkController extends MyBaseController {
      */
     @RequiresPermissions("webmagic:copyWritingNetwork:list")
     @GetMapping("/list")
+    @ApiOperation("查询文案网列表")
     public TableDataInfo list(CopyWritingNetwork copyWritingNetwork) {
         startPage();
         List<CopyWritingNetwork> list = copyWritingNetworkService.selectCopyWritingNetworkList(copyWritingNetwork);
@@ -73,6 +74,7 @@ public class CopyWritingNetworkController extends MyBaseController {
     @RequiresPermissions("webmagic:copyWritingNetwork:export")
     @Log(title = "文案网", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
+    @ApiOperation("导出文案网列表")
     public void export(HttpServletResponse response, CopyWritingNetwork copyWritingNetwork) {
         List<CopyWritingNetwork> list = copyWritingNetworkService.selectCopyWritingNetworkList(copyWritingNetwork);
         ExcelUtil<CopyWritingNetwork> util = new ExcelUtil<>(CopyWritingNetwork.class);
@@ -85,6 +87,7 @@ public class CopyWritingNetworkController extends MyBaseController {
     @RequiresPermissions("webmagic:copyWritingNetwork:remove")
     @Log(title = "文案网", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
+    @ApiOperation("删除文案网")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(copyWritingNetworkService.deleteCopyWritingNetworkByIds(ids));
     }

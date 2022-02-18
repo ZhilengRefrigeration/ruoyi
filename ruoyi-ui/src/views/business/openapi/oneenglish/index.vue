@@ -6,6 +6,7 @@
           v-model="queryParams.en"
           placeholder="请输入英文"
           clearable
+          maxlength="255"
           size="small"
           @keyup.enter.native="handleQuery"
         />
@@ -15,6 +16,7 @@
           v-model="queryParams.zh"
           placeholder="请输入中文"
           clearable
+          maxlength="255"
           size="small"
           @keyup.enter.native="handleQuery"
         />
