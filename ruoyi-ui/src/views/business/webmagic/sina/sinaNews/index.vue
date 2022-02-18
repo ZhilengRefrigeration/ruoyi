@@ -98,10 +98,15 @@
 
 <script>
 
-import {listSinaNews, delSinaNews,getType} from "@/api/business/webmagic/sina/sinaNews"
+import {listSinaNews, delSinaNews, getType} from "@/api/business/webmagic/sina/sinaNews"
+
+import {pickerOptions} from "@/layout/mixin/PickerOptions"
 
 export default {
   name: "SinaNews",
+
+  mixins: [pickerOptions],
+
   data() {
     return {
       // 遮罩层
@@ -138,44 +143,9 @@ export default {
       daterangeCreateTime: [],
 
       //类型集合
-      typeList:[],
+      typeList: [],
 
-      //日期组件
-      pickerOptions: {
-        shortcuts: [{
-          text: '昨天',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24);
-            picker.$emit('pick', [start, end]);
-          }
-        }, {
-          text: '最近一周',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', [start, end]);
-          }
-        }, {
-          text: '最近一个月',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-            picker.$emit('pick', [start, end]);
-          }
-        }, {
-          text: '最近三个月',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-            picker.$emit('pick', [start, end]);
-          }
-        }]
-      },
+
     };
   },
 
@@ -186,8 +156,8 @@ export default {
   methods: {
     //获取类型
     getType() {
-      getType().then(res =>{
-        this.typeList=res.data
+      getType().then(res => {
+        this.typeList = res.data
       })
     },
 

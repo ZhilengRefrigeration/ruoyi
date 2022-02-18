@@ -87,6 +87,7 @@
           style="width: 240px"
           value-format="yyyy-MM-dd"
           type="daterange"
+          :picker-options="pickerOptions"
           range-separator="-"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
@@ -213,10 +214,12 @@
 
 <script>
 import {listLog, delLog, getApiName} from "@/api/business/log/apilog";
+import {pickerOptions} from "@/layout/mixin/PickerOptions"
 
 export default {
   name: "Apilog",
   dicts: ['request_status', 'request_method'],
+  mixins: [pickerOptions],
   data() {
     return {
       // 遮罩层
@@ -242,11 +245,11 @@ export default {
         pageNum: 1,
         pageSize: 10,
         apiName: null,
-        url:null,
-        request:null,
-        response:null,
-        isSuccess:null,
-        method:null,
+        url: null,
+        request: null,
+        response: null,
+        isSuccess: null,
+        method: null,
       },
       // 表单参数
       form: {},

@@ -28,6 +28,7 @@
           style="width: 240px"
           value-format="yyyy-MM-dd"
           type="daterange"
+          :picker-options="pickerOptions"
           range-separator="-"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
@@ -267,10 +268,12 @@
 <script>
 import {listWord, getWord, delWord, addWord, updateWord, getWordRPC} from "@/api/business/english/word";
 import {getOneEnglishApi} from "@/api/business/openapi/oneenglish";
+import {pickerOptions} from "@/layout/mixin/PickerOptions"
 
 export default {
   name: "Word",
   dicts: ['english_collect', 'english_top'],
+  mixins: [pickerOptions],
   data() {
     return {
       // 抽屉遮罩层

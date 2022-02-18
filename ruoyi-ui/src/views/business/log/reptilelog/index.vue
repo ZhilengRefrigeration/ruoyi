@@ -48,6 +48,7 @@
         <el-date-picker
           v-model="daterangeCreateTime"
           size="small"
+          :picker-options="pickerOptions"
           style="width: 240px"
           value-format="yyyy-MM-dd"
           type="daterange"
@@ -147,9 +148,11 @@
 
 <script>
 import {listWebmagicLog, delWebmagicLog} from "@/api/business/log/reptilelog";
+import {pickerOptions} from "@/layout/mixin/PickerOptions"
 
 export default {
   name: "ReptileLog",
+  mixins: [pickerOptions],
   data() {
     return {
       // 遮罩层
@@ -225,8 +228,8 @@ export default {
 
       //回显的时候正常回显
       if (beginRequestTime != null && '' !== beginRequestTime && endRequestTime != null && '' !== endRequestTime) {
-        this.queryParams.beginRequestTime = beginRequestTime ;
-        this.queryParams.endRequestTime = endRequestTime ;
+        this.queryParams.beginRequestTime = beginRequestTime;
+        this.queryParams.endRequestTime = endRequestTime;
       }
     },
 

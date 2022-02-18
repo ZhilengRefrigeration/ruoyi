@@ -12,11 +12,12 @@
             placeholder="选择日期"
             format="yyyy 年 MM 月 dd 日"
             value-format="yyyy-MM-dd"
+            @change="getHistoryTopSearch"
             :picker-options="pickerOptions">
           </el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="getHistoryTopSearch">查询</el-button>
+          <el-button type="" @click="getTopsearch">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -29,7 +30,9 @@
               <span>{{ douyin.word }}</span>
               <el-divider direction="vertical"></el-divider>
               <span style="color: red;margin-left: 25px">{{ douyin.label }}</span>
-              <span style="font-size: 13px;font-weight: 500;margin-left: 25px;float: right">{{ douyin.createTime }}</span>
+              <span style="font-size: 13px;font-weight: 500;margin-left: 25px;float: right">{{
+                  douyin.createTime
+                }}</span>
               <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
             </div>
           </el-card>
@@ -40,7 +43,9 @@
               <span>{{ weibo.hotword }}</span>
               <el-divider direction="vertical"></el-divider>
               <span style="color: red;margin-left: 25px">{{ weibo.hottag }}</span>
-              <span style="font-size: 13px;font-weight: 500;margin-left: 25px;float: right">{{ weibo.createTime }}</span>
+              <span style="font-size: 13px;font-weight: 500;margin-left: 25px;float: right">{{
+                  weibo.createTime
+                }}</span>
               <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
             </div>
           </el-card>
@@ -83,14 +88,15 @@
           <el-card shadow="hover">
             <div v-for="wechat in topsearchList.wechatList" :key="wechat.id" class="douyin">
               <span>{{ wechat.word }}</span>
-              <span style="font-size: 13px;font-weight: 500;margin-left: 25px;float: right">{{ wechat.createTime }}</span>\
+              <span style="font-size: 13px;font-weight: 500;margin-left: 25px;float: right">{{
+                  wechat.createTime
+                }}</span>\
               <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
             </div>
           </el-card>
         </el-collapse-item>
       </el-collapse>
     </div>
-
 
 
     <!--  回到顶部-->
@@ -157,18 +163,19 @@ export default {
   methods: {
     //获取历史热搜榜
     getHistoryTopSearch() {
-      this.topsearchList={}
+      this.topsearchList = {}
       this.loading = true
-      console.log(this.dateValue)
-      getHistoryTopSearch(this.dateValue).then(res =>{
+      getHistoryTopSearch(this.dateValue).then(res => {
         this.loading = false
-        this.topsearchList=res.data
+        this.topsearchList = res.data
       })
     },
 
     //获取热搜榜
     getTopsearch() {
       this.loading = true
+      this.dateValue = null
+
       getTopsearch().then(res => {
         this.topsearchList = res.data
         this.loading = false
