@@ -2,13 +2,18 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="api名称" prop="apiName">
-        <el-input
+        <el-select
           v-model="queryParams.apiName"
-          placeholder="请输入api名称"
+          placeholder="请输入"
           clearable
           size="small"
-          @keyup.enter.native="handleQuery"
-        />
+          style="width: 180px">
+          <el-option
+            v-for="index in apiName"
+            :key="index"
+            :label="index"
+            :value="index"/>
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -86,7 +91,7 @@
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="请求次数" prop="limitCount">
-          <el-input v-model="form.limitCount" placeholder="请输入api限制请求次数每天"/>
+          <el-input v-model.number="form.limitCount" placeholder="请输入api限制请求次数每天"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -98,7 +103,12 @@
 </template>
 
 <script>
-import { getApiwarningInfo, updateApiwarningInfo,listApiwarningInfo} from "@/api/business/warning/apiwarning";
+import {
+  getApiwarningInfo,
+  updateApiwarningInfo,
+  listApiwarningInfo,
+  getApiName
+} from "@/api/business/warning/apiwarning";
 
 export default {
   name: "Apiwarning",
@@ -131,13 +141,29 @@ export default {
       // 表单参数
       form: {},
       // 表单校验
-      rules: {}
+      rules: {
+        limitCount: [
+          {required: true, message: "请求次数", trigger: "blur"},
+          {type: 'number',min: 0, max: 9999, message: '必须数字！且数字在 0 到 9999 之间！', trigger: 'blur'}
+        ],
+      },
+
+      //api名称
+      apiName: [],
     };
   },
   created() {
     this.getList();
+    this.getApiName();
   },
   methods: {
+    //获取所有api名称
+    getApiName() {
+      getApiName().then(res => {
+        this.apiName = res.data
+      })
+    },
+
     /** 查询API预警列表 */
     getList() {
       this.loading = true;

@@ -74,7 +74,7 @@ public class ApiLogServiceImpl extends ServiceImpl<ApiLogMapper,ApiLog> implemen
 
     @Override
     public List<String> getApiName() {
-        R<List<String>> apiName = remoteWarningCRUDFeign.getApiName();
+        R<List<String>> apiName = remoteWarningCRUDFeign.getApiNameForRPC();
         if (apiName.getCode() == HttpStatus.SUCCESS) {
             return apiName.getData();
         }

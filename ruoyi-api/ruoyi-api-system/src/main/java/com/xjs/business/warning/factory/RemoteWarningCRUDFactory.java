@@ -50,7 +50,7 @@ public class RemoteWarningCRUDFactory implements FallbackFactory<RemoteWarningCR
             }
 
             @Override
-            public R<List<String>> getApiName() {
+            public R<List<String>> getApiNameForRPC() {
                 log.error("调用预警服务api预警查询所有api名称接口失败，执行降级处理----");
                 return R.fail();
             }

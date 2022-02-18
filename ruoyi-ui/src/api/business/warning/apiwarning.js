@@ -60,3 +60,11 @@ export function AllHaveRead() {
     method: 'put',
   })
 }
+
+//获取所有api名称
+export function getApiName() {
+  return request({
+    url: '/warning/apiwarning/getApiName' ,
+    method: 'get'
+  })
+}

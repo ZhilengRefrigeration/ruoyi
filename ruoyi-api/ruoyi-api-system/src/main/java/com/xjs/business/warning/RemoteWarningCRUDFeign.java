@@ -39,7 +39,7 @@ public interface RemoteWarningCRUDFeign {
     R<ApiWarning> saveApiWarningForRPC(@RequestBody ApiWarning apiWarning);
 
     @GetMapping("/apiwarning/getApiNameForRPC")
-    R<List<String>> getApiName();
+    R<List<String>> getApiNameForRPC();
 
     @GetMapping("/apistatistics/")
     R<List<ApiRecord>> selectApiRecordListForRPC();

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="70px">
-      <el-form-item label="接口名称" prop="apiName">
+      <el-form-item label="API名称" prop="apiName">
         <el-select
           v-model="queryParams.apiName"
           placeholder="请输入"
@@ -130,7 +130,7 @@
 
     <el-table v-loading="loading" :data="logList" border height="585" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"/>
-      <el-table-column label="接口名称" align="center" prop="apiName" :show-overflow-tooltip="true"/>
+      <el-table-column label="API名称" align="center" prop="apiName" :show-overflow-tooltip="true"/>
       <el-table-column label="请求URL" align="center" prop="url" :show-overflow-tooltip="true"/>
       <el-table-column label="请求方法" align="center" prop="method" :show-overflow-tooltip="true"/>
       <el-table-column label="请求参数" align="center" prop="request" :show-overflow-tooltip="true">

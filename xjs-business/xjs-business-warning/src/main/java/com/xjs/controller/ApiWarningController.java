@@ -16,10 +16,13 @@ import com.xjs.domain.ApiRecord;
 import com.xjs.domain.ApiWarning;
 import com.xjs.server.WebSocketServer;
 import com.xjs.service.ApiWarningService;
+import com.xjs.validation.group.SelectGroup;
+import com.xjs.validation.group.UpdateGroup;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -108,6 +111,19 @@ public class ApiWarningController extends BaseController {
     }
 
 
+    /**
+     * 获取所有Api名称
+     * @return api名称
+     */
+    @GetMapping("getApiName")
+    @ApiOperation("获取所有Api名称")
+    @RequiresPermissions("warning:warning:list")
+    public R<List<String>> getApiName() {
+        List<String> apiNameList = apiWarningService.getApiName();
+        return R.ok(apiNameList);
+    }
+
+
     //--------------------内部调用rpc-----------------------------------
 
     /**
@@ -161,7 +177,7 @@ public class ApiWarningController extends BaseController {
      */
     @GetMapping("getApiNameForRPC")
     @ApiOperation("远程获取所有Api名称")
-    public R<List<String>> getApiName() {
+    public R<List<String>> getApiNameForRPC() {
         List<String> apiNameList = apiWarningService.getApiName();
         return R.ok(apiNameList);
     }
@@ -219,7 +235,7 @@ public class ApiWarningController extends BaseController {
     @RequiresPermissions("warning:apiwarning:list")
     @GetMapping("/list")
     @ApiOperation("查询API预警信息列表")
-    public TableDataInfo list(ApiRecord apiRecord) {
+    public TableDataInfo list(@Validated({SelectGroup.class}) ApiRecord apiRecord) {
         startPage();
         List<ApiRecord> list = apiWarningService.selectApiRecordList(apiRecord);
         return getDataTable(list);
@@ -255,7 +271,7 @@ public class ApiWarningController extends BaseController {
     @Log(title = "API预警", businessType = BusinessType.UPDATE)
     @PutMapping("edit")
     @ApiOperation("修改API预警信息")
-    public AjaxResult edit(@RequestBody ApiRecord apiRecord) {
+    public AjaxResult edit(@Validated({UpdateGroup.class})  @RequestBody ApiRecord apiRecord) {
         return toAjax(apiWarningService.updateApiRecord(apiRecord));
     }
 

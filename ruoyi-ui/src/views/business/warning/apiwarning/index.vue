@@ -2,13 +2,18 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="api名称" prop="apiName">
-        <el-input
+        <el-select
           v-model="queryParams.apiName"
-          placeholder="请输入api名称"
+          placeholder="请输入"
           clearable
           size="small"
-          @keyup.enter.native="handleQuery"
-        />
+          style="width: 180px">
+          <el-option
+            v-for="index in apiName"
+            :key="index"
+            :label="index"
+            :value="index"/>
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -96,7 +101,7 @@
 </template>
 
 <script>
-import {listApiwarning,clearAll,AllHaveRead } from "@/api/business/warning/apiwarning";
+import {listApiwarning,clearAll,AllHaveRead,getApiName } from "@/api/business/warning/apiwarning";
 
 export default {
   name: "Warning",
@@ -128,14 +133,23 @@ export default {
       },
       // 表单参数
       form: {},
-      // 表单校验
-      rules: {}
+
+      //api名称
+      apiName: [],
     };
   },
   created() {
     this.getList();
+    this.getApiName();
   },
   methods: {
+    //获取所有api名称
+    getApiName() {
+      getApiName().then(res => {
+        this.apiName = res.data
+      })
+    },
+
     //全部标记已读
     AllHaveRead() {
       AllHaveRead().then(res =>{
