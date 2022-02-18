@@ -12,6 +12,7 @@ import com.xjs.aword.domain.ApiAWord;
 import com.xjs.aword.domain.RequestBody;
 import com.xjs.aword.factory.AWordFactory;
 import com.xjs.aword.service.ApiAWordService;
+import com.xjs.validation.group.SelectGroup;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,7 @@ public class ApiAWordController extends BaseController {
     @ApiOperation("查询每日一句列表")
     @RequiresPermissions("openapi:aword:list")
     @GetMapping("/list")
-    public TableDataInfo list(ApiAWord apiAWord) {
+    public TableDataInfo list(@Validated({SelectGroup.class}) ApiAWord apiAWord) {
         startPage();
         List<ApiAWord> list = apiAWordService.selectApiAWordList(apiAWord);
         return getDataTable(list);

@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.core.annotation.Excel;
+import com.xjs.validation.group.SelectGroup;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -32,14 +34,17 @@ public class ApiAWord implements Serializable {
 
     /** 句子内容 */
     @Excel(name = "句子内容")
+    @Size(max = 255, message = "请控制句子内容长度在255字符", groups = { SelectGroup.class})
     private String content;
 
     /** 来源 */
     @Excel(name = "来源")
+    @Size(max = 50, message = "请控制来源长度在50字符", groups = { SelectGroup.class})
     private String source;
 
     /** 释义 */
     @Excel(name = "释义")
+    @Size(max = 255, message = "请控制释义长度在255字符", groups = { SelectGroup.class})
     private String note;
 
     /** 音频地址 */

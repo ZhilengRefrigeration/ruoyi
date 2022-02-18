@@ -7,6 +7,7 @@
           placeholder="请输入句子内容"
           clearable
           size="small"
+          maxlength="100"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
@@ -16,6 +17,7 @@
           placeholder="请输入来源"
           clearable
           size="small"
+          maxlength="50"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
@@ -25,6 +27,7 @@
           placeholder="请输入释义"
           clearable
           size="small"
+          maxlength="100"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
@@ -61,28 +64,34 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="awordList" @selection-change="handleSelectionChange">
+    <el-table  v-loading="loading" :data="awordList" @selection-change="handleSelectionChange">
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-form label-position="left" inline class="">
+            <el-form-item label="">
+              <el-image
+                style="width: 108px; height: 141px"
+                :src="props.row.imgurl"
+                :preview-src-list="[props.row.imgurl]">
+              </el-image>
+            </el-form-item>
+          </el-form>
+        </template>
+      </el-table-column>
+
       <el-table-column type="selection" width="55" align="center"/>
       <el-table-column label="数据ID" align="center" prop="dataId" width="100px"/>
-      <el-table-column label="句子内容" align="center" prop="content"/>
-      <el-table-column label="来源" align="center" prop="source" width="150px"/>
-      <el-table-column label="释义" align="center" prop="note"/>
-      <el-table-column label="音频地址" align="center" prop="tts"width="350px">
+      <el-table-column label="句子内容" align="center" prop="content" :show-overflow-tooltip="true"/>
+      <el-table-column label="来源" align="center" prop="source" width="150px" :show-overflow-tooltip="true"/>
+      <el-table-column label="释义" align="center" prop="note" :show-overflow-tooltip="true"/>
+      <el-table-column label="音频地址" align="center" prop="tts" width="350px">
         <template slot-scope="scope">
           <audio :src="scope.row.tts" controls="controls">
             您的浏览器不支持 audio 标签。
           </audio>
         </template>
       </el-table-column>
-      <el-table-column label="图片地址" align="center" prop="imgurl">
-        <template slot-scope="scope">
-          <el-image
-            style="width: 108px; height: 141px"
-            :src="scope.row.imgurl"
-            :preview-src-list="[scope.row.imgurl]">
-          </el-image>
-        </template>
-      </el-table-column>
+
       <el-table-column label="句子产生时间" align="center" prop="date" width="150px">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.date, '{y}-{m}-{d}') }}</span>
@@ -110,19 +119,11 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改每日一句对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="cancel">取 消</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
 <script>
-import {listAword, getAword, delAword} from "@/api/business/openapi/aword";
+import {listAword, delAword} from "@/api/business/openapi/aword";
 
 export default {
   name: "Aword",
@@ -149,15 +150,14 @@ export default {
       // 查询参数
       queryParams: {
         pageNum: 1,
-        pageSize: 3,
+        pageSize: 7,
         content: null,
         source: null,
         note: null,
       },
       // 表单参数
       form: {},
-      // 表单校验
-      rules: {}
+
     };
   },
   created() {
