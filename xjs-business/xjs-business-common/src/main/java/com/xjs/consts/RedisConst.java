@@ -44,6 +44,10 @@ public class RedisConst {
      */
     public static final String FORECAST_WEATHER = "weather:forecast";
 
+    /**
+     * 爬虫记录循环次数常量信息
+     */
+    public static final String REPTILE_COUNT= "reptile:count";
 
     //-------------------有效时间-----------------------
     public static final Integer TRAN_DICT_EXPIRE = 1;   //小时

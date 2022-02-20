@@ -31,6 +31,9 @@ public class ReptileConst {
     public static final String BOSS_JOB_URL= "https://www.zhipin.com";
 
 
+    public static final String _36_WALLPAPER_URL= "https://www.3gbizhi.com/";
+
+
 
 
 
