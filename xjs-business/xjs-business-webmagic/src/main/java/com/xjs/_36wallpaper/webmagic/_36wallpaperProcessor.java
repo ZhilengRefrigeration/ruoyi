@@ -40,6 +40,9 @@ public class _36wallpaperProcessor implements PageProcessor {
      */
     private static boolean init = false;
 
+    private static final String headerKey = "User-Agent";
+    private static final String headerValue = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36";
+
 
     private static RedisService redisService;
 
@@ -63,6 +66,7 @@ public class _36wallpaperProcessor implements PageProcessor {
 
 
     private Site site = Site.me()
+            .addHeader(headerKey,headerValue)
             .setCharset("utf8")//设置字符编码
             .setTimeOut(2000)//设置超时时间
             .setRetrySleepTime(200)//设置重试间隔时间
@@ -160,6 +164,9 @@ public class _36wallpaperProcessor implements PageProcessor {
 
             //循环次数存入redis中
             Integer count = redisService.getCacheObject(REPTILE_COUNT);
+            if (count == null) {
+                count=0;
+            }
             redisService.setCacheObject(REPTILE_COUNT, count+1);
 
         } catch (Exception e) {
@@ -239,8 +246,4 @@ public class _36wallpaperProcessor implements PageProcessor {
     }
 
 
-    public static void main(String[] args) {
-        Spider.create(new _36wallpaperProcessor()).addUrl(_36_WALLPAPER_URL).thread(15).run();
-
-    }
 }

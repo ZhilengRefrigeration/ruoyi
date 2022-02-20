@@ -97,6 +97,9 @@ public class reptileLogAspect {
                         if (obj instanceof Long) {
                             webmagicLog.setComplexRate((Long) obj);
                         }
+                        if (obj instanceof Integer) {
+                            webmagicLog.setComplexRate(Long.parseLong(obj.toString()));
+                        }
                         this.saveData(webmagicLog);
                     }
                 }

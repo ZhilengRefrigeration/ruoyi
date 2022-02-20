@@ -19,8 +19,8 @@ public class RemoteWebmagicCopyWritingNetworkFactory implements FallbackFactory<
         return new RemoteWebmagicCopyWritingNetworkFeign() {
             @Override
             public R copyWritingNetworkTaskForPRC() {
-                log.error("文案网 爬虫定时任务 降级");
-                return R.fail("降级处理");
+                log.error("文案网 爬虫定时任务 降级------服务可能正在运行");
+                return R.fail("降级处理------服务可能正在运行");
             }
         };
     }
