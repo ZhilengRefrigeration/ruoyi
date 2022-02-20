@@ -2,7 +2,6 @@ package com.xjs._36wallpaper.webmagic;
 
 import com.ruoyi.common.redis.service.RedisService;
 import com.xjs._36wallpaper.pojo._36wallpaper;
-import com.xjs._36wallpaper.service._36wallpaperService;
 import lombok.extern.log4j.Log4j2;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -44,6 +43,9 @@ public class _36wallpaperProcessor implements PageProcessor {
     private static final String headerValue = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36";
 
 
+    @Autowired
+    private _36wallpaperPipeline wallpaperPipeline;
+
     private static RedisService redisService;
 
     @Autowired
@@ -52,12 +54,12 @@ public class _36wallpaperProcessor implements PageProcessor {
     }
 
 
-    private static _36wallpaperService wallpaperService;
+    /*private static _36wallpaperService wallpaperService;
 
     @Autowired
     public void setWallpaperService(_36wallpaperService wallpaperService) {
         _36wallpaperProcessor.wallpaperService = wallpaperService;
-    }
+    }*/
 
     /**
      * 图片保存到磁盘的路径
@@ -159,8 +161,11 @@ public class _36wallpaperProcessor implements PageProcessor {
                 }
             }
 
-            //持久化
-            wallpaperService.saveBatch(wallpapers, 25);
+            //持久化  --使用Pipeline实现持久化了
+            //wallpaperService.saveBatch(wallpapers, 25);
+
+            //暂时保存到内存中，后续实现Pipeline接口保存到数据库
+            page.putField("_36wallpaperData",wallpapers);
 
             //循环次数存入redis中
             Integer count = redisService.getCacheObject(REPTILE_COUNT);
@@ -191,11 +196,10 @@ public class _36wallpaperProcessor implements PageProcessor {
     public Long run() {
         Spider.create(new _36wallpaperProcessor()).addUrl(_36_WALLPAPER_URL).thread(20)
                 .setScheduler(new QueueScheduler().setDuplicateRemover(new BloomFilterDuplicateRemover(110000)))
+                .addPipeline(wallpaperPipeline)
                 .run();
 
-        //删除重复数据
-        int count = wallpaperService.deleteRepeatData();
-        log.info("36壁纸删除重复数据数：" + count);
+
 
         //从redis中获取循环次数
         Integer cache = redisService.getCacheObject(REPTILE_COUNT);

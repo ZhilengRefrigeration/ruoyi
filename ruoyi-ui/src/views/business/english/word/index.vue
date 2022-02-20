@@ -397,9 +397,9 @@ export default {
         this.queryParams.endCreateTime = this.daterangeCreateTime[1];
       }
       listWord(this.queryParams).then(response => {
+        this.loading = false;
         this.wordList = response.rows;
         this.total = response.total;
-        this.loading = false;
       });
     },
     // 取消按钮

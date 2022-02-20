@@ -112,7 +112,7 @@ public class reptileLogAspect {
      * 持久化保存数据
      */
     private void saveData(WebmagicLog webmagicLog) {
-        if (webmagicLog.getComplexRate() != null && webmagicLog.getComplexRate() == 0L) {
+        if (webmagicLog.getComplexRate() != null && webmagicLog.getComplexRate() == 0L || webmagicLog.getComplexRate() == 1L) {
             webmagicLog.setStatus(ERROR);
         } else {
             webmagicLog.setStatus(SUCCESS);
