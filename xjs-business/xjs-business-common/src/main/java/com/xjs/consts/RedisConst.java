@@ -47,7 +47,7 @@ public class RedisConst {
     /**
      * 爬虫记录循环次数常量信息
      */
-    public static final String REPTILE_COUNT= "reptile:count";
+    public static final String REPTILE_COUNT= "reptile:_36wallpaper.count";
 
     //-------------------有效时间-----------------------
     public static final Integer TRAN_DICT_EXPIRE = 1;   //小时

@@ -1,8 +1,12 @@
 package com.xjs._36wallpaper.webmagic;
 
+import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.redis.service.RedisService;
+import com.ruoyi.system.api.RemoteConfigService;
 import com.xjs._36wallpaper.pojo._36wallpaper;
+import com.xjs._36wallpaper.service._36wallpaperService;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,16 +36,50 @@ import static com.xjs.consts.ReptileConst._36_WALLPAPER_URL;
  */
 @Log4j2
 @Component
+
 public class _36wallpaperProcessor implements PageProcessor {
 
     /**
      * 是否全网爬虫
      */
-    private static boolean init = false;
+    private boolean init = false;
 
+    /**
+     * 是否下载图片带磁盘
+     */
+    private boolean downloadImg = false;
+
+    /**
+     * 图片保存到磁盘的路径
+     */
+    private String path = "D:\\Dev\\WebCrawler\\36wallpaper";
+
+    /**
+     * redis的key
+     */
+    public static final String REDIS_KEY = "sys_config:xjs.webmagic._36wallpaper";
+
+    /**
+     * 系统配置表中的key
+     */
+    public static final String CONFIG_KEY = "xjs.webmagic._36wallpaper";
+
+    /**
+     * 请求头key
+     */
     private static final String headerKey = "User-Agent";
+    /**
+     * 请求头value
+     */
     private static final String headerValue = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36";
 
+
+    private static RemoteConfigService remoteConfigService;
+
+    @Autowired
+    public void setRemoteConfigService(RemoteConfigService remoteConfigService) {
+        _36wallpaperProcessor.remoteConfigService = remoteConfigService;
+    }
 
     @Autowired
     private _36wallpaperPipeline wallpaperPipeline;
@@ -54,31 +92,46 @@ public class _36wallpaperProcessor implements PageProcessor {
     }
 
 
-    /*private static _36wallpaperService wallpaperService;
+    private static _36wallpaperService wallpaperService;
 
     @Autowired
     public void setWallpaperService(_36wallpaperService wallpaperService) {
         _36wallpaperProcessor.wallpaperService = wallpaperService;
-    }*/
+    }
+
 
     /**
-     * 图片保存到磁盘的路径
+     * 初始化参数
      */
-    private static final String path = "D:\\Dev\\WebCrawler\\36wallpaper";
+    private void initParameter() {
+        //判断redis中是否存在
+        Boolean hasKey = redisService.hasKey(REDIS_KEY);
+        if (hasKey) {
+            String cacheObject = redisService.getCacheObject(REDIS_KEY);
+            JSONObject json = JSONObject.parseObject(cacheObject);
+            this.init = json.getBoolean("init");
+            this.downloadImg = json.getBoolean("downloadImg");
+            this.path = json.getString("path");
+        } else if (StringUtils.isNotEmpty(remoteConfigService.getConfigKeyForRPC(CONFIG_KEY).getData())) {
+            String data = remoteConfigService.getConfigKeyForRPC(CONFIG_KEY).getData();
+            JSONObject json = JSONObject.parseObject(data);
+            this.init = json.getBoolean("init");
+            this.downloadImg = json.getBoolean("downloadImg");
+            this.path = json.getString("path");
+        }
+    }
 
 
-    private Site site = Site.me()
-            .addHeader(headerKey,headerValue)
-            .setCharset("utf8")//设置字符编码
-            .setTimeOut(2000)//设置超时时间
-            .setRetrySleepTime(200)//设置重试间隔时间
-            .setCycleRetryTimes(6)//设置重试次数
-            .setSleepTime(1)//设置两个页面之间的间隔时间
-            ;
-
-    //解析页面
+    /**
+     * 解析页面
+     *
+     * @param page 页面
+     */
     @Override
     public void process(Page page) {
+        //初始化配置 (放在此处而不放在run方法原因，每次执行该方法都是创建线程拿到当前的类属性不一致)
+        initParameter();
+
         //解析返回的数据page,并且把解析的结果放到ResultItems中
 
         /*//第一种写法:css选择器
@@ -136,9 +189,11 @@ public class _36wallpaperProcessor implements PageProcessor {
 
 
                 //保存到磁盘
-                if (link != null) {
-                    String thisPath = path + File.separator + title;
-                    downloadPicture(link, thisPath, pictureName + ".jpg");
+                if (downloadImg) {
+                    if (link != null) {
+                        String thisPath = path + File.separator + title;
+                        downloadPicture(link, thisPath, pictureName + ".jpg");
+                    }
                 }
 
                 //爬取图片标签
@@ -162,17 +217,17 @@ public class _36wallpaperProcessor implements PageProcessor {
             }
 
             //持久化  --使用Pipeline实现持久化了
-            //wallpaperService.saveBatch(wallpapers, 25);
+            wallpaperService.saveBatch(wallpapers, 25);
 
-            //暂时保存到内存中，后续实现Pipeline接口保存到数据库
-            page.putField("_36wallpaperData",wallpapers);
+            //暂时保存到内存中，后续实现Pipeline接口保存到数据库--效率低下
+            //page.putField("_36wallpaperData",wallpapers);
 
             //循环次数存入redis中
             Integer count = redisService.getCacheObject(REPTILE_COUNT);
             if (count == null) {
-                count=0;
+                count = 0;
             }
-            redisService.setCacheObject(REPTILE_COUNT, count+1);
+            redisService.setCacheObject(REPTILE_COUNT, count + 1);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -185,7 +240,14 @@ public class _36wallpaperProcessor implements PageProcessor {
 
     @Override
     public Site getSite() {
-        return site;
+        return Site.me()
+                .addHeader(headerKey, headerValue)
+                .setCharset("utf8")//设置字符编码
+                .setTimeOut(2000)//设置超时时间
+                .setRetrySleepTime(100)//设置重试间隔时间
+                .setCycleRetryTimes(10)//设置重试次数
+                .setSleepTime(1)//设置两个页面之间的间隔时间
+                ;
     }
 
     /**
@@ -194,12 +256,18 @@ public class _36wallpaperProcessor implements PageProcessor {
      * @return 返回循环次数
      */
     public Long run() {
-        Spider.create(new _36wallpaperProcessor()).addUrl(_36_WALLPAPER_URL).thread(20)
-                .setScheduler(new QueueScheduler().setDuplicateRemover(new BloomFilterDuplicateRemover(110000)))
-                .addPipeline(wallpaperPipeline)
-                .run();
+        //执行爬虫
+        Spider.create(new _36wallpaperProcessor())
+                .addUrl(_36_WALLPAPER_URL)//设置爬取地址
+                .thread(30)//设置爬取线程数
+                .setScheduler(new QueueScheduler()
+                        .setDuplicateRemover(new BloomFilterDuplicateRemover(110000)))//设置url去重过滤器
+                //.addPipeline(wallpaperPipeline)//设置爬取之后的数据操作
+                .run();//执行
 
-
+        //删除重复数据
+        int count = wallpaperService.deleteRepeatData();
+        log.info("36壁纸删除重复数据数：" + count);
 
         //从redis中获取循环次数
         Integer cache = redisService.getCacheObject(REPTILE_COUNT);

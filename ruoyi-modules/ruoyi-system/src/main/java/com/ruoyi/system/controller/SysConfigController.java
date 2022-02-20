@@ -1,18 +1,7 @@
 package com.ruoyi.system.controller;
 
-import java.util.List;
-import javax.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import com.ruoyi.common.core.constant.UserConstants;
+import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
@@ -23,6 +12,12 @@ import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.domain.SysConfig;
 import com.ruoyi.system.service.ISysConfigService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 参数配置 信息操作处理
@@ -74,6 +69,16 @@ public class SysConfigController extends BaseController
     public AjaxResult getConfigKey(@PathVariable String configKey)
     {
         return AjaxResult.success(configService.selectConfigByKey(configKey));
+    }
+
+    /**
+     * 根据参数键名查询参数值forRpc
+     * @since 2022-02-20
+     * @Author xjs
+     */
+    @GetMapping(value = "/configKeyForRPC/{configKey}")
+    public R<String> getConfigKeyForRPC(@PathVariable String configKey) {
+        return R.ok(configService.selectConfigByKey(configKey));
     }
 
     /**
