@@ -13,13 +13,13 @@
       <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
         <el-col :span="3">
           <el-form-item label="下载图片" prop="downloadImg" required>
-            <el-switch  v-model="formData.downloadImg" active-color="#3292CD" inactive-color="#D74747">
+            <el-switch v-model="formData.downloadImg" active-color="#3292CD" inactive-color="#D74747">
             </el-switch>
           </el-form-item>
         </el-col>
         <el-col :span="3">
           <el-form-item label="初始化爬取" prop="init" required>
-            <el-switch  v-model="formData.init" active-color="#3292CD" inactive-color="#D74747"></el-switch>
+            <el-switch v-model="formData.init" active-color="#3292CD" inactive-color="#D74747"></el-switch>
           </el-form-item>
         </el-col>
         <el-col :span="7">
@@ -30,9 +30,21 @@
         </el-col>
         <el-col :span="9">
           <el-form-item>
-            <el-button size="mini" type="primary" @click="submitForm">提交</el-button>
+            <el-button
+              size="mini"
+              type="primary"
+              @click="submitForm"
+              v-hasPermi="['webmagic:_36wallpaper:update']"
+            >提交
+            </el-button>
             <el-button size="mini" @click="resetForm">重置</el-button>
-            <el-button size="mini" type="info" icon="el-icon-refresh" @click="resetSettings">恢复默认</el-button>
+            <el-button
+              size="mini"
+              type="info"
+              icon="el-icon-refresh"
+              @click="resetSettings"
+              v-hasPermi="['webmagic:_36wallpaper:update']"
+            >恢复默认</el-button>
           </el-form-item>
         </el-col>
       </el-form>
@@ -43,7 +55,7 @@
 
 <script>
 
-import {getSettings,updateSettings,resetSettings} from '@/api/business/webmagic/_36wallpaper/wallpaper36'
+import {getSettings, updateSettings, resetSettings} from '@/api/business/webmagic/_36wallpaper/wallpaper36'
 
 export default {
   name: "Wallpaper_36Settings",
@@ -84,7 +96,7 @@ export default {
 
     //恢复默认（重置）
     resetSettings() {
-      resetSettings().then(res =>{
+      resetSettings().then(res => {
         this.$modal.msgSuccess("重置成功");
         this.getSettings()
       })
@@ -93,11 +105,11 @@ export default {
     submitForm() {
       this.$refs['elForm'].validate(valid => {
         if (!valid) return
-        let json ={
-          json:null
+        let json = {
+          json: null
         }
         json.json = JSON.stringify(this.formData);
-        updateSettings(json).then(res =>{
+        updateSettings(json).then(res => {
           this.$modal.msgSuccess("修改成功");
         })
       })

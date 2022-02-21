@@ -17,6 +17,7 @@ import javax.annotation.Resource;
 import java.util.regex.Pattern;
 
 import static com.xjs._36wallpaper.consts._36wallpaperConst.*;
+import static com.xjs.consts.RedisConst.REPTILE_COUNT;
 import static com.xjs.consts.RegexConst.FILE_PATH_REGEX;
 
 /**
@@ -74,6 +75,11 @@ public class _36wallpaperServiceImpl extends ServiceImpl<_36wallpaperMapper, _36
 
     @Override
     public boolean updateSettings(String json) {
+        //判断爬虫是否正在执行，正在执行不可修改！
+        if(redisService.hasKey(REPTILE_COUNT)){
+            throw new BusinessException("爬虫正在执行中！暂时无法修改，请稍后再试");
+        }
+
         //校验json格式是否正确
         try {
             JSONObject jsonObject = JSONObject.parseObject(json);

@@ -271,6 +271,11 @@ public class _36wallpaperProcessor implements PageProcessor {
      * @return 返回循环次数
      */
     public Long run() {
+        //创建下载器Downloader
+        //HttpClientDownloader downloader = new HttpClientDownloader();
+        //给下载器设置代理服务器
+        //downloader.setProxyProvider(SimpleProxyProvider.from(new Proxy("60.191.11.249",3128)));
+
         //执行爬虫
         Spider.create(new _36wallpaperProcessor())
                 .addUrl(_36_WALLPAPER_URL)//设置爬取地址
@@ -278,6 +283,7 @@ public class _36wallpaperProcessor implements PageProcessor {
                 .setScheduler(new QueueScheduler()
                         .setDuplicateRemover(new BloomFilterDuplicateRemover(110000)))//设置url去重过滤器
                 //.addPipeline(wallpaperPipeline)//设置爬取之后的数据操作
+                //.setDownloader(downloader)//设置下载器
                 .run();//执行
 
         //删除重复数据

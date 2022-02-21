@@ -3,6 +3,7 @@ package com.xjs._36wallpaper.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.web.domain.AjaxResult;
+import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs._36wallpaper.service._36wallpaperService;
 import com.xjs._36wallpaper.task._36wallpaperTask;
 import com.xjs.web.MyBaseController;
@@ -33,6 +34,7 @@ public class _36wallpaperController extends MyBaseController {
 
     @GetMapping("getSettings")
     @ApiOperation("获取参数配置")
+    @RequiresPermissions("webmagic:_36wallpaper:list")
     public AjaxResult getSettings() {
         JSONObject jsonObject = wallpaperService.getSettings();
         if (Objects.nonNull(jsonObject)) {
@@ -44,6 +46,7 @@ public class _36wallpaperController extends MyBaseController {
 
     @PutMapping("updateSettings")
     @ApiOperation("修改参数配置")
+    @RequiresPermissions("webmagic:_36wallpaper:update")
     public AjaxResult updateSettings(@RequestParam("json") String json) {
         boolean b=wallpaperService.updateSettings(json);
         return toAjax(b);
@@ -51,6 +54,7 @@ public class _36wallpaperController extends MyBaseController {
 
     @PutMapping("reset")
     @ApiOperation("重置参数配置")
+    @RequiresPermissions("webmagic:_36wallpaper:update")
     public AjaxResult resetSettings() {
         boolean b=wallpaperService.resetSettings();
         return toAjax(b);
