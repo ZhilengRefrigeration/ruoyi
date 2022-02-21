@@ -14,10 +14,11 @@
         <result property="createTime"    column="create_time"    />
         <result property="dayCount"    column="day_count"    />
         <result property="updateTime"    column="update_time"    />
+        <result property="status"    column="status"    />
     </resultMap>
 
     <sql id="selectApiRecordVo">
-        select id, api_name, api_url, total_count, limit_count, create_time, update_time,day_count,request_time
+        select id, api_name, api_url, total_count, limit_count, create_time, update_time,day_count,request_time,status
         from api_record
     </sql>
 
@@ -25,6 +26,7 @@
         <include refid="selectApiRecordVo"/>
         <where>
             <if test="apiName != null  and apiName != ''"> and api_name like concat('%', #{apiName}, '%')</if>
+            <if test="status != null">status = #{status}</if>
         </where>
         order by create_time desc
     </select>
@@ -44,6 +46,7 @@
             <if test="limitCount != null">limit_count = #{limitCount},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="status != null">status = #{status},</if>
         </trim>
         where id = #{id}
     </update>

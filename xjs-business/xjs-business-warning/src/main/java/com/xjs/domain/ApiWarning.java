@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.core.annotation.Excel;
+import com.xjs.validation.group.SelectGroup;
 import lombok.Data;
 
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -22,6 +24,7 @@ public class ApiWarning implements Serializable {
 
     /** api名称 */
     @Excel(name = "api名称")
+    @Size(max = 20, message = "请控制api名称长度在20字符", groups = {SelectGroup.class})
     private String apiName;
 
     /** 预警类型 */

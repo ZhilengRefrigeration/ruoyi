@@ -106,18 +106,36 @@ public class _36wallpaperProcessor implements PageProcessor {
     private void initParameter() {
         //判断redis中是否存在
         Boolean hasKey = redisService.hasKey(REDIS_KEY);
+        JSONObject json;
+        String downloadImg = "downloadImg";
+        String path = "path";
+        String init = "init";
         if (hasKey) {
             String cacheObject = redisService.getCacheObject(REDIS_KEY);
-            JSONObject json = JSONObject.parseObject(cacheObject);
-            this.init = json.getBoolean("init");
-            this.downloadImg = json.getBoolean("downloadImg");
-            this.path = json.getString("path");
+            try {
+                json = JSONObject.parseObject(cacheObject);
+                if(json.containsKey(init) && json.containsKey(downloadImg) && json.containsKey(path)){
+                    this.init = json.getBoolean(init);
+                    this.downloadImg = json.getBoolean(downloadImg);
+                    this.path = json.getString(path);
+                }
+            } catch (Exception e) {
+                log.error("JSON转换异常:"+e.getMessage());
+            }
+
         } else if (StringUtils.isNotEmpty(remoteConfigService.getConfigKeyForRPC(CONFIG_KEY).getData())) {
             String data = remoteConfigService.getConfigKeyForRPC(CONFIG_KEY).getData();
-            JSONObject json = JSONObject.parseObject(data);
-            this.init = json.getBoolean("init");
-            this.downloadImg = json.getBoolean("downloadImg");
-            this.path = json.getString("path");
+            try {
+                json = JSONObject.parseObject(data);
+                if(json.containsKey(init) && json.containsKey(downloadImg) && json.containsKey(path)){
+                    this.init = json.getBoolean(init);
+                    this.downloadImg = json.getBoolean(downloadImg);
+                    this.path = json.getString(path);
+                }
+            } catch (Exception e) {
+                log.error("JSON转换异常:"+e.getMessage());
+            }
+
         }
     }
 

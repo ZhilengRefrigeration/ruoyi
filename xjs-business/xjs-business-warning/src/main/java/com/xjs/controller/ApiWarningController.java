@@ -50,6 +50,7 @@ public class ApiWarningController extends BaseController {
 
     /**
      * 处理预警单个预警
+     *
      * @param id 预警id
      * @return R
      */
@@ -61,7 +62,7 @@ public class ApiWarningController extends BaseController {
         ApiWarning apiWarning = new ApiWarning();
         apiWarning.setId(id);
         apiWarning.setHandle(YES);
-        return apiWarningService.updateById(apiWarning)?R.ok():R.fail();
+        return apiWarningService.updateById(apiWarning) ? R.ok() : R.fail();
     }
 
     /**
@@ -70,11 +71,11 @@ public class ApiWarningController extends BaseController {
     @RequiresPermissions("warning:warning:list")
     @GetMapping("/apiwarnlist")
     @ApiOperation("查询api预警列表")
-    public TableDataInfo list(ApiWarning apiWarning) {
+    public TableDataInfo list(@Validated({SelectGroup.class}) ApiWarning apiWarning) {
         startPage();
         List<ApiWarning> list = apiWarningService.list(new QueryWrapper<ApiWarning>()
                 .orderByDesc("create_time")
-                .like(Objects.nonNull(apiWarning.getApiName()),"api_name", apiWarning.getApiName()));
+                .like(Objects.nonNull(apiWarning.getApiName()), "api_name", apiWarning.getApiName()));
         return getDataTable(list);
     }
 
@@ -87,7 +88,7 @@ public class ApiWarningController extends BaseController {
     @ApiOperation("导出api预警列表")
     public void export(HttpServletResponse response, ApiWarning apiWarning) {
         List<ApiWarning> list = apiWarningService.list(new QueryWrapper<ApiWarning>()
-                .like(Objects.nonNull(apiWarning.getApiName()),"api_name", apiWarning.getApiName()));
+                .like(Objects.nonNull(apiWarning.getApiName()), "api_name", apiWarning.getApiName()));
         ExcelUtil<ApiWarning> util = new ExcelUtil<ApiWarning>(ApiWarning.class);
         util.exportExcel(response, list, "api预警数据");
     }
@@ -113,6 +114,7 @@ public class ApiWarningController extends BaseController {
 
     /**
      * 获取所有Api名称
+     *
      * @return api名称
      */
     @GetMapping("getApiName")
@@ -167,12 +169,13 @@ public class ApiWarningController extends BaseController {
     @ApiOperation("远程查询预警信息")
     public R<JSONArray> findRecordListForRPC() {
         List<ApiRecord> apiRecordList = apiWarningService.selectApiRecordList(new ApiRecord());
-        JSONArray jo= (JSONArray) JSONArray.toJSON(apiRecordList);
+        JSONArray jo = (JSONArray) JSONArray.toJSON(apiRecordList);
         return R.ok(jo);
     }
 
     /**
      * 远程获取所有Api名称
+     *
      * @return api名称
      */
     @GetMapping("getApiNameForRPC")
@@ -181,7 +184,6 @@ public class ApiWarningController extends BaseController {
         List<String> apiNameList = apiWarningService.getApiName();
         return R.ok(apiNameList);
     }
-
 
 
     /**
@@ -202,12 +204,12 @@ public class ApiWarningController extends BaseController {
     }
 
     /**
-     *  websocket推送
+     * websocket推送
      */
     private void websocketPush(ApiWarning apiWarning) {
-        long count = apiWarningService.count(new QueryWrapper<ApiWarning>().eq("handle",NO));
+        long count = apiWarningService.count(new QueryWrapper<ApiWarning>().eq("handle", NO));
         Set<String> cacheSet = redisService.getCacheSet(WEBSOCKET);
-        JSONObject jsonData =new JSONObject();
+        JSONObject jsonData = new JSONObject();
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(apiWarning);
         //把id设置成字符串防止前端精度丢失
         jsonObject.put("id", apiWarning.getId().toString());
@@ -216,14 +218,12 @@ public class ApiWarningController extends BaseController {
         jsonData.put("socketType", "apiWarning");
         for (String userId : cacheSet) {
             try {
-                WebSocketServer.sendInfo(jsonData.toString(),userId);
+                WebSocketServer.sendInfo(jsonData.toString(), userId);
             } catch (IOException e) {
                 logger.error(e.getMessage());
             }
         }
     }
-
-
 
 
     //-------------------------代码生成------------------------------------
@@ -271,7 +271,7 @@ public class ApiWarningController extends BaseController {
     @Log(title = "API预警", businessType = BusinessType.UPDATE)
     @PutMapping("edit")
     @ApiOperation("修改API预警信息")
-    public AjaxResult edit(@Validated({UpdateGroup.class})  @RequestBody ApiRecord apiRecord) {
+    public AjaxResult edit(@Validated({UpdateGroup.class}) @RequestBody ApiRecord apiRecord) {
         return toAjax(apiWarningService.updateApiRecord(apiRecord));
     }
 

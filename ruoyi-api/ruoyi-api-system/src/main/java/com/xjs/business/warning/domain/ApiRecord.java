@@ -4,24 +4,33 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * api记录实体类
+ *
  * @author xiejs
- * @desc  api记录实体类
- * @create 2021-12-31
+ * @since 2021-12-31
  */
 public class ApiRecord implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /** 主键id */
+    /**
+     * 主键id
+     */
     private Long id;
 
-    /** api名称 */
+    /**
+     * api名称
+     */
     private String apiName;
 
-    /** api地址 */
+    /**
+     * api地址
+     */
     private String apiUrl;
 
-    /** api每天请求次数 */
+    /**
+     * api每天请求次数
+     */
     private Long dayCount;
 
     /**
@@ -29,15 +38,31 @@ public class ApiRecord implements Serializable {
      */
     private Integer requestTime;
 
-    /** api总请求次数 */
+    /**
+     * api总请求次数
+     */
     private Long totalCount;
 
-    /** api限制请求次数每天 */
+    private Integer status;
+
+
+
+    /**
+     * api限制请求次数每天
+     */
     private Long limitCount;
 
     private Date createTime;
 
     private Date updateTime;
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
     public Long getId() {
         return id;

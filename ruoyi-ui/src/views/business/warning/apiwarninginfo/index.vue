@@ -15,6 +15,23 @@
             :value="index"/>
         </el-select>
       </el-form-item>
+
+      <el-form-item label="状态" prop="status">
+        <el-select
+          v-model="queryParams.status"
+          placeholder="请输入"
+          clearable
+          size="small"
+          @change="handleQuery"
+          style="width: 150px">
+          <el-option
+            v-for="dict in dict.type.request_status"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"/>
+        </el-select>
+      </el-form-item>
+
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -55,14 +72,24 @@
       <el-table-column label="API总请求次数" align="center" prop="totalCount" :show-overflow-tooltip="true"/>
       <el-table-column label="请求耗费时间" align="center" prop="requestTime" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <span>{{scope.row.requestTime+"ms"}}</span>
+          <span>{{ scope.row.requestTime + "ms" }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="API每天限制请求次数" align="center" prop="limitCount" :show-overflow-tooltip="true"/>
+      <el-table-column label="每天限制次数" align="center" prop="limitCount" :show-overflow-tooltip="true"/>
 
       <el-table-column label="API每天请求次数" align="center" prop="dayCount"/>
       <el-table-column label="调用时间" align="center" prop="updateTime" width="180"/>
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180" :show-overflow-tooltip="true">
+
+      <el-table-column label="API状态" align="center" prop="status" width="100">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.status===1?'success':'danger'">
+            {{ scope.row.status === 1 ? '正常' : '异常' }}
+          </el-tag>
+        </template>
+      </el-table-column>
+
+
+      <el-table-column label="创建时间" align="center" prop="createTime" width="150" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
         </template>
@@ -112,6 +139,9 @@ import {
 
 export default {
   name: "Apiwarning",
+
+  dicts: ['request_status'],
+
   data() {
     return {
       // 遮罩层
@@ -137,6 +167,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         apiName: null,
+        status: null
       },
       // 表单参数
       form: {},
@@ -144,7 +175,7 @@ export default {
       rules: {
         limitCount: [
           {required: true, message: "请求次数", trigger: "blur"},
-          {type: 'number',min: 0, max: 9999, message: '必须数字！且数字在 0 到 9999 之间！', trigger: 'blur'}
+          {type: 'number', min: 0, max: 9999, message: '必须数字！且数字在 0 到 9999 之间！', trigger: 'blur'}
         ],
       },
 
