@@ -3,6 +3,7 @@ package com.xjs._36wallpaper.webmagic;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.redis.service.RedisService;
 import com.ruoyi.system.api.RemoteConfigService;
+import com.xjs._36wallpaper.consts._36wallpaperConst;
 import com.xjs._36wallpaper.pojo._36wallpaper;
 import com.xjs._36wallpaper.service._36wallpaperService;
 import lombok.extern.log4j.Log4j2;
@@ -25,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static com.xjs._36wallpaper.consts._36wallpaperConst.CONFIG_KEY;
+import static com.xjs._36wallpaper.consts._36wallpaperConst.REDIS_KEY;
 import static com.xjs.consts.RedisConst.REPTILE_COUNT;
 import static com.xjs.consts.ReptileConst._36_WALLPAPER_URL;
 
@@ -42,27 +45,17 @@ public class _36wallpaperProcessor implements PageProcessor {
     /**
      * 是否全网爬虫
      */
-    private boolean init = false;
+    private boolean init ;
 
     /**
      * 是否下载图片带磁盘
      */
-    private boolean downloadImg = false;
+    private boolean downloadImg;
 
     /**
      * 图片保存到磁盘的路径
      */
-    private String path = "D:\\Dev\\WebCrawler\\36wallpaper";
-
-    /**
-     * redis的key
-     */
-    public static final String REDIS_KEY = "sys_config:xjs.webmagic._36wallpaper";
-
-    /**
-     * 系统配置表中的key
-     */
-    public static final String CONFIG_KEY = "xjs.webmagic._36wallpaper";
+    private String path ;
 
     /**
      * 请求头key
@@ -104,6 +97,11 @@ public class _36wallpaperProcessor implements PageProcessor {
      * 初始化参数
      */
     private void initParameter() {
+        //先赋予默认值
+        this.init= _36wallpaperConst.INIT;
+        this.path= _36wallpaperConst.PATH;
+        this.downloadImg= _36wallpaperConst.DOWNLOAD_IMG;
+
         //判断redis中是否存在
         Boolean hasKey = redisService.hasKey(REDIS_KEY);
         JSONObject json;
@@ -135,7 +133,6 @@ public class _36wallpaperProcessor implements PageProcessor {
             } catch (Exception e) {
                 log.error("JSON转换异常:"+e.getMessage());
             }
-
         }
     }
 

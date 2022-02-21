@@ -32,4 +32,9 @@ public class RegexConst {
      * 数字校验正则
      */
     public static final String NUMBER_REGEX= "[0-9]*";
+
+    /**
+     * 文件路径正则
+     */
+    public static final String FILE_PATH_REGEX= "^[a-zA-Z]:(((\\\\(?! )[^/:*?<>\\\"\"|\\\\]+)+\\\\?)|(\\\\)?)\\s*$";
 }

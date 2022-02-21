@@ -15,11 +15,16 @@ import org.springframework.stereotype.Component;
 public class RemoteConfigFallbackFactory implements FallbackFactory<RemoteConfigService> {
     @Override
     public RemoteConfigService create(Throwable cause) {
+        log.error("系统配置服务调用失败:{}", cause.getMessage());
         return new RemoteConfigService() {
             @Override
             public R<String> getConfigKeyForRPC(String configKey) {
-                log.error("系统配置服务调用失败:{}", cause.getMessage());
-                return R.fail("系统配置服务调用失败");
+                return R.fail("系统配置服务查询调用失败");
+            }
+
+            @Override
+            public R editForRPC(String key, String value) {
+                return R.fail("系统配置服务修改调用失败");
             }
         };
     }

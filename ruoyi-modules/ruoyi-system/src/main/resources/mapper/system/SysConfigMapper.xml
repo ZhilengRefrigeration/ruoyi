@@ -97,7 +97,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </set>
         where config_id = #{configId}
     </update>
-	
+
+    <update id="updateConfigByKey" parameterType="SysConfig">
+        update sys_config
+        set config_value =#{configValue}
+        where config_key =#{configKey}
+    </update>
+
     <delete id="deleteConfigById" parameterType="Long">
         delete from sys_config where config_id = #{configId}
     </delete>

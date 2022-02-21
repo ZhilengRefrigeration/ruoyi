@@ -1,5 +1,6 @@
 package com.xjs._36wallpaper.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xjs._36wallpaper.pojo._36wallpaper;
 
@@ -15,4 +16,25 @@ public interface _36wallpaperService extends IService<_36wallpaper> {
      * @return int
      */
     int deleteRepeatData();
+
+
+    /**
+     * 从配置管理中获取指定的参数配置
+     * @return json
+     */
+    JSONObject getSettings();
+
+    /**
+     * 修改配置参数
+     * @param json json
+     * @return boolean
+     */
+    boolean updateSettings(String json);
+
+    /**
+     * 重置配置参数
+     * @return boolean
+     */
+    boolean resetSettings();
+
 }

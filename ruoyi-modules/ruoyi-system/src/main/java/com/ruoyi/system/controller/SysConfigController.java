@@ -21,13 +21,12 @@ import java.util.List;
 
 /**
  * 参数配置 信息操作处理
- * 
+ *
  * @author ruoyi
  */
 @RestController
 @RequestMapping("/config")
-public class SysConfigController extends BaseController
-{
+public class SysConfigController extends BaseController {
     @Autowired
     private ISysConfigService configService;
 
@@ -36,8 +35,7 @@ public class SysConfigController extends BaseController
      */
     @RequiresPermissions("system:config:list")
     @GetMapping("/list")
-    public TableDataInfo list(SysConfig config)
-    {
+    public TableDataInfo list(SysConfig config) {
         startPage();
         List<SysConfig> list = configService.selectConfigList(config);
         return getDataTable(list);
@@ -46,8 +44,7 @@ public class SysConfigController extends BaseController
     @Log(title = "参数管理", businessType = BusinessType.EXPORT)
     @RequiresPermissions("system:config:export")
     @PostMapping("/export")
-    public void export(HttpServletResponse response, SysConfig config)
-    {
+    public void export(HttpServletResponse response, SysConfig config) {
         List<SysConfig> list = configService.selectConfigList(config);
         ExcelUtil<SysConfig> util = new ExcelUtil<SysConfig>(SysConfig.class);
         util.exportExcel(response, list, "参数数据");
@@ -57,8 +54,7 @@ public class SysConfigController extends BaseController
      * 根据参数编号获取详细信息
      */
     @GetMapping(value = "/{configId}")
-    public AjaxResult getInfo(@PathVariable Long configId)
-    {
+    public AjaxResult getInfo(@PathVariable Long configId) {
         return AjaxResult.success(configService.selectConfigById(configId));
     }
 
@@ -66,15 +62,15 @@ public class SysConfigController extends BaseController
      * 根据参数键名查询参数值
      */
     @GetMapping(value = "/configKey/{configKey}")
-    public AjaxResult getConfigKey(@PathVariable String configKey)
-    {
+    public AjaxResult getConfigKey(@PathVariable String configKey) {
         return AjaxResult.success(configService.selectConfigByKey(configKey));
     }
 
     /**
      * 根据参数键名查询参数值forRpc
-     * @since 2022-02-20
+     *
      * @Author xjs
+     * @since 2022-02-20
      */
     @GetMapping(value = "/configKeyForRPC/{configKey}")
     public R<String> getConfigKeyForRPC(@PathVariable String configKey) {
@@ -87,10 +83,8 @@ public class SysConfigController extends BaseController
     @RequiresPermissions("system:config:add")
     @Log(title = "参数管理", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@Validated @RequestBody SysConfig config)
-    {
-        if (UserConstants.NOT_UNIQUE.equals(configService.checkConfigKeyUnique(config)))
-        {
+    public AjaxResult add(@Validated @RequestBody SysConfig config) {
+        if (UserConstants.NOT_UNIQUE.equals(configService.checkConfigKeyUnique(config))) {
             return AjaxResult.error("新增参数'" + config.getConfigName() + "'失败，参数键名已存在");
         }
         config.setCreateBy(SecurityUtils.getUsername());
@@ -103,14 +97,26 @@ public class SysConfigController extends BaseController
     @RequiresPermissions("system:config:edit")
     @Log(title = "参数管理", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@Validated @RequestBody SysConfig config)
-    {
-        if (UserConstants.NOT_UNIQUE.equals(configService.checkConfigKeyUnique(config)))
-        {
+    public AjaxResult edit(@Validated @RequestBody SysConfig config) {
+        if (UserConstants.NOT_UNIQUE.equals(configService.checkConfigKeyUnique(config))) {
             return AjaxResult.error("修改参数'" + config.getConfigName() + "'失败，参数键名已存在");
         }
         config.setUpdateBy(SecurityUtils.getUsername());
         return toAjax(configService.updateConfig(config));
+    }
+
+    /**
+     * 根据key修改参数配置
+     * @return r
+     * @since 2022-02-21
+     */
+    @PutMapping("editForRPC")
+    public R editForRPC(@RequestParam("key") String key, @RequestParam("value") String value) {
+        SysConfig sysConfig = new SysConfig();
+        sysConfig.setConfigKey(key);
+        sysConfig.setConfigValue(value);
+        int i = configService.updateConfigByKey(sysConfig);
+        return i == 1 ? R.ok() : R.fail();
     }
 
     /**
@@ -119,8 +125,7 @@ public class SysConfigController extends BaseController
     @RequiresPermissions("system:config:remove")
     @Log(title = "参数管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{configIds}")
-    public AjaxResult remove(@PathVariable Long[] configIds)
-    {
+    public AjaxResult remove(@PathVariable Long[] configIds) {
         configService.deleteConfigByIds(configIds);
         return success();
     }
@@ -131,8 +136,7 @@ public class SysConfigController extends BaseController
     @RequiresPermissions("system:config:remove")
     @Log(title = "参数管理", businessType = BusinessType.CLEAN)
     @DeleteMapping("/refreshCache")
-    public AjaxResult refreshCache()
-    {
+    public AjaxResult refreshCache() {
         configService.resetConfigCache();
         return AjaxResult.success();
     }
