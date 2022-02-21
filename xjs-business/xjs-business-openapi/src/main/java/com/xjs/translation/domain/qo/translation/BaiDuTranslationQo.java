@@ -39,7 +39,7 @@ public class BaiDuTranslationQo {
     /**
      * 盐(随机数)
      */
-    private String salt = "xjsisyourfatter";
+    private String salt;
 
     /**
      * 签名（appid+query+salt+key的MD5值）

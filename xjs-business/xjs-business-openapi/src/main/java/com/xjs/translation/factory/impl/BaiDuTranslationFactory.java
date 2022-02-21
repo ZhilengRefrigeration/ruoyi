@@ -38,7 +38,8 @@ public class BaiDuTranslationFactory implements TranslationFactory {
         baiDuTranslationQo.setAppid(appId);
         String key = baiduProperties.getKey();
         //生成签名(appid+q+salt+密钥的MD5值)
-        String append = appId + translationQo.getQ() + baiDuTranslationQo.getSalt() + key;
+        String append = appId + translationQo.getQ() + baiduProperties.getSalt() + key;
+        baiDuTranslationQo.setSalt(baiduProperties.getSalt());
         String sign = SecureUtil.md5(append);
         baiDuTranslationQo.setSign(sign);
         baiDuTranslationQo.setQ(translationQo.getQ());

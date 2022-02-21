@@ -24,5 +24,10 @@ public class BaiduProperties {
      */
     private String key;
 
+    /**
+     * 盐值
+     */
+    private String salt;
+
 
 }
