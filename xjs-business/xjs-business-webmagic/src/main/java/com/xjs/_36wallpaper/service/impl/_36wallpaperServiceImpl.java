@@ -75,10 +75,7 @@ public class _36wallpaperServiceImpl extends ServiceImpl<_36wallpaperMapper, _36
 
     @Override
     public boolean updateSettings(String json) {
-        //判断爬虫是否正在执行，正在执行不可修改！
-        if(redisService.hasKey(REPTILE_COUNT)){
-            throw new BusinessException("爬虫正在执行中！暂时无法修改，请稍后再试");
-        }
+        this.checkRunning();
 
         //校验json格式是否正确
         try {
@@ -116,6 +113,8 @@ public class _36wallpaperServiceImpl extends ServiceImpl<_36wallpaperMapper, _36
 
     @Override
     public boolean resetSettings() {
+        this.checkRunning();
+
         //构建json
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("path",PATH);
@@ -127,5 +126,16 @@ public class _36wallpaperServiceImpl extends ServiceImpl<_36wallpaperMapper, _36
             return true;
         }
         return false;
+    }
+
+
+    /**
+     * 检测是否正在运行
+     */
+    private void checkRunning() {
+        //判断爬虫是否正在执行，正在执行不可修改！
+        if(redisService.hasKey(REPTILE_COUNT)){
+            throw new BusinessException("爬虫正在执行中！暂时无法修改，请稍后再试");
+        }
     }
 }

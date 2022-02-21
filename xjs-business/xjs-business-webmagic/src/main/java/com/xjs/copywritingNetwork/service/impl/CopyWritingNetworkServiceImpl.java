@@ -40,7 +40,7 @@ public class CopyWritingNetworkServiceImpl extends ServiceImpl<CopyWritingNetwor
     @Override
     public List<CopyWritingNetwork> selectCopyWritingNetworkList(CopyWritingNetwork copyWritingNetwork) {
         List<CopyWritingNetwork> list = copyWritingNetworkMapper.selectCopyWritingNetworkList(copyWritingNetwork);
-        list.forEach(data ->{
+        list.forEach(data -> {
             data.setContent(this.filterContent(data.getContent()));
         });
         return list;
@@ -67,23 +67,33 @@ public class CopyWritingNetworkServiceImpl extends ServiceImpl<CopyWritingNetwor
             char index0 = oldStr.charAt(0);
             char index1 = oldStr.charAt(1);
             char index2 = oldStr.charAt(2);
+            char index3 = oldStr.charAt(3);
             boolean matches0 = pattern.matcher(String.valueOf(index0)).matches();
             boolean matches1 = pattern.matcher(String.valueOf(index1)).matches();
+            boolean matches2 = pattern.matcher(String.valueOf(index2)).matches();
             //  1、
-            if (matches0 && index1=='、') {
-                return oldStr.substring(2,oldStr.length()-2);
+            if (matches0 && index1 == '、') {
+                return oldStr.substring(2);
             }
             // 15、
             if (matches0 && matches1 && index2 == '、') {
-                return oldStr.substring(3,oldStr.length()-3);
+                return oldStr.substring(3);
+            }
+            //100、
+            if (matches0 && matches1 && matches2 && index3 == '、') {
+                return oldStr.substring(4);
             }
             //1.
-            if (matches0 && index1=='.') {
-                return oldStr.substring(2,oldStr.length()-2);
+            if (matches0 && index1 == '.') {
+                return oldStr.substring(2);
             }
             //13.
             if (matches0 && matches1 && index2 == '.') {
-                return oldStr.substring(3,oldStr.length()-3);
+                return oldStr.substring(3);
+            }
+            //100.
+            if (matches0 && matches1 && matches2 && index3 == '.') {
+                return oldStr.substring(4);
             }
         } catch (Exception e) {
             log.error(e.getMessage());

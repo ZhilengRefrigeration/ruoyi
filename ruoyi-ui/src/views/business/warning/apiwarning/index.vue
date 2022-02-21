@@ -7,6 +7,7 @@
           placeholder="请输入"
           clearable
           size="small"
+          @change="handleQuery"
           style="width: 180px">
           <el-option
             v-for="index in apiName"
