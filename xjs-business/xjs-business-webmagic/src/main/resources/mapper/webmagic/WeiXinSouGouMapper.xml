@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjs.weixin.mapper.WeiXinSouGouMapper">
+
+
+    <delete id="deleteRepeatData">
+        delete from webmagic_weixin_sougou where id not in	(
+            SELECT
+                t.min_id
+            FROM
+                    ( SELECT min( id ) AS min_id FROM webmagic_weixin_sougou GROUP BY url ) AS t
+        )
+    </delete>
+</mapper>

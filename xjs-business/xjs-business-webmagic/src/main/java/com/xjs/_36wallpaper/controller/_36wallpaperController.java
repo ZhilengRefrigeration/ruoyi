@@ -64,7 +64,7 @@ public class _36wallpaperController extends MyBaseController {
     //----------------------远程rpc调用---------------------------
     @GetMapping("taskForPRC")
     @ApiOperation("供定时任务服务RPC远程调用")
-    public R _36wallpaperControllerTaskForPRC() {
+    public R _36wallpaperTaskForPRC() {
         Long count = wallpaperTask.reptileWallpaper();
         return R.ok(count);
     }

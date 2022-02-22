@@ -18,7 +18,7 @@ public class RemoteWebmagic36wallpaperFactory implements FallbackFactory<RemoteW
     public RemoteWebmagic36wallpaperFeign create(Throwable cause) {
         return new RemoteWebmagic36wallpaperFeign() {
             @Override
-            public R _36wallpaperControllerTaskForPRC() {
+            public R _36wallpaperTaskForPRC() {
                 log.error("新浪 爬虫定时任务 降级------服务可能正在运行");
                 return R.fail("降级处理------服务可能正在运行");
             }

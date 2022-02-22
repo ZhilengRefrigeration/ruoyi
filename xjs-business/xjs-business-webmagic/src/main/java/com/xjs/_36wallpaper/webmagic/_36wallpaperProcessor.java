@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.xjs._36wallpaper.consts._36wallpaperConst.CONFIG_KEY;
 import static com.xjs._36wallpaper.consts._36wallpaperConst.REDIS_KEY;
-import static com.xjs.consts.RedisConst.REPTILE_COUNT;
+import static com.xjs.consts.RedisConst.REPTILE_36_WALLPAPER_COUNT;
 import static com.xjs.consts.ReptileConst._36_WALLPAPER_URL;
 
 /**
@@ -238,16 +238,16 @@ public class _36wallpaperProcessor implements PageProcessor {
             //page.putField("_36wallpaperData",wallpapers);
 
             //循环次数存入redis中
-            Integer count = redisService.getCacheObject(REPTILE_COUNT);
+            Integer count = redisService.getCacheObject(REPTILE_36_WALLPAPER_COUNT);
             if (count == null) {
                 count = 0;
             }
-            redisService.setCacheObject(REPTILE_COUNT, count + 1);
+            redisService.setCacheObject(REPTILE_36_WALLPAPER_COUNT, count + 1);
 
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            redisService.expire(REPTILE_COUNT, 1, TimeUnit.HOURS);
+            redisService.expire(REPTILE_36_WALLPAPER_COUNT, 1, TimeUnit.HOURS);
         }
 
     }
@@ -291,8 +291,8 @@ public class _36wallpaperProcessor implements PageProcessor {
         log.info("36壁纸删除重复数据数：" + count);
 
         //从redis中获取循环次数
-        Integer cache = redisService.getCacheObject(REPTILE_COUNT);
-        redisService.deleteObject(REPTILE_COUNT);
+        Integer cache = redisService.getCacheObject(REPTILE_36_WALLPAPER_COUNT);
+        redisService.deleteObject(REPTILE_36_WALLPAPER_COUNT);
 
         if (cache != null) {
             return Long.valueOf(cache);

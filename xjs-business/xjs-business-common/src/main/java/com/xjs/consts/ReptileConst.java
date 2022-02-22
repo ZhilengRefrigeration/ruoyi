@@ -30,8 +30,15 @@ public class ReptileConst {
      */
     public static final String BOSS_JOB_URL= "https://www.zhipin.com";
 
-
+    /**
+     * 36壁纸网url
+     */
     public static final String _36_WALLPAPER_URL= "https://www.3gbizhi.com/";
+
+    /**
+     * 搜狗微信url
+     */
+    public static final String WEIXIN_SOUGOU_URL= "https://weixin.sogou.com/";
 
 
 

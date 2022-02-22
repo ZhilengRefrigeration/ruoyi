@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public interface RemoteWebmagic36wallpaperFeign {
 
     @GetMapping("/_36wallpaper/taskForPRC")
-    public R _36wallpaperControllerTaskForPRC();
+    public R _36wallpaperTaskForPRC();
 
 
 }

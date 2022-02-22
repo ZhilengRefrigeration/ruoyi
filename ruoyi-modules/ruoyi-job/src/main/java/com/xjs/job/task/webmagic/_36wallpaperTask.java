@@ -29,7 +29,7 @@ public class _36wallpaperTask {
         log.info("---------------爬虫-36壁纸网定时任务Start-------------------");
         LocalDateTime localDateTime1 = DateUtil.date().toLocalDateTime();
 
-        R r = remoteWebmagic36wallpaperFeign._36wallpaperControllerTaskForPRC();
+        R r = remoteWebmagic36wallpaperFeign._36wallpaperTaskForPRC();
 
         log.info("爬虫-36壁纸网定时任务结果:code={},msg={},data={}",r.getCode(),r.getMsg(),r.getData());
         LocalDateTime localDateTime2 = DateUtil.date().toLocalDateTime();
