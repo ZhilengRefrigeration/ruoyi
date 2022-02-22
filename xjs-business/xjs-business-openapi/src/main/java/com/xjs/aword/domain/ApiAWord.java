@@ -34,7 +34,7 @@ public class ApiAWord implements Serializable {
 
     /** 句子内容 */
     @Excel(name = "句子内容")
-    @Size(max = 255, message = "请控制句子内容长度在255字符", groups = { SelectGroup.class})
+    @Size(max = 100, message = "请控制句子内容长度在100字符", groups = { SelectGroup.class})
     private String content;
 
     /** 来源 */
@@ -44,7 +44,7 @@ public class ApiAWord implements Serializable {
 
     /** 释义 */
     @Excel(name = "释义")
-    @Size(max = 255, message = "请控制释义长度在255字符", groups = { SelectGroup.class})
+    @Size(max = 100, message = "请控制释义长度在100字符", groups = { SelectGroup.class})
     private String note;
 
     /** 音频地址 */

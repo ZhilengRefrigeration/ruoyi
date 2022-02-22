@@ -5,6 +5,43 @@
 <mapper namespace="com.xjs.weixin.mapper.WeiXinSouGouMapper">
 
 
+    <resultMap type="com.xjs.weixin.pojo.WeiXinSouGou" id="WeiXinSouGouResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="content"    column="content"    />
+        <result property="source"    column="source"    />
+        <result property="url"    column="url"    />
+        <result property="imgUrl"    column="img_url"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectWeiXinSouGouVo">
+        select id, title, content, source, url, img_url, create_time from webmagic_weixin_sougou
+    </sql>
+
+    <select id="selectWeiXinSouGouList" parameterType="com.xjs.weixin.pojo.WeiXinSouGou" resultMap="WeiXinSouGouResult">
+        <include refid="selectWeiXinSouGouVo"/>
+        <where>
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+            <if test="source != null  and source != ''"> and source like concat('%', #{source}, '%')</if>
+            <if test="createTime != null and endCreateTime != null"> and create_time between #{createTime} and #{endCreateTime}</if>
+        </where>
+    </select>
+
+    <delete id="deleteWeiXinSouGouById" parameterType="Long">
+        delete from webmagic_weixin_sougou where id = #{id}
+    </delete>
+
+    <delete id="deleteWeiXinSouGouByIds" parameterType="String">
+        delete from webmagic_weixin_sougou where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+
     <delete id="deleteRepeatData">
         delete from webmagic_weixin_sougou where id not in	(
             SELECT

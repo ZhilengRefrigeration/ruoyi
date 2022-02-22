@@ -64,6 +64,11 @@
 	<!-- Spring日志级别控制  -->
 	<logger name="org.springframework" level="warn" />
 
+    <!-- 打开 Bean Searcher 的 SQL 日志 -->
+    <logger name="com.ejlchina.searcher.implement.DefaultSqlExecutor" level="DEBUG" additivity="false">
+        <appender-ref ref="console" />
+    </logger>
+
 	<root level="info">
 		<appender-ref ref="console" />
 	</root>

@@ -29,14 +29,14 @@ public class ApiEnglish implements Serializable {
      * 英文
      */
     @Excel(name = "英文")
-    @Size(max = 255, message = "请控制英文长度在255字符", groups = { SelectGroup.class})
+    @Size(max = 100, message = "请控制英文长度在100字符", groups = { SelectGroup.class})
     private String en;
 
     /**
      * 中文
      */
     @Excel(name = "中文")
-    @Size(max = 255, message = "请控制中文长度在255字符", groups = { SelectGroup.class})
+    @Size(max = 100, message = "请控制中文长度在100字符", groups = { SelectGroup.class})
     private String zh;
 
 
