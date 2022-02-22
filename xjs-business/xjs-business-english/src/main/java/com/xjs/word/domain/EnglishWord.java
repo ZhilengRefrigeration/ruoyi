@@ -2,14 +2,18 @@ package com.xjs.word.domain;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.ruoyi.common.core.annotation.Excel;
+import com.xjs.entity.BaseEntity;
 import com.xjs.validation.group.AddGroup;
 import com.xjs.validation.group.SelectGroup;
 import com.xjs.validation.group.UpdateGroup;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -20,7 +24,9 @@ import java.util.Date;
  */
 @Data
 @TableName("english_word")
-public class EnglishWord {
+@EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
+public class EnglishWord extends BaseEntity implements Serializable {
 
     /**
      * 主键id
@@ -84,7 +90,5 @@ public class EnglishWord {
     private Date createTime;
 
 
-    @TableField(exist = false)
-    private Date endCreateTime;
 
 }

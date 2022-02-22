@@ -1,26 +1,17 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="英语单词" prop="englishWord">
+      <el-form-item label="中英文" prop="condition">
         <el-input
-          v-model="queryParams.englishWord"
-          placeholder="英语单词"
-          clearable
-          maxlength="20"
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="中文" prop="chineseWord">
-        <el-input
-          v-model="queryParams.chineseWord"
-          placeholder="请输入中文"
+          v-model="queryParams.condition"
+          placeholder="请输入中英文"
           clearable
           maxlength="10"
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+
       <el-form-item label="创建时间">
         <el-date-picker
           v-model="daterangeCreateTime"
@@ -106,7 +97,13 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="wordList" @selection-change="handleSelectionChange">
+    <el-table
+      ref="tables"
+      v-loading="loading"
+      :data="wordList"
+      :default-sort="defaultSort"
+      @sort-change="handleSortChange"
+      @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"/>
       <el-table-column label="英语单词" align="center" prop="englishWord" :show-overflow-tooltip="true"/>
       <el-table-column label="中文" align="center" prop="chineseWord" :show-overflow-tooltip="true"/>
@@ -122,7 +119,12 @@
         </template>
       </el-table-column>
       <el-table-column label="查看次数" align="center" prop="lookCount" :show-overflow-tooltip="true"/>
-      <el-table-column label="创建时间" align="center" prop="createTime" :show-overflow-tooltip="true"/>
+      <el-table-column label="创建时间"
+                       align="center"
+                       prop="createTime"
+                       sortable="custom"
+                       :sort-orders="['descending', 'ascending']"
+                       :show-overflow-tooltip="true"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-tooltip class="item" effect="dark" content="点击查看详情" placement="top-start">
@@ -307,9 +309,12 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
+        condition: null,
         englishWord: null,
         chineseWord: null,
-        createTime: null
+        createTime: null,
+        isAsc: null,
+        orderByColumn: null
       },
       // 表单参数
       form: {
@@ -318,6 +323,10 @@ export default {
       },
       //英语一言数据
       oneEnglishData: {},
+
+      // 默认排序
+      defaultSort: {prop: 'createTime', order: 'descending'},
+
       // 表单校验
       rulesEdit: {
         englishWord: [
@@ -352,6 +361,7 @@ export default {
     };
   },
   created() {
+    this.resetSort()
     this.getList();
   },
 
@@ -371,6 +381,12 @@ export default {
         this.form = res.data
         this.loadingC = false
       })
+    },
+
+    //重置排序
+    resetSort() {
+      this.queryParams.isAsc = this.defaultSort.order
+      this.queryParams.orderByColumn = this.defaultSort.prop
     },
 
 
@@ -396,10 +412,14 @@ export default {
         this.queryParams.createTime = this.daterangeCreateTime[0];
         this.queryParams.endCreateTime = this.daterangeCreateTime[1];
       }
+
+      // this.queryParams.orderByColumn=this.defaultSort.prop
+      // this.queryParams.isAsc=this.defaultSort.order
+
       listWord(this.queryParams).then(response => {
         this.loading = false;
-        this.wordList = response.rows;
-        this.total = response.total;
+        this.wordList = response.data.records;
+        this.total = response.data.total;
       });
     },
     // 取消按钮
@@ -429,6 +449,7 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.resetSort()
       this.daterangeCreateTime = [];
       this.queryParams.createTime = null
       this.queryParams.endCreateTime = null
@@ -447,10 +468,17 @@ export default {
       this.openAdd = true;
       this.title = "添加英语单词";
       //下拉框默认选中
-      this.form.isCollect= parseInt(this.dict.type.english_collect[0].value)
+      this.form.isCollect = parseInt(this.dict.type.english_collect[0].value)
       this.form.top = parseInt(this.dict.type.english_top[1].value)
 
     },
+
+    /** 排序触发事件 */
+    handleSortChange(column, prop, order) {
+      this.queryParams.isAsc = column.order;
+      this.getList();
+    },
+
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();

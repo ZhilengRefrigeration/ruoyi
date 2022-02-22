@@ -3,7 +3,6 @@ package com.xjs.word.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.domain.AjaxResult;
-import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
@@ -31,13 +30,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/word")
 @Api(tags = "业务模块-英语管理")
-public class EnglishWordController extends MyBaseController {
+public class EnglishWordController extends MyBaseController<EnglishWord> {
     @Autowired
     private IEnglishWordService englishWordService;
 
 
     /**
      * 英语单词收藏夹
+     *
      * @return TableDataInfo
      */
     @RequiresPermissions("english:word:collect")
@@ -45,7 +45,7 @@ public class EnglishWordController extends MyBaseController {
     @Log(title = "查看单词夹")
     @ApiOperation("英语单词收藏夹")
     public AjaxResult collect() {
-        IPage<EnglishWord> englishWordList=englishWordService.getEnglishWordByCollect(startPageMP());
+        IPage<EnglishWord> englishWordList = englishWordService.getEnglishWordByCollect(startPageMP());
         return AjaxResult.success(englishWordList);
     }
 
@@ -69,20 +69,19 @@ public class EnglishWordController extends MyBaseController {
         return AjaxResult.success(englishWordService.selectById(id));
     }
 
-
-    //------------------------代码自动生成-----------------------------------
-
     /**
      * 查询英语单词列表
      */
     @RequiresPermissions("english:word:list")
     @GetMapping("/list")
     @ApiOperation("查询英语单词列表")
-    public TableDataInfo list(@Validated({SelectGroup.class}) EnglishWord englishWord) {
-        startPage();
-        List<EnglishWord> list = englishWordService.selectEnglishWordList(englishWord);
-        return getDataTable(list);
+    public AjaxResult list(@Validated({SelectGroup.class}) EnglishWord englishWord) {
+        return AjaxResult.success(englishWordService.selectEnglishWordList(startPageMP(), englishWord));
     }
+
+
+    //------------------------代码自动生成-----------------------------------
+
 
     /**
      * 导出英语单词列表
@@ -96,7 +95,6 @@ public class EnglishWordController extends MyBaseController {
         ExcelUtil<EnglishWord> util = new ExcelUtil<EnglishWord>(EnglishWord.class);
         util.exportExcel(response, list, "英语单词数据");
     }
-
 
 
     /**

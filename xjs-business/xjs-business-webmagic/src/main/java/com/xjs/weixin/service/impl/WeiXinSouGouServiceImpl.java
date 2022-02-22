@@ -42,8 +42,8 @@ public class WeiXinSouGouServiceImpl extends ServiceImpl<WeiXinSouGouMapper, Wei
                 .op("ct")
                 .field(WeiXinSouGou::getSource,weiXinSouGou.getSource())
                 .op("ct")
-                .field(WeiXinSouGou::getCreateTime,weiXinSouGou.getCreateTime(),weiXinSouGou.getEndCreateTime())
-                .op("bt")
+                .field(pageDomain.getOrderByColumn(),weiXinSouGou.getCreateTime(),weiXinSouGou.getEndCreateTime())
+                .op("bt")//构建bt区间查询
                 .orderBy(WeiXinSouGou::getCreateTime,pageDomain.getIsAsc())
                 .build();
 

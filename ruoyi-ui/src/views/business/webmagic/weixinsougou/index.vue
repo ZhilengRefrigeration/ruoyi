@@ -85,12 +85,40 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="weixinsougouList" @selection-change="handleSelectionChange">
+    <el-table
+      ref="tables"
+      v-loading="loading"
+      :data="weixinsougouList"
+      @selection-change="handleSelectionChange"
+      :default-sort="defaultSort"
+      @sort-change="handleSortChange">
+
+      <el-table-column type="expand">
+        <template slot-scope="props">
+
+          <el-form label-position="left" class="demo-table-expand">
+            <el-form-item label="文章标题">
+              <a :href=props.row.url target="_blank">{{ props.row.title }}</a>
+            </el-form-item>
+            <el-form-item label="文章内容">
+              <span>{{ props.row.content }}</span>
+            </el-form-item>
+          </el-form>
+
+        </template>
+      </el-table-column>
+
       <el-table-column type="selection" width="55" align="center"/>
       <el-table-column label="文章标题" align="center" prop="title" :show-overflow-tooltip="true"/>
       <el-table-column label="简略的内容" align="center" prop="content" :show-overflow-tooltip="true"/>
       <el-table-column label="文章来源" align="center" prop="source" :show-overflow-tooltip="true"/>
-      <el-table-column label="创建时间" align="center" prop="createTime" :show-overflow-tooltip="true"/>
+      <el-table-column label="创建时间"
+                       align="center"
+                       prop="createTime"
+                       :show-overflow-tooltip="true"
+                       sortable="custom"
+                       :sort-orders="['descending', 'ascending']"
+      />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -143,17 +171,23 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+
+      // 默认排序
+      defaultSort: {prop: 'createTime', order: 'descending'},
+
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        isAsc: 'desc',
         title: null,
         content: null,
         source: null,
         createTime: null,
-        condition: null  //综合条件
+        condition: null,  //综合条件
+        isAsc: null,
+        orderByColumn: null
       },
+
 
       //检查查询范围
       daterangeCreateTime: [],
@@ -165,6 +199,7 @@ export default {
     };
   },
   created() {
+    this.resetSort()
     this.getList();
   },
   methods: {
@@ -175,11 +210,25 @@ export default {
         this.queryParams.createTime = this.daterangeCreateTime[0];
         this.queryParams.endCreateTime = this.daterangeCreateTime[1];
       }
+
+
       listWeixinsougou(this.queryParams).then(response => {
         this.weixinsougouList = response.data.dataList;
         this.total = response.data.totalCount;
         this.loading = false;
       });
+    },
+
+    /** 排序触发事件 */
+    handleSortChange(column, prop, order) {
+      this.queryParams.isAsc = column.order;
+      this.getList();
+    },
+
+    //重置排序
+    resetSort() {
+      this.queryParams.isAsc = this.defaultSort.order
+      this.queryParams.orderByColumn = this.defaultSort.prop
     },
 
     /** 搜索按钮操作 */
@@ -189,6 +238,7 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.resetSort()
       this.daterangeCreateTime = [];
       this.queryParams.createTime = null
       this.queryParams.endCreateTime = null
@@ -222,3 +272,7 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+
+</style>
