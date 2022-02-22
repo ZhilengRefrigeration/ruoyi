@@ -327,6 +327,9 @@ export default {
       // 默认排序
       defaultSort: {prop: 'createTime', order: 'descending'},
 
+      //标记排序重置（修复点击重置请求两次接口BUG）
+      sortStatus: true,
+
       // 表单校验
       rulesEdit: {
         englishWord: [
@@ -413,9 +416,6 @@ export default {
         this.queryParams.endCreateTime = this.daterangeCreateTime[1];
       }
 
-      // this.queryParams.orderByColumn=this.defaultSort.prop
-      // this.queryParams.isAsc=this.defaultSort.order
-
       listWord(this.queryParams).then(response => {
         this.loading = false;
         this.wordList = response.data.records;
@@ -453,6 +453,11 @@ export default {
       this.daterangeCreateTime = [];
       this.queryParams.createTime = null
       this.queryParams.endCreateTime = null
+
+      this.sortStatus=false
+      this.$refs.tables.sort(this.defaultSort.prop, this.defaultSort.order)
+      this.sortStatus=true
+
       this.resetForm("queryForm");
       this.handleQuery();
     },
@@ -474,9 +479,16 @@ export default {
     },
 
     /** 排序触发事件 */
-    handleSortChange(column, prop, order) {
+    handleSortChange(column) {
       this.queryParams.isAsc = column.order;
-      this.getList();
+      this.queryParams.orderByColumn = column.prop;
+
+      console.log(column)
+
+      //点击重置的时候不再次请求接口
+      if (this.sortStatus) {
+        this.getList();
+      }
     },
 
     /** 修改按钮操作 */

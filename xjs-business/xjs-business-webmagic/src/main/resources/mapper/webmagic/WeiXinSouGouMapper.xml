@@ -47,7 +47,7 @@
             SELECT
                 t.min_id
             FROM
-                    ( SELECT min( id ) AS min_id FROM webmagic_weixin_sougou GROUP BY url ) AS t
+                    ( SELECT min( id ) AS min_id FROM webmagic_weixin_sougou GROUP BY content ) AS t
         )
     </delete>
 </mapper>

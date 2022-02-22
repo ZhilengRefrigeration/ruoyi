@@ -32,6 +32,8 @@ public class MyBaseController<T> extends BaseController {
         }
         String orderByColumn = pageDomain.getOrderByColumn();
         if (StringUtils.isNotNull(orderByColumn)) {
+
+            //获取排序字段
             String orderBy = SqlUtil.escapeOrderBySql(StringUtils.toUnderScoreCase(orderByColumn));
 
             if (pageDomain.getIsAsc().equals("asc")) {

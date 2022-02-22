@@ -195,7 +195,10 @@ export default {
       // 表单参数
       form: {},
       // 表单校验
-      rules: {}
+      rules: {},
+
+      //标记排序重置（修复点击重置请求两次接口BUG）
+      sortStatus: true,
     };
   },
   created() {
@@ -222,7 +225,10 @@ export default {
     /** 排序触发事件 */
     handleSortChange(column, prop, order) {
       this.queryParams.isAsc = column.order;
-      this.getList();
+      //点击重置的时候不再次请求接口
+      if (this.sortStatus) {
+        this.getList();
+      }
     },
 
     //重置排序
@@ -242,6 +248,11 @@ export default {
       this.daterangeCreateTime = [];
       this.queryParams.createTime = null
       this.queryParams.endCreateTime = null
+
+      this.sortStatus=false
+      this.$refs.tables.sort(this.defaultSort.prop, this.defaultSort.order)
+      this.sortStatus=true
+
       this.resetForm("queryForm");
       this.handleQuery();
     },
