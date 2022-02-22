@@ -6,6 +6,7 @@ import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
 
 /**
+ * 零七平台舔狗日记api降级
  * @author xiejs
  * @since 2022-02-14
  */

@@ -107,7 +107,12 @@
       <el-table-column type="selection" width="55" align="center"/>
       <el-table-column label="英语单词" align="center" prop="englishWord" :show-overflow-tooltip="true"/>
       <el-table-column label="中文" align="center" prop="chineseWord" :show-overflow-tooltip="true"/>
-      <el-table-column label="排序" align="center" prop="sort" :show-overflow-tooltip="true"/>
+      <el-table-column label="排序"
+                       align="center"
+                       prop="sort"
+                       sortable="custom"
+                       :sort-orders="['descending', 'ascending']"
+                       :show-overflow-tooltip="true"/>
       <el-table-column label="收藏" align="center" prop="isCollect">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.english_collect" :value="scope.row.isCollect"/>
@@ -118,7 +123,12 @@
           <dict-tag :options="dict.type.english_top" :value="scope.row.top"/>
         </template>
       </el-table-column>
-      <el-table-column label="查看次数" align="center" prop="lookCount" :show-overflow-tooltip="true"/>
+      <el-table-column label="查看次数"
+                       align="center"
+                       prop="lookCount"
+                       sortable="custom"
+                       :sort-orders="['descending', 'ascending']"
+                       :show-overflow-tooltip="true"/>
       <el-table-column label="创建时间"
                        align="center"
                        prop="createTime"
@@ -449,13 +459,13 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
-      this.resetSort()
+      this.resetSort()//重置排序
       this.daterangeCreateTime = [];
       this.queryParams.createTime = null
       this.queryParams.endCreateTime = null
 
       this.sortStatus=false
-      this.$refs.tables.sort(this.defaultSort.prop, this.defaultSort.order)
+      this.$refs.tables.sort(this.defaultSort.prop, this.defaultSort.order)//拿到默认排序
       this.sortStatus=true
 
       this.resetForm("queryForm");

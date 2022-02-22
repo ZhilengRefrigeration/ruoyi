@@ -10,18 +10,30 @@ import com.xjs.business.warning.RemoteWarningCRUDFeign;
 import com.xjs.business.warning.domain.ApiRecord;
 import com.xjs.common.client.api.alapi.AlapiJokeAllFeignClient;
 import com.xjs.common.client.api.baidu.BaiduFeignClient;
+import com.xjs.common.client.api.gaode.GaodeWeatherFeignClient;
+import com.xjs.common.client.api.lq.LqAWordFeignClient;
+import com.xjs.common.client.api.lq.LqDogDiaryFeignClient;
+import com.xjs.common.client.api.lq.LqPoisonChickenFeignClient;
+import com.xjs.common.client.api.roll.RollBeautyPictureFeignClient;
+import com.xjs.common.client.api.roll.RollChineseDictFeignClient;
 import com.xjs.properties.AlApiProperties;
 import com.xjs.properties.BaiduProperties;
+import com.xjs.properties.GaodeProperties;
+import com.xjs.properties.RollProperties;
 import com.xjs.translation.domain.qo.translation.BaiDuTranslationQo;
+import com.xjs.weather.domain.IPInfoVo;
+import com.xjs.weather.domain.RequestBody;
+import com.xjs.weather.service.IPService;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.lang.reflect.Method;
 import java.util.List;
 
 import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
+import static com.xjs.consts.ApiConst.GAODE_EXTENSIONS_BASE;
 import static com.xjs.consts.ReqConst.ERROR;
 
 /**
@@ -38,29 +50,69 @@ public class CheckApiStatusTask {
      */
     public static final String content = "test";
 
+    /**
+     * 城市编码
+     */
+    public static final String cityId = "360100";
+
+
     @Autowired
     private RemoteWarningCRUDFeign remoteWarningCRUDFeign;
+
+    @Autowired
+    private IPService ipService;
 
 
     @Autowired
     private AlApiProperties alApiProperties;
     @Autowired
     private BaiduProperties baiduProperties;
+    @Autowired
+    private GaodeProperties gaodeProperties;
+    @Autowired
+    private RollProperties rollProperties;
 
-    @Resource
+    @Autowired
     private AlapiJokeAllFeignClient alapiJokeAllFeignClient;
-    @Resource
+    @Autowired
     private BaiduFeignClient baiduFeignClient;
-
+    @Autowired
+    private GaodeWeatherFeignClient gaodeWeatherFeignClient;
+    @Autowired
+    private LqAWordFeignClient lqAWordFeignClient;
+    @Autowired
+    private LqDogDiaryFeignClient lqDogDiaryFeignClient;
+    @Autowired
+    private LqPoisonChickenFeignClient lqPoisonChickenFeignClient;
+    @Autowired
+    private RollBeautyPictureFeignClient rollBeautyPictureFeignClient;
+    @Autowired
+    private RollChineseDictFeignClient rollChineseDictFeignClient;
 
     /**
      * 检查api状态 <br>
      * 后续实现新API需要在这新增检查项
      */
     public void checkApiStatus() {
-        this.checkAlapiJoke();
+        try {
+            this.checkAlapiJoke();
 
-        this.checkBaiduTranslation();
+            this.checkBaiduTranslation();
+
+            this.checkGaodeWeather();
+
+            this.checkLqAWord();
+
+            this.checkLqDogDiary();
+
+            this.checkRollBeautyPicture();
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         // todo 还剩20多个api检查没写
 
@@ -111,6 +163,119 @@ public class CheckApiStatusTask {
         log.error("检查发现百度平台翻译API异常");
 
     }
+
+    /**
+     * 检查高德平台天气API
+     */
+    private void checkGaodeWeather() {
+        //构建请求参数
+        RequestBody requestBody = new RequestBody();
+        //获取城市编码
+        IPInfoVo ipApiData = null;
+        try {
+            ipApiData = ipService.getIPApiData();
+        } catch (Exception e) {
+            ipApiData = new IPInfoVo();
+            ipApiData.setCityId(cityId);
+        }
+        requestBody.setKey(gaodeProperties.getKey())
+                .setCity(ipApiData.getCityId())
+                .setExtensions(GAODE_EXTENSIONS_BASE);
+
+        JSONObject jsonObject = gaodeWeatherFeignClient.WeatherApi(requestBody);
+        if (!jsonObject.containsKey(DEMOTE_ERROR)) {
+            return;
+        }
+
+        String[] info = this.getAnnotationInfo(GaodeWeatherFeignClient.class);
+
+        this.selectAndUpdate(info);
+
+        log.error("检查发现高德平台天气API异常");
+    }
+
+
+    /**
+     * 检查零七平台 一言API
+     */
+    private void checkLqAWord() {
+        String data = lqAWordFeignClient.aWordApi();
+        if (!StringUtils.isEmpty(data)) {
+            return;
+        }
+
+        String[] info = this.getAnnotationInfo(GaodeWeatherFeignClient.class);
+        this.selectAndUpdate(info);
+        log.error("检查发现零七平台 一言API异常");
+    }
+
+
+    /**
+     * 检查零七平台舔狗日记API
+     */
+    private void checkLqDogDiary() {
+        String data = lqDogDiaryFeignClient.dogDiaryApi();
+        if (!StringUtils.isEmpty(data)) {
+            return;
+        }
+
+        String[] info = this.getAnnotationInfo(GaodeWeatherFeignClient.class);
+        this.selectAndUpdate(info);
+        log.error("检查发现零七平台 舔狗日记API异常");
+    }
+
+    /**
+     * 检查零七平台毒鸡汤API
+     */
+    private void checkLqPoisonChicken() {
+        String data = lqPoisonChickenFeignClient.poisonChickenApi();
+        if (!StringUtils.isEmpty(data)) {
+            return;
+        }
+
+        String[] info = this.getAnnotationInfo(GaodeWeatherFeignClient.class);
+        this.selectAndUpdate(info);
+        log.error("检查发现零七平台 毒鸡汤API异常");
+    }
+
+
+    /**
+     * 检查ROLL平台 美女图片API
+     */
+    private void checkRollBeautyPicture() {
+        com.xjs.apitools.domain.RequestBody requestBody = new com.xjs.apitools.domain.RequestBody();
+        requestBody.setApp_secret(rollProperties.getApp_secret());
+        requestBody.setApp_id(rollProperties.getApp_id());
+        JSONObject jsonObject = rollBeautyPictureFeignClient.beautyPictureApi(requestBody);
+        if (!jsonObject.containsKey(DEMOTE_ERROR)) {
+            return;
+        }
+
+        String[] info = this.getAnnotationInfo(GaodeWeatherFeignClient.class);
+        this.selectAndUpdate(info);
+        log.error("检查发现ROLL平台 美女图片API异常");
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * 反射获取注解信息

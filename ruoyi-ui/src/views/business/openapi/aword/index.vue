@@ -64,7 +64,7 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table  v-loading="loading" :data="awordList" @selection-change="handleSelectionChange">
+    <el-table  v-loading="loading" border height="585" :data="awordList" @selection-change="handleSelectionChange">
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="">
@@ -150,7 +150,7 @@ export default {
       // 查询参数
       queryParams: {
         pageNum: 1,
-        pageSize: 7,
+        pageSize: 10,
         content: null,
         source: null,
         note: null,
