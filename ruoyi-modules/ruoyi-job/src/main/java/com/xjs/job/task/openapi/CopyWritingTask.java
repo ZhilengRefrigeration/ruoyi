@@ -30,6 +30,8 @@ public class CopyWritingTask {
      */
     public void execute() {
         log.info("---------------文案定时任务Start-------------------");
+
+        //该循环会导致执行i次重复删除sql
         for (int i = 0; i < 8; i++) {
             LocalDateTime localDateTime1 = DateUtil.date().toLocalDateTime();
             R<CopyWriting> r = remoteCopyWritingFeign.copyWriting();
@@ -38,6 +40,7 @@ public class CopyWritingTask {
             long between = ChronoUnit.MILLIS.between(localDateTime1, localDateTime2);
             log.info("文案[{}]定时任务Job耗费时间:{}ms", i,between);
         }
+
         log.info("---------------文案定时任务end---------------------");
     }
 }

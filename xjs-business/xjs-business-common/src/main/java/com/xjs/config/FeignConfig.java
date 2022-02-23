@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * feign配置
  * @author xiejs
- * @desc
- * @create 2021-12-25
+ * @since  2021-12-25
  */
 @Configuration
 public class FeignConfig{

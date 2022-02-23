@@ -1,9 +1,9 @@
 package com.xjs.enums;
 
 /**
+ * 预警等级枚举
  * @author xiejs
- * @desc  预警等级枚举
- * @create 2022-01-07
+ * @since  2022-01-07
  */
 public enum WarnLevelEnum {
     /* 普通 **/

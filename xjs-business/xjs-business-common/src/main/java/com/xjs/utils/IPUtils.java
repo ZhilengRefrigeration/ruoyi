@@ -283,23 +283,5 @@ public class IPUtils {
     }
 
 
-    public static void main(String[] args) throws IOException {
-        //String nowIP1 = IPUtils.getNowIP1();
-        //String nowIP2 = IPUtils.getNowIP2();
-        //String nowIP3 = IPUtils.getNowIP3();
-        //String nowIP4 = IPUtils.getNowIP4();
-        //System.out.println(nowIP1);
-        //System.out.println(nowIP2);
-        //System.out.println(nowIP3);
-        //System.out.println(nowIP4);
-
-        //String nowIP5 = IPUtils.getNowIP5();
-        //System.out.println(nowIP5);
-
-        String nowIP6 = IPUtils.getNowIP6();
-        System.out.println(nowIP6);
-
-    }
-
 
 }

@@ -14,8 +14,7 @@ import com.xjs.common.client.api.gaode.GaodeWeatherFeignClient;
 import com.xjs.common.client.api.lq.LqAWordFeignClient;
 import com.xjs.common.client.api.lq.LqDogDiaryFeignClient;
 import com.xjs.common.client.api.lq.LqPoisonChickenFeignClient;
-import com.xjs.common.client.api.roll.RollBeautyPictureFeignClient;
-import com.xjs.common.client.api.roll.RollChineseDictFeignClient;
+import com.xjs.common.client.api.roll.*;
 import com.xjs.properties.AlApiProperties;
 import com.xjs.properties.BaiduProperties;
 import com.xjs.properties.GaodeProperties;
@@ -88,6 +87,13 @@ public class CheckApiStatusTask {
     private RollBeautyPictureFeignClient rollBeautyPictureFeignClient;
     @Autowired
     private RollChineseDictFeignClient rollChineseDictFeignClient;
+    @Autowired
+    private RollGarbageSortingDeignClient rollGarbageSortingDeignClient;
+    @Autowired
+    private RollHistoryTodayFeignClient rollHistoryTodayFeignClient;
+    @Autowired
+    private RollHolidayFeignClient rollHolidayFeignClient;
+
 
     /**
      * 检查api状态 <br>
@@ -95,18 +101,87 @@ public class CheckApiStatusTask {
      */
     public void checkApiStatus() {
         try {
-            this.checkAlapiJoke();
 
-            this.checkBaiduTranslation();
+            Runnable runCheckAlapiJoke = () -> {
+                log.info("线程启动：" + Thread.currentThread().getName());
+                this.checkAlapiJoke();
+            };
+            new Thread(runCheckAlapiJoke).start();
 
-            this.checkGaodeWeather();
+            Runnable runCheckBaiduTranslation = () -> {
+                log.info("线程启动：" + Thread.currentThread().getName());
+                this.checkBaiduTranslation();
+            };
+            new Thread(runCheckBaiduTranslation).start();
 
-            this.checkLqAWord();
+            Runnable runCheckGaodeWeather = () -> {
+                log.info("线程启动：" + Thread.currentThread().getName());
+                this.checkGaodeWeather();
+            };
+            new Thread(runCheckGaodeWeather).start();
 
-            this.checkLqDogDiary();
+            Runnable runCheckLqAWord = () -> {
+                log.info("线程启动：" + Thread.currentThread().getName());
+                this.checkLqAWord();
+            };
+            new Thread(runCheckLqAWord).start();
 
-            this.checkRollBeautyPicture();
+            Runnable runCheckLqDogDiary = () -> {
+                log.info("线程启动：" + Thread.currentThread().getName());
+                this.checkLqDogDiary();
+            };
+            new Thread(runCheckLqDogDiary).start();
 
+            Runnable runCheckLqPoisonChicken = () -> {
+                log.info("线程启动：" + Thread.currentThread().getName());
+                this.checkLqPoisonChicken();
+            };
+            new Thread(runCheckLqPoisonChicken).start();
+
+            Runnable runCheckRollBeautyPicture = () -> {
+                log.info("线程启动：" + Thread.currentThread().getName());
+                this.checkRollBeautyPicture();
+            };
+            new Thread(runCheckRollBeautyPicture).start();
+
+            Runnable runCheckRollChineseDict = () -> {
+                log.info("线程启动：" + Thread.currentThread().getName());
+                this.checkRollChineseDict();
+            };
+            new Thread(runCheckRollChineseDict).start();
+
+            Runnable runCheckRollGarbageSorting = () -> {
+                log.info("线程启动：" + Thread.currentThread().getName());
+                this.checkRollGarbageSorting();
+            };
+            new Thread(runCheckRollGarbageSorting).start();
+
+            Runnable runCheckRollHistoryToday = () -> {
+                log.info("线程启动：" + Thread.currentThread().getName());
+                this.checkRollHistoryToday();
+            };
+            new Thread(runCheckRollHistoryToday).start();
+
+            Runnable runCheckRollHoliday = () -> {
+                log.info("线程启动：" + Thread.currentThread().getName());
+                this.checkRollHoliday();
+            };
+            new Thread(runCheckRollHoliday).start();
+
+
+
+
+            //this.checkAlapiJoke();
+            //this.checkBaiduTranslation();
+            //this.checkGaodeWeather();
+            //this.checkLqAWord();
+            //this.checkLqDogDiary();
+            //this.checkLqPoisonChicken();
+            //this.checkRollBeautyPicture();
+            //this.checkRollChineseDict();
+            this.checkRollGarbageSorting();
+            this.checkRollHistoryToday();
+            this.checkRollHoliday();
 
 
         } catch (Exception e) {
@@ -204,7 +279,7 @@ public class CheckApiStatusTask {
             return;
         }
 
-        String[] info = this.getAnnotationInfo(GaodeWeatherFeignClient.class);
+        String[] info = this.getAnnotationInfo(LqAWordFeignClient.class);
         this.selectAndUpdate(info);
         log.error("检查发现零七平台 一言API异常");
     }
@@ -219,7 +294,7 @@ public class CheckApiStatusTask {
             return;
         }
 
-        String[] info = this.getAnnotationInfo(GaodeWeatherFeignClient.class);
+        String[] info = this.getAnnotationInfo(LqDogDiaryFeignClient.class);
         this.selectAndUpdate(info);
         log.error("检查发现零七平台 舔狗日记API异常");
     }
@@ -233,7 +308,7 @@ public class CheckApiStatusTask {
             return;
         }
 
-        String[] info = this.getAnnotationInfo(GaodeWeatherFeignClient.class);
+        String[] info = this.getAnnotationInfo(LqPoisonChickenFeignClient.class);
         this.selectAndUpdate(info);
         log.error("检查发现零七平台 毒鸡汤API异常");
     }
@@ -243,38 +318,92 @@ public class CheckApiStatusTask {
      * 检查ROLL平台 美女图片API
      */
     private void checkRollBeautyPicture() {
-        com.xjs.apitools.domain.RequestBody requestBody = new com.xjs.apitools.domain.RequestBody();
-        requestBody.setApp_secret(rollProperties.getApp_secret());
-        requestBody.setApp_id(rollProperties.getApp_id());
+        com.xjs.apitools.domain.RequestBody requestBody = getRequestBody();
         JSONObject jsonObject = rollBeautyPictureFeignClient.beautyPictureApi(requestBody);
         if (!jsonObject.containsKey(DEMOTE_ERROR)) {
             return;
         }
 
-        String[] info = this.getAnnotationInfo(GaodeWeatherFeignClient.class);
+        String[] info = this.getAnnotationInfo(RollBeautyPictureFeignClient.class);
         this.selectAndUpdate(info);
         log.error("检查发现ROLL平台 美女图片API异常");
 
     }
 
+    /**
+     * 检查ROLL平台 汉语字典API
+     */
+    private void checkRollChineseDict() {
+        com.xjs.apitools.domain.RequestBody requestBody = getRequestBody();
+        JSONObject jsonObject = rollChineseDictFeignClient.chineseDictApi(requestBody);
+        if (!jsonObject.containsKey(DEMOTE_ERROR)) {
+            return;
+        }
+
+        String[] info = this.getAnnotationInfo(RollChineseDictFeignClient.class);
+        this.selectAndUpdate(info);
+        log.error("检查发现ROLL平台 汉语字典API异常");
+
+    }
+
+    /**
+     * 检查ROLL平台 垃圾分类API
+     */
+    private void checkRollGarbageSorting() {
+        com.xjs.apitools.domain.RequestBody requestBody = getRequestBody();
+        JSONObject jsonObject = rollGarbageSortingDeignClient.garbageSortingApi(requestBody);
+        if (!jsonObject.containsKey(DEMOTE_ERROR)) {
+            return;
+        }
+
+        String[] info = this.getAnnotationInfo(RollGarbageSortingDeignClient.class);
+        this.selectAndUpdate(info);
+        log.error("检查发现ROLL平台 垃圾分类API异常");
+    }
+
+    /**
+     * 检查ROLL平台 历史今天API
+     */
+    private void checkRollHistoryToday() {
+        com.xjs.apitools.domain.RequestBody requestBody = getRequestBody();
+        requestBody.setType(0);
+        JSONObject jsonObject = rollHistoryTodayFeignClient.historyTodayApi(requestBody);
+        if (!jsonObject.containsKey(DEMOTE_ERROR)) {
+            return;
+        }
+
+        String[] info = this.getAnnotationInfo(RollHistoryTodayFeignClient.class);
+        this.selectAndUpdate(info);
+        log.error("检查发现ROLL平台 历史今天API异常");
+    }
+
+    /**
+     * 检查ROLL平台 节假日API
+     */
+    private void checkRollHoliday() {
+        com.xjs.apitools.domain.RequestBody requestBody = getRequestBody();
+        JSONObject jsonObject = rollHolidayFeignClient.holidayApi(requestBody);
+        if (!jsonObject.containsKey(DEMOTE_ERROR)) {
+            return;
+        }
+
+        String[] info = this.getAnnotationInfo(RollHolidayFeignClient.class);
+        this.selectAndUpdate(info);
+        log.error("检查发现ROLL平台 节假日API异常");
+    }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    /**
+     * 获取requestBody并封装密钥
+     *
+     * @return requestBody
+     */
+    private com.xjs.apitools.domain.RequestBody getRequestBody() {
+        com.xjs.apitools.domain.RequestBody requestBody = new com.xjs.apitools.domain.RequestBody();
+        requestBody.setApp_secret(rollProperties.getApp_secret());
+        requestBody.setApp_id(rollProperties.getApp_id());
+        return requestBody;
+    }
 
 
     /**

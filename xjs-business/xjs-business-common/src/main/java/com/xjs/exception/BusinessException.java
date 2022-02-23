@@ -3,9 +3,9 @@ package com.xjs.exception;
 import lombok.extern.log4j.Log4j2;
 
 /**
+ * 自定义业务异常
  * @author xiejs
- * @desc
- * @create 2021-12-25
+ * @since  2021-12-25
  */
 @Log4j2
 public class BusinessException extends RuntimeException{

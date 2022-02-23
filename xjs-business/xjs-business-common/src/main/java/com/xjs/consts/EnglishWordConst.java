@@ -1,9 +1,9 @@
 package com.xjs.consts;
 
 /**
+ * 英语单词常量类
  * @author xiejs
- * @desc 英语单词常量类
- * @create 2021-12-31
+ * @since  2021-12-31
  */
 public class EnglishWordConst {
 

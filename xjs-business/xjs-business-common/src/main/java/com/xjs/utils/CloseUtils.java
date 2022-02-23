@@ -4,10 +4,9 @@ package com.xjs.utils;
 import java.io.Closeable;
 
 /**
- * @author meteor
- * 
- * @description 用于关闭各种连接，缺啥补啥
- * @date 2021-03-05
+ * 用于关闭各种连接，缺啥补啥
+ * @author xiejs
+ * @since  2021-03-05
  **/
 public class CloseUtils {
 

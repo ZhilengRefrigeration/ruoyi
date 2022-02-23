@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 /**
+ * mp字段自动填充处理器
  * @author xiejs
- * @desc  mp字段自动填充处理器
- * @create 2021-12-27
+ * @since  2021-12-27
  */
 @Slf4j
 @Component

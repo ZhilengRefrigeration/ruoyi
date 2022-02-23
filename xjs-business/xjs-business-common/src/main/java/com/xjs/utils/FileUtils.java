@@ -1,7 +1,6 @@
 
 package com.xjs.utils;
 
-import ch.qos.logback.core.util.CloseUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.poi.excel.BigExcelWriter;
@@ -28,9 +27,8 @@ import java.util.Map;
 
 /**
  * File工具类，扩展 hutool 工具包
- *
- * @author meteor
- * @date 2021-12-27
+ * @author xiejs
+ * @since  2021-12-27
  */
 public class FileUtils extends cn.hutool.core.io.FileUtil {
 

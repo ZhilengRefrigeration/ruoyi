@@ -18,9 +18,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * 全局序列化处理配置
  * @author xiejs
- * @desc 全局序列化处理配置
- * @create 2021-12-26
+ * @since  2021-12-26
  */
 @Configuration
 public class JsonConfig {

@@ -1,9 +1,9 @@
 package com.xjs.utils;
 
 /**
+ * 中文工具类
  * @author xiejs
- * @desc  中文工具类
- * @create 2021-12-29
+ * @since  2021-12-29
  */
 public class ChineseUtils {
 

@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
+ * 状态类型枚举 需要返回什么参数就在toString实现 这个枚举需要mp在配置文件中配置扫描路径
  * @author xiejs
- * @desc  状态类型枚举 需要返回什么参数就在toString实现 这个枚举需要mp在配置文件中配置扫描路径
- * @create 2021-12-27
+ * @since  2021-12-27
  */
 public enum StatusEnum {
 
