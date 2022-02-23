@@ -12,9 +12,9 @@ import static com.xjs.consts.ApiConst.TIANXING_MMMY;
 import static com.xjs.consts.ApiConst.TIANXING_MMMY_URL;
 
 /**
+ * 天行数据名人名言接口api调用
  * @author xiejs
- * @desc  天行数据名人名言接口api调用
- * @create 2021-12-29
+ * @since  2021-12-29
  */
 @FeignClient(name = "tianXingMMMY",url = TIANXING_MMMY_URL,fallbackFactory = TianXingMMMYFeignFactory.class)
 public interface TianXingMMMYFeignClient {

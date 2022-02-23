@@ -20,16 +20,16 @@ import javax.annotation.Resource;
 import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
 
 /**
+ * 天行数据名人名言工厂实现
  * @author xiejs
- * @desc
- * @create 2021-12-29
+ * @since  2021-12-29
  */
 @Service
 public class TianXingMMMYCopyWritingFactory implements CopyWritingFactory {
     @Autowired
     private TianXingProperties tianXingProperties;
     @Autowired
-    private TianXingMMMYFeignClient tianXingMMMYeignClient;
+    private TianXingMMMYFeignClient tianXingMMMYFeignClient;
     @Resource
     private CopyWritingMapper copyWritingMapper;
 
@@ -37,7 +37,7 @@ public class TianXingMMMYCopyWritingFactory implements CopyWritingFactory {
     @Transactional
     public CopyWriting productCopyWriting(RequestBody requestBody) {
         requestBody.setKey(tianXingProperties.getKey());
-        JSONObject jsonObject = tianXingMMMYeignClient.copyWritingApi(requestBody);
+        JSONObject jsonObject = tianXingMMMYFeignClient.copyWritingApi(requestBody);
         if(jsonObject.containsKey("code")){
             if (HttpStatus.HTTP_OK !=jsonObject.getInteger("code")) {
                 throw new ApiException("天行数据名人名言接口调用异常");

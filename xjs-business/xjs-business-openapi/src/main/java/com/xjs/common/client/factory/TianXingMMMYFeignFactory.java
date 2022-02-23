@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
 
 /**
+ * 天行 名人名言 降级
  * @author xiejs
- * @desc
- * @create 2021-12-29
+ * @since  2021-12-29
  */
 @Component
 @Log4j2

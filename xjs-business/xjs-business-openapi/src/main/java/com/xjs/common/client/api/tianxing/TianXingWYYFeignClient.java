@@ -12,9 +12,9 @@ import static com.xjs.consts.ApiConst.TIANXING_WYY;
 import static com.xjs.consts.ApiConst.TIANXING_WYY_URL;
 
 /**
+ * 天行数据网易云热评接口api调用
  * @author xiejs
- * @desc  天行数据网易云热评接口api调用
- * @create 2021-12-28
+ * @since  2021-12-28
  */
 @FunctionalInterface
 @FeignClient(name = "tianXingWYY",url = TIANXING_WYY_URL,fallbackFactory = TianXingWYYFeignFactory.class)

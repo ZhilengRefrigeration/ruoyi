@@ -12,9 +12,9 @@ import static com.xjs.consts.ApiConst.TIANXING_ONE_ENGLISH;
 import static com.xjs.consts.ApiConst.TIANXING_ONE_ENGLISH_URL;
 
 /**
+ * 天行英语一言第三方api调用
  * @author xiejs
- * @desc  天行英语一言第三方api调用
- * @create 2021-12-31
+ * @since  2021-12-31
  */
 @FeignClient(name = "tianXingOneEnglish",url = TIANXING_ONE_ENGLISH_URL,fallbackFactory = TianXingOneEnglishFeignFactory.class)
 public interface TianXingOneEnglishFeignClient {

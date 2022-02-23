@@ -16,9 +16,10 @@ import org.springframework.stereotype.Component;
 import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
 
 /**
+ * 天行数据平台翻译字典实现工厂
+ *
  * @author xiejs
- * @desc 天行数据平台翻译字典实现工厂
- * @create 2021-12-30
+ * @since 2021-12-30
  */
 @Component
 public class TianXingTranDictFactory implements TranslationFactory {
@@ -47,7 +48,7 @@ public class TianXingTranDictFactory implements TranslationFactory {
             } else {
                 throw new ApiException("api调用成功，但返回错误信息");
             }
-        }else {
+        } else {
             translationVo.setTo("  -  ");
         }
         return translationVo;

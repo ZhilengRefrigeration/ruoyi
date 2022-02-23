@@ -12,9 +12,9 @@ import static com.xjs.consts.ApiConst.YOUDAO_FY;
 import static com.xjs.consts.ApiConst.YOUDAO_FY_URL;
 
 /**
+ * 有道翻译接口api调用
  * @author xiejs
- * @desc  有道翻译接口api调用
- * @create 2021-12-25
+ * @since  2021-12-25
  */
 @FeignClient(name = "youdao",url = YOUDAO_FY_URL,fallbackFactory = YouDaoFeignFactory.class)
 public interface YouDaoFeignClient {

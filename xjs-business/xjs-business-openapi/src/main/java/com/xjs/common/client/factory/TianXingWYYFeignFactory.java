@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
 
 /**
+ * 天行数据平台网易云热评接口降级处理
  * @author xiejs
- * @desc  天行数据平台网易云热评接口降级处理
- * @create 2021-12-28
+ * @since  2021-12-28
  */
 @Log4j2
 @Component

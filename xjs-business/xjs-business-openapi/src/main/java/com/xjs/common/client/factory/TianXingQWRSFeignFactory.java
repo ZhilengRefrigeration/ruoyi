@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
 
 /**
+ * 天行平台 全网热搜榜降级
  * @author xiejs
  * @since 2022-01-10
  */

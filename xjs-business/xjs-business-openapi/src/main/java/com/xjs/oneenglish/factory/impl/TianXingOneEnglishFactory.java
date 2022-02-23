@@ -25,9 +25,9 @@ import static com.xjs.consts.RedisConst.ONE_ENGLISH;
 import static com.xjs.consts.RedisConst.ONE_ENGLISH_EXPIRE;
 
 /**
+ * 一言英语工厂实现
  * @author xiejs
- * @desc 一言英语工厂实现
- * @create 2021-12-31
+ * @since  2021-12-31
  */
 @Component
 public class TianXingOneEnglishFactory implements OneEnglishFactory {

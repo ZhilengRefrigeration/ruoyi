@@ -12,9 +12,9 @@ import static com.xjs.consts.ApiConst.TIANXING_PYQ;
 import static com.xjs.consts.ApiConst.TIANXING_PYQ_URL;
 
 /**
+ * 天行数据朋友圈文案接口api调用
  * @author xiejs
- * @desc  天行数据朋友圈文案接口api调用
- * @create 2021-12-27
+ * @since  2021-12-27
  */
 @FunctionalInterface
 @FeignClient(name = "tianXingPYQ",url = TIANXING_PYQ_URL,fallbackFactory = TianXingPYQFeignFactory.class)

@@ -18,9 +18,9 @@ import java.util.Map;
 import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
 
 /**
+ * 有道翻译工厂实现
  * @author xiejs
- * @desc
- * @create 2021-12-25
+ * @since  2021-12-25
  */
 @Service
 public class YouDaoTranslationFactory implements TranslationFactory {

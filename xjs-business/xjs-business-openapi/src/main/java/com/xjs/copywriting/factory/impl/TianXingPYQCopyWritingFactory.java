@@ -20,9 +20,9 @@ import javax.annotation.Resource;
 import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
 
 /**
+ * 天行数据朋友圈文案平台工厂实现
  * @author xiejs
- * @desc  天行数据朋友圈文案平台工厂实现
- * @create 2021-12-27
+ * @since  2021-12-27
  */
 @Service
 public class TianXingPYQCopyWritingFactory implements CopyWritingFactory {

@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
 
 /**
+ * 有道翻译平台服务降级处理类
  * @author xiejs
- * @desc  有道翻译平台服务降级处理类
- * @create 2021-12-28
+ * @since  2021-12-28
  */
 @Log4j2
 @Component

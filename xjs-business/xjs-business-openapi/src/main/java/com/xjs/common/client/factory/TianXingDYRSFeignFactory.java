@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
 
 /**
+ * 天行 抖音热搜降级
  * @author xiejs
  * @since 2022-01-12
  */

@@ -12,9 +12,9 @@ import static com.xjs.consts.ApiConst.TIANXING_TRAN_DICT;
 import static com.xjs.consts.ApiConst.TIANXING_TRAN_DICT_URL;
 
 /**
+ * 天行翻译字典接口api调用
  * @author xiejs
- * @desc  天行翻译字典接口api调用
- * @create 2021-12-30
+ * @since  2021-12-30
  */
 @FunctionalInterface
 @FeignClient(name = "tianXingTranDict",url = TIANXING_TRAN_DICT_URL,fallbackFactory = TianXingTranDictFeignFactory.class)

@@ -3,9 +3,9 @@ package com.xjs.oneenglish.domain;
 import lombok.Data;
 
 /**
+ * 通用请求参数
  * @author xiejs
- * @desc  通用请求参数
- * @create 2021-12-31
+ * @since  2021-12-31
  */
 @Data
 public class RequestBody {
