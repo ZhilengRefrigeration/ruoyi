@@ -9,6 +9,7 @@ import com.xjs.annotation.ApiLog;
 import com.xjs.business.warning.RemoteWarningCRUDFeign;
 import com.xjs.business.warning.domain.ApiRecord;
 import com.xjs.common.client.api.alapi.AlapiJokeAllFeignClient;
+import com.xjs.common.client.api.baidu.BaiduAssociationFeignClient;
 import com.xjs.common.client.api.baidu.BaiduTranslationFeignClient;
 import com.xjs.common.client.api.gaode.GaodeWeatherFeignClient;
 import com.xjs.common.client.api.lq.LqAWordFeignClient;
@@ -150,6 +151,8 @@ public class CheckApiStatusTask {
     private TianXingWYYFeignClient tianXingWYYFeignClient;
     @Autowired
     private YouDaoFeignClient youDaoFeignClient;
+    @Autowired
+    private BaiduAssociationFeignClient baiduAssociationFeignClient;
 
     /**
      * 检查api状态 <br>
@@ -350,6 +353,12 @@ public class CheckApiStatusTask {
             };
             new Thread(runCheckYouDaoTranslation).start();
 
+            Runnable runCheckBaiduAssociation = () -> {
+                log.info("线程启动：" + Thread.currentThread().getName());
+                this.checkBaiduAssociation();
+            };
+            new Thread(runCheckBaiduAssociation).start();
+
             //this.checkAlapiJoke();
             //this.checkBaiduTranslation();
             //this.checkGaodeWeather();
@@ -382,6 +391,7 @@ public class CheckApiStatusTask {
             //this.checkTianXingWXRS();
             //this.checkTianXingWYY();
             //this.checkYouDaoTranslation();
+            //this.checkBaiduAssociation();
 
 
         } catch (Exception e) {
@@ -390,6 +400,21 @@ public class CheckApiStatusTask {
 
 
 
+    }
+
+
+    /**
+     * 检查百度平台 联想API
+     */
+    private void checkBaiduAssociation() {
+        String data = baiduAssociationFeignClient.associationApi(content);
+        if (!StringUtils.isEmpty(data)) {
+            return;
+        }
+
+        String[] info = this.getAnnotationInfo(BaiduAssociationFeignClient.class).get(0);
+        this.selectAndUpdate(info);
+        log.error("检查发现百度平台 联想API异常");
     }
 
 

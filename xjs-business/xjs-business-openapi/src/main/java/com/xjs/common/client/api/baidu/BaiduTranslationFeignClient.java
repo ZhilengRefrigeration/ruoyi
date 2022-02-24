@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import static com.xjs.consts.ApiConst.*;
 
 /**
+ * 百度翻译接口api调用
  * @author xiejs
- * @desc 百度翻译接口api调用
- * @create 2021-12-25
+ * @since  2021-12-25
  */
 @FeignClient(name = "baidu", url = BAIDU_FY_URL, fallbackFactory = BaiduTranslationFeignFactory.class)
 public interface BaiduTranslationFeignClient {

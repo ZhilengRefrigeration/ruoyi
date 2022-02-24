@@ -80,6 +80,8 @@ public class ApiConst {
 
     public static final String ROLL_JOKE = "ROLL-搞笑段子";
 
+    public static final String BAIDU_ASSOCIATION = "百度联想";
+
 
     //-------------------url------------------------------
 
@@ -202,7 +204,7 @@ public class ApiConst {
     /**
      * 百度智能联想语义API地址
      */
-    public static final String BAI_DU_AI_LX_URL= "http://suggestion.baidu.com/su?";
+    public static final String BAIDU_ASSOCIATION_URL= "http://suggestion.baidu.com/su?";
 
 
     //-----------------------api请求参数常量-----------------------------
