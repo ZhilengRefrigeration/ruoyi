@@ -1,6 +1,9 @@
 package com.xjs._36wallpaper.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.core.constant.HttpStatus;
 import com.ruoyi.common.core.domain.R;
@@ -10,6 +13,7 @@ import com.xjs._36wallpaper.mapper._36wallpaperMapper;
 import com.xjs._36wallpaper.pojo._36wallpaper;
 import com.xjs._36wallpaper.service._36wallpaperService;
 import com.xjs.exception.BusinessException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -126,6 +130,19 @@ public class _36wallpaperServiceImpl extends ServiceImpl<_36wallpaperMapper, _36
             return true;
         }
         return false;
+    }
+
+    @Override
+    public IPage<_36wallpaper> selectWallpaperList(Page<_36wallpaper> page, _36wallpaper wallpaper) {
+        String condition = wallpaper.getCondition();
+        QueryWrapper<_36wallpaper> wr = new QueryWrapper<>();
+        wr.and(StringUtils.isNotEmpty(condition), obj -> {
+            obj.like("picture_name", condition)
+                    .or().like("type", condition)
+                    .or().like("label", condition);
+        });
+
+        return this.page(page,wr);
     }
 
 

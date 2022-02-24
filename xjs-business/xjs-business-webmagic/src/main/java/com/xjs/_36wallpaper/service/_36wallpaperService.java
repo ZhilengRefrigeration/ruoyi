@@ -1,6 +1,8 @@
 package com.xjs._36wallpaper.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xjs._36wallpaper.pojo._36wallpaper;
 
@@ -37,4 +39,10 @@ public interface _36wallpaperService extends IService<_36wallpaper> {
      */
     boolean resetSettings();
 
+    /**
+     * 分页查询壁纸列表
+     * @param wallpaper 实体类
+     * @return page
+     */
+    IPage<_36wallpaper> selectWallpaperList(Page<_36wallpaper> page, _36wallpaper wallpaper);
 }

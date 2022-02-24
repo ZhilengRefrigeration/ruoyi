@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.core.annotation.Excel;
+import com.xjs.entity.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -16,8 +18,9 @@ import java.util.Date;
  * @since 2022-02-20
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @TableName("webmagic_36wallpaper")
-public class _36wallpaper implements Serializable {
+public class _36wallpaper extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

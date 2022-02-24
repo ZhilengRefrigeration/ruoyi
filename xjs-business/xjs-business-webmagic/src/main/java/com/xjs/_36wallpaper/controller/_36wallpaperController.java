@@ -1,9 +1,11 @@
 package com.xjs._36wallpaper.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
+import com.xjs._36wallpaper.pojo._36wallpaper;
 import com.xjs._36wallpaper.service._36wallpaperService;
 import com.xjs._36wallpaper.task._36wallpaperTask;
 import com.xjs.web.MyBaseController;
@@ -23,7 +25,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("_36wallpaper")
 @Api(tags = "爬虫模块-36壁纸网")
-public class _36wallpaperController extends MyBaseController {
+public class _36wallpaperController extends MyBaseController<_36wallpaper> {
 
     @Autowired
     private _36wallpaperTask wallpaperTask;
@@ -59,6 +61,15 @@ public class _36wallpaperController extends MyBaseController {
         boolean b=wallpaperService.resetSettings();
         return toAjax(b);
     }
+
+    @GetMapping("list")
+    @ApiOperation("获取壁纸列表")
+    @RequiresPermissions("webmagic:_36wallpaper:list")
+    public AjaxResult list(_36wallpaper wallpaper) {
+        IPage<_36wallpaper> list=wallpaperService.selectWallpaperList(startPageMP(),wallpaper);
+        return AjaxResult.success(list);
+    }
+
 
 
     //----------------------远程rpc调用---------------------------

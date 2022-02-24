@@ -26,3 +26,12 @@ export function resetSettings() {
     method: 'put',
   })
 }
+
+// 获取壁纸列表
+export function getWallpaperList(data) {
+  return request({
+    url: '/webmagic/_36wallpaper/list',
+    method: 'get',
+    params: data
+  })
+}

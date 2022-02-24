@@ -72,7 +72,6 @@ public class ApiLogAspect {
             Object obj = joinPoint.proceed();
             LocalDateTime localDateTime2 = DateUtil.date().toLocalDateTime();
             long between = ChronoUnit.MILLIS.between(localDateTime1, localDateTime2);
-            log.info("调用接口耗费时间:{}ms", between);
             //执行预警切入逻辑（降级不预警）
             if (obj instanceof JSONObject) {
                 JSONObject jsonObject = (JSONObject) obj;
@@ -82,6 +81,7 @@ public class ApiLogAspect {
                 } else {
                     //如果降级，接口状态修改为异常
                     this.demoteHandle(joinPoint);
+                    log.info("降级！调用接口耗费时间:{}ms", between);
                 }
             }
 
@@ -176,6 +176,9 @@ public class ApiLogAspect {
 
         String name = annotationInfo.get("name");
         String url = annotationInfo.get("url");
+
+        log.info("调用{}接口耗费时间:{}ms",name, between);
+
 
         //根据拿到的url和name查询数据库是否存在，存在则count+1，不存在则add
         ApiRecord apiRecord = new ApiRecord();

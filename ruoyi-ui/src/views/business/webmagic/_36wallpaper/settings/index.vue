@@ -88,9 +88,19 @@ export default {
   methods: {
     //获取参数信息
     getSettings() {
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: "#666666"
+      });
+
       getSettings().then(res => {
+        loading.close();
         this.formData = res.data
       })
+
+
 
     },
 
