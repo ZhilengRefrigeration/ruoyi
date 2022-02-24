@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 36壁纸网图片数据实体类
@@ -48,7 +49,7 @@ public class _36wallpaper extends BaseEntity implements Serializable {
      * label分割成数组
      */
     @TableField(exist = false)
-    private String[] labels;
+    private List<String> labels;
 
     /** 创建时间 */
     @Excel(name = "创建时间",dateFormat = "yyyy-MM-dd HH:mm:ss")

@@ -199,6 +199,11 @@ public class ApiConst {
      */
     public static final String ROLL_JOKE_URL = "https://www.mxnzp.com/api/jokes/list/random";
 
+    /**
+     * 百度智能联想语义API地址
+     */
+    public static final String BAI_DU_AI_LX_URL= "http://suggestion.baidu.com/su?";
+
 
     //-----------------------api请求参数常量-----------------------------
 

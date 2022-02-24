@@ -3,7 +3,7 @@ package com.xjs.translation.factory.impl;
 import cn.hutool.crypto.SecureUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.xjs.common.client.api.baidu.BaiduFeignClient;
+import com.xjs.common.client.api.baidu.BaiduTranslationFeignClient;
 import com.xjs.properties.BaiduProperties;
 import com.xjs.exception.ApiException;
 import com.xjs.translation.domain.qo.translation.BaiDuTranslationQo;
@@ -28,7 +28,7 @@ public class BaiDuTranslationFactory implements TranslationFactory {
     @Autowired
     private BaiduProperties baiduProperties;
     @Autowired
-    private BaiduFeignClient baiduFeignClient;
+    private BaiduTranslationFeignClient baiduTranslationFeignClient;
 
 
     @Override
@@ -43,7 +43,7 @@ public class BaiDuTranslationFactory implements TranslationFactory {
         String sign = SecureUtil.md5(append);
         baiDuTranslationQo.setSign(sign);
         baiDuTranslationQo.setQ(translationQo.getQ());
-        JSONObject jsonObject = baiduFeignClient.translationApi(baiDuTranslationQo);
+        JSONObject jsonObject = baiduTranslationFeignClient.translationApi(baiDuTranslationQo);
         System.out.println(jsonObject);
         //接口内部错误以及网络错误都抛异常
         if(jsonObject.containsKey("error_code") || jsonObject.containsKey(DEMOTE_ERROR)){

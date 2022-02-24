@@ -9,7 +9,7 @@ import com.xjs.annotation.ApiLog;
 import com.xjs.business.warning.RemoteWarningCRUDFeign;
 import com.xjs.business.warning.domain.ApiRecord;
 import com.xjs.common.client.api.alapi.AlapiJokeAllFeignClient;
-import com.xjs.common.client.api.baidu.BaiduFeignClient;
+import com.xjs.common.client.api.baidu.BaiduTranslationFeignClient;
 import com.xjs.common.client.api.gaode.GaodeWeatherFeignClient;
 import com.xjs.common.client.api.lq.LqAWordFeignClient;
 import com.xjs.common.client.api.lq.LqDogDiaryFeignClient;
@@ -89,7 +89,7 @@ public class CheckApiStatusTask {
     @Autowired
     private AlapiJokeAllFeignClient alapiJokeAllFeignClient;
     @Autowired
-    private BaiduFeignClient baiduFeignClient;
+    private BaiduTranslationFeignClient baiduTranslationFeignClient;
     @Autowired
     private GaodeWeatherFeignClient gaodeWeatherFeignClient;
     @Autowired
@@ -777,12 +777,12 @@ public class CheckApiStatusTask {
         baiDuTranslationQo.setQ(content);
         baiDuTranslationQo.setSalt(baiduProperties.getSalt());
 
-        JSONObject jsonObject = baiduFeignClient.translationApi(baiDuTranslationQo);
+        JSONObject jsonObject = baiduTranslationFeignClient.translationApi(baiDuTranslationQo);
         if (!jsonObject.containsKey(DEMOTE_ERROR)) {
             return;
         }
 
-        String[] info = this.getAnnotationInfo(BaiduFeignClient.class).get(0);
+        String[] info = this.getAnnotationInfo(BaiduTranslationFeignClient.class).get(0);
 
         this.selectAndUpdate(info);
 

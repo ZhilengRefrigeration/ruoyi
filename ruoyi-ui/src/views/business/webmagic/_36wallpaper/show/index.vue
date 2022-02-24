@@ -27,7 +27,7 @@
         <el-col :span="4" v-for="data in wallpaperList">
           <div class="grid-content bg-purple">
 
-            <div style="height: 10px;background-color: #ffba00"></div>
+            <div style="height: 7px;background-color: #ffba00"></div>
 
             <!--图片div-->
             <div style="">
@@ -35,17 +35,19 @@
                 :src="data.pictureUrl"
                 fit="fill"
                 style="height: 160px"
-                :alt="data.pictureName"
                 :preview-src-list="[data.pictureUrl]">
               </el-image>
             </div>
 
+            <div style="height: 7px;background-color: #ffba00"></div>
+
             <!--标签div-->
-            <div style="margin-top: 5px">
+            <div style="">
               <div v-for="label in data.labels" style="float: left;margin-left: 4px;margin-top: 4px">
                 <el-tag>{{ label }}</el-tag>
               </div>
             </div>
+
 
           </div>
         </el-col>

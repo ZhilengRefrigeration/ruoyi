@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -143,13 +144,18 @@ public class _36wallpaperServiceImpl extends ServiceImpl<_36wallpaperMapper, _36
                     .or().like("type", condition)
                     .or().like("label", condition);
         });
+        wr.orderByDesc("create_time");
         Page<_36wallpaper> wallpaperList = this.page(page, wr);
         for (_36wallpaper record : wallpaperList.getRecords()) {
             //分割label
             String label = record.getLabel();
             if (StringUtils.isNotEmpty(label)) {
                 String[] strings = label.split(",");
-                record.setLabels(strings);
+                record.setLabels(Arrays.asList(strings));
+            }
+            //只返回9个标签
+            if (record.getLabels().size() >= 9) {
+                record.setLabels(record.getLabels().subList(0,9));
             }
         }
 
