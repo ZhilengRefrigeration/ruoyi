@@ -35,3 +35,11 @@ export function getWallpaperList(data) {
     params: data
   })
 }
+
+// 获取壁纸类别
+export function getType() {
+  return request({
+    url: '/webmagic/_36wallpaper/getType',
+    method: 'get',
+  })
+}

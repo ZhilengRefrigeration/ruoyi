@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -69,6 +70,15 @@ public class _36wallpaperController extends MyBaseController<_36wallpaper> {
         IPage<_36wallpaper> list=wallpaperService.selectWallpaperList(startPageMP(),wallpaper);
         return AjaxResult.success(list);
     }
+
+    @GetMapping("getType")
+    @ApiOperation("获取壁纸类别")
+    @RequiresPermissions("webmagic:_36wallpaper:list")
+    public AjaxResult getType() {
+        List<Object> list = wallpaperService.getType();
+        return AjaxResult.success(list);
+    }
+
 
 
 

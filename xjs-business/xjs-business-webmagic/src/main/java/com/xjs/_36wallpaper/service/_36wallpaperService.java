@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xjs._36wallpaper.pojo._36wallpaper;
 
+import java.util.List;
+
 /**
  * 36壁纸网service接口
  * @author xiejs
@@ -45,4 +47,12 @@ public interface _36wallpaperService extends IService<_36wallpaper> {
      * @return page
      */
     IPage<_36wallpaper> selectWallpaperList(Page<_36wallpaper> page, _36wallpaper wallpaper);
+
+
+    /**
+     * 获取壁纸类别
+     * @return list
+     */
+    List<Object> getType();
+
 }

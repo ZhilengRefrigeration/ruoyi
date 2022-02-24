@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import static com.xjs._36wallpaper.consts._36wallpaperConst.*;
@@ -136,13 +137,30 @@ public class _36wallpaperServiceImpl extends ServiceImpl<_36wallpaperMapper, _36
     public IPage<_36wallpaper> selectWallpaperList(Page<_36wallpaper> page, _36wallpaper wallpaper) {
         String condition = wallpaper.getCondition();
         QueryWrapper<_36wallpaper> wr = new QueryWrapper<>();
+        wr.eq(StringUtils.isNotEmpty(wallpaper.getType()), "type", wallpaper.getType());
         wr.and(StringUtils.isNotEmpty(condition), obj -> {
             obj.like("picture_name", condition)
                     .or().like("type", condition)
                     .or().like("label", condition);
         });
+        Page<_36wallpaper> wallpaperList = this.page(page, wr);
+        for (_36wallpaper record : wallpaperList.getRecords()) {
+            //分割label
+            String label = record.getLabel();
+            if (StringUtils.isNotEmpty(label)) {
+                String[] strings = label.split(",");
+                record.setLabels(strings);
+            }
+        }
 
-        return this.page(page,wr);
+        return wallpaperList;
+    }
+
+    @Override
+    public List<Object> getType() {
+        QueryWrapper<_36wallpaper> wrapper = new QueryWrapper<_36wallpaper>().groupBy("type");
+        wrapper.select("type");
+        return this.listObjs(wrapper);
     }
 
 

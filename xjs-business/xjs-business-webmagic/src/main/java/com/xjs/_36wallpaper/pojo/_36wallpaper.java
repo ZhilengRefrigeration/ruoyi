@@ -44,6 +44,12 @@ public class _36wallpaper extends BaseEntity implements Serializable {
     @Excel(name = "照片标签(多个用 , 分割)")
     private String label;
 
+    /**
+     * label分割成数组
+     */
+    @TableField(exist = false)
+    private String[] labels;
+
     /** 创建时间 */
     @Excel(name = "创建时间",dateFormat = "yyyy-MM-dd HH:mm:ss")
     @TableField(fill = FieldFill.INSERT)
