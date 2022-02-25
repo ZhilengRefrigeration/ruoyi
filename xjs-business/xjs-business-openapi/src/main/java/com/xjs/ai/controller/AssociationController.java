@@ -1,5 +1,6 @@
 package com.xjs.ai.controller;
 
+import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.security.annotation.RequiresLogin;
 import com.xjs.ai.factory.AssociationFactory;
@@ -34,6 +35,9 @@ public class AssociationController {
     @ApiOperation("获取联想词汇")
     @RequiresLogin
     public AjaxResult getAssociation(@RequestParam("content") String content) {
+        if (StringUtils.isBlank(content)) {
+            return AjaxResult.success("参数为空");
+        }
         List<String> data = baiduAssociationFactory.getData(content);
         return AjaxResult.success(data);
     }
