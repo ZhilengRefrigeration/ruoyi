@@ -205,7 +205,9 @@ export default {
 
     //跳转到外部链接
     toRescue() {
+      //当前页面跳转
       // window.location.href = 'https://www.baidu.com/s?wd=' + this.searchContent
+      //打开新标签跳转
       window.open('https://www.baidu.com/s?wd='+ this.searchContent)
     },
 

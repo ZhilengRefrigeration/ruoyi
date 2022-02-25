@@ -36,15 +36,19 @@ public class WeiXinSouGouServiceImpl extends ServiceImpl<WeiXinSouGouMapper, Wei
 
         Map<String, Object> params = MapUtils.builder()
                 .page(pageDomain.getPageNum()-1, pageDomain.getPageSize())
-                .field(WeiXinSouGou::getTitle,weiXinSouGou.getTitle())
+                .group("A")
+                .field(WeiXinSouGou::getTitle,weiXinSouGou.getCondition())
                 .op("ct")//构建模糊查询   ct: 包含
-                .field(WeiXinSouGou::getContent,weiXinSouGou.getContent())
+                .group("B")
+                .field(WeiXinSouGou::getContent,weiXinSouGou.getCondition())
                 .op("ct")
-                .field(WeiXinSouGou::getSource,weiXinSouGou.getSource())
+                .group("C")
+                .field(WeiXinSouGou::getSource,weiXinSouGou.getCondition())
                 .op("ct")
                 .field(pageDomain.getOrderByColumn(),weiXinSouGou.getCreateTime(),weiXinSouGou.getEndCreateTime())
                 .op("bt")//构建bt区间查询
                 .orderBy(WeiXinSouGou::getCreateTime,pageDomain.getIsAsc())
+                .groupExpr("A|B|C")
                 .build();
 
         return beanSearcher.search(WeiXinSouGou.class, params);

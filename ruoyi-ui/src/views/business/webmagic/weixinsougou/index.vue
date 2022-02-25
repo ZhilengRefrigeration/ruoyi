@@ -1,41 +1,19 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="文章标题" prop="title">
+      <el-form-item label="查询条件" prop="condition">
         <el-input
-          v-model="queryParams.title"
+          v-model="queryParams.condition"
           prefix-icon="el-icon-refresh"
-          placeholder="请输入文章标题"
+          placeholder="请输入文章标题、文章内容、文章来源等"
           clearable
           maxlength="100"
+          style="width: 500px"
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
 
-      <el-form-item label="文章内容" prop="content">
-        <el-input
-          v-model="queryParams.content"
-          prefix-icon="el-icon-refresh"
-          placeholder="请输入文章内容"
-          clearable
-          maxlength="100"
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-
-      <el-form-item label="文章来源" prop="source">
-        <el-input
-          v-model="queryParams.source"
-          prefix-icon="el-icon-refresh"
-          placeholder="请输入文章来源"
-          clearable
-          maxlength="20"
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
 
       <el-form-item label="创建时间">
         <el-date-picker
