@@ -232,6 +232,12 @@ public class ApiConst {
      */
     public static final String GAODE_EXTENSIONS_BASE = "base";
 
+    /**
+     * 网络时间api请求参数
+     */
+    public static final String TTD_PID = "pubmatic";
+    public static final String FMT = "json";
+
 
     //-----------------------api响应参数及名称-----------------------------------
 

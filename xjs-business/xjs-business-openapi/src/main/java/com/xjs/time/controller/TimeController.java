@@ -32,9 +32,9 @@ public class TimeController {
         return AjaxResult.success(time);
     }
 
-    @GetMapping("localhostTime")
-    @ApiOperation("获取本地时间")
-    public AjaxResult getLocalhostTime() {
+    @GetMapping("serviceTime")
+    @ApiOperation("获取服务器时间")
+    public AjaxResult getServiceTime() {
         return AjaxResult.success(DateUtil.now());
     }
 

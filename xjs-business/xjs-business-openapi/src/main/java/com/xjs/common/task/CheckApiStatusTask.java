@@ -17,6 +17,7 @@ import com.xjs.common.client.api.lq.LqDogDiaryFeignClient;
 import com.xjs.common.client.api.lq.LqPoisonChickenFeignClient;
 import com.xjs.common.client.api.roll.*;
 import com.xjs.common.client.api.tianxing.*;
+import com.xjs.common.client.api.time.TimeFeignClient;
 import com.xjs.common.client.api.youdao.YouDaoFeignClient;
 import com.xjs.consts.ApiConst;
 import com.xjs.properties.*;
@@ -35,8 +36,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
-import static com.xjs.consts.ApiConst.GAODE_EXTENSIONS_BASE;
+import static com.xjs.consts.ApiConst.*;
+import static com.xjs.consts.ApiConst.FMT;
 import static com.xjs.consts.ReqConst.ERROR;
 
 /**
@@ -153,6 +154,9 @@ public class CheckApiStatusTask {
     private YouDaoFeignClient youDaoFeignClient;
     @Autowired
     private BaiduAssociationFeignClient baiduAssociationFeignClient;
+    @Autowired
+    private TimeFeignClient timeFeignClient;
+
 
     /**
      * 检查api状态 <br>
@@ -359,6 +363,12 @@ public class CheckApiStatusTask {
             };
             new Thread(runCheckBaiduAssociation).start();
 
+            Runnable runCheckNetworkTime = () -> {
+                log.info("线程启动：" + Thread.currentThread().getName());
+                this.checkNetworkTime();
+            };
+            new Thread(runCheckNetworkTime).start();
+
             //this.checkAlapiJoke();
             //this.checkBaiduTranslation();
             //this.checkGaodeWeather();
@@ -392,6 +402,7 @@ public class CheckApiStatusTask {
             //this.checkTianXingWYY();
             //this.checkYouDaoTranslation();
             //this.checkBaiduAssociation();
+            //this.checkNetworkTime();
 
 
         } catch (Exception e) {
@@ -400,6 +411,19 @@ public class CheckApiStatusTask {
 
 
 
+    }
+
+    /**
+     * 检查网络时间 API
+     */
+    private void checkNetworkTime() {
+        JSONObject jsonObject = timeFeignClient.timeApi(TTD_PID, FMT);
+        if (!jsonObject.containsKey(DEMOTE_ERROR)) {
+            return;
+        }
+        String[] info = this.getAnnotationInfo(TimeFeignClient.class).get(0);
+        this.selectAndUpdate(info);
+        log.error("检查网络时间API异常");
     }
 
 

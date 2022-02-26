@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
+import static com.xjs.consts.ApiConst.*;
 
 /**
  * 获取时间工厂实现
@@ -30,9 +30,7 @@ public class TimeFactoryImpl implements TimeFactory {
 
     @Override
     public String getTime() {
-        String ttd_pid = "pubmatic";
-        String fmt = "json";
-        JSONObject jsonObject = timeFeignClient.timeApi(ttd_pid, fmt);
+        JSONObject jsonObject = timeFeignClient.timeApi(TTD_PID, FMT);
         if (jsonObject.containsKey(DEMOTE_ERROR)) {
             throw new ApiException("时间接口调用异常");
         }
