@@ -29,13 +29,13 @@ public class TimeController {
     @ApiOperation("获取网络时间")
     public AjaxResult getNetworkTime() {
         String time = timeFactoryImpl.getTime();
-        return AjaxResult.success(time);
+        return AjaxResult.success("操作成功",time);
     }
 
     @GetMapping("serviceTime")
     @ApiOperation("获取服务器时间")
     public AjaxResult getServiceTime() {
-        return AjaxResult.success(DateUtil.now());
+        return AjaxResult.success("操作成功",DateUtil.now());
     }
 
 

@@ -1,6 +1,7 @@
 package com.xjs.word.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -50,10 +51,10 @@ public class EnglishWordServiceImpl extends ServiceImpl<EnglishWordMapper, Engli
 
     @Override
     public IPage<EnglishWord> getEnglishWordByCollect(Page<EnglishWord> page) {
-        QueryWrapper<EnglishWord> wr = new QueryWrapper<EnglishWord>()
-                .eq("is_collect", COLLECT)
-                .orderByDesc("top")
-                .orderByDesc("create_time");
+        LambdaQueryWrapper<EnglishWord> wr = new LambdaQueryWrapper<EnglishWord>()
+                .eq(EnglishWord::getIsCollect, COLLECT)
+                .orderByDesc(EnglishWord::getTop)
+                .orderByDesc(EnglishWord::getCreateTime);
 
         return englishWordMapper.selectPage(page, wr);
     }
@@ -190,9 +191,9 @@ public class EnglishWordServiceImpl extends ServiceImpl<EnglishWordMapper, Engli
     public IPage<EnglishWord> selectEnglishWordList(Page<EnglishWord> page, EnglishWord englishWord) {
         String condition = englishWord.getCondition();
 
-        QueryWrapper<EnglishWord> wr = new QueryWrapper<>();
+        LambdaQueryWrapper<EnglishWord> wr = new LambdaQueryWrapper<>();
         wr.and(StringUtils.isNotEmpty(condition), obj -> {
-            obj.like("english_word", condition).or().like("chinese_word", condition);
+            obj.like(EnglishWord::getEnglishWord, condition).or().like(EnglishWord::getChineseWord, condition);
         });
 
         //wr.like("english_word", condition).or().like("chinese_word", condition);
