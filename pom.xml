@@ -49,12 +49,64 @@
         <commonsNet.version>3.6</commonsNet.version>
         <aliyunoss.version>3.14.0</aliyunoss.version>
         <bean-searcher.version>3.5.1</bean-searcher.version>
+        <oshi.version>5.7.1</oshi.version>
+        <webmagic.version>0.7.5</webmagic.version>
 
     </properties>
 
     <!-- 依赖声明 -->
     <dependencyManagement>
         <dependencies>
+
+            <!--///////////////////////////business///////////////////////////////-->
+            <!--爬虫-->
+            <dependency>
+                <groupId>us.codecraft</groupId>
+                <artifactId>webmagic-core</artifactId>
+                <version>${webmagic.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>us.codecraft</groupId>
+                <artifactId>webmagic-extension</artifactId>
+                <version>${webmagic.version}</version>
+            </dependency>
+
+
+            <!-- 获取系统信息 -->
+            <dependency>
+                <groupId>com.github.oshi</groupId>
+                <artifactId>oshi-core</artifactId>
+                <version>${oshi.version}</version>
+            </dependency>
+
+            <!--mp-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatisplus.version}</version>
+            </dependency>
+
+            <!--工具类-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+
+            <!--比 MyBatis 效率快 100 倍的条件检索引擎，天生支持联表，使一行代码实现复杂列表检索成为可能！-->
+            <dependency>
+                <groupId>com.ejlchina</groupId>
+                <artifactId>bean-searcher-boot-starter</artifactId>
+                <version>${bean-searcher.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.xjs</groupId>
+                <artifactId>xjs-business-common</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+
+            <!--////////////////////////////////////////////////////////////////////////////////////-->
 
             <!-- SpringCloud 微服务 -->
             <dependency>

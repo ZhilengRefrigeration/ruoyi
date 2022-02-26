@@ -22,13 +22,11 @@
         <dependency>
             <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>
-            <version>5.7.1</version>
         </dependency>
 
         <dependency>
             <groupId>com.xjs</groupId>
             <artifactId>xjs-business-common</artifactId>
-            <version>3.3.0</version>
         </dependency>
     </dependencies>
 

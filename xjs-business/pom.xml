@@ -93,10 +93,11 @@
         </dependency>
 
         <!--/////////////////////本模块专属依赖/////////////////////////-->
+
+
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>${mybatisplus.version}</version>
         </dependency>
 
         <!--lombok-->
@@ -115,14 +116,12 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>${hutool.version}</version>
         </dependency>
 
         <!--比 MyBatis 效率快 100 倍的条件检索引擎，天生支持联表，使一行代码实现复杂列表检索成为可能！-->
         <dependency>
             <groupId>com.ejlchina</groupId>
             <artifactId>bean-searcher-boot-starter</artifactId>
-            <version>${bean-searcher.version}</version>
         </dependency>
 
 

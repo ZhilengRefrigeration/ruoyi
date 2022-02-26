@@ -14,10 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
+/** 业务监控控制器
  * @author xiejs
- * @desc  业务监控控制器
- * @create 2022-01-02
+ * @since  2022-01-02
  */
 @RestController
 @RequestMapping("servicemonitor")

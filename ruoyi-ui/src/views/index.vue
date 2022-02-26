@@ -25,6 +25,8 @@
                 style="width: 92%"
                 v-model="searchContent"
                 @input="getAssociation()"
+                @keydown.enter.n.native="toRescue"
+                clearable
                 @select="handleSelect"
                 :fetch-suggestions="querySearchAsync"
                 placeholder="请输入你想要搜索的内容"></el-autocomplete>
@@ -78,7 +80,7 @@ export default {
       baiduLogo,
 
       //百度输入框内容
-      searchContent: null,
+      searchContent: '',
 
       //联想词汇
       associationList: [],
@@ -192,13 +194,17 @@ export default {
 
       let list = []
 
+      if (restaurants === null || restaurants === undefined || restaurants === []) {
+        return list
+      }
+
       restaurants.forEach(s => {
         let obj = {};
         let key = "value"
         var value = s
         obj[key] = value
         list.push(obj)
-      })
+      });
 
       return list;
     },

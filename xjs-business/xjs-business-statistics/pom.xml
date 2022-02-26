@@ -21,7 +21,6 @@
         <dependency>
             <groupId>com.xjs</groupId>
             <artifactId>xjs-business-common</artifactId>
-            <version>3.3.0</version>
         </dependency>
     </dependencies>
 
