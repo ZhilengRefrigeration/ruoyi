@@ -55,6 +55,9 @@ public class ApiLogAspect {
     @Autowired
     private RemoteWarningCRUDFeign remoteWarningCRUDFeign;
 
+
+    public static final String ERROR_500= "{\"error\":500}";
+
     /**
      * 声明AOP签名
      */
@@ -150,6 +153,11 @@ public class ApiLogAspect {
         if (Objects.nonNull(jsonResult)) {
             response = jsonResult.toString();
             entity.setResponse(response);
+
+            //如果降级error
+            if (response.contains(ERROR_500)) {
+                entity.setIsSuccess(ReqConst.ERROR);
+            }
         }
         if (e != null || StringUtils.isEmpty(response)) {
             entity.setIsSuccess(ReqConst.ERROR);

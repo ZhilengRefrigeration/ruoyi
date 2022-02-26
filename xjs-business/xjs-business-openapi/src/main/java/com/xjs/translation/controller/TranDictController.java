@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * 翻译字典控制器
  * @author xiejs
- * @desc 翻译字典控制器
- * @create 2021-12-30
+ * @since  2021-12-30
  */
 @RestController
 @RequestMapping("tranDict")

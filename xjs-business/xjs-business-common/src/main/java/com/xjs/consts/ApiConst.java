@@ -84,6 +84,8 @@ public class ApiConst {
 
     public static final String SOUGOU_ASSOCIATION = "搜狗联想";
 
+    public static final String TIME= "网络时间";
+
 
     //-------------------url------------------------------
 
@@ -212,6 +214,11 @@ public class ApiConst {
      * 搜狗智能联想语义API地址
      */
     public static final String SOUGOU__ASSOCIATION_URL= "http://w.sugg.sogou.com/sugg/ajaj_json.jsp";
+
+    /**
+     * 网络时间API地址
+     */
+    public static final String TIME_URL= "https://match.adsrvr.org/track/rid";
 
 
     //-----------------------api请求参数常量-----------------------------
