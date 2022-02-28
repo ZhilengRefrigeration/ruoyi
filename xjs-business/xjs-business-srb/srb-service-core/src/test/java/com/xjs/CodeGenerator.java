@@ -26,7 +26,7 @@ public class CodeGenerator {
                             .pathInfo(Collections.singletonMap(OutputFile.mapperXml, "D:\\Dev\\IdeaPerject\\GitHub\\RuoYi-Cloud\\xjs-business\\xjs-business-srb\\srb-service-core\\src\\main\\resources\\mapper")); // 设置mapperXml生成路径
                 })
                 .strategyConfig(builder -> {
-                    builder.addInclude("borrow_info")
+                    builder.addInclude("integral_grade")
                             .entityBuilder()
                             .enableLombok()
                             .logicDeleteColumnName("is_deleted")

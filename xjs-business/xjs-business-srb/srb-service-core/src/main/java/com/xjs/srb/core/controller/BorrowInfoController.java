@@ -1,6 +1,7 @@
 package com.xjs.srb.core.controller;
 
 
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 @RequestMapping("/core/borrowInfo")
+@Api(tags = "尚融宝-借款信息管理")
 public class BorrowInfoController {
 
 }
