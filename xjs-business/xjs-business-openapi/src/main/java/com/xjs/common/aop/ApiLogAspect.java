@@ -149,6 +149,7 @@ public class ApiLogAspect {
             }
         }
         entity.setMethod(apiLog.method());
+        entity.setIsSuccess(SUCCESS);
         String response = null;
         if (Objects.nonNull(jsonResult)) {
             response = jsonResult.toString();
@@ -161,8 +162,6 @@ public class ApiLogAspect {
         }
         if (e != null || StringUtils.isEmpty(response)) {
             entity.setIsSuccess(ReqConst.ERROR);
-        } else {
-            entity.setIsSuccess(SUCCESS);
         }
         remoteLogFeign.saveApiLog(entity);
     }

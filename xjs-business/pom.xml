@@ -24,6 +24,7 @@
         <module>xjs-business-statistics</module>
         <module>xjs-business-webmagic</module>
         <module>xjs-business-blog</module>
+        <module>xjs-business-srb</module>
     </modules>
 
     <properties>

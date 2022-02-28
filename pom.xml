@@ -45,7 +45,7 @@
         <!--xjs加的-->
         <knife4j.version>3.0.3</knife4j.version>
         <hutool.version>5.7.17</hutool.version>
-        <mybatisplus.version>3.4.3.4</mybatisplus.version>
+        <mybatisplus.version>3.5.1</mybatisplus.version>
         <commonsNet.version>3.6</commonsNet.version>
         <aliyunoss.version>3.14.0</aliyunoss.version>
         <bean-searcher.version>3.5.1</bean-searcher.version>
@@ -83,6 +83,12 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatisplus.version}</version>
+            </dependency>
+            <!--mp代码生成器-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
                 <version>${mybatisplus.version}</version>
             </dependency>
 
