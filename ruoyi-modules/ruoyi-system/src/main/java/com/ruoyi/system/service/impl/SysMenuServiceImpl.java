@@ -202,11 +202,7 @@ public class SysMenuServiceImpl implements ISysMenuService
     public List<SysMenu> buildMenuTree(List<SysMenu> menus)
     {
         List<SysMenu> returnList = new ArrayList<SysMenu>();
-        List<Long> tempList = new ArrayList<Long>();
-        for (SysMenu dept : menus)
-        {
-            tempList.add(dept.getMenuId());
-        }
+        List<Long> tempList = menus.stream().map(SysMenu::getMenuId).collect(Collectors.toList());
         for (Iterator<SysMenu> iterator = menus.iterator(); iterator.hasNext();)
         {
             SysMenu menu = (SysMenu) iterator.next();
@@ -259,7 +255,7 @@ public class SysMenuServiceImpl implements ISysMenuService
     public boolean hasChildByMenuId(Long menuId)
     {
         int result = menuMapper.hasChildByMenuId(menuId);
-        return result > 0 ? true : false;
+        return result > 0;
     }
 
     /**
@@ -272,7 +268,7 @@ public class SysMenuServiceImpl implements ISysMenuService
     public boolean checkMenuExistRole(Long menuId)
     {
         int result = roleMenuMapper.checkMenuExistRole(menuId);
-        return result > 0 ? true : false;
+        return result > 0;
     }
 
     /**
@@ -458,8 +454,8 @@ public class SysMenuServiceImpl implements ISysMenuService
     /**
      * 递归列表
      * 
-     * @param list
-     * @param t
+     * @param list 分类表
+     * @param t 子节点
      */
     private void recursionFn(List<SysMenu> list, SysMenu t)
     {
@@ -504,7 +500,7 @@ public class SysMenuServiceImpl implements ISysMenuService
     /**
      * 内链域名特殊字符替换
      * 
-     * @return
+     * @return 替换后的内链域名
      */
     public String innerLinkReplaceEach(String path)
     {
