@@ -63,7 +63,7 @@ public class IntegralGradeController extends MyBaseController<IntegralGrade> {
     @ApiOperation("保存积分等级")
     @RequiresPermissions("srb:integralGrade:save")
     @Log(title = "融-积分管理", businessType = BusinessType.INSERT)
-    public AjaxResult save(IntegralGrade integralGrade) {
+    public AjaxResult save(@RequestBody IntegralGrade integralGrade) {
         return toAjax(integralGradeService.save(integralGrade));
     }
 

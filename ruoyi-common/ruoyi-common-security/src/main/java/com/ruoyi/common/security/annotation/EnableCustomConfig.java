@@ -4,6 +4,7 @@ import com.ruoyi.common.security.config.ApplicationConfig;
 import com.ruoyi.common.security.feign.FeignAutoConfiguration;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScans;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -24,7 +25,7 @@ import java.lang.annotation.*;
 // 自动加载类
 @Import({ ApplicationConfig.class, FeignAutoConfiguration.class })
 //自定义bean扫描，添加xjs路径下的bean
-@ComponentScan(basePackages = {"com.ruoyi","com.xjs"})
+@ComponentScans( {@ComponentScan("com.ruoyi"),@ComponentScan("com.xjs")} )
 @EnableTransactionManagement
 public @interface EnableCustomConfig
 {

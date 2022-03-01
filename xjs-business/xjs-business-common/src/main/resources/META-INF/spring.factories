@@ -1,0 +1,7 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.xjs.config.FeignConfig,\
+  com.xjs.config.JsonConfig,\
+  com.xjs.config.MybatisPlusConfig,\
+  com.xjs.config.WebMvcConfig
+
+
