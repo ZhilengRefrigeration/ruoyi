@@ -85,6 +85,9 @@
           <i class="el-icon-caret-bottom"/>
         </div>
         <el-dropdown-menu slot="dropdown">
+          <router-link to="/index">
+            <el-dropdown-item>首页</el-dropdown-item>
+          </router-link>
           <router-link to="/user/profile">
             <el-dropdown-item>个人中心</el-dropdown-item>
           </router-link>

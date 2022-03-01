@@ -54,6 +54,7 @@ public class IntegralGradeController extends MyBaseController<IntegralGrade> {
     @PutMapping("update")
     @ApiOperation("根据id更新积分等级")
     @RequiresPermissions("srb:integralGrade:update")
+    @Log(title = "融-积分管理", businessType = BusinessType.UPDATE)
     public AjaxResult updateById(IntegralGrade integralGrade) {
         return toAjax(integralGradeService.updateById(integralGrade));
     }
@@ -61,6 +62,7 @@ public class IntegralGradeController extends MyBaseController<IntegralGrade> {
     @PostMapping("save")
     @ApiOperation("保存积分等级")
     @RequiresPermissions("srb:integralGrade:save")
+    @Log(title = "融-积分管理", businessType = BusinessType.INSERT)
     public AjaxResult save(IntegralGrade integralGrade) {
         return toAjax(integralGradeService.save(integralGrade));
     }
