@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjs.tasklog.mapper.TaskLogMapper">
+
+    <resultMap type="com.xjs.tasklog.domain.TaskLog" id="TaskLogResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="method"    column="method"    />
+        <result property="classPath"    column="class_path"    />
+        <result property="requestTime"    column="request_time"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectTaskLogVo">
+        select id, name, method, class_path, request_time, create_time from task_log
+    </sql>
+
+    <select id="selectTaskLogList" parameterType="com.xjs.tasklog.domain.TaskLog" resultMap="TaskLogResult">
+        <include refid="selectTaskLogVo"/>
+        <where>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="createTime != null and endCreateTime != null"> and create_time between #{createTime} and #{endCreateTime}</if>
+        </where>
+    </select>
+
+    <delete id="deleteTaskLogById" parameterType="Long">
+        delete from task_log where id = #{id}
+    </delete>
+
+    <delete id="deleteTaskLogByIds" parameterType="String">
+        delete from task_log where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
