@@ -14,6 +14,23 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
 
+          <router-link
+            :to="{
+                path: '/srb/integral/form/',
+                query: { id: scope.row.id },
+              }"
+
+            v-hasPermi="['srb:integralGrade:update']"
+            style="margin-right: 5px"
+          >
+            <el-button
+              size="small"
+              type="primary"
+              icon="el-icon-edit"
+            ></el-button>
+          </router-link>
+
+
           <el-popconfirm
             confirm-button-text='好的'
             cancel-button-text='不用了'
@@ -64,9 +81,19 @@ export default {
   methods: {
     //获取数据
     fetchData() {
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: "#666666"
+      });
+
       getList().then(res => {
+        loading.close();
         this.list = res.data
+      }).catch(err => {
       })
+      loading.close();
     },
 
     //删除

@@ -5,12 +5,16 @@ import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
+import com.xjs.exception.BusinessException;
 import com.xjs.srb.core.entity.IntegralGrade;
 import com.xjs.srb.core.service.IIntegralGradeService;
+import com.xjs.validation.group.AddGroup;
+import com.xjs.validation.group.UpdateGroup;
 import com.xjs.web.MyBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -55,7 +59,8 @@ public class IntegralGradeController extends MyBaseController<IntegralGrade> {
     @ApiOperation("根据id更新积分等级")
     @RequiresPermissions("srb:integralGrade:update")
     @Log(title = "融-积分管理", businessType = BusinessType.UPDATE)
-    public AjaxResult updateById(IntegralGrade integralGrade) {
+    public AjaxResult updateById(@Validated(UpdateGroup.class) @RequestBody IntegralGrade integralGrade) {
+        this.compareSize(integralGrade);
         return toAjax(integralGradeService.updateById(integralGrade));
     }
 
@@ -63,11 +68,21 @@ public class IntegralGradeController extends MyBaseController<IntegralGrade> {
     @ApiOperation("保存积分等级")
     @RequiresPermissions("srb:integralGrade:save")
     @Log(title = "融-积分管理", businessType = BusinessType.INSERT)
-    public AjaxResult save(@RequestBody IntegralGrade integralGrade) {
+    public AjaxResult save(@Validated(AddGroup.class) @RequestBody IntegralGrade integralGrade) {
+        this.compareSize(integralGrade);
         return toAjax(integralGradeService.save(integralGrade));
     }
 
 
+    /**
+     * 比较大小
+     * @param integralGrade 积分实体
+     */
+    private void compareSize(IntegralGrade integralGrade) {
+        if (integralGrade.getIntegralStart() > integralGrade.getIntegralEnd()) {
+            throw new BusinessException("开始区间大于结束区间！！！");
+        }
+    }
 
 }
 

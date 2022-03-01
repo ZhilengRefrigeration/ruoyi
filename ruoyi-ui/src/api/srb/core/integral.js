@@ -34,3 +34,11 @@ export function update(integral) {
     data:integral
   })
 }
+
+// 获取积分列表
+export function getById(id) {
+  return request({
+    url: '/srb_core//admin/core/integralGrade/get/'+id,
+    method: 'get',
+  })
+}

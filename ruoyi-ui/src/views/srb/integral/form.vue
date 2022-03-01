@@ -19,7 +19,7 @@
 </template>
 <script>
 
-import {save,update} from "@/api/srb/core/integral";
+import {save, update, getById} from "@/api/srb/core/integral";
 
 export default {
   name: 'IntegralForm',
@@ -54,6 +54,12 @@ export default {
   computed: {},
   watch: {},
   created() {
+    //当路由存在id属性的时候回显表单，需要调用回显接口
+    let id = this.$route.query.id;
+    if (id) {
+      this.getById(id);
+    }
+
   },
   mounted() {
   },
@@ -61,20 +67,45 @@ export default {
     submitForm() {
       this.$refs['elForm'].validate(valid => {
         if (!valid) return
+        let id = this.$route.query.id;
+        if (id) {
+          this.updateData();
+        } else {
+          this.saveData();
+        }
 
-        this.saveData()
+      })
+    },
 
-
+    //根据id获取
+    getById(id) {
+      const loading = this.$loading({
+        lock: true,
+        text: 'Loading',
+        spinner: 'el-icon-loading',
+        background: "#666666"
+      });
+      getById(id).then(res => {
+        loading.close();
+        this.formData = res.data
       })
     },
 
     //新增
     saveData() {
-      save(this.formData).then(res=>{
-        this.$modal.notifySuccess("保存成功");
+      save(this.formData).then(res => {
+        this.$modal.notifySuccess("新增成功");
+        this.$router.push({path: '/srb/integral/list'})
       })
     },
 
+    //修改
+    updateData() {
+      update(this.formData).then(res => {
+        this.$modal.notifySuccess("修改成功");
+        this.$router.push({path: '/srb/integral/list'})
+      })
+    },
 
 
     resetForm() {

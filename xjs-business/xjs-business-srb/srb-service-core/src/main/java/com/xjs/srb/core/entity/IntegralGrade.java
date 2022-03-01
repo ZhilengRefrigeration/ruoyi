@@ -3,11 +3,15 @@ package com.xjs.srb.core.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.xjs.validation.group.AddGroup;
+import com.xjs.validation.group.UpdateGroup;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -33,12 +37,18 @@ public class IntegralGrade implements Serializable {
     private Long id;
 
     @ApiModelProperty("积分区间开始")
+    @NotNull(message = "积分区间开始不能为空",groups = {UpdateGroup.class, AddGroup.class})
+    @Min(message = "积分区间不能小于0",value = 0,groups = {UpdateGroup.class, AddGroup.class})
     private Integer integralStart;
 
     @ApiModelProperty("积分区间结束")
+    @NotNull(message = "积分区间结束不能为空",groups = {UpdateGroup.class, AddGroup.class})
+    @Min(message = "积分区间不能小于0",value = 0,groups = {UpdateGroup.class, AddGroup.class})
     private Integer integralEnd;
 
     @ApiModelProperty("借款额度")
+    @NotNull(message = "借款额度不能为空",groups = {UpdateGroup.class, AddGroup.class})
+    @Min(message = "借款额度不能小于0",value = 0,groups = {UpdateGroup.class, AddGroup.class})
     private BigDecimal borrowAmount;
 
     @ApiModelProperty("创建时间")
