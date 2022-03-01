@@ -3,6 +3,7 @@ package com.xjs.job.task.openapi;
 import cn.hutool.core.date.DateUtil;
 import com.ruoyi.common.core.domain.R;
 import com.xjs.business.api.RemoteWeatherFeign;
+import com.xjs.job.aop.TaskLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -25,16 +26,14 @@ public class WeatherTask {
     private static final Logger log = LoggerFactory.getLogger(WeatherTask.class);
 
     /**
+     *
      * 任务执行
      */
+    @TaskLog(name = "天气任务")
     public void execute() {
-        LocalDateTime localDateTime1 = DateUtil.date().toLocalDateTime();
         log.info("---------------天气定时任务Start-------------------");
         R r = remoteWeatherFeign.getWeatherForRPC();
         log.info("天气定时任务结果:code={},msg={},data={}",r.getCode(),r.getMsg(),r.getData());
-        LocalDateTime localDateTime2 = DateUtil.date().toLocalDateTime();
-        long between = ChronoUnit.MILLIS.between(localDateTime1, localDateTime2);
-        log.info("Job耗费时间:{}ms", between);
         log.info("---------------天气定时任务end---------------------");
     }
 

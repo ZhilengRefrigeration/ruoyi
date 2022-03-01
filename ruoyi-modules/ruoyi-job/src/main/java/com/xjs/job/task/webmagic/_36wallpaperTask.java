@@ -3,6 +3,7 @@ package com.xjs.job.task.webmagic;
 import cn.hutool.core.date.DateUtil;
 import com.ruoyi.common.core.domain.R;
 import com.xjs.business.webmagic.RemoteWebmagic36wallpaperFeign;
+import com.xjs.job.aop.TaskLog;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
@@ -25,16 +26,13 @@ public class _36wallpaperTask {
     /**
      * 爬虫 36壁纸网 定时任务执行
      */
+    @TaskLog(name = "36壁纸爬虫任务")
     public void _36wallpaper() {
         log.info("---------------爬虫-36壁纸网定时任务Start-------------------");
-        LocalDateTime localDateTime1 = DateUtil.date().toLocalDateTime();
 
         R r = remoteWebmagic36wallpaperFeign._36wallpaperTaskForPRC();
 
         log.info("爬虫-36壁纸网定时任务结果:code={},msg={},data={}",r.getCode(),r.getMsg(),r.getData());
-        LocalDateTime localDateTime2 = DateUtil.date().toLocalDateTime();
-        long between = ChronoUnit.MILLIS.between(localDateTime1, localDateTime2);
-        log.info("爬虫-36壁纸网定时任务Job耗费时间:{}ms", between);
         log.info("---------------爬虫-36壁纸网定时任务end---------------------");
 
     }

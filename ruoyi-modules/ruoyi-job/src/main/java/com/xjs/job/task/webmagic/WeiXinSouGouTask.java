@@ -3,6 +3,7 @@ package com.xjs.job.task.webmagic;
 import cn.hutool.core.date.DateUtil;
 import com.ruoyi.common.core.domain.R;
 import com.xjs.business.webmagic.RemoteWebmagicWeiXinSouGouFeign;
+import com.xjs.job.aop.TaskLog;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
@@ -22,16 +23,13 @@ public class WeiXinSouGouTask {
     @Resource
     private RemoteWebmagicWeiXinSouGouFeign remoteWebmagicWeiXinSouGouFeign;
 
+    @TaskLog(name = "微信搜狗爬虫任务")
     public void weiXinSouGou() {
         log.info("---------------爬虫-微信搜狗定时任务Start-------------------");
-        LocalDateTime localDateTime1 = DateUtil.date().toLocalDateTime();
 
         R r = remoteWebmagicWeiXinSouGouFeign.WeiXinSouGouTaskForPRC();
 
         log.info("爬虫-微信搜狗定时任务结果:code={},msg={},data={}",r.getCode(),r.getMsg(),r.getData());
-        LocalDateTime localDateTime2 = DateUtil.date().toLocalDateTime();
-        long between = ChronoUnit.MILLIS.between(localDateTime1, localDateTime2);
-        log.info("爬虫-微信搜狗定时任务Job耗费时间:{}ms", between);
         log.info("---------------爬虫-微信搜狗定时任务end---------------------");
     }
 
