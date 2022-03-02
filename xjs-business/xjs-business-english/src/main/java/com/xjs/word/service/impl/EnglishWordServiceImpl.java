@@ -192,6 +192,10 @@ public class EnglishWordServiceImpl extends ServiceImpl<EnglishWordMapper, Engli
         String condition = englishWord.getCondition();
 
         LambdaQueryWrapper<EnglishWord> wr = new LambdaQueryWrapper<>();
+
+        boolean b = Objects.nonNull(englishWord.getCreateTime())  &&Objects.nonNull(englishWord.getEndCreateTime());
+        wr.between(b,EnglishWord::getCreateTime,englishWord.getCreateTime(),englishWord.getEndCreateTime());
+
         wr.and(StringUtils.isNotEmpty(condition), obj -> {
             obj.like(EnglishWord::getEnglishWord, condition).or().like(EnglishWord::getChineseWord, condition);
         });

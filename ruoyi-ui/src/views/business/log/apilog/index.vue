@@ -94,7 +94,7 @@
           range-separator="-"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
-          @change="handleQuery"
+          @change="dateQuery"
         ></el-date-picker>
       </el-form-item>
 
@@ -298,6 +298,14 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
+    },
+
+    dateQuery() {
+      //清空时间参数
+      this.queryParams.createTime=null
+      this.queryParams.endCreateTime=null
+
+      this.handleQuery();
     },
 
     /** 搜索按钮操作 */

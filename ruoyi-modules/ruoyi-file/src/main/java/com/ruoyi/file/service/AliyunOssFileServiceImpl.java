@@ -66,7 +66,14 @@ public class AliyunOssFileServiceImpl implements ISysFileService {
         String bucketName = aliyunOssProperties.getBucketName();
         String host = HTTPS + bucketName + DOT + endpoint + SLASH;
 
+        //如果路径中不包含host
+        if (!url.contains(host)) {
+            return;
+        }
+
         String objectName = url.substring(host.length());
+
+
         OSS ossClient = this.getOssClient();
 
         //执行删除

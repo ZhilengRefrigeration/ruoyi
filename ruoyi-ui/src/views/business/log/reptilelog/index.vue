@@ -52,7 +52,7 @@
           style="width: 240px"
           value-format="yyyy-MM-dd"
           type="daterange"
-          @change="handleQuery('queryForm')"
+          @change="dateQuery('queryForm')"
           range-separator="-"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
@@ -246,9 +246,16 @@ export default {
           return false;
         }
       });
-
-
     },
+
+    dateQuery(formName) {
+      //清空时间参数
+      this.queryParams.createTime=null
+      this.queryParams.endCreateTime=null
+
+      this.handleQuery(formName);
+    },
+
     /** 重置按钮操作 */
     resetQuery() {
       this.daterangeCreateTime = [];

@@ -23,7 +23,7 @@
           range-separator="-"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
-          @change="handleQuery"
+          @change="dateQuery"
         ></el-date-picker>
       </el-form-item>
       <el-form-item>
@@ -385,6 +385,14 @@ export default {
       getOneEnglishApi().then(res => {
         this.oneEnglishData = res.data
       })
+    },
+
+    dateQuery() {
+      //清空时间参数
+      this.queryParams.createTime=null
+      this.queryParams.endCreateTime=null
+
+      this.handleQuery();
     },
 
     //根据id查询放入抽屉

@@ -47,7 +47,7 @@
           range-separator="-"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
-          @change="handleQuery"
+          @change="dateQuery"
         ></el-date-picker>
       </el-form-item>
       <el-form-item>
@@ -235,6 +235,15 @@ export default {
       this.queryParams.pageNum = 1;
       this.getList();
     },
+
+    dateQuery() {
+      //清空时间参数
+      this.queryParams.createTime=null
+      this.queryParams.endCreateTime=null
+
+      this.handleQuery();
+    },
+
     /** 重置按钮操作 */
     resetQuery() {
       this.daterangeCreateTime = [];
