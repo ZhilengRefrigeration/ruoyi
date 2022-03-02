@@ -11,7 +11,9 @@
         <el-input-number v-model="formData.integralEnd" placeholder="积分区间结束" :min="0"></el-input-number>
       </el-form-item>
       <el-form-item size="large">
-        <el-button type="primary" @click="submitForm">提交</el-button>
+        <el-button type="primary"
+                   v-hasPermi="['srb:integralGrade:save']"
+                   @click="submitForm">提交</el-button>
         <el-button @click="resetForm">重置</el-button>
       </el-form-item>
     </el-form>
@@ -79,14 +81,9 @@ export default {
 
     //根据id获取
     getById(id) {
-      const loading = this.$loading({
-        lock: true,
-        text: 'Loading',
-        spinner: 'el-icon-loading',
-        background: "#666666"
-      });
+      this.$modal.loading("请稍候...");
       getById(id).then(res => {
-        loading.close();
+        this.$modal.closeLoading()
         this.formData = res.data
       })
     },

@@ -7,7 +7,7 @@
           placeholder="请输入字典名称"
           clearable
           size="small"
-          style="width: 240px"
+          style="width: 180px"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
@@ -17,7 +17,7 @@
           placeholder="请输入字典类型"
           clearable
           size="small"
-          style="width: 240px"
+          style="width: 180px"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
@@ -27,10 +27,26 @@
           placeholder="字典状态"
           clearable
           size="small"
-          style="width: 240px"
+          style="width: 120px"
         >
           <el-option
             v-for="dict in dict.type.sys_normal_disable"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="字典分组" prop="dictGroup">
+        <el-select
+          v-model="queryParams.dictGroup"
+          placeholder="字典分组"
+          clearable
+          size="small"
+          style="width: 120px"
+        >
+          <el-option
+            v-for="dict in dict.type.sys_dict_group"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
@@ -41,7 +57,7 @@
         <el-date-picker
           v-model="dateRange"
           size="small"
-          style="width: 240px"
+          style="width: 200px"
           value-format="yyyy-MM-dd"
           type="daterange"
           range-separator="-"
@@ -127,6 +143,11 @@
           <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
         </template>
       </el-table-column>
+      <el-table-column label="字典分组" align="center" prop="dictGroup" :show-overflow-tooltip="true" >
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.sys_dict_group" :value="scope.row.dictGroup"/>
+        </template>
+      </el-table-column>
       <el-table-column label="备注" align="center" prop="remark" :show-overflow-tooltip="true" />
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
@@ -170,6 +191,23 @@
         <el-form-item label="字典类型" prop="dictType">
           <el-input v-model="form.dictType" placeholder="请输入字典类型" />
         </el-form-item>
+        <el-form-item label="字典分组" prop="dictGroup">
+
+          <el-select
+            v-model="form.dictGroup"
+            placeholder="字典分组"
+            clearable
+            size="small"
+            style="width: 240px"
+          >
+            <el-option
+              v-for="dict in dict.type.sys_dict_group"
+              :key="dict.value"
+              :label="dict.label"
+              :value="dict.value"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-radio-group v-model="form.status">
             <el-radio
@@ -196,7 +234,7 @@ import { listType, getType, delType, addType, updateType, refreshCache } from "@
 
 export default {
   name: "Dict",
-  dicts: ['sys_normal_disable'],
+  dicts: ['sys_normal_disable','sys_dict_group'],
   data() {
     return {
       // 遮罩层
@@ -225,7 +263,8 @@ export default {
         pageSize: 10,
         dictName: undefined,
         dictType: undefined,
-        status: undefined
+        status: undefined,
+        dictGroup:undefined
       },
       // 表单参数
       form: {},

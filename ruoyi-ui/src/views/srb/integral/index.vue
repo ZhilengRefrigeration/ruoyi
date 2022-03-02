@@ -81,16 +81,11 @@ export default {
   methods: {
     //获取数据
     fetchData() {
-      const loading = this.$loading({
-        lock: true,
-        text: 'Loading',
-        spinner: 'el-icon-loading',
-        background: "#666666"
-      });
+      this.$modal.loading("请稍候...");
 
       getList().then(res => {
-        loading.close();
         this.list = res.data
+        this.$modal.closeLoading()
       }).catch(err => {
       })
       loading.close();
