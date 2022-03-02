@@ -1,9 +1,13 @@
 package com.ruoyi.file.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.common.core.domain.R;
@@ -17,6 +21,7 @@ import com.ruoyi.system.api.domain.SysFile;
  * @author ruoyi
  */
 @RestController
+@Api(tags = "文件模块")
 public class SysFileController
 {
     private static final Logger log = LoggerFactory.getLogger(SysFileController.class);
@@ -44,5 +49,21 @@ public class SysFileController
             log.error("上传文件失败", e);
             return R.fail(e.getMessage());
         }
+    }
+
+    /**
+     * <p>
+     *     删除文件
+     * </p>
+     * @author xjs
+     * @since 2022-03-02
+     * @param url 文件路径
+     * @return R
+     */
+    @ApiOperation("删除文件")
+    @DeleteMapping("/remove")
+    public R removeFile(@RequestParam("url") String url) {
+        sysFileService.removeFile(url);
+        return R.ok();
     }
 }

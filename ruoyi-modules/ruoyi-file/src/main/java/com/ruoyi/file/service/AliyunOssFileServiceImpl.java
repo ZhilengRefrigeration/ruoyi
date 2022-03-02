@@ -1,9 +1,9 @@
 package com.ruoyi.file.service;
 
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.RandomUtil;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
+import com.ruoyi.common.core.text.UUID;
 import com.ruoyi.file.config.AliyunOssProperties;
 import com.ruoyi.file.utils.FileUploadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +26,11 @@ import java.util.Date;
 @Primary
 public class AliyunOssFileServiceImpl implements ISysFileService {
 
+    public static final String HTTPS = "https://";
+
+    public static final String DOT = ".";
+
+    public static final String SLASH = "/";
 
     @Autowired
     private AliyunOssProperties aliyunOssProperties;
@@ -35,27 +40,41 @@ public class AliyunOssFileServiceImpl implements ISysFileService {
         Assert.notNull(file, "file is null");
         try {
             String endpoint = aliyunOssProperties.getEndpoint();
-            String keyId = aliyunOssProperties.getKeyId();
-            String keySecret = aliyunOssProperties.getKeySecret();
             String bucketName = aliyunOssProperties.getBucketName();
-            OSS ossClient = new OSSClientBuilder().build(endpoint,
-                    keyId, keySecret);
+            OSS ossClient = this.getOssClient();
             //获取流
             InputStream is = file.getInputStream();
             //获取文件后缀
             String extension = FileUploadUtils.getExtension(file);
             //获取文件名称
-            String fileName = getDataTime() + "." + extension;
+            String fileName = this.getDataTime() + DOT + extension;
             //执行文件上传         bucket名称  文件名称  文件流
             ossClient.putObject(bucketName, fileName, is);
             //关闭ossClient
             ossClient.shutdown();
             //拼接文件地址
-            return "https://" + bucketName + "." + endpoint + "/" + fileName;
+            return HTTPS + bucketName + DOT + endpoint + SLASH + fileName;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public void removeFile(String url) {
+        String endpoint = aliyunOssProperties.getEndpoint();
+        String bucketName = aliyunOssProperties.getBucketName();
+        String host = HTTPS + bucketName + DOT + endpoint + SLASH;
+
+        String objectName = url.substring(host.length());
+        OSS ossClient = this.getOssClient();
+
+        //执行删除
+        ossClient.deleteObject(bucketName, objectName);
+
+        //关闭ossClient
+        ossClient.shutdown();
+
     }
 
     /**
@@ -65,9 +84,19 @@ public class AliyunOssFileServiceImpl implements ISysFileService {
      */
     private String getDataTime() {
         String today = DateUtil.format(new Date(), "yyyy-MM");
-        String time = DateUtil.formatDateTime(new Date());
-        int random = RandomUtil.randomInt(100, 10000);
-        //防止同一时间生成文件名重复
-        return today + "/" + time + "-" + random;
+        return today + SLASH + UUID.randomUUID();
+    }
+
+    /**
+     * 获取oss实例
+     *
+     * @return OSS
+     */
+    private OSS getOssClient() {
+        String endpoint = aliyunOssProperties.getEndpoint();
+        String keyId = aliyunOssProperties.getKeyId();
+        String keySecret = aliyunOssProperties.getKeySecret();
+        return new OSSClientBuilder().build(endpoint,
+                keyId, keySecret);
     }
 }

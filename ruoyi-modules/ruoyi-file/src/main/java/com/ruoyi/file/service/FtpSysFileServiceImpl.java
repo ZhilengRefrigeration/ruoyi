@@ -36,4 +36,9 @@ public class FtpSysFileServiceImpl implements ISysFileService{
         }
         return url;
     }
+
+    @Override
+    public void removeFile(String url) {
+
+    }
 }

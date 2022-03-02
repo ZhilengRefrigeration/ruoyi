@@ -17,4 +17,10 @@ public interface ISysFileService
      * @throws Exception
      */
     public String uploadFile(MultipartFile file) throws Exception;
+
+    /**
+     * 文件删除接口
+     * @param url 文件路径
+     */
+    void removeFile(String url);
 }
