@@ -29,7 +29,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/word")
-@Api(tags = "业务模块-英语管理")
+@Api(tags = "业务模块-英语单词管理")
 public class EnglishWordController extends MyBaseController<EnglishWord> {
     @Autowired
     private IEnglishWordService englishWordService;

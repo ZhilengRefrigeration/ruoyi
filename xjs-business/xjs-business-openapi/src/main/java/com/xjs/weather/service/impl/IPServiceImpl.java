@@ -29,7 +29,7 @@ public class IPServiceImpl implements IPService {
     private RedisService redisService;
 
     @Override
-    public IPInfoVo getIPApiData() {
+    public synchronized IPInfoVo getIPApiData() {
         if (redisService.hasKey(IP_INFO)) {
             return (IPInfoVo) redisService.getCacheObject(IP_INFO);
         } else {

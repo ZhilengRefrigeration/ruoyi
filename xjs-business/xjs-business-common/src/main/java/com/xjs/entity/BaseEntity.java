@@ -15,6 +15,8 @@ import java.util.Date;
 @Data
 public class BaseEntity {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * 通用查询条件
      */

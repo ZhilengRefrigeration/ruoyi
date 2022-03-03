@@ -7,9 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 翻译实体类VO
+ *
  * @author xiejs
- * @desc  翻译实体类VO
- * @create 2021-12-25
+ * @since 2021-12-25
  */
 @Data
 public class TranslationVo implements Serializable {

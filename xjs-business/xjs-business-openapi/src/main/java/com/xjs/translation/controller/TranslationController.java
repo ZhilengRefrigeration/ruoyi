@@ -83,8 +83,8 @@ public class TranslationController {
         ArrayList<TranslationFactory> factories = new ArrayList<>();
         //添加了新接口只需要在这add接口进去
         factories.add(youDaoTranslationFactory);
-        factories.add(baiDuTranslationFactory);
-        factories.add(rollTranslationFactory);
+        //factories.add(baiDuTranslationFactory);
+        //factories.add(rollTranslationFactory);
         //--------add----------------------------;-
         //随机调用集合中的接口
         return RandomUtil.randomEle(factories);
