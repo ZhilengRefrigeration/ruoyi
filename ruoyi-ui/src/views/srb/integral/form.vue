@@ -75,7 +75,7 @@ export default {
         } else {
           this.saveData();
         }
-
+        this.$router.push({path: '/srb/integral/integralList'})
       })
     },
 
@@ -92,7 +92,6 @@ export default {
     saveData() {
       save(this.formData).then(res => {
         this.$modal.notifySuccess("新增成功");
-        this.$router.push({path: '/srb/integral/list'})
       })
     },
 
@@ -100,7 +99,6 @@ export default {
     updateData() {
       update(this.formData).then(res => {
         this.$modal.notifySuccess("修改成功");
-        this.$router.push({path: '/srb/integral/list'})
       })
     },
 

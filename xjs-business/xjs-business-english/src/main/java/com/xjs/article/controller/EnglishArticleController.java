@@ -7,10 +7,13 @@ import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.article.domain.EnglishArticle;
 import com.xjs.article.service.impl.EnglishArticleServiceImpl;
+import com.xjs.validation.group.AddGroup;
+import com.xjs.validation.group.UpdateGroup;
 import com.xjs.web.MyBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -38,13 +41,6 @@ public class EnglishArticleController extends MyBaseController<EnglishArticle> {
         return AjaxResult.success(page);
     }
 
-    @GetMapping("/test")
-    public AjaxResult test(EnglishArticle englishArticle) {
-
-        EnglishArticle translation = englishArticleService.translation(englishArticle);
-        return AjaxResult.success(translation);
-
-    }
 
 
 
@@ -67,7 +63,7 @@ public class EnglishArticleController extends MyBaseController<EnglishArticle> {
     @Log(title = "英语文章", businessType = BusinessType.INSERT)
     @PostMapping
     @ApiOperation("新增英语文章")
-    public AjaxResult add(@RequestBody EnglishArticle englishArticle) {
+    public AjaxResult add(@Validated(AddGroup.class) @RequestBody EnglishArticle englishArticle) {
         return toAjax(englishArticleService.insertEnglishArticle(englishArticle));
     }
 
@@ -78,7 +74,7 @@ public class EnglishArticleController extends MyBaseController<EnglishArticle> {
     @Log(title = "英语文章", businessType = BusinessType.UPDATE)
     @PutMapping
     @ApiOperation("修改英语文章")
-    public AjaxResult edit(@RequestBody EnglishArticle englishArticle) {
+    public AjaxResult edit(@Validated(UpdateGroup.class)@RequestBody EnglishArticle englishArticle) {
         return toAjax(englishArticleService.updateEnglishArticle(englishArticle));
     }
 

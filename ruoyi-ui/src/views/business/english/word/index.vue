@@ -284,7 +284,7 @@ import {getOneEnglishApi} from "@/api/business/openapi/oneenglish";
 import {pickerOptions} from "@/layout/mixin/PickerOptions"
 
 export default {
-  name: "Word",
+  name: "EnglishWord",
   dicts: ['english_collect', 'english_top'],
   mixins: [pickerOptions],
   data() {

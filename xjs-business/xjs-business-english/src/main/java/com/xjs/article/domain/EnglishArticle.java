@@ -4,10 +4,14 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.ruoyi.common.core.annotation.Excel;
 import com.xjs.entity.BaseEntity;
+import com.xjs.validation.group.AddGroup;
+import com.xjs.validation.group.UpdateGroup;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -29,6 +33,8 @@ public class EnglishArticle extends BaseEntity {
 
     /** 文章标题-中文 */
     @Excel(name = "文章标题-中文")
+    @NotBlank(groups = {UpdateGroup.class, AddGroup.class},message = "文章标题不能为空")
+    @Size(max = 255, message = "请控制英语长度在255字符", groups = {UpdateGroup.class, AddGroup.class})
     private String titleChinese;
 
     /** 文章内容 */
@@ -37,10 +43,13 @@ public class EnglishArticle extends BaseEntity {
 
     /** 文章内容-中文 */
     @Excel(name = "文章内容-中文")
+    @NotBlank(groups = {UpdateGroup.class, AddGroup.class},message = "文章内容不能为空")
+    @Size(max = 2000, message = "请控制英语长度在2000字符", groups = {UpdateGroup.class, AddGroup.class})
     private String contentChinese;
 
     /** 文章图片地址 */
     @Excel(name = "文章图片地址")
+    @NotBlank(groups = {UpdateGroup.class, AddGroup.class},message = "文章封面地址不能为空")
     private String pictureUrl;
 
     /** 创建用户 */

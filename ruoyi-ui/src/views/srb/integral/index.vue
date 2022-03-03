@@ -87,8 +87,8 @@ export default {
         this.list = res.data
         this.$modal.closeLoading()
       }).catch(err => {
+        this.$modal.closeLoading()
       })
-      loading.close();
     },
 
     //删除
