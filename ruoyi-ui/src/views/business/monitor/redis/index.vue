@@ -59,6 +59,7 @@
           </div>
           <div class="el-table el-table--enable-row-hover el-table--medium">
             <div ref="usedmemory" style="height: 420px" />
+
           </div>
         </el-card>
       </el-col>
@@ -68,7 +69,8 @@
 
 <script>
 import { getRedisCache } from "@/api/business/monitor/redis/cache";
-import echarts from "echarts";
+import * as echarts from 'echarts';
+
 
 export default {
   name: "Redis",

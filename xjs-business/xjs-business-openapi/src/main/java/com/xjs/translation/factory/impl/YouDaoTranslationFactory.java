@@ -47,16 +47,18 @@ public class YouDaoTranslationFactory implements TranslationFactory {
         long elapsedTime = Long.parseLong(translationApi.getString("elapsedTime"));
         translationVo.setElapsedTime(elapsedTime);
         JSONArray translateResult = translationApi.getJSONArray("translateResult");
-        JSONArray jsonArray = translateResult.getJSONArray(0);
+
         ArrayList<Map<String, String>> maps = new ArrayList<>();
-        if (jsonArray.size() > 0) {
-            for (int i = 0; i < jsonArray.size(); i++) {
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("src", jsonArray.getJSONObject(i).getString("src"));
-                map.put("dst", jsonArray.getJSONObject(i).getString("tgt"));
-                maps.add(map);
-            }
+
+        for (Object o : translateResult) {
+            JSONArray jsonArrays = (JSONArray) o;
+            JSONObject jsonObject = jsonArrays.getJSONObject(0);
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("src", jsonObject.getString("src"));
+            map.put("dst", jsonObject.getString("tgt"));
+            maps.add(map);
         }
+
         translationVo.setTransResult(maps);
         return translationVo;
     }

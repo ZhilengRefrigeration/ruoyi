@@ -49,6 +49,7 @@
 
           <el-button type="text"
                      @click="toEdit(article)"
+                     v-hasPermi="['english:article:edit']"
                      icon="el-icon-edit">编辑
           </el-button>
           <el-divider direction="vertical"></el-divider>
@@ -109,7 +110,7 @@
             <el-col :span="24">
               <el-form-item label="内容" prop="contentChinese">
                 <el-input v-model="formData.contentChinese" type="textarea" placeholder="请输入内容" :maxlength="1000"
-                          :autosize="{minRows: 8, maxRows: 12}"
+                          :autosize="{minRows: 8, maxRows: 8}"
                           style="width: 100%;"></el-input>
               </el-form-item>
             </el-col>
