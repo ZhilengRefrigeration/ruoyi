@@ -6,7 +6,7 @@
   >
     <template v-for="(item, index) in topMenus">
       <el-menu-item :style="{'--theme': theme}" :index="item.path" :key="index" v-if="index < visibleNumber"
-        ><svg-icon :icon-class="item.meta.icon" />
+      ><svg-icon :icon-class="item.meta.icon" />
         {{ item.meta.title }}</el-menu-item
       >
     </template>
@@ -19,7 +19,7 @@
           :index="item.path"
           :key="index"
           v-if="index >= visibleNumber"
-          ><svg-icon :icon-class="item.meta.icon" />
+        ><svg-icon :icon-class="item.meta.icon" />
           {{ item.meta.title }}</el-menu-item
         >
       </template>
@@ -52,9 +52,9 @@ export default {
         if (menu.hidden !== true) {
           // 兼容顶部栏一级菜单内部跳转
           if (menu.path === "/") {
-              topMenus.push(menu.children[0]);
+            topMenus.push(menu.children[0]);
           } else {
-              topMenus.push(menu);
+            topMenus.push(menu);
           }
         }
       });
@@ -112,13 +112,19 @@ export default {
   beforeDestroy() {
     window.removeEventListener('resize', this.setVisibleNumber)
   },
-  mounted() {
+  /**
+      @desc: this.setVisibleNumber()原先在mounted()中，但是会引起一些问题
+              1. 主菜单数量大于 visibleNumber时(默认设置为5)，无法显示当前选中的主菜单
+              2. 点击5后面的主菜单下的子菜单，也无法显示当主菜单选中
+  */
+  created() {
     this.setVisibleNumber();
   },
   methods: {
     // 根据宽度计算设置显示栏数
     setVisibleNumber() {
-      const width = document.body.getBoundingClientRect().width / 3;
+      // 此处为了显示更多个菜单
+      const width = document.body.getBoundingClientRect().width / 2.2;
       this.visibleNumber = parseInt(width / 85);
     },
     // 默认激活的路由
@@ -144,6 +150,31 @@ export default {
       } else {
         // 显示左侧联动菜单
         this.activeRoutes(key);
+
+        /**
+            @desc: 此模式为开启TopNav，
+                  点击主菜单时，默认跳转到第一个子菜单
+        */
+        let myRoutes = [];
+        if (this.childrenMenus && this.childrenMenus.length > 0) {
+          this.childrenMenus.map((item) => {
+            if (key == item.parentPath || (key == "index" && "" == item.path)) {
+              myRoutes.push(item);
+            }
+          });
+        }
+        setTimeout(() => {
+          if(!!(myRoutes[0].path)) {
+            this.$router.replace({
+              path: myRoutes[0].path
+            })
+          } else {
+            this.$router.replace({
+              path: '/index'
+            })
+          }
+        }, 200)
+
       }
     },
     // 当前激活的路由
@@ -161,7 +192,7 @@ export default {
       }
       return routes;
     },
-	ishttp(url) {
+    ishttp(url) {
       return url.indexOf('http://') !== -1 || url.indexOf('https://') !== -1
     }
   },
@@ -169,10 +200,11 @@ export default {
 </script>
 
 <style lang="scss">
+$navHeight: 40px;
 .topmenu-container.el-menu--horizontal > .el-menu-item {
   float: left;
-  height: 50px !important;
-  line-height: 50px !important;
+  height: $navHeight !important;
+  line-height: $navHeight !important;
   color: #999093 !important;
   padding: 0 5px !important;
   margin: 0 10px !important;
@@ -183,11 +215,15 @@ export default {
   color: #303133;
 }
 
+.el-menu--horizontal .el-menu--popup .el-menu-item.is-active {
+  color: #409eff !important;
+}
+
 /* submenu item */
 .topmenu-container.el-menu--horizontal > .el-submenu .el-submenu__title {
   float: left;
-  height: 50px !important;
-  line-height: 50px !important;
+  height: $navHeight !important;
+  line-height: $navHeight !important;
   color: #999093 !important;
   padding: 0 5px !important;
   margin: 0 10px !important;
