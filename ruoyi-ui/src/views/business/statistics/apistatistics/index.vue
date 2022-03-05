@@ -20,13 +20,16 @@
 
 import {getStatisticsHistoryApi, getStatisticsTodayApi} from "@/api/business/statistics/apistatistics";
 
-// 引入 ECharts 主模块
-var echarts = require('echarts/lib/echarts');
-// 引入柱状图
-require('echarts/lib/chart/bar');
-// 引入提示框和标题组件
-require('echarts/lib/component/tooltip');
-require('echarts/lib/component/title');
+
+import * as echarts from 'echarts/core';
+import {GridComponent} from 'echarts/components';
+import {LineChart} from 'echarts/charts';
+import {UniversalTransition} from 'echarts/features';
+import {CanvasRenderer} from 'echarts/renderers';
+import {TitleComponent} from 'echarts/components';
+import {BarChart} from 'echarts/charts';
+import { TooltipComponent } from 'echarts/components';
+echarts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition, TitleComponent, BarChart,TooltipComponent]);
 
 export default {
   name: "ApiStatistics",
@@ -57,12 +60,12 @@ export default {
       historyChart.setOption({
         title: {
           text: '总计API调用次数',
-          textStyle:{
+          textStyle: {
             color: '#541264',
-            fontWeight:'1000',
-            align:'center',
+            fontWeight: '1000',
+            align: 'center',
           },
-          left:"center",
+          left: "center",
         },
         tooltip: {},
         xAxis: {
@@ -70,7 +73,7 @@ export default {
         },
         yAxis: {
           splitNumber: 10,
-          max:2000,
+          max: 2000,
         },
         series: [{
           name: '次数',
@@ -86,12 +89,12 @@ export default {
       todayChart.setOption({
         title: {
           text: '今日API调用次数',
-          textStyle:{
+          textStyle: {
             color: '#541264',
-            fontWeight:'1000',
-            align:'center',
+            fontWeight: '1000',
+            align: 'center',
           },
-          left:"center",
+          left: "center",
         },
         tooltip: {},
         xAxis: {
@@ -99,7 +102,7 @@ export default {
         },
         yAxis: {
           splitNumber: 10,
-          max:60,
+          max: 60,
         },
         series: [{
           name: '次数',
@@ -120,13 +123,13 @@ export default {
 
     //查询API当天记录统计
     getStatisticsTodayApi() {
-      this.loading=true
+      this.loading = true
       getStatisticsTodayApi().then(res => {
-        this.loading=false
+        this.loading = false
         this.todayApiData = res.data
         this.initToday()
-      }).catch(err =>{
-        this.loading=false
+      }).catch(err => {
+        this.loading = false
       })
     },
 

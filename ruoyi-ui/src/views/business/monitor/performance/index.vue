@@ -106,15 +106,15 @@
         </div>
       </el-card>
 
-<!--      <div>
+      <div>
         <el-row :gutter="6">
           <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" style="margin-bottom: 10px">
             <el-card class="box-card">
               <div slot="header" class="clearfix">
                 <span style="font-weight: bold;color: #666;font-size: 15px">CPU使用率监控</span>
               </div>
-              <div style="height: 400px;width: 400px">
-                <v-chart :options="cpuInfo" />
+              <div style="height: 350px;">
+                <v-chart :option="cpuInfo" />
               </div>
             </el-card>
           </el-col>
@@ -123,19 +123,21 @@
               <div slot="header" class="clearfix">
                 <span style="font-weight: bold;color: #666;font-size: 15px">内存使用率监控</span>
               </div>
-              <div style="height: 400px;width: 400px">
-                <v-chart :options="memoryInfo" />
+              <div style="height: 350px;">
+                <v-chart :option="memoryInfo" />
               </div>
             </el-card>
           </el-col>
         </el-row>
-      </div>-->
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import ECharts from 'vue-echarts'
+import * as echarts from 'echarts';
+
 import { getPerformance } from '@/api/business/monitor/performance/performancemonitor'
 export default {
   name: 'Performance',

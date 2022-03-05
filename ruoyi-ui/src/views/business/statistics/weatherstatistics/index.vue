@@ -40,13 +40,15 @@
 import {getHistoryWeather, getFutureWeather} from "@/api/business/statistics/weatherstatistics";
 import {pickerOptions} from "@/layout/mixin/PickerOptions";
 
-// 引入 ECharts 主模块
-var echarts = require('echarts/lib/echarts');
-// 引入柱状图
-require('echarts/lib/chart/line');
-// 引入提示框和标题组件
-require('echarts/lib/component/tooltip');
-require('echarts/lib/component/title');
+import * as echarts from 'echarts/core';
+import {GridComponent} from 'echarts/components';
+import {LineChart} from 'echarts/charts';
+import {UniversalTransition} from 'echarts/features';
+import {CanvasRenderer} from 'echarts/renderers';
+import {TitleComponent} from 'echarts/components';
+import {BarChart} from 'echarts/charts';
+import { TooltipComponent } from 'echarts/components';
+echarts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition, TitleComponent, BarChart,TooltipComponent]);
 
 export default {
   name: "WeatherStatistics",
