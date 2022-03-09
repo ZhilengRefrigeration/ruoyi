@@ -7,6 +7,7 @@
         <version>3.3.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <name>认证授权模块</name>
     
     <artifactId>ruoyi-auth</artifactId>
 	

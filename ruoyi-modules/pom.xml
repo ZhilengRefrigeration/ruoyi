@@ -7,6 +7,7 @@
         <version>3.3.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <name>系统模块</name>
 
     <modules>
         <module>ruoyi-system</module>
