@@ -338,6 +338,7 @@
         <module>ruoyi-api</module>
         <module>ruoyi-common</module>
         <module>xjs-business</module>
+        <module>xjs-study</module>
     </modules>
     <packaging>pom</packaging>
 
