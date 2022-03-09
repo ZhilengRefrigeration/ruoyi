@@ -1,4 +1,4 @@
-package com.xjs.job.task.openapi;
+package com.xjs.job.task;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUnit;

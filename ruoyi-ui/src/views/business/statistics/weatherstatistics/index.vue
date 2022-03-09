@@ -48,7 +48,8 @@ import {CanvasRenderer} from 'echarts/renderers';
 import {TitleComponent} from 'echarts/components';
 import {BarChart} from 'echarts/charts';
 import { TooltipComponent } from 'echarts/components';
-echarts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition, TitleComponent, BarChart,TooltipComponent]);
+import { LegendComponent } from 'echarts/components';
+echarts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition, TitleComponent, BarChart,TooltipComponent,LegendComponent]);
 
 export default {
   name: "WeatherStatistics",
@@ -126,7 +127,10 @@ export default {
         tooltip: {
           trigger: 'axis'
         },
-        legend: {},
+        legend: {
+          left: '79%'
+
+        },
 
         xAxis: {
           type: 'category',
