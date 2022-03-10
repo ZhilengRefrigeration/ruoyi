@@ -16,6 +16,8 @@
     </modules>
 
     <artifactId>xjs-study</artifactId>
+    <groupId>com.xjs</groupId>
+    <version>1.0</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

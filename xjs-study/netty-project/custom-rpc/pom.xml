@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <artifactId>netty-project</artifactId>
+        <groupId>com.xjs</groupId>
+        <version>1.0</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <name>自定义RPC框架</name>
+
+    <artifactId>custom-rpc</artifactId>
+
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>lg-rpc-consumer</module>
+        <module>lg-rpc-provider</module>
+        <module>lg-rpc-api</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <curator.version>4.3.0</curator.version>
+    </properties>
+</project>

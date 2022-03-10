@@ -4,13 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>xjs-study</artifactId>
-        <groupId>com.ruoyi</groupId>
-        <version>3.3.0</version>
+        <groupId>com.xjs</groupId>
+        <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <name>学习-基础内容</name>
 
-    <groupId>com.xjs</groupId>
     <artifactId>xjs-study-base</artifactId>
 
     <properties>
