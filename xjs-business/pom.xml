@@ -25,6 +25,7 @@
         <module>xjs-business-webmagic</module>
         <module>xjs-business-blog</module>
         <module>xjs-project-srb</module>
+        <module>xjs-project-mall</module>
     </modules>
 
     <properties>

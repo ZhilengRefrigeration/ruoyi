@@ -8,25 +8,21 @@
         <version>3.3.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <name>尚融宝</name>
+    <name>商城项目</name>
     <modules>
-        <module>srb-service-base</module>
-        <module>srb-service-core</module>
+        <module>mall-product</module>
+        <module>mall-ware</module>
+        <module>mall-order</module>
+        <module>mall-member</module>
+        <module>mall-coupon</module>
     </modules>
     <packaging>pom</packaging>
 
-    <artifactId>xjs-project-srb</artifactId>
+    <artifactId>xjs-project-mall</artifactId>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.xjs</groupId>
-            <artifactId>xjs-business-common</artifactId>
-        </dependency>
-    </dependencies>
 
 </project>
