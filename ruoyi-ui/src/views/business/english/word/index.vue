@@ -34,66 +34,61 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['english:word:add']"
-        >新增
-        </el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['english:word:edit']"
-        >修改
-        </el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['english:word:remove']"
-        >删除
-        </el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['english:word:export']"
-        >导出
-        </el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <router-link :to="'/business/english/collect/'" class="link-type">
+        <el-button-group>
+          <el-button
+            type="primary"
+            plain
+            icon="el-icon-plus"
+            size="small"
+            @click="handleAdd"
+            v-hasPermi="['english:word:add']"
+          >
+          </el-button>
+          <el-button
+            type="success"
+            plain
+            icon="el-icon-edit"
+            size="small"
+            :disabled="single"
+            @click="handleUpdate"
+            v-hasPermi="['english:word:edit']"
+          >
+          </el-button>
+          <el-button
+            type="danger"
+            plain
+            icon="el-icon-delete"
+            size="small"
+            :disabled="multiple"
+            @click="handleDelete"
+            v-hasPermi="['english:word:remove']"
+          >
+          </el-button>
           <el-button
             type="warning"
             plain
-            icon="el-icon-star-off"
-            size="mini"
-            @click="handleCollect"
-            v-hasPermi="['english:word:collect']"
-          >
-            收藏夹
+            icon="el-icon-download"
+            size="small"
+            @click="handleExport"
+            v-hasPermi="['english:word:export']"
+          >导出
           </el-button>
-        </router-link>
+          <router-link :to="'/business/english/collect/'" class="link-type">
+            <el-button
+              type="info"
+              plain
+              icon="el-icon-star-off"
+              size="small"
+              @click="handleCollect"
+              v-hasPermi="['english:word:collect']"
+            >
+              收藏夹
+            </el-button>
+          </router-link>
+        </el-button-group>
 
       </el-col>
+
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -137,7 +132,7 @@
                        :show-overflow-tooltip="true"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-tooltip class="item" effect="dark" content="点击查看详情" placement="top-start">
+          <el-tooltip class="item" effect="dark" content="点击查看详情" placement="left-start" :hide-after="3000" :enterable="false">
             <el-button circle
                        type=""
                        icon="el-icon-view"
@@ -389,8 +384,8 @@ export default {
 
     dateQuery() {
       //清空时间参数
-      this.queryParams.createTime=null
-      this.queryParams.endCreateTime=null
+      this.queryParams.createTime = null
+      this.queryParams.endCreateTime = null
 
       this.handleQuery();
     },
@@ -472,9 +467,9 @@ export default {
       this.queryParams.createTime = null
       this.queryParams.endCreateTime = null
 
-      this.sortStatus=false
+      this.sortStatus = false
       this.$refs.tables.sort(this.defaultSort.prop, this.defaultSort.order)//拿到默认排序
-      this.sortStatus=true
+      this.sortStatus = true
 
       this.resetForm("queryForm");
       this.handleQuery();

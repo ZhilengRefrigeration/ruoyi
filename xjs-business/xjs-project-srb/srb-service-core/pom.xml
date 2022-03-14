@@ -3,19 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>xjs-business</artifactId>
+        <artifactId>xjs-project-srb</artifactId>
         <groupId>com.xjs</groupId>
         <version>3.3.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <name>金融模块-尚融宝</name>
-    <modules>
-        <module>srb-service-base</module>
-        <module>srb-service-core</module>
-    </modules>
-    <packaging>pom</packaging>
+    <name>尚融宝-核心服务</name>
 
-    <artifactId>xjs-business-srb</artifactId>
+    <artifactId>srb-service-core</artifactId>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -23,10 +18,17 @@
     </properties>
 
     <dependencies>
+        <!--mp代码生成器-->
         <dependency>
-            <groupId>com.xjs</groupId>
-            <artifactId>xjs-business-common</artifactId>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-generator</artifactId>
         </dependency>
+        <!--代码生成器模板-->
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

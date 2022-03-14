@@ -7,9 +7,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
+ * 英语模块启动器
  * @author xiejs
- * @desc
- * @create 2021-12-29
+ * @since  2021-12-29
  */
 @SpringBootApplication
 @EnableCustomConfig

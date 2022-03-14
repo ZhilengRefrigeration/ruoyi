@@ -18,12 +18,12 @@ public class CodeGenerator {
                     builder.author("xiejs") // 设置作者
                             .enableSwagger() // 开启 swagger 模式
                             .fileOverride() // 覆盖已生成文件
-                            .outputDir("D:\\Dev\\IdeaPerject\\GitHub\\RuoYi-Cloud\\xjs-business\\xjs-business-srb\\srb-service-core\\src\\main\\java"); // 指定输出目录
+                            .outputDir("D:\\Dev\\IdeaPerject\\GitHub\\RuoYi-Cloud\\xjs-business\\xjs-project-srb\\srb-service-core\\src\\main\\java"); // 指定输出目录
                 })
                 .packageConfig(builder -> {
                     builder.parent("com.xjs.srb") // 设置父包名
                             .moduleName("core") // 设置父包模块名
-                            .pathInfo(Collections.singletonMap(OutputFile.mapperXml, "D:\\Dev\\IdeaPerject\\GitHub\\RuoYi-Cloud\\xjs-business\\xjs-business-srb\\srb-service-core\\src\\main\\resources\\mapper")); // 设置mapperXml生成路径
+                            .pathInfo(Collections.singletonMap(OutputFile.mapperXml, "D:\\Dev\\IdeaPerject\\GitHub\\RuoYi-Cloud\\xjs-business\\xjs-project-srb\\srb-service-core\\src\\main\\resources\\mapper")); // 设置mapperXml生成路径
                 })
                 .strategyConfig(builder -> {
                     builder.addInclude("integral_grade")

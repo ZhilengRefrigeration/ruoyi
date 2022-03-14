@@ -6,10 +6,10 @@
 -->
 <application generated-by="intellij" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.zeroturnaround.com" xsi:schemaLocation="http://www.zeroturnaround.com http://update.zeroturnaround.com/jrebel/rebel-2_3.xsd">
 
-	<id>srb-service-base</id>
+	<id>srb-service-core</id>
 
 	<classpath>
-		<dir name="D:/Dev/IdeaPerject/GitHub/RuoYi-Cloud/xjs-business/xjs-business-srb/srb-service-base/target/classes">
+		<dir name="D:/Dev/IdeaPerject/GitHub/RuoYi-Cloud/xjs-business/xjs-project-srb/srb-service-core/target/classes">
 		</dir>
 	</classpath>
 
