@@ -15,10 +15,18 @@
         <module>mall-order</module>
         <module>mall-member</module>
         <module>mall-coupon</module>
+        <module>renren-generator</module>
     </modules>
     <packaging>pom</packaging>
 
     <artifactId>xjs-project-mall</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.xjs</groupId>
+            <artifactId>xjs-business-common</artifactId>
+        </dependency>
+    </dependencies>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
