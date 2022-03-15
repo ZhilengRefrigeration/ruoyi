@@ -1,10 +1,6 @@
 package com.xjs.validation.annotation;
 
-/**
- * 自定义校验注解 ：检查数字类型长度
- * @author xiejs
- * @since 2022-02-18
- */
+
 
 import com.xjs.validation.constraintValidator.CheckNumberConstraintValidator;
 
@@ -12,6 +8,11 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
+/**
+ * 自定义校验注解 ：检查数字类型长度
+ * @author xiejs
+ * @since 2022-02-18
+ */
 @Documented
 @Inherited
 @Target(ElementType.FIELD)
