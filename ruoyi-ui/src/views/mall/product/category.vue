@@ -142,13 +142,18 @@ export default {
         this.menus = res.page;
       })
     },
-    
+
     batchDelete() {
       let catIds = [];
       let checkedNodes = this.$refs.menuTree.getCheckedNodes();
       for (let i = 0; i < checkedNodes.length; i++) {
         catIds.push(checkedNodes[i].catId);
       }
+      if (catIds.length===0) {
+        this.$modal.notifyWarning("请选择删除内容")
+        return
+      }
+
       this.$confirm(`是否批量删除菜单?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",

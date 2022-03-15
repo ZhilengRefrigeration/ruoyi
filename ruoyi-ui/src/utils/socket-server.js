@@ -68,7 +68,6 @@ export default class SocketService {
     };
     // 得到服务端发送过来的数据
     this.ws.onmessage = (msg) => {
-      console.log("从服务端获取到了数据");
       // 真正服务端发送过来的原始数据时在msg中的data字段
       const recvData = JSON.parse(msg.data);
       console.log(recvData)

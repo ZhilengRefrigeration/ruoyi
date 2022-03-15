@@ -1,18 +1,18 @@
 package com.xjs.mall.product.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
-import lombok.Data;
 
 /**
  * 品牌
  * 
  * @author xiejs
  * @email 1294405880@qq.com
- * @date 2022-03-15 10:16:53
+ * @since  2022-03-15 10:16:53
  */
 @Data
 @TableName("pms_brand")
@@ -22,7 +22,7 @@ public class BrandEntity implements Serializable {
 	/**
 	 * 品牌id
 	 */
-	@TableId
+	@TableId(type = IdType.ASSIGN_ID)
 	private Long brandId;
 	/**
 	 * 品牌名

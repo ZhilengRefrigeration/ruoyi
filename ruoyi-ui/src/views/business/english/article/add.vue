@@ -41,7 +41,8 @@
 </template>
 
 <script>
-import {addArticle, uploadImg, removeImg} from "@/api/business/english/article";
+import {addArticle} from "@/api/business/english/article";
+import {removeImg, uploadImg} from "@/api/common";
 
 export default {
   name: "ArticleAdd",

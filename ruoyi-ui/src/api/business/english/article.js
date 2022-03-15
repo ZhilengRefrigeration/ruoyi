@@ -26,24 +26,6 @@ export function addArticle(data) {
   })
 }
 
-//上传图片
-export function uploadImg(data){
-  return request({
-    url: '/file/upload',
-    method: 'post',
-    data: data
-  })
-}
-
-//删除图片
-export function removeImg(url){
-  return request({
-    url: '/file/remove',
-    method: 'delete',
-    params: url
-  })
-}
-
 // 修改英语文章
 export function updateArticle(data) {
   return request({

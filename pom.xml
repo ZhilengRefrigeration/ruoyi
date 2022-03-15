@@ -20,7 +20,7 @@
         <spring-cloud.version>2020.0.4</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
         <alibaba.nacos.version>2.0.3</alibaba.nacos.version>
-        <spring-boot-admin.version>2.5.4</spring-boot-admin.version>
+        <spring-boot-admin.version>2.6.0</spring-boot-admin.version>
         <spring-boot.mybatis>2.2.0</spring-boot.mybatis>
         <swagger.fox.version>3.0.0</swagger.fox.version>
         <swagger.core.version>1.6.2</swagger.core.version>
@@ -50,6 +50,7 @@
         <bean-searcher.version>3.5.1</bean-searcher.version>
         <oshi.version>5.7.1</oshi.version>
         <webmagic.version>0.7.5</webmagic.version>
+        <spring-cloud-alicloud-oss.version>2.2.0.RELEASE</spring-cloud-alicloud-oss.version>
 
     </properties>
 
@@ -129,6 +130,12 @@
                 <version>${spring-cloud-alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alicloud-oss</artifactId>
+                <version>${spring-cloud-alicloud-oss.version}</version>
             </dependency>
 
             <!-- Alibaba Nacos 配置 -->

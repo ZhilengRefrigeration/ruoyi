@@ -90,7 +90,9 @@ public class CategoryController {
     @ApiOperation("删除")
     @Log(title = "商品分类", businessType = BusinessType.DELETE)
     public R delete(@RequestBody Long[] catIds) {
-
+        if (catIds == null || catIds.length == 0) {
+            return R.error("请选择删除的分类");
+        }
         categoryService.removeMenuByIds(Arrays.asList(catIds));
 
         return R.ok();
