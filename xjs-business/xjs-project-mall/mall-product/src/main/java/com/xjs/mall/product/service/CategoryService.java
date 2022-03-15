@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.xjs.utils.PageUtils;
 import com.xjs.mall.product.entity.CategoryEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +17,17 @@ import java.util.Map;
 public interface CategoryService extends IService<CategoryEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    /**
+     * 查询树形结构分类
+     * @return list
+     */
+    List<CategoryEntity> listWithTree();
+
+    /**
+     * 批量删除菜单
+     * @param asList ids
+     */
+    void removeMenuByIds(List<Long> asList);
 }
 

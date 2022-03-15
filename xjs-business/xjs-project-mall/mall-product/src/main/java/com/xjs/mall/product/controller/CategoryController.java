@@ -1,20 +1,17 @@
 package com.xjs.mall.product.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import com.ruoyi.common.log.annotation.Log;
+import com.ruoyi.common.log.enums.BusinessType;
 import com.xjs.mall.product.entity.CategoryEntity;
 import com.xjs.mall.product.service.CategoryService;
-import com.xjs.utils.PageUtils;
 import com.xjs.utils.R;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -22,41 +19,47 @@ import com.xjs.utils.R;
  *
  * @author xiejs
  * @email 1294405880@qq.com
- * @date 2022-03-15 10:16:53
+ * @since 2022-03-15 10:16:53
  */
 @RestController
 @RequestMapping("product/category")
+@Api(tags = "商城-商品-分类")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
     /**
-     * 列表
+     * 列表--树形结构
      */
-    @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = categoryService.queryPage(params);
+    @GetMapping("/list/tree")
+    @ApiOperation("树形结构")
+    public R list() {
 
-        return R.ok().put("page", page);
+        List<CategoryEntity> list = categoryService.listWithTree();
+
+        return R.ok().put("page", list);
     }
 
 
     /**
      * 信息
      */
-    @RequestMapping("/info/{catId}")
-    public R info(@PathVariable("catId") Long catId){
-		CategoryEntity category = categoryService.getById(catId);
+    @GetMapping("/info/{catId}")
+    @ApiOperation("信息")
+    public R info(@PathVariable("catId") Long catId) {
+        CategoryEntity category = categoryService.getById(catId);
 
-        return R.ok().put("category", category);
+        return R.ok().put("data", category);
     }
 
     /**
      * 保存
      */
-    @RequestMapping("/save")
-    public R save(@RequestBody CategoryEntity category){
-		categoryService.save(category);
+    @PostMapping("/save")
+    @ApiOperation("保存")
+    @Log(title = "商品分类", businessType = BusinessType.INSERT)
+    public R save(@RequestBody CategoryEntity category) {
+        categoryService.save(category);
 
         return R.ok();
     }
@@ -64,19 +67,31 @@ public class CategoryController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    public R update(@RequestBody CategoryEntity category){
-		categoryService.updateById(category);
+    @PutMapping("/update")
+    @ApiOperation("修改")
+    @Log(title = "商品分类", businessType = BusinessType.UPDATE)
+    public R update(@RequestBody CategoryEntity category) {
+        categoryService.updateById(category);
 
+        return R.ok();
+    }
+
+    @PutMapping("/update/sort")
+    @Log(title = "商品分类", businessType = BusinessType.UPDATE)
+    public R updateSort(@RequestBody CategoryEntity[] categoryEntities) {
+        categoryService.updateBatchById(Arrays.asList(categoryEntities));
         return R.ok();
     }
 
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] catIds){
-		categoryService.removeByIds(Arrays.asList(catIds));
+    @DeleteMapping("/delete")
+    @ApiOperation("删除")
+    @Log(title = "商品分类", businessType = BusinessType.DELETE)
+    public R delete(@RequestBody Long[] catIds) {
+
+        categoryService.removeMenuByIds(Arrays.asList(catIds));
 
         return R.ok();
     }

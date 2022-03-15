@@ -31,6 +31,8 @@ public class GatewayConfig
         config.addAllowedMethod("*");
         config.addAllowedOrigin("*");
         config.addAllowedHeader("*");
+        //缓存options预请求
+        config.setMaxAge(60000L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(new PathPatternParser());
         source.registerCorsConfiguration("/**", config);
