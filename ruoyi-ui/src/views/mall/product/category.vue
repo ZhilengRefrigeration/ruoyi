@@ -35,7 +35,7 @@
               <el-button type="text" icon="el-icon-edit" size="mini" @click="edit(data)">修改</el-button>
             <el-divider direction="vertical"></el-divider>
               <el-button
-                v-if="node.childNodes.length==0"
+                v-if="node.childNodes.length===0"
                 type="text"
                 size="mini"
                 icon="el-icon-delete"
@@ -50,9 +50,9 @@
       :visible.sync="dialogVisible"
       width="30%"
       :close-on-click-modal="false">
-      <el-form :model="category">
-        <el-form-item label="分类名称">
-          <el-input v-model="category.name" autocomplete="off"></el-input>
+      <el-form :model="category" :rules="dataRule" ref="category">
+        <el-form-item label="分类名称" prop="name">
+          <el-input v-model="category.name" autocomplete="off" maxlength="50"></el-input>
         </el-form-item>
         <el-form-item label="菜单图标" prop="icon">
           <el-popover
@@ -74,8 +74,8 @@
             </el-input>
           </el-popover>
         </el-form-item>
-        <el-form-item label="计量单位">
-          <el-input v-model="category.productUnit" autocomplete="off"></el-input>
+        <el-form-item label="计量单位" prop="productUnit">
+          <el-input v-model="category.productUnit" autocomplete="off" maxlength="50"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -120,6 +120,16 @@ export default {
       defaultProps: {
         children: "children",
         label: "name"
+      },
+
+      dataRule: {
+        name: [
+          { required: true, message: "分类名称不能为空", trigger: "blur" },
+          { min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur' }
+        ],
+        productUnit: [
+          { min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur' }
+        ],
       }
     };
   },
@@ -284,12 +294,16 @@ export default {
     },
 
     submitData() {
-      if (this.dialogType === "add") {
-        this.addCategory();
-      }
-      if (this.dialogType === "edit") {
-        this.editCategory();
-      }
+      this.$refs["category"].validate(valid => {
+        if (valid) {
+          if (this.dialogType === "add") {
+            this.addCategory();
+          }
+          if (this.dialogType === "edit") {
+            this.editCategory();
+          }
+        }
+      });
     },
 
     //修改三级分类数据

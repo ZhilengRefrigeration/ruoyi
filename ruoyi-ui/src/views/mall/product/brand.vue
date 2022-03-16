@@ -31,13 +31,13 @@
       style="width: 100%;"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-      <el-table-column prop="name" header-align="center" align="center" label="品牌名"></el-table-column>
-      <el-table-column prop="logo" header-align="center" align="center" label="品牌logo">
+      <el-table-column prop="name" header-align="center" align="center" label="品牌名" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="logo" header-align="center" align="center" label="品牌logo" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <img :src="scope.row.logo" style="width: 100px; height: 80px" alt=""/>
+          <img :src="scope.row.logo" style="width: 40px; height: 30px" alt=""/>
         </template>
       </el-table-column>
-      <el-table-column prop="descript" header-align="center" align="center" label="介绍"></el-table-column>
+      <el-table-column prop="descript" header-align="center" align="center" label="介绍" :show-overflow-tooltip="true"></el-table-column>
       <el-table-column prop="showStatus" header-align="center" align="center" label="显示状态">
         <template slot-scope="scope">
           <el-switch

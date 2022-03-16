@@ -5,9 +5,12 @@ import com.ruoyi.common.log.enums.BusinessType;
 import com.xjs.mall.product.entity.CategoryEntity;
 import com.xjs.mall.product.service.CategoryService;
 import com.xjs.utils.R;
+import com.xjs.validation.group.AddGroup;
+import com.xjs.validation.group.UpdateGroup;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -58,7 +61,7 @@ public class CategoryController {
     @PostMapping("/save")
     @ApiOperation("保存")
     @Log(title = "商品分类", businessType = BusinessType.INSERT)
-    public R save(@RequestBody CategoryEntity category) {
+    public R save(@Validated(AddGroup.class) @RequestBody CategoryEntity category) {
         categoryService.save(category);
 
         return R.ok();
@@ -70,7 +73,7 @@ public class CategoryController {
     @PutMapping("/update")
     @ApiOperation("修改")
     @Log(title = "商品分类", businessType = BusinessType.UPDATE)
-    public R update(@RequestBody CategoryEntity category) {
+    public R update(@Validated(UpdateGroup.class) @RequestBody CategoryEntity category) {
         categoryService.updateById(category);
 
         return R.ok();

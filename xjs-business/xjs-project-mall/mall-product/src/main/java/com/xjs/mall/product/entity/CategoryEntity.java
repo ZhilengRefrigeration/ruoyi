@@ -1,11 +1,16 @@
 package com.xjs.mall.product.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.xjs.validation.group.AddGroup;
+import com.xjs.validation.group.UpdateGroup;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
@@ -29,6 +34,8 @@ public class CategoryEntity implements Serializable {
 	/**
 	 * 分类名称
 	 */
+	@NotBlank(message = "分类名称不能为空", groups = {UpdateGroup.class, AddGroup.class})
+	@Size(max = 50, message = "请控制分类名称长度在50字符", groups = {UpdateGroup.class,AddGroup.class})
 	private String name;
 	/**
 	 * 父分类id
@@ -50,10 +57,12 @@ public class CategoryEntity implements Serializable {
 	/**
 	 * 图标地址
 	 */
+	@Size(max = 50, message = "请控制图标地址长度在50字符", groups = {UpdateGroup.class,AddGroup.class})
 	private String icon;
 	/**
 	 * 计量单位
 	 */
+	@Size(max = 50, message = "请控制计量单位长度在50字符", groups = {UpdateGroup.class,AddGroup.class})
 	private String productUnit;
 	/**
 	 * 商品数量
@@ -63,6 +72,7 @@ public class CategoryEntity implements Serializable {
 	/**
 	 * 子分类
 	 */
+	@JSONField
 	@TableField(exist = false)
 	private List<CategoryEntity> children;
 

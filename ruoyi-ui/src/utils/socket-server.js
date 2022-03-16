@@ -45,7 +45,6 @@ export default class SocketService {
 
     // 连接成功的事件
     this.ws.onopen = () => {
-      console.log("连接服务端成功了");
       this.connected = true;
       // 重置重新连接的次数
       this.connectRetryCount = 0;

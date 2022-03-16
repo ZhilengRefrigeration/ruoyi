@@ -1,5 +1,6 @@
 package com.xjs.config;
 
+import com.alibaba.fastjson.serializer.PropertyFilter;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.serializer.ValueFilter;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
@@ -11,7 +12,6 @@ import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilde
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,24 +42,40 @@ public class JsonConfig {
         list.add(SerializerFeature.WriteEnumUsingToString);
 
         fastJsonConfig.setSerializerFeatures(list.toArray(new SerializerFeature[list.size()]));
-        fastConverter.setFastJsonConfig(fastJsonConfig);
-        HttpMessageConverter<?> converter = fastConverter;
+
 
         //解决远程调用  ---（Content-Type cannot contain wildcard type '*'）报错
         fastConverter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON_UTF8));
 
+
         //解决mp雪花算法前端精度丢失
-        fastJsonConfig.setSerializeFilters(new ValueFilter() {
+        ValueFilter valueFilter = new ValueFilter() {
             @Override
             public Object process(Object object, String name, Object value) {
-                if ((StringUtils.endsWith(name, "Id") || StringUtils.equals(name,"id")) && value != null
+                if ((StringUtils.endsWith(name, "Id") || StringUtils.equals(name, "id")) && value != null
                         && value.getClass() == Long.class) {
                     return String.valueOf(value);
                 }
                 return value;
             }
-        });
-        return new HttpMessageConverters(converter);
+        };
+
+        //忽略某些空值
+        PropertyFilter filter = (source, key, value) -> {
+            if (value == null) {
+                return false;
+            }
+            if(value instanceof List && ((List) value).size() == 0){
+                return  false;
+            }
+            return true;
+        };
+
+        fastJsonConfig.setSerializeFilters(valueFilter,filter);
+
+        fastConverter.setFastJsonConfig(fastJsonConfig);
+
+        return new HttpMessageConverters(fastConverter);
     }
 
     @Bean
