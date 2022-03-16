@@ -6,7 +6,7 @@
 
     <groupId>com.ruoyi</groupId>
     <artifactId>ruoyi</artifactId>
-    <version>${ruoyi.version}</version>
+    <version>3.3.0</version>
 
     <name>管理系统</name>
     <description>微服务系统</description>

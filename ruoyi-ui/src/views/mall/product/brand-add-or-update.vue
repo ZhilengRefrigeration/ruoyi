@@ -1,5 +1,5 @@
 <template>
-  <el-dialog
+  <el-dialog width="550px"
     :title="!dataForm.id ? '新增' : '修改'"
     :close-on-click-modal="false"
     :visible.sync="visible"
@@ -9,16 +9,16 @@
       :rules="dataRule"
       ref="dataForm"
       @keyup.enter.native="dataFormSubmit()"
-      label-width="140px"
+      label-width="90px"
     >
       <el-form-item label="品牌名" prop="name">
-        <el-input v-model="dataForm.name" placeholder="品牌名"></el-input>
+        <el-input v-model="dataForm.name" placeholder="品牌名" style="width: 380px"></el-input>
       </el-form-item>
-<!--      <el-form-item label="品牌logo地址" prop="logo">
+      <el-form-item label="品牌logo" prop="logo">
         <single-upload v-model="dataForm.logo"></single-upload>
-      </el-form-item>-->
+      </el-form-item>
       <el-form-item label="介绍" prop="descript">
-        <el-input v-model="dataForm.descript" placeholder="介绍"></el-input>
+        <el-input type="textarea" :rows="5" v-model="dataForm.descript" placeholder="介绍" style="width: 380px"></el-input>
       </el-form-item>
       <el-form-item label="显示状态" prop="showStatus">
         <el-switch
@@ -29,8 +29,8 @@
           :inactive-value="0"
         ></el-switch>
       </el-form-item>
-      <el-form-item label="检索首字母" prop="firstLetter">
-        <el-input v-model="dataForm.firstLetter" placeholder="检索首字母"></el-input>
+      <el-form-item label="检索首字母" prop="firstLetter" >
+        <el-input v-model="dataForm.firstLetter" placeholder="检索首字母" style="width: 200px"></el-input>
       </el-form-item>
       <el-form-item label="排序" prop="sort">
         <el-input-number v-model.number="dataForm.sort" :min="1" :max="9999" label="描述文字"></el-input-number>
@@ -44,11 +44,11 @@
 </template>
 
 <script>
-// import SingleUpload from "@/components/upload/singleUpload";
+import SingleUpload from "@/components/OssUpload/singleUpload";
 import {addBrand, editBrand, getBrand} from "@/api/mall/product/brand";
 
 export default {
-  // components: { SingleUpload },
+  components: { SingleUpload },
   data() {
     return {
       visible: false,
@@ -62,12 +62,16 @@ export default {
         sort: 0
       },
       dataRule: {
-        name: [{ required: true, message: "品牌名不能为空", trigger: "blur" }],
-        /*logo: [
+        name: [
+          { required: true, message: "品牌名不能为空", trigger: "blur" },
+          { min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur' }
+        ],
+        logo: [
           { required: true, message: "品牌logo地址不能为空", trigger: "blur" }
-        ],*/
+        ],
         descript: [
-          { required: true, message: "介绍不能为空", trigger: "blur" }
+          { required: true, message: "介绍不能为空", trigger: "blur" },
+          { min: 1, max: 500, message: '长度在 1 到 500 个字符', trigger: 'blur' }
         ],
         showStatus: [
           {
@@ -114,8 +118,10 @@ export default {
       this.$nextTick(() => {
         this.$refs["dataForm"].resetFields();
         if (this.dataForm.brandId) {
+          this.$modal.loading("请稍候...");
           getBrand(this.dataForm.brandId).then(res =>{
             this.dataForm = res.data
+            this.$modal.closeLoading()
           })
         }
       });
@@ -126,6 +132,7 @@ export default {
       this.$refs["dataForm"].validate(valid => {
         if (valid) {
           this.$modal.loading("请稍候...");
+
           if (!this.dataForm.brandId) {
             addBrand(this.dataForm).then(res =>{
               this.$modal.notifySuccess("添加成功");
