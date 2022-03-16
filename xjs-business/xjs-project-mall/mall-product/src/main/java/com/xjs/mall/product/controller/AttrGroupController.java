@@ -9,8 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
-
+import java.util.stream.Collectors;
 
 
 /**
@@ -48,7 +49,9 @@ public class AttrGroupController {
 		AttrGroupEntity attrGroup = attrGroupService.getById(attrGroupId);
 
         Long[] path=categoryService.finCatelogPath(attrGroup.getCatelogId());
-        attrGroup.setCatelogPath(path);
+        List<String> collect = Arrays.stream(path).map(String::valueOf).collect(Collectors.toList());
+
+        attrGroup.setCatelogPath(collect);
 
         return R.ok().put("attrGroup", attrGroup);
     }

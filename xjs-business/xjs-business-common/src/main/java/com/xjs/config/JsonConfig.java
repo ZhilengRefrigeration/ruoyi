@@ -62,9 +62,6 @@ public class JsonConfig {
 
         //忽略某些空值
         PropertyFilter filter = (source, key, value) -> {
-            if (value == null) {
-                return false;
-            }
             if(value instanceof List && ((List) value).size() == 0){
                 return  false;
             }

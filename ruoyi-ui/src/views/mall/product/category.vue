@@ -62,7 +62,7 @@
             @show="$refs['iconSelect'].reset()"
           >
             <IconSelect ref="iconSelect" @selected="selected"/>
-            <el-input slot="reference" v-model="category.icon" placeholder="点击选择图标" readonly>
+            <el-input slot="reference" :value="category.icon" placeholder="点击选择图标" readonly>
               <svg-icon
                 v-if="category.icon"
                 slot="prefix"
@@ -111,7 +111,7 @@ export default {
         showStatus: 1,
         sort: 0,
         productUnit: "",
-        icon: "",
+        icon: null,
         catId: null
       },
       dialogVisible: false,

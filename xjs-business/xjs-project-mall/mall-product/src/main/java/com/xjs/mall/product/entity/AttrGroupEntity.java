@@ -6,10 +6,11 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 属性分组
- * 
+ *
  * @author xiejs
  * @email 1294405880@qq.com
  * @date 2022-03-15 10:16:53
@@ -49,6 +50,6 @@ public class AttrGroupEntity implements Serializable {
 	 * 分类id完整路径
 	 */
 	@TableField(exist = false)
-	private Long[] catelogPath;
+	private List<String> catelogPath;
 
 }

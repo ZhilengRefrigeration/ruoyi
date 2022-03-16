@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+    width="600px"
     :title="!dataForm.id ? '新增' : '修改'"
     :close-on-click-modal="false"
     :visible.sync="visible"
@@ -10,20 +11,39 @@
       :rules="dataRule"
       ref="dataForm"
       @keyup.enter.native="dataFormSubmit()"
-      label-width="120px"
+      label-width="90px"
     >
       <el-form-item label="组名" prop="attrGroupName">
         <el-input v-model="dataForm.attrGroupName" placeholder="组名"></el-input>
       </el-form-item>
       <el-form-item label="排序" prop="sort">
-        <el-input v-model="dataForm.sort" placeholder="排序"></el-input>
+        <el-input-number v-model.number="dataForm.sort" :min="1" :max="9999" label="排序"></el-input-number>
       </el-form-item>
       <el-form-item label="描述" prop="descript">
-        <el-input v-model="dataForm.descript" placeholder="描述"></el-input>
+        <el-input type="textarea" :rows="2" v-model="dataForm.descript" placeholder="描述"></el-input>
       </el-form-item>
+
       <el-form-item label="组图标" prop="icon">
-        <el-input v-model="dataForm.icon" placeholder="组图标"></el-input>
+        <el-popover
+          placement="bottom-start"
+          width="460"
+          trigger="click"
+          @show="$refs['iconSelect'].reset()"
+        >
+          <IconSelect ref="iconSelect" @selected="selected"/>
+          <el-input slot="reference" :value="dataForm.icon" placeholder="点击选择图标" readonly>
+            <svg-icon
+              v-if="dataForm.icon"
+              slot="prefix"
+              :icon-class="dataForm.icon"
+              class="el-input__icon"
+              style="height: 32px;width: 16px;"
+            />
+            <i v-else slot="prefix" class="el-icon-search el-input__icon"/>
+          </el-input>
+        </el-popover>
       </el-form-item>
+
       <el-form-item label="所属分类" prop="catelogId">
         <category-cascader :catelogPath.sync="catelogPath"></category-cascader>
       </el-form-item>
@@ -37,32 +57,27 @@
 
 <script>
 import CategoryCascader from '../../../components/mall/category-cascader'
-import {getMenus} from "@/api/mall/product/category";
 
 import {addAttrGroup, getAttrGroup} from "@/api/mall/product/attr-group";
+import IconSelect from "@/components/IconSelect";
 
 export default {
   name: "attrgroup-add-or-update",
 
-  components: {CategoryCascader},
+  components: {CategoryCascader,IconSelect},
 
   data() {
     return {
-      props: {
-        value: "catId",
-        label: "name",
-        children: "children"
-      },
       visible: false,
-      categorys: [],
       catelogPath: [],
+
       dataForm: {
         attrGroupId: 0,
         attrGroupName: "",
         sort: "",
         descript: "",
         icon: "",
-        catelogId: 0
+        catelogId: 0,
       },
       dataRule: {
         attrGroupName: [
@@ -85,6 +100,10 @@ export default {
       this.catelogPath = [];
     },
 
+    // 选择图标
+    selected(name) {
+      this.dataForm.icon = name;
+    },
 
     init(id) {
       this.dataForm.attrGroupId = id;

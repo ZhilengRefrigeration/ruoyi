@@ -33,7 +33,7 @@
         <el-input v-model="dataForm.firstLetter" placeholder="检索首字母" style="width: 200px"></el-input>
       </el-form-item>
       <el-form-item label="排序" prop="sort">
-        <el-input-number v-model.number="dataForm.sort" :min="1" :max="9999" label="描述文字"></el-input-number>
+        <el-input-number v-model.number="dataForm.sort" :min="1" :max="9999" label="排序"></el-input-number>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
