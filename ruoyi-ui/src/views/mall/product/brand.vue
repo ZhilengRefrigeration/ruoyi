@@ -74,17 +74,18 @@
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
 
-    <el-dialog title="关联分类" :visible.sync="cateRelationDialogVisible" width="30%">
-      <el-popover placement="right-end" v-model="popCatelogSelectVisible">
-        <category-cascader :catelogPath.sync="catelogPath"></category-cascader>
-        <div style="text-align: right; margin: 0">
-          <el-button size="mini" type="text" @click="popCatelogSelectVisible = false">取消</el-button>
-          <el-button type="primary" size="mini" @click="addCatelogSelect">确定</el-button>
-        </div>
-        <el-button slot="reference">新增关联</el-button>
-      </el-popover>
+    <el-dialog title="关联分类" :visible.sync="cateRelationDialogVisible" width="30%" @close="closeDialog">
+      <div style="margin-bottom: 10px">
+        <el-popover placement="right-end" v-model="popCatelogSelectVisible">
+          <category-cascader :catelogPath.sync="catelogPath"></category-cascader>
+          <div style="text-align: right; margin: 0">
+            <el-button size="mini" type="text" @click="popCatelogSelectVisible = false">取消</el-button>
+            <el-button type="primary" size="mini" @click="addCatelogSelect">确定</el-button>
+          </div>
+          <el-button slot="reference" icon="el-icon-circle-plus-outline" size="mini">新增关联</el-button>
+        </el-popover>
+      </div>
       <el-table :data="cateRelationTableData" style="width: 100%">
-        <el-table-column prop="id" label="#"></el-table-column>
         <el-table-column prop="brandName" label="品牌名"></el-table-column>
         <el-table-column prop="catelogName" label="分类名"></el-table-column>
         <el-table-column fixed="right" header-align="center" align="center" label="操作">
@@ -109,7 +110,13 @@
 <script>
 import AddOrUpdate from "./brand-add-or-update";
 import {editBrand, getBrandList,delBrand} from "@/api/mall/product/brand";
-// import CategoryCascader from "../common/category-cascader";
+import CategoryCascader from "../../components/mall/category-cascader"
+import {
+  addCategoryBrandRelation,
+  categoryBrandRelationList,
+  delCategoryBrandRelation
+} from "@/api/mall/product/category-relation"
+
 export default {
   name: "Brand",
   data() {
@@ -133,7 +140,7 @@ export default {
   },
   components: {
     AddOrUpdate,
-    // CategoryCascader
+    CategoryCascader
   },
   created() {
     this.getDataList();
@@ -141,43 +148,36 @@ export default {
   methods: {
     addCatelogSelect() {
       this.popCatelogSelectVisible = false;
-      this.$http({
-        url: this.$http.adornUrl("/product/categorybrandrelation/save"),
-        method: "post",
-        data: this.$http.adornData({
-          brandId: this.brandId,
-          catelogId: this.catelogPath[this.catelogPath.length - 1]
-        }, false)
-      }).then(({data}) => {
+      let data ={
+        brandId: this.brandId,
+        catelogId: this.catelogPath[this.catelogPath.length - 1]
+      }
+      addCategoryBrandRelation(data).then(res =>{
         this.getCateRelation();
-      });
+      })
     },
+
     deleteCateRelationHandle(id, brandId) {
-      this.$http({
-        url: this.$http.adornUrl("/product/categorybrandrelation/delete"),
-        method: "post",
-        data: this.$http.adornData([id], false)
-      }).then(({data}) => {
+      delCategoryBrandRelation([id]).then(res =>{
         this.getCateRelation();
-      });
+      })
     },
+
     updateCatelogHandle(brandId) {
       this.cateRelationDialogVisible = true;
       this.brandId = brandId;
       this.getCateRelation();
     },
-    getCateRelation() {
-      this.$http({
-        url: this.$http.adornUrl("/product/categorybrandrelation/catelog/list"),
-        method: "get",
-        params: this.$http.adornParams({
-          brandId: this.brandId
-        })
-      }).then(({data}) => {
-        this.cateRelationTableData = data.data;
-      });
-    },
 
+
+    getCateRelation() {
+      let data ={
+        brandId: this.brandId
+      }
+      categoryBrandRelationList(data).then(res =>{
+        this.cateRelationTableData = res.page;
+      })
+    },
 
     // 获取数据列表
     getDataList() {
@@ -245,6 +245,11 @@ export default {
     handleQuery() {
       this.pageIndex = 1;
       this.getDataList();
+    },
+
+    //关闭对话框时清空级联分类
+    closeDialog() {
+      this.catelogPath=[]
     },
   }
 };

@@ -11,11 +11,13 @@ import com.xjs.utils.PageUtils;
 import com.xjs.utils.Query;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
 
 @Service("attrGroupService")
+@Transactional
 public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEntity> implements AttrGroupService {
 
     @Override

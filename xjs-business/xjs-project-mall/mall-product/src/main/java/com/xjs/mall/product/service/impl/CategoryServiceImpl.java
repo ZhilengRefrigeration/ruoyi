@@ -5,10 +5,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xjs.mall.product.dao.CategoryDao;
 import com.xjs.mall.product.entity.CategoryEntity;
+import com.xjs.mall.product.service.CategoryBrandRelationService;
 import com.xjs.mall.product.service.CategoryService;
 import com.xjs.utils.PageUtils;
 import com.xjs.utils.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -16,10 +19,14 @@ import java.util.stream.Collectors;
 
 
 @Service("categoryService")
+@Transactional
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
 
     @Resource
     private CategoryDao categoryDao;
+
+    @Autowired
+    private CategoryBrandRelationService categoryBrandRelationService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -61,6 +68,15 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         Collections.reverse(parentPath);
 
         return parentPath.toArray(new Long[parentPath.size()]);
+    }
+
+    @Override
+    public void updateCascade(CategoryEntity category) {
+        //更新自己
+        super.updateById(category);
+
+        //更新关联表
+        categoryBrandRelationService.updateCategory(category.getCatId(), category.getName());
     }
 
     //225,25,2

@@ -6,16 +6,23 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xjs.mall.product.dao.BrandDao;
 import com.xjs.mall.product.entity.BrandEntity;
 import com.xjs.mall.product.service.BrandService;
+import com.xjs.mall.product.service.CategoryBrandRelationService;
 import com.xjs.utils.PageUtils;
 import com.xjs.utils.Query;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
 
 @Service("brandService")
+@Transactional
 public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> implements BrandService {
+
+    @Autowired
+    private CategoryBrandRelationService categoryBrandRelationService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -34,6 +41,19 @@ public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> impleme
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public void updateDetail(BrandEntity brand) {
+        //保证冗余字段的数据一致性
+        super.updateById(brand);
+
+        if (StringUtils.isNotEmpty(brand.getName())) {
+            //同步更新其他表
+            categoryBrandRelationService.updateBrand(brand.getBrandId(), brand.getName());
+
+            // todo 更新其他关联信息
+        }
     }
 
 }

@@ -74,7 +74,7 @@ public class CategoryController {
     @ApiOperation("修改")
     @Log(title = "商品分类", businessType = BusinessType.UPDATE)
     public R update(@Validated(UpdateGroup.class) @RequestBody CategoryEntity category) {
-        categoryService.updateById(category);
+        categoryService.updateCascade(category);
 
         return R.ok();
     }

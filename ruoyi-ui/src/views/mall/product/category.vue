@@ -10,7 +10,17 @@
       </el-form-item>
     </el-form>
 
+    <el-input
+      style="width: 400px;margin-bottom: 20px"
+      clearable
+      prefix-icon="el-icon-search"
+      @input="rest"
+      placeholder="输入关键字进行过滤"
+      v-model="filterText">
+    </el-input>
+
     <el-tree
+      :filter-node-method="filterNode"
       :data="menus"
       :props="defaultProps"
       :expand-on-click-node="false"
@@ -130,16 +140,27 @@ export default {
         productUnit: [
           { min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur' }
         ],
-      }
+      },
+
+      filterText: '',
     };
   },
 
   //计算属性 类似于data概念
   computed: {},
   //监控data中的数据变化
-  watch: {},
+  watch: {
+    filterText(val) {
+      this.$refs.menuTree.filter(val);
+    }
+  },
   //方法集合
   methods: {
+    filterNode(value, data) {
+      if (!value) return true;
+      return data.name.indexOf(value) !== -1;
+    },
+
     // 选择图标
     selected(name) {
       this.category.icon = name;
@@ -345,6 +366,13 @@ export default {
         })
       }).catch(() => {
       });
+    },
+
+    //搜索框删除内容后重置
+    rest() {
+      if (!this.filterText) {
+        this.getMenus()
+      }
     },
 
 

@@ -76,7 +76,7 @@ public class BrandController {
     @ApiOperation("修改")
     @Log(title = "品牌管理", businessType = BusinessType.UPDATE)
     public R update(@Validated(UpdateGroup.class) @RequestBody BrandEntity brand){
-		brandService.updateById(brand);
+		brandService.updateDetail(brand);
 
         return R.ok();
     }
