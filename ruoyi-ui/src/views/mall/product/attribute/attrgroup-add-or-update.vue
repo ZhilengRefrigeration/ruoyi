@@ -14,7 +14,7 @@
       label-width="90px"
     >
       <el-form-item label="组名" prop="attrGroupName">
-        <el-input v-model="dataForm.attrGroupName" placeholder="组名"></el-input>
+        <el-input v-model="dataForm.attrGroupName" placeholder="组名" ></el-input>
       </el-form-item>
       <el-form-item label="排序" prop="sort">
         <el-input-number v-model.number="dataForm.sort" :min="1" :max="9999" label="排序"></el-input-number>
@@ -81,13 +81,18 @@ export default {
       },
       dataRule: {
         attrGroupName: [
-          {required: true, message: "组名不能为空", trigger: "blur"}
+          {required: true, message: "组名不能为空", trigger: "blur"},
+          { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
         ],
         sort: [{required: true, message: "排序不能为空", trigger: "blur"}],
         descript: [
-          {required: true, message: "描述不能为空", trigger: "blur"}
+          {required: true, message: "描述不能为空", trigger: "blur"},
+          { min: 1, max: 255, message: '长度在 1 到 255 个字符', trigger: 'blur' }
         ],
-        icon: [{required: true, message: "组图标不能为空", trigger: "blur"}],
+        icon: [
+          {required: true, message: "组图标不能为空", trigger: "blur"},
+          { min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur' }
+        ],
         catelogId: [
           {required: true, message: "所属分类id不能为空", trigger: "blur"}
         ]

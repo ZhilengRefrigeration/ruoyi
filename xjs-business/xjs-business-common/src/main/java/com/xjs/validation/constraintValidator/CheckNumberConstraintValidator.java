@@ -11,7 +11,7 @@ import java.util.Objects;
  * @author xiejs
  * @since 2022-02-18
  */
-public class CheckNumberConstraintValidator implements ConstraintValidator<CheckNumber,Integer> {
+public class CheckNumberConstraintValidator implements ConstraintValidator<CheckNumber,Object> {
 
     private int[] num;
 
@@ -27,14 +27,29 @@ public class CheckNumberConstraintValidator implements ConstraintValidator<Check
      * @return boolean
      */
     @Override
-    public boolean isValid(Integer value, ConstraintValidatorContext context) {
+    public boolean isValid(Object value, ConstraintValidatorContext context) {
 
         if (Objects.nonNull(value)) {
-            for (int i : num) {
-                if (value == i) {
-                    return true;
+
+            if (value instanceof Integer) {
+                int val =(int) value;
+                for (int i : num) {
+                    if (val == i) {
+                        return true;
+                    }
                 }
             }
+
+            if (value instanceof Long) {
+                long val =(long) value;
+                for (int i : num) {
+                    if (val == i) {
+                        return true;
+                    }
+                }
+            }
+
+
             return false;
         }
 

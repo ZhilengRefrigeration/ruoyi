@@ -7,9 +7,12 @@ import com.xjs.mall.product.service.AttrGroupService;
 import com.xjs.mall.product.service.CategoryService;
 import com.xjs.utils.PageUtils;
 import com.xjs.utils.R;
+import com.xjs.validation.group.AddGroup;
+import com.xjs.validation.group.UpdateGroup;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -23,7 +26,7 @@ import java.util.stream.Collectors;
  *
  * @author xiejs
  * @email 1294405880@qq.com
- * @since  2022-03-15 10:16:53
+ * @since 2022-03-15 10:16:53
  */
 @RestController
 @RequestMapping("product/attrgroup")
@@ -39,9 +42,9 @@ public class AttrGroupController {
      */
     @GetMapping("/list/{catelogId}")
     @ApiOperation("列表")
-    public R list(@RequestParam Map<String, Object> params,Long catelogId){
+    public R list(@RequestParam Map<String, Object> params, Long catelogId) {
 
-        PageUtils page =attrGroupService.queryPage(params,catelogId);
+        PageUtils page = attrGroupService.queryPage(params, catelogId);
 
         return R.ok().put("page", page);
     }
@@ -52,10 +55,10 @@ public class AttrGroupController {
      */
     @GetMapping("/info/{attrGroupId}")
     @ApiOperation("信息")
-    public R info(@PathVariable("attrGroupId") Long attrGroupId){
-		AttrGroupEntity attrGroup = attrGroupService.getById(attrGroupId);
+    public R info(@PathVariable("attrGroupId") Long attrGroupId) {
+        AttrGroupEntity attrGroup = attrGroupService.getById(attrGroupId);
 
-        Long[] path=categoryService.finCatelogPath(attrGroup.getCatelogId());
+        Long[] path = categoryService.finCatelogPath(attrGroup.getCatelogId());
         List<String> collect = Arrays.stream(path).map(String::valueOf).collect(Collectors.toList());
 
         attrGroup.setCatelogPath(collect);
@@ -69,8 +72,8 @@ public class AttrGroupController {
     @PostMapping("/save")
     @ApiOperation("保存")
     @Log(title = "属性分组", businessType = BusinessType.INSERT)
-    public R save(@RequestBody AttrGroupEntity attrGroup){
-		attrGroupService.save(attrGroup);
+    public R save(@Validated(AddGroup.class) @RequestBody AttrGroupEntity attrGroup) {
+        attrGroupService.save(attrGroup);
 
         return R.ok();
     }
@@ -81,8 +84,8 @@ public class AttrGroupController {
     @PutMapping("/update")
     @ApiOperation("修改")
     @Log(title = "属性分组", businessType = BusinessType.UPDATE)
-    public R update(@RequestBody AttrGroupEntity attrGroup){
-		attrGroupService.updateById(attrGroup);
+    public R update(@Validated(UpdateGroup.class) @RequestBody AttrGroupEntity attrGroup) {
+        attrGroupService.updateById(attrGroup);
 
         return R.ok();
     }
@@ -93,8 +96,8 @@ public class AttrGroupController {
     @DeleteMapping("/delete")
     @ApiOperation("删除")
     @Log(title = "属性分组", businessType = BusinessType.DELETE)
-    public R delete(@RequestBody Long[] attrGroupIds){
-		attrGroupService.removeByIds(Arrays.asList(attrGroupIds));
+    public R delete(@RequestBody Long[] attrGroupIds) {
+        attrGroupService.removeByIds(Arrays.asList(attrGroupIds));
 
         return R.ok();
     }

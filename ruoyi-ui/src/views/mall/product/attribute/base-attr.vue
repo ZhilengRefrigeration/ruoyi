@@ -8,7 +8,7 @@
         <div class="mod-config">
           <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
             <el-form-item>
-              <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
+              <el-input maxlength="20" v-model="dataForm.key" placeholder="请输入属性名等" clearable></el-input>
             </el-form-item>
             <el-form-item>
               <el-button-group>

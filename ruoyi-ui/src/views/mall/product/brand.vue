@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
-        <el-input size="mini" v-model="dataForm.key" placeholder="请输入品牌名、介绍、检索首字母等" clearable style="width: 300px"></el-input>
+        <el-input size="mini" maxlength="20" v-model="dataForm.key" placeholder="请输入品牌名、介绍、检索首字母等" clearable style="width: 300px"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button-group>

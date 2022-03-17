@@ -135,7 +135,8 @@ export default {
       attrGroups: [],
       dataRule: {
         attrName: [
-          {required: true, message: "属性名不能为空", trigger: "blur"}
+          {required: true, message: "属性名不能为空", trigger: "blur"},
+          { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: 'blur' }
         ],
         searchType: [
           {required: true, message: "是否需要检索不能为空", trigger: "blur"}
@@ -144,7 +145,8 @@ export default {
           {required: true, message: "值类型不能为空", trigger: "blur"}
         ],
         icon: [
-          {required: true, message: "属性图标不能为空", trigger: "blur"}
+          {required: true, message: "属性图标不能为空", trigger: "blur"},
+          { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: 'blur' }
         ],
         attrType: [
           {required: true, message: "属性类型不能为空", trigger: "blur"}

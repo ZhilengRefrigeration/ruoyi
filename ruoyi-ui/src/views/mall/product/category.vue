@@ -16,6 +16,7 @@
       prefix-icon="el-icon-search"
       @input="rest"
       placeholder="输入关键字进行过滤"
+      maxlength="10"
       v-model="filterText">
     </el-input>
 
@@ -134,11 +135,11 @@ export default {
 
       dataRule: {
         name: [
-          { required: true, message: "分类名称不能为空", trigger: "blur" },
-          { min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur' }
+          {required: true, message: "分类名称不能为空", trigger: "blur"},
+          {min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur'}
         ],
         productUnit: [
-          { min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur' }
+          {min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur'}
         ],
       },
 
@@ -180,7 +181,7 @@ export default {
       for (let i = 0; i < checkedNodes.length; i++) {
         catIds.push(checkedNodes[i].catId);
       }
-      if (catIds.length===0) {
+      if (catIds.length === 0) {
         this.$modal.notifyWarning("请选择删除内容")
         return
       }
