@@ -97,7 +97,7 @@ public class AttrGroupController {
     @ApiOperation("删除")
     @Log(title = "属性分组", businessType = BusinessType.DELETE)
     public R delete(@RequestBody Long[] attrGroupIds) {
-        attrGroupService.removeByIds(Arrays.asList(attrGroupIds));
+        attrGroupService.removeAttrGroup(Arrays.asList(attrGroupIds));
 
         return R.ok();
     }

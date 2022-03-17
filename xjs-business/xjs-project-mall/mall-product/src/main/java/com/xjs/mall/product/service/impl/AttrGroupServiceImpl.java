@@ -1,11 +1,15 @@
 package com.xjs.mall.product.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xjs.exception.MallException;
 import com.xjs.mall.product.dao.AttrGroupDao;
+import com.xjs.mall.product.entity.AttrAttrgroupRelationEntity;
 import com.xjs.mall.product.entity.AttrGroupEntity;
 import com.xjs.mall.product.entity.CategoryEntity;
+import com.xjs.mall.product.service.AttrAttrgroupRelationService;
 import com.xjs.mall.product.service.AttrGroupService;
 import com.xjs.mall.product.service.CategoryService;
 import com.xjs.mall.product.vo.AttrGroupResponseVo;
@@ -28,6 +32,9 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private AttrAttrgroupRelationService attrAttrgroupRelationService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params, Long categoryId) {
@@ -61,6 +68,22 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
             return pageUtils;
         }
 
+    }
+
+    @Override
+    public void removeAttrGroup(List<Long> ids) {
+        for (Long id : ids) {
+            //先查询中间表是否有数据，有数据代表该数据被引用，则不能删除
+            List<AttrAttrgroupRelationEntity> relationEntityList = attrAttrgroupRelationService
+                    .list(new LambdaQueryWrapper<AttrAttrgroupRelationEntity>()
+                    .eq(AttrAttrgroupRelationEntity::getAttrGroupId, id));
+
+            if (CollUtil.isEmpty(relationEntityList)) {
+                super.removeById(id);
+            }else {
+                throw new MallException("含有被引用的规格参数未删除，请先删除规格参数");
+            }
+        }
     }
 
 

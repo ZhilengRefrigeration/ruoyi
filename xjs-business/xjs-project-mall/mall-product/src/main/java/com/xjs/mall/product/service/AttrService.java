@@ -6,6 +6,7 @@ import com.xjs.mall.product.vo.AttrVo;
 import com.xjs.utils.PageUtils;
 import com.xjs.mall.product.entity.AttrEntity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,5 +44,11 @@ public interface AttrService extends IService<AttrEntity> {
      * @param attr 实体类
      */
     void updateAttr(AttrVo attr);
+
+    /**
+     * 删除规格参数及关联信息
+     * @param asList ids
+     */
+    void removeAttr(List<Long> asList);
 }
 

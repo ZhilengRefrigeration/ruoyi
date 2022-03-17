@@ -84,7 +84,7 @@ public class AttrController {
     @ApiOperation("删除")
     @Log(title = "规格参数", businessType = BusinessType.DELETE)
     public R delete(@RequestBody Long[] attrIds) {
-        attrService.removeByIds(Arrays.asList(attrIds));
+        attrService.removeAttr(Arrays.asList(attrIds));
 
         return R.ok();
     }

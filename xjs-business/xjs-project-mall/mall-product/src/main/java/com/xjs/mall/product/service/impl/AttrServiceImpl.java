@@ -169,4 +169,15 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
     }
 
+    @Override
+    public void removeAttr(List<Long> asList) {
+        //删除自身
+        super.removeByIds(asList);
+        //级联删除中间表数据
+        for (Long id : asList) {
+            attrAttrgroupRelationService.remove(new LambdaUpdateWrapper<AttrAttrgroupRelationEntity>()
+                    .eq(AttrAttrgroupRelationEntity::getAttrId,id));
+        }
+    }
+
 }
