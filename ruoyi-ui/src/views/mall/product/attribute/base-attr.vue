@@ -56,7 +56,11 @@
                 <el-tag v-else>多选</el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="icon" header-align="center" align="center" label="图标"></el-table-column>
+            <el-table-column prop="icon" header-align="center" align="center" label="图标">
+              <template slot-scope="scope">
+                <svg-icon :icon-class="scope.row.icon" />
+              </template>
+            </el-table-column>
             <el-table-column prop="valueSelect" header-align="center" align="center" label="可选值">
               <template slot-scope="scope">
                 <el-tooltip placement="top">

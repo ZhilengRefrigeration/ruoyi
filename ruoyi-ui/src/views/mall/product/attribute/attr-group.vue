@@ -40,8 +40,13 @@
             <el-table-column prop="attrGroupName" header-align="center" align="center" label="组名"></el-table-column>
             <el-table-column prop="sort" header-align="center" align="center" label="排序"></el-table-column>
             <el-table-column prop="descript" header-align="center" align="center" label="描述"></el-table-column>
-            <el-table-column prop="icon" header-align="center" align="center" label="组图标"></el-table-column>
-            <el-table-column prop="catelogId" header-align="center" align="center" label="所属分类id"></el-table-column>
+            <el-table-column prop="icon" header-align="center" align="center" label="组图标">
+              <template slot-scope="scope">
+                <svg-icon :icon-class="scope.row.icon" />
+              </template>
+            </el-table-column>
+            <el-table-column prop="catelogId" header-align="center" align="center" label="分类ID"></el-table-column>
+            <el-table-column prop="categoryName" header-align="center" align="center" label="分类名称"></el-table-column>
             <el-table-column
               fixed="right"
               header-align="center"

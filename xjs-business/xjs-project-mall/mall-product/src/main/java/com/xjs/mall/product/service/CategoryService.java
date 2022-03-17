@@ -1,11 +1,9 @@
 package com.xjs.mall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xjs.utils.PageUtils;
 import com.xjs.mall.product.entity.CategoryEntity;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 商品三级分类
@@ -15,8 +13,6 @@ import java.util.Map;
  * @date 2022-03-15 10:16:53
  */
 public interface CategoryService extends IService<CategoryEntity> {
-
-    PageUtils queryPage(Map<String, Object> params);
 
     /**
      * 查询树形结构分类

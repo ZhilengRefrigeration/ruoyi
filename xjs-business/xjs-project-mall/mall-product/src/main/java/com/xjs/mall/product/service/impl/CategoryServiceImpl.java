@@ -1,14 +1,10 @@
 package com.xjs.mall.product.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xjs.mall.product.dao.CategoryDao;
 import com.xjs.mall.product.entity.CategoryEntity;
 import com.xjs.mall.product.service.CategoryBrandRelationService;
 import com.xjs.mall.product.service.CategoryService;
-import com.xjs.utils.PageUtils;
-import com.xjs.utils.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,15 +24,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     @Autowired
     private CategoryBrandRelationService categoryBrandRelationService;
 
-    @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<CategoryEntity> page = this.page(
-                new Query<CategoryEntity>().getPage(params),
-                new QueryWrapper<>()
-        );
 
-        return new PageUtils(page);
-    }
 
     @Override
     public List<CategoryEntity> listWithTree() {
