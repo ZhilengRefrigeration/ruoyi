@@ -1,6 +1,8 @@
 package com.xjs.mall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xjs.mall.product.vo.AttrResponseVo;
+import com.xjs.mall.product.vo.AttrVo;
 import com.xjs.utils.PageUtils;
 import com.xjs.mall.product.entity.AttrEntity;
 
@@ -15,6 +17,31 @@ import java.util.Map;
  */
 public interface AttrService extends IService<AttrEntity> {
 
-    PageUtils queryPage(Map<String, Object> params);
+    /**
+     * 保存
+     * @param attr 商品属性vo
+     */
+    void saveAttr(AttrVo attr);
+
+    /**
+     * 查询基本的规格参数分页
+     * @param params 条件
+     * @param catelogId 分类id
+     * @return pageUtils
+     */
+    PageUtils queryBaseAttrPage(Map<String, Object> params, Long catelogId);
+
+    /**
+     * 获取attr规格参数具体信息
+     * @param attrId attrId
+     * @return vo
+     */
+    AttrResponseVo getAttrInfo(Long attrId);
+
+    /**
+     * 修改规格参数信息
+     * @param attr 实体类
+     */
+    void updateAttr(AttrVo attr);
 }
 

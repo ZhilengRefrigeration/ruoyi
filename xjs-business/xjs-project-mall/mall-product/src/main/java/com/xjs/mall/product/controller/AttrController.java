@@ -1,19 +1,19 @@
 package com.xjs.mall.product.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.xjs.mall.product.entity.AttrEntity;
+import com.ruoyi.common.log.annotation.Log;
+import com.ruoyi.common.log.enums.BusinessType;
 import com.xjs.mall.product.service.AttrService;
+import com.xjs.mall.product.vo.AttrResponseVo;
+import com.xjs.mall.product.vo.AttrVo;
 import com.xjs.utils.PageUtils;
 import com.xjs.utils.R;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Map;
 
 
 
@@ -22,21 +22,20 @@ import com.xjs.utils.R;
  *
  * @author xiejs
  * @email 1294405880@qq.com
- * @date 2022-03-15 10:16:53
+ * @since  2022-03-15 10:16:53
  */
 @RestController
 @RequestMapping("product/attr")
+@Api(tags = "商城-商品-规格参数")
 public class AttrController {
     @Autowired
     private AttrService attrService;
 
-    /**
-     * 列表
-     */
-    @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = attrService.queryPage(params);
 
+    @GetMapping("/base/list/{catelogId}")
+    @ApiOperation("列表")
+    public R baseAttrList(@RequestParam Map<String, Object> params, @PathVariable("catelogId") Long catelogId) {
+        PageUtils page = attrService.queryBaseAttrPage(params, catelogId);
         return R.ok().put("page", page);
     }
 
@@ -44,9 +43,10 @@ public class AttrController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{attrId}")
+    @GetMapping("/info/{attrId}")
+    @ApiOperation("信息")
     public R info(@PathVariable("attrId") Long attrId){
-		AttrEntity attr = attrService.getById(attrId);
+		AttrResponseVo attr = attrService.getAttrInfo(attrId);
 
         return R.ok().put("attr", attr);
     }
@@ -54,9 +54,11 @@ public class AttrController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
-    public R save(@RequestBody AttrEntity attr){
-		attrService.save(attr);
+    @PostMapping("/save")
+    @ApiOperation("保存")
+    @Log(title = "规格参数", businessType = BusinessType.INSERT)
+    public R save(@RequestBody AttrVo attr){
+		attrService.saveAttr(attr);
 
         return R.ok();
     }
@@ -64,9 +66,11 @@ public class AttrController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
-    public R update(@RequestBody AttrEntity attr){
-		attrService.updateById(attr);
+    @PutMapping("/update")
+    @ApiOperation("修改")
+    @Log(title = "规格参数", businessType = BusinessType.UPDATE)
+    public R update(@RequestBody AttrVo attr){
+		attrService.updateAttr(attr);
 
         return R.ok();
     }
@@ -74,7 +78,9 @@ public class AttrController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @DeleteMapping("/delete")
+    @ApiOperation("删除")
+    @Log(title = "规格参数", businessType = BusinessType.DELETE)
     public R delete(@RequestBody Long[] attrIds){
 		attrService.removeByIds(Arrays.asList(attrIds));
 

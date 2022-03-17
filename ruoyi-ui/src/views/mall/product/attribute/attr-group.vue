@@ -13,7 +13,6 @@
             <el-form-item>
               <el-button-group>
                 <el-button @click="getDataList()">查询</el-button>
-                <el-button type="success" @click="getAllDataList()">查询全部</el-button>
                 <el-button
                   type="primary"
                   @click="addOrUpdateHandle()"
@@ -134,10 +133,7 @@ export default {
         this.getDataList(); //重新查询
       }
     },
-    getAllDataList() {
-      this.catId = 0;
-      this.getDataList();
-    },
+
     // 获取数据列表
     getDataList() {
       this.dataListLoading = true;
@@ -188,7 +184,8 @@ export default {
 
     /** 重置按钮操作 */
     resetQuery() {
-      this.dataForm={}
+      this.dataForm = {}
+      this.catId = 0
       this.handleQuery();
     },
 
