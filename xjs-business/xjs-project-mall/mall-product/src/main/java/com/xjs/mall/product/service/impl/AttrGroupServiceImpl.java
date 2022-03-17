@@ -30,12 +30,14 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
 
     @Override
     public PageUtils queryPage(Map<String, Object> params, Long categoryId) {
-        String key = (String) params.get("key");
-        //select * from pms_attr_group where catelog_id=? and (attr_group_id=key or attr_group_name like %key%)
+        String key = (String) params.get(Query.KEY_NAME);
+
         LambdaQueryWrapper<AttrGroupEntity> wrapper = new LambdaQueryWrapper<>();
         if(!StringUtils.isEmpty(key)){
             wrapper.and((obj)->{
-                obj.eq(AttrGroupEntity::getAttrGroupId,key).or().like(AttrGroupEntity::getAttrGroupName,key);
+                obj.eq(AttrGroupEntity::getAttrGroupId,key)
+                        .or().like(AttrGroupEntity::getDescript,key)
+                        .or().like(AttrGroupEntity::getAttrGroupName,key);
             });
         }
 

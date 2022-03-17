@@ -2,11 +2,11 @@
   <div class="app-container">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
-        <el-input size="mini" v-model="dataForm.key" placeholder="参数名" clearable></el-input>
+        <el-input size="mini" v-model="dataForm.key" placeholder="请输入品牌名、介绍、检索首字母等" clearable style="width: 300px"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button-group>
-          <el-button size="mini" @click="getDataList()">查询</el-button>
+          <el-button size="mini" @click="handleQuery()">查询</el-button>
           <el-button
             type="primary"
             size="mini"
@@ -20,6 +20,7 @@
             :disabled="dataListSelections.length <= 0"
           >批量删除
           </el-button>
+          <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
         </el-button-group>
       </el-form-item>
     </el-form>
@@ -232,7 +233,19 @@ export default {
           this.$modal.closeLoading()
         })
       });
-    }
+    },
+
+    /** 重置按钮操作 */
+    resetQuery() {
+      this.dataForm={}
+      this.handleQuery();
+    },
+
+    /** 搜索按钮操作 */
+    handleQuery() {
+      this.pageIndex = 1;
+      this.getDataList();
+    },
   }
 };
 </script>

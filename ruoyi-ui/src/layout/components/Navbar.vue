@@ -19,39 +19,40 @@
         <table style="text-align: center" v-loading="loading">
           <td v-for="(cast,index) in forecastWeatherData.casts" width="100px">
             <tr v-if="index===0">
-              今天({{cast.week}})
+              今天({{ cast.week }})
             </tr>
             <tr v-if="index===1">
-              明天({{cast.week}})
+              明天({{ cast.week }})
             </tr>
             <tr v-if="index===2">
-              后天({{cast.week}})
+              后天({{ cast.week }})
             </tr>
             <tr v-if="index===3">
-              大后天({{cast.week}})
+              大后天({{ cast.week }})
             </tr>
-            <tr>{{cast.dayweather}}</tr>
+            <tr>{{ cast.dayweather }}</tr>
             <tr>
-              {{cast.nighttemp+"℃~"+cast.daytemp+"℃"}}
+              {{ cast.nighttemp + "℃~" + cast.daytemp + "℃" }}
             </tr>
 
           </td>
         </table>
 
-      <div class="right-menu-item weather" @click="getForecastWeather()" slot="reference">
-        <img :src="weather" class="img">
-        <span class="span1">
+        <div class="right-menu-item weather" @click="getForecastWeather()" slot="reference">
+          <img :src="weather" class="img">
+          <span class="span1">
           {{ nowWeatherData.temperature + "℃" }}
         </span>
-        <span class="span2">
+          <span class="span2">
           {{ nowWeatherData.weather }}
         </span>
-      </div>
+        </div>
       </el-popover>
 
 
       <!--预警-->
-      <el-badge :value="warnData.count" class=" hover-effect share-button" v-hasPermi="['warning:warning:handle']">
+      <el-badge :max="99" :value="warnData.count" class=" hover-effect share-button"
+                v-hasPermi="['warning:warning:handle']">
         <el-popover
           placement="bottom"
           width="220"
@@ -60,11 +61,11 @@
           <div style="text-align: right; margin: 0">
             <el-button type="primary" size="mini" @click="haveRead">已读</el-button>
           </div>
-          <el-button type="info" icon="el-icon-check"
-                     circle style="max-width: 22px;max-height: 22px;"
-                     @click=""
-                     slot="reference"
-          ></el-button>
+
+          <div slot="reference">
+            <svg-icon class-name="wechat-icon" icon-class="wechat" style="height: 28px"/>
+          </div>
+
         </el-popover>
       </el-badge>
 
@@ -145,7 +146,7 @@ export default {
       forecastWeatherData: {},
 
       visible: false,
-      weatherVisible:false,
+      weatherVisible: false,
 
       weather,
     }
@@ -238,7 +239,7 @@ export default {
         if (json.warningMessage !== undefined) {
           // this.visible = true
           return json.warningMessage
-        }else {
+        } else {
           return '暂无提示！！！'
         }
       }

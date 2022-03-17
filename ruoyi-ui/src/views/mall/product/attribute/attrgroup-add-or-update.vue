@@ -58,7 +58,7 @@
 <script>
 import CategoryCascader from '../../../components/mall/category-cascader'
 
-import {addAttrGroup, getAttrGroup} from "@/api/mall/product/attr-group";
+import {addAttrGroup, getAttrGroup,editAttrGroup} from "@/api/mall/product/attr-group";
 import IconSelect from "@/components/IconSelect";
 
 export default {

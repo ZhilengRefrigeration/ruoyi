@@ -1,10 +1,14 @@
 package com.xjs.mall.product.controller;
 
+import com.ruoyi.common.log.annotation.Log;
+import com.ruoyi.common.log.enums.BusinessType;
 import com.xjs.mall.product.entity.AttrGroupEntity;
 import com.xjs.mall.product.service.AttrGroupService;
 import com.xjs.mall.product.service.CategoryService;
 import com.xjs.utils.PageUtils;
 import com.xjs.utils.R;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +27,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("product/attrgroup")
+@Api(tags = "商城-商品-属性分组")
 public class AttrGroupController {
     @Autowired
     private AttrGroupService attrGroupService;
@@ -32,7 +37,8 @@ public class AttrGroupController {
     /**
      * 列表
      */
-    @RequestMapping("/list/{catelogId}")
+    @GetMapping("/list/{catelogId}")
+    @ApiOperation("列表")
     public R list(@RequestParam Map<String, Object> params,Long catelogId){
 
         PageUtils page =attrGroupService.queryPage(params,catelogId);
@@ -44,7 +50,8 @@ public class AttrGroupController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{attrGroupId}")
+    @GetMapping("/info/{attrGroupId}")
+    @ApiOperation("信息")
     public R info(@PathVariable("attrGroupId") Long attrGroupId){
 		AttrGroupEntity attrGroup = attrGroupService.getById(attrGroupId);
 
@@ -59,7 +66,9 @@ public class AttrGroupController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
+    @ApiOperation("保存")
+    @Log(title = "属性分组", businessType = BusinessType.INSERT)
     public R save(@RequestBody AttrGroupEntity attrGroup){
 		attrGroupService.save(attrGroup);
 
@@ -69,7 +78,9 @@ public class AttrGroupController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PutMapping("/update")
+    @ApiOperation("修改")
+    @Log(title = "属性分组", businessType = BusinessType.UPDATE)
     public R update(@RequestBody AttrGroupEntity attrGroup){
 		attrGroupService.updateById(attrGroup);
 
@@ -79,7 +90,9 @@ public class AttrGroupController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @DeleteMapping("/delete")
+    @ApiOperation("删除")
+    @Log(title = "属性分组", businessType = BusinessType.DELETE)
     public R delete(@RequestBody Long[] attrGroupIds){
 		attrGroupService.removeByIds(Arrays.asList(attrGroupIds));
 

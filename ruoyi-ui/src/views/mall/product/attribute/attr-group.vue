@@ -8,7 +8,7 @@
         <div class="mod-config">
           <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
             <el-form-item>
-              <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
+              <el-input v-model="dataForm.key" placeholder="请输入组名、描述、分类id等" style="width: 300px" clearable></el-input>
             </el-form-item>
             <el-form-item>
               <el-button-group>
@@ -25,6 +25,7 @@
                   :disabled="dataListSelections.length <= 0"
                 >批量删除
                 </el-button>
+                <el-button icon="el-icon-refresh" @click="resetQuery">重置</el-button>
               </el-button-group>
 
             </el-form-item>
@@ -183,7 +184,19 @@ export default {
           this.getDataList();
         })
       });
-    }
+    },
+
+    /** 重置按钮操作 */
+    resetQuery() {
+      this.dataForm={}
+      this.handleQuery();
+    },
+
+    /** 搜索按钮操作 */
+    handleQuery() {
+      this.pageIndex = 1;
+      this.getDataList();
+    },
   }
 };
 </script>

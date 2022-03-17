@@ -10,6 +10,7 @@ import com.xjs.validation.group.AddGroup;
 import com.xjs.validation.group.SelectGroup;
 import com.xjs.validation.group.UpdateGroup;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +38,7 @@ public class BrandController {
      * 列表
      */
     @GetMapping("/list")
+    @ApiOperation("列表")
     public R list(@Validated(SelectGroup.class) @RequestParam Map<String, Object> params){
         PageUtils page = brandService.queryPage(params);
 
@@ -48,6 +50,7 @@ public class BrandController {
      * 信息
      */
     @GetMapping("/info/{brandId}")
+    @ApiOperation("信息")
     public R info(@PathVariable("brandId") Long brandId){
 		BrandEntity brand = brandService.getById(brandId);
 
@@ -58,6 +61,7 @@ public class BrandController {
      * 保存
      */
     @PostMapping("/save")
+    @ApiOperation("保存")
     @Log(title = "品牌管理", businessType = BusinessType.INSERT)
     public R save(@Validated(AddGroup.class) @RequestBody BrandEntity brand){
 		brandService.save(brand);
@@ -69,6 +73,7 @@ public class BrandController {
      * 修改
      */
     @PutMapping("/update")
+    @ApiOperation("修改")
     @Log(title = "品牌管理", businessType = BusinessType.UPDATE)
     public R update(@Validated(UpdateGroup.class) @RequestBody BrandEntity brand){
 		brandService.updateById(brand);
@@ -80,6 +85,7 @@ public class BrandController {
      * 删除
      */
     @DeleteMapping("/delete")
+    @ApiOperation("删除")
     @Log(title = "品牌管理", businessType = BusinessType.DELETE)
     public R delete(@RequestBody Long[] brandIds){
 		brandService.removeByIds(Arrays.asList(brandIds));
