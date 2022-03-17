@@ -92,6 +92,9 @@ public class ApiLogAspect {
             if (obj instanceof String) {
                 if (StringUtils.isNotEmpty(String.valueOf(obj))) {
                     this.warning(between, joinPoint);
+                }else {
+                    this.demoteHandle(joinPoint);
+                    log.info("降级！调用接口耗费时间:{}ms", between);
                 }
             }
 

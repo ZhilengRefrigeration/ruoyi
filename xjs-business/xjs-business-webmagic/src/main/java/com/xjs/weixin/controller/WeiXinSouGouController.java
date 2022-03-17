@@ -3,6 +3,7 @@ package com.xjs.weixin.controller;
 import com.ejlchina.searcher.SearchResult;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
+import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.PageDomain;
 import com.ruoyi.common.core.web.page.TableSupport;
@@ -10,7 +11,6 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.validation.group.SelectGroup;
-import com.xjs.web.MyBaseController;
 import com.xjs.weixin.pojo.WeiXinSouGou;
 import com.xjs.weixin.service.WeiXinSouGouService;
 import com.xjs.weixin.task.WeiXinSouGouTask;
@@ -32,7 +32,7 @@ import java.util.List;
 @RestController
 @RequestMapping("weixin_sougou")
 @Api(tags = "爬虫模块-微信搜狗")
-public class WeiXinSouGouController extends MyBaseController {
+public class WeiXinSouGouController extends BaseController {
 
     @Autowired
     private WeiXinSouGouTask weiXinSouGouTask;
@@ -45,6 +45,7 @@ public class WeiXinSouGouController extends MyBaseController {
      */
     @RequiresPermissions("webmagic:weixinsougou:list")
     @GetMapping("/list")
+    @ApiOperation("查询爬虫微信搜狗搜索列表")
     public AjaxResult list(@Validated({SelectGroup.class}) WeiXinSouGou weiXinSouGou) {
         //startPage();
         PageDomain pageDomain = TableSupport.buildPageRequest();
@@ -71,6 +72,7 @@ public class WeiXinSouGouController extends MyBaseController {
     @RequiresPermissions("webmagic:weixinsougou:export")
     @Log(title = "微信搜狗", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
+    @ApiOperation("导出爬虫微信搜狗搜索列表")
     public void export(HttpServletResponse response, WeiXinSouGou weiXinSouGou) {
         List<WeiXinSouGou> list = weiXinSouGouService.selectWeiXinSouGouList(weiXinSouGou);
         ExcelUtil<WeiXinSouGou> util = new ExcelUtil<>(WeiXinSouGou.class);
@@ -81,8 +83,9 @@ public class WeiXinSouGouController extends MyBaseController {
      * 删除爬虫微信搜狗搜索
      */
     @RequiresPermissions("webmagic:weixinsougou:remove")
-    @Log(title = "爬虫微信搜狗搜索", businessType = BusinessType.DELETE)
+    @Log(title = "微信搜狗", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
+    @ApiOperation("爬虫微信搜狗搜索")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(weiXinSouGouService.deleteWeiXinSouGouByIds(ids));
     }
