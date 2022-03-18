@@ -18,7 +18,7 @@ public @interface ReptileLog {
     String name() default "";
 
     /**
-     * 请求url
+     * 请求url(当该值为""时，会默认反射获取形参的String值作为url)
      */
     String url() default "";
 

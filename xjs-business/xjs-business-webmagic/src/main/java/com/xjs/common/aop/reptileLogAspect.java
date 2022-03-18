@@ -1,6 +1,7 @@
 package com.xjs.common.aop;
 
 import com.ruoyi.common.core.domain.R;
+import com.ruoyi.common.core.utils.StringUtils;
 import com.xjs.annotation.ReptileLog;
 import com.xjs.business.log.RemoteLogFeign;
 import com.xjs.business.log.domain.WebmagicLog;
@@ -89,6 +90,16 @@ public class reptileLogAspect {
                     if (annotation instanceof ReptileLog) {
                         String name = ((ReptileLog) annotation).name();
                         String url = ((ReptileLog) annotation).url();
+
+                        if (StringUtils.isEmpty(url)) {
+                            //拿到形参的值
+                            Object[] args = joinPoint.getArgs();
+                            for (Object arg : args) {
+                                if (arg instanceof String) {
+                                    url = (String) arg;
+                                }
+                            }
+                        }
 
                         WebmagicLog webmagicLog = new WebmagicLog();
                         webmagicLog.setName(name);

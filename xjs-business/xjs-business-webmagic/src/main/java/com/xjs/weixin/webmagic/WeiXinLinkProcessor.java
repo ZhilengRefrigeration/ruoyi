@@ -1,5 +1,6 @@
 package com.xjs.weixin.webmagic;
 
+import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.redis.service.RedisService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,15 @@ public class WeiXinLinkProcessor implements PageProcessor {
                 count = 0;
             }
 
-            List<String> linkList = page.getHtml().css("section > section > img", "data-src").all();
+            //获取图片url
+            List<String> linkList = page.getHtml().css("img", "data-src").all();
+            //去空
+            linkList.removeIf(StringUtils::isBlank);
 
+            //获取标题
+            String title = page.getHtml().css("#activity-name","text").get();
+
+            page.putField("title",title);
             page.putField("linkList",linkList);
 
             log.info("linkList----{}",linkList);

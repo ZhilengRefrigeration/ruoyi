@@ -13,4 +13,23 @@ public interface WeiXinLinkService {
      * @param link 链接地址
      */
     Boolean getPicture(String link);
+
+    /**
+     * 获取配置参数（磁盘地址）
+     * @return str
+     */
+    String getSettings();
+
+    /**
+     * 修改配置参数（磁盘地址）
+     * @param path 磁盘地址
+     * @return 布尔
+     */
+    boolean updateSettings(String path);
+
+    /**
+     * 重置配置参数
+     * @return 布尔
+     */
+    boolean restSettings();
 }

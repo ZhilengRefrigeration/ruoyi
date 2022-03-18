@@ -28,7 +28,14 @@ public class WeiXinConst {
 
     public static final String PNG = "png";
 
+    public static final String GIF = "gif";
+
     public static final String DOT = ".";
+
+    /**
+     * 文件大小（kb）
+     */
+    public static final Long SIZE_KB = 30L;
 
 
 }

@@ -29,7 +29,7 @@ public class WeiXinLinkTask {
     @Autowired
     private RedisService redisService;
 
-    @ReptileLog(name = "微信链接", url = "###")
+    @ReptileLog(name = "微信链接")
     public Long reptileWeiXinLink(String link) {
         //执行爬虫
         Spider.create(weiXinLinkProcessor)
@@ -39,7 +39,7 @@ public class WeiXinLinkTask {
                         .setDuplicateRemover(new BloomFilterDuplicateRemover(110000)))//设置url去重过滤器
                 .addPipeline(weiXinLinkPipeline)//设置爬取之后的数据操作
                 //.setDownloader(downloader)//设置下载器
-                .run();//执行
+                .run();//同步执行
 
         Integer cache = redisService.getCacheObject(REPTILE_WEIXIN_LINK_COUNT);
         redisService.deleteObject(REPTILE_WEIXIN_LINK_COUNT);

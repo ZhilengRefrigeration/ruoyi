@@ -43,23 +43,43 @@ public class WeiXinLinkPipeline implements Pipeline {
     private RemoteConfigService remoteConfigService;
 
 
+
+
+
     @Override
     public void process(ResultItems resultItems, Task task) {
 
-
         List<String> linkList = resultItems.get("linkList");
+        String title = resultItems.get("title");
+
+        //如果磁盘存在该路径则不进行后续操作（已经有数据）  ----只能判断当天是否存在同一个文件夹，隔天失效
+        String appendPath = this.getAppendPath(title);
+
+        File file = new File(appendPath);
+        if (file.exists()) {
+            return;
+        }
+
         for (String link : linkList) {
+            InputStream inputStream = null;
 
             // 创建GET请求
             CloseableHttpClient httpClient = HttpClients.createDefault();
             HttpGet httpGet = null;
-            InputStream inputStream = null;
             try {
                 httpGet = new HttpGet(link);
                 HttpResponse response = httpClient.execute(httpGet);
                 if (response.getStatusLine().getStatusCode() == HttpStatus.SUCCESS) {
                     inputStream = response.getEntity().getContent();
 
+                    //文件小于30kb则不写入
+                    long contentLength = response.getEntity().getContentLength();
+                    long kb = contentLength / 1024;
+                    if (SIZE_KB > kb) {
+                        continue;
+                    }
+
+                    //拼接文件后缀
                     String suffix;
                     if (link.contains(JPEG)) {
                         suffix = JPEG;
@@ -67,18 +87,18 @@ public class WeiXinLinkPipeline implements Pipeline {
                         suffix = JPG;
                     } else if (link.contains(PNG)) {
                         suffix = PNG;
+                    } else if (link.contains(GIF)) {
+                        suffix = GIF;
                     } else {
                         suffix = JPG;
                     }
-
                     String fileName = UUID.randomUUID() + DOT + suffix;
 
-                    this.downloadPicture(inputStream, getPath(), fileName);
+                    this.downloadPicture(inputStream, this.getPath(), fileName, title);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-            }
-            finally {
+            } finally {
                 try {
                     if (httpGet != null) {
                         httpGet.clone();
@@ -96,7 +116,7 @@ public class WeiXinLinkPipeline implements Pipeline {
                         inputStream.close();
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error(e.getMessage());
                 }
             }
         }
@@ -104,32 +124,41 @@ public class WeiXinLinkPipeline implements Pipeline {
 
     }
 
-    //链接url下载图片
-    private void downloadPicture(InputStream inputStream, String path, String fileName) {
+    /**
+     * 链接url下载图片
+     *
+     * @param inputStream 输入流
+     * @param path        磁盘地址
+     * @param fileName    文件名称
+     * @param title       标题名称
+     */
+    private void downloadPicture(InputStream inputStream, String path, String fileName, String title) {
+
         try {
             DataInputStream dataInputStream = new DataInputStream(inputStream);
 
             //拼接文件路径
-            String newPath=path+ File.separator+DateUtil.format(new Date(), DatePattern.NORM_MONTH_PATTERN)+File.separator
-                    +DateUtil.format(new Date(), "dd")+"日";
+            String appendPath = this.getAppendPath(title);
 
             //如果文件夹不存在则创建
-            File file = new File(newPath);
+            File file = new File(appendPath);
+
             if (!file.exists()) {
-                file.mkdirs();
+                boolean mkdirs = file.mkdirs();
             }
 
             String absolutePath = file.getAbsolutePath();
             String absolute = absolutePath + File.separator + fileName;
 
             FileOutputStream f = new FileOutputStream(absolute);
+
             ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-            byte[] buffer = new byte[1024];
+            byte[] bf = new byte[1024];
             int length;
 
-            while ((length = dataInputStream.read(buffer)) > 0) {
-                out.write(buffer, 0, length);
+            while ((length = dataInputStream.read(bf)) > 0) {
+                out.write(bf, 0, length);
             }
 
             f.write(out.toByteArray());
@@ -138,6 +167,50 @@ public class WeiXinLinkPipeline implements Pipeline {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    /**
+     * 获取拼接后的磁盘路径
+     * @param title 拼接的最后的文件夹
+     * @return str
+     */
+    private String getAppendPath(String title) {
+        //过滤title字段
+        title = title.replace(" ", "");
+        //替换\ 防止报错
+        if (title.contains("/")) {
+            title = title.replace("/", "-");
+        }
+        if (title.contains("\\")) {
+            title = title.replace("\\", "-");
+        }
+        if (title.contains(":")) {
+            title = title.replace(":", "-");
+        }
+        if (title.contains("*")) {
+            title = title.replace("*", "-");
+        }
+        if (title.contains("?")) {
+            title = title.replace("?", "-");
+        }
+        if (title.contains("\"")) {
+            title = title.replace("\"", "-");
+        }
+        if (title.contains("<")) {
+            title = title.replace("<", "-");
+        }
+        if (title.contains(">")) {
+            title = title.replace(">", "-");
+        }
+        if (title.contains("|")) {
+            title = title.replace("|", "-");
+        }
+
+
+        return this.getPath() + File.separator + DateUtil.format(new Date(),
+                DatePattern.NORM_MONTH_PATTERN) + File.separator
+                + DateUtil.format(new Date(), "dd") + "日" + File.separator + title;
     }
 
 

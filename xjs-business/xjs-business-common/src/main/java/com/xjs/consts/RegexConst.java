@@ -37,4 +37,9 @@ public class RegexConst {
      * 文件路径正则
      */
     public static final String FILE_PATH_REGEX= "^[a-zA-Z]:(((\\\\(?! )[^/:*?<>\\\"\"|\\\\]+)+\\\\?)|(\\\\)?)\\s*$";
+
+    /**
+     * url正则
+     */
+    public static final String URL_REGEX= "(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]";
 }
