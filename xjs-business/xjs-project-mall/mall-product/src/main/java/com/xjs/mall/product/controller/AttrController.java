@@ -3,6 +3,7 @@ package com.xjs.mall.product.controller;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.xjs.mall.product.service.AttrService;
+import com.xjs.mall.product.vo.AttrGroupRelationVo;
 import com.xjs.mall.product.vo.AttrResponseVo;
 import com.xjs.mall.product.vo.AttrVo;
 import com.xjs.utils.PageUtils;
@@ -16,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -34,10 +36,21 @@ public class AttrController {
     private AttrService attrService;
 
 
-    @GetMapping("/base/list/{catelogId}")
+    @DeleteMapping("relation/delete")
+    @ApiOperation("删除属性及分组关联")
+    public R deleteRelation(@RequestBody List<AttrGroupRelationVo> vos) {
+        attrService.deleteRelation(vos);
+
+        return R.ok();
+    }
+
+
+    @GetMapping("/{attrType}/list/{catelogId}")
     @ApiOperation("列表")
-    public R baseAttrList(@RequestParam Map<String, Object> params, @PathVariable("catelogId") Long catelogId) {
-        PageUtils page = attrService.queryBaseAttrPage(params, catelogId);
+    public R baseAttrList(@RequestParam Map<String, Object> params,
+                          @PathVariable("attrType") String attrType,
+                          @PathVariable("catelogId") Long catelogId) {
+        PageUtils page = attrService.queryBaseAttrPage(params, catelogId, attrType);
         return R.ok().put("page", page);
     }
 

@@ -42,7 +42,7 @@
             <el-table-column prop="descript" header-align="center" align="center" label="描述"></el-table-column>
             <el-table-column prop="icon" header-align="center" align="center" label="组图标">
               <template slot-scope="scope">
-                <svg-icon :icon-class="scope.row.icon" />
+                <svg-icon :icon-class="scope.row.icon"/>
               </template>
             </el-table-column>
             <el-table-column prop="catelogId" header-align="center" align="center" label="分类ID"></el-table-column>
@@ -78,7 +78,7 @@
           <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
 
           <!-- 修改关联关系 -->
-          <!--                  <relation-update v-if="relationVisible" ref="relationUpdate" @refreshData="getDataList"></relation-update>-->
+          <relation-update v-if="relationVisible" ref="relationUpdate" @refreshData="getDataList"></relation-update>
         </div>
       </el-col>
     </el-row>
@@ -98,10 +98,10 @@ import Category from '../../../components/mall/category'
 import {getAttrGroupList, delAttrGroup} from "@/api/mall/product/attr-group";
 
 import AddOrUpdate from "./attrgroup-add-or-update";
-// import RelationUpdate from "./attr-group-relation";
+import RelationUpdate from "./attr-group-relation";
 
 export default {
-  components: {Category, AddOrUpdate, /*RelationUpdate*/},
+  components: {Category, AddOrUpdate, RelationUpdate},
   props: {},
   data() {
     return {

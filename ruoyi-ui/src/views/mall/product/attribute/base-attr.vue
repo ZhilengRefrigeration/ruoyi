@@ -58,12 +58,12 @@
             </el-table-column>
             <el-table-column prop="icon" header-align="center" align="center" label="图标">
               <template slot-scope="scope">
-                <svg-icon :icon-class="scope.row.icon" />
+                <svg-icon :icon-class="scope.row.icon"/>
               </template>
             </el-table-column>
             <el-table-column prop="valueSelect" header-align="center" align="center" label="可选值">
               <template slot-scope="scope">
-                <el-tooltip placement="top">
+                <el-tooltip placement="left">
                   <div slot="content">
                     <span v-for="(i,index) in scope.row.valueSelect.split(';')" :key="index">{{ i }}<br/></span>
                   </div>
@@ -180,10 +180,16 @@ export default {
         key: this.dataForm.key
       }
       if (this.attrtype === 0) {
-        // todo sale
+        let type = "sale"
+        getBaseAttrList(params, this.catId, type).then(res => {
+          this.dataList = res.page.list;
+          this.totalPage = res.page.totalCount;
+          this.dataListLoading = false;
+        })
 
-      } else {
-        getBaseAttrList(params, this.catId).then(res => {
+      } else if (this.attrtype === 1) {
+        let type = "base"
+        getBaseAttrList(params, this.catId, type).then(res => {
           this.dataList = res.page.list;
           this.totalPage = res.page.totalCount;
           this.dataListLoading = false;

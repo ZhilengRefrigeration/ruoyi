@@ -19,9 +19,9 @@ export function editAttr(data) {
 }
 
 // 分页获取规格参数
-export function getBaseAttrList(parms,catelogId) {
+export function getBaseAttrList(parms,catelogId,attrType) {
   return request({
-    url: `/mall-product/product/attr/base/list/${catelogId}`,
+    url: `/mall-product/product/attr/${attrType}/list/${catelogId}`,
     method: 'get',
     params:parms
   })
@@ -43,3 +43,13 @@ export function getAttr(attrId) {
     method: 'get',
   })
 }
+
+// 删除属性及分组关联
+export function deleteRelation(ids) {
+  return request({
+    url: `/mall-product/product/attr/relation/delete`,
+    method: 'delete',
+    data:ids
+  })
+}
+

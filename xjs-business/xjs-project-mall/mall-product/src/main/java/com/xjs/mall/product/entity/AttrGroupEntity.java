@@ -8,6 +8,7 @@ import com.xjs.validation.group.UpdateGroup;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
@@ -53,7 +54,7 @@ public class AttrGroupEntity implements Serializable {
     /**
      * 所属分类id
      */
-    @NotBlank(message = "所属分类id不能为空", groups = {UpdateGroup.class, AddGroup.class})
+    @NotNull(message = "所属分类id不能为空", groups = {UpdateGroup.class, AddGroup.class})
     private Long catelogId;
 
     /**

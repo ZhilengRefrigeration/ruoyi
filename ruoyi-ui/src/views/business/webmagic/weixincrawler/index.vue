@@ -52,9 +52,9 @@
 
     <el-row :gutter="15">
       <el-form size="medium" label-width="100px" :rules="linkRules" ref="linkRules" :model="requestData">
-        <el-col :span="7">
+        <el-col :span="12">
           <el-form-item prop="link" label="链接">
-            <el-input v-model="requestData.link" placeholder="请输入下载图片链接" :maxlength="200" clearable
+            <el-input v-model="requestData.link" placeholder="请复制微信文章链接地址" :maxlength="200" clearable
                       prefix-icon='el-icon-s-tools' :style="{width: '100%'}"></el-input>
           </el-form-item>
         </el-col>
@@ -84,7 +84,7 @@ export default {
 
       rules: {
         path: [
-          {required: true, message: '请输入下载图片路径路径', trigger: 'blur'}
+          {required: true, message: '请复制微信文章链接地址', trigger: 'blur'}
         ],
       },
       linkRules: {

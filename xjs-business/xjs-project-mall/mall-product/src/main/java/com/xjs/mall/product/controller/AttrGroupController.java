@@ -2,9 +2,13 @@ package com.xjs.mall.product.controller;
 
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
+import com.xjs.mall.product.entity.AttrEntity;
 import com.xjs.mall.product.entity.AttrGroupEntity;
+import com.xjs.mall.product.service.AttrAttrgroupRelationService;
 import com.xjs.mall.product.service.AttrGroupService;
+import com.xjs.mall.product.service.AttrService;
 import com.xjs.mall.product.service.CategoryService;
+import com.xjs.mall.product.vo.AttrGroupRelationVo;
 import com.xjs.utils.PageUtils;
 import com.xjs.utils.R;
 import com.xjs.validation.group.AddGroup;
@@ -36,6 +40,41 @@ public class AttrGroupController {
     private AttrGroupService attrGroupService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private AttrService attrService;
+    @Autowired
+    private AttrAttrgroupRelationService attrAttrgroupRelationService;
+
+    /**
+     * 获取关联信息
+     *
+     * @param attrgroupId 属性分组id
+     * @return r
+     */
+    @GetMapping("/{attrgroupId}/attr/relation")
+    public R attrRelation(@PathVariable("attrgroupId") Long attrgroupId) {
+        List<AttrEntity> attrList = attrService.getRelationAttr(attrgroupId);
+        return R.ok().put("data", attrList);
+    }
+
+    /**
+     * 获取未被关联的信息
+     * @param attrgroupId 属性分组id
+     * @param params 条件
+     * @return R
+     */
+    @GetMapping("/{attrgroupId}/noattr/relation")
+    public R attrNoRelation(@PathVariable("attrgroupId") Long attrgroupId, @RequestParam Map<String, Object> params) {
+        PageUtils page=attrService.getAttrNoRelation(params, attrgroupId);
+        return R.ok().put("page", page);
+    }
+
+    @PostMapping("/attr/relation")
+    public R addRelation(@RequestBody List<AttrGroupRelationVo> vos) {
+
+        attrAttrgroupRelationService.saveBatch(vos);
+        return R.ok();
+    }
 
     /**
      * 列表
