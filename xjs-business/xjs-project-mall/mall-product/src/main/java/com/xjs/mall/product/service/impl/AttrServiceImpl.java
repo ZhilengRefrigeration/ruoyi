@@ -62,7 +62,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         super.save(attrEntity);
 
         //保存关联关系
-        if (attr.getAttrType() == ATTR_TYPE_BASE.getCode()) {
+        if (attr.getAttrType() == ATTR_TYPE_BASE.getCode() && attr.getAttrGroupId()!=null) {
             AttrAttrgroupRelationEntity attrAttrgroupRelationEntity = new AttrAttrgroupRelationEntity();
             attrAttrgroupRelationEntity.setAttrGroupId(attr.getAttrGroupId());
             attrAttrgroupRelationEntity.setAttrId(attrEntity.getAttrId());
@@ -100,7 +100,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
                 AttrAttrgroupRelationEntity attrId = attrAttrgroupRelationDao.selectOne(new LambdaQueryWrapper<AttrAttrgroupRelationEntity>()
                         .eq(AttrAttrgroupRelationEntity::getAttrId, attrEntity.getAttrId()));
 
-                if (attrId != null) {
+                if (attrId != null && attrId.getAttrGroupId()!=null) {
                     AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(attrId.getAttrGroupId());
                     attrResponseVo.setGroupName(attrGroupEntity.getAttrGroupName());
                 }

@@ -1,20 +1,18 @@
 package com.xjs.mall.member.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import com.ruoyi.common.log.annotation.Log;
+import com.ruoyi.common.log.enums.BusinessType;
 import com.xjs.mall.member.entity.MemberLevelEntity;
 import com.xjs.mall.member.service.MemberLevelService;
 import com.xjs.utils.PageUtils;
 import com.xjs.utils.R;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.Map;
 
 
 /**
@@ -22,10 +20,11 @@ import com.xjs.utils.R;
  *
  * @author xiejs
  * @email 1294405880@qq.com
- * @date 2022-03-15 10:30:19
+ * @since 2022-03-15 10:30:19
  */
 @RestController
 @RequestMapping("member/memberlevel")
+@Api(tags = "商城-会员-会员等级")
 public class MemberLevelController {
     @Autowired
     private MemberLevelService memberLevelService;
@@ -34,7 +33,8 @@ public class MemberLevelController {
      * 列表
      */
     @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params){
+    @ApiOperation("列表")
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = memberLevelService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -45,8 +45,9 @@ public class MemberLevelController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    public R info(@PathVariable("id") Long id){
-		MemberLevelEntity memberLevel = memberLevelService.getById(id);
+    @ApiOperation("信息")
+    public R info(@PathVariable("id") Long id) {
+        MemberLevelEntity memberLevel = memberLevelService.getById(id);
 
         return R.ok().put("memberLevel", memberLevel);
     }
@@ -55,8 +56,10 @@ public class MemberLevelController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody MemberLevelEntity memberLevel){
-		memberLevelService.save(memberLevel);
+    @ApiOperation("保存")
+    @Log(title = "会员等级", businessType = BusinessType.INSERT)
+    public R save(@RequestBody MemberLevelEntity memberLevel) {
+        memberLevelService.save(memberLevel);
 
         return R.ok();
     }
@@ -65,8 +68,10 @@ public class MemberLevelController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody MemberLevelEntity memberLevel){
-		memberLevelService.updateById(memberLevel);
+    @ApiOperation("修改")
+    @Log(title = "会员等级", businessType = BusinessType.UPDATE)
+    public R update(@RequestBody MemberLevelEntity memberLevel) {
+        memberLevelService.updateById(memberLevel);
 
         return R.ok();
     }
@@ -75,8 +80,10 @@ public class MemberLevelController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] ids){
-		memberLevelService.removeByIds(Arrays.asList(ids));
+    @ApiOperation("删除")
+    @Log(title = "会员等级", businessType = BusinessType.DELETE)
+    public R delete(@RequestBody Long[] ids) {
+        memberLevelService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }
