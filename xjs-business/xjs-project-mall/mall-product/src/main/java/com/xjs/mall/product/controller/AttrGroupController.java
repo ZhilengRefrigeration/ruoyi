@@ -52,6 +52,7 @@ public class AttrGroupController {
      * @return r
      */
     @GetMapping("/{attrgroupId}/attr/relation")
+    @ApiOperation("获取关联信息")
     public R attrRelation(@PathVariable("attrgroupId") Long attrgroupId) {
         List<AttrEntity> attrList = attrService.getRelationAttr(attrgroupId);
         return R.ok().put("data", attrList);
@@ -64,12 +65,14 @@ public class AttrGroupController {
      * @return R
      */
     @GetMapping("/{attrgroupId}/noattr/relation")
+    @ApiOperation("获取未被关联的信息")
     public R attrNoRelation(@PathVariable("attrgroupId") Long attrgroupId, @RequestParam Map<String, Object> params) {
         PageUtils page=attrService.getAttrNoRelation(params, attrgroupId);
         return R.ok().put("page", page);
     }
 
     @PostMapping("/attr/relation")
+    @ApiOperation("添加属性分组与规格关联")
     public R addRelation(@RequestBody List<AttrGroupRelationVo> vos) {
 
         attrAttrgroupRelationService.saveBatch(vos);

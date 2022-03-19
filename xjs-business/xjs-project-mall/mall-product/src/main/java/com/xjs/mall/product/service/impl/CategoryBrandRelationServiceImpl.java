@@ -1,5 +1,6 @@
 package com.xjs.mall.product.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xjs.mall.product.dao.BrandDao;
@@ -8,11 +9,15 @@ import com.xjs.mall.product.dao.CategoryDao;
 import com.xjs.mall.product.entity.BrandEntity;
 import com.xjs.mall.product.entity.CategoryBrandRelationEntity;
 import com.xjs.mall.product.entity.CategoryEntity;
+import com.xjs.mall.product.service.BrandService;
 import com.xjs.mall.product.service.CategoryBrandRelationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service("categoryBrandRelationService")
@@ -24,6 +29,9 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
 
     @Resource
     private CategoryDao categoryDao;
+
+    @Autowired
+    private BrandService brandService;
 
 
     @Override
@@ -58,5 +66,14 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
 
         super.update(entity, new LambdaUpdateWrapper<CategoryBrandRelationEntity>()
                 .eq(CategoryBrandRelationEntity::getCatelogId, catId));
+    }
+
+    @Override
+    public List<BrandEntity> getBrandsByCatId(Long catId) {
+        List<CategoryBrandRelationEntity> categoryBrandRelationEntities = super.baseMapper.selectList(
+                new LambdaQueryWrapper<CategoryBrandRelationEntity>().eq(CategoryBrandRelationEntity::getCatelogId, catId)
+        );
+        return categoryBrandRelationEntities.stream()
+                .map(item -> brandService.getById(item.getBrandId())).collect(Collectors.toList());
     }
 }

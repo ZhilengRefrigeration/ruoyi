@@ -1,7 +1,10 @@
 package com.xjs.mall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xjs.mall.product.entity.BrandEntity;
 import com.xjs.mall.product.entity.CategoryBrandRelationEntity;
+
+import java.util.List;
 
 /**
  * 品牌分类关联
@@ -32,5 +35,12 @@ public interface CategoryBrandRelationService extends IService<CategoryBrandRela
      * @param name  分类名称
      */
     void updateCategory(Long catId, String name);
+
+    /**
+     * 查询指定分类的品牌信息
+     * @param catId 分类id
+     * @return list
+     */
+    List<BrandEntity> getBrandsByCatId(Long catId);
 }
 

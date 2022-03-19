@@ -32,7 +32,7 @@ public class MemberLevelController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     @ApiOperation("列表")
     public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = memberLevelService.queryPage(params);
@@ -44,7 +44,7 @@ public class MemberLevelController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     @ApiOperation("信息")
     public R info(@PathVariable("id") Long id) {
         MemberLevelEntity memberLevel = memberLevelService.getById(id);
@@ -55,7 +55,7 @@ public class MemberLevelController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     @ApiOperation("保存")
     @Log(title = "会员等级", businessType = BusinessType.INSERT)
     public R save(@RequestBody MemberLevelEntity memberLevel) {
@@ -67,7 +67,7 @@ public class MemberLevelController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PutMapping("/update")
     @ApiOperation("修改")
     @Log(title = "会员等级", businessType = BusinessType.UPDATE)
     public R update(@RequestBody MemberLevelEntity memberLevel) {
@@ -79,7 +79,7 @@ public class MemberLevelController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @DeleteMapping("/delete")
     @ApiOperation("删除")
     @Log(title = "会员等级", businessType = BusinessType.DELETE)
     public R delete(@RequestBody Long[] ids) {
