@@ -68,6 +68,11 @@ export default {
   },
 
   mounted() {
+    this.$bus.$on('clearCategoryCascader', data => {
+      this.paths = data
+    })
+
+
   }
 };
 </script>

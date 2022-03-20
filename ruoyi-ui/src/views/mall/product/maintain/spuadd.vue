@@ -346,9 +346,9 @@
         <el-card class="box-card" style="width:80%;margin:20px auto">
           <el-result icon="success" title="保存成功" subTitle="">
             <template slot="extra">
+              <el-button type="primary" @click="addAgian">继续添加</el-button>
             </template>
           </el-result>
-          <el-button type="primary" @click="addAgian">继续添加</el-button>
         </el-card>
       </el-col>
     </el-row>
@@ -469,7 +469,7 @@ export default {
       this.spu = {
         spuName: "",
         spuDescription: "",
-        catalogId: 0,
+        catalogId: "",
         brandId: "",
         weight: "",
         publishStatus: 0,
@@ -484,6 +484,10 @@ export default {
       };
 
       //清空子组件的值
+      this.$bus.$emit('clearCategoryCascader',[])
+      this.$bus.$emit('clearBrandSelect',[])
+
+
     },
 
     handlePriceChange(scope, mpidx, e) {

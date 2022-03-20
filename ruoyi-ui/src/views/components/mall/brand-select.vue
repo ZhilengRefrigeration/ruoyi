@@ -45,9 +45,11 @@ export default {
       let catId = {
         brand: this.catId
       }
-      catelogList(catId).then(res => {
-        this.brands = res.data;
-      })
+      if (this.catId) {
+        catelogList(catId).then(res => {
+          this.brands = res.data;
+        })
+      }
     },
 
   },
@@ -55,6 +57,17 @@ export default {
   created() {
   },
   mounted() {
+    //监听清空选中值
+    this.$bus.$on('clearBrandSelect', data => {
+      this.brands = [
+        {
+          label: null,
+          value: null
+        }
+      ]
+      this.brandId = null
+    })
+
     //监听三级分类消息的变化
     this.subscribe = PubSub.subscribe("catPath", (msg, val) => {
       this.catId = val[val.length - 1];
