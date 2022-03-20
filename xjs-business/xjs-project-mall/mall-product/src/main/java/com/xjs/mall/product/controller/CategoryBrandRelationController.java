@@ -7,7 +7,7 @@ import com.xjs.mall.product.entity.BrandEntity;
 import com.xjs.mall.product.entity.CategoryBrandRelationEntity;
 import com.xjs.mall.product.service.CategoryBrandRelationService;
 import com.xjs.mall.product.vo.BrandVo;
-import com.xjs.utils.R;
+import com.xjs.mall.other.R;
 import com.xjs.validation.group.AddGroup;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xjs.mall.coupon.entity.HomeSubjectEntity;
 import com.xjs.mall.coupon.service.HomeSubjectService;
 import com.xjs.utils.PageUtils;
-import com.xjs.utils.R;
+import com.xjs.mall.other.R;
 
 
 

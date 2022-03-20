@@ -1,4 +1,4 @@
-package com.xjs.to;
+package com.xjs.mall.to;
 
 import lombok.Data;
 

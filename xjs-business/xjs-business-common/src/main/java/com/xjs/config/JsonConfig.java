@@ -7,6 +7,7 @@ import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
@@ -19,10 +20,12 @@ import java.util.List;
 
 /**
  * 全局序列化处理配置
+ *
  * @author xiejs
- * @since  2021-12-26
+ * @since 2021-12-26
  */
 @Configuration
+@Log4j2
 public class JsonConfig {
     @Bean
     public HttpMessageConverters fastJsonHttpMessageConverters() {
@@ -62,13 +65,15 @@ public class JsonConfig {
 
         //忽略某些空值
         PropertyFilter filter = (source, key, value) -> {
-            if(value instanceof List && ((List) value).size() == 0){
-                return  false;
+            if (value instanceof List && ((List) value).size() == 0) {
+                if ("children".equals(key)) {
+                    return false;
+                }
             }
             return true;
         };
 
-        fastJsonConfig.setSerializeFilters(valueFilter,filter);
+        fastJsonConfig.setSerializeFilters(valueFilter, filter);
 
         fastConverter.setFastJsonConfig(fastJsonConfig);
 
@@ -76,7 +81,7 @@ public class JsonConfig {
     }
 
     @Bean
-    public Jackson2ObjectMapperBuilderCustomizer customizer(){
+    public Jackson2ObjectMapperBuilderCustomizer customizer() {
         return builder -> builder.featuresToEnable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     }
 

@@ -3,7 +3,7 @@ package com.xjs.mall.ware.controller;
 import com.xjs.mall.ware.entity.PurchaseEntity;
 import com.xjs.mall.ware.service.PurchaseService;
 import com.xjs.utils.PageUtils;
-import com.xjs.utils.R;
+import com.xjs.mall.other.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

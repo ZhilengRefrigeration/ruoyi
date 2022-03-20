@@ -1,19 +1,17 @@
 package com.xjs.mall.coupon.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.xjs.mall.coupon.entity.SkuFullReductionEntity;
 import com.xjs.mall.coupon.service.SkuFullReductionService;
+import com.xjs.mall.other.R;
+import com.xjs.mall.to.SkuReductionTo;
 import com.xjs.utils.PageUtils;
-import com.xjs.utils.R;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Map;
 
 
 
@@ -26,9 +24,18 @@ import com.xjs.utils.R;
  */
 @RestController
 @RequestMapping("coupon/skufullreduction")
+@Api(tags = "商城-优惠-满减")
 public class SkuFullReductionController {
     @Autowired
     private SkuFullReductionService skuFullReductionService;
+
+    @PostMapping("/saveinfo")
+    @ApiOperation("保存满减信息")
+    public R saveInfo(@RequestBody SkuReductionTo skuReductionTo) {
+        skuFullReductionService.saveSkuReduction(skuReductionTo);
+        return R.ok();
+    }
+
 
     /**
      * 列表

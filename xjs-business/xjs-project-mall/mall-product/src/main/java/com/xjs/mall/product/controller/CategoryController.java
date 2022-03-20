@@ -4,7 +4,7 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.xjs.mall.product.entity.CategoryEntity;
 import com.xjs.mall.product.service.CategoryService;
-import com.xjs.utils.R;
+import com.xjs.mall.other.R;
 import com.xjs.validation.group.AddGroup;
 import com.xjs.validation.group.UpdateGroup;
 import io.swagger.annotations.Api;
@@ -80,6 +80,7 @@ public class CategoryController {
     }
 
     @PutMapping("/update/sort")
+    @ApiOperation("修改商品分类排序")
     @Log(title = "商品分类", businessType = BusinessType.UPDATE)
     public R updateSort(@RequestBody CategoryEntity[] categoryEntities) {
         categoryService.updateBatchById(Arrays.asList(categoryEntities));

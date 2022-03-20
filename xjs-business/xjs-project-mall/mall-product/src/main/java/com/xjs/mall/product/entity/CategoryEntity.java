@@ -1,6 +1,5 @@
 package com.xjs.mall.product.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
@@ -16,7 +15,7 @@ import java.util.List;
 
 /**
  * 商品三级分类
- * 
+ *
  * @author xiejs
  * @email 1294405880@qq.com
  * @since  2022-03-15 10:16:53
@@ -72,7 +71,6 @@ public class CategoryEntity implements Serializable {
 	/**
 	 * 子分类
 	 */
-	@JSONField
 	@TableField(exist = false)
 	private List<CategoryEntity> children;
 

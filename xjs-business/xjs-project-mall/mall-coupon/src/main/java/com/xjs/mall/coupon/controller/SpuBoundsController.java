@@ -1,19 +1,16 @@
 package com.xjs.mall.coupon.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.xjs.mall.coupon.entity.SpuBoundsEntity;
 import com.xjs.mall.coupon.service.SpuBoundsService;
+import com.xjs.mall.other.R;
 import com.xjs.utils.PageUtils;
-import com.xjs.utils.R;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Map;
 
 
 
@@ -26,6 +23,7 @@ import com.xjs.utils.R;
  */
 @RestController
 @RequestMapping("coupon/spubounds")
+@Api(tags = "商城-优惠-SPU积分")
 public class SpuBoundsController {
     @Autowired
     private SpuBoundsService spuBoundsService;
@@ -52,9 +50,10 @@ public class SpuBoundsController {
     }
 
     /**
-     * 保存
+     * 保存 （远程调用使用）
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
+    @ApiOperation("保存")
     public R save(@RequestBody SpuBoundsEntity spuBounds){
 		spuBoundsService.save(spuBounds);
 

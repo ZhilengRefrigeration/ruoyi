@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xjs.mall.coupon.entity.SeckillSessionEntity;
 import com.xjs.mall.coupon.service.SeckillSessionService;
 import com.xjs.utils.PageUtils;
-import com.xjs.utils.R;
+import com.xjs.mall.other.R;
 
 
 

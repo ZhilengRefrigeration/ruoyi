@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.xjs.mall.product.entity.SpuCommentEntity;
 import com.xjs.mall.product.service.SpuCommentService;
 import com.xjs.utils.PageUtils;
-import com.xjs.utils.R;
+import com.xjs.mall.other.R;
 
 
 

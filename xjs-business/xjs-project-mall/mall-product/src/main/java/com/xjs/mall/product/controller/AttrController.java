@@ -7,7 +7,7 @@ import com.xjs.mall.product.vo.AttrGroupRelationVo;
 import com.xjs.mall.product.vo.AttrResponseVo;
 import com.xjs.mall.product.vo.AttrVo;
 import com.xjs.utils.PageUtils;
-import com.xjs.utils.R;
+import com.xjs.mall.other.R;
 import com.xjs.validation.group.AddGroup;
 import com.xjs.validation.group.UpdateGroup;
 import io.swagger.annotations.Api;

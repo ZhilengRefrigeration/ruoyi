@@ -2,17 +2,21 @@ package com.xjs.mall.product.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xjs.exception.MallException;
 import com.xjs.mall.product.dao.AttrGroupDao;
 import com.xjs.mall.product.entity.AttrAttrgroupRelationEntity;
+import com.xjs.mall.product.entity.AttrEntity;
 import com.xjs.mall.product.entity.AttrGroupEntity;
 import com.xjs.mall.product.entity.CategoryEntity;
 import com.xjs.mall.product.service.AttrAttrgroupRelationService;
 import com.xjs.mall.product.service.AttrGroupService;
+import com.xjs.mall.product.service.AttrService;
 import com.xjs.mall.product.service.CategoryService;
 import com.xjs.mall.product.vo.AttrGroupResponseVo;
+import com.xjs.mall.product.vo.AttrGroupWithAttrsVo;
 import com.xjs.utils.PageUtils;
 import com.xjs.utils.Query;
 import org.apache.commons.lang3.StringUtils;
@@ -35,6 +39,8 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
 
     @Autowired
     private AttrAttrgroupRelationService attrAttrgroupRelationService;
+    @Autowired
+    private AttrService attrService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params, Long categoryId) {
@@ -95,6 +101,22 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
             CategoryEntity categoryEntity = categoryService.getById(attrGroupEntity.getCatelogId());
             attrGroupResponseVo.setCategoryName(categoryEntity.getName());
             return attrGroupResponseVo;
+        }).collect(Collectors.toList());
+    }
+
+
+    @Override
+    public List<AttrGroupWithAttrsVo> getAttrGroupWithAttrsByCatelogId(Long catelogId) {
+        //1、查询分组信息
+        List<AttrGroupEntity> attrGroupEntities = this.list(new QueryWrapper<AttrGroupEntity>().eq("catelog_id", catelogId));
+
+        //2、查询所有属性
+        return attrGroupEntities.stream().map(group -> {
+            AttrGroupWithAttrsVo attrsVo = new AttrGroupWithAttrsVo();
+            BeanUtils.copyProperties(group,attrsVo);
+            List<AttrEntity> attrs = attrService.getRelationAttr(attrsVo.getAttrGroupId());
+            attrsVo.setAttrs(attrs);
+            return attrsVo;
         }).collect(Collectors.toList());
     }
 

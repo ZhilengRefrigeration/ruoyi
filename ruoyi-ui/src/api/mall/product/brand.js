@@ -44,5 +44,14 @@ export function delBrand(ids) {
   })
 }
 
+// 根据分类id找到品牌
+export function catelogList(catId) {
+  return request({
+    url: '/mall-product/product/categorybrandrelation/brands/list',
+    method: 'get',
+    params:catId
+  })
+}
+
 
 

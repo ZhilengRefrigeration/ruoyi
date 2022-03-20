@@ -9,8 +9,9 @@ import com.xjs.mall.product.service.AttrGroupService;
 import com.xjs.mall.product.service.AttrService;
 import com.xjs.mall.product.service.CategoryService;
 import com.xjs.mall.product.vo.AttrGroupRelationVo;
+import com.xjs.mall.product.vo.AttrGroupWithAttrsVo;
 import com.xjs.utils.PageUtils;
-import com.xjs.utils.R;
+import com.xjs.mall.other.R;
 import com.xjs.validation.group.AddGroup;
 import com.xjs.validation.group.UpdateGroup;
 import io.swagger.annotations.Api;
@@ -44,6 +45,15 @@ public class AttrGroupController {
     private AttrService attrService;
     @Autowired
     private AttrAttrgroupRelationService attrAttrgroupRelationService;
+
+    @GetMapping("/{catelogId}/withattr")
+    @ApiOperation("根据分类id获取规格参数")
+    public R getAttrGroupWithAttrs(@PathVariable("catelogId")Long catelogId){
+        //1、查出当前分类下的所有属性分组，
+        //2、查出每个属性分组的所有属性
+        List<AttrGroupWithAttrsVo> vos =  attrGroupService.getAttrGroupWithAttrsByCatelogId(catelogId);
+        return R.ok().put("data",vos);
+    }
 
     /**
      * 获取关联信息

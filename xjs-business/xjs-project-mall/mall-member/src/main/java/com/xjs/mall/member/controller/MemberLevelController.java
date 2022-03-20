@@ -5,7 +5,7 @@ import com.ruoyi.common.log.enums.BusinessType;
 import com.xjs.mall.member.entity.MemberLevelEntity;
 import com.xjs.mall.member.service.MemberLevelService;
 import com.xjs.utils.PageUtils;
-import com.xjs.utils.R;
+import com.xjs.mall.other.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

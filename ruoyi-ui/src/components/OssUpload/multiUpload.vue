@@ -9,7 +9,9 @@
       :on-remove="handleRemove"
       :on-success="handleUploadSuccess"
       :on-preview="handlePreview"
+      :before-remove="removeImg"
       :limit="maxCount"
+      accept="image/*"
       :on-exceed="handleExceed"
     >
       <i class="el-icon-plus"></i>
@@ -20,7 +22,7 @@
   </div>
 </template>
 <script>
-import { policy } from "./policy";
+import {policy, removeImg} from "@/api/common";
 import { getUUID } from '@/utils'
 export default {
   name: "multiUpload",
@@ -74,26 +76,43 @@ export default {
       this.dialogVisible = true;
       this.dialogImageUrl = file.url;
     },
+
     beforeUpload(file) {
       let _self = this;
       return new Promise((resolve, reject) => {
-        policy()
-          .then(response => {
-            console.log("这是什么${filename}");
-            _self.dataObj.policy = response.data.policy;
-            _self.dataObj.signature = response.data.signature;
-            _self.dataObj.ossaccessKeyId = response.data.accessid;
-            _self.dataObj.key = response.data.dir + "/"+getUUID()+"_${filename}";
-            _self.dataObj.dir = response.data.dir;
-            _self.dataObj.host = response.data.host;
-            resolve(true);
-          })
-          .catch(err => {
-            console.log("出错了...",err)
-            reject(false);
-          });
+        let isRightSize = file.size / 1024 / 1024 < 10
+        if (!isRightSize) {
+          this.$message.error('文件大小超过 10MB')
+        }
+        let isAccept = new RegExp('image/*').test(file.type)
+        if (!isAccept) {
+          this.$message.error('应该选择image/*类型的文件')
+        }
+
+        if (isRightSize && isAccept) {
+          policy()
+            .then(response => {
+              _self.dataObj.policy = response.data.policy;
+              _self.dataObj.signature = response.data.signature;
+              _self.dataObj.ossaccessKeyId = response.data.accessid;
+              _self.dataObj.key = response.data.dir + "/"+getUUID()+"_${filename}";
+              _self.dataObj.dir = response.data.dir;
+              _self.dataObj.host = response.data.host;
+              resolve(true);
+            })
+            .catch(err => {
+              console.log("出错了...",err)
+              reject(false);
+            });
+        }else {
+          reject(false);
+        }
+
       });
     },
+
+
+
     handleUploadSuccess(res, file) {
       this.fileList.push({
         name: file.name,
@@ -108,7 +127,17 @@ export default {
         type: "warning",
         duration: 1000
       });
-    }
+    },
+
+    //删除图片
+    removeImg(file,fileList) {
+      if (file.url) {
+        let pictureUrl = {"url": file.url};
+        removeImg(pictureUrl).then(res => {
+        })
+        this.emitInput('');
+      }
+    },
   }
 };
 </script>

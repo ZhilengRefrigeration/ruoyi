@@ -1,21 +1,26 @@
 
-package com.xjs.to;
+package com.xjs.mall.to;
 
 import lombok.Data;
 
 import java.math.BigDecimal;
 
 /**
- * Auto-generated: 2019-11-26 10:50:34
- *
- * @author bejson.com (i@bejson.com)
- * @website http://www.bejson.com/java2pojo/
+ * 会员价vo
+ * @author xiejs
+ * @since 2022-03-20 13:51:55
  */
 @Data
 public class MemberPrice {
 
     private Long id;
+    /**
+     * 会员名称
+     */
     private String name;
+    /**
+     * 会员价格
+     */
     private BigDecimal price;
 
 }

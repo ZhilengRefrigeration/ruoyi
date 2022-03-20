@@ -70,6 +70,14 @@ export function addRelation(ids) {
   })
 }
 
+// 根据分类id获取分类属性
+export function getAttrGroupWithAttrs(catelogId) {
+  return request({
+    url: `/mall-product/product/attrgroup/${catelogId}/withattr`,
+    method: 'get',
+  })
+}
+
 
 
 

@@ -1,19 +1,15 @@
 package com.xjs.mall.product.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.xjs.mall.product.entity.SkuInfoEntity;
 import com.xjs.mall.product.service.SkuInfoService;
 import com.xjs.utils.PageUtils;
-import com.xjs.utils.R;
+import com.xjs.mall.other.R;
+import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Map;
 
 
 
@@ -22,10 +18,11 @@ import com.xjs.utils.R;
  *
  * @author xiejs
  * @email 1294405880@qq.com
- * @date 2022-03-15 10:16:53
+ * @since  2022-03-15 10:16:53
  */
 @RestController
 @RequestMapping("product/skuinfo")
+@Api(tags = "商城-商品-SKU信息")
 public class SkuInfoController {
     @Autowired
     private SkuInfoService skuInfoService;
