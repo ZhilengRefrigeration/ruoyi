@@ -17,10 +17,13 @@
             </el-select>
           </el-form-item>
           <el-form-item label="检索">
-            <el-input style="width:160px" v-model="dataForm.key" clearable></el-input>
+            <el-input style="width:200px" v-model="dataForm.key" clearable placeholder="请输入spu名称或描述"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="searchSpuInfo">查询</el-button>
+            <el-button-group>
+            <el-button type="primary" @click="searchSpuInfo" size="mini">查询</el-button>
+            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+            </el-button-group>
           </el-form-item>
         </el-form>
       </el-col>
@@ -37,7 +40,6 @@ import BrandSelect from "../../../components/mall/brand-select";
 import Spuinfo from "./spuinfo";
 
 export default {
-  //import引入的组件需要注入到对象中才能使用
   components: {CategoryCascader, Spuinfo, BrandSelect},
   props: {},
   name: "SpuList",
@@ -49,11 +51,11 @@ export default {
       dataForm: {
         status: "",
         key: "",
-        brandId: 0,
-        catelogId: 0
+        brandId: null,
+        catelogId: null
       },
       catPathSub: null,
-      brandIdSub: null
+      brandIdSub: null,
 
     };
   },
@@ -63,9 +65,18 @@ export default {
   //方法集合
   methods: {
     searchSpuInfo() {
-      console.log("搜索条件", this.dataForm);
       this.PubSub.publish("dataForm", this.dataForm);
-    }
+    },
+
+    /** 重置按钮操作 */
+    resetQuery() {
+      this.dataForm={}
+      // this.catelogPath= []
+      this.$bus.$emit('clearCategoryCascader',[])
+      this.$bus.$emit('clearBrandSelect',[])
+    },
+
+
   },
   created() {
   },

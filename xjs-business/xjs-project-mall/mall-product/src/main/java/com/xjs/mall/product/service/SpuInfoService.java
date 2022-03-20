@@ -16,8 +16,6 @@ import java.util.Map;
  */
 public interface SpuInfoService extends IService<SpuInfoEntity> {
 
-    PageUtils queryPage(Map<String, Object> params);
-
     /**
      * 保存spu关联信息
      * @param spuInfo spu信息
@@ -30,5 +28,11 @@ public interface SpuInfoService extends IService<SpuInfoEntity> {
      */
     void saveBaseSpuInfo(SpuInfoEntity spuInfoEntity);
 
+    /**
+     * 根据条件分页查询
+     * @param params 条件
+     * @return page
+     */
+    PageUtils queryPageByCondition(Map<String, Object> params);
 }
 

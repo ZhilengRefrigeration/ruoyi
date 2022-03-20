@@ -8,3 +8,13 @@ export function saveSpuInfo(data) {
     data: data
   })
 }
+
+// 获取spu列表分页数据
+export function getSpuList(data) {
+  return request({
+    url: '/mall-product/product/spuinfo/list',
+    method: 'get',
+    params: data
+  })
+}
+

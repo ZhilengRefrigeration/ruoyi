@@ -1,7 +1,7 @@
 package com.xjs.mall.product.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.core.utils.StringUtils;
@@ -46,14 +46,6 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     @Resource
     private RemoteCouponFeign remoteCouponFeign;
 
-    @Override
-    public PageUtils queryPage(Map<String, Object> params) {
-        IPage<SpuInfoEntity> page = this.page(
-                new Query<SpuInfoEntity>().getPage(params),
-                new QueryWrapper<>()
-        );
-        return new PageUtils(page);
-    }
 
     @Override
     public void saveSpuInfo(SpuSaveVo spuSaveVo) {
@@ -150,7 +142,6 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                 }
 
 
-
             });
         }
     }
@@ -158,6 +149,32 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     @Override
     public void saveBaseSpuInfo(SpuInfoEntity spuInfoEntity) {
         super.baseMapper.insert(spuInfoEntity);
+    }
+
+    @Override
+    public PageUtils queryPageByCondition(Map<String, Object> params) {
+        LambdaQueryWrapper<SpuInfoEntity> wrapper = new LambdaQueryWrapper<>();
+
+        String key = (String) params.get(Query.KEY_NAME);
+        String status = (String) params.get("status");
+        String brandId = (String) params.get("brandId");
+        String catelogId = (String) params.get("catelogId");
+
+        wrapper.and(StringUtils.isNotEmpty(key), wr -> {
+                    wr.like(SpuInfoEntity::getSpuName, key).or()
+                            .like(SpuInfoEntity::getSpuDescription, key);
+                })
+                .eq(StringUtils.isNotEmpty(status), SpuInfoEntity::getPublishStatus, status)
+                .eq(StringUtils.isNotEmpty(brandId), SpuInfoEntity::getBrandId, brandId)
+                .eq(StringUtils.isNotEmpty(catelogId), SpuInfoEntity::getCatalogId, catelogId);
+        wrapper.orderByDesc(SpuInfoEntity::getCreateTime);
+
+        IPage<SpuInfoEntity> page = this.page(
+                new Query<SpuInfoEntity>().getPage(params),
+                wrapper
+        );
+
+        return new PageUtils(page);
     }
 
 
