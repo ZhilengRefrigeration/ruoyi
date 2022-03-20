@@ -45,6 +45,10 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     private SkuSaleAttrValueService skuSaleAttrValueService;
     @Resource
     private RemoteCouponFeign remoteCouponFeign;
+    @Autowired
+    private CategoryService categoryService;
+    @Autowired
+    private BrandService brandService;
 
 
     @Override
@@ -169,12 +173,28 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                 .eq(StringUtils.isNotEmpty(catelogId), SpuInfoEntity::getCatalogId, catelogId);
         wrapper.orderByDesc(SpuInfoEntity::getCreateTime);
 
-        IPage<SpuInfoEntity> page = this.page(
-                new Query<SpuInfoEntity>().getPage(params),
-                wrapper
-        );
+        IPage<SpuInfoEntity> page = this.page(new Query<SpuInfoEntity>().getPage(params), wrapper);
 
-        return new PageUtils(page);
+        List<SpuInfoEntity> spuInfoEntities = page.getRecords();
+        List<SpuInfoVo> collect = spuInfoEntities.stream().map(spuInfoEntity -> {
+            SpuInfoVo spuInfoVo = new SpuInfoVo();
+            BeanUtils.copyProperties(spuInfoEntity, spuInfoVo);
+
+            //获取分类信息
+            CategoryEntity categoryEntity = categoryService.getById(spuInfoEntity.getCatalogId());
+            spuInfoVo.setCatalogName(categoryEntity.getName());
+
+            //获取品牌信息
+            BrandEntity brandEntity = brandService.getById(spuInfoEntity.getBrandId());
+            spuInfoVo.setBrandName(brandEntity.getName());
+
+            return spuInfoVo;
+        }).collect(Collectors.toList());
+
+        PageUtils pageUtils = new PageUtils(page);
+        pageUtils.setList(collect);
+
+        return pageUtils;
     }
 
 

@@ -10,8 +10,8 @@
       <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
       <el-table-column prop="spuName" header-align="center" align="center" label="名称" :show-overflow-tooltip="true"></el-table-column>
       <el-table-column prop="spuDescription" header-align="center" align="center" label="描述" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="catalogId" header-align="center" align="center" label="分类" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="brandId" header-align="center" align="center" label="品牌" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="catalogName" header-align="center" align="center" label="分类" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="brandName" header-align="center" align="center" label="品牌" :show-overflow-tooltip="true"></el-table-column>
       <el-table-column prop="weight" header-align="center" align="center" width="80px" label="重量(kg)" :show-overflow-tooltip="true"></el-table-column>
       <el-table-column prop="publishStatus" header-align="center" width="80px" align="center" label="上架状态" :show-overflow-tooltip="true">
         <template slot-scope="scope">
