@@ -1,11 +1,17 @@
-DROP DATABASE IF EXISTS `ry-config`;
+/******************************************/
+/*   前言：我之前是先创建了nacos表才开始改ry框架，所以这边直接插入数据即可  */
+/******************************************/
 
-CREATE DATABASE  `ry-config` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+-- 如果提前创建好了naocos配置表就不要执行这个
+DROP DATABASE IF EXISTS `nacos_config`;
+
+CREATE DATABASE  `nacos_config` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
-USE `ry-config`;
+USE `nacos_config`;
 
 /******************************************/
 /*   表名称 = config_info   */
@@ -211,6 +217,11 @@ CREATE TABLE `permissions` (
     UNIQUE INDEX `uk_role_permission` (`role`,`resource`,`action`) USING BTREE
 );
 
-INSERT INTO users (username, password, enabled) VALUES ('nacos', '$2a$10$EuWPZHzz32dJN7jexM34MOeYirDdFAZm2kuWj7VEOJhhZkDrxfvUu', TRUE);
+INSERT INTO permissions (`role`, `resource`, `action`) VALUES ('ROLE_RUOYI', '6beb5492-ecb7-431c-85b5-73c2c9d5826a:*:*', 'rw');
 
-INSERT INTO roles (username, role) VALUES ('nacos', 'ROLE_ADMIN');
+INSERT INTO users (username, password, enabled) VALUES ('ruoyi', '$10$Rz8OuaaWqIM.pn37JRl99uxvlskJROlNNyfLzOrHf0PfUkImDjs5q', TRUE);
+
+INSERT INTO roles (username, role) VALUES ('ruoyi', 'ROLE_RUOYI');
+
+
+
