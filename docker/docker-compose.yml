@@ -1,6 +1,6 @@
 version : '3.8'
 services:
-  ruoyi-nacos:
+  ruoyi-:
     container_name: ruoyi-nacos
     image: nacos/nacos-server
     build:
