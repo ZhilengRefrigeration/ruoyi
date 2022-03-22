@@ -4,6 +4,7 @@
     :props="defaultProps"
     @node-click="nodeClick"
     node-key="catId"
+    highlight-current
     ref="menuTree">
   </el-tree>
 </template>

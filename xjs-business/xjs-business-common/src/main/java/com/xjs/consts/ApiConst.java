@@ -48,6 +48,8 @@ public class ApiConst {
 
     public static final String GAODE_WEATHER = "高德-天气预报";
 
+    public static final String GAODE_AREA = "高德-区域编码";
+
     public static final String ROLL_HOLIDAYS = "ROLL-节假日";
 
     public static final String ROLL_MOBILE_BELONG = "ROLL-手机归属地";
@@ -129,6 +131,11 @@ public class ApiConst {
      * 接口文档：https://lbs.amap.com/api/webservice/guide/api/weatherinfo
      */
     public static final String GAODE_WEATHER_URL = "https://restapi.amap.com/v3/weather/weatherInfo";
+
+    /**
+     * 接口文档：https://lbs.amap.com/api/webservice/guide/api/district
+     */
+    public static final String GAODE_AREA_URL = "https://restapi.amap.com/v3/config/district";
 
     /**
      * 接口文档：https://www.mxnzp.com/doc/detail?id=1

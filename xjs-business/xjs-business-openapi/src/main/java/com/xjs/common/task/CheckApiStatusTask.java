@@ -11,6 +11,7 @@ import com.xjs.business.warning.domain.ApiRecord;
 import com.xjs.common.client.api.alapi.AlapiJokeAllFeignClient;
 import com.xjs.common.client.api.baidu.BaiduAssociationFeignClient;
 import com.xjs.common.client.api.baidu.BaiduTranslationFeignClient;
+import com.xjs.common.client.api.gaode.GaodeAreaFeignClient;
 import com.xjs.common.client.api.gaode.GaodeWeatherFeignClient;
 import com.xjs.common.client.api.lq.LqAWordFeignClient;
 import com.xjs.common.client.api.lq.LqDogDiaryFeignClient;
@@ -156,6 +157,8 @@ public class CheckApiStatusTask {
     private BaiduAssociationFeignClient baiduAssociationFeignClient;
     @Autowired
     private TimeFeignClient timeFeignClient;
+    @Autowired
+    private GaodeAreaFeignClient gaodeAreaFeignClient;
 
 
     /**
@@ -369,6 +372,12 @@ public class CheckApiStatusTask {
             };
             new Thread(runCheckNetworkTime).start();
 
+            Runnable runCheckGaodeArea = () -> {
+                log.info("线程启动：" + Thread.currentThread().getName());
+                this.checkGaodeArea();
+            };
+            new Thread(runCheckGaodeArea).start();
+
             //this.checkAlapiJoke();
             //this.checkBaiduTranslation();
             //this.checkGaodeWeather();
@@ -403,15 +412,27 @@ public class CheckApiStatusTask {
             //this.checkYouDaoTranslation();
             //this.checkBaiduAssociation();
             //this.checkNetworkTime();
+            //this.checkGaodeArea();
 
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
     }
+
+    /**
+     * 检查高德区域编码 API
+     */
+    private void checkGaodeArea() {
+        JSONObject jsonObject = gaodeAreaFeignClient.AreaApi(new RequestBody());
+        if (!jsonObject.containsKey(DEMOTE_ERROR)) {
+            return;
+        }
+        String[] info = this.getAnnotationInfo(GaodeAreaFeignClient.class).get(0);
+        this.selectAndUpdate(info);
+        log.error("检查高德区域编码API异常");
+    }
+
 
     /**
      * 检查网络时间 API
