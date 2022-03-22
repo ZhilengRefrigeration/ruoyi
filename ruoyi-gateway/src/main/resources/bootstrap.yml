@@ -17,10 +17,14 @@ spring:
     nacos:
       discovery:
         # 服务注册地址
-        server-addr: 175.178.38.240:8848
+        server-addr: 175.178.38.240:9048
+        # 注册服务命名空间
+        namespace: 6beb5492-ecb7-431c-85b5-73c2c9d5826a
       config:
         # 配置中心地址
-        server-addr: 175.178.38.240:8848
+        server-addr: 175.178.38.240:9048
+        # 注册配置命名空间
+        namespace: 6beb5492-ecb7-431c-85b5-73c2c9d5826a
         # 配置文件格式
         file-extension: yml
         # 共享配置
@@ -36,7 +40,7 @@ spring:
       datasource:
         ds1:
           nacos:
-            server-addr: 175.178.38.240:8848
+            server-addr: 175.178.38.240:9048
             dataId: sentinel-ruoyi-gateway
             groupId: DEFAULT_GROUP
             data-type: json
