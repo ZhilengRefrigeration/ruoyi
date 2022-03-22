@@ -19,7 +19,7 @@ import com.ruoyi.system.api.factory.RemoteFileFallbackFactory;
 public interface RemoteFileService
 {
     /**
-     * 上传文件
+     * 上传文件部分
      *
      * @param file 文件信息
      * @return 结果
