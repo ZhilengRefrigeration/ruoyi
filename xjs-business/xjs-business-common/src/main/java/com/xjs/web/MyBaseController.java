@@ -7,6 +7,9 @@ import com.ruoyi.common.core.utils.sql.SqlUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.page.PageDomain;
 import com.ruoyi.common.core.web.page.TableSupport;
+import com.xjs.utils.Query;
+
+import java.util.Map;
 
 /**
  * 自定义通用controller
@@ -43,6 +46,20 @@ public class MyBaseController<T> extends BaseController {
             }
         }
         return page;
+    }
+
+
+    /**
+     * 校验入参值
+     * @param params 入参值
+     */
+    protected void checkParams(Map<String, Object> params) {
+        String key = (String) params.get(Query.KEY_NAME);
+        if (StringUtils.isNotEmpty(key)) {
+            if (key.length() > 100) {
+                throw new IllegalArgumentException("key长度超过 100 ");
+            }
+        }
     }
 
 }

@@ -107,6 +107,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                 skuInfoEntity.setSaleCount(0L);     //销量默认0
                 skuInfoEntity.setSpuId(spuInfoEntity.getId());
                 skuInfoEntity.setSkuDefaultImg(defaultImg);
+                skuInfoEntity.setSkuDesc(spuInfoEntity.getSpuDescription());
                 skuInfoService.saveSkuInfo(skuInfoEntity);
                 //---------------------------------------------------------------------------------------------------------
 

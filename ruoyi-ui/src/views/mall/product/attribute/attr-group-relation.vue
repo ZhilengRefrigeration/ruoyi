@@ -5,7 +5,7 @@
         <div>
           <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
             <el-form-item>
-              <el-input v-model="dataForm.key" placeholder="请输入属性名、可选值等" clearable></el-input>
+              <el-input v-model="dataForm.key" maxlength="100" placeholder="请输入属性名、可选值等" clearable></el-input>
             </el-form-item>
             <el-form-item>
               <el-button @click="getDataList()">查询</el-button>

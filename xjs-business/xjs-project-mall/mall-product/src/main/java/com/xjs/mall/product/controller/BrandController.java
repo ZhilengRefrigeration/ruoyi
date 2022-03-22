@@ -9,6 +9,7 @@ import com.xjs.mall.other.R;
 import com.xjs.validation.group.AddGroup;
 import com.xjs.validation.group.SelectGroup;
 import com.xjs.validation.group.UpdateGroup;
+import com.xjs.web.MyBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("product/brand")
 @Api(tags = "商城-商品-品牌")
-public class BrandController {
+public class BrandController extends MyBaseController<BrandEntity> {
     @Autowired
     private BrandService brandService;
 
@@ -40,6 +41,7 @@ public class BrandController {
     @GetMapping("/list")
     @ApiOperation("列表")
     public R list(@Validated(SelectGroup.class) @RequestParam Map<String, Object> params){
+        super.checkParams(params);
         PageUtils page = brandService.queryPage(params);
 
         return R.ok().put("page", page);

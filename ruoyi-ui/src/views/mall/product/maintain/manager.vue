@@ -9,14 +9,17 @@
           <brand-select style="width:160px"></brand-select>
         </el-form-item>
         <el-form-item label="价格">
-          <el-input-number style="width:160px" v-model="dataForm.price.min" :min="0"></el-input-number>-
-          <el-input-number style="width:160px" v-model="dataForm.price.max" :min="0"></el-input-number>
+          <el-input-number style="width:140px" v-model="dataForm.price.min" :min="0"></el-input-number>
+          -
+          <el-input-number style="width:140px" v-model="dataForm.price.max" :min="0"></el-input-number>
         </el-form-item>
         <el-form-item label="检索">
-          <el-input style="width:160px" v-model="dataForm.key" clearable></el-input>
+          <el-input maxlength="100" style="width:300px" v-model="dataForm.key" clearable
+                    placeholder="请输入sku名称或描述、标题、副标题等"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="searchSkuInfo">查询</el-button>
+          <el-button size="mini" type="primary" @click="searchSkuInfo">查询</el-button>
+          <el-button size="mini" icon="el-icon-refresh" @click="resetQuery">重置</el-button>
         </el-form-item>
       </el-form>
     </el-form>
@@ -30,26 +33,50 @@
     >
       <el-table-column type="expand">
         <template slot-scope="scope">
-          商品标题：{{scope.row.skuTitle}}
-          <br />
-          商品副标题：{{scope.row.skuSubtitle}}
-          <br />
-          商品描述：{{scope.row.skuDesc}}
-          <br />
-          分类ID：{{scope.row.catalogId}}
-          <br />
-          SpuID：{{scope.row.spuId}}
-          <br />
-          品牌ID：{{scope.row.brandId}}
-          <br />
+          <el-form label-position="left" class="demo-table-expand">
+            <el-row :gutter="20">
+              <el-col :span="8">
+                <el-form-item label="商品标题">
+                  <span>{{ scope.row.skuTitle }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="商品副标题">
+                  <span>{{ scope.row.skuSubtitle }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="商品描述">
+                  <span>{{ scope.row.skuDesc }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="20">
+              <el-col :span="8">
+                <el-form-item label="分类名称">
+                  <span>{{ scope.row.catalogName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="spu名称">
+                  <span>{{ scope.row.spuName }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="品牌名称">
+                  <span>{{ scope.row.brandName }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+
+          </el-form>
         </template>
       </el-table-column>
       <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-      <el-table-column prop="skuId" header-align="center" align="center" label="skuId"></el-table-column>
       <el-table-column prop="skuName" header-align="center" align="center" label="名称"></el-table-column>
       <el-table-column prop="skuDefaultImg" header-align="center" align="center" label="默认图片">
         <template slot-scope="scope">
-          <img :src="scope.row.skuDefaultImg" style="width:80px;height:80px;" />
+          <img :src="scope.row.skuDefaultImg" style="width:80px;height:80px;"/>
         </template>
       </el-table-column>
       <el-table-column prop="price" header-align="center" align="center" label="价格"></el-table-column>
@@ -93,6 +120,8 @@
 <script>
 import CategoryCascader from '../../../components/mall/category-cascader'
 import BrandSelect from "../../../components/mall/brand-select";
+import {getSkuList} from "@/api/mall/product/sku-info";
+
 export default {
   data() {
     return {
@@ -121,7 +150,7 @@ export default {
     CategoryCascader,
     BrandSelect
   },
-  activated() {
+  created() {
     this.getDataList();
   },
   methods: {
@@ -132,7 +161,7 @@ export default {
     //处理更多指令
     handleCommand(row, command) {
       if ("stockSettings" === command) {
-        this.$router.push({ path: "/ware-sku", query: { skuId: row.skuId } });
+        this.$router.push({path: "/ware-sku", query: {skuId: row.skuId}});
       }
     },
 
@@ -142,45 +171,57 @@ export default {
     // 获取数据列表
     getDataList() {
       this.dataListLoading = true;
-      this.$http({
-        url: this.$http.adornUrl("/product/skuinfo/list"),
-        method: "get",
-        params: this.$http.adornParams({
-          page: this.pageIndex,
-          limit: this.pageSize,
-          key: this.dataForm.key,
-          catelogId: this.dataForm.catelogId,
-          brandId: this.dataForm.brandId,
-          min: this.dataForm.price.min,
-          max: this.dataForm.price.max
-        })
-      }).then(({ data }) => {
-        if (data && data.code === 0) {
-          this.dataList = data.page.list;
-          this.totalPage = data.page.totalCount;
-        } else {
-          this.dataList = [];
-          this.totalPage = 0;
-        }
+      let params = {
+        page: this.pageIndex,
+        limit: this.pageSize,
+        key: this.dataForm.key,
+        catelogId: this.dataForm.catelogId,
+        brandId: this.dataForm.brandId,
+        min: this.dataForm.price.min,
+        max: this.dataForm.price.max
+      }
+      getSkuList(params).then(res => {
+        this.dataList = res.page.list;
+        this.totalPage = res.page.totalCount;
         this.dataListLoading = false;
-      });
+      })
     },
+
     // 每页数
     sizeChangeHandle(val) {
       this.pageSize = val;
       this.pageIndex = 1;
       this.getDataList();
     },
+
     // 当前页
     currentChangeHandle(val) {
       this.pageIndex = val;
       this.getDataList();
     },
+
     // 多选
     selectionChangeHandle(val) {
       this.dataListSelections = val;
-    }
+    },
+
+
+    /** 重置按钮操作 */
+    resetQuery() {
+      this.dataForm = {
+        price: {
+          min: 0,
+          max: 0
+        }
+      }
+      this.$bus.$emit('clearCategoryCascader', [])
+      this.$bus.$emit('clearBrandSelect', [])
+
+      this.pageIndex = 1
+      this.getDataList()
+    },
   },
+
   mounted() {
     this.catPathSub = PubSub.subscribe("catPath", (msg, val) => {
       this.dataForm.catelogId = val[val.length - 1];

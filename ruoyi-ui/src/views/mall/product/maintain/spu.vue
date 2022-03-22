@@ -17,12 +17,13 @@
             </el-select>
           </el-form-item>
           <el-form-item label="检索">
-            <el-input style="width:200px" v-model="dataForm.key" clearable placeholder="请输入spu名称或描述"></el-input>
+            <el-input style="width:200px" maxlength="100" v-model="dataForm.key" clearable
+                      placeholder="请输入spu名称或描述"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button-group>
-            <el-button type="primary" @click="searchSpuInfo" size="mini">查询</el-button>
-            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+              <el-button type="primary" @click="searchSpuInfo" size="mini">查询</el-button>
+              <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
             </el-button-group>
           </el-form-item>
         </el-form>
@@ -70,10 +71,10 @@ export default {
 
     /** 重置按钮操作 */
     resetQuery() {
-      this.dataForm={}
+      this.dataForm = {}
       // this.catelogPath= []
-      this.$bus.$emit('clearCategoryCascader',[])
-      this.$bus.$emit('clearBrandSelect',[])
+      this.$bus.$emit('clearCategoryCascader', [])
+      this.$bus.$emit('clearBrandSelect', [])
     },
 
 

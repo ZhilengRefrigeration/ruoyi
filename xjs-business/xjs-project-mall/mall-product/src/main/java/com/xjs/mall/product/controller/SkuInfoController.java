@@ -4,7 +4,9 @@ import com.xjs.mall.product.entity.SkuInfoEntity;
 import com.xjs.mall.product.service.SkuInfoService;
 import com.xjs.utils.PageUtils;
 import com.xjs.mall.other.R;
+import com.xjs.web.MyBaseController;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +25,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("product/skuinfo")
 @Api(tags = "商城-商品-SKU信息")
-public class SkuInfoController {
+public class SkuInfoController extends MyBaseController<SkuInfoEntity> {
     @Autowired
     private SkuInfoService skuInfoService;
 
@@ -31,8 +33,10 @@ public class SkuInfoController {
      * 列表
      */
     @RequestMapping("/list")
+    @ApiOperation("列表")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = skuInfoService.queryPage(params);
+        super.checkParams(params);
+        PageUtils page = skuInfoService.queryPageByCondition(params);
 
         return R.ok().put("page", page);
     }

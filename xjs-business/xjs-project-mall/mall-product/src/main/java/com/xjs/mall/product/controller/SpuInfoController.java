@@ -6,6 +6,7 @@ import com.xjs.mall.product.service.SpuInfoService;
 import com.xjs.mall.product.vo.spu.SpuSaveVo;
 import com.xjs.utils.PageUtils;
 import com.xjs.validation.group.AddGroup;
+import com.xjs.web.MyBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("product/spuinfo")
 @Api(tags = "商城-商品-SPU信息")
-public class SpuInfoController {
+public class SpuInfoController extends MyBaseController<SpuInfoEntity> {
     @Autowired
     private SpuInfoService spuInfoService;
 
@@ -36,6 +37,7 @@ public class SpuInfoController {
     @RequestMapping("/list")
     @ApiOperation("列表")
     public R list(@RequestParam Map<String, Object> params) {
+        super.checkParams(params);
         PageUtils page = spuInfoService.queryPageByCondition(params);
 
         return R.ok().put("page", page);

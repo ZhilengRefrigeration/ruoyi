@@ -14,6 +14,7 @@ import com.xjs.utils.PageUtils;
 import com.xjs.mall.other.R;
 import com.xjs.validation.group.AddGroup;
 import com.xjs.validation.group.UpdateGroup;
+import com.xjs.web.MyBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("product/attrgroup")
 @Api(tags = "商城-商品-属性分组")
-public class AttrGroupController {
+public class AttrGroupController extends MyBaseController<AttrGroupEntity> {
     @Autowired
     private AttrGroupService attrGroupService;
     @Autowired
@@ -95,7 +96,7 @@ public class AttrGroupController {
     @GetMapping("/list/{catelogId}")
     @ApiOperation("列表")
     public R list(@RequestParam Map<String, Object> params, Long catelogId) {
-
+        super.checkParams(params);
         PageUtils page = attrGroupService.queryPage(params, catelogId);
 
         return R.ok().put("page", page);

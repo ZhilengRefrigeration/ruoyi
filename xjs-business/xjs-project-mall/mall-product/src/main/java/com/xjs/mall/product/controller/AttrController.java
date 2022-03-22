@@ -2,6 +2,7 @@ package com.xjs.mall.product.controller;
 
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
+import com.xjs.mall.product.entity.AttrEntity;
 import com.xjs.mall.product.service.AttrService;
 import com.xjs.mall.product.vo.AttrGroupRelationVo;
 import com.xjs.mall.product.vo.AttrResponseVo;
@@ -10,6 +11,7 @@ import com.xjs.utils.PageUtils;
 import com.xjs.mall.other.R;
 import com.xjs.validation.group.AddGroup;
 import com.xjs.validation.group.UpdateGroup;
+import com.xjs.web.MyBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("product/attr")
 @Api(tags = "商城-商品-规格参数")
-public class AttrController {
+public class AttrController extends MyBaseController<AttrEntity> {
     @Autowired
     private AttrService attrService;
 
@@ -50,6 +52,7 @@ public class AttrController {
     public R baseAttrList(@RequestParam Map<String, Object> params,
                           @PathVariable("attrType") String attrType,
                           @PathVariable("catelogId") Long catelogId) {
+        super.checkParams(params);
         PageUtils page = attrService.queryBaseAttrPage(params, catelogId, attrType);
         return R.ok().put("page", page);
     }
