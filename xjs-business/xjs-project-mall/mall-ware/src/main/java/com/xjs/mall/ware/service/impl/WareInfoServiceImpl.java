@@ -1,8 +1,9 @@
 package com.xjs.mall.ware.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ruoyi.common.core.utils.StringUtils;
 import com.xjs.mall.ware.dao.WareInfoDao;
 import com.xjs.mall.ware.entity.WareInfoEntity;
 import com.xjs.mall.ware.service.WareInfoService;
@@ -18,10 +19,16 @@ public class WareInfoServiceImpl extends ServiceImpl<WareInfoDao, WareInfoEntity
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        IPage<WareInfoEntity> page = this.page(
-                new Query<WareInfoEntity>().getPage(params),
-                new QueryWrapper<WareInfoEntity>()
-        );
+        String key = (String) params.get(Query.KEY_NAME);
+
+        LambdaQueryWrapper<WareInfoEntity> wrapper = new LambdaQueryWrapper<>();
+        if (StringUtils.isNotEmpty(key)) {
+            wrapper.like(WareInfoEntity::getName, key).or()
+                    .like(WareInfoEntity::getAddress, key).or()
+                    .eq(WareInfoEntity::getAreacode, key);
+        }
+
+        IPage<WareInfoEntity> page = this.page(new Query<WareInfoEntity>().getPage(params), wrapper);
 
         return new PageUtils(page);
     }

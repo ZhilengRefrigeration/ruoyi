@@ -138,6 +138,12 @@ export default {
 
     },
 
+    //重置值
+    rest() {
+      this.pageIndex = 1;
+      this.getDataList();
+    },
+
 
   },
 

@@ -29,7 +29,7 @@
         </el-form>
       </el-col>
       <el-col :span="24">
-        <spuinfo :catId="catId"></spuinfo>
+        <spuinfo :catId="catId" ref="spuInfo"></spuinfo>
       </el-col>
     </el-row>
   </div>
@@ -75,6 +75,9 @@ export default {
       // this.catelogPath= []
       this.$bus.$emit('clearCategoryCascader', [])
       this.$bus.$emit('clearBrandSelect', [])
+
+      //调用子组件重置方法
+      this.$refs.spuInfo.rest()
     },
 
 
