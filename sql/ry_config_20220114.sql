@@ -218,7 +218,7 @@ CREATE TABLE `permissions` (
 );
 
 
-INSERT INTO tenant_info (`kp`, `tenant_id`, `tenant_name`, `tenant_desc`, `create_source`, `gmt_create`, `gmt_modified`) VALUES ('1', '6beb5492-ecb7-431c-85b5-73c2c9d5826a', 'ruoyi', 'ruoyi-clound', 'nacos', 1647834316107, 1647834316107);
+INSERT INTO tenant_info (`kp`, `tenant_id`, `tenant_name`, `tenant_desc`, `create_source`, `gmt_create`, `gmt_modified`) VALUES ('1', '6beb5492-ecb7-431c-85b5-73c2c9d5826a', 'ruoyi-dev', 'ruoyi-clound', 'nacos', 1647834316107, 1647834316107);
 
 INSERT INTO permissions (`role`, `resource`, `action`) VALUES ('ROLE_RUOYI', '6beb5492-ecb7-431c-85b5-73c2c9d5826a:*:*', 'rw');
 
