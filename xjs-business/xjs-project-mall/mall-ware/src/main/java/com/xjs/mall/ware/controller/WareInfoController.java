@@ -1,9 +1,10 @@
 package com.xjs.mall.ware.controller;
 
+import com.xjs.business.api.domain.Area;
+import com.xjs.mall.other.R;
 import com.xjs.mall.ware.entity.WareInfoEntity;
 import com.xjs.mall.ware.service.WareInfoService;
 import com.xjs.utils.PageUtils;
-import com.xjs.mall.other.R;
 import com.xjs.validation.group.AddGroup;
 import com.xjs.validation.group.UpdateGroup;
 import com.xjs.web.MyBaseController;
@@ -14,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -30,6 +32,20 @@ import java.util.Map;
 public class WareInfoController extends MyBaseController<WareInfoEntity> {
     @Autowired
     private WareInfoService wareInfoService;
+
+    @GetMapping("getProvinceArea")
+    @ApiOperation("获取所有省级区域")
+    public R getProvinceArea() {
+        List<Area> areaList = wareInfoService.getProvinceArea();
+        return R.ok().put("data", areaList);
+    }
+
+    @GetMapping("getAreaByParentId/{pid}")
+    @ApiOperation("根据父ID获取区域")
+    public R getAreaByParentId(@PathVariable Long pid) {
+        List<Area> areaList = wareInfoService.getAreaByParentId(pid);
+        return R.ok().put("data", areaList);
+    }
 
     /**
      * 列表
@@ -87,5 +103,7 @@ public class WareInfoController extends MyBaseController<WareInfoEntity> {
 
         return R.ok();
     }
+
+
 
 }

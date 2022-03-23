@@ -44,5 +44,20 @@ export function editWareInfo(data) {
   })
 }
 
+// 获取所有省级区域
+export function getProvinceArea(data) {
+  return request({
+    url: `/mall-ware/ware/wareinfo/getProvinceArea`,
+    method: 'get',
+  })
+}
+
+// 根据父ID获取区域
+export function getAreaByParentId(pid) {
+  return request({
+    url: `/mall-ware/ware/wareinfo/getAreaByParentId/${pid}`,
+    method: 'get',
+  })
+}
 
 

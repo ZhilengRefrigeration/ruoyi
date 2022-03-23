@@ -1,5 +1,6 @@
 package com.xjs.area.controller;
 
+import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.area.domain.Area;
@@ -55,6 +56,22 @@ public class AreaController extends MyBaseController<Area> {
     public AjaxResult getAreaByParentId(@PathVariable Long pid) {
         List<Area> areaList = areaService.getAreaByParentId(pid);
         return AjaxResult.success(areaList);
+    }
+
+
+    //--------------------------------------远程调用------------------------------------------
+    @GetMapping("getProvinceAreaForRPC")
+    @ApiOperation("获取所有省级区域ForRPC")
+    public R<List<Area>> getProvinceAreaForRPC() {
+        List<Area> areaList = areaService.getProvinceArea();
+        return R.ok(areaList);
+    }
+
+    @GetMapping("getAreaByParentIdForRPC/{pid}")
+    @ApiOperation("根据父ID获取区域ForRPC")
+    public R<List<Area>> getAreaByParentIdForRPC(@PathVariable Long pid) {
+        List<Area> areaList = areaService.getAreaByParentId(pid);
+        return R.ok(areaList);
     }
 
 
