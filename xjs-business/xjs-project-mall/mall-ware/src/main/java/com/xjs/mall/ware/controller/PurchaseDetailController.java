@@ -44,7 +44,7 @@ public class PurchaseDetailController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     @ApiOperation("信息")
     public R info(@PathVariable("id") Long id) {
         PurchaseDetailEntity purchaseDetail = purchaseDetailService.getById(id);
@@ -55,7 +55,7 @@ public class PurchaseDetailController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     @ApiOperation("保存")
     @Log(title = "采购需求", businessType = BusinessType.INSERT)
     public R save(@RequestBody PurchaseDetailEntity purchaseDetail) {
@@ -67,7 +67,7 @@ public class PurchaseDetailController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PutMapping("/update")
     @ApiOperation("修改")
     @Log(title = "采购需求", businessType = BusinessType.UPDATE)
     public R update(@RequestBody PurchaseDetailEntity purchaseDetail) {
@@ -79,7 +79,7 @@ public class PurchaseDetailController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @DeleteMapping("/delete")
     @ApiOperation("删除")
     @Log(title = "采购需求", businessType = BusinessType.DELETE)
     public R delete(@RequestBody Long[] ids) {

@@ -6,16 +6,26 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.xjs.mall.ware.dao.PurchaseDetailDao;
 import com.xjs.mall.ware.entity.PurchaseDetailEntity;
+import com.xjs.mall.ware.entity.WareInfoEntity;
 import com.xjs.mall.ware.service.PurchaseDetailService;
+import com.xjs.mall.ware.service.WareInfoService;
+import com.xjs.mall.ware.vo.PurchaseDetailVo;
 import com.xjs.utils.PageUtils;
 import com.xjs.utils.Query;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service("purchaseDetailService")
 public class PurchaseDetailServiceImpl extends ServiceImpl<PurchaseDetailDao, PurchaseDetailEntity> implements PurchaseDetailService {
+
+    @Autowired
+    private WareInfoService wareInfoService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -35,7 +45,19 @@ public class PurchaseDetailServiceImpl extends ServiceImpl<PurchaseDetailDao, Pu
 
         IPage<PurchaseDetailEntity> page = this.page(new Query<PurchaseDetailEntity>().getPage(params), wrapper);
 
-        return new PageUtils(page);
+        List<Object> collect = page.getRecords().stream().map(purchaseDetailEntity -> {
+            PurchaseDetailVo purchaseDetailVo = new PurchaseDetailVo();
+            BeanUtils.copyProperties(purchaseDetailEntity, purchaseDetailVo);
+            //获取仓库信息
+            WareInfoEntity wareInfoEntity = wareInfoService.getById(purchaseDetailVo.getWareId());
+            purchaseDetailVo.setWareName(wareInfoEntity.getName());
+            return purchaseDetailVo;
+        }).collect(Collectors.toList());
+
+        PageUtils pageUtils = new PageUtils(page);
+        pageUtils.setList(collect);
+
+        return pageUtils;
     }
 
 }
