@@ -1,5 +1,7 @@
 package com.xjs.mall.ware.controller;
 
+import com.ruoyi.common.log.annotation.Log;
+import com.ruoyi.common.log.enums.BusinessType;
 import com.xjs.business.api.domain.Area;
 import com.xjs.mall.other.R;
 import com.xjs.mall.ware.entity.WareInfoEntity;
@@ -76,6 +78,7 @@ public class WareInfoController extends MyBaseController<WareInfoEntity> {
      */
     @PostMapping("/save")
     @ApiOperation("保存")
+    @Log(title = "仓库信息", businessType = BusinessType.INSERT)
     public R save(@Validated(AddGroup.class) @RequestBody WareInfoEntity wareInfo) {
         wareInfoService.save(wareInfo);
 
@@ -87,6 +90,7 @@ public class WareInfoController extends MyBaseController<WareInfoEntity> {
      */
     @PutMapping("/update")
     @ApiOperation("修改")
+    @Log(title = "仓库信息", businessType = BusinessType.UPDATE)
     public R update(@Validated(UpdateGroup.class)@RequestBody WareInfoEntity wareInfo) {
         wareInfoService.updateById(wareInfo);
 
@@ -98,6 +102,7 @@ public class WareInfoController extends MyBaseController<WareInfoEntity> {
      */
     @DeleteMapping("/delete")
     @ApiOperation("删除")
+    @Log(title = "仓库信息", businessType = BusinessType.DELETE)
     public R delete(@RequestBody Long[] ids) {
         wareInfoService.removeByIds(Arrays.asList(ids));
 

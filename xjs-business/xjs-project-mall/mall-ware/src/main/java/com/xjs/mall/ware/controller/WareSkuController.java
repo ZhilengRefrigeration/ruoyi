@@ -1,17 +1,21 @@
 package com.xjs.mall.ware.controller;
 
+import com.ruoyi.common.log.annotation.Log;
+import com.ruoyi.common.log.enums.BusinessType;
 import com.xjs.mall.ware.entity.WareSkuEntity;
 import com.xjs.mall.ware.service.WareSkuService;
 import com.xjs.utils.PageUtils;
 import com.xjs.mall.other.R;
+import com.xjs.validation.group.AddGroup;
+import com.xjs.validation.group.UpdateGroup;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.Map;
-
 
 
 /**
@@ -19,7 +23,7 @@ import java.util.Map;
  *
  * @author xiejs
  * @email 1294405880@qq.com
- * @since  2022-03-15 09:56:19
+ * @since 2022-03-15 09:56:19
  */
 @RestController
 @RequestMapping("ware/waresku")
@@ -33,7 +37,7 @@ public class WareSkuController {
      */
     @GetMapping("/list")
     @ApiOperation("列表")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = wareSkuService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -43,10 +47,10 @@ public class WareSkuController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @GetMapping("/info/{id}")
     @ApiOperation("信息")
-    public R info(@PathVariable("id") Long id){
-		WareSkuEntity wareSku = wareSkuService.getById(id);
+    public R info(@PathVariable("id") Long id) {
+        WareSkuEntity wareSku = wareSkuService.getById(id);
 
         return R.ok().put("wareSku", wareSku);
     }
@@ -54,10 +58,11 @@ public class WareSkuController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @PostMapping("/save")
     @ApiOperation("保存")
-    public R save(@RequestBody WareSkuEntity wareSku){
-		wareSkuService.save(wareSku);
+    @Log(title = "商品库存", businessType = BusinessType.INSERT)
+    public R save(@Validated(AddGroup.class) @RequestBody WareSkuEntity wareSku) {
+        wareSkuService.save(wareSku);
 
         return R.ok();
     }
@@ -65,10 +70,11 @@ public class WareSkuController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PutMapping("/update")
     @ApiOperation("修改")
-    public R update(@RequestBody WareSkuEntity wareSku){
-		wareSkuService.updateById(wareSku);
+    @Log(title = "商品库存", businessType = BusinessType.UPDATE)
+    public R update(@Validated(UpdateGroup.class) @RequestBody WareSkuEntity wareSku) {
+        wareSkuService.updateById(wareSku);
 
         return R.ok();
     }
@@ -76,10 +82,11 @@ public class WareSkuController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @DeleteMapping("/delete")
     @ApiOperation("删除")
-    public R delete(@RequestBody Long[] ids){
-		wareSkuService.removeByIds(Arrays.asList(ids));
+    @Log(title = "商品库存", businessType = BusinessType.DELETE)
+    public R delete(@RequestBody Long[] ids) {
+        wareSkuService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

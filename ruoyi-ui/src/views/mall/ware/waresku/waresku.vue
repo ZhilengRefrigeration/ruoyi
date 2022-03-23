@@ -18,7 +18,9 @@
             type="danger"
             @click="deleteHandle()"
             :disabled="dataListSelections.length <= 0"
-          >批量删除</el-button>
+          >批量删除
+          </el-button>
+          <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
         </el-button-group>
       </el-form-item>
     </el-form>
@@ -31,7 +33,7 @@
     >
       <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
       <el-table-column prop="skuId" header-align="center" align="center" label="sku_id"></el-table-column>
-      <el-table-column prop="wareId" header-align="center" align="center" label="仓库id"></el-table-column>
+      <el-table-column prop="wareName" header-align="center" align="center" label="仓库名称"></el-table-column>
       <el-table-column prop="stock" header-align="center" align="center" label="库存数"></el-table-column>
       <el-table-column prop="skuName" header-align="center" align="center" label="商品名称"></el-table-column>
       <el-table-column prop="stockLocked" header-align="center" align="center" label="锁定库存"></el-table-column>
@@ -58,8 +60,11 @@
 
 <script>
 import AddOrUpdate from "./waresku-add-or-update";
+import {getWareInfoList} from "@/api/mall/ware/ware-info";
+import {delWareSku, getWareSkuList} from "@/api/mall/ware/ware-sku";
+
 export default {
-  name:"WareSku",
+  name: "WareSku",
   data() {
     return {
       wareList: [],
@@ -80,7 +85,6 @@ export default {
     AddOrUpdate
   },
   created() {
-    console.log("接收到", this.$route.query.skuId);
     if (this.$route.query.skuId) {
       this.dataForm.skuId = this.$route.query.skuId;
     }
@@ -88,41 +92,34 @@ export default {
     this.getDataList();
   },
   methods: {
+    //获取仓库信息
     getWares() {
-      this.$http({
-        url: this.$http.adornUrl("/ware/wareinfo/list"),
-        method: "get",
-        params: this.$http.adornParams({
-          page: 1,
-          limit: 500
-        })
-      }).then(({ data }) => {
-        this.wareList = data.page.list;
-      });
+      let params = {
+        page: 1,
+        limit: 500
+      }
+      getWareInfoList(params).then(res => {
+        this.wareList = res.page.list;
+      })
     },
+
     // 获取数据列表
     getDataList() {
       this.dataListLoading = true;
-      this.$http({
-        url: this.$http.adornUrl("/ware/waresku/list"),
-        method: "get",
-        params: this.$http.adornParams({
-          page: this.pageIndex,
-          limit: this.pageSize,
-          skuId: this.dataForm.skuId,
-          wareId: this.dataForm.wareId
-        })
-      }).then(({ data }) => {
-        if (data && data.code === 0) {
-          this.dataList = data.page.list;
-          this.totalPage = data.page.totalCount;
-        } else {
-          this.dataList = [];
-          this.totalPage = 0;
-        }
+      let params = {
+        page: this.pageIndex,
+        limit: this.pageSize,
+        skuId: this.dataForm.skuId,
+        wareId: this.dataForm.wareId
+      }
+      getWareSkuList(params).then(res => {
+        this.dataList = res.page.list;
+        this.totalPage = res.page.totalCount;
         this.dataListLoading = false;
-      });
+      })
     },
+
+
     // 每页数
     sizeChangeHandle(val) {
       this.pageSize = val;
@@ -147,11 +144,9 @@ export default {
     },
     // 删除
     deleteHandle(id) {
-      var ids = id
-        ? [id]
-        : this.dataListSelections.map(item => {
-            return item.id;
-          });
+      var ids = id ? [id] : this.dataListSelections.map(item => {
+        return item.id;
+      });
       this.$confirm(
         `确定对[id=${ids.join(",")}]进行[${id ? "删除" : "批量删除"}]操作?`,
         "提示",
@@ -161,26 +156,21 @@ export default {
           type: "warning"
         }
       ).then(() => {
-        this.$http({
-          url: this.$http.adornUrl("/ware/waresku/delete"),
-          method: "post",
-          data: this.$http.adornData(ids, false)
-        }).then(({ data }) => {
-          if (data && data.code === 0) {
-            this.$message({
-              message: "操作成功",
-              type: "success",
-              duration: 1500,
-              onClose: () => {
-                this.getDataList();
-              }
-            });
-          } else {
-            this.$message.error(data.msg);
-          }
-        });
+
+        delWareSku(ids).then(res => {
+          this.$modal.notifySuccess("删除成功")
+          this.getDataList();
+        })
+
       });
-    }
+    },
+
+    /** 重置按钮操作 */
+    resetQuery() {
+      this.dataForm = {}
+      this.pageIndex = 1;
+      this.getDataList();
+    },
   }
 };
 </script>
