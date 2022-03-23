@@ -21,10 +21,12 @@ import Layout from '@/layout'
   }
  */
 
+const baseDir = import.meta.env.VITE_APP_BASE_DIR;
+
 // 公共路由
 export const constantRoutes = [
   {
-    path: '/redirect',
+    path: baseDir+'/redirect',
     component: Layout,
     hidden: true,
     children: [
@@ -35,29 +37,29 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/login',
+    path: baseDir+'/login',
     component: () => import('@/views/login'),
     hidden: true
   },
   {
-    path: '/register',
+    path: baseDir+'/register',
     component: () => import('@/views/register'),
     hidden: true
   },
   {
-    path: "/:pathMatch(.*)*",
+    path: baseDir+"/:pathMatch(.*)*",
     component: () => import('@/views/error/404'),
     hidden: true
   },
   {
-    path: '/401',
+    path: baseDir+'/401',
     component: () => import('@/views/error/401'),
     hidden: true
   },
   {
-    path: '',
+    path: baseDir+'',
     component: Layout,
-    redirect: '/index',
+    redirect: baseDir+'/index',
     children: [
       {
         path: '/index',
@@ -68,7 +70,7 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/user',
+    path: baseDir+'/user',
     component: Layout,
     hidden: true,
     redirect: 'noredirect',
@@ -82,7 +84,7 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/system/user-auth',
+    path: baseDir+'/system/user-auth',
     component: Layout,
     hidden: true,
     children: [
@@ -95,7 +97,7 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/system/role-auth',
+    path: baseDir+'/system/role-auth',
     component: Layout,
     hidden: true,
     children: [
@@ -108,7 +110,7 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/system/dict-data',
+    path: baseDir+'/system/dict-data',
     component: Layout,
     hidden: true,
     children: [

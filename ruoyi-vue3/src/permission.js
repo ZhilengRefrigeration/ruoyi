@@ -9,15 +9,16 @@ import { isRelogin } from '@/utils/request'
 
 NProgress.configure({ showSpinner: false });
 
-const whiteList = ['/login', '/auth-redirect', '/bind', '/register'];
+const baseDir = import.meta.env.VITE_APP_BASE_DIR;
+const whiteList = [baseDir+'/login', baseDir+'/auth-redirect', baseDir+'/bind', baseDir+'/register'];
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
   if (getToken()) {
     to.meta.title && store.dispatch('settings/setTitle', to.meta.title)
     /* has token*/
-    if (to.path === '/login') {
-      next({ path: '/' })
+    if (to.path === baseDir+'/login') {
+      next({ path: baseDir+'/' })
       NProgress.done()
     } else {
       if (store.getters.roles.length === 0) {
@@ -37,7 +38,7 @@ router.beforeEach((to, from, next) => {
         }).catch(err => {
           store.dispatch('LogOut').then(() => {
             ElMessage.error(err)
-            next({ path: '/' })
+            next({ path: baseDir+'/' })
           })
         })
       } else {
@@ -50,7 +51,7 @@ router.beforeEach((to, from, next) => {
       // 在免登录白名单，直接进入
       next()
     } else {
-      next(`/login?redirect=${to.fullPath}`) // 否则全部重定向到登录页
+      next( baseDir + `/login?redirect=${to.fullPath}`) // 否则全部重定向到登录页
       NProgress.done()
     }
   }

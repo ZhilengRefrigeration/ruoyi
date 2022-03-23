@@ -1,6 +1,6 @@
 # Tomcat
 server:
-  port: 8080
+  port: 12080
 
 # Spring
 spring: 
@@ -35,7 +35,7 @@ spring:
       eager: true
       transport:
         # 控制台地址
-        dashboard: 127.0.0.1:8718
+        dashboard: 127.0.0.1:12718
       # nacos配置持久化
       datasource:
         ds1:
