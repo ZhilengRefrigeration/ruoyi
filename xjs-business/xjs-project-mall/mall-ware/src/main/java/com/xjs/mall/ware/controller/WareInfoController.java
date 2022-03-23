@@ -4,9 +4,13 @@ import com.xjs.mall.ware.entity.WareInfoEntity;
 import com.xjs.mall.ware.service.WareInfoService;
 import com.xjs.utils.PageUtils;
 import com.xjs.mall.other.R;
+import com.xjs.validation.group.AddGroup;
+import com.xjs.validation.group.UpdateGroup;
+import com.xjs.web.MyBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -23,7 +27,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("ware/wareinfo")
 @Api(tags = "商城-仓库-仓库信息")
-public class WareInfoController {
+public class WareInfoController extends MyBaseController<WareInfoEntity> {
     @Autowired
     private WareInfoService wareInfoService;
 
@@ -33,6 +37,7 @@ public class WareInfoController {
     @GetMapping("/list")
     @ApiOperation("列表")
     public R list(@RequestParam Map<String, Object> params) {
+        super.checkParams(params);
         PageUtils page = wareInfoService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -55,7 +60,7 @@ public class WareInfoController {
      */
     @PostMapping("/save")
     @ApiOperation("保存")
-    public R save(@RequestBody WareInfoEntity wareInfo) {
+    public R save(@Validated(AddGroup.class) @RequestBody WareInfoEntity wareInfo) {
         wareInfoService.save(wareInfo);
 
         return R.ok();
@@ -66,7 +71,7 @@ public class WareInfoController {
      */
     @PutMapping("/update")
     @ApiOperation("修改")
-    public R update(@RequestBody WareInfoEntity wareInfo) {
+    public R update(@Validated(UpdateGroup.class)@RequestBody WareInfoEntity wareInfo) {
         wareInfoService.updateById(wareInfo);
 
         return R.ok();

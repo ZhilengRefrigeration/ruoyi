@@ -13,7 +13,7 @@
         <el-input v-model="dataForm.address" placeholder="仓库地址"></el-input>
       </el-form-item>
       <el-form-item label="区域编码" prop="areacode">
-        <el-input v-model="dataForm.areacode" placeholder="区域编码"></el-input>
+        <el-input v-model.number="dataForm.areacode" placeholder="区域编码"></el-input>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -38,13 +38,16 @@ export default {
       },
       dataRule: {
         name: [
-          {required: true, message: '仓库名不能为空', trigger: 'blur'}
+          {required: true, message: '仓库名不能为空', trigger: 'blur'},
+          { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
         ],
         address: [
-          {required: true, message: '仓库地址不能为空', trigger: 'blur'}
+          {required: true, message: '仓库地址不能为空', trigger: 'blur'},
+          { min: 1, max: 100, message: '长度在 1 到 100 个字符', trigger: 'blur' }
         ],
         areacode: [
-          {required: true, message: '区域编码不能为空', trigger: 'blur'}
+          {required: true, message: '区域编码不能为空', trigger: 'blur'},
+          {type: 'number',min: 100000, max: 999999, message: '区域编码为数字且为6位', trigger: 'blur'}
         ]
       }
     }

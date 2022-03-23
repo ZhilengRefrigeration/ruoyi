@@ -1,6 +1,7 @@
 package com.xjs.area.controller;
 
 import com.ruoyi.common.core.web.domain.AjaxResult;
+import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.area.domain.Area;
 import com.xjs.area.service.AreaService;
 import com.xjs.web.MyBaseController;
@@ -32,6 +33,7 @@ public class AreaController extends MyBaseController<Area> {
 
     @GetMapping("rest")
     @ApiOperation("更新获取区域编码信息")
+    @RequiresPermissions("openapi:area:rest")
     public AjaxResult restArea() {
         areaService.truncateArea();
         areaService.saveArea();
@@ -41,6 +43,7 @@ public class AreaController extends MyBaseController<Area> {
 
     @GetMapping("getProvinceArea")
     @ApiOperation("获取所有省级区域")
+    @RequiresPermissions("openapi:area:list")
     public AjaxResult getProvinceArea() {
         List<Area> areaList = areaService.getProvinceArea();
         return AjaxResult.success(areaList);
@@ -48,6 +51,7 @@ public class AreaController extends MyBaseController<Area> {
 
     @GetMapping("getAreaByParentId/{pid}")
     @ApiOperation("根据父ID获取区域")
+    @RequiresPermissions("openapi:area:list")
     public AjaxResult getAreaByParentId(@PathVariable Long pid) {
         List<Area> areaList = areaService.getAreaByParentId(pid);
         return AjaxResult.success(areaList);

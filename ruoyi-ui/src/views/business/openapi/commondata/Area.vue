@@ -7,6 +7,7 @@
                    type="primary"
                    icon="el-icon-arrow-left"
                    :loading="buttonLoading"
+                   v-hasPermi="['openapi:area:rest']"
                    @click="getNewsArea()">联网获取最新区域编码
         </el-button>
 

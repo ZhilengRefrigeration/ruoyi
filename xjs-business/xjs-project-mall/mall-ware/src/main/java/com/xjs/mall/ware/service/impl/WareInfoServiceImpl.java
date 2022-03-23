@@ -27,6 +27,7 @@ public class WareInfoServiceImpl extends ServiceImpl<WareInfoDao, WareInfoEntity
                     .like(WareInfoEntity::getAddress, key).or()
                     .eq(WareInfoEntity::getAreacode, key);
         }
+        wrapper.orderByDesc(WareInfoEntity::getId);
 
         IPage<WareInfoEntity> page = this.page(new Query<WareInfoEntity>().getPage(params), wrapper);
 
