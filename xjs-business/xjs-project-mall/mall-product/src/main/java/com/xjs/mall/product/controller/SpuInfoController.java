@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.Map;
 
 
@@ -34,7 +33,7 @@ public class SpuInfoController extends MyBaseController<SpuInfoEntity> {
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
     @ApiOperation("列表")
     public R list(@RequestParam Map<String, Object> params) {
         super.checkParams(params);
@@ -43,16 +42,6 @@ public class SpuInfoController extends MyBaseController<SpuInfoEntity> {
         return R.ok().put("page", page);
     }
 
-
-    /**
-     * 信息
-     */
-    @RequestMapping("/info/{id}")
-    public R info(@PathVariable("id") Long id) {
-        SpuInfoEntity spuInfo = spuInfoService.getById(id);
-
-        return R.ok().put("spuInfo", spuInfo);
-    }
 
     /**
      * 保存(保存spu关联的所有信息)
@@ -64,25 +53,4 @@ public class SpuInfoController extends MyBaseController<SpuInfoEntity> {
 
         return R.ok();
     }
-
-    /**
-     * 修改
-     */
-    @RequestMapping("/update")
-    public R update(@RequestBody SpuInfoEntity spuInfo) {
-        spuInfoService.updateById(spuInfo);
-
-        return R.ok();
-    }
-
-    /**
-     * 删除
-     */
-    @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] ids) {
-        spuInfoService.removeByIds(Arrays.asList(ids));
-
-        return R.ok();
-    }
-
 }

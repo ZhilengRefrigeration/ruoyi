@@ -1,8 +1,9 @@
 package com.xjs.mall.ware.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ruoyi.common.core.utils.StringUtils;
 import com.xjs.mall.ware.dao.WareSkuDao;
 import com.xjs.mall.ware.entity.WareSkuEntity;
 import com.xjs.mall.ware.service.WareSkuService;
@@ -18,10 +19,16 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        IPage<WareSkuEntity> page = this.page(
-                new Query<WareSkuEntity>().getPage(params),
-                new QueryWrapper<WareSkuEntity>()
-        );
+        LambdaQueryWrapper<WareSkuEntity> wrapper = new LambdaQueryWrapper<>();
+
+        String key = (String) params.get(Query.KEY_NAME);
+        if (StringUtils.isNotEmpty(key)) {
+            wrapper.eq(WareSkuEntity::getSkuName, key).or()
+                    .eq(WareSkuEntity::getSkuId, key).or()
+                    .eq(WareSkuEntity::getWareId, key);
+        }
+
+        IPage<WareSkuEntity> page = this.page(new Query<WareSkuEntity>().getPage(params),wrapper);
 
         return new PageUtils(page);
     }

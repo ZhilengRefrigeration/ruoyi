@@ -11,7 +11,7 @@ import java.util.Map;
  *
  * @author xiejs
  * @email 1294405880@qq.com
- * @date 2022-03-15 09:56:19
+ * @since  2022-03-15 09:56:19
  */
 public interface WareSkuService extends IService<WareSkuEntity> {
 

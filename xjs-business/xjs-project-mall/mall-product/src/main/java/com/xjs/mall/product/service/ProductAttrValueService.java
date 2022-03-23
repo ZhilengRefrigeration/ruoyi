@@ -1,12 +1,10 @@
 package com.xjs.mall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xjs.mall.product.vo.spu.BaseAttrs;
-import com.xjs.utils.PageUtils;
 import com.xjs.mall.product.entity.ProductAttrValueEntity;
+import com.xjs.mall.product.vo.spu.BaseAttrs;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * spu属性值
@@ -17,7 +15,6 @@ import java.util.Map;
  */
 public interface ProductAttrValueService extends IService<ProductAttrValueEntity> {
 
-    PageUtils queryPage(Map<String, Object> params);
 
     /**
      * 保存spu的规格参数

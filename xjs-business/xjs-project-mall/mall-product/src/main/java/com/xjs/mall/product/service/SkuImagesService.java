@@ -1,10 +1,7 @@
 package com.xjs.mall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.xjs.utils.PageUtils;
 import com.xjs.mall.product.entity.SkuImagesEntity;
-
-import java.util.Map;
 
 /**
  * sku图片
@@ -15,6 +12,5 @@ import java.util.Map;
  */
 public interface SkuImagesService extends IService<SkuImagesEntity> {
 
-    PageUtils queryPage(Map<String, Object> params);
 }
 

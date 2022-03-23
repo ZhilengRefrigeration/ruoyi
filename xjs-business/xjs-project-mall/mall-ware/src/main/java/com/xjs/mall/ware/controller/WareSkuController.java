@@ -4,6 +4,8 @@ import com.xjs.mall.ware.entity.WareSkuEntity;
 import com.xjs.mall.ware.service.WareSkuService;
 import com.xjs.utils.PageUtils;
 import com.xjs.mall.other.R;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +19,11 @@ import java.util.Map;
  *
  * @author xiejs
  * @email 1294405880@qq.com
- * @date 2022-03-15 09:56:19
+ * @since  2022-03-15 09:56:19
  */
 @RestController
 @RequestMapping("ware/waresku")
+@Api(tags = "商城-仓库-商品库存")
 public class WareSkuController {
     @Autowired
     private WareSkuService wareSkuService;
@@ -28,7 +31,8 @@ public class WareSkuController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @GetMapping("/list")
+    @ApiOperation("列表")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = wareSkuService.queryPage(params);
 
@@ -40,6 +44,7 @@ public class WareSkuController {
      * 信息
      */
     @RequestMapping("/info/{id}")
+    @ApiOperation("信息")
     public R info(@PathVariable("id") Long id){
 		WareSkuEntity wareSku = wareSkuService.getById(id);
 
@@ -50,6 +55,7 @@ public class WareSkuController {
      * 保存
      */
     @RequestMapping("/save")
+    @ApiOperation("保存")
     public R save(@RequestBody WareSkuEntity wareSku){
 		wareSkuService.save(wareSku);
 
@@ -60,6 +66,7 @@ public class WareSkuController {
      * 修改
      */
     @RequestMapping("/update")
+    @ApiOperation("修改")
     public R update(@RequestBody WareSkuEntity wareSku){
 		wareSkuService.updateById(wareSku);
 
@@ -70,6 +77,7 @@ public class WareSkuController {
      * 删除
      */
     @RequestMapping("/delete")
+    @ApiOperation("删除")
     public R delete(@RequestBody Long[] ids){
 		wareSkuService.removeByIds(Arrays.asList(ids));
 
