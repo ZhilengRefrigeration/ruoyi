@@ -43,11 +43,10 @@
       style="width: 100%;"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-      <el-table-column prop="id" header-align="center" align="center" label="采购单id"></el-table-column>
-      <el-table-column prop="assigneeId" header-align="center" align="center" label="采购人id"></el-table-column>
-      <el-table-column prop="assigneeName" header-align="center" align="center" label="采购人名"></el-table-column>
-      <el-table-column prop="phone" header-align="center" align="center" label="联系方式"></el-table-column>
-      <el-table-column prop="priority" header-align="center" align="center" label="优先级"></el-table-column>
+      <el-table-column prop="assigneeId" header-align="center" align="center" label="采购人id" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="assigneeName" header-align="center" align="center" label="采购人名" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="phone" header-align="center" align="center" label="联系方式" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="priority" header-align="center" align="center" label="优先级" :show-overflow-tooltip="true"></el-table-column>
       <el-table-column prop="status" header-align="center" align="center" label="状态">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.status === 0">新建</el-tag>
@@ -57,10 +56,10 @@
           <el-tag type="danger" v-if="scope.row.status === 4">有异常</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="wareId" header-align="center" align="center" label="仓库id"></el-table-column>
-      <el-table-column prop="amount" header-align="center" align="center" label="总金额"></el-table-column>
-      <el-table-column prop="createTime" header-align="center" align="center" label="创建日期"></el-table-column>
-      <el-table-column prop="updateTime" header-align="center" align="center" label="更新日期"></el-table-column>
+      <el-table-column prop="wareId" header-align="center" align="center" label="仓库id" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="amount" header-align="center" align="center" label="总金额" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="createTime" header-align="center" align="center" label="创建日期" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="updateTime" header-align="center" align="center" label="更新日期" :show-overflow-tooltip="true"></el-table-column>
       <el-table-column fixed="right" header-align="center" align="center" width="150" label="操作">
         <template slot-scope="scope">
           <el-button
@@ -105,7 +104,7 @@
 
 <script>
 import AddOrUpdate from "./purchase-add-or-update";
-import {delWarePurchase, getWarePurchaseList} from "@/api/mall/ware/ware-purchase-detail";
+import {delWarePurchase, getWarePurchaseList} from "@/api/mall/ware/ware-purchase";
 
 export default {
   name: "Purchase",
@@ -134,7 +133,6 @@ export default {
   },
 
   created() {
-    this.getWares()
     this.getDataList();
   },
 

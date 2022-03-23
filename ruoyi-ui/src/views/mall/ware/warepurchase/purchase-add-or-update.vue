@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import {editWarePurchase, getWarePurchase, saveWarePurchase} from "@/api/mall/ware/ware-purchase";
+
 export default {
   data() {
     return {
@@ -71,63 +73,35 @@ export default {
       this.$nextTick(() => {
         this.$refs['dataForm'].resetFields()
         if (this.dataForm.id) {
-          this.$http({
-            url: this.$http.adornUrl(`/ware/purchase/info/${this.dataForm.id}`),
-            method: 'get',
-            params: this.$http.adornParams()
-          }).then(({data}) => {
-            if (data && data.code === 0) {
-              this.dataForm.assigneeId = data.purchase.assigneeId
-              this.dataForm.assigneeName = data.purchase.assigneeName
-              this.dataForm.phone = data.purchase.phone
-              this.dataForm.priority = data.purchase.priority
-              this.dataForm.status = data.purchase.status
-              this.dataForm.wareId = data.purchase.wareId
-              this.dataForm.amount = data.purchase.amount
-              this.dataForm.createTime = data.purchase.createTime
-              this.dataForm.updateTime = data.purchase.updateTime
-            }
+          getWarePurchase(this.dataForm.id).then(res => {
+            this.dataForm = res.purchase
           })
         }
       })
     },
+
     // 表单提交
     dataFormSubmit() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          this.$http({
-            url: this.$http.adornUrl(`/ware/purchase/${!this.dataForm.id ? 'save' : 'update'}`),
-            method: 'post',
-            data: this.$http.adornData({
-              'id': this.dataForm.id || undefined,
-              'assigneeId': this.dataForm.assigneeId,
-              'assigneeName': this.dataForm.assigneeName,
-              'phone': this.dataForm.phone,
-              'priority': this.dataForm.priority,
-              'status': this.dataForm.status,
-              'wareId': this.dataForm.wareId,
-              'amount': this.dataForm.amount,
-              'createTime': this.dataForm.createTime,
-              'updateTime': this.dataForm.updateTime
+          if (!this.dataForm.id) {
+            saveWarePurchase(this.dataForm).then(res => {
+              this.$modal.notifySuccess("添加成功")
+              this.visible = false
+              this.$emit('refreshDataList')
             })
-          }).then(({data}) => {
-            if (data && data.code === 0) {
-              this.$message({
-                message: '操作成功',
-                type: 'success',
-                duration: 1500,
-                onClose: () => {
-                  this.visible = false
-                  this.$emit('refreshDataList')
-                }
-              })
-            } else {
-              this.$message.error(data.msg)
-            }
-          })
+          } else {
+            editWarePurchase(this.dataForm).then(res => {
+              this.$modal.notifySuccess("修改成功")
+              this.visible = false
+              this.$emit('refreshDataList')
+            })
+          }
         }
       })
-    }
+    },
+
+
   }
 }
 </script>
