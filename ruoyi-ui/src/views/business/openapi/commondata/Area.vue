@@ -19,6 +19,20 @@
           :load="loadNode"
           highlight-current
         >
+          <span class="custom-tree-node" slot-scope="{ node, data }">
+            <span>{{ node.label }}</span>
+            <span style="margin-left: 50px">
+              <el-tooltip class="item" effect="dark" content="点击去百度" placement="right">
+                  <el-button
+                    icon="el-icon-search"
+                    type="text"
+                    size="mini"
+                    @click="() => toBaidu(node, data)">
+                  </el-button>
+              </el-tooltip>
+
+            </span>
+      </span>
         </el-tree>
 
 
@@ -55,6 +69,14 @@ export default {
   },
 
   methods: {
+    //跳转页面
+    toBaidu(node, data) {
+      console.log(node)
+
+      //打开新标签跳转
+      window.open('https://www.baidu.com/s?wd=' + node.data.name)
+    },
+
     getProvinceAreaList() {
       getProvinceArea().then(res => {
         this.dataList = res.data

@@ -326,6 +326,8 @@ export default {
       this.queryParams.createTime = null
       this.queryParams.endCreateTime = null
 
+      this.queryParams.condition = null;
+
       this.resetForm("queryForm");
       this.handleQuery();
     },

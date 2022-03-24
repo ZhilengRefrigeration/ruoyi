@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 英语文章service接口实现
@@ -145,8 +146,8 @@ public class EnglishArticleServiceImpl extends ServiceImpl<EnglishArticleMapper,
      * @return 文章实体类
      */
     private EnglishArticle translation(EnglishArticle englishArticle) {
-        // 使用线程安全的Vector
-        Vector<Thread> threads = new Vector<Thread>();
+        // 使用线程安全的CopyOnWriteArrayList
+        CopyOnWriteArrayList<Thread> threads = new CopyOnWriteArrayList<>();
 
         Thread thread1 = new Thread(() -> {
             R<TranslationVo> titleR = remoteTranslationFeign.translation(englishArticle.getTitleChinese());

@@ -156,7 +156,13 @@ public class ApiLogAspect {
         String response = null;
         if (Objects.nonNull(jsonResult)) {
             response = jsonResult.toString();
-            entity.setResponse(response);
+
+            //数据量太大就不set了   
+            if ("高德-区域编码".equals(name)) {
+                entity.setResponse("\"数据量太大了~~\"");
+            }else {
+                entity.setResponse(response);
+            }
 
             //如果降级error
             if (response.contains(ERROR_500)) {
