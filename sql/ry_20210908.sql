@@ -25,16 +25,12 @@ create table sys_dept (
 -- ----------------------------
 -- 初始化-部门表数据
 -- ----------------------------
-insert into sys_dept values(100,  0,   '0',          '若依科技',   0, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', sysdate(), '', null);
-insert into sys_dept values(101,  100, '0,100',      '深圳总公司', 1, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', sysdate(), '', null);
-insert into sys_dept values(102,  100, '0,100',      '长沙分公司', 2, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', sysdate(), '', null);
-insert into sys_dept values(103,  101, '0,100,101',  '研发部门',   1, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', sysdate(), '', null);
-insert into sys_dept values(104,  101, '0,100,101',  '市场部门',   2, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', sysdate(), '', null);
-insert into sys_dept values(105,  101, '0,100,101',  '测试部门',   3, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', sysdate(), '', null);
-insert into sys_dept values(106,  101, '0,100,101',  '财务部门',   4, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', sysdate(), '', null);
-insert into sys_dept values(107,  101, '0,100,101',  '运维部门',   5, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', sysdate(), '', null);
-insert into sys_dept values(108,  102, '0,100,102',  '市场部门',   1, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', sysdate(), '', null);
-insert into sys_dept values(109,  102, '0,100,102',  '财务部门',   2, '若依', '15888888888', 'ry@qq.com', '0', '0', 'admin', sysdate(), '', null);
+insert into sys_dept values(100,  0,   '0',          '一级权限部门',   0, 'pinn', '15888888888', 'pinn@qq.com', '0', '0', 'admin', sysdate(), '', null);
+insert into sys_dept values(101,  100, '0,100',      '二级权限部门1', 1, 'pinn', '15888888888', 'pinn@qq.com', '0', '0', 'admin', sysdate(), '', null);
+insert into sys_dept values(102,  100, '0,100',      '二级权限部门2', 2, 'pinn', '15888888888', 'pinn@qq.com', '0', '0', 'admin', sysdate(), '', null);
+insert into sys_dept values(103,  101, '0,100,101',  '三级权限部门1',   1, 'pinn', '15888888888', 'pinn@qq.com', '0', '0', 'admin', sysdate(), '', null);
+insert into sys_dept values(104,  101, '0,100,101',  '三级权限部门2',   2, 'pinn', '15888888888', 'pinn@qq.com', '0', '0', 'admin', sysdate(), '', null);
+insert into sys_dept values(105,  101, '0,100,101',  '三级权限部门3',   3, 'pinn', '15888888888', 'pinn@qq.com', '0', '0', 'admin', sysdate(), '', null);
 
 
 -- ----------------------------
@@ -67,8 +63,8 @@ create table sys_user (
 -- ----------------------------
 -- 初始化-用户信息表数据
 -- ----------------------------
-insert into sys_user values(1,  103, 'admin', '若依', '00', 'ry@163.com', '15888888888', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '管理员');
-insert into sys_user values(2,  105, 'ry',    '若依', '00', 'ry@qq.com',  '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '测试员');
+insert into sys_user values(1,  103, 'pinn', '管理者', '00', 'pinn@163.com', '15888888888', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '管理员');
+insert into sys_user values(2,  105, 'Layne',    '莱恩', '00', 'Layne@qq.com',  '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '测试员');
 
 
 -- ----------------------------
@@ -162,7 +158,7 @@ create table sys_menu (
 insert into sys_menu values('1', '系统管理', '0', '1', 'system',           null, '', 1, 0, 'M', '0', '0', '', 'system',   'admin', sysdate(), '', null, '系统管理目录');
 insert into sys_menu values('2', '系统监控', '0', '2', 'monitor',          null, '', 1, 0, 'M', '0', '0', '', 'monitor',  'admin', sysdate(), '', null, '系统监控目录');
 insert into sys_menu values('3', '系统工具', '0', '3', 'tool',             null, '', 1, 0, 'M', '0', '0', '', 'tool',     'admin', sysdate(), '', null, '系统工具目录');
-insert into sys_menu values('4', '若依官网', '0', '4', 'http://ruoyi.vip', null, '', 0, 0, 'M', '0', '0', '', 'guide',    'admin', sysdate(), '', null, '若依官网地址');
+-- insert into sys_menu values('4', '若依官网', '0', '4', 'http://ruoyi.vip', null, '', 0, 0, 'M', '0', '0', '', 'guide',    'admin', sysdate(), '', null, '若依官网地址');
 -- 二级菜单
 insert into sys_menu values('100',  '用户管理',       '1',   '1', 'user',       'system/user/index',                 '', 1, 0, 'C', '0', '0', 'system:user:list',        'user',          'admin', sysdate(), '', null, '用户管理菜单');
 insert into sys_menu values('101',  '角色管理',       '1',   '2', 'role',       'system/role/index',                 '', 1, 0, 'C', '0', '0', 'system:role:list',        'peoples',       'admin', sysdate(), '', null, '角色管理菜单');
@@ -175,12 +171,12 @@ insert into sys_menu values('107',  '通知公告',       '1',   '8', 'notice', 
 insert into sys_menu values('108',  '日志管理',       '1',   '9', 'log',        '',                                  '', 1, 0, 'M', '0', '0', '',                        'log',           'admin', sysdate(), '', null, '日志管理菜单');
 insert into sys_menu values('109',  '在线用户',       '2',   '1', 'online',     'monitor/online/index',              '', 1, 0, 'C', '0', '0', 'monitor:online:list',     'online',        'admin', sysdate(), '', null, '在线用户菜单');
 insert into sys_menu values('110',  '定时任务',       '2',   '2', 'job',        'monitor/job/index',                 '', 1, 0, 'C', '0', '0', 'monitor:job:list',        'job',           'admin', sysdate(), '', null, '定时任务菜单');
-insert into sys_menu values('111',  'Sentinel控制台', '2',   '3', 'http://localhost:8718',        '',                '', 0, 0, 'C', '0', '0', 'monitor:sentinel:list',   'sentinel',      'admin', sysdate(), '', null, '流量控制菜单');
-insert into sys_menu values('112',  'Nacos控制台',    '2',   '4', 'http://localhost:8848/nacos',  '',                '', 0, 0, 'C', '0', '0', 'monitor:nacos:list',      'nacos',         'admin', sysdate(), '', null, '服务治理菜单');
-insert into sys_menu values('113',  'Admin控制台',    '2',   '5', 'http://localhost:9100/login',  '',                '', 0, 0, 'C', '0', '0', 'monitor:server:list',     'server',        'admin', sysdate(), '', null, '服务监控菜单');
+insert into sys_menu values('111',  'Sentinel控制台', '2',   '3', 'https://service.pinnpinn.top/sentinel',        '',                '', 0, 0, 'C', '0', '0', 'monitor:sentinel:list',   'sentinel',      'admin', sysdate(), '', null, '流量控制菜单');
+insert into sys_menu values('112',  'Nacos控制台',    '2',   '4', 'https://service.pinnpinn.top/nacos',  '',                '', 0, 0, 'C', '0', '0', 'monitor:nacos:list',      'nacos',         'admin', sysdate(), '', null, '服务治理菜单');
+insert into sys_menu values('113',  'Admin控制台',    '2',   '5', 'https://service.pinnpinn.top/admin',  '',                '', 0, 0, 'C', '0', '0', 'monitor:server:list',     'server',        'admin', sysdate(), '', null, '服务监控菜单');
 insert into sys_menu values('114',  '表单构建',       '3',   '1', 'build',      'tool/build/index',                  '', 1, 0, 'C', '0', '0', 'tool:build:list',         'build',         'admin', sysdate(), '', null, '表单构建菜单');
 insert into sys_menu values('115',  '代码生成',       '3',   '2', 'gen',        'tool/gen/index',                    '', 1, 0, 'C', '0', '0', 'tool:gen:list',           'code',          'admin', sysdate(), '', null, '代码生成菜单');
-insert into sys_menu values('116',  '系统接口',       '3',   '3', 'http://localhost:8080/swagger-ui/index.html', '', '', 0, 0, 'C', '0', '0', 'tool:swagger:list',       'swagger',       'admin', sysdate(), '', null, '系统接口菜单');
+insert into sys_menu values('116',  '系统接口',       '3',   '3', 'https://service.pinnpinn.top/swagger-ui/index.html', '', '', 0, 0, 'C', '0', '0', 'tool:swagger:list',       'swagger',       'admin', sysdate(), '', null, '系统接口菜单');
 -- 三级菜单
 insert into sys_menu values('500',  '操作日志', '108', '1', 'operlog',    'system/operlog/index',    '', 1, 0, 'C', '0', '0', 'system:operlog:list',    'form',          'admin', sysdate(), '', null, '操作日志菜单');
 insert into sys_menu values('501',  '登录日志', '108', '2', 'logininfor', 'system/logininfor/index', '', 1, 0, 'C', '0', '0', 'system:logininfor:list', 'logininfor',    'admin', sysdate(), '', null, '登录日志菜单');
