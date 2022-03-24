@@ -2,14 +2,15 @@ package com.xjs.mall.product.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-
-import java.io.Serializable;
-import java.util.Date;
+import com.xjs.validation.group.UpdateGroup;
 import lombok.Data;
+
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * spu属性值
- * 
+ *
  * @author xiejs
  * @email 1294405880@qq.com
  * @date 2022-03-15 10:16:53
@@ -39,6 +40,7 @@ public class ProductAttrValueEntity implements Serializable {
 	/**
 	 * 属性值
 	 */
+	@Size(message = "属性值应小于 20 字符",groups = UpdateGroup.class,max = 20)
 	private String attrValue;
 	/**
 	 * 顺序

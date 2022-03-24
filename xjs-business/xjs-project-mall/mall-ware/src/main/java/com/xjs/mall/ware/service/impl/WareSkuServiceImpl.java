@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ruoyi.common.core.constant.HttpStatus;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.bean.BeanUtils;
 import com.xjs.mall.RemoteProductFeign;
@@ -17,6 +16,7 @@ import com.xjs.mall.ware.service.WareSkuService;
 import com.xjs.mall.ware.vo.WareSkuVo;
 import com.xjs.utils.PageUtils;
 import com.xjs.utils.Query;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 
 @Service("wareSkuService")
 @Transactional
+@Log4j2
 public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> implements WareSkuService {
 
     @Autowired
@@ -78,14 +79,18 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             wareSkuEntity.setWareId(wareId);
             wareSkuEntity.setStockLocked(0);
 
-            //远程查询sku的名字
-            R r = remoteProductFeign.getSkuNameById(skuId);
-            if (r.getCode() == HttpStatus.SUCCESS) {
-                wareSkuEntity.setSkuName((String) r.get("msg"));
+            //远程查询sku的名字   没写降级，所以需要try catch
+            try {
+                R r = remoteProductFeign.getSkuNameById(skuId);
+                if (r.getCode() == 0) {
+                    wareSkuEntity.setSkuName((String) r.get("msg"));
+                }
+            } catch (Exception e) {
+                log.error(e.getMessage());
             }
 
             super.baseMapper.insert(wareSkuEntity);
-        }else {
+        } else {
             super.baseMapper.addStock(skuId, wareId, skuNum);
         }
 

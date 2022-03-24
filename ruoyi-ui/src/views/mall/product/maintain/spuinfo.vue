@@ -94,10 +94,10 @@ export default {
         }
       });
     },
+
     attrUpdateShow(row) {
-      console.log(row);
       this.$router.push({
-        path: "/product-attrupdate",
+        path: "/mall/product/mall-attribute/spu-attribute",
         query: { spuId: row.id, catalogId: row.catalogId }
       });
     },

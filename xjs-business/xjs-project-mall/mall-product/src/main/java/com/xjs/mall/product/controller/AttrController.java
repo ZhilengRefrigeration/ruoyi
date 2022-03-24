@@ -2,13 +2,16 @@ package com.xjs.mall.product.controller;
 
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
+import com.xjs.mall.other.R;
 import com.xjs.mall.product.entity.AttrEntity;
+import com.xjs.mall.product.entity.ProductAttrValueEntity;
 import com.xjs.mall.product.service.AttrService;
+import com.xjs.mall.product.service.ProductAttrValueService;
 import com.xjs.mall.product.vo.AttrGroupRelationVo;
 import com.xjs.mall.product.vo.AttrResponseVo;
 import com.xjs.mall.product.vo.AttrVo;
 import com.xjs.utils.PageUtils;
-import com.xjs.mall.other.R;
+import com.xjs.validation.ValidList;
 import com.xjs.validation.group.AddGroup;
 import com.xjs.validation.group.UpdateGroup;
 import com.xjs.web.MyBaseController;
@@ -36,6 +39,24 @@ import java.util.Map;
 public class AttrController extends MyBaseController<AttrEntity> {
     @Autowired
     private AttrService attrService;
+    @Autowired
+    private ProductAttrValueService productAttrValueService;
+
+    @PutMapping("/update/{spuId}")
+    @ApiOperation("修改商品规格属性")
+    public R updateSpuAttr(@PathVariable Long spuId,
+                           @Validated(UpdateGroup.class) @RequestBody ValidList<ProductAttrValueEntity> entities) {
+        productAttrValueService.updateSpuAttr(spuId, entities);
+        return R.ok();
+    }
+
+    @GetMapping("base/listforspu/{spuId}")
+    @ApiOperation("查询商品规格属性")
+    public R baseAtteListForSpu(@PathVariable Long spuId) {
+        List<ProductAttrValueEntity> list = productAttrValueService.baseAtteListForSpu(spuId);
+
+        return R.ok().put("data", list);
+    }
 
 
     @DeleteMapping("relation/delete")

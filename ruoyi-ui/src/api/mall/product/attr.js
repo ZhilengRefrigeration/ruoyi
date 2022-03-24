@@ -53,3 +53,21 @@ export function deleteRelation(ids) {
   })
 }
 
+// 查询商品规格属性
+export function baseAtteListForSpu(spuId) {
+  return request({
+    url: `/mall-product/product/attr/base/listforspu/${spuId}`,
+    method: 'get',
+  })
+}
+
+// 修改商品规格属性
+export function updateSpuAttr(spuId,data) {
+  return request({
+    url: `/mall-product/product/attr/update/${spuId}`,
+    method: 'put',
+    data:data
+  })
+}
+
+
