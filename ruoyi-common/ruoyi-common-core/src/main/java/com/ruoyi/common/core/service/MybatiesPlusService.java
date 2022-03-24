@@ -1,5 +1,6 @@
 package com.ruoyi.common.core.service;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
@@ -8,5 +9,5 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
  *
  * @author pinn
  */
-public abstract class MybatiesPlusService extends ServiceImpl implements IService {
+public abstract class MybatiesPlusService<M extends BaseMapper<T>, T> extends ServiceImpl implements IService {
 }

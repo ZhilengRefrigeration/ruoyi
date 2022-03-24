@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import javax.annotation.PostConstruct;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ruoyi.common.core.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ import com.ruoyi.system.service.ISysConfigService;
  * @author ruoyi
  */
 @Service
-public class SysConfigServiceImpl extends CommonService implements ISysConfigService
+public class SysConfigServiceImpl extends CommonService<SysConfigMapper, SysConfig> implements ISysConfigService
 {
     @Autowired
     private SysConfigMapper configMapper;

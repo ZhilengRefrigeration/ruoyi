@@ -1,6 +1,7 @@
 package ${packageName}.service.impl;
 
 import java.util.List;
+import com.ruoyi.common.core.service.CommonService;
 #foreach ($column in $columns)
 #if($column.javaField == 'createTime' || $column.javaField == 'updateTime')
 import com.ruoyi.common.core.utils.DateUtils;
@@ -26,7 +27,7 @@ import ${packageName}.service.I${ClassName}Service;
  * @date ${datetime}
  */
 @Service
-public class ${ClassName}ServiceImpl implements I${ClassName}Service 
+public class ${ClassName}ServiceImpl extends CommonService<${ClassName}Mapper, ${ClassName}> implements I${ClassName}Service
 {
     @Autowired
     private ${ClassName}Mapper ${className}Mapper;
