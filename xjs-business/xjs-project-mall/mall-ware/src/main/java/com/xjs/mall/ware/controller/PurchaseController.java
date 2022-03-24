@@ -6,14 +6,16 @@ import com.xjs.mall.ware.entity.PurchaseEntity;
 import com.xjs.mall.ware.service.PurchaseService;
 import com.xjs.utils.PageUtils;
 import com.xjs.mall.other.R;
+import com.xjs.validation.group.AddGroup;
+import com.xjs.validation.group.UpdateGroup;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.Map;
-
 
 
 /**
@@ -21,7 +23,7 @@ import java.util.Map;
  *
  * @author xiejs
  * @email 1294405880@qq.com
- * @since  2022-03-15 09:56:19
+ * @since 2022-03-15 09:56:19
  */
 @RestController
 @RequestMapping("ware/purchase")
@@ -35,7 +37,7 @@ public class PurchaseController {
      */
     @GetMapping("/list")
     @ApiOperation("列表")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = purchaseService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -47,8 +49,8 @@ public class PurchaseController {
      */
     @GetMapping("/info/{id}")
     @ApiOperation("信息")
-    public R info(@PathVariable("id") Long id){
-		PurchaseEntity purchase = purchaseService.getById(id);
+    public R info(@PathVariable("id") Long id) {
+        PurchaseEntity purchase = purchaseService.getById(id);
 
         return R.ok().put("purchase", purchase);
     }
@@ -59,8 +61,8 @@ public class PurchaseController {
     @PostMapping("/save")
     @ApiOperation("保存")
     @Log(title = "采购单", businessType = BusinessType.INSERT)
-    public R save(@RequestBody PurchaseEntity purchase){
-		purchaseService.save(purchase);
+    public R save(@Validated(AddGroup.class) @RequestBody PurchaseEntity purchase) {
+        purchaseService.save(purchase);
 
         return R.ok();
     }
@@ -71,8 +73,8 @@ public class PurchaseController {
     @PutMapping("/update")
     @ApiOperation("修改")
     @Log(title = "采购单", businessType = BusinessType.UPDATE)
-    public R update(@RequestBody PurchaseEntity purchase){
-		purchaseService.updateById(purchase);
+    public R update(@Validated(UpdateGroup.class) @RequestBody PurchaseEntity purchase) {
+        purchaseService.updateById(purchase);
 
         return R.ok();
     }
@@ -83,8 +85,8 @@ public class PurchaseController {
     @DeleteMapping("/delete")
     @ApiOperation("删除")
     @Log(title = "采购单", businessType = BusinessType.DELETE)
-    public R delete(@RequestBody Long[] ids){
-		purchaseService.removeByIds(Arrays.asList(ids));
+    public R delete(@RequestBody Long[] ids) {
+        purchaseService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

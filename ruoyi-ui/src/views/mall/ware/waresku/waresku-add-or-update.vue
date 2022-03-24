@@ -13,7 +13,7 @@
       label-width="90px"
     >
       <el-form-item label="sku_id" prop="skuId">
-        <el-input v-model="dataForm.skuId" placeholder="请输入商品id"></el-input>
+        <el-input v-model="dataForm.skuId" placeholder="请输入商品id" maxlength="20"></el-input>
       </el-form-item>
       <el-form-item label="仓库" prop="wareId">
         <el-select v-model="dataForm.wareId" placeholder="请选择仓库" clearable>
@@ -24,7 +24,7 @@
         <el-input-number v-model.number="dataForm.stock" :min="0" :max="9999999" label="库存数"></el-input-number>
       </el-form-item>
       <el-form-item label="sku_name" prop="skuName">
-        <el-input v-model="dataForm.skuName" placeholder="请输入商品名称"></el-input>
+        <el-input v-model="dataForm.skuName" placeholder="请输入商品名称" maxlength="50"></el-input>
       </el-form-item>
       <el-form-item label="锁定库存" prop="stockLocked">
         <el-input-number v-model.number="dataForm.stockLocked" :min="0" :max="9999999" label="锁定库存"></el-input-number>

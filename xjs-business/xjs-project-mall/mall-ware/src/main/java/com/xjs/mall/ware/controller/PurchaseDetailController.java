@@ -6,9 +6,12 @@ import com.xjs.mall.ware.entity.PurchaseDetailEntity;
 import com.xjs.mall.ware.service.PurchaseDetailService;
 import com.xjs.utils.PageUtils;
 import com.xjs.mall.other.R;
+import com.xjs.validation.group.AddGroup;
+import com.xjs.validation.group.UpdateGroup;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -58,7 +61,7 @@ public class PurchaseDetailController {
     @PostMapping("/save")
     @ApiOperation("保存")
     @Log(title = "采购需求", businessType = BusinessType.INSERT)
-    public R save(@RequestBody PurchaseDetailEntity purchaseDetail) {
+    public R save(@Validated(AddGroup.class) @RequestBody PurchaseDetailEntity purchaseDetail) {
         purchaseDetailService.save(purchaseDetail);
 
         return R.ok();
@@ -70,7 +73,7 @@ public class PurchaseDetailController {
     @PutMapping("/update")
     @ApiOperation("修改")
     @Log(title = "采购需求", businessType = BusinessType.UPDATE)
-    public R update(@RequestBody PurchaseDetailEntity purchaseDetail) {
+    public R update(@Validated(UpdateGroup.class) @RequestBody PurchaseDetailEntity purchaseDetail) {
         purchaseDetailService.updateById(purchaseDetail);
 
         return R.ok();

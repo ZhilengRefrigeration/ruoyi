@@ -3,19 +3,20 @@
     :title="!dataForm.id ? '新增' : '修改'"
     :close-on-click-modal="false"
     :visible.sync="visible"
+    width="500px"
   >
     <el-form
       :model="dataForm"
       :rules="dataRule"
       ref="dataForm"
       @keyup.enter.native="dataFormSubmit()"
-      label-width="120px"
+      label-width="90px"
     >
       <el-form-item label="采购商品id" prop="skuId">
-        <el-input v-model="dataForm.skuId" placeholder="采购商品id"></el-input>
+        <el-input v-model="dataForm.skuId" placeholder="采购商品id" maxlength="20"></el-input>
       </el-form-item>
       <el-form-item label="采购数量" prop="skuNum">
-        <el-input v-model="dataForm.skuNum" placeholder="采购数量"></el-input>
+        <el-input-number v-model.number="dataForm.skuNum" :min="1" :max="9999999" label="采购数量"></el-input-number>
       </el-form-item>
       <el-form-item label="仓库" prop="wareId">
         <el-select v-model="dataForm.wareId" placeholder="请选择仓库" clearable>

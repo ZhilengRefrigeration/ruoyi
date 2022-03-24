@@ -6,10 +6,7 @@ import com.xjs.validation.group.AddGroup;
 import com.xjs.validation.group.UpdateGroup;
 import lombok.Data;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 
 /**
@@ -50,6 +47,7 @@ public class WareSkuEntity implements Serializable {
      * sku_name
      */
     @NotBlank(message = "sku_name不能为空", groups = {AddGroup.class, UpdateGroup.class})
+    @Size(min = 0, max = 50, message = "商品名称不能超过 50 字符", groups = {AddGroup.class, UpdateGroup.class})
     private String skuName;
     /**
      * 锁定库存

@@ -1,12 +1,13 @@
 <template>
   <el-dialog
+    width="350px"
     :title="!dataForm.id ? '新增' : '修改'"
     :close-on-click-modal="false"
     :visible.sync="visible">
     <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()"
-             label-width="120px">
+             label-width="80px">
       <el-form-item label="优先级" prop="priority">
-        <el-input v-model="dataForm.priority" placeholder="优先级"></el-input>
+        <el-input-number v-model.number="dataForm.priority" :min="0" :max="9999" label="优先级"></el-input-number>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
