@@ -157,7 +157,7 @@ public class SysMenuServiceImpl implements ISysMenuService
             if (!cMenus.isEmpty() && cMenus.size() > 0 && UserConstants.TYPE_DIR.equals(menu.getMenuType()))
             {
                 router.setAlwaysShow(true);
-                router.setTop(true);
+                router.setTop(menu.getParentId() == 0); //一级路由
                 router.setRedirect("noRedirect");
                 router.setChildren(buildMenus(cMenus));
             }
