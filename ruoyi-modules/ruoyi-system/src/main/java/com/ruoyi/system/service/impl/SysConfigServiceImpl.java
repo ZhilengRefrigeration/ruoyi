@@ -2,12 +2,9 @@ package com.ruoyi.system.service.impl;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 import javax.annotation.PostConstruct;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.ruoyi.common.core.service.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.core.constant.Constants;
@@ -26,7 +23,7 @@ import com.ruoyi.system.service.ISysConfigService;
  * @author ruoyi
  */
 @Service
-public class SysConfigServiceImpl implements ISysConfigService
+public class SysConfigServiceImpl extends CommonService implements ISysConfigService
 {
     @Autowired
     private SysConfigMapper configMapper;

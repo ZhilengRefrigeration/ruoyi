@@ -2,7 +2,6 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.system.domain.SysConfig;
 
 /**

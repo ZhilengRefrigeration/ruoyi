@@ -1,4 +1,4 @@
-package com.ruoyi.common.core.domain;
+package mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
