@@ -30,16 +30,17 @@ public class PurchaseEntity implements Serializable {
 	 */
 	@TableId
 	private Long id;
+
 	/**
-	 *
+	 *用户id
 	 */
 	private Long assigneeId;
 	/**
-	 *
+	 *用户名
 	 */
 	private String assigneeName;
 	/**
-	 *
+	 *手机号
 	 */
 	private String phone;
 
@@ -51,15 +52,15 @@ public class PurchaseEntity implements Serializable {
 	@Max(value = 9999,message = "优先级最大为9999",groups = {AddGroup.class, UpdateGroup.class})
 	private Integer priority;
 	/**
-	 *
+	 *采购单状态
 	 */
 	private Integer status;
 	/**
-	 *
+	 *仓库id
 	 */
 	private Long wareId;
 	/**
-	 *
+	 *总金额
 	 */
 	private BigDecimal amount;
 	/**

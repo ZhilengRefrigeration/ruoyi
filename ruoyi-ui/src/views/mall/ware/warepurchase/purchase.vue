@@ -62,7 +62,7 @@
           <el-tag type="danger" v-if="scope.row.status === 4">有异常</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="wareId" header-align="center" align="center" label="仓库id"
+      <el-table-column prop="wareName" header-align="center" align="center" label="仓库名称"
                        :show-overflow-tooltip="true"></el-table-column>
       <el-table-column prop="amount" header-align="center" align="center" label="总金额"
                        :show-overflow-tooltip="true"></el-table-column>

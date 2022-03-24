@@ -60,4 +60,10 @@ public class PurchaseDetailServiceImpl extends ServiceImpl<PurchaseDetailDao, Pu
         return pageUtils;
     }
 
+    @Override
+    public List<PurchaseDetailEntity> listDetailByPurchaseId(Long id) {
+
+       return super.list(new LambdaQueryWrapper<PurchaseDetailEntity>().eq(PurchaseDetailEntity::getPurchaseId, id));
+    }
+
 }

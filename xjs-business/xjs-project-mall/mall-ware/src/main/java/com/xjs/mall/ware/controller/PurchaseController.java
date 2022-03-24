@@ -2,11 +2,11 @@ package com.xjs.mall.ware.controller;
 
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
+import com.xjs.mall.other.R;
 import com.xjs.mall.ware.entity.PurchaseEntity;
 import com.xjs.mall.ware.service.PurchaseService;
 import com.xjs.mall.ware.vo.MergeVo;
 import com.xjs.utils.PageUtils;
-import com.xjs.mall.other.R;
 import com.xjs.validation.group.AddGroup;
 import com.xjs.validation.group.UpdateGroup;
 import io.swagger.annotations.Api;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 
@@ -33,6 +34,17 @@ import java.util.Map;
 public class PurchaseController {
     @Autowired
     private PurchaseService purchaseService;
+
+    @ApiOperation("领取采购单")
+    @PostMapping("/received")
+    public R received(@RequestBody List<Long> ids) {
+
+        purchaseService.received(ids);
+
+        return R.ok();
+    }
+
+
 
     @ApiOperation("合并采购单")
     @PostMapping("/merge")
