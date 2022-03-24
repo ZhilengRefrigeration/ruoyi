@@ -94,6 +94,7 @@ const captchaOnOff = ref(true);
 // 注册开关
 const register = ref(false);
 const redirect = ref(undefined);
+const baseDir = import.meta.env.VITE_APP_BASE_DIR;
 
 function handleLogin() {
   proxy.$refs.loginRef.validate(valid => {
@@ -112,7 +113,7 @@ function handleLogin() {
       }
       // 调用action的登录方法
       store.dispatch("Login", loginForm.value).then(() => {
-        router.push({ path: redirect.value || "/" });
+        router.push({ path: redirect.value || baseDir + "/"});
       }).catch(() => {
         loading.value = false;
         // 重新获取验证码

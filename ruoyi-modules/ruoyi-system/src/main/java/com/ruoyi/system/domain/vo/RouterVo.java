@@ -22,6 +22,11 @@ public class RouterVo
     private String path;
 
     /**
+     * 是否为一级路由,关系到是否带上根目录
+     */
+    private Boolean top;
+
+    /**
      * 是否隐藏路由，当设置 true 的时候该路由不会再侧边栏出现
      */
     private boolean hidden;
@@ -74,6 +79,14 @@ public class RouterVo
     public void setPath(String path)
     {
         this.path = path;
+    }
+
+    public Boolean getTop() {
+        return top;
+    }
+
+    public void setTop(Boolean top) {
+        this.top = top;
     }
 
     public boolean getHidden()

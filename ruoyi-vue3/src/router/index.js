@@ -31,7 +31,7 @@ export const constantRoutes = [
     hidden: true,
     children: [
       {
-        path: '/redirect/:path(.*)',
+        path: baseDir+'/redirect/:path(.*)',
         component: () => import('@/views/redirect/index.vue')
       }
     ]
@@ -57,12 +57,12 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: baseDir+'',
+    path: baseDir+'/',
     component: Layout,
     redirect: baseDir+'/index',
     children: [
       {
-        path: '/index',
+        path: baseDir+'/index',
         component: () => import('@/views/index'),
         name: 'Index',
         meta: { title: '首页', icon: 'dashboard', affix: true }
@@ -76,7 +76,7 @@ export const constantRoutes = [
     redirect: 'noredirect',
     children: [
       {
-        path: 'profile',
+        path: baseDir+'profile',
         component: () => import('@/views/system/user/profile/index'),
         name: 'Profile',
         meta: { title: '个人中心', icon: 'user' }
@@ -89,7 +89,7 @@ export const constantRoutes = [
     hidden: true,
     children: [
       {
-        path: 'role/:userId(\\d+)',
+        path: baseDir+'role/:userId(\\d+)',
         component: () => import('@/views/system/user/authRole'),
         name: 'AuthRole',
         meta: { title: '分配角色', activeMenu: '/system/user' }
@@ -102,7 +102,7 @@ export const constantRoutes = [
     hidden: true,
     children: [
       {
-        path: 'user/:roleId(\\d+)',
+        path: baseDir+'user/:roleId(\\d+)',
         component: () => import('@/views/system/role/authUser'),
         name: 'AuthUser',
         meta: { title: '分配用户', activeMenu: '/system/role' }
@@ -115,7 +115,7 @@ export const constantRoutes = [
     hidden: true,
     children: [
       {
-        path: 'index/:dictId(\\d+)',
+        path: baseDir+'index/:dictId(\\d+)',
         component: () => import('@/views/system/dict/data'),
         name: 'Data',
         meta: { title: '字典数据', activeMenu: '/system/dict' }
@@ -123,12 +123,12 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/monitor/job-log',
+    path: baseDir+'/monitor/job-log',
     component: Layout,
     hidden: true,
     children: [
       {
-        path: 'index',
+        path: baseDir+'index',
         component: () => import('@/views/monitor/job/log'),
         name: 'JobLog',
         meta: { title: '调度日志', activeMenu: '/monitor/job' }
@@ -136,12 +136,12 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/tool/gen-edit',
+    path: baseDir+'/tool/gen-edit',
     component: Layout,
     hidden: true,
     children: [
       {
-        path: 'index/:tableId(\\d+)',
+        path: baseDir+'index/:tableId(\\d+)',
         component: () => import('@/views/tool/gen/editTable'),
         name: 'GenEdit',
         meta: { title: '修改生成配置', activeMenu: '/tool/gen' }
@@ -161,5 +161,13 @@ const router = createRouter({
     }
   },
 });
+
+let fora = function (routes) {
+  routes.forEach((r)=>{
+    debugger
+    console.log(r.path);
+    if (r.children !=undefined && r.children.length > 0) fora(r.children);
+  })
+}
 
 export default router;

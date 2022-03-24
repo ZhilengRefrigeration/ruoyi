@@ -6,6 +6,7 @@ import InnerLink from '@/layout/components/InnerLink'
 
 // 匹配views里面所有的.vue文件
 const modules = import.meta.glob('./../../views/**/*.vue')
+const baseDir = import.meta.env.VITE_APP_BASE_DIR;
 
 const permission = {
   state: {
@@ -56,6 +57,9 @@ const permission = {
 // 遍历后台传来的路由字符串，转换为组件对象
 function filterAsyncRouter(asyncRouterMap, lastRouter = false, type = false) {
   return asyncRouterMap.filter(route => {
+    if (route.top){//一级路由带上目录
+      route.path = baseDir + route.path;
+    }
     if (type && route.children) {
       route.children = filterChildren(route.children)
     }
