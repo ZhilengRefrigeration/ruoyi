@@ -3,6 +3,7 @@ package com.xjs.mall.ware.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xjs.mall.ware.entity.PurchaseEntity;
 import com.xjs.mall.ware.vo.MergeVo;
+import com.xjs.mall.ware.vo.PurchaseDoneVo;
 import com.xjs.utils.PageUtils;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.Map;
  *
  * @author xiejs
  * @email 1294405880@qq.com
- * @date 2022-03-15 09:56:19
+ * @since  2022-03-15 09:56:19
  */
 public interface PurchaseService extends IService<PurchaseEntity> {
 
@@ -37,5 +38,11 @@ public interface PurchaseService extends IService<PurchaseEntity> {
      * @param ids 采购单ids
      */
     void received(List<Long> ids);
+
+    /**
+     * 完成采购单
+     * @param doneVo 采购完成vo
+     */
+    void done(PurchaseDoneVo doneVo);
 }
 

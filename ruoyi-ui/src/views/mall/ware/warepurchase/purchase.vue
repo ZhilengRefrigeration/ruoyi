@@ -12,7 +12,7 @@
       </el-form-item>
 
       <el-form-item label="关键字">
-        <el-input style="width:120px;" v-model="dataForm.key" placeholder="参数名" clearable></el-input>
+        <el-input style="width:220px;" v-model="dataForm.key" placeholder="请输入采购人、手机号等" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button-group>

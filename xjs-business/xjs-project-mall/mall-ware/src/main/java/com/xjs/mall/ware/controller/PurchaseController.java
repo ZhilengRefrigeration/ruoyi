@@ -6,6 +6,7 @@ import com.xjs.mall.other.R;
 import com.xjs.mall.ware.entity.PurchaseEntity;
 import com.xjs.mall.ware.service.PurchaseService;
 import com.xjs.mall.ware.vo.MergeVo;
+import com.xjs.mall.ware.vo.PurchaseDoneVo;
 import com.xjs.utils.PageUtils;
 import com.xjs.validation.group.AddGroup;
 import com.xjs.validation.group.UpdateGroup;
@@ -35,6 +36,14 @@ public class PurchaseController {
     @Autowired
     private PurchaseService purchaseService;
 
+    @ApiOperation("完成采购单")
+    @PostMapping("/done")
+    public R done(@RequestBody PurchaseDoneVo doneVo) {
+        purchaseService.done(doneVo);
+        return R.ok();
+    }
+
+
     @ApiOperation("领取采购单")
     @PostMapping("/received")
     public R received(@RequestBody List<Long> ids) {
@@ -43,8 +52,6 @@ public class PurchaseController {
 
         return R.ok();
     }
-
-
 
     @ApiOperation("合并采购单")
     @PostMapping("/merge")

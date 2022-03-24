@@ -1,10 +1,14 @@
 package com.xjs.mall.ware.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ruoyi.common.core.constant.HttpStatus;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.bean.BeanUtils;
+import com.xjs.mall.RemoteProductFeign;
+import com.xjs.mall.other.R;
 import com.xjs.mall.ware.dao.WareSkuDao;
 import com.xjs.mall.ware.entity.WareInfoEntity;
 import com.xjs.mall.ware.entity.WareSkuEntity;
@@ -15,17 +19,22 @@ import com.xjs.utils.PageUtils;
 import com.xjs.utils.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 
 @Service("wareSkuService")
+@Transactional
 public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> implements WareSkuService {
 
     @Autowired
     private WareInfoService wareInfoService;
+    @Resource
+    private RemoteProductFeign remoteProductFeign;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -42,7 +51,7 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
 
         List<Object> collect = page.getRecords().stream().map(wareSkuEntity -> {
             WareSkuVo wareSkuVo = new WareSkuVo();
-            BeanUtils.copyProperties(wareSkuEntity,wareSkuVo);
+            BeanUtils.copyProperties(wareSkuEntity, wareSkuVo);
             //获取仓库信息
             WareInfoEntity wareInfoEntity = wareInfoService.getById(wareSkuVo.getWareId());
             wareSkuVo.setWareName(wareInfoEntity.getName());
@@ -53,6 +62,33 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
         pageUtils.setList(collect);
 
         return pageUtils;
+    }
+
+    @Override
+    public void addStock(Long skuId, Long wareId, Integer skuNum) {
+        //判断是否有库存记录，有--新增，无--更新
+        List<WareSkuEntity> wareSkuEntities = super.baseMapper.selectList(new LambdaQueryWrapper<WareSkuEntity>()
+                .eq(WareSkuEntity::getSkuId, skuId)
+                .eq(WareSkuEntity::getWareId, wareId));
+
+        if (CollUtil.isEmpty(wareSkuEntities)) {
+            WareSkuEntity wareSkuEntity = new WareSkuEntity();
+            wareSkuEntity.setSkuId(skuId);
+            wareSkuEntity.setStock(skuNum);
+            wareSkuEntity.setWareId(wareId);
+            wareSkuEntity.setStockLocked(0);
+
+            //远程查询sku的名字
+            R r = remoteProductFeign.getSkuNameById(skuId);
+            if (r.getCode() == HttpStatus.SUCCESS) {
+                wareSkuEntity.setSkuName((String) r.get("msg"));
+            }
+
+            super.baseMapper.insert(wareSkuEntity);
+        }else {
+            super.baseMapper.addStock(skuId, wareId, skuNum);
+        }
+
     }
 
 }

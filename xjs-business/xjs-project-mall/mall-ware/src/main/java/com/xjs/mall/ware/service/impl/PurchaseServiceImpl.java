@@ -13,7 +13,10 @@ import com.xjs.mall.ware.entity.WareInfoEntity;
 import com.xjs.mall.ware.service.PurchaseDetailService;
 import com.xjs.mall.ware.service.PurchaseService;
 import com.xjs.mall.ware.service.WareInfoService;
+import com.xjs.mall.ware.service.WareSkuService;
 import com.xjs.mall.ware.vo.MergeVo;
+import com.xjs.mall.ware.vo.PurchaseDoneVo;
+import com.xjs.mall.ware.vo.PurchaseItemDoneVo;
 import com.xjs.mall.ware.vo.PurchaseVo;
 import com.xjs.utils.PageUtils;
 import com.xjs.utils.Query;
@@ -22,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +42,8 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
     private PurchaseDetailService purchaseDetailService;
     @Autowired
     private WareInfoService wareInfoService;
+    @Autowired
+    private WareSkuService wareSkuService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -52,7 +58,7 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
         IPage<PurchaseEntity> page = this.page(new Query<PurchaseEntity>().getPage(params), wrapper);
         List<Object> collect = page.getRecords().stream().map(purchaseEntity -> {
             PurchaseVo purchaseVo = new PurchaseVo();
-            BeanUtils.copyProperties(purchaseEntity,purchaseVo);
+            BeanUtils.copyProperties(purchaseEntity, purchaseVo);
 
             if (purchaseEntity.getWareId() != null) {
                 //获取仓库信息
@@ -151,6 +157,47 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
             }).collect(Collectors.toList());
             purchaseDetailService.updateBatchById(PurchaseDetailEntityList);
         });
+
+    }
+
+    @Override
+    public void done(PurchaseDoneVo doneVo) {
+        //改变采购项的状态
+        boolean flag = true;    //标志位 --- 如果有人没采购成功就false
+        List<PurchaseItemDoneVo> items = doneVo.getItems();
+
+        ArrayList<PurchaseDetailEntity> updates = new ArrayList<>();
+
+        for (PurchaseItemDoneVo item : items) {
+            PurchaseDetailEntity purchaseDetailEntity = new PurchaseDetailEntity();
+
+            if (item.getStatus() == HASERROR.getCode()) {
+                flag = false;
+                purchaseDetailEntity.setStatus(item.getStatus());
+            } else {
+                purchaseDetailEntity.setStatus(FINISH.getCode());
+
+                //将成功采购的进行入库
+                PurchaseDetailEntity entity = purchaseDetailService.getById(item.getItemId());
+                wareSkuService.addStock(entity.getSkuId(), entity.getWareId(), entity.getSkuNum());
+
+            }
+            purchaseDetailEntity.setId(item.getItemId());
+
+            updates.add(purchaseDetailEntity);
+        }
+
+        purchaseDetailService.updateBatchById(updates);
+
+        //改变采购单状态
+        Long purchaseId = doneVo.getId();
+        PurchaseEntity purchaseEntity = new PurchaseEntity();
+        purchaseEntity.setId(purchaseId);
+        purchaseEntity.setStatus(flag ? FINISH.getCode() : HASERROR.getCode());
+        purchaseEntity.setUpdateTime(new Date());
+        super.updateById(purchaseEntity);
+
+
 
     }
 
