@@ -43,10 +43,16 @@
       style="width: 100%;"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-      <el-table-column prop="assigneeId" header-align="center" align="center" label="采购人id" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="assigneeName" header-align="center" align="center" label="采购人名" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="phone" header-align="center" align="center" label="联系方式" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="priority" header-align="center" align="center" label="优先级" :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="id" header-align="center" align="center" label="采购单id"
+                       :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="assigneeId" header-align="center" align="center" label="采购人id"
+                       :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="assigneeName" header-align="center" align="center" label="采购人"
+                       :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="phone" header-align="center" align="center" label="联系方式"
+                       :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="priority" header-align="center" align="center" label="优先级"
+                       :show-overflow-tooltip="true"></el-table-column>
       <el-table-column prop="status" header-align="center" align="center" label="状态">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.status === 0">新建</el-tag>
@@ -56,18 +62,18 @@
           <el-tag type="danger" v-if="scope.row.status === 4">有异常</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="wareId" header-align="center" align="center" label="仓库id" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="amount" header-align="center" align="center" label="总金额" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="createTime" header-align="center" align="center" label="创建日期" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="updateTime" header-align="center" align="center" label="更新日期" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column fixed="right" header-align="center" align="center" width="150" label="操作">
+      <el-table-column prop="wareId" header-align="center" align="center" label="仓库id"
+                       :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="amount" header-align="center" align="center" label="总金额"
+                       :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="createTime" header-align="center" align="center" label="创建日期"
+                       :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="updateTime" header-align="center" align="center" label="更新日期"
+                       :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column header-align="center" align="center" width="200" label="操作" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <el-button
-            type="text"
-            size="small"
-            v-if="scope.row.status===0||scope.row.status===1"
-            @click="opendrawer(scope.row)"
-          >分配
+          <el-button type="text" size="small" v-if="scope.row.status===0||scope.row.status===1"
+                     @click="opendrawer(scope.row)">分配
           </el-button>
           <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">修改</el-button>
           <el-button type="text" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
@@ -85,12 +91,12 @@
     ></el-pagination>
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
-    <el-dialog title="分配采购人员" :visible.sync="caigoudialogVisible" width="30%">
-      <el-select v-model="userId" filterable placeholder="请选择">
+    <el-dialog title="分配采购人员" :visible.sync="caigoudialogVisible" width="15%">
+      <el-select v-model="userId" filterable placeholder="请选择" style="width: 60%">
         <el-option
           v-for="item in userList"
           :key="item.userId"
-          :label="item.username"
+          :label="item.userName"
           :value="item.userId"
         ></el-option>
       </el-select>
@@ -104,7 +110,8 @@
 
 <script>
 import AddOrUpdate from "./purchase-add-or-update";
-import {delWarePurchase, getWarePurchaseList} from "@/api/mall/ware/ware-purchase";
+import {delWarePurchase, editWarePurchase, getWarePurchaseList} from "@/api/mall/ware/ware-purchase";
+import {listUser} from "@/api/system/user";
 
 export default {
   name: "Purchase",
@@ -138,6 +145,9 @@ export default {
 
   methods: {
     opendrawer(row) {
+      //下拉框默认值
+      this.userId = row.assigneeName;
+
       this.getUserList();
       this.currentRow = row;
       this.caigoudialogVisible = true;
@@ -151,46 +161,32 @@ export default {
         }
       });
       this.caigoudialogVisible = false;
-      this.$http({
-        url: this.$http.adornUrl(
-          `/ware/purchase/update`
-        ),
-        method: "post",
-        data: this.$http.adornData({
-          id: this.currentRow.id || undefined,
-          assigneeId: user.userId,
-          assigneeName: user.username,
-          phone: user.mobile,
-          status: 1
-        })
-      }).then(({data}) => {
-        if (data && data.code === 0) {
-          this.$message({
-            message: "操作成功",
-            type: "success",
-            duration: 1500
-          });
 
-          this.userId = "";
-          this.getDataList();
-        } else {
-          this.$message.error(data.msg);
-        }
-      });
+      let data = {
+        id: this.currentRow.id,
+        priority: this.currentRow.priority,
+        assigneeId: user.userId,
+        assigneeName: user.userName,
+        phone: user.phonenumber,
+        status: 1
+      }
+      editWarePurchase(data).then(res => {
+        this.$modal.notifySuccess("修改成功")
+        this.userId = "";
+        this.getDataList();
+      })
     },
 
     getUserList() {
-      this.$http({
-        url: this.$http.adornUrl("/sys/user/list"),
-        method: "get",
-        params: this.$http.adornParams({
-          page: 1,
-          limit: 500
-        })
-      }).then(({data}) => {
-        this.userList = data.page.list;
-      });
+      let params = {
+        pageNum: 1,
+        pageSize: 500,
+      }
+      listUser(params).then(res => {
+        this.userList = res.rows
+      })
     },
+
     // 获取数据列表
     getDataList() {
       this.dataListLoading = true;

@@ -44,4 +44,20 @@ export function editWarePurchase(data) {
   })
 }
 
+//未领取采购单列表
+export function unreceiveList(parms) {
+  return request({
+    url: '/mall-ware/ware/purchase/unreceive/list',
+    method: 'get',
+    params: parms
+  })
+}
 
+//合并采购单
+export function mergePurchase(data) {
+  return request({
+    url: '/mall-ware/ware/purchase/merge',
+    method: 'post',
+    data: data
+  })
+}

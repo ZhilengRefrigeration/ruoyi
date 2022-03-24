@@ -4,6 +4,7 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.xjs.mall.ware.entity.PurchaseEntity;
 import com.xjs.mall.ware.service.PurchaseService;
+import com.xjs.mall.ware.vo.MergeVo;
 import com.xjs.utils.PageUtils;
 import com.xjs.mall.other.R;
 import com.xjs.validation.group.AddGroup;
@@ -15,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
 
@@ -31,6 +33,22 @@ import java.util.Map;
 public class PurchaseController {
     @Autowired
     private PurchaseService purchaseService;
+
+    @ApiOperation("合并采购单")
+    @PostMapping("/merge")
+    public R mergePurchase(@RequestBody MergeVo mergeVo) {
+        purchaseService.mergePurchase(mergeVo);
+
+        return R.ok();
+    }
+
+    @ApiOperation("未领取采购单列表")
+    @GetMapping("/unreceive/list")
+    public R unreceiveList(@RequestParam Map<String, Object> params) {
+        PageUtils page = purchaseService.queryPageUnreceive(params);
+
+        return R.ok().put("page", page);
+    }
 
     /**
      * 列表
@@ -62,6 +80,7 @@ public class PurchaseController {
     @ApiOperation("保存")
     @Log(title = "采购单", businessType = BusinessType.INSERT)
     public R save(@Validated(AddGroup.class) @RequestBody PurchaseEntity purchase) {
+        purchase.setCreateTime(new Date());
         purchaseService.save(purchase);
 
         return R.ok();
@@ -74,6 +93,7 @@ public class PurchaseController {
     @ApiOperation("修改")
     @Log(title = "采购单", businessType = BusinessType.UPDATE)
     public R update(@Validated(UpdateGroup.class) @RequestBody PurchaseEntity purchase) {
+        purchase.setUpdateTime(new Date());
         purchaseService.updateById(purchase);
 
         return R.ok();

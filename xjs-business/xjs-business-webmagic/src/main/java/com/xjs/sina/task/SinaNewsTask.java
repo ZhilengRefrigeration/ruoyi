@@ -177,8 +177,11 @@ public class SinaNewsTask {
                 count++;
             }
 
+            List<SinaNews> collect = sinaNewsList.stream()
+                    .filter(sinaNews -> !"彩票".equals(sinaNews.getTitle()))
+                    .collect(Collectors.toList());
 
-            sinaNewsService.saveBatch(sinaNewsList, 30);
+            sinaNewsService.saveBatch(collect, 30);
 
             //删除重复
             int num = sinaNewsService.deleteRepeatData();

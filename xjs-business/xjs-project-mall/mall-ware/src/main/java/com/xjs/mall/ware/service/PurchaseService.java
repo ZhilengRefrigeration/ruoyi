@@ -2,6 +2,7 @@ package com.xjs.mall.ware.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xjs.mall.ware.entity.PurchaseEntity;
+import com.xjs.mall.ware.vo.MergeVo;
 import com.xjs.utils.PageUtils;
 
 import java.util.Map;
@@ -16,5 +17,18 @@ import java.util.Map;
 public interface PurchaseService extends IService<PurchaseEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    /**
+     * 分页查询未领取的采购单
+     * @param params 分页条件
+     * @return page
+     */
+    PageUtils queryPageUnreceive(Map<String, Object> params);
+
+    /**
+     * 合并采购单
+     * @param mergeVo 合并的参数
+     */
+    void mergePurchase(MergeVo mergeVo);
 }
 

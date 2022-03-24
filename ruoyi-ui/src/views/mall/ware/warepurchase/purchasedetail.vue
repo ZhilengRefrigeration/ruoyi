@@ -63,7 +63,7 @@
           <el-tag type="danger" v-if="scope.row.status===4">采购失败</el-tag>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" header-align="center" align="center" width="150" label="操作">
+      <el-table-column fixed="right" header-align="center" align="center" width="180" label="操作">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">修改</el-button>
           <el-button type="text" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
@@ -81,7 +81,7 @@
     ></el-pagination>
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
-    <el-dialog title="合并到整单" :visible.sync="mergedialogVisible">
+    <el-dialog title="合并到整单" width="450px" :visible.sync="mergedialogVisible">
       <!-- id  assignee_id  assignee_name  phone   priority status -->
       <el-select v-model="purchaseId" placeholder="请选择" clearable filterable>
         <el-option
@@ -90,10 +90,9 @@
           :label="item.id"
           :value="item.id"
         >
-          <span style="float: left">{{ item.id }}</span>
-          <span
-            style="float: right; color: #8492a6; font-size: 13px"
-          >{{ item.assigneeName }}：{{ item.phone }}</span>
+          <span>{{ item.id }}</span>
+          <span v-html="'&nbsp;&nbsp;&nbsp;'"></span>
+          <span style=" color: #8492a6; font-size: 13px">采购人员:{{ item.assigneeName }}手机号:{{ item.phone }}</span>
         </el-option>
       </el-select>
       <span slot="footer" class="dialog-footer">
@@ -108,6 +107,7 @@
 import AddOrUpdate from "./purchasedetail-add-or-update";
 import {getWareInfoList} from "@/api/mall/ware/ware-info";
 import {delWarePurchaseDetail, getWarePurchaseDetailList} from "@/api/mall/ware/ware-purchase-detail";
+import {mergePurchase, unreceiveList} from "@/api/mall/ware/ware-purchase";
 
 export default {
   name: "PurchaseDetail",
@@ -154,39 +154,24 @@ export default {
           }
         )
           .then(() => {
-            this.$http({
-              url: this.$http.adornUrl("/ware/purchase/merge"),
-              method: "post",
-              data: this.$http.adornData({items: items}, false)
-            }).then(({data}) => {
+            mergePurchase({items: items}).then(res => {
               this.getDataList();
-            });
+            })
           })
-          .catch(() => {
-          });
       } else {
-        this.$http({
-          url: this.$http.adornUrl("/ware/purchase/merge"),
-          method: "post",
-          data: this.$http.adornData(
-            {purchaseId: this.purchaseId, items: items},
-            false
-          )
-        }).then(({data}) => {
+        mergePurchase({purchaseId: this.purchaseId, items: items}).then(res => {
           this.getDataList();
-        });
+        })
       }
       this.mergedialogVisible = false;
     },
+
     getUnreceivedPurchase() {
-      this.$http({
-        url: this.$http.adornUrl("/ware/purchase/unreceive/list"),
-        method: "get",
-        params: this.$http.adornParams({})
-      }).then(({data}) => {
-        this.purchasetableData = data.page.list;
-      });
+      unreceiveList().then(res => {
+        this.purchasetableData = res.page.list;
+      })
     },
+
     handleBatchCommand(cmd) {
       if (cmd === "delete") {
         this.deleteHandle();
