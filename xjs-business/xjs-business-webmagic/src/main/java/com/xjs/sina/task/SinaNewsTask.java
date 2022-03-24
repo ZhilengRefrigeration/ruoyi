@@ -177,8 +177,15 @@ public class SinaNewsTask {
                 count++;
             }
 
+            //过滤无用数据
             List<SinaNews> collect = sinaNewsList.stream()
-                    .filter(sinaNews -> !"彩票".equals(sinaNews.getTitle()))
+                    .filter(sinaNews -> !("彩票".equals(sinaNews.getCategory())
+                            || "博客".equals(sinaNews.getCategory())
+                            || "导航".equals(sinaNews.getCategory())
+                            || "房产".equals(sinaNews.getCategory())
+                            || "学投资".equals(sinaNews.getCategory())
+                            || "读书".equals(sinaNews.getCategory())
+                            || "搜索".equals(sinaNews.getCategory())))
                     .collect(Collectors.toList());
 
             sinaNewsService.saveBatch(collect, 30);
