@@ -10,7 +10,7 @@ import com.ruoyi.system.domain.SysConfig;
  * 
  * @author ruoyi
  */
-public interface ISysConfigService extends IService<SysConfig>
+public interface ISysConfigService
 {
     /**
      * 查询参数配置信息
