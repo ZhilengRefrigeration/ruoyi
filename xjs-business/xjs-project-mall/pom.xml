@@ -16,6 +16,7 @@
         <module>mall-member</module>
         <module>mall-coupon</module>
         <module>renren-generator</module>
+        <module>mall-search</module>
     </modules>
     <packaging>pom</packaging>
 

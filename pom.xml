@@ -51,6 +51,7 @@
         <oshi.version>5.7.1</oshi.version>
         <webmagic.version>0.7.5</webmagic.version>
         <spring-cloud-alicloud-oss.version>2.2.0.RELEASE</spring-cloud-alicloud-oss.version>
+        <elasticsearch.version>7.2.0</elasticsearch.version>
 
     </properties>
 
@@ -104,6 +105,12 @@
                 <groupId>com.ejlchina</groupId>
                 <artifactId>bean-searcher-boot-starter</artifactId>
                 <version>${bean-searcher.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                <version>${elasticsearch.version}</version>
             </dependency>
 
             <dependency>
@@ -230,9 +237,9 @@
             </dependency>
 
             <!-- Collection 增强Java集合框架 -->
-            <dependency> 
-                <groupId>commons-collections</groupId> 
-                <artifactId>commons-collections</artifactId> 
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
                 <version>${commons-collections.version}</version>
             </dependency>
 
@@ -270,7 +277,7 @@
                 <artifactId>log4j-api</artifactId>
                 <version>${log4j2.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-to-slf4j</artifactId>

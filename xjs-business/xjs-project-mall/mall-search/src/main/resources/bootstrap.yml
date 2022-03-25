@@ -3,10 +3,10 @@ server:
   port: 9980
 
 # Spring
-spring: 
+spring:
   application:
     # 应用名称
-    name: xjs-mall-ware
+    name: xjs-mall-search
   profiles:
     # 环境配置
     active: dev

@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xjs.apilog.mapper.ApiLogMapper">
-    
+
     <resultMap type="com.xjs.apilog.domain.ApiLog" id="ApiLogResult">
         <result property="id"    column="id"    />
         <result property="apiName"    column="api_name"    />
@@ -29,9 +29,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isSuccess != null "> and is_success = #{isSuccess}</if>
             <if test="createTime != null and endCreateTime != null"> and create_time between #{createTime} and #{endCreateTime}</if>
         </where>
-        order by id desc
+        order by create_time desc
     </select>
-    
+
     <select id="selectApiLogById" parameterType="Long" resultMap="ApiLogResult">
         <include refid="selectApiLogVo"/>
         where id = #{id}
@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteApiLogByIds" parameterType="Long">
-        delete from api_log where id in 
+        delete from api_log where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
