@@ -30,6 +30,7 @@
         <kaptcha.version>2.3.2</kaptcha.version>
         <pagehelper.boot.version>1.4.1</pagehelper.boot.version>
         <cn.hutool.version>5.7.19</cn.hutool.version>
+        <github.jasypt.version>3.0.4</github.jasypt.version>
         <druid.version>1.2.8</druid.version>
         <dynamic-ds.version>3.5.0</dynamic-ds.version>
         <commons.io.version>2.11.0</commons.io.version>
@@ -161,6 +162,13 @@
                 <groupId>commons-fileupload</groupId>
                 <artifactId>commons-fileupload</artifactId>
                 <version>${commons.fileupload.version}</version>
+            </dependency>
+
+            <!-- 配置加密类 -->
+            <dependency>
+                <groupId>com.github.ulisesbocchio</groupId>
+                <artifactId>jasypt-spring-boot-starter</artifactId>
+                <version>${github.jasypt.version}</version>
             </dependency>
 
             <!-- 代码生成使用模板 -->
