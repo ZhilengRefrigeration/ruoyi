@@ -14,20 +14,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class jasyptHandler {
 
-    @Bean("jasyptStringEncryptor")
-    public StringEncryptor stringEncryptor() {
-        PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
-        SimpleStringPBEConfig config = new SimpleStringPBEConfig();
-        // 配置解析的密码
-        config.setPassword("password");
-        config.setAlgorithm(StandardPBEByteEncryptor.DEFAULT_ALGORITHM);
-        config.setKeyObtentionIterations("1000");
-        config.setPoolSize("1");
-//        config.setProviderName("SunJCE");
-        config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
-//        config.setIvGeneratorClassName("org.jasypt.iv.RandomIvGenerator");
-        config.setStringOutputType("base64");
-        encryptor.setConfig(config);
-        return encryptor;
-    }
+//    @Bean("jasyptStringEncryptor")
+//    public StringEncryptor stringEncryptor() {
+//        PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
+//        SimpleStringPBEConfig config = new SimpleStringPBEConfig();
+//        // 配置解析的密码
+//        config.setPassword("password");
+//        config.setAlgorithm(StandardPBEByteEncryptor.DEFAULT_ALGORITHM);
+//        config.setKeyObtentionIterations("1000");
+//        config.setPoolSize("1");
+////        config.setProviderName("SunJCE");
+//        config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
+////        config.setIvGeneratorClassName("org.jasypt.iv.RandomIvGenerator");
+//        config.setStringOutputType("base64");
+//        encryptor.setConfig(config);
+//        return encryptor;
+//    }
 }
