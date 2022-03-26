@@ -41,6 +41,8 @@
         <minio.version>8.2.2</minio.version>
         <poi.version>4.1.2</poi.version>
         <commons-collections.version>3.2.2</commons-collections.version>
+        <p6spy.version>3.9.1</p6spy.version>
+        <fusesource.jansi.version>2.4.0</fusesource.jansi.version>
         <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
     </properties>
 
@@ -261,6 +263,21 @@
                 <artifactId>ruoyi-api-system</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
+
+            <!-- 日志分析打印 -->
+            <dependency>
+                <groupId>p6spy</groupId>
+                <artifactId>p6spy</artifactId>
+                <version>${p6spy.version}</version>
+            </dependency>
+
+            <!-- 日志打印彩色 -->
+            <dependency>
+                <groupId>org.fusesource.jansi</groupId>
+                <artifactId>jansi</artifactId>
+                <version>${fusesource.jansi.version}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

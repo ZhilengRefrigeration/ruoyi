@@ -25,8 +25,10 @@ public class jasyptEncryptUtils {
     final static String SUFFIX = "]";
 
     public static void main(String[] args) {
+//        p6spy损耗性能 生产不使用
         HashMap<String, String> dataSource = MapUtil.newHashMap();
         dataSource.put("url","jdbc:mysql://175.178.38.240:9033/ry_cloud?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8");
+        dataSource.put("p6spyurl","jdbc:p6spy:mysql://175.178.38.240:9033/ry_cloud?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8");
         dataSource.put("username","nacos");
         dataSource.put("password","nacos2233");
 
@@ -53,6 +55,7 @@ public class jasyptEncryptUtils {
     public static void decryptDataSource(Map<String,String> dataSource){
         String key = AESMybatisPlusUtils.genOrGetKey();
         String url = decryptPwd(key,dataSource.get("url"));
+        String p6spyurl = decryptPwd(key,dataSource.get("p6spyurl"));
         String username = decryptPwd(key,dataSource.get("username"));
         String password = decryptPwd(key,dataSource.get("password"));
 
@@ -60,6 +63,7 @@ public class jasyptEncryptUtils {
         FileWriter writer = new FileWriter(new File(FILE_PATCH_DE), CHARSET_UTF8);
         writer.write("key: "+ key + LINE,false);
         writer.write("url: " +url  + LINE,true);
+        writer.write("p6spyurl: " + PREFIX +p6spyurl + SUFFIX + LINE,true);
         writer.write("username: " +username + LINE,true);
         writer.write("password: "  +password + LINE,true);
     }
@@ -71,12 +75,14 @@ public class jasyptEncryptUtils {
     public static void encryptionDataSource(Map<String,String> dataSource){
         String key = AESMybatisPlusUtils.genOrGetKey();
         String url = encryptPwd(key,dataSource.get("url"));
+        String p6spyurl = encryptPwd(key,dataSource.get("p6spyurl"));
         String username = encryptPwd(key,dataSource.get("username"));
         String password = encryptPwd(key,dataSource.get("password"));
         //保存在目录下
         FileWriter writer = new FileWriter(new File(FILE_PATCH_ALL), CHARSET_UTF8);
         writer.write("key: "+ key + LINE,false);
         writer.write("url: " + PREFIX +url + SUFFIX + LINE,true);
+        writer.write("p6spyurl: " + PREFIX +p6spyurl + SUFFIX + LINE,true);
         writer.write("username: " + PREFIX +username + SUFFIX + LINE,true);
         writer.write("password: " + PREFIX +password + SUFFIX + LINE,true);
     }
