@@ -71,38 +71,43 @@
 
             <plugin>
                 <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
                 <configuration>
-                    <!--注意imageName一定要是符合正则[a-z0-9-_.]的，否则构建不会成功-->
-                    <imageName>${project.artifactId}:last</imageName>
-                    <!--指定基础镜像-->
-                    <baseImage>openjdk:8-jre</baseImage>
-                    <!--指定远程docker地址-->
-                    <!--使用http协议  https 需要加TLS证书-->
-                    <dockerHost>http://175.178.38.240:8076</dockerHost>
-<!--                    &lt;!&ndash;配置TLS证书在系统中的路径&ndash;&gt;-->
-<!--                    <dockerCertPath>/Users/root/docker-ca</dockerCertPath>-->
-                    <!-- 指定默认挂载地址 -->
-                    <volumes>/mydata/service/ruoyi</volumes>
-                    <!-- 创建目录-->
-                    <runs>mkdir -p /mydata/service/ruoyi</runs>
-                    <workdir>/mydata/service/ruoyi</workdir>
-                    <entryPoint>
-                        ["java", "-jar", "-Dspring.profiles.active=dev","/mydata/service/ruoyi/${project.build.finalName}.jar"]
-                    </entryPoint>
-<!--                    <buildArgs>-->
-<!--                        <JAR-FILE>target/${project.build.finalName}.jar</JAR-FILE>-->
-<!--                    </buildArgs>-->
-                    <!--复制jar包到docker容器指定目录-->
-<!--                    <resources>-->
-<!--                        <resource>-->
-<!--                            <targetPath>/mydata/service/ruoyi</targetPath>-->
-<!--                            &lt;!&ndash;jar包在项目中生成的路径，即对应的target目录&ndash;&gt;-->
-<!--                            <directory>${project.build.directory}</directory>-->
-<!--                            &lt;!&ndash;指定需要复制的文件&ndash;&gt;-->
-<!--                            <include>${project.build.finalName}.jar</include>-->
-<!--                        </resource>-->
-<!--                    </resources>-->
+                    <dockerfile>
+                        <buildArgs>
+                            <!--注意imageName一定要是符合正则[a-z0-9-_.]的，否则构建不会成功-->
+                            <imageName>${project.artifactId}:last</imageName>
+                            <!--指定基础镜像-->
+                            <baseImage>openjdk:8-jre</baseImage>
+                            <!--指定远程docker地址-->
+                            <!--使用http协议  https 需要加TLS证书-->
+                            <dockerHost>http://175.178.38.240:8076</dockerHost>
+                            <!--                    &lt;!&ndash;配置TLS证书在系统中的路径&ndash;&gt;-->
+                            <!--                    <dockerCertPath>/Users/root/docker-ca</dockerCertPath>-->
+                            <!-- 指定默认挂载地址 -->
+                            <volumes>/mydata/service/ruoyi</volumes>
+                            <!-- 创建目录-->
+                            <runs>mkdir -p /mydata/service/ruoyi</runs>
+                            <workdir>/mydata/service/ruoyi</workdir>
+                            <entryPoint>
+                                ["java", "-jar", "-Dspring.profiles.active=dev","/mydata/service/ruoyi/${project.build.finalName}.jar"]
+                            </entryPoint>
+                            <!--                    <buildArgs>-->
+                            <!--                        <JAR-FILE>target/${project.build.finalName}.jar</JAR-FILE>-->
+                            <!--                    </buildArgs>-->
+                            <!--复制jar包到docker容器指定目录-->
+                            <!--                    <resources>-->
+                            <!--                        <resource>-->
+                            <!--                            <targetPath>/mydata/service/ruoyi</targetPath>-->
+                            <!--                            &lt;!&ndash;jar包在项目中生成的路径，即对应的target目录&ndash;&gt;-->
+                            <!--                            <directory>${project.build.directory}</directory>-->
+                            <!--                            &lt;!&ndash;指定需要复制的文件&ndash;&gt;-->
+                            <!--                            <include>${project.build.finalName}.jar</include>-->
+                            <!--                        </resource>-->
+                            <!--                    </resources>-->
+                        </buildArgs>
+                    </dockerfile>
+
                 </configuration>
             </plugin>
         </plugins>
