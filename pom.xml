@@ -21,7 +21,7 @@
         <spring-cloud.version>2021.0.1</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
         <alibaba.nacos.version>2.0.4</alibaba.nacos.version>
-        <spring-boot-admin.version>2.6.2</spring-boot-admin.version>
+        <spring-boot-admin.version>2.6.3</spring-boot-admin.version>
         <spring-boot.mybatis>2.2.2</spring-boot.mybatis>
         <spring-boot.mybatisPlus>3.5.1</spring-boot.mybatisPlus>
         <swagger.fox.version>3.0.0</swagger.fox.version>
@@ -44,6 +44,8 @@
         <p6spy.version>3.9.1</p6spy.version>
         <fusesource.jansi.version>2.4.0</fusesource.jansi.version>
         <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
+        <docker.maven.plugin.version>1.2.2</docker.maven.plugin.version>
+        <compiler.maven.plugin.version>3.10.1</compiler.maven.plugin.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -303,8 +305,14 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${docker.maven.plugin.version}</version>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compiler.maven.plugin.version}</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
