@@ -1,12 +1,12 @@
 # Tomcat
 server:
-  port: 9986
+  port: 9980
 
 # Spring
 spring:
   application:
     # 应用名称
-    name: xjs-mall-search
+    name: xjs-mall-ware
   profiles:
     # 环境配置
     active: dev
