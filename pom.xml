@@ -304,12 +304,34 @@
 
     <build>
         <plugins>
+            <!--  Dockerfile 新插件  -->
             <plugin>
                 <groupId>com.spotify</groupId>
-                <artifactId>dockerfile-maven-plugin</artifactId>
-                <version>${dockerfile.maven.plugin.version}</version>
-            </plugin>
-            <plugin>
+            <artifactId>dockerfile-maven-plugin</artifactId>
+            <version>${dockerfile.maven.plugin.version}</version>
+            <executions>
+                <execution>
+                    <id>default</id>
+                    <goals>
+                        <!--如果package时不想用docker打包,就注释掉这个goal-->
+                        <!-- <goal>build</goal>-->
+                        <goal>push</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <username>sino-tech-admin</username>
+                <password>Fros_1234</password>
+                <repository>175.178.38.240:8076//${artifactId}</repository>
+                <tag>${project.version}</tag>
+                <buildArgs>
+                    <!--提供参数向Dockerfile传递-->
+                    <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+                </buildArgs>
+            </configuration>
+        </plugin>
+
+        <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${compiler.maven.plugin.version}</version>
