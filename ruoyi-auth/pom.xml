@@ -70,23 +70,50 @@
             </plugin>
 
 
-
-
-
             <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>dockerfile-maven-plugin</artifactId>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
                 <configuration>
+                    <from>
+                        <!--使用openjdk官方镜像，tag是8-jdk-stretch，表示镜像的操作系统是debian9,装好了jdk8-->
+                        <image>openjdk:8-jre</image>
+                    </from>
+                    <to>
+                        <image>${project.name}/${project.artifactId}:${project.version}</image>
+                    </to>
+                    <!--容器相关的属性-->
+                    <container>
+                        <!--jvm内存参数-->
+                        <jvmFlags>
+                            <jvmFlag>-Xms1g</jvmFlag>
+                            <jvmFlag>-Xmx1g</jvmFlag>
+                        </jvmFlags>
+                        <!--要暴露的端口-->
+                        <ports>
+                            <port>12200</port>
+                        </ports>
+                    </container>
+                </configuration>
+            </plugin>
+
+
+
+
+
+<!--            <plugin>-->
+<!--                <groupId>com.spotify</groupId>-->
+<!--                <artifactId>dockerfile-maven-plugin</artifactId>-->
+<!--                <configuration>-->
 <!--                    <username>sino-tech-admin</username>-->
 <!--                    <password>Fros_1234</password>-->
                     <!--指定包名-->
-                    <repository>${project.artifactId}</repository>
-                    <tag>${project.version}</tag>
-                    <buildArgs>
-                        <!--提供参数向Dockerfile传递-->
-                        <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
-                    </buildArgs>
-                </configuration>
+<!--                    <repository>${project.artifactId}</repository>-->
+<!--                    <tag>${project.version}</tag>-->
+<!--                    <buildArgs>-->
+<!--                        &lt;!&ndash;提供参数向Dockerfile传递&ndash;&gt;-->
+<!--                        <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>-->
+<!--                    </buildArgs>-->
+<!--                </configuration>-->
 <!--                <configuration>-->
 <!--                    <dockerfile>-->
 <!--                        <buildArgs>-->
@@ -124,7 +151,7 @@
 <!--                    </dockerfile>-->
 
 <!--                </configuration>-->
-            </plugin>
+<!--            </plugin>-->
         </plugins>
     </build>
    

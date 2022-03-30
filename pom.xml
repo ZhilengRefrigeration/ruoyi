@@ -304,6 +304,12 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.2.0</version>
+            </plugin>
+
             <!--  Dockerfile 新插件  -->
             <plugin>
                 <groupId>com.spotify</groupId>
@@ -322,7 +328,7 @@
             <configuration>
                 <username>sino-tech-admin</username>
                 <password>Fros_1234</password>
-                <repository>175.178.38.240:8076//${artifactId}</repository>
+                <repository>175.178.38.240:8076/${artifactId}</repository>
                 <tag>${project.version}</tag>
                 <buildArgs>
                     <!--提供参数向Dockerfile传递-->
