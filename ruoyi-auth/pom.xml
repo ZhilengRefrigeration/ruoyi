@@ -79,10 +79,20 @@
                         <image>openjdk:8-jre</image>
                     </from>
                     <to>
-                        <image>${project.name}/${project.artifactId}:${project.version}</image>
+                        <!-- 如果是阿里云的容器镜像仓库，则使用容器的配置 前缀/命名空间/仓库名 -->
+                        <image>${docker.url}/${docker.space}/${docker.warehouse}</image>
+                        <tags>
+                            <!--指定包名-->
+                            <image>${artifactId}</image>
+                            <!--版本号-->
+                            <tag>${project.version}</tag>
+                        </tags>
                     </to>
                     <!--容器相关的属性-->
                     <container>
+                        <!-- springboot项目的入口类 -->
+<!--                        <mainClass>com/ruoyi/auth/RuoYiAuthApplication</mainClass>-->
+<!--                        <useCurrentTimestamp>true</useCurrentTimestamp>-->
                         <!--jvm内存参数-->
                         <jvmFlags>
                             <jvmFlag>-Xms1g</jvmFlag>
@@ -92,8 +102,28 @@
                         <ports>
                             <port>12200</port>
                         </ports>
+                        <!--使用该参数将镜像的创建时间与系统时间一致-->
+                        <!--<useCurrentTimestamp>true</useCurrentTimestamp>-->
+                        <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+                        <!--解决Could not find or load main class ${start-class} -->
+                        <mainClass>com.bpo.BpoSignAppllication</mainClass>
+                        <!-- 设置时区  -->
+                        <environment>
+                            <TZ>Asia/Shanghai</TZ>
+                        </environment>
                     </container>
+                    <allowInsecureRegistries>true</allowInsecureRegistries>
                 </configuration>
+                <!-- 解决maven工程是父子结构的  mvn compile-->
+                <!-- 把 jib 绑定到 Maven 命令中-->
+                <executions>
+                    <execution>
+                        <phase>install</phase> <!-- 表示执行mvn install命令的时候就会自动构建镜像了-->
+                        <goals>
+                            <goal>${jib.key}</goal><!-- 表示执行的jib命令  是dockerBuild 还是build-->
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
 

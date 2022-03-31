@@ -46,6 +46,11 @@
         <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
         <dockerfile.maven.plugin.version>1.4.13</dockerfile.maven.plugin.version>
         <compiler.maven.plugin.version>3.10.1</compiler.maven.plugin.version>
+
+
+        <docker.url>registry.cn-guangzhou.aliyuncs.com</docker.url>
+        <docker.space>ry_base</docker.space>
+        <docker.warehouse>ry</docker.warehouse>
     </properties>
 
     <!-- 依赖声明 -->
@@ -349,5 +354,44 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <profiles.active>local</profiles.active>
+                <jib.key>dockerBuild</jib.key> <!-- local环境下  dockerBuild 表示将镜像打包到本地docker环境-->
+                <jib.skip>true</jib.skip> <!--local环境下  跳过jib打包镜像操作 -->
+                <jib.docker.version>${project.version}</jib.docker.version>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>develop</id>
+            <properties>
+                <profiles.active>develop</profiles.active>
+                <jib.key>build</jib.key>
+                <jib.docker.version>${project.version}</jib.docker.version>
+            </properties>
 
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profiles.active>test</profiles.active>
+                <jib.key>build</jib.key>
+                <jib.docker.version>latest</jib.docker.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>product</id>
+            <properties>
+                <profiles.active>product</profiles.active>
+                <jib.key>build</jib.key><!-- 生产环境下  hubuild 表示将镜像打包到远程服务器 如阿里云-->
+                <jib.docker.tag></jib.docker.tag>
+                <jib.docker.version>${jib.docker.tag}.RELEASE</jib.docker.version>
+            </properties>
+        </profile>
+    </profiles>
 </project>
