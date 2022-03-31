@@ -48,7 +48,7 @@
         <compiler.maven.plugin.version>3.10.1</compiler.maven.plugin.version>
 
 
-        <docker.url>registry.cn-guangzhou.aliyuncs.com</docker.url>
+        <docker.registry>registry.cn-guangzhou.aliyuncs.com</docker.registry>
         <docker.space>ry_base</docker.space>
         <docker.warehouse>ry</docker.warehouse>
     </properties>
