@@ -76,7 +76,7 @@
                 <configuration>
                     <from>
                         <!--使用openjdk官方镜像，tag是8-jdk-stretch，表示镜像的操作系统是debian9,装好了jdk8-->
-<!--                        <image>openjdk:8-jre</image>-->
+                        <image>registry.cn-guangzhou.aliyuncs.com/ry_base/base/openjdk:8u322-jre</image>
                     </from>
                     <to>
                         <!-- 如果是阿里云的容器镜像仓库，则使用容器的配置 前缀/命名空间/仓库名 -->
@@ -90,9 +90,6 @@
                     </to>
                     <!--容器相关的属性-->
                     <container>
-                        <!-- springboot项目的入口类 -->
-<!--                        <mainClass>com/ruoyi/auth/RuoYiAuthApplication</mainClass>-->
-<!--                        <useCurrentTimestamp>true</useCurrentTimestamp>-->
                         <!--jvm内存参数-->
                         <jvmFlags>
                             <jvmFlag>-Xms1g</jvmFlag>
