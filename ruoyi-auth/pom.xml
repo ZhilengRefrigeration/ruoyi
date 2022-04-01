@@ -76,24 +76,22 @@
                 <configuration>
                     <from>
                         <!--使用openjdk官方镜像，tag是8-jdk-stretch，表示镜像的操作系统是debian9,装好了jdk8-->
-                        <image>registry.cn-guangzhou.aliyuncs.com/ry_base/base/openjdk:8u322-jre</image>
+                        <image>${docker.base.jre}</image>
                     </from>
                     <to>
                         <!-- 如果是阿里云的容器镜像仓库，则使用容器的配置 前缀/命名空间/仓库名 -->
                         <image>${docker.registry}/${docker.space}/${docker.warehouse}</image>
                         <tags>
-                            <!--指定包名-->
-                            <image>${artifactId}</image>
-                            <!--版本号-->
-                            <tag>${project.version}</tag>
+                            <!--指定包名 + 版本号即可-->
+                            <image>${artifactId}-${version}</image>
                         </tags>
                     </to>
                     <!--容器相关的属性-->
                     <container>
                         <!--jvm内存参数-->
                         <jvmFlags>
-                            <jvmFlag>-Xms1g</jvmFlag>
-                            <jvmFlag>-Xmx1g</jvmFlag>
+                            <jvmFlag>-Xms512m</jvmFlag>
+                            <jvmFlag>-Xmx512m</jvmFlag>
                         </jvmFlags>
                         <!--要暴露的端口-->
                         <ports>
@@ -103,7 +101,7 @@
                         <!--<useCurrentTimestamp>true</useCurrentTimestamp>-->
                         <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
                         <!--解决Could not find or load main class ${start-class} -->
-                        <mainClass>com.bpo.BpoSignAppllication</mainClass>
+                        <mainClass>com.ruoyi.auth.RuoYiAuthApplication</mainClass>
                         <!-- 设置时区  -->
                         <environment>
                             <TZ>Asia/Shanghai</TZ>
@@ -115,70 +113,13 @@
                 <!-- 把 jib 绑定到 Maven 命令中-->
                 <executions>
                     <execution>
-                        <phase>install</phase> <!-- 表示执行mvn install命令的时候就会自动构建镜像了-->
+                        <phase>package</phase> <!-- 表示执行mvn package命令的时候就会自动构建镜像了-->
                         <goals>
                             <goal>${jib.key}</goal><!-- 表示执行的jib命令  是dockerBuild 还是build-->
                         </goals>
                     </execution>
                 </executions>
             </plugin>
-
-
-
-
-
-<!--            <plugin>-->
-<!--                <groupId>com.spotify</groupId>-->
-<!--                <artifactId>dockerfile-maven-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <username>sino-tech-admin</username>-->
-<!--                    <password>Fros_1234</password>-->
-                    <!--指定包名-->
-<!--                    <repository>${project.artifactId}</repository>-->
-<!--                    <tag>${project.version}</tag>-->
-<!--                    <buildArgs>-->
-<!--                        &lt;!&ndash;提供参数向Dockerfile传递&ndash;&gt;-->
-<!--                        <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>-->
-<!--                    </buildArgs>-->
-<!--                </configuration>-->
-<!--                <configuration>-->
-<!--                    <dockerfile>-->
-<!--                        <buildArgs>-->
-<!--                            &lt;!&ndash;注意imageName一定要是符合正则[a-z0-9-_.]的，否则构建不会成功&ndash;&gt;-->
-<!--                            <imageName>${project.artifactId}:last</imageName>-->
-<!--                            &lt;!&ndash;指定基础镜像&ndash;&gt;-->
-<!--                            <baseImage>openjdk:8-jre</baseImage>-->
-<!--                            &lt;!&ndash;指定远程docker地址&ndash;&gt;-->
-<!--                            &lt;!&ndash;使用http协议  https 需要加TLS证书&ndash;&gt;-->
-<!--                            <dockerHost>http://175.178.38.240:8076</dockerHost>-->
-<!--                            &lt;!&ndash;                    &lt;!&ndash;配置TLS证书在系统中的路径&ndash;&gt;&ndash;&gt;-->
-<!--                            &lt;!&ndash;                    <dockerCertPath>/Users/root/docker-ca</dockerCertPath>&ndash;&gt;-->
-<!--                            &lt;!&ndash; 指定默认挂载地址 &ndash;&gt;-->
-<!--                            <volumes>/mydata/service/ruoyi</volumes>-->
-<!--                            &lt;!&ndash; 创建目录&ndash;&gt;-->
-<!--                            <runs>mkdir -p /mydata/service/ruoyi</runs>-->
-<!--                            <workdir>/mydata/service/ruoyi</workdir>-->
-<!--                            <entryPoint>-->
-<!--                                ["java", "-jar", "-Dspring.profiles.active=dev","/mydata/service/ruoyi/${project.build.finalName}.jar"]-->
-<!--                            </entryPoint>-->
-<!--                            &lt;!&ndash;                    <buildArgs>&ndash;&gt;-->
-<!--                            &lt;!&ndash;                        <JAR-FILE>target/${project.build.finalName}.jar</JAR-FILE>&ndash;&gt;-->
-<!--                            &lt;!&ndash;                    </buildArgs>&ndash;&gt;-->
-<!--                            &lt;!&ndash;复制jar包到docker容器指定目录&ndash;&gt;-->
-<!--                            &lt;!&ndash;                    <resources>&ndash;&gt;-->
-<!--                            &lt;!&ndash;                        <resource>&ndash;&gt;-->
-<!--                            &lt;!&ndash;                            <targetPath>/mydata/service/ruoyi</targetPath>&ndash;&gt;-->
-<!--                            &lt;!&ndash;                            &lt;!&ndash;jar包在项目中生成的路径，即对应的target目录&ndash;&gt;&ndash;&gt;-->
-<!--                            &lt;!&ndash;                            <directory>${project.build.directory}</directory>&ndash;&gt;-->
-<!--                            &lt;!&ndash;                            &lt;!&ndash;指定需要复制的文件&ndash;&gt;&ndash;&gt;-->
-<!--                            &lt;!&ndash;                            <include>${project.build.finalName}.jar</include>&ndash;&gt;-->
-<!--                            &lt;!&ndash;                        </resource>&ndash;&gt;-->
-<!--                            &lt;!&ndash;                    </resources>&ndash;&gt;-->
-<!--                        </buildArgs>-->
-<!--                    </dockerfile>-->
-
-<!--                </configuration>-->
-<!--            </plugin>-->
         </plugins>
     </build>
    
