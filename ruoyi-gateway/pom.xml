@@ -97,10 +97,10 @@
                     </from>
                     <to>
                         <!-- 如果是阿里云的容器镜像仓库，则使用容器的配置 前缀/命名空间/仓库名 -->
-                        <image>${docker.registry}/${docker.space}/${docker.warehouse}</image>
+                        <image>${docker.registry}/${docker.space}/${artifactId}</image>
                         <tags>
-                            <!--指定包名 + 版本号即可-->
-                            <image>${artifactId}-${version}</image>
+                            <!--指定版本号即可-->
+                            <image>${version}</image>
                         </tags>
                     </to>
                     <!--容器相关的属性-->

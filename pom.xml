@@ -48,11 +48,10 @@
         <compiler.maven.plugin.version>3.10.1</compiler.maven.plugin.version>
         <google.jib.version>3.2.0</google.jib.version>
 
-
+        <!-- 阿里镜像仓库配置 -->
         <docker.registry>registry.cn-guangzhou.aliyuncs.com</docker.registry>
-        <docker.space>ry_base</docker.space>
-        <docker.warehouse>ry</docker.warehouse>
-        <docker.base.jre>registry.cn-guangzhou.aliyuncs.com/ry_base/base:openJdk-8u322-jre</docker.base.jre>
+        <docker.space>pinn_ruoyi</docker.space>
+        <docker.base.jre>registry.cn-guangzhou.aliyuncs.com/pinn_ruoyi/openjdk:8u322-jre</docker.base.jre>
     </properties>
 
     <!-- 依赖声明 -->
