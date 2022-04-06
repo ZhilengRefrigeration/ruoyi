@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 日志Controller
@@ -34,6 +35,17 @@ public class ApiLogController extends BaseController {
     private IApiLogService apiLogService;
 
 
+    @GetMapping("getApiName")
+    @ApiOperation("获取所有Api名称")
+    @RequiresPermissions("log:apilog:list")
+    public AjaxResult getApiName() {
+        List<String> apiNameList = apiLogService.getApiName();
+        return AjaxResult.success(apiNameList);
+    }
+
+
+    //----------------------------远程调用--------------------------------
+
     @PostMapping("forPRC")
     @ApiOperation("供AOP切面RPC远程调用")
     public R<Object> saveApiLog(@RequestBody ApiLog apiLog) {
@@ -42,13 +54,11 @@ public class ApiLogController extends BaseController {
         return save ? R.ok() : R.fail();
     }
 
-
-    @GetMapping("getApiName")
-    @ApiOperation("获取所有Api名称")
-    @RequiresPermissions("log:apilog:list")
-    public AjaxResult getApiName() {
-        List<String> apiNameList = apiLogService.getApiName();
-        return AjaxResult.success(apiNameList);
+    @GetMapping("byDateForRPC")
+    @ApiOperation("根据时间查询API记录")
+    public R<Map<String, List>> statisticsByDate(@RequestParam String startDate, @RequestParam String endDate) {
+        Map<String, List> map = apiLogService.statisticsByDate(startDate,endDate);
+        return R.ok(map);
     }
 
 

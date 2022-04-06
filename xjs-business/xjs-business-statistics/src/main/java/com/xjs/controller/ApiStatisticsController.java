@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -39,6 +40,14 @@ public class ApiStatisticsController {
     @RequiresPermissions("statistics:apistatistics:list")
     public R<Map<String, List>> statisticsTodayApi() {
         Map<String, List> map = apiStatisticsService.statisticsTodayApi();
+        return R.ok(map);
+    }
+
+    @GetMapping("byDate")
+    @ApiOperation("根据时间查询API记录统计")
+    @RequiresPermissions("statistics:apistatistics:list")
+    public R<Map<String, List>> statisticsByDate(@RequestParam String startDate,@RequestParam String endDate) {
+        Map<String, List> map = apiStatisticsService.statisticsByDate(startDate,endDate);
         return R.ok(map);
     }
 

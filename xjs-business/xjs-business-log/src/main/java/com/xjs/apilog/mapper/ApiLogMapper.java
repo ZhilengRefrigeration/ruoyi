@@ -2,6 +2,8 @@ package com.xjs.apilog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xjs.apilog.domain.ApiLog;
+import com.xjs.apilog.vo.ApiLogVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -12,6 +14,15 @@ import java.util.List;
  * @date 2021-12-26
  */
 public interface ApiLogMapper extends BaseMapper<ApiLog> {
+
+    /**
+     *根据时间查询API记录统计
+     * @param startDate 开始时间
+     * @param endDate 结束时间
+     * @return list
+     */
+    List<ApiLogVo> statisticsByDate(@Param("startDate") String startDate, @Param("endDate") String endDate);
+
 
     //------------------------代码自动生成-----------------------------------
 
@@ -46,4 +57,6 @@ public interface ApiLogMapper extends BaseMapper<ApiLog> {
      * @return 结果
      */
     public int deleteApiLogByIds(Long[] ids);
+
+
 }

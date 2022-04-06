@@ -6,12 +6,16 @@ import com.ruoyi.common.core.domain.R;
 import com.xjs.apilog.domain.ApiLog;
 import com.xjs.apilog.mapper.ApiLogMapper;
 import com.xjs.apilog.service.IApiLogService;
+import com.xjs.apilog.vo.ApiLogVo;
 import com.xjs.business.warning.RemoteWarningCRUDFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 日志Service业务层处理
@@ -21,7 +25,7 @@ import java.util.List;
  */
 @Service
 public class ApiLogServiceImpl extends ServiceImpl<ApiLogMapper,ApiLog> implements IApiLogService {
-    @Autowired
+    @Resource
     private ApiLogMapper apiLogMapper;
     @Autowired
     private RemoteWarningCRUDFeign remoteWarningCRUDFeign;
@@ -79,5 +83,20 @@ public class ApiLogServiceImpl extends ServiceImpl<ApiLogMapper,ApiLog> implemen
             return apiName.getData();
         }
         return new ArrayList<String>();
+    }
+
+    @Override
+    public Map<String, List> statisticsByDate(String startDate, String endDate) {
+        List<ApiLogVo> recordList =apiLogMapper.statisticsByDate(startDate, endDate);
+        Map<String, List> map = new HashMap<>();
+        List<String> apiNames = new ArrayList<>();
+        List<Long> count = new ArrayList<>();
+        recordList.forEach(record ->{
+            apiNames.add(record.getApiName());
+            count.add(record.getCount());
+        });
+        map.put("apiNames", apiNames);
+        map.put("count", count);
+        return map;
     }
 }

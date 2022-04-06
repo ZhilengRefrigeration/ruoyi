@@ -174,7 +174,7 @@ export default {
 
     //获取历史天气
     getHistoryWeather() {
-      if (null != this.daterangeCreateTime && '' != this.daterangeCreateTime) {
+      if (null != this.daterangeCreateTime && '' !== this.daterangeCreateTime) {
         this.historyWeatherParams.startDate = this.daterangeCreateTime[0];
         this.historyWeatherParams.endDate = this.daterangeCreateTime[1];
       }

@@ -16,3 +16,12 @@ export function getStatisticsTodayApi() {
     method: 'get',
   })
 }
+
+// 根据时间查询API记录统计
+export function statisticsByDate(param) {
+  return request({
+    url: '/statistics/apistatistics/byDate',
+    method: 'get',
+    params:param
+  })
+}

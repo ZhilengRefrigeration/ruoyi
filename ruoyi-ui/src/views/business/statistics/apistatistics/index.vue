@@ -4,10 +4,36 @@
        element-loading-spinner="el-icon-loading"
        element-loading-background="rgba(0, 0, 0, 0.8)">
 
-    <div ref="historyChart" style="height: 400px;width: 100%;margin-top: 25px">
+    <el-form :model="historyApiLogParams" ref="historyApiLogParams"
+             :inline="true"
+             label-width="70px"
+             style="margin-left: 150px">
+      <el-form-item label="">
+        <el-date-picker
+          v-model="daterangeCreateTime"
+          size="small"
+          style="width: 320px"
+          value-format="yyyy-MM-dd"
+          format="yyyy 年 MM 月 dd 日"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          :picker-options="pickerOptions"
+          @change="dateQuery"
+        ></el-date-picker>
+      </el-form-item>
+
+      <el-form-item>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+      </el-form-item>
+    </el-form>
+
+
+    <div ref="historyChart" style="height: 372px;width: 100%;margin-top: 25px">
 
     </div>
-    <div ref="todayChart" style="height: 400px;width: 100%">
+    <div ref="todayChart" style="height: 372px;width: 100%">
 
     </div>
 
@@ -18,7 +44,11 @@
 
 <script>
 
-import {getStatisticsHistoryApi, getStatisticsTodayApi} from "@/api/business/statistics/apistatistics";
+import {
+  getStatisticsHistoryApi,
+  getStatisticsTodayApi,
+  statisticsByDate
+} from "@/api/business/statistics/apistatistics";
 
 
 import * as echarts from 'echarts/core';
@@ -29,11 +59,13 @@ import {CanvasRenderer} from 'echarts/renderers';
 import {TitleComponent} from 'echarts/components';
 import {BarChart} from 'echarts/charts';
 import { TooltipComponent } from 'echarts/components';
+import {pickerOptions} from "@/layout/mixin/PickerOptions";
 echarts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition, TitleComponent, BarChart,TooltipComponent]);
 
 export default {
   name: "ApiStatistics",
 
+  mixins: [pickerOptions],
 
   data() {
     return {
@@ -42,6 +74,13 @@ export default {
 
       //遮罩层
       loading: false,
+
+      historyApiLogParams: {
+        startDate: null,
+        endDate: null,
+      },
+      //检查查询范围
+      daterangeCreateTime: [],
     }
   },
 
@@ -73,7 +112,6 @@ export default {
         },
         yAxis: {
           splitNumber: 10,
-          max: 2000,
         },
         series: [{
           name: '次数',
@@ -102,7 +140,6 @@ export default {
         },
         yAxis: {
           splitNumber: 10,
-          max: 60,
         },
         series: [{
           name: '次数',
@@ -133,6 +170,40 @@ export default {
       })
     },
 
+    /** 重置按钮操作 */
+    resetQuery() {
+      this.daterangeCreateTime = [];
+      this.historyApiLogParams.startDate = null
+      this.historyApiLogParams.endDate = null
+      this.handleQuery();
+    },
+    /** 搜索按钮操作 */
+    handleQuery() {
+      this.getStatisticsTodayApi();
+    },
+
+    dateQuery() {
+      //清空时间参数
+      this.historyApiLogParams.startDate=null
+      this.historyApiLogParams.endDate=null
+
+      this.statisticsByDate();
+    },
+
+    statisticsByDate() {
+      this.loading = true
+      if (null != this.daterangeCreateTime && '' !== this.daterangeCreateTime) {
+        this.historyApiLogParams.startDate = this.daterangeCreateTime[0];
+        this.historyApiLogParams.endDate = this.daterangeCreateTime[1];
+      }
+      statisticsByDate(this.historyApiLogParams).then(res =>{
+        this.loading = false
+        this.todayApiData=res.data
+        this.initToday()
+      }).catch(err =>{
+        this.loading = false
+      })
+    }
   },
 
 }

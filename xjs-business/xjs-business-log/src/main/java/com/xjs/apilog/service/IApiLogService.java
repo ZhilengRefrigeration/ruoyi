@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.xjs.apilog.domain.ApiLog;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 日志Service接口
@@ -52,4 +53,12 @@ public interface IApiLogService extends IService<ApiLog> {
      * @return
      */
     List<String> getApiName();
+
+    /**
+     * 根据时间查询API记录统计
+     * @param startDate 开始时间
+     * @param endDate 结束时间
+     * @return map
+     */
+    Map<String, List> statisticsByDate(String startDate, String endDate);
 }

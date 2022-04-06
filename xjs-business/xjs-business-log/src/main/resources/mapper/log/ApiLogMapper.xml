@@ -36,6 +36,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectApiLogVo"/>
         where id = #{id}
     </select>
+    <select id="statisticsByDate" resultType="com.xjs.apilog.vo.ApiLogVo">
+        select api_name ,count(api_name) count FROM
+            (select api_name from api_log where
+            create_time BETWEEN #{startDate} and #{endDate}) t
+        GROUP BY api_name
+    </select>
 
     <delete id="deleteApiLogById" parameterType="Long">
         delete from api_log where id = #{id}
