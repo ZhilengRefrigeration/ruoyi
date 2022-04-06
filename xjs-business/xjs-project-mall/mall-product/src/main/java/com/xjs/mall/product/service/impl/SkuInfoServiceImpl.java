@@ -90,4 +90,11 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
         return pageUtils;
     }
 
+    @Override
+    public List<SkuInfoEntity> getSkusBySpuId(Long spuId) {
+        LambdaQueryWrapper<SkuInfoEntity> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SkuInfoEntity::getSpuId,spuId);
+        return super.list(wrapper);
+    }
+
 }

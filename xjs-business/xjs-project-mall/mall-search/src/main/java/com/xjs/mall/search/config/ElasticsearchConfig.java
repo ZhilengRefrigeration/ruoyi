@@ -37,22 +37,17 @@ public class ElasticsearchConfig {
     private String scheme;
 
 
-    public static final RequestOptions COMMON_OPTIONS;
+    public static RequestOptions COMMON_OPTIONS;
 
     static {
-        RequestOptions.Builder builder = RequestOptions.DEFAULT.toBuilder();
-
-        //配置项.......
-
-        COMMON_OPTIONS = builder.build();
+        COMMON_OPTIONS = RequestOptions.DEFAULT.toBuilder().build();
     }
 
 
     @Bean
     public RestHighLevelClient restHighLevelClient() {
         RestClientBuilder builder = RestClient.builder(new HttpHost(ip, port, scheme));
-        RestHighLevelClient restHighLevelClient = new RestHighLevelClient(builder);
-        return restHighLevelClient;
+        return new RestHighLevelClient(builder);
     }
 
 }

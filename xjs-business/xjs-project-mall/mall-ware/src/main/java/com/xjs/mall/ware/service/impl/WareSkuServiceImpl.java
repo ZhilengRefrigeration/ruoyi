@@ -13,6 +13,7 @@ import com.xjs.mall.ware.entity.WareInfoEntity;
 import com.xjs.mall.ware.entity.WareSkuEntity;
 import com.xjs.mall.ware.service.WareInfoService;
 import com.xjs.mall.ware.service.WareSkuService;
+import com.xjs.mall.ware.vo.SkuHasStockVo;
 import com.xjs.mall.ware.vo.WareSkuVo;
 import com.xjs.utils.PageUtils;
 import com.xjs.utils.Query;
@@ -94,6 +95,18 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             super.baseMapper.addStock(skuId, wareId, skuNum);
         }
 
+    }
+
+    @Override
+    public List<SkuHasStockVo> getSkuHasStock(List<Long> skuIds) {
+        return skuIds.stream().map(skuId -> {
+            SkuHasStockVo vo = new SkuHasStockVo();
+            //查询当前sku的总库存量
+            Long count = super.baseMapper.getSkuStock(skuId);
+            vo.setSkuId(skuId);
+            vo.setHasStock(count != null && count > 0);
+            return vo;
+        }).collect(Collectors.toList());
     }
 
 }

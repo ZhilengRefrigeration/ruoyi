@@ -51,7 +51,7 @@
         <oshi.version>5.7.1</oshi.version>
         <webmagic.version>0.7.5</webmagic.version>
         <spring-cloud-alicloud-oss.version>2.2.0.RELEASE</spring-cloud-alicloud-oss.version>
-        <elasticsearch.version>7.2.0</elasticsearch.version>
+        <elasticsearch.version>7.12.1</elasticsearch.version>
 
     </properties>
 

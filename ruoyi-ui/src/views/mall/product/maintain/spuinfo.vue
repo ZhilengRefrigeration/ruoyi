@@ -8,28 +8,38 @@
       style="width: 100%;"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-      <el-table-column prop="spuName" header-align="center" align="center" label="名称" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="spuDescription" header-align="center" align="center" label="描述" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="catalogName" header-align="center" align="center" label="分类" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="brandName" header-align="center" align="center" label="品牌" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="weight" header-align="center" align="center" width="80px" label="重量(kg)" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="publishStatus" header-align="center" width="80px" align="center" label="上架状态" :show-overflow-tooltip="true">
+      <el-table-column prop="spuName" header-align="center" align="center" label="名称"
+                       :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="spuDescription" header-align="center" align="center" label="描述"
+                       :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="catalogName" header-align="center" align="center" label="分类"
+                       :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="brandName" header-align="center" align="center" label="品牌"
+                       :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="weight" header-align="center" align="center" width="80px" label="重量(kg)"
+                       :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="publishStatus" header-align="center" width="80px" align="center" label="上架状态"
+                       :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.publishStatus === 0">新建</el-tag>
           <el-tag v-if="scope.row.publishStatus === 1">已上架</el-tag>
           <el-tag v-if="scope.row.publishStatus === 2">已下架</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" header-align="center" align="center" label="创建时间" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column prop="updateTime" header-align="center" align="center" label="修改时间" :show-overflow-tooltip="true"></el-table-column>
-      <el-table-column fixed="right" header-align="center" align="center" width="150" label="操作" :show-overflow-tooltip="true">
+      <el-table-column prop="createTime" header-align="center" align="center" label="创建时间"
+                       :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column prop="updateTime" header-align="center" align="center" label="修改时间"
+                       :show-overflow-tooltip="true"></el-table-column>
+      <el-table-column fixed="right" header-align="center" align="center" width="150" label="操作"
+                       :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <el-button
             v-if="scope.row.publishStatus === 0"
             type="text"
             size="small"
             @click="productUp(scope.row.id)"
-          >上架</el-button>
+          >上架
+          </el-button>
           <el-button type="text" size="small" @click="attrUpdateShow(scope.row)">规格</el-button>
         </template>
       </el-table-column>
@@ -48,7 +58,7 @@
 </template>
 
 <script>
-import {getSpuList} from "@/api/mall/product/spu-info";
+import {getSpuList, spuUp} from "@/api/mall/product/spu-info";
 
 export default {
   data() {
@@ -71,34 +81,25 @@ export default {
     },
   },
   components: {},
+
   created() {
     this.getDataList();
   },
   methods: {
+    //商品上架
     productUp(id) {
-      this.$http({
-        url: this.$http.adornUrl("/product/spuinfo/" + id + "/up"),
-        method: "post"
-      }).then(({ data }) => {
-        if (data && data.code === 0) {
-          this.$message({
-            message: "操作成功",
-            type: "success",
-            duration: 1500,
-            onClose: () => {
-              this.getDataList();
-            }
-          });
-        } else {
-          this.$message.error(data.msg);
-        }
-      });
+      this.$modal.loading("商品正在上架中。。。")
+      spuUp(id).then(res => {
+        this.$modal.closeLoading()
+        this.$modal.notifySuccess("上架成功")
+        this.getDataList();
+      })
     },
 
     attrUpdateShow(row) {
       this.$router.push({
         path: "/mall/product/mall-attribute/spu-attribute",
-        query: { spuId: row.id, catalogId: row.catalogId }
+        query: {spuId: row.id, catalogId: row.catalogId}
       });
     },
     // 获取数据列表
@@ -109,7 +110,7 @@ export default {
         page: this.pageIndex,
         limit: this.pageSize
       });
-      getSpuList(param).then(res =>{
+      getSpuList(param).then(res => {
         this.dataList = res.page.list;
         this.totalPage = res.page.totalCount;
         this.dataListLoading = false;

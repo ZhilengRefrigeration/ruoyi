@@ -2,8 +2,10 @@ package com.xjs.mall.ware.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xjs.mall.ware.entity.WareSkuEntity;
+import com.xjs.mall.ware.vo.SkuHasStockVo;
 import com.xjs.utils.PageUtils;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,5 +26,13 @@ public interface WareSkuService extends IService<WareSkuEntity> {
      * @param skuNum 商品数量
      */
     void addStock(Long skuId, Long wareId, Integer skuNum);
+
+    /**
+     * 根据skuIds查询是否有库存
+     * @since 2022-04-06
+     * @param skuIds skus
+     * @return list
+     */
+    List<SkuHasStockVo> getSkuHasStock(List<Long> skuIds);
 }
 

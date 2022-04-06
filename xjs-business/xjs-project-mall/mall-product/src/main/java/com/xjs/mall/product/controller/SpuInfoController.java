@@ -30,6 +30,13 @@ public class SpuInfoController extends MyBaseController<SpuInfoEntity> {
     @Autowired
     private SpuInfoService spuInfoService;
 
+    @ApiOperation("商品上架")
+    @PostMapping("/{spuId}/up")
+    public R spuUp(@PathVariable("spuId") Long spuId) {
+        spuInfoService.up(spuId);
+        return R.ok();
+    }
+
     /**
      * 列表
      */

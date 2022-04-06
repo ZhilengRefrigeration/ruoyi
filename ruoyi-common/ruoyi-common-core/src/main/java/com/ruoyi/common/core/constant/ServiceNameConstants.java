@@ -52,5 +52,17 @@ public class ServiceNameConstants {
      */
     public static final String MALL_PRODUCT_SERVICE = "xjs-mall-product";
 
+    /**
+     * 仓库服务的serviceid
+     */
+    public static final String MALL_WARE_SERVICE = "xjs-mall-ware";
+
+    /**
+     * 检索服务的serviceid
+     */
+    public static final String MALL_SEARCH_SERVICE = "xjs-mall-search";
+
+
+
 
 }

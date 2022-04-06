@@ -18,3 +18,12 @@ export function getSpuList(data) {
   })
 }
 
+
+// 商品上架
+export function spuUp(spuId) {
+  return request({
+    url: `/mall-product/product/spuinfo/${spuId}/up`,
+    method: 'post',
+  })
+}
+
