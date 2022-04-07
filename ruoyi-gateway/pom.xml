@@ -107,8 +107,8 @@
                     <container>
                         <!--jvm内存参数-->
                         <jvmFlags>
-                            <jvmFlag>-Xms512m</jvmFlag>
-                            <jvmFlag>-Xmx512m</jvmFlag>
+                            <jvmFlag>-Xms128m</jvmFlag>
+                            <jvmFlag>-Xmx384m</jvmFlag>
                         </jvmFlags>
                         <!--要暴露的端口-->
                         <ports>

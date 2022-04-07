@@ -106,6 +106,56 @@
         <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <configuration>
+                    <from>
+                        <!--使用openjdk官方镜像，tag是8-jdk-stretch，表示镜像的操作系统是debian9,装好了jdk8-->
+                        <image>${docker.base.jre}</image>
+                    </from>
+                    <to>
+                        <!-- 如果是阿里云的容器镜像仓库，则使用容器的配置 前缀/命名空间/仓库名 -->
+                        <image>${docker.registry}/${docker.space}/${artifactId}</image>
+                        <tags>
+                            <!--指定版本号即可-->
+                            <image>${version}</image>
+                        </tags>
+                    </to>
+                    <!--容器相关的属性-->
+                    <container>
+                        <!--jvm内存参数-->
+                        <jvmFlags>
+                            <jvmFlag>-Xms128m</jvmFlag>
+                            <jvmFlag>-Xmx384m</jvmFlag>
+                        </jvmFlags>
+                        <!--要暴露的端口-->
+                        <ports>
+                            <port>12201</port>
+                        </ports>
+                        <!--使用该参数将镜像的创建时间与系统时间一致-->
+                        <!--<useCurrentTimestamp>true</useCurrentTimestamp>-->
+                        <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+                        <!--解决Could not find or load main class ${start-class} -->
+                        <mainClass>com.ruoyi.gateway.RuoYiGatewayApplication</mainClass>
+                        <!-- 设置时区  -->
+                        <environment>
+                            <TZ>Asia/Shanghai</TZ>
+                        </environment>
+                    </container>
+                    <allowInsecureRegistries>true</allowInsecureRegistries>
+                </configuration>
+                <!-- 解决maven工程是父子结构的  mvn compile-->
+                <!-- 把 jib 绑定到 Maven 命令中-->
+                <executions>
+                    <execution>
+                        <phase>package</phase> <!-- 表示执行mvn package命令的时候就会自动构建镜像了-->
+                        <goals>
+                            <goal>${jib.key}</goal><!-- 表示执行的jib命令  是dockerBuild 还是build-->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <executions>
