@@ -100,7 +100,9 @@ export default {
 
     showBaseAttrs() {
       let _this = this;
+      this.$modal.loading("请稍后...")
       getAttrGroupWithAttrs(this.catalogId).then(res => {
+        this.$modal.closeLoading()
         //先对表单的baseAttrs进行初始化
         res.data.forEach(item => {
           let attrArray = [];

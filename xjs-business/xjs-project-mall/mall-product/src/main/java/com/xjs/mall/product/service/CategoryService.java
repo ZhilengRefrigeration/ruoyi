@@ -2,8 +2,10 @@ package com.xjs.mall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xjs.mall.product.entity.CategoryEntity;
+import com.xjs.mall.product.vo.Catelog2Vo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 商品三级分类
@@ -38,5 +40,18 @@ public interface CategoryService extends IService<CategoryEntity> {
      * @param category 分类实体类
      */
     void updateCascade(CategoryEntity category);
+
+    /**
+     * 查询所有一级分类
+     * @return list
+     */
+    List<CategoryEntity> getLevel1Categorys();
+
+    /**
+     * 查出分类
+     * @return map
+     */
+    Map<String, List<Catelog2Vo>> getCatalogJson();
+
 }
 
