@@ -10,11 +10,15 @@ import com.xjs.validation.group.UpdateGroup;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static com.xjs.consts.RedisConst.CATALOG_AFTER;
+import static com.xjs.consts.RedisConst.CATALOG_BEFORE;
 
 
 /**
@@ -30,6 +34,8 @@ import java.util.List;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     /**
      * 列表--树形结构
@@ -84,6 +90,8 @@ public class CategoryController {
     @Log(title = "商品分类", businessType = BusinessType.UPDATE)
     public R updateSort(@RequestBody CategoryEntity[] categoryEntities) {
         categoryService.updateBatchById(Arrays.asList(categoryEntities));
+        //删除缓存
+        stringRedisTemplate.delete(Arrays.asList(CATALOG_BEFORE,CATALOG_AFTER));
         return R.ok();
     }
 

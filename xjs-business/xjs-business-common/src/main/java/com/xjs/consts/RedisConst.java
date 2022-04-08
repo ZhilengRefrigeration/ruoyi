@@ -8,7 +8,7 @@ package com.xjs.consts;
  */
 public class RedisConst {
 
-    //----------------------key------------------------
+    //----------------------bussiness-key------------------------
 
     /**
      * 翻译字典常量key
@@ -59,7 +59,25 @@ public class RedisConst {
      * 爬虫记录循环次数常量信息：weixin.link
      */
     public static final String REPTILE_WEIXIN_LINK_COUNT = "reptile:weixin.link.count";
-    ;
+
+
+    //--------------------------mall-key-----------------------------------
+
+    /**
+     * mallKey前缀
+     */
+    public static final String MALL_PREFIX = "mall:";
+
+    /**
+     * 三级分类后台key
+     */
+    public static final String CATALOG_AFTER = MALL_PREFIX + "catalog:after";
+
+    /**
+     * 三级分类前台key
+     */
+    public static final String CATALOG_BEFORE = MALL_PREFIX + "catalog:before";
+
 
     //-------------------有效时间-----------------------
     public static final Integer TRAN_DICT_EXPIRE = 1;   //小时
