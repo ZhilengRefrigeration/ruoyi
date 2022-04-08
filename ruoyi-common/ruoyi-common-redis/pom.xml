@@ -9,26 +9,42 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <name>公共模块-Redis模块</name>
-    
+
     <artifactId>ruoyi-common-redis</artifactId>
-	
+
     <description>
         ruoyi-common-redis缓存服务
     </description>
 
     <dependencies>
-		
-        <!-- SpringBoot Boot Redis -->
+
+        <!-- SpringBoot Boot Redis  排除lettuce客户端，引入jedis客户端 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.lettuce</groupId>
+                    <artifactId>lettuce-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-        
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+        </dependency>
+
+
         <!-- RuoYi Common Core-->
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-core</artifactId>
         </dependency>
-        
+
     </dependencies>
 </project>

@@ -46,7 +46,7 @@ public class CopyWritingServiceImpl extends ServiceImpl<CopyWritingMapper, CopyW
      */
     @Override
     //将该方法的查询结果存放阿紫springboot的默认缓存中   cacheNames：缓存空间唯一名称 key：缓存id
-    @Cacheable(cacheNames = "copyWriting",key = "#id")
+    @Cacheable(cacheNames = "bussiness:copy_writing",key = "#id")
     public CopyWriting selectCopyWritingById(Long id)
     {
         return copyWritingMapper.selectCopyWritingById(id);
@@ -71,7 +71,7 @@ public class CopyWritingServiceImpl extends ServiceImpl<CopyWritingMapper, CopyW
      * @return 结果
      */
     @Override
-    @CacheEvict(cacheNames = "copyWriting",key = "#ids")
+    @CacheEvict(cacheNames = "bussiness:copy_writing",key = "#ids")
     public int deleteCopyWritingByIds(Long[] ids)
     {
         return copyWritingMapper.deleteCopyWritingByIds(ids);
@@ -84,7 +84,7 @@ public class CopyWritingServiceImpl extends ServiceImpl<CopyWritingMapper, CopyW
      * @return 结果
      */
     @Override
-    @CacheEvict(cacheNames = "copyWriting",key = "#id")
+    @CacheEvict(cacheNames = "bussiness:copy_writing",key = "#id")
     public int deleteCopyWritingById(Long id)
     {
         return copyWritingMapper.deleteCopyWritingById(id);

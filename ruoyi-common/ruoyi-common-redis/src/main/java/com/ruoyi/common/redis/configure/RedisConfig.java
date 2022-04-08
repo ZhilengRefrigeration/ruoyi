@@ -1,10 +1,14 @@
 package com.ruoyi.common.redis.configure;
 
+import cn.hutool.core.util.RandomUtil;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.cache.CacheProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +31,12 @@ import java.time.Duration;
  */
 @Configuration
 @EnableCaching
+@EnableConfigurationProperties(CacheProperties.class)
 public class RedisConfig extends CachingConfigurerSupport {
+
+    @Autowired
+    private CacheProperties cacheProperties;
+
     @Bean
     @SuppressWarnings(value = {"unchecked", "rawtypes"})
     public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
@@ -66,10 +75,24 @@ public class RedisConfig extends CachingConfigurerSupport {
         om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         jacksonSeial.setObjectMapper(om);
         // 定制缓存数据序列化方式及时效
-        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofDays(1)) //时效1天
+
+        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(strSerializer))
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jacksonSeial))
-                .disableCachingNullValues();
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jacksonSeial));
+
+        CacheProperties.Redis redisProperties = cacheProperties.getRedis();
+        //将配置文件中所有的配置都生效
+        if (redisProperties.getTimeToLive() != null) {
+            //定义随机时间值，防止缓存大量过期
+            long salt = RandomUtil.randomLong(10, 100);
+            Duration time = redisProperties.getTimeToLive();
+            Duration plusSeconds = time.plusSeconds(salt);
+            config = config.entryTtl(plusSeconds);
+        }
+        if (!redisProperties.isCacheNullValues()) {
+            config = config.disableCachingNullValues();
+        }
+
         RedisCacheManager cacheManager = RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(config).build();
         return cacheManager;
     }

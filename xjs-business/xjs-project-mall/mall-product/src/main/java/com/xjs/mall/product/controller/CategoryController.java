@@ -10,6 +10,7 @@ import com.xjs.validation.group.UpdateGroup;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -85,6 +86,7 @@ public class CategoryController {
         return R.ok();
     }
 
+    @CacheEvict(value = {"mall:catalog"},key = "'getLevel1Categorys'")
     @PutMapping("/update/sort")
     @ApiOperation("修改商品分类排序")
     @Log(title = "商品分类", businessType = BusinessType.UPDATE)
@@ -99,6 +101,7 @@ public class CategoryController {
      * 删除
      */
     @DeleteMapping("/delete")
+    @CacheEvict(value = {"mall:catalog"},key = "'getLevel1Categorys'")
     @ApiOperation("删除")
     @Log(title = "商品分类", businessType = BusinessType.DELETE)
     public R delete(@RequestBody Long[] catIds) {
@@ -106,6 +109,8 @@ public class CategoryController {
             return R.error("请选择删除的分类");
         }
         categoryService.removeMenuByIds(Arrays.asList(catIds));
+        //删除缓存
+        stringRedisTemplate.delete(Arrays.asList(CATALOG_BEFORE,CATALOG_AFTER));
 
         return R.ok();
     }
