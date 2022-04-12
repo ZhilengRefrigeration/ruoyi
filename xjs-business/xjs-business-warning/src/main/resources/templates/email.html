@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3 th:text="|尊敬的${username} :|"></h3><br />
+<img th:src="@{images/i.png}" /> 您有代金券即将到期，逾期失效，请尽早使用。<a th:href = "${url}" >点此查看</a>
+<br />
+</body>
+</html>
