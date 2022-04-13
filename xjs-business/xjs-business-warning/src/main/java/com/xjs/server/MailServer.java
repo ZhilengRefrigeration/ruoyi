@@ -1,5 +1,6 @@
 package com.xjs.server;
 
+import com.ruoyi.common.redis.service.RedisService;
 import com.xjs.domain.mall.MailBean;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,12 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import javax.annotation.Resource;
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.util.concurrent.TimeUnit;
+
+import static com.xjs.consts.RedisConst.MAIL_STATUS;
 
 /**
  * 邮箱发送工具
@@ -36,8 +41,42 @@ public class MailServer {
     @Autowired
     private TemplateEngine templateEngine;
 
+    @Autowired
+    private RedisService redisService;
 
-    // todo 优化 邮箱发送失败重试机制、防止邮件被识别为垃圾邮件，固定时间内发送邮件的限制等。
+
+    /**
+     * 发送邮件统一出口
+     *
+     * @param mailBean 邮箱实体
+     */
+    public Boolean sendMail(MailBean mailBean) {
+
+        if (redisService.hasKey(MAIL_SENDER)) {
+            throw new RuntimeException("邮件发送频繁!请稍后重试！");
+        }
+
+        int code = mailBean.getMailType().getCode();
+        try {
+            if (code == MailBean.MailType.SIMPLE.getCode()) {
+                this.sendSimpleMail(mailBean);
+            } else if (code == MailBean.MailType.HTML.getCode()) {
+                this.sendHTMLMail(mailBean);
+            } else if (code == MailBean.MailType.ATTACHMENT.getCode()) {
+                this.sendAttachmentMail(mailBean);
+            } else if (code == MailBean.MailType.INLINE.getCode()) {
+                this.sendInlineMail(mailBean);
+            } else if (code == MailBean.MailType.TEMPLATE.getCode()) {
+                this.sendTempLateMail(mailBean);
+            }
+
+            redisService.setCacheObject(MAIL_STATUS, true, 3L, TimeUnit.SECONDS);
+
+            return Boolean.TRUE;
+        } catch (Exception e) {
+            throw new RuntimeException("邮件发送失败");
+        }
+    }
 
 
     /**
@@ -45,7 +84,7 @@ public class MailServer {
      *
      * @param mailBean 邮箱实体
      */
-    public void sendSimpleMail(MailBean mailBean) {
+    private void sendSimpleMail(MailBean mailBean) throws Exception {
         try {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setFrom(MAIL_SENDER);
@@ -56,6 +95,7 @@ public class MailServer {
             javaMailSender.send(mailMessage);
         } catch (Exception e) {
             log.error("文本邮件发送失败:{}", e.getMessage());
+            throw e;
         }
     }
 
@@ -64,7 +104,7 @@ public class MailServer {
      *
      * @param mailBean 邮箱实体
      */
-    public void sendHTMLMail(MailBean mailBean) {
+    private void sendHTMLMail(MailBean mailBean) throws MessagingException {
         MimeMessage mimeMailMessage = null;
         try {
             mimeMailMessage = javaMailSender.createMimeMessage();
@@ -79,6 +119,7 @@ public class MailServer {
             javaMailSender.send(mimeMailMessage);
         } catch (Exception e) {
             log.error("HTML格式邮件发送失败:{}", e.getMessage());
+            throw e;
         }
     }
 
@@ -88,7 +129,7 @@ public class MailServer {
      *
      * @param mailBean 邮箱实体
      */
-    public void sendAttachmentMail(MailBean mailBean) {
+    private void sendAttachmentMail(MailBean mailBean) throws MessagingException {
         MimeMessage mimeMailMessage = null;
         try {
             mimeMailMessage = javaMailSender.createMimeMessage();
@@ -110,6 +151,7 @@ public class MailServer {
             javaMailSender.send(mimeMailMessage);
         } catch (Exception e) {
             log.error("附件格式邮件发送失败:{}", e.getMessage());
+            throw e;
         }
     }
 
@@ -119,7 +161,7 @@ public class MailServer {
      *
      * @param mailBean 邮箱实体
      */
-    public void sendInlineMail(MailBean mailBean) {
+    private void sendInlineMail(MailBean mailBean) throws MessagingException {
         MimeMessage mimeMailMessage = null;
         try {
             mimeMailMessage = javaMailSender.createMimeMessage();
@@ -137,28 +179,23 @@ public class MailServer {
             javaMailSender.send(mimeMailMessage);
         } catch (Exception e) {
             log.error("静态资源格式邮件发送失败:{}", e.getMessage());
+            throw e;
         }
     }
 
     /**
      * 发送Thymeleaf模版邮件
-     *
-     * @param recipient 接受者邮箱
-     * @param name      用户名称
-     * @param title     主体
      */
-    public void sendTempLateMail(String recipient, String name, String title) {
+    private void sendTempLateMail(MailBean mailBean) throws MessagingException {
         //注意：Context 类是在org.thymeleaf.context.Context包下的。
         Context context = new Context();
         //html中填充动态属性值
-        context.setVariable("username", name);
+        context.setVariable("username", mailBean.getUserName());
         context.setVariable("url", "#");
         //注意：process第一个参数名称要和templates下的模板名称一致。要不然会报错
         //org.thymeleaf.exceptions.TemplateInputException: Error resolving template [email]
         String emailContent = templateEngine.process("email", context);
-        MailBean mailBean = new MailBean();
-        mailBean.setRecipient(recipient);
-        mailBean.setSubject(title);
+        mailBean.setContent(null);
         mailBean.setContent(emailContent);
         this.sendHTMLMail(mailBean);
     }

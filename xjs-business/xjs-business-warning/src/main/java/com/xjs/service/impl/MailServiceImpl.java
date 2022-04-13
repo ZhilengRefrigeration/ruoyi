@@ -1,0 +1,49 @@
+package com.xjs.service.impl;
+
+import com.ruoyi.common.core.constant.HttpStatus;
+import com.ruoyi.common.core.domain.R;
+import com.xjs.business.api.RemoteWeatherFeign;
+import com.xjs.business.api.domain.NowWeather;
+import com.xjs.domain.mall.MailBean;
+import com.xjs.server.MailServer;
+import com.xjs.service.MailService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+
+/**
+ * 邮件发送service接口实现
+ * @author xiejs
+ * @since 2022-04-13
+ */
+@Service
+public class MailServiceImpl implements MailService {
+
+    @Resource
+    private RemoteWeatherFeign remoteWeatherFeign;
+    @Autowired
+    private MailServer mailServer;
+
+    @Override
+    public Boolean sendWeatherMail() {
+
+        R<NowWeather> r = remoteWeatherFeign.getWeatherForRPC();
+        if (r.getCode() == HttpStatus.SUCCESS) {
+            NowWeather nowWeather = r.getData();
+
+            MailBean mailBean = new MailBean();
+            mailBean.setUserName("用户");
+            mailBean.setSubject("天气播报");
+            mailBean.setRecipient("1294405880@qq.com");
+            mailBean.setMailType(MailBean.MailType.HTML);
+
+            mailBean.setContent("<h3>当前"+nowWeather.getCity()+"的天气："+nowWeather.getTemperature()+"℃</h3>");
+            return mailServer.sendMail(mailBean);
+        }
+
+        return false;
+    }
+
+
+}

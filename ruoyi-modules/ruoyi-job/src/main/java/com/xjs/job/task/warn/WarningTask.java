@@ -1,4 +1,4 @@
-package com.xjs.job.task;
+package com.xjs.job.task.warn;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUnit;

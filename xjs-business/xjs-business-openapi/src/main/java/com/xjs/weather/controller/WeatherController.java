@@ -60,9 +60,9 @@ public class WeatherController {
 
     @GetMapping("getWeatherForRPC")
     @ApiOperation("远程调用获取天气信息")
-    public R getWeatherForRPC() {
+    public R<NowWeather> getWeatherForRPC() {
         NowWeather nowWeather = weatherService.save();
-        return Objects.nonNull(nowWeather.getCity()) ? R.ok() : R.fail();
+        return Objects.nonNull(nowWeather.getCity()) ? R.ok(nowWeather) : R.fail();
     }
 
     @GetMapping("getHistoryWeatherForRPC")

@@ -36,6 +36,5 @@ class MailServerTest {
 
     @Test
     void sendTempLateMail() {
-        mailServer.sendTempLateMail("1294405880@qq.com","生哥","这是标题");
     }
 }

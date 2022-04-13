@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
+ * 调用预警服务降级处理
  * @author xiejs
- * @desc  调用预警服务降级处理
- * @create 2021-12-31
+ * @since  2021-12-31
  */
 @Component
 public class RemoteWarningCRUDFactory implements FallbackFactory<RemoteWarningCRUDFeign> {

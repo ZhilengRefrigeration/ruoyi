@@ -29,8 +29,49 @@ public class MailBean implements Serializable {
     private String content;
 
     /**
+     * 用户名称
+     */
+    private String userName;
+
+    /**
      * 附件地址
      */
     private String absolutePath;
 
+    /**
+     * 邮件发送类型
+     */
+    private MailType mailType;
+
+    /**
+     * 内部类-邮件发送类型
+     */
+    public enum MailType {
+        SIMPLE(1, "文本邮件"),
+        HTML(2, "HTML邮件"),
+        ATTACHMENT(3, "附件邮件"),
+        INLINE(4, "静态资源邮件"),
+        TEMPLATE(5, "模板邮件");
+
+
+        private final int code;
+        private final String msg;
+
+        MailType(int code, String msg) {
+            this.code = code;
+            this.msg = msg;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+
+    }
+
 }
+
+

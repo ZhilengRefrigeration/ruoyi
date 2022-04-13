@@ -2,6 +2,7 @@ package com.xjs.business.api;
 
 import com.ruoyi.common.core.constant.ServiceNameConstants;
 import com.ruoyi.common.core.domain.R;
+import com.xjs.business.api.domain.NowWeather;
 import com.xjs.business.api.factory.RemoteWeatherFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,7 @@ import java.util.Map;
 public interface RemoteWeatherFeign {
 
     @GetMapping("/weather/getWeatherForRPC")
-    R getWeatherForRPC() ;
+    R<NowWeather> getWeatherForRPC() ;
 
     @GetMapping("/weather/getHistoryWeatherForRPC")
     R<Map<String, List>> getHistoryWeatherForRPC(@RequestParam("startDate")String startDate,
