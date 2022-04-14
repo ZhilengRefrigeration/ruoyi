@@ -1,6 +1,7 @@
 package com.xjs.server;
 
 import com.ruoyi.common.redis.service.RedisService;
+import com.xjs.annotation.MailLog;
 import com.xjs.domain.mall.MailBean;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,7 @@ public class MailServer {
      *
      * @param mailBean 邮箱实体
      */
+    @MailLog
     public Boolean sendMail(MailBean mailBean) {
 
         if (redisService.hasKey(MAIL_SENDER)) {

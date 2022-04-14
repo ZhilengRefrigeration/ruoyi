@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjs.maillog.mapper.MailLogMapper">
+
+    <resultMap type="com.xjs.maillog.domain.MailLog" id="MailLogResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="content"    column="content"    />
+        <result property="recipient"    column="recipient"    />
+        <result property="mailType"    column="mail_type"    />
+        <result property="requestTime"    column="request_time"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectMailLogVo">
+        select id, title, content, recipient, mail_type, request_time, create_time from mail_log
+    </sql>
+
+    <select id="selectMailLogList" parameterType="com.xjs.maillog.domain.MailLog" resultMap="MailLogResult">
+        <include refid="selectMailLogVo"/>
+        <where>
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+            <if test="recipient != null  and recipient != ''"> and recipient like concat('%', #{recipient}, '%')</if>
+            <if test="createTime != null and endCreateTime != null"> and create_time between #{createTime} and #{endCreateTime}</if>
+        </where>
+    </select>
+
+    <select id="selectMailLogById" parameterType="Long" resultMap="MailLogResult">
+        <include refid="selectMailLogVo"/>
+        where id = #{id}
+    </select>
+
+    <delete id="deleteMailLogById" parameterType="Long">
+        delete from mail_log where id = #{id}
+    </delete>
+
+    <delete id="deleteMailLogByIds" parameterType="String">
+        delete from mail_log where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -3,6 +3,7 @@ package com.xjs.business.log.factory;
 import com.ruoyi.common.core.domain.R;
 import com.xjs.business.log.RemoteLogFeign;
 import com.xjs.business.log.domain.ApiLog;
+import com.xjs.business.log.domain.MailLog;
 import com.xjs.business.log.domain.TaskLog;
 import com.xjs.business.log.domain.WebmagicLog;
 import org.slf4j.Logger;
@@ -47,6 +48,12 @@ public class RemoteLogFactory implements FallbackFactory<RemoteLogFeign> {
             public R<Object> saveTaskLog(TaskLog taskLog) {
                 log.error("日志模块任务日志服务添加调用失败");
                 return R.fail("日志模块任务日志服务添加调用失败" + cause.getMessage());
+            }
+
+            @Override
+            public R<Object> saveMailLog(MailLog mailLog) {
+                log.error("日志模块邮件日志服务添加调用失败");
+                return R.fail("日志模块邮件日志服务添加调用失败" + cause.getMessage());
             }
         };
     }

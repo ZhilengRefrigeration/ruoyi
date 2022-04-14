@@ -3,6 +3,7 @@ package com.xjs.business.log;
 import com.ruoyi.common.core.constant.ServiceNameConstants;
 import com.ruoyi.common.core.domain.R;
 import com.xjs.business.log.domain.ApiLog;
+import com.xjs.business.log.domain.MailLog;
 import com.xjs.business.log.domain.TaskLog;
 import com.xjs.business.log.domain.WebmagicLog;
 import com.xjs.business.log.factory.RemoteLogFactory;
@@ -37,4 +38,7 @@ public interface RemoteLogFeign {
 
     @PostMapping("taskLog/saveForPRC")
     R<Object> saveTaskLog(@RequestBody TaskLog taskLog);
+
+    @PostMapping("maillog/saveForRPC")
+    R<Object> saveMailLog(@RequestBody MailLog mailLog);
 }

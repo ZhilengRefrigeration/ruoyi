@@ -210,7 +210,7 @@ export default {
     /** 查询爬虫日志列表 */
     getList() {
       this.loading = true;
-      if (null != this.daterangeCreateTime && '' != this.daterangeCreateTime) {
+      if (null != this.daterangeCreateTime && '' !== this.daterangeCreateTime) {
         this.queryParams.createTime = this.daterangeCreateTime[0];
         this.queryParams.endCreateTime = this.daterangeCreateTime[1];
       }
