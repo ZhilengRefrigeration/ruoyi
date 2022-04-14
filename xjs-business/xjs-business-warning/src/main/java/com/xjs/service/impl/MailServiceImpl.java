@@ -62,5 +62,10 @@ public class MailServiceImpl implements MailService {
         return false;
     }
 
+    @Override
+    public void sendMail(MailBean mailBean) {
+        mailServer.sendMail(mailBean);
+    }
+
 
 }

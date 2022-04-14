@@ -1,5 +1,7 @@
 package com.xjs.service;
 
+import com.xjs.domain.mall.MailBean;
+
 /**
  * 邮件发送service接口
  * @author xiejs
@@ -12,5 +14,11 @@ public interface MailService {
      * @return true/false
      */
     Boolean sendWeatherMail();
+
+    /**
+     * 发送邮件
+     * @param mailBean 邮件对象
+     */
+    void sendMail(MailBean mailBean);
 
 }

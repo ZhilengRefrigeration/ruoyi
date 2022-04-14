@@ -1,5 +1,6 @@
 package com.ruoyi.auth.service;
 
+import com.ruoyi.auth.annotation.LoginAspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.constant.Constants;
@@ -20,7 +21,8 @@ import com.ruoyi.system.api.model.LoginUser;
 
 /**
  * 登录校验方法<br>
- * 新增功能统计用户登录次数
+ * 新增功能统计用户登录次数<br>
+ * 新增登录邮件推送
  * @since 2022-01-21 11:22:16
  * @author ruoyi,xjs
  */
@@ -36,6 +38,7 @@ public class SysLoginService
     /**
      * 登录
      */
+    @LoginAspect
     public LoginUser login(String username, String password)
     {
         // 用户名或密码为空 错误
@@ -141,7 +144,7 @@ public class SysLoginService
 
     /**
      * 记录登录信息
-     * 
+     *
      * @param username 用户名
      * @param status 状态
      * @param message 消息内容

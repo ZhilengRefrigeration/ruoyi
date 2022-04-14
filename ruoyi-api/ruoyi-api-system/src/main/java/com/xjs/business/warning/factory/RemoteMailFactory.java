@@ -1,6 +1,8 @@
 package com.xjs.business.warning.factory;
 
+import com.ruoyi.common.core.domain.R;
 import com.xjs.business.warning.RemoteMailFeign;
+import com.xjs.business.warning.domain.MailBean;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
@@ -18,6 +20,12 @@ public class RemoteMailFactory implements FallbackFactory<RemoteMailFeign> {
         return new RemoteMailFeign() {
             @Override
             public void sendWeatherMailForRPC() {
+            }
+
+            @Override
+            public R sendMail(MailBean mailBean) {
+                log.error("远程发送邮件调用异常:"+cause.getMessage());
+                return R.fail("远程发送邮件调用异常:"+cause.getMessage());
             }
         };
     }
