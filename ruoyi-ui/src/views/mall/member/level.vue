@@ -107,6 +107,7 @@ import AddOrUpdate from "./memberlevel-add-or-update";
 import {delMemberLevel, getMemberLevelList} from "@/api/mall/member/level";
 
 export default {
+  name:"Member-Level",
   data() {
     return {
       dataForm: {

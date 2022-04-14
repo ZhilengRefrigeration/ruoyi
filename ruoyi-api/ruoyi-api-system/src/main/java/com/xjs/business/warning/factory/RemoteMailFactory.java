@@ -23,7 +23,7 @@ public class RemoteMailFactory implements FallbackFactory<RemoteMailFeign> {
             }
 
             @Override
-            public R sendMail(MailBean mailBean) {
+            public R sendMailForRPC(MailBean mailBean) {
                 log.error("远程发送邮件调用异常:"+cause.getMessage());
                 return R.fail("远程发送邮件调用异常:"+cause.getMessage());
             }

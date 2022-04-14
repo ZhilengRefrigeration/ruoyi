@@ -54,7 +54,7 @@ public class MailServer {
     @MailLog
     public Boolean sendMail(MailBean mailBean) {
 
-        if (redisService.hasKey(MAIL_SENDER)) {
+        if (redisService.hasKey(MAIL_STATUS)) {
             throw new RuntimeException("邮件发送频繁!请稍后重试！");
         }
 

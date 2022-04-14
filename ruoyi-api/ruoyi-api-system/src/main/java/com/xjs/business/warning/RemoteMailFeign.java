@@ -22,6 +22,6 @@ public interface RemoteMailFeign {
     @GetMapping("mail/send-weather-mail")
     void sendWeatherMailForRPC();
 
-    @PostMapping("mail/sendMail")
-    R sendMail(@RequestBody MailBean mailBean);
+    @PostMapping("mail/sendMailForRPC")
+    R sendMailForRPC(@RequestBody MailBean mailBean);
 }

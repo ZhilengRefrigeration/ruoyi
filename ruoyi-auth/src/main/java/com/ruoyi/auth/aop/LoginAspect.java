@@ -8,8 +8,9 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  * 登录切面类
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class LoginAspect {
 
-    @Autowired
+    @Resource
     private RemoteMailFeign remoteMailFeign;
 
     /**
@@ -50,7 +51,7 @@ public class LoginAspect {
                 "<img src=\"" + loginUser.getSysUser().getAvatar() + "\" alt=\"头像\">" +
                 " <p>当前IP地址：" + loginUser.getSysUser().getLoginIp() + "</p>");
 
-        remoteMailFeign.sendMail(mailBean);
+        remoteMailFeign.sendMailForRPC(mailBean);
     }
 
 }
