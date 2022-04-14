@@ -105,6 +105,13 @@
           <el-button
             size="mini"
             type="text"
+            @click="openDialog(scope.row)"
+          >查看
+          </el-button>
+
+          <el-button
+            size="mini"
+            type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['log:maillog:remove']"
@@ -123,6 +130,20 @@
     />
 
 
+    <el-dialog
+      title="查看"
+      :visible.sync="centerDialogVisible"
+      width="50%"
+      >
+      <h1>{{ obj.title }}</h1>
+      <br>
+      <span v-html="obj.content"></span>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="centerDialogVisible = false">取 消</el-button>
+  </span>
+    </el-dialog>
+
+
   </div>
 </template>
 
@@ -135,6 +156,13 @@ export default {
   name: "Maillog",
   data() {
     return {
+      obj: {
+        title: "",
+        content: "",
+      },
+
+      //弹窗
+      centerDialogVisible: false,
       // 遮罩层
       loading: true,
       // 选中数组
@@ -162,6 +190,8 @@ export default {
         title: null,
         content: null,
         recipient: null,
+        isAsc: "desc",
+        orderByColumn: "createTime"
       },
       // 表单参数
       form: {},
@@ -173,6 +203,13 @@ export default {
     this.getList();
   },
   methods: {
+    //打开弹窗
+    openDialog(data) {
+      this.centerDialogVisible = true;
+      this.obj.title = data.title
+      this.obj.content = data.content
+    },
+
     /** 查询邮件日志列表 */
     getList() {
       this.loading = true;
@@ -194,8 +231,8 @@ export default {
 
     dateQuery(formName) {
       //清空时间参数
-      this.queryParams.createTime=null
-      this.queryParams.endCreateTime=null
+      this.queryParams.createTime = null
+      this.queryParams.endCreateTime = null
 
       this.handleQuery(formName);
     },
