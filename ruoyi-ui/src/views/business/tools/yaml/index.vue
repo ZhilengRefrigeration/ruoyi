@@ -18,7 +18,7 @@ export default {
   data() {
     return {
       height: document.documentElement.clientHeight - 210 + 'px',
-      value: ""
+      value: "spring: "
     }
   },
   mounted() {
