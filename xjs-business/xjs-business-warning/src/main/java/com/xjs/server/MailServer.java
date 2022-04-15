@@ -6,11 +6,13 @@ import com.xjs.domain.mall.MailBean;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -18,6 +20,9 @@ import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import static com.xjs.consts.RedisConst.MAIL_STATUS;
@@ -131,7 +136,7 @@ public class MailServer {
      *
      * @param mailBean 邮箱实体
      */
-    private void sendAttachmentMail(MailBean mailBean) throws MessagingException {
+    private void sendAttachmentMail(MailBean mailBean) throws MessagingException, IOException {
         MimeMessage mimeMailMessage = null;
         try {
             mimeMailMessage = javaMailSender.createMimeMessage();
@@ -140,15 +145,24 @@ public class MailServer {
             mimeMessageHelper.setFrom(MAIL_SENDER);
             mimeMessageHelper.setTo(mailBean.getRecipient());
             mimeMessageHelper.setSubject(mailBean.getSubject());
-            mimeMessageHelper.setText(mailBean.getContent());
-            //文件路径 目前写死在代码中，之后可以当参数传过来，或者在MailBean中添加属性absolutePath
-            FileSystemResource file = new FileSystemResource(new File(mailBean.getAbsolutePath()));
-            //FileSystemResource file = new FileSystemResource(new File("src/main/resources/static/image/email.png"));
-            String fileName = mailBean.getAbsolutePath().substring(mailBean.getAbsolutePath().lastIndexOf(File.separator));
-            //添加附件,第一个参数表示添加到 Email 中附件的名称，第二个参数是图片资源
-            mimeMessageHelper.addAttachment(fileName, file);
-            //多个附件
-            //mimeMessageHelper.addAttachment(fileName1, file1);
+            mimeMessageHelper.setText(mailBean.getContent(), true);
+
+            //发送附件
+            if (mailBean.getFileList() != null && mailBean.getFileList().length > 0) {
+                for (MultipartFile multipartFile : mailBean.getFileList()) {
+                    InputStream inputStream = null;
+                    try {
+                        inputStream = multipartFile.getInputStream();
+                        byte[] bytes = inputStream.readAllBytes();
+                        ByteArrayResource bar = new ByteArrayResource(bytes);
+                        mimeMessageHelper.addAttachment(Objects.requireNonNull(multipartFile.getOriginalFilename()), bar);
+                    } finally {
+                        if (inputStream != null) {
+                            inputStream.close();
+                        }
+                    }
+                }
+            }
 
             javaMailSender.send(mimeMailMessage);
         } catch (Exception e) {

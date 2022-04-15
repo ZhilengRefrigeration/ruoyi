@@ -32,6 +32,22 @@
           </el-form-item>
         </el-col>
 
+        <el-col :span="24">
+          <el-form-item label="附件" prop="file">
+            <el-upload
+              ref="upload"
+              multiple
+              :limit="3"
+              action="#"
+              :before-upload="beforeUpload"
+              :before-remove="beforeRemove"
+              :http-request="addFile"
+              :file-list="fileList">
+              <el-button size="mini" type="info">添加附件</el-button>
+            </el-upload>
+          </el-form-item>
+        </el-col>
+
         <!--md内容 -->
         <el-col :span="24">
           <el-form-item label="邮件内容" prop="content">
@@ -70,8 +86,7 @@ export default {
         recipient: undefined,
         recipientSuffix: undefined,
         content: undefined,
-
-
+        file:[]
       },
 
       rules: {
@@ -94,6 +109,8 @@ export default {
         ]
       },
 
+      fileList: [],
+
     }
   },
 
@@ -111,25 +128,50 @@ export default {
       this.$refs['elForm'].validate(valid => {
         if (!valid) return
 
-        let data = {
-          subject: this.formData.subject,
-          recipient: this.formData.recipient + this.formData.recipientSuffix,
-          content: this.formData.content
+        let formData = new FormData();
+        let files = this.formData.file;
+        for (let i = 0; i < files.length; i++) {
+          formData.append("fileList", files[i]);
         }
-        this.$modal.loading("请稍后...")
-        sendMail(data).then(res => {
+        formData.append("subject", this.formData.subject);
+        formData.append("content", this.formData.content);
+        formData.append("recipient", this.formData.recipient + this.formData.recipientSuffix);
+
+        this.$modal.loading("正在发送，请稍后...")
+        sendMail(formData).then(res => {
           this.$modal.notifySuccess("发送成功")
           this.$modal.closeLoading()
-          this.formData.subject=""
-          this.formData.recipient=""
-          this.formData.recipientSuffix=""
-        }).catch(err =>{
+          this.formData.subject = ""
+          this.formData.recipient = ""
+          this.formData.recipientSuffix = ""
+        }).catch(err => {
           this.$modal.closeLoading()
         })
 
 
       })
     },
+
+    addFile() {
+
+    },
+
+    //上传文件之前
+    beforeUpload(file) {
+      console.log(file)
+      this.formData.file.push(file)
+    },
+
+    //删除文件之前
+    beforeRemove(file) {
+      let fileList =this.formData.file
+      for (let i = 0; i < fileList.length; i++) {
+        if (fileList[i].uid===file.uid) {
+          fileList.splice(i,1)
+        }
+      }
+    },
+
   }
 }
 </script>

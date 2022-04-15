@@ -1,6 +1,7 @@
 package com.xjs.domain.mall;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 
@@ -37,6 +38,13 @@ public class MailBean implements Serializable {
      * 附件地址
      */
     private String absolutePath;
+
+    /**
+     * 文件列表
+     */
+    private MultipartFile[] fileList;
+
+
 
     /**
      * 邮件发送类型

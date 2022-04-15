@@ -1,5 +1,6 @@
 package com.ruoyi.auth.aop;
 
+import cn.hutool.core.date.DateUtil;
 import com.ruoyi.system.api.model.LoginUser;
 import com.xjs.business.warning.RemoteMailFeign;
 import com.xjs.business.warning.domain.MailBean;
@@ -49,7 +50,8 @@ public class LoginAspect {
         mailBean.setRecipient(loginUser.getSysUser().getEmail());
         mailBean.setContent("<h3 style=\"color:red;\">" + loginUser.getSysUser().getNickName() + "上线啦</h3> " +
                 "<img src=\"" + loginUser.getSysUser().getAvatar() + "\" alt=\"头像\">" +
-                " <p>当前IP地址：" + loginUser.getSysUser().getLoginIp() + "</p>");
+                " <p><strong>当前IP地址：" + loginUser.getSysUser().getLoginIp() + "</strong></p>" +
+                "<p><strong>上线时间："+ DateUtil.now() +"</strong></p>");
 
         remoteMailFeign.sendMailForRPC(mailBean);
     }

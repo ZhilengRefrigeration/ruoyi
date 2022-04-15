@@ -1,5 +1,8 @@
 package com.xjs.domain.mall;
 
+import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.Serializable;
 
 /**
@@ -7,7 +10,7 @@ import java.io.Serializable;
  * @author xiejs
  * @since 2022-04-14
  */
-
+@Data
 public class MailVo implements Serializable {
     private static final long serialVersionUID = -1L;
 
@@ -24,36 +27,9 @@ public class MailVo implements Serializable {
      */
     private String content;
 
-    @Override
-    public String toString() {
-        return "MailVo{" +
-                "recipient='" + recipient + '\'' +
-                ", subject='" + subject + '\'' +
-                ", content='" + content + '\'' +
-                '}';
-    }
+    /**
+     * 文件列表
+     */
+    private MultipartFile[] fileList;
 
-    public String getRecipient() {
-        return recipient;
-    }
-
-    public void setRecipient(String recipient) {
-        this.recipient = recipient;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 }

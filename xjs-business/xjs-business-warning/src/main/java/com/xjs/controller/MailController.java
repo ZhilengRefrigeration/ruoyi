@@ -31,10 +31,11 @@ public class MailController {
     @PostMapping("send-mail")
     @ApiOperation("发送邮件")
     @Log(title = "发送邮件", businessType = BusinessType.INSERT)
-    public AjaxResult sendMail(@RequestBody MailVo mailVo) {
+    public AjaxResult sendMail(MailVo mailVo) {
         MailBean mailBean = new MailBean();
         BeanUtils.copyProperties(mailVo, mailBean);
-        mailBean.setMailType(MailBean.MailType.HTML);
+        mailBean.setMailType(MailBean.MailType.ATTACHMENT);
+
         mailService.sendMail(mailBean);
         return AjaxResult.success();
     }
