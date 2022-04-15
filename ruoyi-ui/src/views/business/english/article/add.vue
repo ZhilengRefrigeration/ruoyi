@@ -87,7 +87,7 @@ export default {
         this.$modal.notifySuccess("添加成功");
         this.$modal.closeLoading()
         this.$router.push({path: '/business/english/article/articleList'})
-      }).catch(err =>{
+      }).catch(err => {
         this.$modal.closeLoading()
       })
 
@@ -111,13 +111,15 @@ export default {
     },
 
     picture_rulBeforeUpload(file) {
-      let isRightSize = file.size / 1024 / 1024 < 10
+      let isRightSize = file.size / 1024 / 1024 < 8
       if (!isRightSize) {
-        this.$message.error('文件大小超过 10MB')
+        this.$message.error('文件大小超过 8MB')
+        return false
       }
       let isAccept = new RegExp('image/*').test(file.type)
       if (!isAccept) {
         this.$message.error('应该选择image/*类型的文件')
+        return false
       }
 
       let formData = new FormData();
@@ -127,18 +129,17 @@ export default {
         this.formData.pictureUrl = res.data.url
         this.$modal.closeLoading()
         this.$modal.notifySuccess("上传成功");
-      }).catch(err =>{
+      }).catch(err => {
         this.$modal.closeLoading()
       })
-
-      return isRightSize && isAccept
     },
 
     //删除图片
     removeImg() {
       if (this.formData.pictureUrl) {
         let pictureUrl = {"url": this.formData.pictureUrl};
-        removeImg(pictureUrl).then(res => {})
+        removeImg(pictureUrl).then(res => {
+        })
 
         this.formData.pictureUrl = null;
       }

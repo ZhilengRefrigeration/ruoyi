@@ -158,6 +158,11 @@ export default {
 
     //上传文件之前
     beforeUpload(file) {
+      let isRightSize = file.size / 1024 / 1024 < 8
+      if (!isRightSize) {
+        this.$message.error('文件大小超过 8MB')
+        return false
+      }
       console.log(file)
       this.formData.file.push(file)
     },
