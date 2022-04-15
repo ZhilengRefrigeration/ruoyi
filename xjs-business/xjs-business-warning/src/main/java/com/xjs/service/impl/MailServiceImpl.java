@@ -64,6 +64,13 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public void sendMail(MailBean mailBean) {
+        if (mailBean.getMailType() == null) {
+            if (mailBean.getFileList() != null && mailBean.getFileList().length > 0) {
+                mailBean.setMailType(MailBean.MailType.ATTACHMENT);
+            } else if (mailBean.getFileList() == null || mailBean.getFileList().length == 0) {
+                mailBean.setMailType(MailBean.MailType.HTML);
+            }
+        }
         mailServer.sendMail(mailBean);
     }
 

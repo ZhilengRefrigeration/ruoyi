@@ -34,8 +34,6 @@ public class MailController {
     public AjaxResult sendMail(MailVo mailVo) {
         MailBean mailBean = new MailBean();
         BeanUtils.copyProperties(mailVo, mailBean);
-        mailBean.setMailType(MailBean.MailType.ATTACHMENT);
-
         mailService.sendMail(mailBean);
         return AjaxResult.success();
     }
