@@ -257,6 +257,9 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.daterangeCreateTime = [];
+      this.queryParams.createTime = null
+      this.queryParams.endCreateTime = null
       this.resetForm("queryForm");
       this.handleQuery();
     },

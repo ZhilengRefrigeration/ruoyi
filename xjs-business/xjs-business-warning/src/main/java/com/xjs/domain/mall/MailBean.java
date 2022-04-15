@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 邮箱发送实体
@@ -33,6 +34,11 @@ public class MailBean implements Serializable {
      * 用户名称
      */
     private String userName;
+
+    /**
+     * 抄送人
+     */
+    private List<String> cc;
 
     /**
      * 附件地址

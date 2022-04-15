@@ -1,5 +1,6 @@
 package com.xjs.server;
 
+import cn.hutool.core.collection.CollUtil;
 import com.ruoyi.common.redis.service.RedisService;
 import com.xjs.annotation.MailLog;
 import com.xjs.domain.mall.MailBean;
@@ -120,8 +121,13 @@ public class MailServer {
             mimeMessageHelper.setFrom(MAIL_SENDER);
             mimeMessageHelper.setTo(mailBean.getRecipient());
             mimeMessageHelper.setSubject(mailBean.getSubject());
+
             //邮件抄送
-            //mimeMessageHelper.addCc("抄送人");
+            if (CollUtil.isNotEmpty(mailBean.getCc())) {
+                for (String c : mailBean.getCc()) {
+                    mimeMessageHelper.addCc(c);
+                }
+            }
             mimeMessageHelper.setText(mailBean.getContent(), true);
             javaMailSender.send(mimeMailMessage);
         } catch (Exception e) {
@@ -147,19 +153,20 @@ public class MailServer {
             mimeMessageHelper.setSubject(mailBean.getSubject());
             mimeMessageHelper.setText(mailBean.getContent(), true);
 
+            //邮件抄送
+            if (CollUtil.isNotEmpty(mailBean.getCc())) {
+                for (String c : mailBean.getCc()) {
+                    mimeMessageHelper.addCc(c);
+                }
+            }
+
             //发送附件
             if (mailBean.getFileList() != null && mailBean.getFileList().length > 0) {
                 for (MultipartFile multipartFile : mailBean.getFileList()) {
-                    InputStream inputStream = null;
-                    try {
-                        inputStream = multipartFile.getInputStream();
+                    try (InputStream inputStream = multipartFile.getInputStream()) {
                         byte[] bytes = inputStream.readAllBytes();
                         ByteArrayResource bar = new ByteArrayResource(bytes);
                         mimeMessageHelper.addAttachment(Objects.requireNonNull(multipartFile.getOriginalFilename()), bar);
-                    } finally {
-                        if (inputStream != null) {
-                            inputStream.close();
-                        }
                     }
                 }
             }
