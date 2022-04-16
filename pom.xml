@@ -54,6 +54,7 @@
         <elasticsearch.version>7.12.1</elasticsearch.version>
         <redisson.version>3.12.0</redisson.version>
         <screw.version>1.0.5</screw.version>
+        <activiti.version>7.1.0.M4</activiti.version>
 
     </properties>
 
@@ -136,6 +137,20 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+
+            <!--OA流程-->
+            <dependency>
+                <groupId>org.activiti</groupId>
+                <artifactId>activiti-spring-boot-starter</artifactId>
+                <version>${activiti.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.activiti.dependencies</groupId>
+                <artifactId>activiti-dependencies</artifactId>
+                <version>${activiti.version}</version>
+                <type>pom</type>
+            </dependency>
+
 
             <dependency>
                 <groupId>com.xjs</groupId>
