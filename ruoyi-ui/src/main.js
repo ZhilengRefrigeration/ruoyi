@@ -2,11 +2,13 @@ import Vue from 'vue'
 
 import Cookies from 'js-cookie'
 
+//element ui 组件库
 import Element from 'element-ui'
 import './assets/styles/element-variables.scss'
 
 import '@/assets/styles/index.scss' // global css
 import '@/assets/styles/ruoyi.scss' // ruoyi css
+
 import App from './App'
 import store from './store'
 import router from './router'
@@ -19,6 +21,7 @@ import './permission' // permission control
 import { getDicts } from "@/api/system/dict/data";
 import { getConfigKey } from "@/api/system/config";
 import { parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, handleTree } from "@/utils/ruoyi";
+
 // 分页组件
 import Pagination from "@/components/Pagination";
 // 自定义表格工具组件
@@ -37,10 +40,19 @@ import DictTag from '@/components/DictTag'
 import VueMeta from 'vue-meta'
 // 字典数据组件
 import DictData from '@/components/DictData'
+
+//------------------------xjs加的----------------------------
+
 // 消息发布订阅组件
 import PubSub from 'pubsub-js'
+// json格式化显示
+import JsonViewer from 'vue-json-viewer'
+//At ui库
+import AtUI from 'at-ui'
+import 'at-ui-style'    // 引入组件样式
 
-// 全局方法挂载
+
+// --------------------------全局方法挂载-------------------------------------
 Vue.prototype.getDicts = getDicts
 Vue.prototype.getConfigKey = getConfigKey
 Vue.prototype.parseTime = parseTime
@@ -52,7 +64,7 @@ Vue.prototype.download = download
 Vue.prototype.handleTree = handleTree
 Vue.prototype.PubSub = PubSub   //组件发布订阅消息
 
-// 全局组件挂载
+// --------------------------全局组件挂载------------------------------------
 Vue.component('DictTag', DictTag)
 Vue.component('Pagination', Pagination)
 Vue.component('RightToolbar', RightToolbar)
@@ -64,11 +76,12 @@ Vue.component('ImagePreview', ImagePreview)
 Vue.use(directive)
 Vue.use(plugins)
 Vue.use(VueMeta)
+
+Vue.use(JsonViewer)
+Vue.use(AtUI)
+
 DictData.install()
 
-// json格式化显示
-import JsonViewer from 'vue-json-viewer'
-Vue.use(JsonViewer)
 
 /**
  * If you don't want to use mock-server

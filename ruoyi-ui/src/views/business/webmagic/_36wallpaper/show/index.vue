@@ -24,7 +24,7 @@
 
     <div class="bigDiv">
       <el-row :gutter="20" class="el-row">
-        <el-col :span="4" v-for="data in wallpaperList">
+        <el-col :span="4" v-for="(data,index) in wallpaperList" :key="index">
           <div class="grid-content bg-purple">
 
             <div style="height: 7px;background-color: #ffba00"></div>

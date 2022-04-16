@@ -44,7 +44,7 @@
 
 
     <div v-loading="loading">
-      <el-timeline v-for="(article,index) in articleList">
+      <el-timeline v-for="(article,index) in articleList" :key="index">
         <el-timeline-item :timestamp=article.createTime placement="top">
 
           <el-button type="text"

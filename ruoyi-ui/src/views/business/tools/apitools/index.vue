@@ -52,7 +52,7 @@
                   width="988"
                   trigger="manual"
                   v-model="beautyPictureVisible">
-                  <el-image v-for="data in BeautyPictureData" v-loading="loading2"
+                  <el-image v-for="(data,index) in BeautyPictureData" v-loading="loading2" :key="index"
                             style="width: 192px; height: 108px"
                             :src="data.imageUrl"
                             :preview-src-list="pictureList">
@@ -303,7 +303,7 @@
                       <span>类型：{{ aim.goodsType }}</span>
                     </el-card>
                     <el-divider content-position="center">推荐</el-divider>
-                    <el-card shadow="hover" v-for="data in recommendList">
+                    <el-card shadow="hover" v-for="(data,index) in recommendList" :key="index">
                       <span>名称：{{ data.goodsName }}</span>
                       <el-divider direction="vertical"></el-divider>
                       <span>类型：{{ data.goodsType }}</span>
