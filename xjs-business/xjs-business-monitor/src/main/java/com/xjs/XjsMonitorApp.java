@@ -1,6 +1,5 @@
 package com.xjs;
 
-import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration;
 import com.ruoyi.common.security.annotation.EnableRyFeignClients;
 import com.ruoyi.common.security.config.ApplicationConfig;
 import com.ruoyi.common.security.feign.FeignAutoConfiguration;
@@ -16,11 +15,11 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * @author xiejs
- * @desc  业务监控服务启动器
+ * @desc 业务监控服务启动器
  * @create 2022-01-02
  */
 //排除两个关于数据源的自动配置类、及seata配置类
-@SpringBootApplication(exclude = {DynamicDataSourceAutoConfiguration.class,
+@SpringBootApplication(exclude = {
         DataSourceAutoConfiguration.class,
         SeataAutoConfiguration.class})
 // 表示通过aop框架暴露该代理对象,AopContext能够访问
@@ -28,9 +27,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
 // 开启线程异步执行
 @EnableAsync
 // 自动加载类
-@Import({ ApplicationConfig.class, FeignAutoConfiguration.class })
+@Import({ApplicationConfig.class, FeignAutoConfiguration.class})
 //自定义bean扫描，添加xjs路径下的bean
-@ComponentScan(basePackages = {"com.ruoyi","com.xjs"})
+@ComponentScan(basePackages = {"com.ruoyi", "com.xjs"})
 @EnableCustomSwagger2
 @EnableRyFeignClients
 public class XjsMonitorApp {

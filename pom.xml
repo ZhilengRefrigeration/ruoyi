@@ -20,7 +20,7 @@
         <spring-cloud.version>2020.0.4</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
         <alibaba.nacos.version>2.0.3</alibaba.nacos.version>
-        <spring-boot-admin.version>2.6.0</spring-boot-admin.version>
+        <spring-boot-admin.version>2.6.3</spring-boot-admin.version>
         <spring-boot.mybatis>2.2.0</spring-boot.mybatis>
         <swagger.fox.version>3.0.0</swagger.fox.version>
         <swagger.core.version>1.6.2</swagger.core.version>
@@ -53,6 +53,7 @@
         <spring-cloud-alicloud-oss.version>2.2.0.RELEASE</spring-cloud-alicloud-oss.version>
         <elasticsearch.version>7.12.1</elasticsearch.version>
         <redisson.version>3.12.0</redisson.version>
+        <screw.version>1.0.5</screw.version>
 
     </properties>
 
@@ -120,6 +121,20 @@
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson</artifactId>
                 <version>${redisson.version}</version>
+            </dependency>
+
+            <!-- 实现数据库文档 -->
+            <dependency>
+                <groupId>cn.smallbun.screw</groupId>
+                <artifactId>screw-core</artifactId>
+                <version>${screw.version}</version>
+                <exclusions>
+                    <!-- 移除 Freemarker 依赖，采用 Velocity 作为模板引擎 -->
+                    <exclusion>
+                        <groupId>org.freemarker</groupId>
+                        <artifactId>freemarker</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>

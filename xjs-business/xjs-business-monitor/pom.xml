@@ -24,6 +24,17 @@
             <artifactId>oshi-core</artifactId>
         </dependency>
 
+        <!-- 实现数据库文档 -->
+        <dependency>
+            <groupId>cn.smallbun.screw</groupId>
+            <artifactId>screw-core</artifactId>
+        </dependency>
+        <!--生成数据库文档模板-->
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.xjs</groupId>
             <artifactId>xjs-business-common</artifactId>

@@ -1,6 +1,6 @@
 import auth from '@/plugins/auth'
-import router, { constantRoutes, dynamicRoutes } from '@/router'
-import { getRouters } from '@/api/menu'
+import router, {constantRoutes, dynamicRoutes} from '@/router'
+import {getRouters} from '@/api/menu'
 import Layout from '@/layout/index'
 import ParentView from '@/components/ParentView'
 import InnerLink from '@/layout/components/InnerLink'
@@ -23,10 +23,12 @@ const permission = {
     },
     SET_TOPBAR_ROUTES: (state, routes) => {
       // 顶部导航菜单默认添加统计报表栏指向首页
-      const index = [{
-        path: 'index',
-        meta: { title: '统计报表', icon: 'dashboard' }
-      }]
+      const index = [
+        /*{
+          path: 'index',
+          meta: {title: '统计报表', icon: 'dashboard'}
+        }*/
+      ]
       state.topbarRouters = routes.concat(index);
     },
     SET_SIDEBAR_ROUTERS: (state, routes) => {
@@ -35,7 +37,7 @@ const permission = {
   },
   actions: {
     // 生成路由
-    GenerateRoutes({ commit }) {
+    GenerateRoutes({commit}) {
       return new Promise(resolve => {
         // 向后端请求路由数据
         getRouters().then(res => {
@@ -44,7 +46,7 @@ const permission = {
           const sidebarRoutes = filterAsyncRouter(sdata)
           const rewriteRoutes = filterAsyncRouter(rdata, false, true)
           const asyncRoutes = filterDynamicRoutes(dynamicRoutes);
-          rewriteRoutes.push({ path: '*', redirect: '/404', hidden: true })
+          rewriteRoutes.push({path: '*', redirect: '/404', hidden: true})
           router.addRoutes(asyncRoutes);
           commit('SET_ROUTES', rewriteRoutes)
           commit('SET_SIDEBAR_ROUTERS', constantRoutes.concat(sidebarRoutes))
