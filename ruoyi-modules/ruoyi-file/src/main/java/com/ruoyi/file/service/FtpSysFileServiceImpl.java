@@ -2,7 +2,7 @@ package com.ruoyi.file.service;
 
 import cn.hutool.core.date.DateUtil;
 import com.ruoyi.file.config.FtpProperties;
-import com.ruoyi.file.utils.FileUploadUtils;
+import com.ruoyi.common.core.utils.file.FileUploadUtils;
 import com.ruoyi.file.utils.FtpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

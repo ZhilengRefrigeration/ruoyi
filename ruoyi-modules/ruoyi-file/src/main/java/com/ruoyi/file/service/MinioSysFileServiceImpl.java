@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.file.config.MinioConfig;
-import com.ruoyi.file.utils.FileUploadUtils;
+import com.ruoyi.common.core.utils.file.FileUploadUtils;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 
 /**
  * Minio 文件存储
- * 
+ *
  * @author ruoyi
  */
 @Service
@@ -24,7 +24,7 @@ public class MinioSysFileServiceImpl implements ISysFileService
 
     /**
      * 本地文件上传接口
-     * 
+     *
      * @param file 上传的文件
      * @return 访问地址
      * @throws Exception

@@ -3,7 +3,7 @@ package com.ruoyi.file.service;
 import cn.hutool.core.date.DateUtil;
 import com.aliyun.oss.OSS;
 import com.ruoyi.common.core.text.UUID;
-import com.ruoyi.file.utils.FileUploadUtils;
+import com.ruoyi.common.core.utils.file.FileUploadUtils;
 import com.ruoyi.file.utils.OssClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;

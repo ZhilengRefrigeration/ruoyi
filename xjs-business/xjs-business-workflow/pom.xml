@@ -28,6 +28,15 @@
             <artifactId>activiti-dependencies</artifactId>
             <type>pom</type>
         </dependency>
+        <!--解决activiti自带mybatis依赖冲突问题：
+        路径优先原则
+            直接依赖优于传递依赖。如果传递依赖的Jar包版本冲突了，那么可以单独声明一个指定版本的依赖Jar包，即可解决冲突。
+            例如，b引用了a的0.0.1版本，c引用了b的0.0.2版本，如果我们想用的版本是0.0.3版本，可以直接单独声明一个a的0.0.3版本。-->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.5.9</version>
+        </dependency>
 
         <dependency>
             <groupId>com.xjs</groupId>
