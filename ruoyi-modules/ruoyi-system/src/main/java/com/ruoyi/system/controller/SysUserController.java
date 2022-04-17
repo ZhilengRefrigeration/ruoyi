@@ -53,6 +53,12 @@ public class SysUserController extends BaseController
     @Autowired
     private ISysConfigService configService;
 
+    @GetMapping("/selectUserNameByPostCodeAndDeptId")
+    public R<List<String>> selectUserNameByPostCodeAndDeptId(@RequestParam("postCode") String postCode,
+                                                             @RequestParam("deptId") Long deptId) {
+        return R.ok(userService.selectUserNameByPostCodeAndDeptId(postCode,deptId));
+    }
+
     /**
      * 获取用户列表
      */
@@ -153,7 +159,7 @@ public class SysUserController extends BaseController
 
     /**
      * 获取用户信息
-     * 
+     *
      * @return 用户信息
      */
     @GetMapping("getInfo")

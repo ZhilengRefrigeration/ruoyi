@@ -209,7 +209,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="resetUserPwd" parameterType="SysUser">
  		update sys_user set password = #{password} where user_name = #{userName}
 	</update>
-	
+
 	<delete id="deleteUserById" parameterType="Long">
 		update sys_user set del_flag = '2' where user_id = #{userId}
  	</delete>
@@ -227,5 +227,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update sys_user  set login_count = #{count}  where user_id= #{id}
 	</update>
 
+	<select id="selectUserNameByPostCodeAndDeptId" resultType="String">
 
-</mapper> 
+		SELECT user_name FROM  sys_post p
+								   left join sys_user_post up on p.post_id = up.post_id
+								   left join sys_user u on up.user_id= u.user_id
+		where post_code=#{param1} and dept_id=#{param2}
+
+	</select>
+</mapper>

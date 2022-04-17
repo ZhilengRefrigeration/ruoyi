@@ -9,9 +9,11 @@ import com.ruoyi.system.api.RemoteUserService;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
 
+import java.util.List;
+
 /**
  * 用户服务降级处理
- * 
+ *
  * @author ruoyi
  */
 @Component
@@ -40,6 +42,11 @@ public class RemoteUserFallbackFactory implements FallbackFactory<RemoteUserServ
             @Override
             public R<Integer> updateForRPC(String id, Integer count, String source) {
                 return R.fail("修改用户登录次数失败:" + throwable.getMessage());
+            }
+
+            @Override
+            public R<List<String>> selectUserNameByPostCodeAndDeptId(String postCode, Long deptId) {
+                return R.fail("selectUserNameByPostCodeAndDeptId失败:" + throwable.getMessage());
             }
         };
     }

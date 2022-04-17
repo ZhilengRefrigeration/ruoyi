@@ -11,6 +11,7 @@ import com.ruoyi.common.log.enums.BusinessType;
 import com.xjs.activiti.domain.dto.ProcessDefinitionDTO;
 import com.xjs.activiti.service.IProcessDefinitionService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,9 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
 @RestController
-@RequestMapping("/processDefinition")
+@RequestMapping("processDefinition")
 @Api(tags = "工作流-流程定义")
 public class ProcessDefinitionController extends BaseController {
 
@@ -35,16 +35,16 @@ public class ProcessDefinitionController extends BaseController {
      * @return
      */
     @GetMapping(value = "/list")
+    @ApiOperation("获取流程定义集合")
     public TableDataInfo list(ProcessDefinitionDTO processDefinition) {
         PageDomain pageDomain = TableSupport.buildPageRequest();
         return getDataTable(processDefinitionService.selectProcessDefinitionList(processDefinition, pageDomain));
 
     }
 
-    /**
-     * @return
-     */
+
     @GetMapping(value = "/getDefinitions/{instanceId}")
+    @ApiOperation("按实例 ID 获取定义")
     public AjaxResult getDefinitionsByInstanceId(@PathVariable("instanceId") String instanceId) {
         return AjaxResult.success(processDefinitionService.getDefinitionsByInstanceId(instanceId));
     }
@@ -57,6 +57,7 @@ public class ProcessDefinitionController extends BaseController {
      */
     @Log(title = "流程定义管理", businessType = BusinessType.DELETE)
     @DeleteMapping(value = "/remove/{deploymentId}")
+    @ApiOperation("删除流程定义")
     public AjaxResult delDefinition(@PathVariable("deploymentId") String deploymentId) {
         return toAjax(processDefinitionService.deleteProcessDefinitionById(deploymentId));
     }
@@ -70,6 +71,7 @@ public class ProcessDefinitionController extends BaseController {
      */
     @Log(title = "流程定义管理", businessType = BusinessType.IMPORT)
     @PostMapping(value = "/uploadStreamAndDeployment")
+    @ApiOperation("上传并部署流程定义")
     public AjaxResult uploadStreamAndDeployment(@RequestParam("file") MultipartFile file) throws IOException {
         processDefinitionService.uploadStreamAndDeployment(file);
         return AjaxResult.success();
@@ -84,7 +86,7 @@ public class ProcessDefinitionController extends BaseController {
      */
     @Log(title = "流程定义管理", businessType = BusinessType.UPDATE)
     @PostMapping("/suspendOrActiveApply")
-    @ResponseBody
+    @ApiOperation("启动挂起流程流程定义")
     public AjaxResult suspendOrActiveApply(@RequestBody ProcessDefinitionDTO processDefinition) {
         processDefinitionService.suspendOrActiveApply(processDefinition.getId(), processDefinition.getSuspendState());
         return AjaxResult.success();
@@ -99,6 +101,7 @@ public class ProcessDefinitionController extends BaseController {
      */
     @Log(title = "流程定义管理", businessType = BusinessType.IMPORT)
     @PostMapping(value = "/upload")
+    @ApiOperation("上传流程流程定义")
     public AjaxResult upload(@RequestParam("processFile") MultipartFile multipartFile) throws IOException {
 
         if (!multipartFile.isEmpty()) {
@@ -117,6 +120,7 @@ public class ProcessDefinitionController extends BaseController {
      * @return
      */
     @PostMapping(value = "/addDeploymentByString")
+    @ApiOperation("通过stringBPMN添加流程定义")
     public AjaxResult addDeploymentByString(@RequestParam("stringBPMN") String stringBPMN) {
         processDefinitionService.addDeploymentByString(stringBPMN);
         return AjaxResult.success();

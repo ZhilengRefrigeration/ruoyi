@@ -563,4 +563,8 @@ public class SysUserServiceImpl implements ISysUserService
         return userMapper.updateUserLoginCount(id,count);
     }
 
+    public List<String>selectUserNameByPostCodeAndDeptId(String postCode,Long deptId){
+        return userMapper.selectUserNameByPostCodeAndDeptId(postCode,deptId);
+    }
+
 }

@@ -5,6 +5,7 @@ import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.xjs.activiti.domain.dto.ActivitiHighLineDTO;
 import com.xjs.activiti.service.IActivitiHistoryService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ public class ActivitiHistoryController {
 
     //流程图高亮
     @GetMapping("/gethighLine")
+    @ApiOperation("流程图高亮")
     public AjaxResult gethighLine(@RequestParam("instanceId") String instanceId) {
 
         ActivitiHighLineDTO activitiHighLineDTO = activitiHistoryService.gethighLine(instanceId);

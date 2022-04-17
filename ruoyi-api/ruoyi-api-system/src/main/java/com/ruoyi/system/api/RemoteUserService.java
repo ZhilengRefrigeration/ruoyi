@@ -9,6 +9,8 @@ import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.factory.RemoteUserFallbackFactory;
 import com.ruoyi.system.api.model.LoginUser;
 
+import java.util.List;
+
 /**
  * 用户服务 <br>
  * 新增修改用户remote
@@ -46,5 +48,9 @@ public interface RemoteUserService
      */
     @PutMapping("/user/updateForRPC/{id}")
     R<Integer> updateForRPC(@PathVariable("id") String id,@RequestBody Integer count,@RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+
+    @GetMapping("/user/selectUserNameByPostCodeAndDeptId")
+    R<List<String>> selectUserNameByPostCodeAndDeptId(@RequestParam("postCode") String postCode,
+                                                      @RequestParam("deptId") Long deptId);
 
 }

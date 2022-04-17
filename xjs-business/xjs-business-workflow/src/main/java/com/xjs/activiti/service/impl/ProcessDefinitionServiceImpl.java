@@ -32,6 +32,7 @@ import java.util.zip.ZipInputStream;
 
 /**
  * 流程定义服务接口实现
+ *
  * @author xiejs
  * @since 2022-04-17 01:50:42
  */
@@ -60,8 +61,8 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
         List<ProcessDefinition> processDefinitions = processDefinitionQuery.listPage((pageDomain.getPageNum() - 1) * pageDomain.getPageSize(), pageDomain.getPageSize());
         long count = processDefinitionQuery.count();
         list.setTotal(count);
-        if (count!=0) {
-            Set<String> ids = processDefinitions.parallelStream().map(pdl -> pdl.getDeploymentId()).collect(Collectors.toSet());
+        if (count != 0) {
+            Set<String> ids = processDefinitions.parallelStream().map(ProcessDefinition::getDeploymentId).collect(Collectors.toSet());
             List<ActReDeploymentVO> actReDeploymentVOS = actReDeploymentMapper.selectActReDeploymentByIds(ids);
             List<ProcessDefinitionDTO> processDefinitionDTOS = processDefinitions.stream()
                     .map(pd -> new ProcessDefinitionDTO((ProcessDefinitionEntityImpl) pd, actReDeploymentVOS.parallelStream().filter(ard -> pd.getDeploymentId().equals(ard.getId())).findAny().orElse(new ActReDeploymentVO())))
@@ -94,7 +95,7 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
         // 文件的扩展名
         String extension = FilenameUtils.getExtension(fileName);
 
-        if (extension.equals("zip")) {
+        if ("zip".equals(extension)) {
             ZipInputStream zip = new ZipInputStream(fileInputStream);
             repositoryService.createDeployment()//初始化流程
                     .addZipInputStream(zip)
@@ -109,19 +110,19 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
 
     @Override
     public void suspendOrActiveApply(String id, Integer suspendState) {
-        if (1==suspendState) {
+        if (1 == suspendState) {
             // 当流程定义被挂起时，已经发起的该流程定义的流程实例不受影响（如果选择级联挂起则流程实例也会被挂起）。
             // 当流程定义被挂起时，无法发起新的该流程定义的流程实例。
             // 直观变化：act_re_procdef 的 SUSPENSION_STATE_ 为 2
             repositoryService.suspendProcessDefinitionById(id);
-        } else if (2==suspendState) {
+        } else if (2 == suspendState) {
             repositoryService.activateProcessDefinitionById(id);
         }
     }
 
     @Override
     public String upload(MultipartFile multipartFile) throws IOException {
-       //return FileUploadUtils.upload(RuoYiConfig.getUploadPath()+"/processDefinition" , multipartFile);
+        //return FileUploadUtils.upload(RuoYiConfig.getUploadPath()+"/processDefinition" , multipartFile);
         return "";
     }
 
