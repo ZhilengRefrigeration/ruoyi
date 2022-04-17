@@ -8,10 +8,12 @@ import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.domain.mall.MailBean;
 import com.xjs.domain.mall.MailVo;
 import com.xjs.service.MailService;
+import com.xjs.validation.group.AddGroup;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -33,7 +35,7 @@ public class MailController {
     @ApiOperation("发送邮件")
     @RequiresPermissions("sendmail-send")
     @Log(title = "发送邮件", businessType = BusinessType.INSERT)
-    public AjaxResult sendMail(MailVo mailVo) {
+    public AjaxResult sendMail(@Validated(AddGroup.class) MailVo mailVo) {
         MailBean mailBean = new MailBean();
         BeanUtils.copyProperties(mailVo, mailBean);
         mailService.sendMail(mailBean);

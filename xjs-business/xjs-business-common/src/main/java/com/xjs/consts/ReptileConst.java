@@ -40,6 +40,11 @@ public class ReptileConst {
      */
     public static final String WEIXIN_SOUGOU_URL= "https://weixin.sogou.com/";
 
+    /**
+     * 中关村手机报价页面
+     */
+    public static final String ZOL_PHONE_URL= "https://detail.zol.com.cn/cell_phone_index/subcate57_list_1.html";
+
 
 
 

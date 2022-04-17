@@ -27,24 +27,18 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button
-          type="primary"
-          icon="el-icon-plus"
-          size="mini"
-          @click="OnlineDrawingProcess"
-          v-hasPermi="['activiti:modeler']"
-        >在线绘制流程
-        </el-button>
+        <at-button type="info" hollow
+                   size="smaller"
+                   icon="icon-settings"
+                   v-hasPermi="['activiti:modeler']"
+                   @click="OnlineDrawingProcess" >在线绘制流程</at-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="primary"
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleImport"
-          v-hasPermi="['activiti:modeler']"
-        >部署流程
-        </el-button>
+        <at-button type="info" hollow
+                   size="smaller"
+                   icon="icon-arrow-up"
+                   v-hasPermi="['activiti:modeler']"
+                   @click="handleImport" >部署流程</at-button>
       </el-col>
 
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
