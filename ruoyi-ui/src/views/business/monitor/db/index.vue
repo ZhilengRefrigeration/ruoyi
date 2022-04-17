@@ -2,9 +2,15 @@
   <div class="app-container">
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleExportHtml">导出 HTML</el-button>
-        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleExportWord">导出 Word</el-button>
-        <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleExportMarkdown">导出 Markdown</el-button>
+        <el-button type="primary" icon="el-icon-plus" size="mini"
+                   @click="handleExportHtml"
+                   v-hasPermi="['monitor:db:list']">导出 HTML</el-button>
+        <el-button type="primary" icon="el-icon-plus" size="mini"
+                   v-hasPermi="['monitor:db:word']"
+                   @click="handleExportWord">导出 Word</el-button>
+        <el-button type="primary" icon="el-icon-plus" size="mini"
+                   v-hasPermi="['monitor:db:markdown']"
+                   @click="handleExportMarkdown">导出 Markdown</el-button>
         <el-select @change="getHtml"
                    v-model="selectValue"
                    placeholder="请选择数据源"

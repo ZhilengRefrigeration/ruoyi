@@ -52,16 +52,18 @@
 
 
     <el-table v-loading="loading" :data="Modeler">
-      <el-table-column label="流程ID" align="center" prop="id"/>
-      <el-table-column label="流程KEY" align="center" prop="key"/>
-      <el-table-column label="流程名称" align="center" prop="name"/>
-      <el-table-column label="版本" align="center" prop="version"/>
-      <el-table-column label="部署时间" align="center" prop="deploymentTime"/>
-      <el-table-column label="部署ID" align="center" prop="deploymentId"/>
+      <el-table-column label="流程ID" align="center" prop="id" :show-overflow-tooltip="true"/>
+      <el-table-column label="流程KEY" align="center" prop="key" :show-overflow-tooltip="true"/>
+      <el-table-column label="流程名称" align="center" prop="name" :show-overflow-tooltip="true"/>
+      <el-table-column label="版本" align="center" prop="version" :show-overflow-tooltip="true"/>
+      <el-table-column label="部署ID" align="center" prop="deploymentId" :show-overflow-tooltip="true"/>
+      <el-table-column label="部署时间" align="center" prop="deploymentTime" :show-overflow-tooltip="true"/>
 
-      <el-table-column label="状态" align="center" prop="suspendState">
+      <el-table-column label="状态" align="center" prop="suspendState" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <span>{{ scope.row.suspendState!=1?'挂起':'激活'}}</span>
+
+          <at-tag :color="scope.row.suspendState!==1?'error':'success'">{{scope.row.suspendState!==1?'挂起':'激活'}}</at-tag>
+
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -80,7 +82,7 @@
             icon="el-icon-edit"
             @click="suspendOrActiveApply(scope.row)"
             v-hasPermi="['activiti:modeler']"
-          >{{scope.row.suspendState==1?'挂起':'激活'}}
+          >{{scope.row.suspendState===1?'挂起':'激活'}}
           </el-button>
 
           <el-button
@@ -190,7 +192,7 @@
           // 设置上传的请求头部
           headers: {Authorization: "Bearer " + getToken()},
           // 上传的地址
-          url: process.env.VUE_APP_BASE_API + "/processDefinition/uploadStreamAndDeployment",
+          url: process.env.VUE_APP_BASE_API + "/workflow/processDefinition/uploadStreamAndDeployment",
         },
       };
     },
@@ -219,13 +221,13 @@
       },
 
       suspendOrActiveApply(row) {
-        var suspendOrActive = row.suspendState === '2' ? '激活' : '挂起';
+        let suspendOrActive = row.suspendState === 2 ? '激活' : '挂起';
         this.$confirm('确认要' + suspendOrActive + '流程定义吗?', "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         }).then(function () {
-          var data = {"id": row.id, "suspendState": row.suspendState};
+          let data = {"id": row.id, "suspendState": row.suspendState};
           return suspendOrActiveApply(data);
         }).then(() => {
           this.getList();

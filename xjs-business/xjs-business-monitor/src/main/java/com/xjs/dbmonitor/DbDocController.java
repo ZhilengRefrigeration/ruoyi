@@ -12,6 +12,7 @@ import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourcePrope
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceProperties;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.web.domain.AjaxResult;
+import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import io.swagger.annotations.Api;
@@ -52,11 +53,12 @@ public class DbDocController {
 
     @GetMapping("getDataSource")
     @ApiOperation("获取所有数据源")
+    @RequiresPermissions("monitor:db:list")
     public AjaxResult getDataSource() {
         Map<String, DataSourceProperty> datasource = dynamicDataSourceProperties.getDatasource();
         ArrayList<Map<String,String>> list = new ArrayList<>();
         for (Map.Entry<String, DataSourceProperty> propertyEntry : datasource.entrySet()) {
-            Map<String,String> map = new HashMap();
+            Map<String,String> map = new HashMap<>();
             map.put("value", propertyEntry.getKey());
             map.put("label", propertyEntry.getKey());
             list.add(map);
@@ -68,6 +70,7 @@ public class DbDocController {
     @ApiOperation("导出 html 格式的数据文档")
     @ApiImplicitParam(name = "deleteFile", value = "是否删除在服务器本地生成的数据库文档", example = "true",
             dataTypeClass = Boolean.class)
+    @RequiresPermissions("monitor:db:html")
     public void exportHtml(@RequestParam(defaultValue = "true") Boolean deleteFile,
                            @RequestParam(defaultValue = "xjs-business") String dataSourceKey,
                            HttpServletResponse response) throws IOException {
@@ -78,6 +81,7 @@ public class DbDocController {
     @ApiOperation("导出 word 格式的数据文档")
     @ApiImplicitParam(name = "deleteFile", value = "是否删除在服务器本地生成的数据库文档", example = "true",
             dataTypeClass = Boolean.class)
+    @RequiresPermissions("monitor:db:word")
     public void exportWord(@RequestParam(defaultValue = "true") Boolean deleteFile,
                            @RequestParam(defaultValue = "xjs-business") String dataSourceKey,
                            HttpServletResponse response) throws IOException {
@@ -88,6 +92,7 @@ public class DbDocController {
     @ApiOperation("导出 markdown 格式的数据文档")
     @ApiImplicitParam(name = "deleteFile", value = "是否删除在服务器本地生成的数据库文档", example = "true",
             dataTypeClass = Boolean.class)
+    @RequiresPermissions("monitor:db:markdown")
     public void exportMarkdown(@RequestParam(defaultValue = "true") Boolean deleteFile,
                                @RequestParam(defaultValue = "xjs-business") String dataSourceKey,
                                HttpServletResponse response) throws IOException {

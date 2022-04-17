@@ -75,7 +75,7 @@ const tools = {
                     "stringBPMN":xml
                 }
             $.ajax({
-                url: localStorage.getItem("VUE_APP_BASE_API")+'/processDefinition/addDeploymentByString',
+                url: localStorage.getItem("VUE_APP_BASE_API")+'/workflow/processDefinition/addDeploymentByString',
                 type: 'POST',
                 dataType:"json",
                 data: param,

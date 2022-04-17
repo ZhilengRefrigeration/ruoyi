@@ -4,6 +4,7 @@ import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
+import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.domain.mall.MailBean;
 import com.xjs.domain.mall.MailVo;
 import com.xjs.service.MailService;
@@ -30,6 +31,7 @@ public class MailController {
 
     @PostMapping("send-mail")
     @ApiOperation("发送邮件")
+    @RequiresPermissions("sendmail-send")
     @Log(title = "发送邮件", businessType = BusinessType.INSERT)
     public AjaxResult sendMail(MailVo mailVo) {
         MailBean mailBean = new MailBean();
