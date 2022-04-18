@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.TemplateEngine;
@@ -58,6 +60,7 @@ public class MailServer {
      * @param mailBean 邮箱实体
      */
     @MailLog
+    @Retryable(maxAttempts = 2, value = MailException.class)    //当抛出MailException异常时，该方法重试两次
     public Boolean sendMail(MailBean mailBean) {
 
         if (redisService.hasKey(MAIL_STATUS)) {
