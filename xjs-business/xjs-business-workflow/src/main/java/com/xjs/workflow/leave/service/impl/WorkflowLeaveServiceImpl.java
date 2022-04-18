@@ -1,5 +1,6 @@
 package com.xjs.workflow.leave.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.ruoyi.common.core.text.UUID;
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.common.core.utils.StringUtils;
@@ -8,17 +9,21 @@ import com.ruoyi.system.api.RemoteUserService;
 import com.xjs.workflow.leave.domain.WorkflowLeave;
 import com.xjs.workflow.leave.mapper.WorkflowLeaveMapper;
 import com.xjs.workflow.leave.service.IWorkflowLeaveService;
-import org.activiti.api.process.model.ProcessInstance;
-import org.activiti.api.process.model.builders.ProcessPayloadBuilder;
 import org.activiti.api.process.runtime.ProcessRuntime;
+import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.xjs.consts.WorkflowConst.WorkflowEnum.ING;
 
 /**
  * 请假Service业务层处理
@@ -31,8 +36,11 @@ public class WorkflowLeaveServiceImpl implements IWorkflowLeaveService {
 
     @Resource
     private WorkflowLeaveMapper workflowLeaveMapper;
+    //7.0的需要整合springSercuity
     @Autowired
     private ProcessRuntime processRuntime;
+    @Autowired
+    private RuntimeService runtimeService;
     @Resource
     private RemoteUserService remoteUserService;
     @Autowired
@@ -71,7 +79,7 @@ public class WorkflowLeaveServiceImpl implements IWorkflowLeaveService {
     public List<WorkflowLeave> selectWorkflowLeaveAndTaskNameList(WorkflowLeave workflowLeave) {
         List<WorkflowLeave> workflowLeaves = workflowLeaveMapper.selectWorkflowLeaveList(workflowLeave);
         List<String> collect = workflowLeaves.parallelStream().map(WorkflowLeave::getInstanceId).collect(Collectors.toList());
-        if (collect != null && !collect.isEmpty()) {
+        if (CollUtil.isNotEmpty(collect)) {
             List<Task> tasks = taskService.createTaskQuery().processInstanceIdIn(collect).list();
             workflowLeaves.forEach(
                     wl -> {
@@ -93,20 +101,22 @@ public class WorkflowLeaveServiceImpl implements IWorkflowLeaveService {
      */
     @Override
     public int insertWorkflowLeave(WorkflowLeave workflowLeave) {
-
         String id = UUID.randomUUID().toString();
         workflowLeave.setId(id);
         workflowLeave.setCreateTime(DateUtils.getNowDate());
         String join = StringUtils.join(remoteUserService.selectUserNameByPostCodeAndDeptId("se", SecurityUtils.getLoginUser().getSysUser().getDeptId()), ",");
-        ProcessInstance processInstance = processRuntime.start(ProcessPayloadBuilder
-                .start()
-                .withProcessDefinitionKey("leave")
-                .withName(workflowLeave.getTitle())
-                .withBusinessKey(id)
-                .withVariable("deptLeader", join)
-                .build());
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("deptLeader", join);
+        ProcessInstance processInstance = runtimeService.createProcessInstanceBuilder()
+                .variables(map)
+                .processDefinitionKey("leave")
+                .businessKey(id)
+                .name(workflowLeave.getTitle())
+                .start();
+
         workflowLeave.setInstanceId(processInstance.getId());
-        workflowLeave.setState("0");
+        workflowLeave.setState(String.valueOf(ING.getCode()));
         workflowLeave.setCreateName(SecurityUtils.getLoginUser().getSysUser().getNickName());
         workflowLeave.setCreateBy(SecurityUtils.getUsername());
         workflowLeave.setCreateTime(DateUtils.getNowDate());

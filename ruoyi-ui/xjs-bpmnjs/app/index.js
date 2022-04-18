@@ -65,7 +65,7 @@ $(function () {
                 instanceId
             }
             $.ajax({
-                url: localStorage.getItem("VUE_APP_BASE_API")+'/activitiHistory/gethighLine',
+                url: localStorage.getItem("VUE_APP_BASE_API")+'/workflow/activitiHistory/gethighLine',
                 // url: 'http://localhost:8080/activitiHistory/gethighLine',
                 type: 'GET',
                 data: param1,

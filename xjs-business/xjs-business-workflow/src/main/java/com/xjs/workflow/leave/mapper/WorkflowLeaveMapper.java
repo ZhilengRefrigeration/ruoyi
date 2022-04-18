@@ -9,7 +9,7 @@ import java.util.List;
  * 请假Mapper接口
  *
  * @author xiejs
- * @since  2022-04-17 17:54:39
+ * @since 2022-04-17 17:54:39
  */
 public interface WorkflowLeaveMapper {
     /**
@@ -42,7 +42,7 @@ public interface WorkflowLeaveMapper {
      * @param workflowLeave 请假
      * @return 请假集合
      */
-    public List<WorkflowLeave> selectWorkflowLeaveList(WorkflowLeave workflowLeave);
+    List<WorkflowLeave> selectWorkflowLeaveList(WorkflowLeave workflowLeave);
 
 
     /**
@@ -51,7 +51,7 @@ public interface WorkflowLeaveMapper {
      * @param workflowLeave 请假
      * @return 结果
      */
-    public int insertWorkflowLeave(WorkflowLeave workflowLeave);
+    int insertWorkflowLeave(WorkflowLeave workflowLeave);
 
     /**
      * 修改请假

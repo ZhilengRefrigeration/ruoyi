@@ -6,6 +6,7 @@
           v-model="queryParams.key"
           placeholder="请输入流程KEY"
           clearable
+          maxlength="20"
           size="small"
           @keyup.enter.native="handleQuery"
         />
@@ -15,6 +16,7 @@
           v-model="queryParams.name"
           placeholder="请输入名称"
           clearable
+          maxlength="50"
           size="small"
           @keyup.enter.native="handleQuery"
         />
@@ -30,14 +32,14 @@
         <at-button type="info" hollow
                    size="smaller"
                    icon="icon-settings"
-                   v-hasPermi="['activiti:modeler']"
+                   v-hasPermi="['activiti:definition']"
                    @click="OnlineDrawingProcess" >在线绘制流程</at-button>
       </el-col>
       <el-col :span="1.5">
         <at-button type="info" hollow
                    size="smaller"
                    icon="icon-arrow-up"
-                   v-hasPermi="['activiti:modeler']"
+                   v-hasPermi="['activiti:definition']"
                    @click="handleImport" >部署流程</at-button>
       </el-col>
 
@@ -67,7 +69,7 @@
             type="text"
             icon="el-icon-edit"
             @click="OnlineModificationProcess(scope.row)"
-            v-hasPermi="['activiti:modeler']"
+            v-hasPermi="['activiti:definition']"
           >查看
           </el-button>
           <el-button
@@ -75,7 +77,7 @@
             type="text"
             icon="el-icon-edit"
             @click="suspendOrActiveApply(scope.row)"
-            v-hasPermi="['activiti:modeler']"
+            v-hasPermi="['activiti:definition']"
           >{{scope.row.suspendState===1?'挂起':'激活'}}
           </el-button>
 
@@ -84,7 +86,7 @@
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['activiti:modeler']"
+            v-hasPermi="['activiti:definition']"
           >删除
           </el-button>
         </template>

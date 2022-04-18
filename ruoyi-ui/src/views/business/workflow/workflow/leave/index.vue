@@ -2,12 +2,13 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="请假类型" prop="type">
-        <el-select v-model="queryParams.type" placeholder="请选择请假类型" clearable size="small">
+        <el-select style="width: 150px" v-model="queryParams.type" placeholder="请选择请假类型" clearable size="small"
+                   @change="handleQuery">
           <el-option
-            v-for="dict in typeOptions"
-            :key="dict.dictValue"
-            :label="dict.dictLabel"
-            :value="dict.dictValue"
+            v-for="dict in dict.type.activiti_leave_type"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
           />
         </el-select>
       </el-form-item>
@@ -22,20 +23,17 @@
       </el-form-item>
 
       <el-form-item label="状态" prop="state">
-        <el-select v-model="queryParams.state" placeholder="请选择状态" clearable size="small">
+        <el-select style="width: 150px" v-model="queryParams.state" placeholder="请选择状态" clearable size="small"
+                   @change="handleQuery">
           <el-option
-            v-for="dict in stateOptions"
-            :key="dict.dictValue"
-            :label="dict.dictLabel"
-            :value="dict.dictValue"
+            v-for="dict in dict.type.activiti_flow_type"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
           />
         </el-select>
       </el-form-item>
-      <!--      <el-form-item label="创建者" prop="createBy">-->
-      <!--        <el-select v-model="queryParams.createBy" placeholder="请选择创建者" clearable size="small">-->
-      <!--          <el-option label="请选择字典生成" value="" />-->
-      <!--        </el-select>-->
-      <!--      </el-form-item>-->
+
       <el-form-item>
         <el-button type="cyan" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -68,37 +66,35 @@
 
     <el-table v-loading="loading" :data="leaveList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"/>
-      <!--      <el-table-column label="主键ID" align="center" prop="id" />-->
-      <el-table-column label="请假类型" align="center" prop="type" :formatter="typeFormat"/>
-      <el-table-column label="标题" align="center" prop="title"/>
-      <el-table-column label="原因" align="center" prop="reason"/>
-      <el-table-column label="开始时间" align="center" prop="leaveStartTime" width="180">
+      <el-table-column label="请假类型" align="center" prop="type" :show-overflow-tooltip="true">
+
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.leaveStartTime, '{y}-{m}-{d}') }}</span>
+          <dict-tag :options="dict.type.activiti_leave_type" :value="scope.row.type"/>
         </template>
+
       </el-table-column>
-      <el-table-column label="结束时间" align="center" prop="leaveEndTime" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.leaveEndTime, '{y}-{m}-{d}') }}</span>
-        </template>
+      <el-table-column label="标题" align="center" prop="title" :show-overflow-tooltip="true"/>
+      <el-table-column label="原因" align="center" prop="reason" :show-overflow-tooltip="true"/>
+      <el-table-column label="流程进度" align="center" prop="taskName" :show-overflow-tooltip="true"/>
+
+      <el-table-column label="创建者" align="center" prop="createName" :show-overflow-tooltip="true"/>
+      <el-table-column label="开始时间" align="center" prop="leaveStartTime" width="180" :show-overflow-tooltip="true">
+
+      </el-table-column>
+      <el-table-column label="结束时间" align="center" prop="leaveEndTime" width="180" :show-overflow-tooltip="true">
+
       </el-table-column>
 
+      <el-table-column label="状态" align="center" prop="state" :show-overflow-tooltip="true">
 
-      <!--      <el-table-column label="状态" align="center" prop="state" :formatter="stateFormat">-->
-      <el-table-column label="状态" align="center">
         <template slot-scope="scope">
-          <div v-if="scope.row.state!==0">
-            {{ stateFormat(scope.row) }}
-          </div>
-          <div v-else>
-            {{ scope.row.taskName }}
-          </div>
+          <dict-tag :options="dict.type.activiti_flow_type" :value="scope.row.state"/>
         </template>
+
       </el-table-column>
-      <!--      <el-table-column label="创建者" align="center" prop="createName" />-->
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="200px" class-name="small-padding fixed-width" :show-overflow-tooltip="true">
         <template slot-scope="scope">
-          <el-button v-if="2===scope.row.state"
+          <el-button v-if="'2'===scope.row.state"
                      size="mini"
                      type="text"
                      icon="el-icon-edit"
@@ -106,14 +102,7 @@
                      v-hasPermi="['workflow:leave:edit']"
           >修改
           </el-button>
-          <!--          <el-button v-if="1==scope.row.state"-->
-          <!--            size="mini"-->
-          <!--            type="text"-->
-          <!--            icon="el-icon-edit"-->
-          <!--            @click="terminateLeave(scope.row)"-->
-          <!--            v-hasPermi="['workflow:leave:edit']"-->
-          <!--          >销假-->
-          <!--          </el-button>-->
+
           <el-button
             size="mini"
             type="text"
@@ -123,7 +112,7 @@
           >审批详情
           </el-button>
 
-          <el-button v-if="0===scope.row.state"
+          <el-button v-if="'0'===scope.row.state"
                      size="mini"
                      type="text"
                      icon="el-icon-edit"
@@ -162,47 +151,43 @@
     </el-dialog>
 
     <!-- 查看详细信息话框 -->
-    <el-dialog :title="title" :visible.sync="open2" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open2" width="450px" append-to-body>
       <leaveHistoryForm :businessKey="businessKey" v-if="open2"/>
       <div slot="footer" class="dialog-footer">
         <el-button @click="open2=!open2">关闭</el-button>
       </div>
     </el-dialog>
 
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="530px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="请假类型" prop="type">
-          <el-select v-model="form.type" placeholder="请选择请假类型" @change="chooseMedicine">
+          <el-select v-model="form.type"  placeholder="请选择请假类型" @change="chooseMedicine" style="width: 150px">
             <el-option
-              v-for="dict in typeOptions"
-              :key="dict.dictValue"
-              :label="dict.dictLabel"
-              :value="dict.dictValue"
-            ></el-option>
+              v-for="dict in dict.type.activiti_leave_type"
+              :key="dict.value"
+              :label="dict.label"
+              :value="dict.value"
+            />
           </el-select>
         </el-form-item>
-        <el-form-item label="标题" prop="title">
+        <el-form-item label="标题" prop="title" style="width: 460px">
           <el-input v-model="form.title"/>
         </el-form-item>
         <el-form-item label="原因" prop="reason">
-          <el-input v-model="form.reason" type="textarea" placeholder="请输入内容"/>
+          <el-input v-model="form.reason" type="textarea" style="width: 380px" placeholder="请输入原因"/>
         </el-form-item>
-        <el-form-item label="开始时间" prop="leaveStartTime">
-          <el-date-picker clearable size="small" style="width: 200px"
-                          v-model="form.leaveStartTime"
-                          type="date"
-                          value-format="yyyy-MM-dd"
-                          placeholder="选择开始时间">
+
+        <el-form-item label="选择时间" prop="betDateTime">
+          <el-date-picker
+            style="width: 380px"
+            v-model="form.betDateTime"
+            type="datetimerange"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :default-time="['12:00:00']">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="结束时间" prop="leaveEndTime">
-          <el-date-picker clearable size="small" style="width: 200px"
-                          v-model="form.leaveEndTime"
-                          type="date"
-                          value-format="yyyy-MM-dd"
-                          placeholder="选择结束时间">
-          </el-date-picker>
-        </el-form-item>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -229,6 +214,7 @@ import {getDefinitionsByInstanceId} from "@/api/business/workflow/activiti/defin
 export default {
   name: 'Leave',
   components: {leaveHistoryForm},
+  dicts: ['activiti_leave_type', 'activiti_flow_type'],
   data() {
     return {
       modelVisible: false,
@@ -275,7 +261,10 @@ export default {
         createBy: null
       },
       // 表单参数
-      form: {},
+      form: {
+        //时间日期选择器时间区间
+        betDateTime: []
+      },
       // 表单校验
       rules: {
         type: [
@@ -287,24 +276,16 @@ export default {
         reason: [
           {required: true, message: '原因不能为空', trigger: 'blur'}
         ],
-        leaveStartTime: [
-          {required: true, message: '开始时间不能为空', trigger: 'blur'}
-        ],
-        leaveEndTime: [
-          {required: true, message: '结束时间不能为空', trigger: 'blur'}
+        betDateTime: [
+          {required: true, message: '时间不能为空', trigger: 'blur'}
         ]
       }
     }
   },
   created() {
     this.getList()
-    this.getDicts('activiti_leave_type').then(response => {
-      this.typeOptions = response.data
-    })
-    this.getDicts('activiti_flow_type').then(response => {
-      this.stateOptions = response.data
-    })
   },
+
   methods: {
     /** 查询请假列表 */
     getList() {
@@ -315,14 +296,7 @@ export default {
         this.loading = false
       })
     },
-    // 请假类型字典翻译
-    typeFormat(row, column) {
-      return this.selectDictLabel(this.typeOptions, row.type)
-    },
-    // 状态字典翻译
-    stateFormat(row, column) {
-      return this.selectDictLabel(this.stateOptions, row.state)
-    },
+
 
     // 取消按钮
     cancel() {
@@ -365,17 +339,12 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       this.createName = this.$store.getters.nickName
-      if (this.$store.getters.name !== "admin") {
-        this.reset()
-        this.open = true
-        this.title = '添加请假'
-      } else {
-        this.$alert('管理员不能创建流程', '管理员不能创建流程', {
-          confirmButtonText: '确定',
-        });
-      }
 
+      this.reset()
+      this.open = true
+      this.title = '添加请假'
     },
+
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset()
@@ -407,15 +376,19 @@ export default {
     submitForm() {
       this.$refs['form'].validate(valid => {
         if (valid) {
+
+          this.form.leaveStartTime=this.form.betDateTime[0]
+          this.form.leaveEndTime=this.form.betDateTime[1]
+
           if (this.form.id != null) {
             updateLeave(this.form).then(response => {
-              this.msgSuccess('修改成功')
+              this.$Message.success('修改成功')
               this.open = false
               this.getList()
             })
           } else {
             addLeave(this.form).then(response => {
-              this.msgSuccess('新增成功')
+              this.$Message.success('新增成功')
               this.open = false
               this.getList()
             })
@@ -423,20 +396,7 @@ export default {
         }
       })
     },
-    /** 删除按钮操作 */
-    handleDelete(row) {
-      const ids = row.id || this.ids
-      this.$confirm('是否确认删除请假编号为"' + ids + '"的数据项?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(function () {
-        return delLeave(ids)
-      }).then(() => {
-        this.getList()
-        this.msgSuccess('删除成功')
-      })
-    },
+
     /** 导出按钮操作 */
     handleExport() {
       const queryParams = this.queryParams

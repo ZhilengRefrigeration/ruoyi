@@ -1,10 +1,10 @@
 package com.xjs.activiti.domain.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 import com.xjs.activiti.domain.vo.ActReDeploymentVO;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntityImpl;
 
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -19,15 +19,36 @@ public class ProcessDefinitionDTO extends BaseEntity {
 
     private String id;
 
+    /**
+     * 流程名称
+     */
+    @Size(min = 1, max = 50, message = "流程名称不能超过 50 个字符")
     private String name;
 
+    /**
+     * 流程key
+     */
+    @Size(min = 1, max = 20, message = "流程key不能超过 20 个字符")
     private String key;
 
+    /**
+     * 流程版本号
+     */
     private int version;
 
+    /**
+     * 部署id
+     */
     private String deploymentId;
+
+    /**
+     * 资源名称
+     */
     private String resourceName;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+
+    /**
+     * 部署时间
+     */
     private Date deploymentTime;
 
 

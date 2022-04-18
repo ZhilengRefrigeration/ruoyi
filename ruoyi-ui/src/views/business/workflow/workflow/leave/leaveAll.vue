@@ -113,7 +113,7 @@ import leaveHistoryForm from "./leaveHistoryForm";
 import {exportLeave, listLeaveAll} from "@/api/business/workflow/workflow/leave";
 
 export default {
-  name: 'Leave',
+  name: 'LeaveAll',
   components: {leaveHistoryForm},
   data() {
     return {
