@@ -3,7 +3,7 @@
     <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px" :rules="rules">
       <el-form-item label="查询条件" prop="condition">
         <el-input v-model="queryParams.condition"
-                  placeholder="请输入手机名称、描述等"
+                  placeholder="请输入笔记本名称、描述等"
                   maxlength="21"
                   size="small"
         ></el-input>
@@ -44,11 +44,11 @@
                   :src="data.pictureUrl"
                   fit="fit"></el-image>
               </div>
-              <el-tooltip class="item" effect="dark" :content="data.phoneName+data.description" placement="top">
+              <el-tooltip class="item" effect="dark" :content="data.notebookName+data.description" placement="top">
                 <!--描述 -->
                 <div style="width: 100%" class="content">
                   <a :href="data.detailPage" target="_blank">
-                    <span>{{ data.phoneName }}</span>
+                    <span>{{ data.notebookName }}</span>
                     <span style="color: red">{{ data.description }}</span>
                   </a>
                 </div>
@@ -88,10 +88,10 @@
 
 <script>
 import {pickerOptions} from "@/layout/mixin/PickerOptions";
-import {listZolPhone} from "@/api/business/webmagic/zol/zolPhone";
+import {listZolNotebook} from "@/api/business/webmagic/zol/zolNotebook";
 
 export default {
-  name: "ZolPhone",
+  name: "ZolNotebook",
   mixins: [pickerOptions],
   data() {
     return {
@@ -132,7 +132,6 @@ export default {
       this.queryParams.createTime = null
       this.queryParams.endCreateTime = null
       this.resetForm("queryForm");
-      // this.queryParams.condition = ""
       this.handleQuery();
     },
 
@@ -162,7 +161,7 @@ export default {
       }
 
       this.loading = true;
-      listZolPhone(this.queryParams).then(res => {
+      listZolNotebook(this.queryParams).then(res => {
         this.loading = false;
         this.formList = res.data.records
         this.total = res.data.total
