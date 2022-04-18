@@ -19,7 +19,7 @@ public class ZolTask {
     private RemoteWebmagicZolFeign remoteWebmagicZolFeign;
 
 
-    @TaskLog(name = "微信搜狗爬虫任务")
+    @TaskLog(name = "中关村爬虫任务")
     public void zol(){
         log.info("---------------爬虫-中关村数据定时任务Start-------------------");
 
