@@ -36,7 +36,7 @@ export default {
     pageSizes: {
       type: Array,
       default() {
-        return [3, 10, 12, 15, 20, 30, 50, 100]
+        return [3, 10, 12, 15, 18, 20, 30, 50, 100]
       }
     },
     // 移动端页码按钮的数量端默认值5
@@ -83,13 +83,14 @@ export default {
     handleSizeChange(val) {
       this.$emit('pagination', {page: this.currentPage, limit: val})
       if (this.autoScroll) {
-        scrollTo(0, 800)
+        // scrollTo(0, 800)
       }
     },
     handleCurrentChange(val) {
       this.$emit('pagination', {page: val, limit: this.pageSize})
       if (this.autoScroll) {
-        scrollTo(0, 800)
+        //自动滚屏
+        // scrollTo(0, 800)
       }
     }
   }

@@ -42,6 +42,9 @@ public class WeiXinLinkServiceImpl implements WeiXinLinkService {
         if (StringUtils.isBlank(link)) {
             throw new BusinessException("链接地址不能为空");
         }
+        if (link.length() > 100) {
+            throw new BusinessException("链接地址长度超过 100 字符");
+        }
 
         boolean matches = Pattern.matches(URL_REGEX, link);
         if (!matches) {
