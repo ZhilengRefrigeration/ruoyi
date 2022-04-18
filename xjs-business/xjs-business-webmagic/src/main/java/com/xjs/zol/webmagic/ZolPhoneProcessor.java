@@ -1,8 +1,10 @@
 package com.xjs.zol.webmagic;
 
+import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.redis.service.RedisService;
 import com.xjs.zol.pojo.ZolPhone;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Page;
@@ -12,6 +14,7 @@ import us.codecraft.webmagic.selector.Selectable;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -27,6 +30,8 @@ import static com.xjs.consts.RedisConst.REPTILE_ZOL_PHONE_COUNT;
 @Component
 public class ZolPhoneProcessor implements PageProcessor {
 
+    public static final String URL = "https://detail.zol.com.cn/";
+
     @Autowired
     private RedisService redisService;
 
@@ -38,6 +43,13 @@ public class ZolPhoneProcessor implements PageProcessor {
             if (count == null) {
                 count = 0;
             }
+            //获取其他页面放入队列中
+            //等待爬虫的页面后缀
+            String html_href = page.getHtml().css(".page-box > .pagebar > .next", "href").get();
+
+            Thread.sleep(100);
+
+            page.addTargetRequests(Collections.singletonList(html_href));
 
             List<ZolPhone> zolPhoneList = new ArrayList<>();
 
@@ -55,7 +67,7 @@ public class ZolPhoneProcessor implements PageProcessor {
                 //获取手机的详情页面url
                 String href = li.css("li > .pic", "href").get();
 
-                zolPhone.setDetailPage("https://detail.zol.com.cn/" + href);
+                zolPhone.setDetailPage(URL + href);
 
                 //获取手机的名称
                 String phoneName = li.css("li > h3 > a", "text").get();
@@ -68,14 +80,30 @@ public class ZolPhoneProcessor implements PageProcessor {
                 //获取手机的参考价
                 String price = li.css("li > .price-row .price-type", "text").get();
                 //排除无用数据
-                if ("概念产品".equals(price)) {
+                if (StringUtils.isNotBlank(price)) {
+                    //检查是否是数字
+                    boolean creatable = NumberUtils.isCreatable(price);
+                    if (creatable) {
+                        zolPhone.setPrice(new BigDecimal(price));
+                    } else {
+                        continue;
+                    }
+                } else {
                     continue;
                 }
-                zolPhone.setPrice(new BigDecimal(price));
 
                 //获取手机的评分
                 String heat = li.css("li > .comment-row > .score", "text").get();
-                zolPhone.setHeat(new BigDecimal(heat));
+                if (StringUtils.isNotBlank(heat)) {
+                    boolean creatable = NumberUtils.isCreatable(price);
+                    if (creatable) {
+                        zolPhone.setHeat(new BigDecimal(heat));
+                    } else {
+                        continue;
+                    }
+                } else {
+                    continue;
+                }
 
                 //获取手机图片的地址
                 String picture = li.css("li > .pic > img", ".src").get();
@@ -87,7 +115,7 @@ public class ZolPhoneProcessor implements PageProcessor {
                 count++;
             }
 
-            page.putField("zolPhoneList",zolPhoneList);
+            page.putField("zolPhoneList", zolPhoneList);
 
             redisService.setCacheObject(REPTILE_ZOL_PHONE_COUNT, count);
         } catch (Exception e) {
