@@ -5,21 +5,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * @author xiejs
  * @since 2022-04-17
  */
 @SpringBootTest(classes = XjsWebmagicApp.class)
-class ZolPhoneTaskTest {
+class ZolTaskTest {
 
     @Autowired
-    private ZolPhoneTask zolPhoneTask;
+    private ZolTask zolTask;
 
     @Test
     void reptileZolPhone() {
-        Long aLong = zolPhoneTask.reptileZolPhone();
+        Long aLong = zolTask.reptileZol();
         System.out.println(aLong);
     }
 }

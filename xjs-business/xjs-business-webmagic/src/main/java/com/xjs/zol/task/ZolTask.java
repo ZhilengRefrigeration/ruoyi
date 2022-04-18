@@ -2,8 +2,8 @@ package com.xjs.zol.task;
 
 import com.ruoyi.common.redis.service.RedisService;
 import com.xjs.annotation.ReptileLog;
-import com.xjs.zol.webmagic.ZolPhonePipeline;
-import com.xjs.zol.webmagic.ZolPhoneProcessor;
+import com.xjs.zol.webmagic.ZolPipeline;
+import com.xjs.zol.webmagic.ZolProcessor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,25 +22,25 @@ import static com.xjs.consts.ReptileConst.ZOL_PHONE_URL;
  */
 @Component
 @Log4j2
-public class ZolPhoneTask {
+public class ZolTask {
 
     @Autowired
-    private ZolPhoneProcessor zolPhoneProcessor;
+    private ZolProcessor zolProcessor;
     @Autowired
     private RedisService redisService;
     @Autowired
-    private ZolPhonePipeline zolPhonePipeline;
+    private ZolPipeline zolPipeline;
 
 
-    @ReptileLog(name = "中关村手机", url = ZOL_PHONE_URL)
-    public Long reptileZolPhone() {
+    @ReptileLog(name = "中关村", url = ZOL_PHONE_URL)
+    public Long reptileZol() {
         //执行爬虫
-        Spider.create(zolPhoneProcessor)
+        Spider.create(zolProcessor)
                 .addUrl(ZOL_PHONE_URL)//设置爬取地址
                 .thread(30)//设置爬取线程数
                 .setScheduler(new QueueScheduler()
                         .setDuplicateRemover(new BloomFilterDuplicateRemover(110000)))//设置url去重过滤器
-                .addPipeline(zolPhonePipeline)//设置爬取之后的数据操作
+                .addPipeline(zolPipeline)//设置爬取之后的数据操作
                 //.setDownloader(downloader)//设置下载器
                 .run();//同步执行
 
