@@ -1,22 +1,25 @@
 <template>
   <div>
     <div>
-      <h2>请假人：{{ form.createName }}</h2>
+
       <el-form label-width="80px">
+        <el-form-item label="请假人">
+          <at-alert show-icon :message="form.createName" type="info"></at-alert>
+        </el-form-item>
         <el-form-item label="请假类型">
-          <el-input v-model="form.type"/>
+          <at-alert show-icon :message="form.type" type="info"></at-alert>
         </el-form-item>
         <el-form-item label="标题">
-          <el-input v-model="form.title"/>
+          <at-alert show-icon :message="form.title" type="info"></at-alert>
         </el-form-item>
         <el-form-item label="原因">
-          <el-input v-model="form.reason"/>
+          <at-alert show-icon :message="form.reason" type="info"></at-alert>
         </el-form-item>
         <el-form-item label="开始时间">
-          <el-input v-model="form.leaveStartTime"/>
+          <at-alert show-icon :message="form.leaveStartTime" type="info"></at-alert>
         </el-form-item>
         <el-form-item label="结束时间">
-          <el-input v-model="form.leaveEndTime"/>
+          <at-alert show-icon :message="form.leaveEndTime" type="info"></at-alert>
         </el-form-item>
       </el-form>
     </div>

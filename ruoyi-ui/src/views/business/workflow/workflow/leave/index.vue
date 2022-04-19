@@ -152,7 +152,7 @@
     </el-dialog>
 
     <!-- 查看详细信息话框 -->
-    <el-dialog :title="title" :visible.sync="open2" width="450px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open2" width="480px" append-to-body>
       <leaveHistoryForm :businessKey="businessKey" v-if="open2"/>
       <div slot="footer" class="dialog-footer">
         <el-button @click="open2=!open2">关闭</el-button>
