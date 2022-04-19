@@ -117,8 +117,11 @@ public @interface Excel
     public String[] args() default {};
 
     public enum Align
-    {
-        AUTO(0), LEFT(1), CENTER(2), RIGHT(3);
+    {   //AUTO(
+        AUTO(0),
+        LEFT(1),
+        CENTER(2),
+        RIGHT(3);
         private final int value;
 
         Align(int value)
@@ -138,8 +141,18 @@ public @interface Excel
     Type type() default Type.ALL;
 
     public enum Type
-    {
-        ALL(0), EXPORT(1), IMPORT(2);
+    {   /**
+         * ALL
+         */
+        ALL(0),
+        /**
+         * EXPORT
+         */
+        EXPORT(1),
+        /**
+         * IMPORT
+         */
+        IMPORT(2);
         private final int value;
 
         Type(int value)
@@ -154,8 +167,18 @@ public @interface Excel
     }
 
     public enum ColumnType
-    {
-        NUMERIC(0), STRING(1), IMAGE(2);
+    {   /**
+         * EXPORT
+         */
+        NUMERIC(0),
+        /**
+         * EXPORT
+         */
+        STRING(1),
+        /**
+         * EXPORT
+         */
+        IMAGE(2);
         private final int value;
 
         ColumnType(int value)

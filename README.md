@@ -79,6 +79,8 @@ com.ruoyi
 
 ## TODO
 
+- 添加lombok
+- 通过代码规约扫描
 - 用smart-doc + Torna 替换掉swagger
 - 引入mybatis-plus
 - 日志使用ELK

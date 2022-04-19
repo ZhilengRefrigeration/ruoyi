@@ -10,10 +10,10 @@ import com.ruoyi.common.core.utils.StringUtils;
 public class Seq
 {
     // 通用序列类型
-    public static final String commSeqType = "COMMON";
+    public static final String COMM_SEQ_TYPE = "COMMON";
 
     // 上传序列类型
-    public static final String uploadSeqType = "UPLOAD";
+    public static final String UPLOAD_SEQ_TYPE = "UPLOAD";
 
     // 通用接口序列数
     private static AtomicInteger commSeq = new AtomicInteger(1);
@@ -31,7 +31,7 @@ public class Seq
      */
     public static String getId()
     {
-        return getId(commSeqType);
+        return getId(COMM_SEQ_TYPE);
     }
     
     /**
@@ -42,7 +42,7 @@ public class Seq
     public static String getId(String type)
     {
         AtomicInteger atomicInt = commSeq;
-        if (uploadSeqType.equals(type))
+        if (UPLOAD_SEQ_TYPE.equals(type))
         {
             atomicInt = uploadSeq;
         }

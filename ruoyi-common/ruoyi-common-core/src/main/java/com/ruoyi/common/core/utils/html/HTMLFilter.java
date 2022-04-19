@@ -104,23 +104,23 @@ public final class HTMLFilter
     {
         vAllowed = new HashMap<>();
 
-        final ArrayList<String> a_atts = new ArrayList<>();
-        a_atts.add("href");
-        a_atts.add("target");
-        vAllowed.put("a", a_atts);
+        final ArrayList<String> aAtos = new ArrayList<>();
+        aAtos.add("href");
+        aAtos.add("target");
+        vAllowed.put("a", aAtos);
 
-        final ArrayList<String> img_atts = new ArrayList<>();
-        img_atts.add("src");
-        img_atts.add("width");
-        img_atts.add("height");
-        img_atts.add("alt");
-        vAllowed.put("img", img_atts);
+        final ArrayList<String> imgAtts = new ArrayList<>();
+        imgAtts.add("src");
+        imgAtts.add("width");
+        imgAtts.add("height");
+        imgAtts.add("alt");
+        vAllowed.put("img", imgAtts);
 
-        final ArrayList<String> no_atts = new ArrayList<>();
-        vAllowed.put("b", no_atts);
-        vAllowed.put("strong", no_atts);
-        vAllowed.put("i", no_atts);
-        vAllowed.put("em", no_atts);
+        final ArrayList<String> noAtts = new ArrayList<>();
+        vAllowed.put("b", noAtts);
+        vAllowed.put("strong", noAtts);
+        vAllowed.put("i", noAtts);
+        vAllowed.put("em", noAtts);
 
         vSelfClosingTags = new String[] { "img" };
         vNeedClosingTags = new String[] { "a", "b", "strong", "i", "em" };
@@ -202,7 +202,7 @@ public final class HTMLFilter
 
         s = escapeComments(s);
 
-        s = balanceHTML(s);
+        s = balancehtml(s);
 
         s = checkTags(s);
 
@@ -237,7 +237,7 @@ public final class HTMLFilter
         return buf.toString();
     }
 
-    private String balanceHTML(String s)
+    private String balancehtml(String s)
     {
         if (alwaysMakeTags)
         {
@@ -317,9 +317,9 @@ public final class HTMLFilter
         return result;
     }
 
-    private static String regexReplace(final Pattern regex_pattern, final String replacement, final String s)
+    private static String regexReplace(final Pattern regexPattern, final String replacement, final String s)
     {
-        Matcher m = regex_pattern.matcher(s);
+        Matcher m = regexPattern.matcher(s);
         return m.replaceAll(replacement);
     }
 
