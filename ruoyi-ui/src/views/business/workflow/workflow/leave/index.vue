@@ -1,6 +1,16 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+      <el-form-item label="标题" prop="title">
+        <el-input
+          v-model="queryParams.title"
+          placeholder="请输入标题"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+
       <el-form-item label="请假类型" prop="type">
         <el-select style="width: 150px" v-model="queryParams.type" placeholder="请选择请假类型" clearable size="small"
                    @change="handleQuery">
@@ -11,15 +21,6 @@
             :value="dict.value"
           />
         </el-select>
-      </el-form-item>
-      <el-form-item label="标题" prop="title">
-        <el-input
-          v-model="queryParams.title"
-          placeholder="请输入标题"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
       </el-form-item>
 
       <el-form-item label="状态" prop="state">
@@ -171,10 +172,10 @@
           </el-select>
         </el-form-item>
         <el-form-item label="标题" prop="title" style="width: 460px">
-          <el-input v-model="form.title"/>
+          <el-input disabled v-model="form.title"/>
         </el-form-item>
         <el-form-item label="原因" prop="reason">
-          <el-input v-model="form.reason" type="textarea" style="width: 380px" placeholder="请输入原因"/>
+          <el-input v-model="form.reason" :rows="4" type="textarea" style="width: 380px" placeholder="请输入原因"/>
         </el-form-item>
 
         <el-form-item label="选择时间" prop="betDateTime">
@@ -190,8 +191,10 @@
 
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
+        <at-button-group :gap="5">
+          <at-button hollow type="success" @click="submitForm">确 定</at-button>
+          <at-button hollow @click="cancel">取 消</at-button>
+        </at-button-group>
       </div>
     </el-dialog>
   </div>
@@ -399,17 +402,20 @@ export default {
 
     /** 导出按钮操作 */
     handleExport() {
-      const queryParams = this.queryParams
+      let _that =this
       this.$confirm('是否确认导出所有请假数据项?', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(function () {
-        return exportLeave(queryParams)
-      }).then(response => {
-        this.download(response.msg)
+
+        _that.download('workflow/workflow/leave/export', {
+          ..._that.queryParams
+        }, `leave_${new Date().getTime()}.xlsx`)
+
       })
     },
+
     chooseMedicine() {
       this.form.title = this.createName + "的" + this.form.type + "申请";
     }

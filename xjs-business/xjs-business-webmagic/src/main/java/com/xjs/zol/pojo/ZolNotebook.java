@@ -67,6 +67,12 @@ public class ZolNotebook extends BaseEntity implements Serializable {
     @Excel(name = "价格")
     private String price;
 
+    /**
+     * 排序
+     */
+    @Excel(name = "排序")
+    private Integer sort;
+
     @Excel(name = "创建时间", dateFormat = "yyyy-MM-dd HH:mm:ss")
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;

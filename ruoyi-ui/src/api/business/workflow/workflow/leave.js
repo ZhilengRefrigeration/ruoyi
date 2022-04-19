@@ -52,11 +52,3 @@ export function delLeave(id) {
   })
 }
 
-// 导出请假
-export function exportLeave(query) {
-  return request({
-    url: '/workflow/workflow/leave/export',
-    method: 'get',
-    params: query
-  })
-}

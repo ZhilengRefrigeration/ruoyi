@@ -49,7 +49,7 @@ public class ZolProcessor implements PageProcessor {
             List<Selectable> nodes = page.getHtml().css("#J_CategoryItems > .item > h3 > a").nodes();
             for (Selectable node : nodes) {
 
-                if ("手机".equals(node.css("a", "text").get())) {
+                if ("智能手机".equals(node.css("a", "text").get())) {
                     String href = node.css("a", "href").get();
                     page.addTargetRequests(Collections.singletonList(href));
                 }
@@ -70,6 +70,9 @@ public class ZolProcessor implements PageProcessor {
 
             //获取当前页面是手机还是电脑
             String title = page.getHtml().css(".wrapper > .breadcrumb-filter-selected > .breadcrumb > span", "text").get();
+            if (StringUtils.isEmpty(title)) {
+                title = page.getHtml().css("#J_FilterSelected > a").get();
+            }
 
             //拿到每个li 标签
             List<Selectable> lis = page.getHtml().css("#J_PicMode > li").nodes();
@@ -79,6 +82,8 @@ public class ZolProcessor implements PageProcessor {
 
                 for (Selectable li : lis) {
                     ZolPhone zolPhone = new ZolPhone();
+                    //设置排序
+                    zolPhone.setSort(count);
 
                     //排除无用数据
                     if ("display:none;".equals(li.css("li", "style").get())) {
@@ -145,6 +150,8 @@ public class ZolProcessor implements PageProcessor {
 
                 for (Selectable li : lis) {
                     ZolNotebook zolNotebook = new ZolNotebook();
+                    //设置排序
+                    zolNotebook.setSort(count);
 
                     //排除无用数据
                     if ("display:none;".equals(li.css("li", "style").get())) {

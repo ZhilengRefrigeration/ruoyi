@@ -61,11 +61,12 @@ public class WorkflowLeaveController extends BaseController {
      * 导出请假列表
      */
     @Log(title = "请假", businessType = BusinessType.EXPORT)
-    @GetMapping("/export")
+    @PostMapping("/export")
     @RequiresPermissions("workflow:leave:export")
     @ApiOperation("导出请假列表")
     public void export(HttpServletResponse response, WorkflowLeave workflowLeave) {
-        List<WorkflowLeave> list = workflowLeaveService.selectWorkflowLeaveList(workflowLeave);
+        workflowLeave.setCreateBy(SecurityUtils.getUsername());
+        List<WorkflowLeave> list = workflowLeaveService.selectWorkflowLeaveAndTaskNameList(workflowLeave);
         ExcelUtil<WorkflowLeave> util = new ExcelUtil<>(WorkflowLeave.class);
         util.exportExcel(response, list, "leave");
     }

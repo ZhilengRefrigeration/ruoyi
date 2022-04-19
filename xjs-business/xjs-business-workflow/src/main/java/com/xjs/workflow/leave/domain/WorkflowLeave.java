@@ -42,13 +42,13 @@ public class WorkflowLeave extends BaseEntity {
     /**
      * 开始时间
      */
-    @Excel(name = "开始时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "开始时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date leaveStartTime;
 
     /**
      * 结束时间
      */
-    @Excel(name = "结束时间", width = 30, dateFormat = "yyyy-MM-dd")
+    @Excel(name = "结束时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date leaveEndTime;
 
 
@@ -58,7 +58,7 @@ public class WorkflowLeave extends BaseEntity {
     /**
      * 状态
      */
-    @Excel(name = "状态")
+    @Excel(name = "状态",readConverterExp = "0=进行中,1=成功,2=失败")
     private String state;
 
     /**

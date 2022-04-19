@@ -38,6 +38,9 @@ public class ZolPhoneServiceImpl extends ServiceImpl<ZolPhoneMapper, ZolPhone> i
                     .like(ZolPhone::getDescription, condition);
         });
 
+        //排序规则
+        wr.orderByAsc(ZolPhone::getSort).orderByDesc(ZolPhone::getId);
+
         return this.page(startPageMP,wr);
     }
 }

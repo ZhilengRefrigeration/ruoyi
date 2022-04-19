@@ -33,6 +33,8 @@ public class ZolNotebookServiceImpl extends ServiceImpl<ZolNotebookMapper, ZolNo
                     .or()
                     .like(ZolNotebook::getDescription, condition);
         });
+        //排序规则
+        wr.orderByAsc(ZolNotebook::getSort).orderByDesc(ZolNotebook::getId);
         return this.page(startPageMP, wr);
     }
 }
