@@ -76,7 +76,7 @@
       </el-table-column>
       <el-table-column label="标题" align="center" prop="title" :show-overflow-tooltip="true"/>
       <el-table-column label="原因" align="center" prop="reason" :show-overflow-tooltip="true"/>
-      <el-table-column label="流程进度" align="center" prop="taskName" :show-overflow-tooltip="true"/>
+      <el-table-column label="任务节点名称" align="center" prop="taskName" :show-overflow-tooltip="true"/>
 
       <el-table-column label="创建者" align="center" prop="createName" :show-overflow-tooltip="true"/>
       <el-table-column label="开始时间" align="center" prop="leaveStartTime" width="180" :show-overflow-tooltip="true">
@@ -109,7 +109,7 @@
             type="text"
             icon="el-icon-edit"
             @click="historyFory(scope.row)"
-            v-hasPermi="['workflow:leave:edit']"
+            v-hasPermi="['workflow:leave:query']"
           >审批详情
           </el-button>
 

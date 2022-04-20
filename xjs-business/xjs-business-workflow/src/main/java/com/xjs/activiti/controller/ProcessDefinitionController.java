@@ -78,7 +78,6 @@ public class ProcessDefinitionController extends BaseController {
     @Log(title = "流程定义管理", businessType = BusinessType.IMPORT)
     @PostMapping(value = "/uploadStreamAndDeployment")
     @ApiOperation("上传并部署流程定义")
-    @RequiresPermissions("activiti:definition")
     public AjaxResult uploadStreamAndDeployment(@RequestParam("file") MultipartFile file) throws IOException {
         processDefinitionService.uploadStreamAndDeployment(file);
         return AjaxResult.success();
@@ -94,7 +93,6 @@ public class ProcessDefinitionController extends BaseController {
     @Log(title = "流程定义管理", businessType = BusinessType.UPDATE)
     @PostMapping("/suspendOrActiveApply")
     @ApiOperation("启动挂起流程流程定义")
-    @RequiresPermissions("activiti:definition")
     public AjaxResult suspendOrActiveApply(@RequestBody ProcessDefinitionDTO processDefinition) {
         processDefinitionService.suspendOrActiveApply(processDefinition.getId(), processDefinition.getSuspendState());
         return AjaxResult.success();
@@ -110,7 +108,6 @@ public class ProcessDefinitionController extends BaseController {
     @Log(title = "流程定义管理", businessType = BusinessType.IMPORT)
     @PostMapping(value = "/upload")
     @ApiOperation("上传流程流程定义")
-    @RequiresPermissions("activiti:definition")
     public AjaxResult upload(@RequestParam("processFile") MultipartFile multipartFile) throws IOException {
 
         if (!multipartFile.isEmpty()) {
@@ -130,7 +127,6 @@ public class ProcessDefinitionController extends BaseController {
      */
     @PostMapping(value = "/addDeploymentByString")
     @ApiOperation("通过stringBPMN添加流程定义")
-    @RequiresPermissions("activiti:definition")
     public AjaxResult addDeploymentByString(@RequestParam("stringBPMN") String stringBPMN) {
         processDefinitionService.addDeploymentByString(stringBPMN);
         return AjaxResult.success();

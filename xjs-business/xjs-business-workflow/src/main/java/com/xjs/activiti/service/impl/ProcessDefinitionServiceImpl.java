@@ -7,6 +7,7 @@ import com.xjs.activiti.domain.dto.ProcessDefinitionDTO;
 import com.xjs.activiti.domain.vo.ActReDeploymentVO;
 import com.xjs.activiti.mapper.ActReDeploymentMapper;
 import com.xjs.activiti.service.IProcessDefinitionService;
+import org.activiti.engine.ActivitiException;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
@@ -82,7 +83,11 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
 
     @Override
     public int deleteProcessDefinitionById(String id) {
-        repositoryService.deleteDeployment(id, false);
+        try {
+            repositoryService.deleteDeployment(id, true);
+        } catch (Exception e) {
+            throw new ActivitiException("该流程已使用！无法删除！如需删除，请先删除相关任务！");
+        }
         return 1;
     }
 

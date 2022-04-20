@@ -69,6 +69,11 @@
         <appender-ref ref="console" />
     </logger>
 
+    <!--开启activiti日志-->
+    <logger name="org.activiti.engine.impl.persistence.entity" level="trace">
+        <appender-ref ref="console"/>
+    </logger>
+
 	<root level="info">
 		<appender-ref ref="console" />
 	</root>

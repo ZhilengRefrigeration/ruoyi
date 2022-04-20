@@ -7,6 +7,7 @@ import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.PageDomain;
 import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.core.web.page.TableSupport;
+import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.xjs.activiti.domain.dto.ActTaskDTO;
 import com.xjs.activiti.domain.dto.ActWorkflowFormDataDTO;
 import com.xjs.activiti.service.IActTaskService;
@@ -30,6 +31,7 @@ public class TaskController extends BaseController {
 
     //获取我的代办任务
     @GetMapping(value = "/list")
+    @RequiresPermissions("activiti:task:list")
     public TableDataInfo getTasks() {
         PageDomain pageDomain = TableSupport.buildPageRequest();
         Page<ActTaskDTO> hashMaps = actTaskService.selectProcessDefinitionList(pageDomain);

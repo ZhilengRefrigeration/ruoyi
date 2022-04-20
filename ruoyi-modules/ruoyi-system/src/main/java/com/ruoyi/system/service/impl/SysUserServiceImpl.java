@@ -106,7 +106,11 @@ public class SysUserServiceImpl implements ISysUserService
     @Override
     public SysUser selectUserByUserName(String userName)
     {
-        return userMapper.selectUserByUserName(userName);
+        SysUser sysUser = userMapper.selectUserByUserName(userName);
+        Long userId = sysUser.getUserId();
+        List<String> postCodes = postMapper.selectPostCodeListByUserId(userId);
+        sysUser.setPostCode(postCodes);
+        return sysUser;
     }
 
     /**

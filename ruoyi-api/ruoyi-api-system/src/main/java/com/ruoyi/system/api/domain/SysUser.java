@@ -97,6 +97,11 @@ public class SysUser extends BaseEntity
     /** 岗位组 */
     private Long[] postIds;
 
+    /**
+     * 岗位编码组
+     */
+    private List<String> postCode;
+
     /** 角色ID */
     private Long roleId;
 
@@ -318,6 +323,15 @@ public class SysUser extends BaseEntity
     {
         this.roleId = roleId;
     }
+
+    public List<String> getPostCode() {
+        return postCode;
+    }
+
+    public void setPostCode(List<String> postCode) {
+        this.postCode = postCode;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)

@@ -1,15 +1,20 @@
 package com.xjs.workflow.leave.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import com.ruoyi.common.core.constant.HttpStatus;
+import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.text.UUID;
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.RemoteUserService;
+import com.xjs.exception.BusinessException;
 import com.xjs.workflow.leave.domain.WorkflowLeave;
 import com.xjs.workflow.leave.mapper.WorkflowLeaveMapper;
 import com.xjs.workflow.leave.service.IWorkflowLeaveService;
 import org.activiti.api.process.runtime.ProcessRuntime;
+import org.activiti.engine.ActivitiException;
+import org.activiti.engine.ActivitiObjectNotFoundException;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -104,16 +109,30 @@ public class WorkflowLeaveServiceImpl implements IWorkflowLeaveService {
         String id = UUID.randomUUID().toString();
         workflowLeave.setId(id);
         workflowLeave.setCreateTime(DateUtils.getNowDate());
-        String join = StringUtils.join(remoteUserService.selectUserNameByPostCodeAndDeptId("se", SecurityUtils.getLoginUser().getSysUser().getDeptId()), ",");
+
+        //查询当前用户同一个部门的领导岗位用户
+        R<List<String>> listR = remoteUserService.selectUserNameByPostCodeAndDeptId("leader", SecurityUtils.getLoginUser().getSysUser().getDeptId());
+        if (listR.getCode() != HttpStatus.SUCCESS) {
+            throw new BusinessException("远程调用异常");
+        }
+        List<String> data = listR.getData();
+        String join = StringUtils.join(data, ",");
 
         Map<String, Object> map = new HashMap<>();
         map.put("deptLeader", join);
-        ProcessInstance processInstance = runtimeService.createProcessInstanceBuilder()
-                .variables(map)
-                .processDefinitionKey("leave")
-                .businessKey(id)
-                .name(workflowLeave.getTitle())
-                .start();
+        ProcessInstance processInstance = null;
+        try {
+            processInstance = runtimeService.createProcessInstanceBuilder()
+                    .variables(map)
+                    .processDefinitionKey("leave")
+                    .businessKey(id)
+                    .name(workflowLeave.getTitle())
+                    .start();
+        } catch (ActivitiObjectNotFoundException e) {
+            throw new ActivitiObjectNotFoundException("没有部署key：leave 的流程");
+        } catch (ActivitiException e) {
+            throw new ActivitiException("leave" + "-流程被挂起");
+        }
 
         workflowLeave.setInstanceId(processInstance.getId());
         workflowLeave.setState(String.valueOf(ING.getCode()));

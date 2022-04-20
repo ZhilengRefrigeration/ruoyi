@@ -2,7 +2,7 @@ package com.xjs.activiti.domain;
 
 import com.ruoyi.common.core.web.domain.BaseEntity;
 import com.xjs.activiti.domain.dto.ActWorkflowFormDataDTO;
-import org.activiti.api.task.model.Task;
+import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
