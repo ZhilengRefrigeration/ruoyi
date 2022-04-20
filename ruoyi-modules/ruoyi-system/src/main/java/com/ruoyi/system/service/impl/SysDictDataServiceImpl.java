@@ -4,9 +4,9 @@ import com.ruoyi.common.security.utils.DictUtils;
 import com.ruoyi.system.api.domain.SysDictData;
 import com.ruoyi.system.mapper.SysDictDataMapper;
 import com.ruoyi.system.service.ISysDictDataService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Service
 public class SysDictDataServiceImpl implements ISysDictDataService {
-    @Autowired
+    @Resource
     private SysDictDataMapper dictDataMapper;
 
     /**

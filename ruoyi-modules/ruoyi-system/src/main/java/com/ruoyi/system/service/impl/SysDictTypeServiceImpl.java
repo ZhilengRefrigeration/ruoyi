@@ -9,11 +9,11 @@ import com.ruoyi.system.api.domain.SysDictType;
 import com.ruoyi.system.mapper.SysDictDataMapper;
 import com.ruoyi.system.mapper.SysDictTypeMapper;
 import com.ruoyi.system.service.ISysDictTypeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -26,10 +26,10 @@ import java.util.stream.Collectors;
  */
 @Service
 public class SysDictTypeServiceImpl implements ISysDictTypeService {
-    @Autowired
+    @Resource
     private SysDictTypeMapper dictTypeMapper;
 
-    @Autowired
+    @Resource
     private SysDictDataMapper dictDataMapper;
 
     /**

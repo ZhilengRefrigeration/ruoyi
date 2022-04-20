@@ -15,8 +15,9 @@ import com.ruoyi.system.api.RemoteUserService;
 import com.ruoyi.system.api.domain.SysLogininfor;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  * 登录校验方法
@@ -25,10 +26,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class SysLoginService {
-    @Autowired
+    @Resource
     private RemoteLogService remoteLogService;
 
-    @Autowired
+    @Resource
     private RemoteUserService remoteUserService;
 
     /**
