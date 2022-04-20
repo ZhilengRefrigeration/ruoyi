@@ -1,7 +1,8 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
 import com.ruoyi.system.api.domain.SysRole;
+
+import java.util.List;
 
 /**
  * 角色表 数据层

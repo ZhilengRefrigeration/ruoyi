@@ -1,9 +1,5 @@
 package com.ruoyi.common.security.auth;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import org.springframework.util.PatternMatchUtils;
 import com.ruoyi.common.core.exception.auth.NotLoginException;
 import com.ruoyi.common.core.exception.auth.NotPermissionException;
 import com.ruoyi.common.core.exception.auth.NotRoleException;
@@ -16,6 +12,11 @@ import com.ruoyi.common.security.annotation.RequiresRoles;
 import com.ruoyi.common.security.service.TokenService;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.model.LoginUser;
+import org.springframework.util.PatternMatchUtils;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Token 权限验证，逻辑实现类

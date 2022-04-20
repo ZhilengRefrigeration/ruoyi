@@ -1,13 +1,5 @@
 package com.ruoyi.common.security.handler;
 
-import javax.servlet.http.HttpServletRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.validation.BindException;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.ruoyi.common.core.constant.HttpStatus;
 import com.ruoyi.common.core.exception.DemoModeException;
 import com.ruoyi.common.core.exception.InnerAuthException;
@@ -16,6 +8,15 @@ import com.ruoyi.common.core.exception.auth.NotPermissionException;
 import com.ruoyi.common.core.exception.auth.NotRoleException;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.domain.AjaxResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.validation.BindException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 全局异常处理器

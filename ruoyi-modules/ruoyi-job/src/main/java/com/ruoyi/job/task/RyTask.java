@@ -1,7 +1,7 @@
 package com.ruoyi.job.task;
 
-import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.utils.StringUtils;
+import org.springframework.stereotype.Component;
 
 /**
  * 定时任务调度测试

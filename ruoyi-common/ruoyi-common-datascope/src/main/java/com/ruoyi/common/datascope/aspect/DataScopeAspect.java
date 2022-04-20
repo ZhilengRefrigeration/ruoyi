@@ -1,9 +1,5 @@
 package com.ruoyi.common.datascope.aspect;
 
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 import com.ruoyi.common.datascope.annotation.DataScope;
@@ -11,6 +7,10 @@ import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysRole;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.stereotype.Component;
 
 /**
  * 数据过滤处理

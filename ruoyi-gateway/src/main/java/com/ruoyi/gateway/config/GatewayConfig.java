@@ -1,10 +1,10 @@
 package com.ruoyi.gateway.config;
 
+import com.ruoyi.gateway.handler.SentinelFallbackHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import com.ruoyi.gateway.handler.SentinelFallbackHandler;
 
 /**
  * 网关限流配置

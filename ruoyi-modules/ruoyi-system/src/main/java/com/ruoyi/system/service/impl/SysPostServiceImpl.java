@@ -1,8 +1,5 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.StringUtils;
@@ -10,6 +7,10 @@ import com.ruoyi.system.domain.SysPost;
 import com.ruoyi.system.mapper.SysPostMapper;
 import com.ruoyi.system.mapper.SysUserPostMapper;
 import com.ruoyi.system.service.ISysPostService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 岗位信息 服务层处理

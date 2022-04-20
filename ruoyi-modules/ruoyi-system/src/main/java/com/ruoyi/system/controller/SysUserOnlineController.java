@@ -1,15 +1,5 @@
 package com.ruoyi.system.controller;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.controller.BaseController;
@@ -22,6 +12,13 @@ import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.domain.SysUserOnline;
 import com.ruoyi.system.service.ISysUserOnlineService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 在线用户监控

@@ -1,12 +1,13 @@
 package com.ruoyi.common.core.utils;
 
-import java.util.Map;
 import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.constant.TokenConstants;
 import com.ruoyi.common.core.text.Convert;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+
+import java.util.Map;
 
 /**
  * Jwt工具类

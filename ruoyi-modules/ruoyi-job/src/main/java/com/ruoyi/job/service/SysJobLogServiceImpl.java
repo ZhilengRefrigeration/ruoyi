@@ -1,10 +1,11 @@
 package com.ruoyi.job.service;
 
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.ruoyi.job.domain.SysJobLog;
 import com.ruoyi.job.mapper.SysJobLogMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 定时任务调度日志信息 服务层

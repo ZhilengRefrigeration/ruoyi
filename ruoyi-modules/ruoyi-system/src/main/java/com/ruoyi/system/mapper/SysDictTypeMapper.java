@@ -1,8 +1,9 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
-import org.apache.ibatis.annotations.Mapper;
 import com.ruoyi.system.api.domain.SysDictType;
+import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * 字典表 数据层

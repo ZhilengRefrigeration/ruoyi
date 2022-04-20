@@ -1,8 +1,8 @@
 package com.ruoyi.common.security.feign;
 
+import feign.RequestInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import feign.RequestInterceptor;
 
 /**
  * Feign 配置注册

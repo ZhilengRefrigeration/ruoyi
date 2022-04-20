@@ -1,9 +1,9 @@
 package com.ruoyi.auth;
 
+import com.ruoyi.common.security.annotation.EnableRyFeignClients;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import com.ruoyi.common.security.annotation.EnableRyFeignClients;
 
 /**
  * 认证授权中心

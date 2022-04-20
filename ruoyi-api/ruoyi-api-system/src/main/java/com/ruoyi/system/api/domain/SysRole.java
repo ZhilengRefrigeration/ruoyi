@@ -1,12 +1,13 @@
 package com.ruoyi.system.api.domain;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.annotation.Excel.ColumnType;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * 角色表 sys_role

@@ -1,6 +1,7 @@
 package com.ruoyi.common.security.annotation;
 
 import org.springframework.cloud.openfeign.EnableFeignClients;
+
 import java.lang.annotation.*;
 
 /**

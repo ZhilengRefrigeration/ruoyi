@@ -1,9 +1,9 @@
 package com.ruoyi.file;
 
+import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
 
 /**
  * 文件服务

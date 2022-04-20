@@ -1,16 +1,17 @@
 package com.ruoyi.common.security.aspect;
 
-import java.lang.reflect.Method;
+import com.ruoyi.common.security.annotation.RequiresLogin;
+import com.ruoyi.common.security.annotation.RequiresPermissions;
+import com.ruoyi.common.security.annotation.RequiresRoles;
+import com.ruoyi.common.security.auth.AuthUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
-import com.ruoyi.common.security.annotation.RequiresLogin;
-import com.ruoyi.common.security.annotation.RequiresPermissions;
-import com.ruoyi.common.security.annotation.RequiresRoles;
-import com.ruoyi.common.security.auth.AuthUtil;
+
+import java.lang.reflect.Method;
 
 /**
  * 基于 Spring Aop 的注解鉴权

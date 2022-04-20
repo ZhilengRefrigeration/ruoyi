@@ -1,9 +1,14 @@
 package com.ruoyi.common.log.aspect;
 
-import java.util.Collection;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.alibaba.fastjson.JSON;
+import com.ruoyi.common.core.utils.ServletUtils;
+import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.core.utils.ip.IpUtils;
+import com.ruoyi.common.log.annotation.Log;
+import com.ruoyi.common.log.enums.BusinessStatus;
+import com.ruoyi.common.log.service.AsyncLogService;
+import com.ruoyi.common.security.utils.SecurityUtils;
+import com.ruoyi.system.api.domain.SysOperLog;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -15,15 +20,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
-import com.alibaba.fastjson.JSON;
-import com.ruoyi.common.core.utils.ServletUtils;
-import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.common.core.utils.ip.IpUtils;
-import com.ruoyi.common.log.annotation.Log;
-import com.ruoyi.common.log.enums.BusinessStatus;
-import com.ruoyi.common.log.service.AsyncLogService;
-import com.ruoyi.common.security.utils.SecurityUtils;
-import com.ruoyi.system.api.domain.SysOperLog;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * 操作日志记录处理

@@ -1,15 +1,15 @@
 package com.ruoyi.common.security.aspect;
 
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.springframework.core.Ordered;
-import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.exception.InnerAuthException;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.security.annotation.InnerAuth;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.springframework.core.Ordered;
+import org.springframework.stereotype.Component;
 
 /**
  * 内部服务调用验证处理

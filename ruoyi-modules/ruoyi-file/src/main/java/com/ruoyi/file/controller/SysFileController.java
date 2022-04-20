@@ -1,15 +1,15 @@
 package com.ruoyi.file.controller;
 
+import com.ruoyi.common.core.domain.Rust;
+import com.ruoyi.common.core.utils.file.FileUtils;
+import com.ruoyi.file.service.ISysFileService;
+import com.ruoyi.system.api.domain.SysFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import com.ruoyi.common.core.domain.Rust;
-import com.ruoyi.common.core.utils.file.FileUtils;
-import com.ruoyi.file.service.ISysFileService;
-import com.ruoyi.system.api.domain.SysFile;
 
 /**
  * 文件请求处理

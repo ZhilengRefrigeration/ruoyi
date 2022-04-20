@@ -1,13 +1,13 @@
 package com.ruoyi.system.api.factory;
 
+import com.ruoyi.common.core.domain.Rust;
+import com.ruoyi.system.api.RemoteFileService;
+import com.ruoyi.system.api.domain.SysFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import com.ruoyi.common.core.domain.Rust;
-import com.ruoyi.system.api.RemoteFileService;
-import com.ruoyi.system.api.domain.SysFile;
 
 /**
  * 文件服务降级处理

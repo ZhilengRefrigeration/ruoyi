@@ -1,14 +1,15 @@
 package com.ruoyi.common.security.feign;
 
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.ip.IpUtils;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * feign 请求拦截器
