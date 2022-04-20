@@ -145,9 +145,9 @@ public final class Base64 {
             return null;
         }
         char[] base64Data = encoded.toCharArray();
-        int len = removeWhiteSpace(base64Data);// 删除空格
+        int len = removeWhiteSpace(base64Data);
         if (len % FOURBYTE != 0) {
-            return null;// sho应该能被四整除
+            return null;
         }
         int numberQuadruple = (len / FOURBYTE);
         if (numberQuadruple == 0) {
@@ -164,7 +164,7 @@ public final class Base64 {
             if (!isData((d1 = base64Data[dataIndex++])) || !isData((d2 = base64Data[dataIndex++]))
                     || !isData((d3 = base64Data[dataIndex++])) || !isData((d4 = base64Data[dataIndex++]))) {
                 return null;
-            } // if found "no data" just return null
+            }
             b1 = BASE_64_ALPHABET[d1];
             b2 = BASE_64_ALPHABET[d2];
             b3 = BASE_64_ALPHABET[d3];
@@ -174,16 +174,15 @@ public final class Base64 {
             decodedData[encodedIndex++] = (byte) (b3 << 6 | b4);
         }
         if (!isData((d1 = base64Data[dataIndex++])) || !isData((d2 = base64Data[dataIndex++]))) {
-            return null;// if found "no data" just return null
+            return null;
         }
         b1 = BASE_64_ALPHABET[d1];
         b2 = BASE_64_ALPHABET[d2];
         d3 = base64Data[dataIndex++];
         d4 = base64Data[dataIndex++];
-        if (!isData((d3)) || !isData((d4))) {// Check if they are PAD characters
+        if (!isData((d3)) || !isData((d4))) {
             if (isPad(d3) && isPad(d4)) {
-                if ((b2 & 0xf) != 0)// last 4 bits should be zero
-                {
+                if ((b2 & 0xf) != 0) {
                     return null;
                 }
                 byte[] tmp = new byte[i * 3 + 1];
@@ -192,8 +191,7 @@ public final class Base64 {
                 return tmp;
             } else if (!isPad(d3) && isPad(d4)) {
                 b3 = BASE_64_ALPHABET[d3];
-                if ((b3 & 0x3) != 0)// last 2 bits should be zero
-                {
+                if ((b3 & 0x3) != 0) {
                     return null;
                 }
                 byte[] tmp = new byte[i * 3 + 2];

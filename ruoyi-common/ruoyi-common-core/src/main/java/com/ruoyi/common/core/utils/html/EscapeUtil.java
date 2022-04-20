@@ -21,11 +21,11 @@ public class EscapeUtil
         }
 
         // special HTML characters
-        TEXT['\''] = "&#039;".toCharArray(); // 单引号
-        TEXT['"'] = "&#34;".toCharArray(); // 双引号
-        TEXT['&'] = "&#38;".toCharArray(); // &符
-        TEXT['<'] = "&#60;".toCharArray(); // 小于号
-        TEXT['>'] = "&#62;".toCharArray(); // 大于号
+        TEXT['\''] = "&#039;".toCharArray();
+        TEXT['"'] = "&#34;".toCharArray();
+        TEXT['&'] = "&#38;".toCharArray();
+        TEXT['<'] = "&#60;".toCharArray();
+        TEXT['>'] = "&#62;".toCharArray();
     }
 
     /**
