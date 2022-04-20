@@ -134,7 +134,7 @@ public class SysUserController extends BaseController
     public Rust<Boolean> register(@RequestBody SysUser sysUser)
     {
         String username = sysUser.getUserName();
-        if (!("true".equals(configService.selectConfigByKey("sys.account.registerUser"))))
+        if (!(StringUtils.TRUE.equals(configService.selectConfigByKey(StringUtils.SYS_ACCOUNT_USER))))
         {
             return Rust.fail("当前系统没有开启注册功能！");
         }

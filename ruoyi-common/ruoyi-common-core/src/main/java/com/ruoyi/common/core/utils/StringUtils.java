@@ -16,10 +16,60 @@ import java.util.Map;
 public class StringUtils extends org.apache.commons.lang3.StringUtils
 {
     /** 空字符串 */
-    private static final String NULLSTR = "";
+    public static final String NULLSTR = "";
+    /** 空格字符串 */
+    public static final String BLANK_SPACE = " ";
+    /** 斜杠字符串 */
+    public static final String SLASH = "/";
+    /** 井号字符串 */
+    public static final String WELL_NO = "#";
+    /** 点字符串 */
+    public static final String DOT = ".";
+    /** 逗号符串 */
+    public static final String COMMA = ",";
+    /** (符串 */
+    public static final String LEFT_BRACKETS = "(";
+    /** get字符串 */
+    public static final String GET = "GET";
+    /** POST字符串 */
+    public static final String POST = "POST";
+    /** DELETE字符串 */
+    public static final String DELETE = "DELETE";
+    /** 前端排序字符串 */
+    public static final String ASC_ENDING = "ascending";
+    /** 前端排序字符串 */
+    public static final String DESC_ENDING = "descending";
+    /** true字符串 */
+    public static final String TRUE = "true";
+    /** registerUser字符串 */
+    public static final String SYS_ACCOUNT_USER = "sys.account.registerUser";
+    /** char字符串 */
+    public static final String CHAR = "char";
+    /** math字符串 */
+    public static final String MATH = "math";
+    /** JPG字符串 */
+    public static final String JPG = "JPG";
+    /** PNG字符串 */
+    public static final String PNG = "PNG";
+    /** 注：字符串 */
+    public static final String NOTE = "注：";
+    /** MSIE字符串 */
+    public static final String MSIE = "MSIE";
+    /** Firefox字符串 */
+    public static final String FIREFOX = "Firefox";
+    /** Chrome字符串 */
+    public static final String CHROME = "Chrome";
+    /** json字符串 */
+    public static final String ACCEPT_JSON = "application/json";
+    /** XMLHttpRequest字符串 */
+    public static final String XML_HTTP = "XMLHttpRequest";
+    /** json字符串 */
+    public static final String JSON = "json";
+    /** xml字符串 */
+    public static final String XML = "xml";
 
     /** 下划线 */
-    private static final char SEPARATOR = '_';
+    public static final char SEPARATOR = '_';
 
     /**
      * 获取参数不为空值
@@ -373,19 +423,17 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
     public static String convertToCamelCase(String name)
     {
         StringBuilder result = new StringBuilder();
+        String underline = "_";
         // 快速检查
-        if (name == null || name.isEmpty())
-        {
+        if (name == null || name.isEmpty()) {
             // 没必要转换
             return "";
-        }
-        else if (!name.contains("_"))
-        {
+        } else if (!name.contains(underline)) {
             // 不含下划线，仅将首字母大写
             return name.substring(0, 1).toUpperCase() + name.substring(1);
         }
         // 用下划线将原始字符串分割
-        String[] camels = name.split("_");
+        String[] camels = name.split(underline);
         for (String camel : camels)
         {
             // 跳过原始字符串中开头、结尾的下换线或双重下划线

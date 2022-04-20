@@ -13,10 +13,9 @@ public class EscapeUtil
 
     private static final char[][] TEXT = new char[64][];
 
-    static
-    {
-        for (int i = 0; i < 64; i++)
-        {
+    static {
+        int baseSize = 64;
+        for (int i = 0; i < baseSize; i++) {
             TEXT[i] = new char[] { (char) i };
         }
 

@@ -555,9 +555,9 @@ public class ExcelUtil<T> {
      */
     public int getImageType(byte[] value) {
         String type = FileTypeUtils.getFileExtendName(value);
-        if ("JPG".equalsIgnoreCase(type)) {
+        if (StringUtils.JPG.equalsIgnoreCase(type)) {
             return Workbook.PICTURE_TYPE_JPEG;
-        } else if ("PNG".equalsIgnoreCase(type)) {
+        } else if (StringUtils.PNG.equalsIgnoreCase(type)) {
             return Workbook.PICTURE_TYPE_PNG;
         }
         return Workbook.PICTURE_TYPE_JPEG;
@@ -567,7 +567,7 @@ public class ExcelUtil<T> {
      * 创建表格样式
      */
     public void setDataValidation(Excel attr, Row row, int column) {
-        if (attr.name().indexOf("注：") >= 0) {
+        if (attr.name().indexOf(StringUtils.NOTE) >= 0) {
             sheet.setColumnWidth(column, 6000);
         } else {
             // 设置列宽
@@ -777,7 +777,7 @@ public class ExcelUtil<T> {
         Object o = field.get(vo);
         if (StringUtils.isNotEmpty(excel.targetAttr())) {
             String target = excel.targetAttr();
-            if (target.contains(".")) {
+            if (target.contains(StringUtils.DOT)) {
                 String[] targets = target.split("[.]");
                 for (String name : targets) {
                     o = getValue(o, name);

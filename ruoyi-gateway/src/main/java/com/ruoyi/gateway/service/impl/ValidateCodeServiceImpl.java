@@ -62,14 +62,14 @@ public class ValidateCodeServiceImpl implements ValidateCodeService
 
         String captchaType = captchaProperties.getType();
         // 生成验证码
-        if ("math".equals(captchaType))
+        if (StringUtils.MATH.equals(captchaType))
         {
             String capText = captchaProducerMath.createText();
             capStr = capText.substring(0, capText.lastIndexOf("@"));
             code = capText.substring(capText.lastIndexOf("@") + 1);
             image = captchaProducerMath.createImage(capStr);
         }
-        else if ("char".equals(captchaType))
+        else if (StringUtils.CHAR.equals(captchaType))
         {
             capStr = code = captchaProducer.createText();
             image = captchaProducer.createImage(capStr);

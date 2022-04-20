@@ -185,19 +185,19 @@ public class ServletUtils
     public static boolean isAjaxRequest(HttpServletRequest request)
     {
         String accept = request.getHeader("accept");
-        if (accept != null && accept.contains("application/json"))
+        if (accept != null && accept.contains(StringUtils.ACCEPT_JSON))
         {
             return true;
         }
 
         String xRequestedWith = request.getHeader("X-Requested-With");
-        if (xRequestedWith != null && xRequestedWith.contains("XMLHttpRequest"))
+        if (xRequestedWith != null && xRequestedWith.contains(StringUtils.XML_HTTP))
         {
             return true;
         }
 
         String uri = request.getRequestURI();
-        if (StringUtils.inStringIgnoreCase(uri, ".json", ".xml"))
+        if (StringUtils.inStringIgnoreCase(uri, StringUtils.DOT+StringUtils.JSON,StringUtils.DOT+StringUtils.XML))
         {
             return true;
         }

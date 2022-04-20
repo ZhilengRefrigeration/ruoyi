@@ -353,15 +353,12 @@ public class GenTableColumn extends BaseEntity
     {
         String remarks = StringUtils.substringBetween(this.columnComment, "（", "）");
         StringBuffer sb = new StringBuffer();
-        if (StringUtils.isNotEmpty(remarks))
-        {
-            for (String value : remarks.split(" "))
-            {
-                if (StringUtils.isNotEmpty(value))
-                {
+        if (StringUtils.isNotEmpty(remarks)) {
+            for (String value : remarks.split(StringUtils.BLANK_SPACE)) {
+                if (StringUtils.isNotEmpty(value)) {
                     Object startStr = value.subSequence(0, 1);
                     String endStr = value.substring(1);
-                    sb.append("").append(startStr).append("=").append(endStr).append(",");
+                    sb.append(startStr).append("=").append(endStr).append(",");
                 }
             }
             return sb.deleteCharAt(sb.length() - 1).toString();

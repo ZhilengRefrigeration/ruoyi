@@ -2,6 +2,8 @@ package com.ruoyi.gateway.filter;
 
 import java.util.Collections;
 import java.util.List;
+
+import com.ruoyi.common.core.utils.StringUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.OrderedGatewayFilter;
@@ -54,7 +56,7 @@ public class CacheRequestFilter extends AbstractGatewayFilterFactory<CacheReques
         {
             // GET DELETE 不过滤
             HttpMethod method = exchange.getRequest().getMethod();
-            if (method == null || method.matches("GET") || method.matches("DELETE"))
+            if (method == null || method.matches(StringUtils.GET) || method.matches(StringUtils.DELETE))
             {
                 return chain.filter(exchange);
             }

@@ -62,7 +62,8 @@ public class IpUtils {
      * @return 结果
      */
     private static boolean internalIp(byte[] addr) {
-        if (StringUtils.isNull(addr) || addr.length < 2) {
+        int tow = 2;
+        if (StringUtils.isNull(addr) || addr.length < tow) {
             return true;
         }
         final byte b0 = addr[0];
@@ -118,7 +119,8 @@ public class IpUtils {
             switch (elements.length) {
                 case 1:
                     l = Long.parseLong(elements[0]);
-                    if ((l < 0L) || (l > 4294967295L)) {
+                    long l1 = 4294967295L;
+                    if ((l < 0L) || (l > l1)) {
                         return null;
                     }
                     bytes[0] = (byte) (int) (l >> 24 & 0xFF);
@@ -128,12 +130,14 @@ public class IpUtils {
                     break;
                 case 2:
                     l = Integer.parseInt(elements[0]);
-                    if ((l < 0L) || (l > 255L)) {
+                    long l2 = 255L;
+                    if ((l < 0L) || (l > l2)) {
                         return null;
                     }
                     bytes[0] = (byte) (int) (l & 0xFF);
                     l = Integer.parseInt(elements[1]);
-                    if ((l < 0L) || (l > 16777215L)) {
+                    long l3 = 16777215L;
+                    if ((l < 0L) || (l > l3)) {
                         return null;
                     }
                     bytes[1] = (byte) (int) (l >> 16 & 0xFF);
@@ -141,7 +145,8 @@ public class IpUtils {
                     bytes[3] = (byte) (int) (l & 0xFF);
                     break;
                 case 3:
-                    for (i = 0; i < 2; ++i) {
+                    int i1 = 2;
+                    for (i = 0; i < i1; ++i) {
                         l = Integer.parseInt(elements[i]);
                         if ((l < 0L) || (l > 255L)) {
                             return null;
@@ -149,14 +154,16 @@ public class IpUtils {
                         bytes[i] = (byte) (int) (l & 0xFF);
                     }
                     l = Integer.parseInt(elements[2]);
-                    if ((l < 0L) || (l > 65535L)) {
+                    long l4 = 65535L;
+                    if ((l < 0L) || (l > l4)) {
                         return null;
                     }
                     bytes[2] = (byte) (int) (l >> 8 & 0xFF);
                     bytes[3] = (byte) (int) (l & 0xFF);
                     break;
                 case 4:
-                    for (i = 0; i < 4; ++i) {
+                    int i2 = 4;
+                    for (i = 0; i < i2; ++i) {
                         l = Integer.parseInt(elements[i]);
                         if ((l < 0L) || (l > 255L)) {
                             return null;
@@ -207,7 +214,7 @@ public class IpUtils {
      */
     public static String getMultistageReverseProxyIp(String ip) {
         // 多级反向代理检测
-        if (ip != null && ip.indexOf(",") > 0) {
+        if (ip != null && ip.indexOf(StringUtils.COMMA) > 0) {
             final String[] ips = ip.trim().split(",");
             for (String subIp : ips) {
                 if (false == isUnknown(subIp)) {

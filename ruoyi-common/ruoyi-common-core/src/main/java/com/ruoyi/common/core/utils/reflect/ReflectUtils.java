@@ -35,7 +35,8 @@ public class ReflectUtils
     public static <E> E invokeGetter(Object obj, String propertyName)
     {
         Object object = obj;
-        for (String name : StringUtils.split(propertyName, "."))
+        String point = ".";
+        for (String name : StringUtils.split(propertyName, point))
         {
             String getterMethodName = GETTER_PREFIX + StringUtils.capitalize(name);
             object = invokeMethod(object, getterMethodName, new Class[] {}, new Object[] {});

@@ -1,5 +1,7 @@
 package com.ruoyi.common.core.utils.html;
 
+import com.ruoyi.common.core.utils.StringUtils;
+
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -168,6 +170,7 @@ public final class HtmlFilter {
 
     /**
      * my versions of some PHP library functions
+     *
      * @param decimal /
      * @return /
      */
@@ -383,7 +386,7 @@ public final class HtmlFilter {
             if (!inArray(protocol, vAllowedProtocols)) {
                 // bad protocol, turn into local anchor link instead
                 s = "#" + s.substring(protocol.length() + 1);
-                if (s.startsWith("#//")) {
+                if (s.startsWith(StringUtils.WELL_NO + StringUtils.SLASH + StringUtils.SLASH)) {
                     s = "#" + s.substring(3);
                 }
             }

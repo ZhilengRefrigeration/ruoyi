@@ -514,7 +514,7 @@ public class GenTableServiceImpl implements IGenTableService
     public static String getGenPath(GenTable table, String template)
     {
         String genPath = table.getGenPath();
-        if (StringUtils.equals(genPath, "/"))
+        if (StringUtils.equals(genPath, StringUtils.SLASH))
         {
             return System.getProperty("user.dir") + File.separator + "src" + File.separator + VelocityUtils.getFileName(template, table);
         }

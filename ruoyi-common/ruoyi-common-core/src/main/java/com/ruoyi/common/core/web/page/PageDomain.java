@@ -70,14 +70,13 @@ public class PageDomain
 
     public void setIsAsc(String isAsc)
     {
-        if (StringUtils.isNotEmpty(isAsc))
-        {
+        if (StringUtils.isNotEmpty(isAsc)) {
             // 兼容前端排序类型
-            if ("ascending".equals(isAsc))
+            if (StringUtils.ASC_ENDING.equals(isAsc))
             {
                 isAsc = "asc";
             }
-            else if ("descending".equals(isAsc))
+            else if (StringUtils.DESC_ENDING.equals(isAsc))
             {
                 isAsc = "desc";
             }
