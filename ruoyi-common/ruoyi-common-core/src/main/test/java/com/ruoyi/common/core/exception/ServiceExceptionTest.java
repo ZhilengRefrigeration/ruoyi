@@ -20,8 +20,6 @@ class ServiceExceptionTest {
     @Test
     void testThirdTest() {
         GlobalException globalException2 = new GlobalException("");
-        globalException2.getMessage();
-        globalException2.getDetailMessage();
         globalException2.setDetailMessage("");
         throw globalException2;
     }
@@ -29,12 +27,8 @@ class ServiceExceptionTest {
     @Test
     void testThirdTest2() {
         GlobalException globalException2 = new GlobalException();
-        globalException2.getMessage();
-        globalException2.getDetailMessage();
         System.out.println(globalException2.getMessage());
         System.out.println(globalException2.getDetailMessage());
-        System.out.println(globalException2.setDetailMessage(""));
-        globalException2.setDetailMessage("");
-        throw globalException2;
+        throw globalException2.setDetailMessage("");
     }
 }

@@ -189,6 +189,7 @@ public class IpUtils {
         try {
             return InetAddress.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {
+            e.printStackTrace();
         }
         return "127.0.0.1";
     }
@@ -202,6 +203,7 @@ public class IpUtils {
         try {
             return InetAddress.getLocalHost().getHostName();
         } catch (UnknownHostException e) {
+            e.printStackTrace();
         }
         return "未知";
     }

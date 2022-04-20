@@ -103,6 +103,7 @@ public class TokenService {
                 return user;
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return user;
     }

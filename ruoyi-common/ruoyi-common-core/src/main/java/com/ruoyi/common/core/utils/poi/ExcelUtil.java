@@ -657,7 +657,7 @@ public class ExcelUtil<T> {
                 addStatisticsData(column, Convert.toStr(value), attr);
             }
         } catch (Exception e) {
-            log.error("导出Excel失败{}", e);
+            log.error("导出Excel失败", e);
         }
         return cell;
     }
@@ -704,10 +704,11 @@ public class ExcelUtil<T> {
     public String dataFormatHandlerAdapter(Object value, Excel excel) {
         try {
             Object instance = excel.handler().newInstance();
-            Method formatMethod = excel.handler().getMethod("format", new Class[]{Object.class, String[].class});
+            Method formatMethod = excel.handler().getMethod("format", Object.class, String[].class);
             value = formatMethod.invoke(instance, value, excel.args());
         } catch (Exception e) {
-            log.error("不能格式化数据 " + excel.handler(), e.getMessage());
+            log.info("不能格式化数据 {}" ,excel.handler());
+            log.error("不能格式化数据 " , e);
         }
         return Convert.toStr(value);
     }
@@ -724,6 +725,7 @@ public class ExcelUtil<T> {
             try {
                 temp = Double.valueOf(text);
             } catch (NumberFormatException e) {
+                log.error("NumberFormatException ",e);
             }
             statistics.put(index, statistics.get(index) + temp);
         }

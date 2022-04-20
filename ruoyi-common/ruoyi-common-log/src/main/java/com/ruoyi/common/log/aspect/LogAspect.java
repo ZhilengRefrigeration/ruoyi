@@ -147,6 +147,7 @@ public class LogAspect {
                         Object jsonObj = JSON.toJSON(o);
                         params += jsonObj.toString() + " ";
                     } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }
