@@ -21,29 +21,41 @@ public final class Base64 {
         for (int i = 0; i < BASELENGTH; ++i) {
             BASE_64_ALPHABET[i] = -1;
         }
-        for (int i = 'Z'; i >= 'A'; i--) {
+        char z = 'Z';
+        char a = 'A';
+        for (int i = z; i >= a; i--) {
             BASE_64_ALPHABET[i] = (byte) (i - 'A');
         }
-        for (int i = 'z'; i >= 'a'; i--) {
+
+        char z1 = 'z';
+        char a1 = 'a';
+        for (int i = z1; i >= a1; i--) {
             BASE_64_ALPHABET[i] = (byte) (i - 'a' + 26);
         }
 
-        for (int i = '9'; i >= '0'; i--) {
+        char c = '9';
+        char c1 = '0';
+        for (int i = c; i >= c1; i--) {
             BASE_64_ALPHABET[i] = (byte) (i - '0' + 52);
         }
 
         BASE_64_ALPHABET['+'] = 62;
         BASE_64_ALPHABET['/'] = 63;
 
-        for (int i = 0; i <= 25; i++) {
+        int i1 = 25;
+        for (int i = 0; i <= i1; i++) {
             LOOK_UP_BASE_64_ALPHABET[i] = (char) ('A' + i);
         }
 
-        for (int i = 26, j = 0; i <= 51; i++, j++) {
+        int i2 = 26;
+        int i3 = 51;
+        for (int i = i2, j = 0; i <= i3; i++, j++) {
             LOOK_UP_BASE_64_ALPHABET[i] = (char) ('a' + j);
         }
 
-        for (int i = 52, j = 0; i <= 61; i++, j++) {
+        int i4 = 52;
+        int i5 = 61;
+        for (int i = i4, j = 0; i <= i5; i++, j++) {
             LOOK_UP_BASE_64_ALPHABET[i] = (char) ('0' + j);
         }
         LOOK_UP_BASE_64_ALPHABET[62] = (char) '+';
@@ -182,7 +194,8 @@ public final class Base64 {
         d4 = base64Data[dataIndex++];
         if (!isData((d3)) || !isData((d4))) {
             if (isPad(d3) && isPad(d4)) {
-                if ((b2 & 0xf) != 0) {
+                int i1 = 0xf;
+                if ((b2 & i1) != 0) {
                     return null;
                 }
                 byte[] tmp = new byte[i * 3 + 1];
@@ -191,7 +204,8 @@ public final class Base64 {
                 return tmp;
             } else if (!isPad(d3) && isPad(d4)) {
                 b3 = BASE_64_ALPHABET[d3];
-                if ((b3 & 0x3) != 0) {
+                int i1 = 0x3;
+                if ((b3 & i1) != 0) {
                     return null;
                 }
                 byte[] tmp = new byte[i * 3 + 2];

@@ -168,25 +168,35 @@ public class VelocityUtils {
             fileName = StringUtils.format("{}/domain/{}.java", javaPath, className);
         }
 
-        if (template.contains("sub-domain.java.vm") && StringUtils.equals(GenConstants.TPL_SUB, genTable.getTplCategory())) {
+        String subdomainVm = "sub-domain.java.vm";
+        String mapperVm = "mapper.java.vm";
+        String serviceVm = "service.java.vm";
+        String serviceImplVm = "serviceImpl.java.vm";
+        String controllerVm = "controller.java.vm";
+        String mapperXmlVm = "mapper.xml.vm";
+        String sqlVm = "sql.vm";
+        String apiVm = "api.js.vm";
+        String indexVm = "index.vue.vm";
+        String indexTreeVm = "index-tree.vue.vm";
+        if (template.contains(subdomainVm) && StringUtils.equals(GenConstants.TPL_SUB, genTable.getTplCategory())) {
             fileName = StringUtils.format("{}/domain/{}.java", javaPath, genTable.getSubTable().getClassName());
-        } else if (template.contains("mapper.java.vm")) {
+        } else if (template.contains(mapperVm)) {
             fileName = StringUtils.format("{}/mapper/{}Mapper.java", javaPath, className);
-        } else if (template.contains("service.java.vm")) {
+        } else if (template.contains(serviceVm)) {
             fileName = StringUtils.format("{}/service/I{}Service.java", javaPath, className);
-        } else if (template.contains("serviceImpl.java.vm")) {
+        } else if (template.contains(serviceImplVm)) {
             fileName = StringUtils.format("{}/service/impl/{}ServiceImpl.java", javaPath, className);
-        } else if (template.contains("controller.java.vm")) {
+        } else if (template.contains(controllerVm)) {
             fileName = StringUtils.format("{}/controller/{}Controller.java", javaPath, className);
-        } else if (template.contains("mapper.xml.vm")) {
+        } else if (template.contains(mapperXmlVm)) {
             fileName = StringUtils.format("{}/{}Mapper.xml", mybatisPath, className);
-        } else if (template.contains("sql.vm")) {
+        } else if (template.contains(sqlVm)) {
             fileName = businessName + "Menu.sql";
-        } else if (template.contains("api.js.vm")) {
+        } else if (template.contains(apiVm)) {
             fileName = StringUtils.format("{}/api/{}/{}.js", vuePath, moduleName, businessName);
-        } else if (template.contains("index.vue.vm")) {
+        } else if (template.contains(indexVm)) {
             fileName = StringUtils.format("{}/views/{}/{}/index.vue", vuePath, moduleName, businessName);
-        } else if (template.contains("index-tree.vue.vm")) {
+        } else if (template.contains(indexTreeVm)) {
             fileName = StringUtils.format("{}/views/{}/{}/index.vue", vuePath, moduleName, businessName);
         }
         return fileName;
