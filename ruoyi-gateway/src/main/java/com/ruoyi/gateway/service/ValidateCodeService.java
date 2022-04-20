@@ -18,7 +18,7 @@ public interface ValidateCodeService {
      * @throws IOException      /
      * @throws CaptchaException /
      */
-    public AjaxResult createCaptcha() throws IOException, CaptchaException;
+    public AjaxResult createCaptcha() throws CaptchaException;
 
     /**
      * 校验验证码
