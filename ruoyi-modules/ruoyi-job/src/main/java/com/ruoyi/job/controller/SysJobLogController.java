@@ -54,8 +54,8 @@ public class SysJobLogController extends BaseController {
      */
     @RequiresPermissions("monitor:job:query")
     @GetMapping(value = "/{configId}")
-    public AjaxResult getInfo(@PathVariable Long jobLogId) {
-        return AjaxResult.success(jobLogService.selectJobLogById(jobLogId));
+    public AjaxResult getInfo(@PathVariable Long configId) {
+        return AjaxResult.success(jobLogService.selectJobLogById(configId));
     }
 
     /**

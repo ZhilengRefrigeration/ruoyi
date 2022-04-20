@@ -25,7 +25,7 @@ public class FileUtils {
      */
     public static final char BACKSLASH = '\\';
 
-    public static String FILENAME_PATTERN = "[a-zA-Z0-9_\\-\\|\\.\\u4e00-\\u9fa5]+";
+    public static String FILENAME_PATTERN = "[a-zA-Z0-9_\\-|.\\u4e00-\\u9fa5]+";
 
     /**
      * 输出指定文件的byte数组

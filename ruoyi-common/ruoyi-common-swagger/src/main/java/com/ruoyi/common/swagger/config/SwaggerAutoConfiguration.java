@@ -47,7 +47,6 @@ public class SwaggerAutoConfiguration {
         if (swaggerProperties.getBasePath().isEmpty()) {
             swaggerProperties.getBasePath().add(BASE_PATH);
         }
-        // noinspection unchecked
         List<Predicate<String>> basePath = new ArrayList<Predicate<String>>();
         swaggerProperties.getBasePath().forEach(path -> basePath.add(PathSelectors.ant(path)));
 
