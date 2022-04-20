@@ -8,12 +8,11 @@ import java.lang.annotation.*;
 /**
  * @author pan
  */
-@Target({ ElementType.TYPE })
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@Import({ SwaggerAutoConfiguration.class })
-public @interface EnableCustomSwagger2
-{
+@Import({SwaggerAutoConfiguration.class})
+public @interface EnableCustomSwagger2 {
 
 }

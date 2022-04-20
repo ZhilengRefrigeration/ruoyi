@@ -39,84 +39,136 @@ import java.util.stream.Collectors;
  * @author ruoyi
  */
 public class ExcelUtil<T> {
-    private static final Logger log = LoggerFactory.getLogger(ExcelUtil.class);
-
     public static final String FORMULA_REGEX_STR = "=|-|\\+|@";
-
     public static final String[] FORMULA_STR = {"=", "-", "+", "@"};
-
     /**
      * Excel sheet最大行数，默认65536
      */
     public static final int SHEET_SIZE = 65536;
-
+    private static final Logger log = LoggerFactory.getLogger(ExcelUtil.class);
+    /**
+     * 数字格式
+     */
+    private static final DecimalFormat DOUBLE_FORMAT = new DecimalFormat("######0.00");
+    /**
+     * 实体对象
+     */
+    public Class<T> clazz;
     /**
      * 工作表名称
      */
     private String sheetName;
-
     /**
      * 导出类型（EXPORT:导出数据；IMPORT：导入模板）
      */
     private Type type;
-
     /**
      * 工作薄对象
      */
     private Workbook wb;
-
     /**
      * 工作表对象
      */
     private Sheet sheet;
-
     /**
      * 样式列表
      */
     private Map<String, CellStyle> styles;
-
     /**
      * 导入导出数据列表
      */
     private List<T> list;
-
     /**
      * 注解列表
      */
     private List<Object[]> fields;
-
     /**
      * 当前行号
      */
     private int rownum;
-
     /**
      * 标题
      */
     private String title;
-
     /**
      * 最大高度
      */
     private short maxHeight;
-
     /**
      * 统计列表
      */
     private Map<Integer, Double> statistics = new HashMap<Integer, Double>();
 
-    /**
-     * 数字格式
-     */
-    private static final DecimalFormat DOUBLE_FORMAT = new DecimalFormat("######0.00");
-
-    /**
-     * 实体对象
-     */
-    public Class<T> clazz;
-
     public ExcelUtil(Class<T> clazz) {
         this.clazz = clazz;
+    }
+
+    /**
+     * 获取画布
+     */
+    public static Drawing<?> getDrawingPatriarch(Sheet sheet) {
+        if (sheet.getDrawingPatriarch() == null) {
+            sheet.createDrawingPatriarch();
+        }
+        return sheet.getDrawingPatriarch();
+    }
+
+    /**
+     * 解析导出值 0=男,1=女,2=未知
+     *
+     * @param propertyValue 参数值
+     * @param converterExp  翻译注解
+     * @param separator     分隔符
+     * @return 解析后值
+     */
+    public static String convertByExp(String propertyValue, String converterExp, String separator) {
+        StringBuilder propertyString = new StringBuilder();
+        String[] convertSource = converterExp.split(",");
+        for (String item : convertSource) {
+            String[] itemArray = item.split("=");
+            if (StringUtils.containsAny(separator, propertyValue)) {
+                for (String value : propertyValue.split(separator)) {
+                    if (itemArray[0].equals(value)) {
+                        propertyString.append(itemArray[1] + separator);
+                        break;
+                    }
+                }
+            } else {
+                if (itemArray[0].equals(propertyValue)) {
+                    return itemArray[1];
+                }
+            }
+        }
+        return StringUtils.stripEnd(propertyString.toString(), separator);
+    }
+
+    /**
+     * 反向解析值 男=0,女=1,未知=2
+     *
+     * @param propertyValue 参数值
+     * @param converterExp  翻译注解
+     * @param separator     分隔符
+     * @return 解析后值
+     */
+    public static String reverseByExp(String propertyValue, String converterExp, String separator) {
+        StringBuilder propertyString = new StringBuilder();
+        String[] convertSource = converterExp.split(",");
+        for (String item : convertSource) {
+            String[] itemArray = item.split("=");
+            if (StringUtils.containsAny(separator, propertyValue)) {
+                for (String value : propertyValue.split(separator)) {
+                    if (itemArray[1].equals(value)) {
+                        propertyString.append(itemArray[0] + separator);
+                        break;
+                    }
+                }
+            } else {
+                if (itemArray[1].equals(propertyValue)) {
+                    return itemArray[0];
+                }
+            }
+        }
+        return StringUtils.stripEnd(propertyString.toString(), separator);
     }
 
     public void init(List<T> list, String sheetName, String title, Type type) {
@@ -227,6 +279,13 @@ public class ExcelUtil<T> {
     }
 
     /**
+     * 对list数据源将其里面的数据导入到excel表单
+     *
+     * @param sheetName 工作表的名称
+     * @return 结果
+     */
+
+    /**
      * importExcel方法拓展 单方法不超过80行代码
      *
      * @param entity  /
@@ -328,12 +387,6 @@ public class ExcelUtil<T> {
         exportExcel(response);
     }
 
-    /**
-     * 对list数据源将其里面的数据导入到excel表单
-     *
-     * @param sheetName 工作表的名称
-     * @return 结果
-     */
     /**
      * 对list数据源将其里面的数据导入到excel表单
      *
@@ -541,16 +594,6 @@ public class ExcelUtil<T> {
     }
 
     /**
-     * 获取画布
-     */
-    public static Drawing<?> getDrawingPatriarch(Sheet sheet) {
-        if (sheet.getDrawingPatriarch() == null) {
-            sheet.createDrawingPatriarch();
-        }
-        return sheet.getDrawingPatriarch();
-    }
-
-    /**
      * 获取图片类型,设置图片插入类型
      */
     public int getImageType(byte[] value) {
@@ -649,64 +692,6 @@ public class ExcelUtil<T> {
             dataValidation.setSuppressDropDownArrow(false);
         }
         sheet.addValidationData(dataValidation);
-    }
-
-    /**
-     * 解析导出值 0=男,1=女,2=未知
-     *
-     * @param propertyValue 参数值
-     * @param converterExp  翻译注解
-     * @param separator     分隔符
-     * @return 解析后值
-     */
-    public static String convertByExp(String propertyValue, String converterExp, String separator) {
-        StringBuilder propertyString = new StringBuilder();
-        String[] convertSource = converterExp.split(",");
-        for (String item : convertSource) {
-            String[] itemArray = item.split("=");
-            if (StringUtils.containsAny(separator, propertyValue)) {
-                for (String value : propertyValue.split(separator)) {
-                    if (itemArray[0].equals(value)) {
-                        propertyString.append(itemArray[1] + separator);
-                        break;
-                    }
-                }
-            } else {
-                if (itemArray[0].equals(propertyValue)) {
-                    return itemArray[1];
-                }
-            }
-        }
-        return StringUtils.stripEnd(propertyString.toString(), separator);
-    }
-
-    /**
-     * 反向解析值 男=0,女=1,未知=2
-     *
-     * @param propertyValue 参数值
-     * @param converterExp  翻译注解
-     * @param separator     分隔符
-     * @return 解析后值
-     */
-    public static String reverseByExp(String propertyValue, String converterExp, String separator) {
-        StringBuilder propertyString = new StringBuilder();
-        String[] convertSource = converterExp.split(",");
-        for (String item : convertSource) {
-            String[] itemArray = item.split("=");
-            if (StringUtils.containsAny(separator, propertyValue)) {
-                for (String value : propertyValue.split(separator)) {
-                    if (itemArray[1].equals(value)) {
-                        propertyString.append(itemArray[0] + separator);
-                        break;
-                    }
-                }
-            } else {
-                if (itemArray[1].equals(propertyValue)) {
-                    return itemArray[0];
-                }
-            }
-        }
-        return StringUtils.stripEnd(propertyString.toString(), separator);
     }
 
     /**

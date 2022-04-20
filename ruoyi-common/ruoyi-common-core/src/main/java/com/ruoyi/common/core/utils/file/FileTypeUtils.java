@@ -9,20 +9,17 @@ import java.io.File;
  *
  * @author ruoyi
  */
-public class FileTypeUtils
-{
+public class FileTypeUtils {
     /**
      * 获取文件类型
      * <p>
      * 例如: ruoyi.txt, 返回: txt
-     * 
+     *
      * @param file 文件名
      * @return 后缀（不含".")
      */
-    public static String getFileType(File file)
-    {
-        if (null == file)
-        {
+    public static String getFileType(File file) {
+        if (null == file) {
             return StringUtils.EMPTY;
         }
         return getFileType(file.getName());
@@ -36,11 +33,9 @@ public class FileTypeUtils
      * @param fileName 文件名
      * @return 后缀（不含".")
      */
-    public static String getFileType(String fileName)
-    {
+    public static String getFileType(String fileName) {
         int separatorIndex = fileName.lastIndexOf(".");
-        if (separatorIndex < 0)
-        {
+        if (separatorIndex < 0) {
             return "";
         }
         return fileName.substring(separatorIndex + 1).toLowerCase();
@@ -48,12 +43,11 @@ public class FileTypeUtils
 
     /**
      * 获取文件类型
-     * 
+     *
      * @param photoByte 文件字节码
      * @return 后缀（不含".")
      */
-    public static String getFileExtendName(byte[] photoByte)
-    {
+    public static String getFileExtendName(byte[] photoByte) {
         String strFileExtendName = "JPG";
         int i71 = 71;
         int i73 = 73;
@@ -79,17 +73,11 @@ public class FileTypeUtils
             if ((photoByte[i4] == i55) || (photoByte[i4] == i57)) {
                 strFileExtendName = "GIF";
             }
-        }
-        else if ((photoByte[i6] == i74) && (photoByte[i7] == i70) && (photoByte[i8] == i73) && (photoByte[i9] == i70))
-        {
+        } else if ((photoByte[i6] == i74) && (photoByte[i7] == i70) && (photoByte[i8] == i73) && (photoByte[i9] == i70)) {
             strFileExtendName = "JPG";
-        }
-        else if ((photoByte[0] == i66) && (photoByte[1] == i77))
-        {
+        } else if ((photoByte[0] == i66) && (photoByte[1] == i77)) {
             strFileExtendName = "BMP";
-        }
-        else if ((photoByte[1] == i80) && (photoByte[i2] == i78) && (photoByte[i3] == i71))
-        {
+        } else if ((photoByte[1] == i80) && (photoByte[i2] == i78) && (photoByte[i3] == i71)) {
             strFileExtendName = "PNG";
         }
         return strFileExtendName;

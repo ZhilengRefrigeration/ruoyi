@@ -18,20 +18,16 @@ import java.util.stream.Collectors;
  * @author ruoyi
  */
 @Component
-public class SwaggerBeanPostProcessor implements BeanPostProcessor
-{
+public class SwaggerBeanPostProcessor implements BeanPostProcessor {
     @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException
-    {
-        if (bean instanceof WebMvcRequestHandlerProvider || bean instanceof WebFluxRequestHandlerProvider)
-        {
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+        if (bean instanceof WebMvcRequestHandlerProvider || bean instanceof WebFluxRequestHandlerProvider) {
             customizeSpringfoxHandlerMappings(getHandlerMappings(bean));
         }
         return bean;
     }
 
-    private <T extends RequestMappingInfoHandlerMapping> void customizeSpringfoxHandlerMappings(List<T> mappings)
-    {
+    private <T extends RequestMappingInfoHandlerMapping> void customizeSpringfoxHandlerMappings(List<T> mappings) {
         List<T> copy = mappings.stream().filter(mapping -> mapping.getPatternParser() == null)
                 .collect(Collectors.toList());
         mappings.clear();
@@ -39,16 +35,12 @@ public class SwaggerBeanPostProcessor implements BeanPostProcessor
     }
 
     @SuppressWarnings("unchecked")
-    private List<RequestMappingInfoHandlerMapping> getHandlerMappings(Object bean)
-    {
-        try
-        {
+    private List<RequestMappingInfoHandlerMapping> getHandlerMappings(Object bean) {
+        try {
             Field field = ReflectionUtils.findField(bean.getClass(), "handlerMappings");
             field.setAccessible(true);
             return (List<RequestMappingInfoHandlerMapping>) field.get(bean);
-        }
-        catch (IllegalArgumentException | IllegalAccessException e)
-        {
+        } catch (IllegalArgumentException | IllegalAccessException e) {
             throw new IllegalStateException(e);
         }
     }

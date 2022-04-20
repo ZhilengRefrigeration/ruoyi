@@ -26,8 +26,7 @@ import java.util.concurrent.TimeUnit;
  * @author ruoyi
  */
 @Service
-public class ValidateCodeServiceImpl implements ValidateCodeService
-{
+public class ValidateCodeServiceImpl implements ValidateCodeService {
     @Resource(name = "captchaProducer")
     private Producer captchaProducer;
 
@@ -44,13 +43,11 @@ public class ValidateCodeServiceImpl implements ValidateCodeService
      * 生成验证码
      */
     @Override
-    public AjaxResult createCaptcha() throws IOException, CaptchaException
-    {
+    public AjaxResult createCaptcha() throws IOException, CaptchaException {
         AjaxResult ajax = AjaxResult.success();
         boolean captchaOnOff = captchaProperties.getEnabled();
         ajax.put("captchaOnOff", captchaOnOff);
-        if (!captchaOnOff)
-        {
+        if (!captchaOnOff) {
             return ajax;
         }
 
@@ -63,15 +60,12 @@ public class ValidateCodeServiceImpl implements ValidateCodeService
 
         String captchaType = captchaProperties.getType();
         // 生成验证码
-        if (StringUtils.MATH.equals(captchaType))
-        {
+        if (StringUtils.MATH.equals(captchaType)) {
             String capText = captchaProducerMath.createText();
             capStr = capText.substring(0, capText.lastIndexOf("@"));
             code = capText.substring(capText.lastIndexOf("@") + 1);
             image = captchaProducerMath.createImage(capStr);
-        }
-        else if (StringUtils.CHAR.equals(captchaType))
-        {
+        } else if (StringUtils.CHAR.equals(captchaType)) {
             capStr = code = captchaProducer.createText();
             image = captchaProducer.createImage(capStr);
         }
@@ -79,12 +73,9 @@ public class ValidateCodeServiceImpl implements ValidateCodeService
         redisService.setCacheObject(verifyKey, code, Constants.CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
         // 转换流信息写出
         FastByteArrayOutputStream os = new FastByteArrayOutputStream();
-        try
-        {
+        try {
             ImageIO.write(image, "jpg", os);
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             return AjaxResult.error(e.getMessage());
         }
 
@@ -97,22 +88,18 @@ public class ValidateCodeServiceImpl implements ValidateCodeService
      * 校验验证码
      */
     @Override
-    public void checkCaptcha(String code, String uuid) throws CaptchaException
-    {
-        if (StringUtils.isEmpty(code))
-        {
+    public void checkCaptcha(String code, String uuid) throws CaptchaException {
+        if (StringUtils.isEmpty(code)) {
             throw new CaptchaException("验证码不能为空");
         }
-        if (StringUtils.isEmpty(uuid))
-        {
+        if (StringUtils.isEmpty(uuid)) {
             throw new CaptchaException("验证码已失效");
         }
         String verifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
         String captcha = redisService.getCacheObject(verifyKey);
         redisService.deleteObject(verifyKey);
 
-        if (!code.equalsIgnoreCase(captcha))
-        {
+        if (!code.equalsIgnoreCase(captcha)) {
             throw new CaptchaException("验证码错误");
         }
     }

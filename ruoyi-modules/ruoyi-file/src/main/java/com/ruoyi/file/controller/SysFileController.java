@@ -13,12 +13,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 文件请求处理
- * 
+ *
  * @author ruoyi
  */
 @RestController
-public class SysFileController
-{
+public class SysFileController {
     private static final Logger log = LoggerFactory.getLogger(SysFileController.class);
 
     @Autowired
@@ -28,19 +27,15 @@ public class SysFileController
      * 文件上传请求
      */
     @PostMapping("upload")
-    public Rust<SysFile> upload(MultipartFile file)
-    {
-        try
-        {
+    public Rust<SysFile> upload(MultipartFile file) {
+        try {
             // 上传并返回访问地址
             String url = sysFileService.uploadFile(file);
             SysFile sysFile = new SysFile();
             sysFile.setName(FileUtils.getName(url));
             sysFile.setUrl(url);
             return Rust.ok(sysFile);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             log.error("上传文件失败", e);
             return Rust.fail(e.getMessage());
         }

@@ -11,29 +11,24 @@ import org.springframework.stereotype.Component;
 
 /**
  * 日志服务降级处理
- * 
+ *
  * @author ruoyi
  */
 @Component
-public class RemoteLogFallbackFactory implements FallbackFactory<RemoteLogService>
-{
+public class RemoteLogFallbackFactory implements FallbackFactory<RemoteLogService> {
     private static final Logger log = LoggerFactory.getLogger(RemoteLogFallbackFactory.class);
 
     @Override
-    public RemoteLogService create(Throwable throwable)
-    {
+    public RemoteLogService create(Throwable throwable) {
         log.error("日志服务调用失败:{}", throwable.getMessage());
-        return new RemoteLogService()
-        {
+        return new RemoteLogService() {
             @Override
-            public Rust<Boolean> saveLog(SysOperLog sysOperLog, String source)
-            {
+            public Rust<Boolean> saveLog(SysOperLog sysOperLog, String source) {
                 return null;
             }
 
             @Override
-            public Rust<Boolean> saveLogininfor(SysLogininfor sysLogininfor, String source)
-            {
+            public Rust<Boolean> saveLogininfor(SysLogininfor sysLogininfor, String source) {
                 return null;
             }
         };

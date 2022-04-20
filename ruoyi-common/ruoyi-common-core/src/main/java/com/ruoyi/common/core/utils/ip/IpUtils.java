@@ -89,7 +89,7 @@ public class IpUtils {
                     case section6: {
                         return true;
                     }
-                    default:{
+                    default: {
                         break;
                     }
                 }

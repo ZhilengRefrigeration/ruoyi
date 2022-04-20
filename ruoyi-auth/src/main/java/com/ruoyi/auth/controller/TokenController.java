@@ -20,12 +20,11 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * token 控制
- * 
+ *
  * @author ruoyi
  */
 @RestController
-public class TokenController
-{
+public class TokenController {
     @Autowired
     private TokenService tokenService;
 
@@ -33,8 +32,7 @@ public class TokenController
     private SysLoginService sysLoginService;
 
     @PostMapping("login")
-    public Rust<?> login(@RequestBody LoginBody form)
-    {
+    public Rust<?> login(@RequestBody LoginBody form) {
         // 用户登录
         LoginUser userInfo = sysLoginService.login(form.getUsername(), form.getPassword());
         // 获取登录token
@@ -42,11 +40,9 @@ public class TokenController
     }
 
     @DeleteMapping("logout")
-    public Rust<?> logout(HttpServletRequest request)
-    {
+    public Rust<?> logout(HttpServletRequest request) {
         String token = SecurityUtils.getToken(request);
-        if (StringUtils.isNotEmpty(token))
-        {
+        if (StringUtils.isNotEmpty(token)) {
             String username = JwtUtils.getUserName(token);
             // 删除用户缓存记录
             AuthUtil.logoutByToken(token);
@@ -57,11 +53,9 @@ public class TokenController
     }
 
     @PostMapping("refresh")
-    public Rust<?> refresh(HttpServletRequest request)
-    {
+    public Rust<?> refresh(HttpServletRequest request) {
         LoginUser loginUser = tokenService.getLoginUser(request);
-        if (StringUtils.isNotNull(loginUser))
-        {
+        if (StringUtils.isNotNull(loginUser)) {
             // 刷新令牌有效期
             tokenService.refreshToken(loginUser);
             return Rust.ok();
@@ -70,8 +64,7 @@ public class TokenController
     }
 
     @PostMapping("register")
-    public Rust<?> register(@RequestBody RegisterBody registerBody)
-    {
+    public Rust<?> register(@RequestBody RegisterBody registerBody) {
         // 用户注册
         sysLoginService.register(registerBody.getUsername(), registerBody.getPassword());
         return Rust.ok();

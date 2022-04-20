@@ -10,19 +10,20 @@ import java.io.IOException;
  *
  * @author ruoyi
  */
-public interface ValidateCodeService
-{
+public interface ValidateCodeService {
     /**
      * 生成验证码
+     *
      * @return AjaxResult
-     * @throws IOException /
+     * @throws IOException      /
      * @throws CaptchaException /
      */
     public AjaxResult createCaptcha() throws IOException, CaptchaException;
 
     /**
      * 校验验证码
-     * @param key  键
+     *
+     * @param key   键
      * @param value 值
      * @throws CaptchaException /
      */

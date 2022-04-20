@@ -11,29 +11,24 @@ import org.springframework.stereotype.Component;
 
 /**
  * 用户服务降级处理
- * 
+ *
  * @author ruoyi
  */
 @Component
-public class RemoteUserFallbackFactory implements FallbackFactory<RemoteUserService>
-{
+public class RemoteUserFallbackFactory implements FallbackFactory<RemoteUserService> {
     private static final Logger log = LoggerFactory.getLogger(RemoteUserFallbackFactory.class);
 
     @Override
-    public RemoteUserService create(Throwable throwable)
-    {
+    public RemoteUserService create(Throwable throwable) {
         log.error("用户服务调用失败:{}", throwable.getMessage());
-        return new RemoteUserService()
-        {
+        return new RemoteUserService() {
             @Override
-            public Rust<LoginUser> getUserInfo(String username, String source)
-            {
+            public Rust<LoginUser> getUserInfo(String username, String source) {
                 return Rust.fail("获取用户失败:" + throwable.getMessage());
             }
 
             @Override
-            public Rust<Boolean> registerUserInfo(SysUser sysUser, String source)
-            {
+            public Rust<Boolean> registerUserInfo(SysUser sysUser, String source) {
                 return Rust.fail("注册用户失败:" + throwable.getMessage());
             }
         };

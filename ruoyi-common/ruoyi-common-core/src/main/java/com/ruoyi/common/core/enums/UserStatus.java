@@ -2,11 +2,11 @@ package com.ruoyi.common.core.enums;
 
 /**
  * 用户状态
- * 
+ *
  * @author ruoyi
  */
-public enum UserStatus
-{   /**
+public enum UserStatus {
+    /**
      * EXPORT
      */
     OK("0", "正常"),
@@ -22,19 +22,16 @@ public enum UserStatus
     private final String code;
     private final String info;
 
-    UserStatus(String code, String info)
-    {
+    UserStatus(String code, String info) {
         this.code = code;
         this.info = info;
     }
 
-    public String getCode()
-    {
+    public String getCode() {
         return code;
     }
 
-    public String getInfo()
-    {
+    public String getInfo() {
         return info;
     }
 }
