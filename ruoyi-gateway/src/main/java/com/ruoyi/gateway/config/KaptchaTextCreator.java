@@ -1,7 +1,8 @@
 package com.ruoyi.gateway.config;
 
-import java.util.Random;
 import com.google.code.kaptcha.text.impl.DefaultTextCreator;
+
+import java.util.Random;
 
 /**
  * 验证码文本生成器
@@ -30,7 +31,7 @@ public class KaptchaTextCreator extends DefaultTextCreator
         }
         else if (randomoperands == 1)
         {
-            if (!(x == 0) && y % x == 0)
+            if ((x != 0) && y % x == 0)
             {
                 result = y / x;
                 suChinese.append(CNUMBERS[y]);

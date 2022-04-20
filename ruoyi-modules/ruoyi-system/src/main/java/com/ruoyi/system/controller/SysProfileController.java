@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.common.core.constant.UserConstants;
-import com.ruoyi.common.core.domain.R;
+import com.ruoyi.common.core.domain.Rust;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
@@ -131,7 +131,7 @@ public class SysProfileController extends BaseController
         if (!file.isEmpty())
         {
             LoginUser loginUser = SecurityUtils.getLoginUser();
-            R<SysFile> fileResult = remoteFileService.upload(file);
+            Rust<SysFile> fileResult = remoteFileService.upload(file);
             if (StringUtils.isNull(fileResult) || StringUtils.isNull(fileResult.getData()))
             {
                 return AjaxResult.error("文件服务异常，请联系管理员");

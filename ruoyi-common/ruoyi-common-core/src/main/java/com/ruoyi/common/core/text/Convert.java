@@ -1,12 +1,13 @@
 package com.ruoyi.common.core.text;
 
+import com.ruoyi.common.core.utils.StringUtils;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.text.NumberFormat;
 import java.util.Set;
-import com.ruoyi.common.core.utils.StringUtils;
 
 /**
  * 类型转换器
@@ -907,7 +908,7 @@ public class Convert
      */
     public static String tosbc(String input, Set<Character> notConvertSet)
     {
-        char c[] = input.toCharArray();
+        char[] c = input.toCharArray();
         for (int i = 0; i < c.length; i++)
         {
             if (null != notConvertSet && notConvertSet.contains(c[i]))
@@ -949,7 +950,7 @@ public class Convert
      */
     public static String todbc(String text, Set<Character> notConvertSet)
     {
-        char c[] = text.toCharArray();
+        char[] c = text.toCharArray();
         for (int i = 0; i < c.length; i++)
         {
             if (null != notConvertSet && notConvertSet.contains(c[i]))

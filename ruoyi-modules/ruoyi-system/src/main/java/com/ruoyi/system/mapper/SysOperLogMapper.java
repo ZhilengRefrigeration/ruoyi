@@ -1,7 +1,8 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
 import com.ruoyi.system.api.domain.SysOperLog;
+
+import java.util.List;
 
 /**
  * 操作日志 数据层
@@ -14,6 +15,7 @@ public interface SysOperLogMapper
      * 新增操作日志
      * 
      * @param operLog 操作日志对象
+     * @return int
      */
     public int insertOperlog(SysOperLog operLog);
 

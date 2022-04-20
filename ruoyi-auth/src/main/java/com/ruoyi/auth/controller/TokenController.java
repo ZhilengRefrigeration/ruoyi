@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ruoyi.auth.form.LoginBody;
 import com.ruoyi.auth.form.RegisterBody;
 import com.ruoyi.auth.service.SysLoginService;
-import com.ruoyi.common.core.domain.R;
+import com.ruoyi.common.core.domain.Rust;
 import com.ruoyi.common.core.utils.JwtUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.security.auth.AuthUtil;
@@ -32,16 +32,16 @@ public class TokenController
     private SysLoginService sysLoginService;
 
     @PostMapping("login")
-    public R<?> login(@RequestBody LoginBody form)
+    public Rust<?> login(@RequestBody LoginBody form)
     {
         // 用户登录
         LoginUser userInfo = sysLoginService.login(form.getUsername(), form.getPassword());
         // 获取登录token
-        return R.ok(tokenService.createToken(userInfo));
+        return Rust.ok(tokenService.createToken(userInfo));
     }
 
     @DeleteMapping("logout")
-    public R<?> logout(HttpServletRequest request)
+    public Rust<?> logout(HttpServletRequest request)
     {
         String token = SecurityUtils.getToken(request);
         if (StringUtils.isNotEmpty(token))
@@ -52,27 +52,27 @@ public class TokenController
             // 记录用户退出日志
             sysLoginService.logout(username);
         }
-        return R.ok();
+        return Rust.ok();
     }
 
     @PostMapping("refresh")
-    public R<?> refresh(HttpServletRequest request)
+    public Rust<?> refresh(HttpServletRequest request)
     {
         LoginUser loginUser = tokenService.getLoginUser(request);
         if (StringUtils.isNotNull(loginUser))
         {
             // 刷新令牌有效期
             tokenService.refreshToken(loginUser);
-            return R.ok();
+            return Rust.ok();
         }
-        return R.ok();
+        return Rust.ok();
     }
 
     @PostMapping("register")
-    public R<?> register(@RequestBody RegisterBody registerBody)
+    public Rust<?> register(@RequestBody RegisterBody registerBody)
     {
         // 用户注册
         sysLoginService.register(registerBody.getUsername(), registerBody.getPassword());
-        return R.ok();
+        return Rust.ok();
     }
 }

@@ -1,7 +1,8 @@
 package com.ruoyi.common.core.utils.file;
 
-import java.io.File;
 import org.apache.commons.lang3.StringUtils;
+
+import java.io.File;
 
 /**
  * 文件类型工具类
@@ -54,10 +55,10 @@ public class FileTypeUtils
     public static String getFileExtendName(byte[] photoByte)
     {
         String strFileExtendName = "JPG";
-        if ((photoByte[0] == 71) && (photoByte[1] == 73) && (photoByte[2] == 70) && (photoByte[3] == 56)
-                && ((photoByte[4] == 55) || (photoByte[4] == 57)) && (photoByte[5] == 97))
-        {
-            strFileExtendName = "GIF";
+        if ((photoByte[0] == 71) && (photoByte[1] == 73) && (photoByte[2] == 70) && (photoByte[3] == 56) && (photoByte[5] == 97)) {
+            if ((photoByte[4] == 55) || (photoByte[4] == 57)) {
+                strFileExtendName = "GIF";
+            }
         }
         else if ((photoByte[6] == 74) && (photoByte[7] == 70) && (photoByte[8] == 73) && (photoByte[9] == 70))
         {

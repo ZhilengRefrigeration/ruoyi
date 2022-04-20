@@ -40,7 +40,7 @@ public class SecurityContextHolder
         Map<String, Object> map = THREAD_LOCAL.get();
         if (map == null)
         {
-            map = new ConcurrentHashMap<String, Object>();
+            map = new ConcurrentHashMap<String, Object>(2);
             THREAD_LOCAL.set(map);
         }
         return map;

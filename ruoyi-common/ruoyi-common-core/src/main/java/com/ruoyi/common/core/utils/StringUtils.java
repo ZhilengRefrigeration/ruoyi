@@ -1,11 +1,12 @@
 package com.ruoyi.common.core.utils;
 
+import com.ruoyi.common.core.constant.Constants;
+import com.ruoyi.common.core.text.StrFormatter;
+import org.springframework.util.AntPathMatcher;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import org.springframework.util.AntPathMatcher;
-import com.ruoyi.common.core.constant.Constants;
-import com.ruoyi.common.core.text.StrFormatter;
 
 /**
  * 字符串工具类
@@ -332,9 +333,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
             if (preCharIsUpperCase && curreCharIsUpperCase && !nexteCharIsUpperCase)
             {
                 sb.append(SEPARATOR);
-            }
-            else if ((i != 0 && !preCharIsUpperCase) && curreCharIsUpperCase)
-            {
+            } else if (i != 0 && !preCharIsUpperCase && curreCharIsUpperCase) {
                 sb.append(SEPARATOR);
             }
             sb.append(Character.toLowerCase(c));

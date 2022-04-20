@@ -1,26 +1,5 @@
 package com.ruoyi.gen.service;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.core.constant.Constants;
@@ -36,6 +15,28 @@ import com.ruoyi.gen.mapper.GenTableMapper;
 import com.ruoyi.gen.util.GenUtils;
 import com.ruoyi.gen.util.VelocityInitializer;
 import com.ruoyi.gen.util.VelocityUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * 业务 服务层实现
@@ -308,13 +309,14 @@ public class GenTableServiceImpl implements IGenTableService
                     column.setDictType(prevColumn.getDictType());
                     column.setQueryType(prevColumn.getQueryType());
                 }
-                if (StringUtils.isNotEmpty(prevColumn.getIsRequired()) && !column.isPk()
-                        && (column.isInsert() || column.isEdit())
-                        && ((column.isUsableColumn()) || (!column.isSuperColumn())))
-                {
-                    // 如果是(新增/修改&非主键/非忽略及父属性)，继续保留必填/显示类型选项
-                    column.setIsRequired(prevColumn.getIsRequired());
-                    column.setHtmlType(prevColumn.getHtmlType());
+                if (StringUtils.isNotEmpty(prevColumn.getIsRequired()) && !column.isPk()) {
+                    if (column.isInsert() || column.isEdit()) {
+                        if (column.isUsableColumn() || (!column.isSuperColumn())) {
+                            // 如果是(新增/修改&非主键/非忽略及父属性)，继续保留必填/显示类型选项
+                            column.setIsRequired(prevColumn.getIsRequired());
+                            column.setHtmlType(prevColumn.getHtmlType());
+                        }
+                    }
                 }
                 genTableColumnMapper.updateGenTableColumn(column);
             }

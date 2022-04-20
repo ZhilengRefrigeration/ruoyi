@@ -1,9 +1,10 @@
 package com.ruoyi.job.service;
 
-import java.util.List;
-import org.quartz.SchedulerException;
 import com.ruoyi.common.core.exception.job.TaskException;
 import com.ruoyi.job.domain.SysJob;
+import org.quartz.SchedulerException;
+
+import java.util.List;
 
 /**
  * 定时任务调度信息信息 服务层
@@ -30,9 +31,9 @@ public interface ISysJobService
 
     /**
      * 暂停任务
-     * 
      * @param job 调度信息
      * @return 结果
+     * @throws SchedulerException
      */
     public int pauseJob(SysJob job) throws SchedulerException;
 
@@ -41,6 +42,7 @@ public interface ISysJobService
      * 
      * @param job 调度信息
      * @return 结果
+     * @throws SchedulerException 异常
      */
     public int resumeJob(SysJob job) throws SchedulerException;
 
@@ -49,6 +51,7 @@ public interface ISysJobService
      * 
      * @param job 调度信息
      * @return 结果
+     * @throws SchedulerException 异常
      */
     public int deleteJob(SysJob job) throws SchedulerException;
 

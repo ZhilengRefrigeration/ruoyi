@@ -1,11 +1,12 @@
 package com.ruoyi.common.core.utils.uuid;
 
+import com.ruoyi.common.core.exception.UtilException;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-import com.ruoyi.common.core.exception.UtilException;
 
 /**
  * 提供通用唯一识别码（universally unique identifier）（UUID）实现
@@ -70,9 +71,9 @@ public final class UUID implements java.io.Serializable, Comparable<UUID>
      * 
      * @return 随机生成的 {@code UUID}
      */
-    public static UUID fastUUID()
+    public static UUID fastuuid()
     {
-        return randomUUID(false);
+        return randomuuid(false);
     }
 
     /**
@@ -80,9 +81,9 @@ public final class UUID implements java.io.Serializable, Comparable<UUID>
      * 
      * @return 随机生成的 {@code UUID}
      */
-    public static UUID randomUUID()
+    public static UUID randomuuid()
     {
-        return randomUUID(true);
+        return randomuuid(true);
     }
 
     /**
@@ -91,7 +92,7 @@ public final class UUID implements java.io.Serializable, Comparable<UUID>
      * @param isSecure 是否使用{@link SecureRandom}如果是可以获得更安全的随机码，否则可以得到更好的性能
      * @return 随机生成的 {@code UUID}
      */
-    public static UUID randomUUID(boolean isSecure)
+    public static UUID randomuuid(boolean isSecure)
     {
         final Random ng = isSecure ? Holder.NUMBER_GENERATOR : getRandom();
 
@@ -111,7 +112,7 @@ public final class UUID implements java.io.Serializable, Comparable<UUID>
      *
      * @return 根据指定数组生成的 {@code UUID}
      */
-    public static UUID nameUUIDFromBytes(byte[] name)
+    public static UUID nameUuidFromBytes(byte[] name)
     {
         MessageDigest md;
         try
@@ -147,7 +148,10 @@ public final class UUID implements java.io.Serializable, Comparable<UUID>
         }
         for (int i = 0; i < 5; i++)
         {
-            components[i] = "0x" + components[i];
+            StringBuilder sb = new StringBuilder();
+            sb.append(sb);
+            sb.append(components[i]);
+            components[i] = sb.toString();
         }
 
         long mostSigBits = Long.decode(components[0]).longValue();

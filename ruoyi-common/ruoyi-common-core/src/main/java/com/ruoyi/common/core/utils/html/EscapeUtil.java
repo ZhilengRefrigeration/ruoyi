@@ -58,7 +58,7 @@ public class EscapeUtil
      */
     public static String clean(String content)
     {
-        return new HTMLFilter().filter(content);
+        return new HtmlFilter().filter(content);
     }
 
     /**

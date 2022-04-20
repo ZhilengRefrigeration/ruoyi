@@ -9,19 +9,29 @@ import com.ruoyi.common.core.utils.StringUtils;
  */
 public class Seq
 {
-    // 通用序列类型
+    /**
+     * 通用序列类型
+     */
     public static final String COMM_SEQ_TYPE = "COMMON";
 
-    // 上传序列类型
+    /**
+     * 上传序列类型
+     */
     public static final String UPLOAD_SEQ_TYPE = "UPLOAD";
 
-    // 通用接口序列数
+    /**
+     * 通用接口序列数
+     */
     private static AtomicInteger commSeq = new AtomicInteger(1);
 
-    // 上传接口序列数
+    /**
+     * 上传接口序列数
+     */
     private static AtomicInteger uploadSeq = new AtomicInteger(1);
 
-    // 机器标识
+    /**
+     * 机器标识
+     */
     private static String machineCode = "A";
 
     /**

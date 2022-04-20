@@ -2,6 +2,9 @@ package com.ruoyi.system.service;
 
 import java.util.Set;
 
+/**
+ * @author pan
+ */
 public interface ISysPermissionService
 {
     /**

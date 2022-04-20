@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.constant.UserConstants;
-import com.ruoyi.common.core.domain.R;
+import com.ruoyi.common.core.domain.Rust;
 import com.ruoyi.common.core.enums.UserStatus;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.ServletUtils;
@@ -58,9 +58,9 @@ public class SysLoginService
             throw new ServiceException("用户名不在指定范围");
         }
         // 查询用户信息
-        R<LoginUser> userResult = remoteUserService.getUserInfo(username, SecurityConstants.INNER);
+        Rust<LoginUser> userResult = remoteUserService.getUserInfo(username, SecurityConstants.INNER);
 
-        if (R.FAIL == userResult.getCode())
+        if (Rust.FAIL == userResult.getCode())
         {
             throw new ServiceException(userResult.getMsg());
         }
@@ -122,9 +122,9 @@ public class SysLoginService
         sysUser.setUserName(username);
         sysUser.setNickName(username);
         sysUser.setPassword(SecurityUtils.encryptPassword(password));
-        R<?> registerResult = remoteUserService.registerUserInfo(sysUser, SecurityConstants.INNER);
+        Rust<?> registerResult = remoteUserService.registerUserInfo(sysUser, SecurityConstants.INNER);
 
-        if (R.FAIL == registerResult.getCode())
+        if (Rust.FAIL == registerResult.getCode())
         {
             throw new ServiceException(registerResult.getMsg());
         }

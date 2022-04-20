@@ -12,9 +12,9 @@ public class IdUtils
      * 
      * @return 随机UUID
      */
-    public static String randomUUID()
+    public static String randomuuid()
     {
-        return UUID.randomUUID().toString();
+        return UUID.randomuuid().toString();
     }
 
     /**
@@ -22,9 +22,9 @@ public class IdUtils
      * 
      * @return 简化的UUID，去掉了横线
      */
-    public static String simpleUUID()
+    public static String simpleuuid()
     {
-        return UUID.randomUUID().toString(true);
+        return UUID.randomuuid().toString(true);
     }
 
     /**
@@ -32,9 +32,9 @@ public class IdUtils
      * 
      * @return 随机UUID
      */
-    public static String fastUUID()
+    public static String fastuuid()
     {
-        return UUID.fastUUID().toString();
+        return UUID.fastuuid().toString();
     }
 
     /**
@@ -42,8 +42,8 @@ public class IdUtils
      * 
      * @return 简化的UUID，去掉了横线
      */
-    public static String fastSimpleUUID()
+    public static String fastsimpleuuid()
     {
-        return UUID.fastUUID().toString(true);
+        return UUID.fastuuid().toString(true);
     }
 }

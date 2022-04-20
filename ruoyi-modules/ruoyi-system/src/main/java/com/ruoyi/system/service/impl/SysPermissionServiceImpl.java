@@ -1,14 +1,18 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.HashSet;
-import java.util.Set;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.service.ISysMenuService;
 import com.ruoyi.system.service.ISysPermissionService;
 import com.ruoyi.system.service.ISysRoleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.Set;
+
+/**
+ * @author pan
+ */
 @Service
 public class SysPermissionServiceImpl implements ISysPermissionService
 {
