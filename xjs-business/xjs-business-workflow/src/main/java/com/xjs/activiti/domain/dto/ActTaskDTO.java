@@ -18,6 +18,8 @@ public class ActTaskDTO extends BaseEntity {
 
     private String id;
 
+    private String processInstanceId;
+
     private String name;
 
     private String status;
@@ -28,17 +30,39 @@ public class ActTaskDTO extends BaseEntity {
     private String definitionKey;
     private String businessKey;
 
+    /**
+     * 上一个节点处理人
+     */
+    private String assignee;
+
     public ActTaskDTO() {
     }
 
     public ActTaskDTO(Task task, ProcessInstance processInstance) {
         this.id = task.getId();
+        this.processInstanceId = task.getProcessInstanceId();
         this.name = task.getName();
         this.status = task.getStatus().toString();
         this.createdDate = task.getCreatedDate();
         this.instanceName = processInstance.getName();
         this.definitionKey = processInstance.getProcessDefinitionKey();
         this.businessKey = processInstance.getBusinessKey();
+    }
+
+    public String getProcessInstanceId() {
+        return processInstanceId;
+    }
+
+    public void setProcessInstanceId(String processInstanceId) {
+        this.processInstanceId = processInstanceId;
+    }
+
+    public String getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(String assignee) {
+        this.assignee = assignee;
     }
 
     public String getId() {

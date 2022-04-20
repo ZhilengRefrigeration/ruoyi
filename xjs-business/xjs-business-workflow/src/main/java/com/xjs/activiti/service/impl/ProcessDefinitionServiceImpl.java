@@ -84,6 +84,7 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
     @Override
     public int deleteProcessDefinitionById(String id) {
         try {
+            //true级联删除  false有关联则抛异常
             repositoryService.deleteDeployment(id, true);
         } catch (Exception e) {
             throw new ActivitiException("该流程已使用！无法删除！如需删除，请先删除相关任务！");

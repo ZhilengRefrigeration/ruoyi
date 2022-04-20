@@ -13,6 +13,7 @@ import com.xjs.activiti.domain.dto.ActWorkflowFormDataDTO;
 import com.xjs.activiti.service.IActTaskService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -36,13 +37,12 @@ public class TaskController extends BaseController {
         PageDomain pageDomain = TableSupport.buildPageRequest();
         Page<ActTaskDTO> hashMaps = actTaskService.selectProcessDefinitionList(pageDomain);
         return getDataTable(hashMaps);
-
-
     }
 
 
     //渲染表单
     @GetMapping(value = "/formDataShow/{taskID}")
+    @RequiresPermissions("activiti:task:query")
     public AjaxResult formDataShow(@PathVariable("taskID") String taskID) {
 
         return AjaxResult.success(actTaskService.formDataShow(taskID));
@@ -50,8 +50,16 @@ public class TaskController extends BaseController {
 
     //保存表单
     @PostMapping(value = "/formDataSave/{taskID}")
+    @RequiresPermissions("activiti:task:save")
     public AjaxResult formDataSave(@PathVariable("taskID") String taskID,
                                    @RequestBody List<ActWorkflowFormDataDTO> formData) throws ParseException {
+        for (ActWorkflowFormDataDTO formDatum : formData) {
+            Assert.notNull(formDatum.getControlValue(),"参数不能为空");
+
+            if (formDatum.getControlValue().length() > 100) {
+                throw new IllegalArgumentException("长度超出 100 限制");
+            }
+        }
         return toAjax(actTaskService.formDataSave(taskID, formData));
 
     }

@@ -17,7 +17,7 @@
             type="text"
             icon="el-icon-edit"
             @click="examineAndApprove (scope.row)"
-            v-hasPermi="['workflow:leave:edit']"
+            v-hasPermi="['activiti:task:query']"
           >审批
           </el-button>
         </template>
@@ -34,7 +34,7 @@
 
     <!-- 审批对话框 -->
     <el-dialog :title="title" :visible.sync="open" v-if="open" width="500px" append-to-body>
-      <leaveHistoryForm :businessKey="businessKey" v-if="'leave'==definitionKey"/>
+      <leaveHistoryForm :businessKey="businessKey" v-if="'leave'===definitionKey"/>
 
       <el-form :model="form" ref="form" label-width="100px" class="demo-dynamic">
         <el-form-item
@@ -42,7 +42,7 @@
           :label="domain.controlLable"
           :key="index"
         >
-          <el-radio-group v-model="domain.controlValue" v-if="'radio'==domain.controlType">
+          <el-radio-group v-model="domain.controlValue" v-if="'radio'===domain.controlType">
             <el-radio v-for="(defaults,indexd) in domain.controlDefault.split('--__--')"
                       :label=indexd
                       :key="indexd"
@@ -51,13 +51,13 @@
             </el-radio>
 
           </el-radio-group>
-          <el-input type="textarea" v-model="domain.controlValue" v-if="'textarea'==domain.controlType"
+          <el-input maxlength="1010" type="textarea" v-model="domain.controlValue" v-if="'textarea'===domain.controlType"
           ></el-input>
         </el-form-item>
       </el-form>
 
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button type="primary" @click="submitForm" v-hasPermi="['activiti:task:save']">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>

@@ -21,19 +21,27 @@
         <el-form-item label="结束时间">
           <at-alert show-icon :message="form.leaveEndTime" type="info"></at-alert>
         </el-form-item>
+        <div v-for="(historyData, index) in fromData"
+             :key="index">
+          <el-form-item label="">
+            <at-alert show-icon :message="historyData.taskNodeName" type="warning"></at-alert>
+          </el-form-item>
+          <el-form-item label="审批人">
+            <at-alert show-icon :message="historyData.createName" type="info"></at-alert>
+          </el-form-item>
+          <el-form-item label="审批时间">
+            <at-alert show-icon :message="historyData.createdDate" type="info"></at-alert>
+          </el-form-item>
+
+          <el-form v-for="(fistoryFormData, indexH) in historyData.formHistoryDataDTO" :key="indexH" label-width="80px">
+            <el-form-item :label=fistoryFormData.title>
+              <el-input type="textarea" :rows="1" disabled v-model="fistoryFormData.value"/>
+            </el-form-item>
+          </el-form>
+        </div>
       </el-form>
     </div>
-    <div v-for="(historyData, index) in fromData"
-         :key="index">
-      <h2>{{ historyData.taskNodeName }}</h2>
-      <h3>审批人:{{ historyData.createName }}</h3>
-      <h3>审批时间:{{ historyData.createdDate }}</h3>
-      <el-form v-for="(fistoryFormData, indexH) in historyData.formHistoryDataDTO" :key="indexH" label-width="80px">
-        <el-form-item :label=fistoryFormData.title>
-          <el-input v-model="fistoryFormData.value"/>
-        </el-form-item>
-      </el-form>
-    </div>
+
   </div>
 </template>
 

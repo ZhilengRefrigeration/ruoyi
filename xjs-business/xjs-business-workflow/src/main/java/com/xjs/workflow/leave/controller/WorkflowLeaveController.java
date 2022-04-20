@@ -9,11 +9,15 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.common.security.utils.SecurityUtils;
+import com.xjs.validation.group.AddGroup;
+import com.xjs.validation.group.SelectGroup;
+import com.xjs.validation.group.UpdateGroup;
 import com.xjs.workflow.leave.domain.WorkflowLeave;
 import com.xjs.workflow.leave.service.IWorkflowLeaveService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -38,7 +42,7 @@ public class WorkflowLeaveController extends BaseController {
     @GetMapping("/list")
     @RequiresPermissions("workflow:leave:list")
     @ApiOperation("查询请假列表")
-    public TableDataInfo list(WorkflowLeave workflowLeave) {
+    public TableDataInfo list(@Validated(SelectGroup.class) WorkflowLeave workflowLeave) {
         startPage();
         workflowLeave.setCreateBy(SecurityUtils.getUsername());
         List<WorkflowLeave> list = workflowLeaveService.selectWorkflowLeaveAndTaskNameList(workflowLeave);
@@ -98,7 +102,7 @@ public class WorkflowLeaveController extends BaseController {
     @Log(title = "请假", businessType = BusinessType.INSERT)
     @PostMapping
     @ApiOperation("新增请假")
-    public AjaxResult add(@RequestBody WorkflowLeave workflowLeave) {
+    public AjaxResult add(@Validated(AddGroup.class)@RequestBody WorkflowLeave workflowLeave) {
         return toAjax(workflowLeaveService.insertWorkflowLeave(workflowLeave));
     }
 
@@ -109,7 +113,7 @@ public class WorkflowLeaveController extends BaseController {
     @ApiOperation("修改请假")
     @PutMapping
     @RequiresPermissions("workflow:leave:edit")
-    public AjaxResult edit(@RequestBody WorkflowLeave workflowLeave) {
+    public AjaxResult edit(@Validated(UpdateGroup.class)@RequestBody WorkflowLeave workflowLeave) {
         return toAjax(workflowLeaveService.insertWorkflowLeave(workflowLeave));
     }
 

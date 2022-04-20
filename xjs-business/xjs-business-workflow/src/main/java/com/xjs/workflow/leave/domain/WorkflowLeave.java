@@ -2,9 +2,14 @@ package com.xjs.workflow.leave.domain;
 
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import com.xjs.validation.group.AddGroup;
+import com.xjs.validation.group.SelectGroup;
+import com.xjs.validation.group.UpdateGroup;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -25,18 +30,24 @@ public class WorkflowLeave extends BaseEntity {
      * 请假类型
      */
     @Excel(name = "请假类型")
+    @NotBlank(message = "请假类型不能为空",groups = {AddGroup.class, UpdateGroup.class})
+    @Size(min = 1, max = 5, message = "请假类型长度不能超过 10 个字符", groups = {SelectGroup.class, AddGroup.class, UpdateGroup.class})
     private String type;
 
     /**
      * 标题
      */
     @Excel(name = "标题")
+    @NotBlank(message = "请假标题不能为空",groups = {AddGroup.class, UpdateGroup.class})
+    @Size(min = 1, max = 100, message = "请假标题长度不能超过 10 个字符", groups = {SelectGroup.class, AddGroup.class, UpdateGroup.class})
     private String title;
 
     /**
      * 原因
      */
     @Excel(name = "原因")
+    @NotBlank(message = "请假原因不能为空",groups = {AddGroup.class, UpdateGroup.class})
+    @Size(min = 1, max = 500, message = "请假原因长度不能超过 500 个字符", groups = {AddGroup.class, UpdateGroup.class})
     private String reason;
 
     /**
@@ -58,7 +69,8 @@ public class WorkflowLeave extends BaseEntity {
     /**
      * 状态
      */
-    @Excel(name = "状态",readConverterExp = "0=进行中,1=成功,2=失败")
+    @Excel(name = "状态", readConverterExp = "0=进行中,1=成功,2=失败")
+    @Size(min = 1, max = 1, message = "请假状态长度不能超过 1 个字符", groups = {SelectGroup.class})
     private String state;
 
     /**

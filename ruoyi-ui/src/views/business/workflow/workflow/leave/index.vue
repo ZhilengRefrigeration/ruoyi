@@ -6,6 +6,7 @@
           v-model="queryParams.title"
           placeholder="请输入标题"
           clearable
+          maxlength="10"
           size="small"
           @keyup.enter.native="handleQuery"
         />
@@ -353,6 +354,7 @@ export default {
       this.reset()
       getLeave(row.id).then(response => {
         this.form = response.data
+        this.form.betDateTime =[response.data.leaveStartTime,response.data.leaveEndTime]
         this.open = true
         this.title = '修改请假'
       })

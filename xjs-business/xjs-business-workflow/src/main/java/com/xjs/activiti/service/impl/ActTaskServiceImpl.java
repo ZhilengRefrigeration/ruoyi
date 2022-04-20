@@ -2,6 +2,7 @@
 
 package com.xjs.activiti.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.github.pagehelper.Page;
 import com.ruoyi.common.core.web.page.PageDomain;
 import com.ruoyi.common.security.utils.SecurityUtils;
@@ -12,14 +13,15 @@ import com.xjs.activiti.service.IActTaskService;
 import com.xjs.activiti.service.IActWorkflowFormDataService;
 import org.activiti.api.runtime.shared.query.Pageable;
 import org.activiti.api.task.model.Task;
-import org.activiti.api.task.model.builders.TaskPayloadBuilder;
 import org.activiti.api.task.runtime.TaskRuntime;
 import org.activiti.bpmn.model.BaseElement;
 import org.activiti.bpmn.model.FormProperty;
 import org.activiti.bpmn.model.UserTask;
+import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.TaskQuery;
 import org.activiti.runtime.api.model.impl.APITaskConverter;
@@ -28,7 +30,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -52,9 +57,10 @@ public class ActTaskServiceImpl implements IActTaskService {
     private RuntimeService runtimeService;
     @Autowired
     private IActWorkflowFormDataService actWorkflowFormDataService;
-
     @Autowired
     private APITaskConverter taskConverter;
+    @Autowired
+    private HistoryService historyService;
 
 
     @Override
@@ -72,7 +78,26 @@ public class ActTaskServiceImpl implements IActTaskService {
         if (totalItems != 0) {
             Set<String> processInstanceIdIds = tasks.parallelStream().map(Task::getProcessInstanceId).collect(Collectors.toSet());
             List<ProcessInstance> processInstanceList = runtimeService.createProcessInstanceQuery().processInstanceIds(processInstanceIdIds).list();
-            List<ActTaskDTO> actTaskDTOS = tasks.stream().map(t -> new ActTaskDTO(t, processInstanceList.parallelStream().filter(pi -> t.getProcessInstanceId().equals(pi.getId())).findAny().get())).collect(Collectors.toList());
+
+            List<ActTaskDTO> actTaskDTOS = tasks.stream()
+                    .map(t -> {
+                        ActTaskDTO actTaskDTO = new ActTaskDTO(t, processInstanceList.parallelStream()
+                                .filter(pi ->
+                                        t.getProcessInstanceId().equals(pi.getId())).findAny().get());
+
+                        //根据开始时间获取历史任务中的办理人
+                        List<HistoricTaskInstance> instanceList = historyService.createHistoricTaskInstanceQuery()
+                                .processInstanceId(actTaskDTO.getProcessInstanceId())
+                                .orderByHistoricTaskInstanceStartTime()
+                                .asc()
+                                .list();
+                        if (CollUtil.isNotEmpty(instanceList)) {
+                            actTaskDTO.setAssignee(instanceList.get(0).getAssignee());
+                        }
+
+                        return actTaskDTO;
+                    })
+                    .collect(Collectors.toList());
             list.addAll(actTaskDTOS);
         }
         return list;
@@ -117,7 +142,6 @@ public class ActTaskServiceImpl implements IActTaskService {
 
         ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
 
-        boolean hasVariables = false;//没有任何参数
         HashMap<String, Object> variables = new HashMap<String, Object>();
         //前端传来的字符串，拆分成每个控件
         List<ActWorkflowFormData> acwfds = new ArrayList<>();
@@ -127,19 +151,21 @@ public class ActTaskServiceImpl implements IActTaskService {
             //构建参数集合
             if (!"f".equals(awf.getControlIsParam())) {
                 variables.put(awf.getControlId(), awf.getControlValue());
-                hasVariables = true;
             }
         }//for结束
         if (task.getAssignee() == null) {
-            taskRuntime.claim(TaskPayloadBuilder.claim().withTaskId(task.getId()).build());
-        }
-        if (hasVariables) {
-            //带参数完成任务
-            taskRuntime.complete(TaskPayloadBuilder.complete().withTaskId(taskID).withVariables(variables).build());
-        } else {
-            taskRuntime.complete(TaskPayloadBuilder.complete().withTaskId(taskID).build());
-        }
+            //taskRuntime.claim(TaskPayloadBuilder.claim().withTaskId(task.getId()).build());
 
+            String username = SecurityUtils.getUsername();
+            taskService.claim(task.getId(), username);
+
+        }
+        //带参数完成任务
+        //taskRuntime.complete(TaskPayloadBuilder.complete().withTaskId(taskID).withVariables(variables).build());
+
+        taskService.complete(task.getId(), variables, true);
+
+        //taskRuntime.complete(TaskPayloadBuilder.complete().withTaskId(taskID).build());
 
         //写入数据库
         return actWorkflowFormDataService.insertActWorkflowFormDatas(acwfds);
