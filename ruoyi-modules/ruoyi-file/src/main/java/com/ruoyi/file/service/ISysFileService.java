@@ -45,7 +45,7 @@ public interface ISysFileService
          * @see LocalSysFileServiceImpl
          * 2014-07-06
          */
-        DEFAULT,
+        LOCAL_FILE,
         /**
          * ftp, 如：iis、linux ftp、vsftpd、FileZilla Server，需要自己搭建服务
          * 这里的FTP要求和主项目在同一个服务器，并且访问路径完全同DEFAULT ,只是DEFAULT: tomcat处理、ftp: 使用 其他ftp工具处理

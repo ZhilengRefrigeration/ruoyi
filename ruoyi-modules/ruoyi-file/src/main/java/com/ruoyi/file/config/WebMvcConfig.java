@@ -5,8 +5,6 @@ import com.qcloud.cos.COSClient;
 import com.ruoyi.file.service.*;
 import io.minio.MinioClient;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -46,12 +44,13 @@ public class WebMvcConfig implements WebMvcConfigurer, ApplicationContextAware {
     /***
      * 指定文件服务器类型
      */
-    protected ISysFileService.DfsTypeEnum fileServerType = ISysFileService.DfsTypeEnum.DEFAULT;
+    protected ISysFileService.DfsTypeEnum fileServerType = ISysFileService.DfsTypeEnum.LOCAL_FILE;
 
     @Primary
     @Description("dfs bean.....")
     @ConditionalOnMissingBean
     @Bean(name = "ISysFileService")
+    @RefreshScope
     public ISysFileService registFileBean(FastFileStorageClient fastFileStorageClient, FastDfsConfig fastDfsConfig,
                                           FtpConfig ftpConfig,
                                           AliyunOssConfig aliyunOssConfig,
