@@ -9,6 +9,15 @@ export function listTask(query) {
   })
 }
 
+// 查询历史task列表
+export function listHistoryTask(query) {
+  return request({
+    url: '/workflow/task/historyList',
+    method: 'get',
+    params: query
+  })
+}
+
 // 查询表单
 export function formDataShow(taskID) {
   return request({

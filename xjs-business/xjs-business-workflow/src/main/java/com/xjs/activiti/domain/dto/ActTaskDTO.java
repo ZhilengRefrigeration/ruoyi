@@ -1,8 +1,9 @@
 package com.xjs.activiti.domain.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 import org.activiti.api.task.model.Task;
+import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.runtime.ProcessInstance;
 
 import java.util.Date;
@@ -24,8 +25,10 @@ public class ActTaskDTO extends BaseEntity {
 
     private String status;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createdDate;
+
+    private Date endDate;
+
     private String instanceName;
     private String definitionKey;
     private String businessKey;
@@ -47,6 +50,25 @@ public class ActTaskDTO extends BaseEntity {
         this.instanceName = processInstance.getName();
         this.definitionKey = processInstance.getProcessDefinitionKey();
         this.businessKey = processInstance.getBusinessKey();
+    }
+
+    public ActTaskDTO(HistoricTaskInstance historicTaskInstance, HistoricProcessInstance processInstance) {
+        this.id = historicTaskInstance.getId();
+        this.processInstanceId = historicTaskInstance.getProcessInstanceId();
+        this.name = historicTaskInstance.getName();
+        this.createdDate = historicTaskInstance.getCreateTime();
+        this.endDate = historicTaskInstance.getEndTime();
+        this.instanceName = processInstance.getName();
+        this.definitionKey = processInstance.getProcessDefinitionKey();
+        this.businessKey = processInstance.getBusinessKey();
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public String getProcessInstanceId() {

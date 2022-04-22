@@ -34,7 +34,7 @@ public class ZolNotebookServiceImpl extends ServiceImpl<ZolNotebookMapper, ZolNo
                     .like(ZolNotebook::getDescription, condition);
         });
         //排序规则
-        wr.orderByAsc(ZolNotebook::getSort).orderByDesc(ZolNotebook::getId);
+        wr.orderByDesc(ZolNotebook::getId);
         return this.page(startPageMP, wr);
     }
 }

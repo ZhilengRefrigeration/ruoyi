@@ -17,11 +17,11 @@ import java.util.List;
 public interface IActTaskService {
 
     /**
-     * 查询流程定义列表
+     * 查询待办任务列表
      * @param pageDomain 分页参数
      * @return
      */
-    Page<ActTaskDTO> selectProcessDefinitionList(PageDomain pageDomain);
+    Page<ActTaskDTO> selectTaskList(PageDomain pageDomain);
 
     /**
      * 根据任务id查询表格数据
@@ -40,4 +40,11 @@ public interface IActTaskService {
      * @throws ParseException
      */
     int formDataSave(String taskID, List<ActWorkflowFormDataDTO> awfs) throws ParseException;
+
+    /**
+     * 查询已办任务
+     * @param pageDomain -分页参数
+     * @return page
+     */
+    Page<ActTaskDTO> selectHistoryTaskList(PageDomain pageDomain);
 }

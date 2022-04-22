@@ -50,18 +50,6 @@ public class WorkflowLeaveController extends BaseController {
     }
 
     /**
-     * 查询请假列表
-     */
-    @GetMapping("/listAll")
-    @RequiresPermissions("workflow:leave:list")
-    @ApiOperation("查询请假列表")
-    public TableDataInfo listAll(WorkflowLeave workflowLeave) {
-        startPage();
-        List<WorkflowLeave> list = workflowLeaveService.selectWorkflowLeaveList(workflowLeave);
-        return getDataTable(list);
-    }
-
-    /**
      * 导出请假列表
      */
     @Log(title = "请假", businessType = BusinessType.EXPORT)

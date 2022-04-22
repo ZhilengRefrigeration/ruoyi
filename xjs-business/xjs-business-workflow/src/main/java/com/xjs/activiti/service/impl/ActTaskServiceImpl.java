@@ -21,7 +21,10 @@ import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
+import org.activiti.engine.history.HistoricTaskInstanceQuery;
+import org.activiti.engine.impl.persistence.entity.HistoricProcessInstanceEntityImpl;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.TaskQuery;
 import org.activiti.runtime.api.model.impl.APITaskConverter;
@@ -64,7 +67,7 @@ public class ActTaskServiceImpl implements IActTaskService {
 
 
     @Override
-    public Page<ActTaskDTO> selectProcessDefinitionList(PageDomain pageDomain) {
+    public Page<ActTaskDTO> selectTaskList(PageDomain pageDomain) {
         Page<ActTaskDTO> list = new Page<ActTaskDTO>();
 
         //org.activiti.api.runtime.shared.query.Page<Task> pageTasks = taskRuntime
@@ -109,6 +112,15 @@ public class ActTaskServiceImpl implements IActTaskService {
 
         org.activiti.engine.task.Task task = taskService.createTaskQuery().taskId(taskID).singleResult();
 
+        UserTask userTask;
+        if (task == null) {
+            HistoricTaskInstance historicTask = historyService.createHistoricTaskInstanceQuery().taskId(taskID).singleResult();
+            userTask = (UserTask) repositoryService.getBpmnModel(historicTask.getProcessDefinitionId()).getFlowElement(historicTask.getFormKey());
+
+        } else {
+            userTask = (UserTask) repositoryService.getBpmnModel(task.getProcessDefinitionId()).getFlowElement(task.getFormKey());
+        }
+
 /*  ------------------------------------------------------------------------------
             FormProperty_0ueitp2--__!!类型--__!!名称--__!!是否参数--__!!默认值
             例子：
@@ -121,7 +133,6 @@ public class ActTaskServiceImpl implements IActTaskService {
             */
 
         //注意!!!!!!!!:表单Key必须要任务编号一模一样，因为参数需要任务key，但是无法获取，只能获取表单key“task.getFormKey()”当做任务key
-        UserTask userTask = (UserTask) repositoryService.getBpmnModel(task.getProcessDefinitionId()).getFlowElement(task.getFormKey());
 
         if (userTask == null) {
             return null;
@@ -171,6 +182,46 @@ public class ActTaskServiceImpl implements IActTaskService {
         return actWorkflowFormDataService.insertActWorkflowFormDatas(acwfds);
     }
 
+    @Override
+    public Page<ActTaskDTO> selectHistoryTaskList(PageDomain pageDomain) {
+        Page<ActTaskDTO> list = new Page<ActTaskDTO>();
+
+        Pageable pageable = Pageable.of((pageDomain.getPageNum() - 1) * pageDomain.getPageSize(), pageDomain.getPageSize());
+        String username = SecurityUtils.getUsername();
+        List<String> postCode = SecurityUtils.getLoginUser().getSysUser().getPostCode();
+        HistoricTaskInstanceQuery taskInstanceQuery = historyService.createHistoricTaskInstanceQuery()
+                .or()
+                .taskAssignee(username)
+                .taskOwner(username)
+                .taskCandidateUser(username, postCode)
+                .endOr();
+
+        List<HistoricTaskInstance> taskInstanceList = taskInstanceQuery.orderByHistoricTaskInstanceStartTime().desc().listPage(pageable.getStartIndex(), pageable.getMaxItems());
+
+        Set<String> processInstanceIdIds = taskInstanceList.parallelStream().map(HistoricTaskInstance::getProcessInstanceId).collect(Collectors.toSet());
+        List<HistoricProcessInstance> processInstanceList = new ArrayList<>();
+        if (CollUtil.isNotEmpty(processInstanceIdIds)) {
+            processInstanceList = historyService.createHistoricProcessInstanceQuery().processInstanceIds(processInstanceIdIds).list();
+        }
+
+        List<HistoricProcessInstance> finalProcessInstanceList = processInstanceList;
+        List<ActTaskDTO> actTaskDTOS = taskInstanceList.stream()
+                .map(t ->
+
+                        new ActTaskDTO(t, finalProcessInstanceList.parallelStream()
+                                .filter(pi ->
+                                        t.getProcessInstanceId().equals(pi.getId())).findAny().orElse(new HistoricProcessInstanceEntityImpl())
+                        )
+                )
+                .collect(Collectors.toList());
+        list.addAll(actTaskDTOS);
+
+        long count = taskInstanceQuery.count();
+        list.setTotal(count);
+
+        return list;
+    }
+
 
     /**
      * task创建查询
@@ -188,7 +239,9 @@ public class ActTaskServiceImpl implements IActTaskService {
                 .taskCandidateOrAssigned(username, postCode)
                 .taskOwner(username)
                 .endOr();
-        List<Task> tasks = taskConverter.from(taskQuery.listPage(pageable.getStartIndex(), pageable.getMaxItems()));
+
+        List<org.activiti.engine.task.Task> list = taskQuery.listPage(pageable.getStartIndex(), pageable.getMaxItems());
+        List<Task> tasks = taskConverter.from(list);
         return new PageImpl<>(tasks, Math.toIntExact(taskQuery.count()));
     }
 }

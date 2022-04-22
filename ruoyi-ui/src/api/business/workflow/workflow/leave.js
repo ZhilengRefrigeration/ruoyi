@@ -8,14 +8,6 @@ export function listLeave(query) {
     params: query
   })
 }
-// 查询请假列表
-export function listLeaveAll(query) {
-  return request({
-    url: '/workflow/workflow/leave/listAll',
-    method: 'get',
-    params: query
-  })
-}
 
 // 查询请假详细
 export function getLeave(id) {

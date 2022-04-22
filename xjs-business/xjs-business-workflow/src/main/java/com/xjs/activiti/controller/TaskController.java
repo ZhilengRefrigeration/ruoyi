@@ -35,9 +35,20 @@ public class TaskController extends BaseController {
     @RequiresPermissions("activiti:task:list")
     public TableDataInfo getTasks() {
         PageDomain pageDomain = TableSupport.buildPageRequest();
-        Page<ActTaskDTO> hashMaps = actTaskService.selectProcessDefinitionList(pageDomain);
+        Page<ActTaskDTO> hashMaps = actTaskService.selectTaskList(pageDomain);
         return getDataTable(hashMaps);
     }
+
+
+    //获取我的历史任务
+    @GetMapping("historyList")
+    @RequiresPermissions("activiti:task:historyList")
+    public TableDataInfo getHistoryTasks() {
+        PageDomain pageDomain = TableSupport.buildPageRequest();
+        Page<ActTaskDTO> hashMaps = actTaskService.selectHistoryTaskList(pageDomain);
+        return getDataTable(hashMaps);
+    }
+
 
 
     //渲染表单

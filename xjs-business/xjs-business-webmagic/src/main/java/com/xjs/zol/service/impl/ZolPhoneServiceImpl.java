@@ -39,7 +39,7 @@ public class ZolPhoneServiceImpl extends ServiceImpl<ZolPhoneMapper, ZolPhone> i
         });
 
         //排序规则
-        wr.orderByAsc(ZolPhone::getSort).orderByDesc(ZolPhone::getId);
+        wr.orderByDesc(ZolPhone::getId);
 
         return this.page(startPageMP,wr);
     }

@@ -60,7 +60,8 @@ public class MailServer {
      * @param mailBean 邮箱实体
      */
     @MailLog
-    @Retryable(maxAttempts = 2, value = MailException.class)    //当抛出MailException异常时，该方法重试两次
+    //当抛出MailException异常时，该方法重试两次
+    @Retryable(maxAttempts = 2, value = MailException.class)
     public Boolean sendMail(MailBean mailBean) {
 
         if (redisService.hasKey(MAIL_STATUS)) {
