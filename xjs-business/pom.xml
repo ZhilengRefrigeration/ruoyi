@@ -27,6 +27,7 @@
         <module>xjs-project-srb</module>
         <module>xjs-project-mall</module>
         <module>xjs-business-workflow</module>
+        <module>xjs-project-blog</module>
     </modules>
 
     <properties>

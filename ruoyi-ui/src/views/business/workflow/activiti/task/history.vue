@@ -14,6 +14,7 @@
             type="text"
             icon="el-icon-edit"
             @click="details(scope.row)"
+            v-hasPermi="['activiti:task:query']"
           >详情
           </el-button>
         </template>
