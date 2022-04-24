@@ -1,33 +1,32 @@
 package com.ruoyi.common.security.config;
 
+import com.ruoyi.common.security.interceptor.HeaderInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import com.ruoyi.common.security.interceptor.HeaderInterceptor;
 
 /**
  * 拦截器配置
  *
  * @author ruoyi
  */
-public class WebMvcConfig implements WebMvcConfigurer
-{
-    /** 不需要拦截地址 */
-    public static final String[] excludeUrls = { "/login", "/logout", "/refresh" };
+public class WebMvcConfig implements WebMvcConfigurer {
+    /**
+     * 不需要拦截地址
+     */
+    public static final String[] EXCLUDE_URLS = {"/login", "/logout", "/refresh"};
 
     @Override
-    public void addInterceptors(InterceptorRegistry registry)
-    {
+    public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(getHeaderInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns(excludeUrls)
+                .excludePathPatterns(EXCLUDE_URLS)
                 .order(-10);
     }
 
     /**
      * 自定义请求头拦截器
      */
-    public HeaderInterceptor getHeaderInterceptor()
-    {
+    public HeaderInterceptor getHeaderInterceptor() {
         return new HeaderInterceptor();
     }
 }

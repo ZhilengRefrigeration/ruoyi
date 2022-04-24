@@ -1,10 +1,8 @@
 package com.ruoyi.common.core.utils.html;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.ruoyi.common.core.utils.StringUtils;
+
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.regex.Matcher;
@@ -15,8 +13,7 @@ import java.util.regex.Pattern;
  *
  * @author ruoyi
  */
-public final class HTMLFilter
-{
+public final class HtmlFilter {
     /**
      * regex flag union representing /si modifiers in php
      **/
@@ -45,7 +42,9 @@ public final class HTMLFilter
     private static final Pattern P_RIGHT_ARROW = Pattern.compile(">");
     private static final Pattern P_BOTH_ARROWS = Pattern.compile("<>");
 
-    // @xxx could grow large... maybe use sesat's ReferenceMap
+    /**
+     * @xxx could grow large... maybe use sesat's ReferenceMap
+     */
     private static final ConcurrentMap<String, Pattern> P_REMOVE_PAIR_BLANKS = new ConcurrentHashMap<>();
     private static final ConcurrentMap<String, Pattern> P_REMOVE_SELF_BLANKS = new ConcurrentHashMap<>();
 
@@ -100,35 +99,34 @@ public final class HTMLFilter
     /**
      * Default constructor.
      */
-    public HTMLFilter()
-    {
+    public HtmlFilter() {
         vAllowed = new HashMap<>();
 
-        final ArrayList<String> a_atts = new ArrayList<>();
-        a_atts.add("href");
-        a_atts.add("target");
-        vAllowed.put("a", a_atts);
+        final ArrayList<String> aAtos = new ArrayList<>();
+        aAtos.add("href");
+        aAtos.add("target");
+        vAllowed.put("a", aAtos);
 
-        final ArrayList<String> img_atts = new ArrayList<>();
-        img_atts.add("src");
-        img_atts.add("width");
-        img_atts.add("height");
-        img_atts.add("alt");
-        vAllowed.put("img", img_atts);
+        final ArrayList<String> imgAtts = new ArrayList<>();
+        imgAtts.add("src");
+        imgAtts.add("width");
+        imgAtts.add("height");
+        imgAtts.add("alt");
+        vAllowed.put("img", imgAtts);
 
-        final ArrayList<String> no_atts = new ArrayList<>();
-        vAllowed.put("b", no_atts);
-        vAllowed.put("strong", no_atts);
-        vAllowed.put("i", no_atts);
-        vAllowed.put("em", no_atts);
+        final ArrayList<String> noAtts = new ArrayList<>();
+        vAllowed.put("b", noAtts);
+        vAllowed.put("strong", noAtts);
+        vAllowed.put("i", noAtts);
+        vAllowed.put("em", noAtts);
 
-        vSelfClosingTags = new String[] { "img" };
-        vNeedClosingTags = new String[] { "a", "b", "strong", "i", "em" };
-        vDisallowed = new String[] {};
-        vAllowedProtocols = new String[] { "http", "mailto", "https" }; // no ftp.
-        vProtocolAtts = new String[] { "src", "href" };
-        vRemoveBlanks = new String[] { "a", "b", "strong", "i", "em" };
-        vAllowedEntities = new String[] { "amp", "gt", "lt", "quot" };
+        vSelfClosingTags = new String[]{"img"};
+        vNeedClosingTags = new String[]{"a", "b", "strong", "i", "em"};
+        vDisallowed = new String[]{};
+        vAllowedProtocols = new String[]{"http", "mailto", "https"};
+        vProtocolAtts = new String[]{"src", "href"};
+        vRemoveBlanks = new String[]{"a", "b", "strong", "i", "em"};
+        vAllowedEntities = new String[]{"amp", "gt", "lt", "quot"};
         stripComment = true;
         encodeQuotes = true;
         alwaysMakeTags = false;
@@ -140,8 +138,7 @@ public final class HTMLFilter
      * @param conf map containing configuration. keys match field names.
      */
     @SuppressWarnings("unchecked")
-    public HTMLFilter(final Map<String, Object> conf)
-    {
+    public HtmlFilter(final Map<String, Object> conf) {
 
         assert conf.containsKey("vAllowed") : "configuration requires vAllowed";
         assert conf.containsKey("vSelfClosingTags") : "configuration requires vSelfClosingTags";
@@ -165,20 +162,19 @@ public final class HTMLFilter
         alwaysMakeTags = conf.containsKey("alwaysMakeTags") ? (Boolean) conf.get("alwaysMakeTags") : true;
     }
 
-    private void reset()
-    {
-        vTagCounts.clear();
-    }
-
-    // ---------------------------------------------------------------
-    // my versions of some PHP library functions
-    public static String chr(final int decimal)
-    {
+    /**
+     * my versions of some PHP library functions
+     *
+     * @param decimal /
+     * @return /
+     */
+    public static String chr(final int decimal) {
         return String.valueOf((char) decimal);
     }
 
-    public static String htmlSpecialChars(final String s)
-    {
+    // ---------------------------------------------------------------
+
+    public static String htmlSpecialChars(final String s) {
         String result = s;
         result = regexReplace(P_AMP, "&amp;", result);
         result = regexReplace(P_QUOTE, "&quot;", result);
@@ -187,7 +183,25 @@ public final class HTMLFilter
         return result;
     }
 
+    private static String regexReplace(final Pattern regexPattern, final String replacement, final String s) {
+        Matcher m = regexPattern.matcher(s);
+        return m.replaceAll(replacement);
+    }
+
     // ---------------------------------------------------------------
+
+    private static boolean inArray(final String s, final String[] array) {
+        for (String item : array) {
+            if (item != null && item.equals(s)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void reset() {
+        vTagCounts.clear();
+    }
 
     /**
      * given a user submitted input String, filter out any invalid or restricted html.
@@ -195,14 +209,13 @@ public final class HTMLFilter
      * @param input text (i.e. submitted by a user) than may contain html
      * @return "clean" version of input, with only valid, whitelisted html elements allowed
      */
-    public String filter(final String input)
-    {
+    public String filter(final String input) {
         reset();
         String s = input;
 
         s = escapeComments(s);
 
-        s = balanceHTML(s);
+        s = balancehtml(s);
 
         s = checkTags(s);
 
@@ -213,23 +226,19 @@ public final class HTMLFilter
         return s;
     }
 
-    public boolean isAlwaysMakeTags()
-    {
+    public boolean isAlwaysMakeTags() {
         return alwaysMakeTags;
     }
 
-    public boolean isStripComments()
-    {
+    public boolean isStripComments() {
         return stripComment;
     }
 
-    private String escapeComments(final String s)
-    {
+    private String escapeComments(final String s) {
         final Matcher m = P_COMMENTS.matcher(s);
         final StringBuffer buf = new StringBuffer();
-        if (m.find())
-        {
-            final String match = m.group(1); // (.*?)
+        if (m.find()) {
+            final String match = m.group(1);
             m.appendReplacement(buf, Matcher.quoteReplacement("<!--" + htmlSpecialChars(match) + "-->"));
         }
         m.appendTail(buf);
@@ -237,10 +246,8 @@ public final class HTMLFilter
         return buf.toString();
     }
 
-    private String balanceHTML(String s)
-    {
-        if (alwaysMakeTags)
-        {
+    private String balancehtml(String s) {
+        if (alwaysMakeTags) {
             //
             // try and form html
             //
@@ -249,9 +256,7 @@ public final class HTMLFilter
             s = regexReplace(P_BODY_TO_END, "<$1>", s);
             s = regexReplace(P_XML_CONTENT, "$1<$2", s);
 
-        }
-        else
-        {
+        } else {
             //
             // escape stray brackets
             //
@@ -269,13 +274,11 @@ public final class HTMLFilter
         return s;
     }
 
-    private String checkTags(String s)
-    {
+    private String checkTags(String s) {
         Matcher m = P_TAGS.matcher(s);
 
         final StringBuffer buf = new StringBuffer();
-        while (m.find())
-        {
+        while (m.find()) {
             String replaceStr = m.group(1);
             replaceStr = processTag(replaceStr);
             m.appendReplacement(buf, Matcher.quoteReplacement(replaceStr));
@@ -285,10 +288,8 @@ public final class HTMLFilter
         // these get tallied in processTag
         // (remember to reset before subsequent calls to filter method)
         final StringBuilder sBuilder = new StringBuilder(buf.toString());
-        for (String key : vTagCounts.keySet())
-        {
-            for (int ii = 0; ii < vTagCounts.get(key); ii++)
-            {
+        for (String key : vTagCounts.keySet()) {
+            for (int ii = 0; ii < vTagCounts.get(key); ii++) {
                 sBuilder.append("</").append(key).append(">");
             }
         }
@@ -297,18 +298,14 @@ public final class HTMLFilter
         return s;
     }
 
-    private String processRemoveBlanks(final String s)
-    {
+    private String processRemoveBlanks(final String s) {
         String result = s;
-        for (String tag : vRemoveBlanks)
-        {
-            if (!P_REMOVE_PAIR_BLANKS.containsKey(tag))
-            {
+        for (String tag : vRemoveBlanks) {
+            if (!P_REMOVE_PAIR_BLANKS.containsKey(tag)) {
                 P_REMOVE_PAIR_BLANKS.putIfAbsent(tag, Pattern.compile("<" + tag + "(\\s[^>]*)?></" + tag + ">"));
             }
             result = regexReplace(P_REMOVE_PAIR_BLANKS.get(tag), "", result);
-            if (!P_REMOVE_SELF_BLANKS.containsKey(tag))
-            {
+            if (!P_REMOVE_SELF_BLANKS.containsKey(tag)) {
                 P_REMOVE_SELF_BLANKS.putIfAbsent(tag, Pattern.compile("<" + tag + "(\\s[^>]*)?/>"));
             }
             result = regexReplace(P_REMOVE_SELF_BLANKS.get(tag), "", result);
@@ -317,136 +314,88 @@ public final class HTMLFilter
         return result;
     }
 
-    private static String regexReplace(final Pattern regex_pattern, final String replacement, final String s)
-    {
-        Matcher m = regex_pattern.matcher(s);
-        return m.replaceAll(replacement);
-    }
-
-    private String processTag(final String s)
-    {
-        // ending tags
+    private String processTag(final String s) {
         Matcher m = P_END_TAG.matcher(s);
-        if (m.find())
-        {
+        if (m.find()) {
             final String name = m.group(1).toLowerCase();
-            if (allowed(name))
-            {
-                if (false == inArray(name, vSelfClosingTags))
-                {
-                    if (vTagCounts.containsKey(name))
-                    {
+            if (allowed(name)) {
+                if (false == inArray(name, vSelfClosingTags)) {
+                    if (vTagCounts.containsKey(name)) {
                         vTagCounts.put(name, vTagCounts.get(name) - 1);
                         return "</" + name + ">";
                     }
                 }
             }
         }
-
         // starting tags
         m = P_START_TAG.matcher(s);
-        if (m.find())
-        {
+        if (m.find()) {
             final String name = m.group(1).toLowerCase();
             final String body = m.group(2);
             String ending = m.group(3);
-
             // debug( "in a starting tag, name='" + name + "'; body='" + body + "'; ending='" + ending + "'" );
-            if (allowed(name))
-            {
+            if (allowed(name)) {
                 final StringBuilder params = new StringBuilder();
-
                 final Matcher m2 = P_QUOTED_ATTRIBUTES.matcher(body);
                 final Matcher m3 = P_UNQUOTED_ATTRIBUTES.matcher(body);
                 final List<String> paramNames = new ArrayList<>();
                 final List<String> paramValues = new ArrayList<>();
-                while (m2.find())
-                {
-                    paramNames.add(m2.group(1)); // ([a-z0-9]+)
-                    paramValues.add(m2.group(3)); // (.*?)
+                while (m2.find()) {
+                    paramNames.add(m2.group(1));
+                    paramValues.add(m2.group(3));
                 }
-                while (m3.find())
-                {
-                    paramNames.add(m3.group(1)); // ([a-z0-9]+)
-                    paramValues.add(m3.group(3)); // ([^\"\\s']+)
+                while (m3.find()) {
+                    paramNames.add(m3.group(1));
+                    paramValues.add(m3.group(3));
                 }
-
                 String paramName, paramValue;
-                for (int ii = 0; ii < paramNames.size(); ii++)
-                {
+                for (int ii = 0; ii < paramNames.size(); ii++) {
                     paramName = paramNames.get(ii).toLowerCase();
                     paramValue = paramValues.get(ii);
-
-                    // debug( "paramName='" + paramName + "'" );
-                    // debug( "paramValue='" + paramValue + "'" );
-                    // debug( "allowed? " + vAllowed.get( name ).contains( paramName ) );
-
-                    if (allowedAttribute(name, paramName))
-                    {
-                        if (inArray(paramName, vProtocolAtts))
-                        {
+                    if (allowedAttribute(name, paramName)) {
+                        if (inArray(paramName, vProtocolAtts)) {
                             paramValue = processParamProtocol(paramValue);
                         }
                         params.append(' ').append(paramName).append("=\\\"").append(paramValue).append("\"");
                     }
                 }
-
-                if (inArray(name, vSelfClosingTags))
-                {
+                if (inArray(name, vSelfClosingTags)) {
                     ending = " /";
                 }
-
-                if (inArray(name, vNeedClosingTags))
-                {
+                if (inArray(name, vNeedClosingTags)) {
                     ending = "";
                 }
-
-                if (ending == null || ending.length() < 1)
-                {
-                    if (vTagCounts.containsKey(name))
-                    {
+                if (ending == null || ending.length() < 1) {
+                    if (vTagCounts.containsKey(name)) {
                         vTagCounts.put(name, vTagCounts.get(name) + 1);
-                    }
-                    else
-                    {
+                    } else {
                         vTagCounts.put(name, 1);
                     }
-                }
-                else
-                {
+                } else {
                     ending = " /";
                 }
                 return "<" + name + params + ending + ">";
-            }
-            else
-            {
+            } else {
                 return "";
             }
         }
-
         // comments
         m = P_COMMENT.matcher(s);
-        if (!stripComment && m.find())
-        {
+        if (!stripComment && m.find()) {
             return "<" + m.group() + ">";
         }
-
         return "";
     }
 
-    private String processParamProtocol(String s)
-    {
+    private String processParamProtocol(String s) {
         s = decodeEntities(s);
         final Matcher m = P_PROTOCOL.matcher(s);
-        if (m.find())
-        {
+        if (m.find()) {
             final String protocol = m.group(1);
-            if (!inArray(protocol, vAllowedProtocols))
-            {
+            if (!inArray(protocol, vAllowedProtocols)) {
                 // bad protocol, turn into local anchor link instead
                 s = "#" + s.substring(protocol.length() + 1);
-                if (s.startsWith("#//"))
-                {
+                if (s.startsWith(StringUtils.WELL_NO + StringUtils.SLASH + StringUtils.SLASH)) {
                     s = "#" + s.substring(3);
                 }
             }
@@ -455,13 +404,11 @@ public final class HTMLFilter
         return s;
     }
 
-    private String decodeEntities(String s)
-    {
+    private String decodeEntities(String s) {
         StringBuffer buf = new StringBuffer();
 
         Matcher m = P_ENTITY.matcher(s);
-        while (m.find())
-        {
+        while (m.find()) {
             final String match = m.group(1);
             final int decimal = Integer.decode(match).intValue();
             m.appendReplacement(buf, Matcher.quoteReplacement(chr(decimal)));
@@ -471,8 +418,7 @@ public final class HTMLFilter
 
         buf = new StringBuffer();
         m = P_ENTITY_UNICODE.matcher(s);
-        while (m.find())
-        {
+        while (m.find()) {
             final String match = m.group(1);
             final int decimal = Integer.valueOf(match, 16).intValue();
             m.appendReplacement(buf, Matcher.quoteReplacement(chr(decimal)));
@@ -482,8 +428,7 @@ public final class HTMLFilter
 
         buf = new StringBuffer();
         m = P_ENCODE.matcher(s);
-        while (m.find())
-        {
+        while (m.find()) {
             final String match = m.group(1);
             final int decimal = Integer.valueOf(match, 16).intValue();
             m.appendReplacement(buf, Matcher.quoteReplacement(chr(decimal)));
@@ -495,16 +440,14 @@ public final class HTMLFilter
         return s;
     }
 
-    private String validateEntities(final String s)
-    {
+    private String validateEntities(final String s) {
         StringBuffer buf = new StringBuffer();
 
         // validate entities throughout the string
         Matcher m = P_VALID_ENTITIES.matcher(s);
-        while (m.find())
-        {
-            final String one = m.group(1); // ([^&;]*)
-            final String two = m.group(2); // (?=(;|&|$))
+        while (m.find()) {
+            final String one = m.group(1);
+            final String two = m.group(2);
             m.appendReplacement(buf, Matcher.quoteReplacement(checkEntity(one, two)));
         }
         m.appendTail(buf);
@@ -512,59 +455,38 @@ public final class HTMLFilter
         return encodeQuotes(buf.toString());
     }
 
-    private String encodeQuotes(final String s)
-    {
-        if (encodeQuotes)
-        {
+    private String encodeQuotes(final String s) {
+        if (encodeQuotes) {
             StringBuffer buf = new StringBuffer();
             Matcher m = P_VALID_QUOTES.matcher(s);
-            while (m.find())
-            {
-                final String one = m.group(1); // (>|^)
-                final String two = m.group(2); // ([^<]+?)
-                final String three = m.group(3); // (<|$)
-                // 不替换双引号为&quot;，防止json格式无效 regexReplace(P_QUOTE, "&quot;", two)
+            while (m.find()) {
+                final String one = m.group(1);
+                final String two = m.group(2);
+                final String three = m.group(3);
+                /*不替换双引号为&quot;，防止json格式无效 regexReplace(P_QUOTE, "&quot;", two)*/
                 m.appendReplacement(buf, Matcher.quoteReplacement(one + two + three));
             }
             m.appendTail(buf);
             return buf.toString();
-        }
-        else
-        {
+        } else {
             return s;
         }
     }
 
-    private String checkEntity(final String preamble, final String term)
-    {
+    private String checkEntity(final String preamble, final String term) {
 
         return ";".equals(term) && isValidEntity(preamble) ? '&' + preamble : "&amp;" + preamble;
     }
 
-    private boolean isValidEntity(final String entity)
-    {
+    private boolean isValidEntity(final String entity) {
         return inArray(entity, vAllowedEntities);
     }
 
-    private static boolean inArray(final String s, final String[] array)
-    {
-        for (String item : array)
-        {
-            if (item != null && item.equals(s))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean allowed(final String name)
-    {
+    private boolean allowed(final String name) {
         return (vAllowed.isEmpty() || vAllowed.containsKey(name)) && !inArray(name, vDisallowed);
     }
 
-    private boolean allowedAttribute(final String name, final String paramName)
-    {
+    private boolean allowedAttribute(final String name, final String paramName) {
         return allowed(name) && (vAllowed.isEmpty() || vAllowed.get(name).contains(paramName));
     }
 }
