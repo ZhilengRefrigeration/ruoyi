@@ -72,6 +72,7 @@ public class AliyunOssDsfServiceImpl implements ISysFileService {
         String requestKey = "upload/" + StringUtils.defaultString(modules, "default") + "/" +  newName;
         //这里增加一个前缀区分一下是测试环境还是正式环境
         boolean isProd = "prod".equalsIgnoreCase(SpringUtil.getActiveProfile());
+        boolean isInternalNetwork = aliyunOssConfig.getInternal();
         if (!isProd) {
             requestKey = SpringUtil.getActiveProfile() + "/" + requestKey;
         }
@@ -88,10 +89,10 @@ public class AliyunOssDsfServiceImpl implements ISysFileService {
         long mb5 = 5 * 1024 * 1024L;
         if (file.getSize() > mb5) {
             //大于5mb,我们就分片上传
-            this.ossUploadFileBigMultiable(isProd ? endpointInternal : endpoint, requestKey, file);
+            this.ossUploadFileBigMultiable(isInternalNetwork ? endpointInternal : endpoint, requestKey, file);
         } else {
             //否则，我们常规上传
-            this.ossUploadFileSmall(isProd ? endpointInternal : endpoint, requestKey, file);
+            this.ossUploadFileSmall(isInternalNetwork ? endpointInternal : endpoint, requestKey, file);
         }
 
         // 解析结果

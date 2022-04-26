@@ -60,6 +60,12 @@ public class AliyunOssConfig {
      * 3、公共读写
      */
     private Long expiryDuration = 32400L;
+    /**
+     * 使用内网，还是外网
+     * true: 内网，必须是aliyun公网服务器
+     * false: 外网
+     */
+    private Boolean internal = false;
 
     public String getAccessKey() {
         return accessKey;
@@ -116,5 +122,13 @@ public class AliyunOssConfig {
 
     public void setExpiryDuration(Long expiryDuration) {
         this.expiryDuration = expiryDuration;
+    }
+
+    public Boolean getInternal() {
+        return internal;
+    }
+
+    public void setInternal(Boolean internal) {
+        this.internal = internal;
     }
 }
