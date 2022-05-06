@@ -129,7 +129,7 @@ export default {
         if (valid) {
           this.buttonLoading = true
 
-          if (this.form) {
+          if (this.form.id) {
             //修改
             editTodoCategory(this.form).then(res => {
               this.$Message.success('修改成功')
