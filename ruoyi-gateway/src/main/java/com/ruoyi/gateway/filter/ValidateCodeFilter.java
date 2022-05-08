@@ -3,6 +3,7 @@ package com.ruoyi.gateway.filter;
 import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicReference;
+import com.alibaba.fastjson2.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -10,7 +11,7 @@ import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.gateway.config.properties.CaptchaProperties;
@@ -52,7 +53,7 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
             try
             {
                 String rspStr = resolveBodyFromRequest(request);
-                JSONObject obj = JSONObject.parseObject(rspStr);
+                JSONObject obj = JSON.parseObject(rspStr);
                 validateCodeService.checkCaptcha(obj.getString(CODE), obj.getString(UUID));
             }
             catch (Exception e)
