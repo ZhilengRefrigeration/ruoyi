@@ -14,7 +14,7 @@
 
     <el-row :gutter="50" style="margin-top: 20px">
       <el-col :span="12">
-        <at-input v-model="SourceValue" placeholder="请输入" size="large" :maxlength="20" append-button>
+        <at-input v-model="SourceValue" placeholder="请输入" size="large" @keyup.enter.native="encryption" :maxlength="20" append-button>
           <template slot="append">
             <i class="icon icon-search" @click="encryption">加密</i>
           </template>
@@ -40,7 +40,7 @@
 
     <el-row :gutter="50" style="margin-top: 20px">
       <el-col :span="24">
-        <at-input v-model="md5Value" placeholder="请输入" size="large" :maxlength="32" append-button>
+        <at-input v-model="md5Value" placeholder="请输入" size="large" :maxlength="32" @keyup.enter.native="decrypt" append-button>
           <template slot="append">
             <i class="icon icon-search" @click="decrypt">解密</i>
           </template>
@@ -54,7 +54,7 @@
 import {decrypt, encryption} from "@/api/business/tools/md5";
 
 export default {
-  name: "index",
+  name: "Md5",
 
   data() {
     return {
