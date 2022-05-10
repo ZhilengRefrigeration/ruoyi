@@ -84,6 +84,7 @@ public class ApiLogController extends BaseController {
     @PostMapping("/export")
     @ApiOperation("导出日志列表")
     public void export(HttpServletResponse response, ApiLog apiLog) {
+        startPage();
         List<ApiLog> list = apiLogService.selectApiLogList(apiLog);
         ExcelUtil<ApiLog> util = new ExcelUtil<ApiLog>(ApiLog.class);
         util.exportExcel(response, list, "日志数据");

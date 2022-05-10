@@ -42,4 +42,14 @@ public class RegexConst {
      * url正则
      */
     public static final String URL_REGEX= "(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]";
+
+    /**
+     * 16位md5正则
+     */
+    public static final String MD5_16_REGEX= "([a-f\\d]{32}|[A-F\\d]{32})";
+
+    /**
+     * 32位md5正则
+     */
+    public static final String MD5_32_REGEX= "([a-f\\d]{16}|[A-F\\d]{16})";
 }

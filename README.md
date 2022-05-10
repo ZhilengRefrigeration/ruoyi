@@ -13,6 +13,7 @@
 
 若依是一套全部开源的快速开发平台，毫无保留给个人及企业免费使用。
 (xjs专用版)  若依28900行代码   
+数据库文件在本机电脑上
 
 * 采用前后端分离的模式，微服务版本前端(基于 [RuoYi-Vue](https://gitee.com/y_project/RuoYi-Vue))。
 * 后端采用Spring Boot、Spring Cloud & Alibaba。
