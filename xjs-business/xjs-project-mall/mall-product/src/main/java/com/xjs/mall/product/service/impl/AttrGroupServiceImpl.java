@@ -17,6 +17,7 @@ import com.xjs.mall.product.service.AttrService;
 import com.xjs.mall.product.service.CategoryService;
 import com.xjs.mall.product.vo.AttrGroupResponseVo;
 import com.xjs.mall.product.vo.AttrGroupWithAttrsVo;
+import com.xjs.mall.product.vo.sku.SpuItemAttrGroupVo;
 import com.xjs.utils.PageUtils;
 import com.xjs.utils.Query;
 import org.apache.commons.lang3.StringUtils;
@@ -82,11 +83,11 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
             //先查询中间表是否有数据，有数据代表该数据被引用，则不能删除
             List<AttrAttrgroupRelationEntity> relationEntityList = attrAttrgroupRelationService
                     .list(new LambdaQueryWrapper<AttrAttrgroupRelationEntity>()
-                    .eq(AttrAttrgroupRelationEntity::getAttrGroupId, id));
+                            .eq(AttrAttrgroupRelationEntity::getAttrGroupId, id));
 
             if (CollUtil.isEmpty(relationEntityList)) {
                 super.removeById(id);
-            }else {
+            } else {
                 throw new MallException("含有被引用的规格参数未删除，请先删除规格参数");
             }
         }
@@ -113,11 +114,18 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
         //2、查询所有属性
         return attrGroupEntities.stream().map(group -> {
             AttrGroupWithAttrsVo attrsVo = new AttrGroupWithAttrsVo();
-            BeanUtils.copyProperties(group,attrsVo);
+            BeanUtils.copyProperties(group, attrsVo);
             List<AttrEntity> attrs = attrService.getRelationAttr(attrsVo.getAttrGroupId());
             attrsVo.setAttrs(attrs);
             return attrsVo;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SpuItemAttrGroupVo> getAttrGroupWithAttrsBySpuId(Long spuId, Long catalogId) {
+        //查出当前spu对应的所有属性的分组信息以及分组下的所有属性对应的值
+
+        return super.baseMapper.getAttrGroupWithAttrsBySpuId(spuId,catalogId);
     }
 
 

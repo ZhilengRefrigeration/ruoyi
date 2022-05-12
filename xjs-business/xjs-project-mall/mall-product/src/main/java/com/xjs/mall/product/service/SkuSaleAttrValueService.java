@@ -2,6 +2,9 @@ package com.xjs.mall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xjs.mall.product.entity.SkuSaleAttrValueEntity;
+import com.xjs.mall.product.vo.sku.SkuItemSaleAttrVo;
+
+import java.util.List;
 
 /**
  * sku销售属性&值
@@ -12,5 +15,11 @@ import com.xjs.mall.product.entity.SkuSaleAttrValueEntity;
  */
 public interface SkuSaleAttrValueService extends IService<SkuSaleAttrValueEntity> {
 
+    /**
+     * 通过 Spu Id 获取销售属性
+     * @param spuId spuId
+     * @return list
+     */
+    List<SkuItemSaleAttrVo> getSaleAttrsBySpuId(Long spuId);
 }
 

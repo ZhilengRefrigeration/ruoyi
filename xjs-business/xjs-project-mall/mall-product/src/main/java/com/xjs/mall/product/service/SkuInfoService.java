@@ -1,6 +1,7 @@
 package com.xjs.mall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xjs.mall.product.vo.sku.SkuItemVo;
 import com.xjs.utils.PageUtils;
 import com.xjs.mall.product.entity.SkuInfoEntity;
 
@@ -36,5 +37,12 @@ public interface SkuInfoService extends IService<SkuInfoEntity> {
      * @return list
      */
     List<SkuInfoEntity> getSkusBySpuId(Long spuId);
+
+    /**
+     * 查询商品详情
+     * @param skuId 商品id
+     * @return 商品详情vo
+     */
+    SkuItemVo item(Long skuId);
 }
 

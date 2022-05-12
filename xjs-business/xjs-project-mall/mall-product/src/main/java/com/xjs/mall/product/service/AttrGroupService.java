@@ -3,6 +3,7 @@ package com.xjs.mall.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xjs.mall.product.entity.AttrGroupEntity;
 import com.xjs.mall.product.vo.AttrGroupWithAttrsVo;
+import com.xjs.mall.product.vo.sku.SpuItemAttrGroupVo;
 import com.xjs.utils.PageUtils;
 
 import java.util.List;
@@ -36,9 +37,18 @@ public interface AttrGroupService extends IService<AttrGroupEntity> {
 
     /**
      * 根据分类id查出所有的分组以及这些组里面的属性
+     *
      * @param categoryId 分类id
      * @return list
      */
     List<AttrGroupWithAttrsVo> getAttrGroupWithAttrsByCatelogId(Long categoryId);
+
+    /**
+     * 通过 Spu Id 获取具有 Attrs 的 Attr 组
+     *
+     * @param spuId spuId
+     * @return SpuItemAttrGroupVo
+     */
+    List<SpuItemAttrGroupVo> getAttrGroupWithAttrsBySpuId(Long spuId, Long catalogId);
 }
 

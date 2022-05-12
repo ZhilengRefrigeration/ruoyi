@@ -5,14 +5,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.xjs.mall.product.dao.SkuInfoDao;
-import com.xjs.mall.product.entity.BrandEntity;
-import com.xjs.mall.product.entity.CategoryEntity;
-import com.xjs.mall.product.entity.SkuInfoEntity;
-import com.xjs.mall.product.entity.SpuInfoEntity;
-import com.xjs.mall.product.service.BrandService;
-import com.xjs.mall.product.service.CategoryService;
-import com.xjs.mall.product.service.SkuInfoService;
-import com.xjs.mall.product.service.SpuInfoService;
+import com.xjs.mall.product.entity.*;
+import com.xjs.mall.product.service.*;
+import com.xjs.mall.product.vo.sku.SkuItemSaleAttrVo;
+import com.xjs.mall.product.vo.sku.SkuItemVo;
+import com.xjs.mall.product.vo.sku.SpuItemAttrGroupVo;
 import com.xjs.mall.product.vo.spu.SkuInfoVo;
 import com.xjs.utils.PageUtils;
 import com.xjs.utils.Query;
@@ -34,6 +31,14 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
     private CategoryService categoryService;
     @Autowired
     private BrandService brandService;
+    @Autowired
+    private SkuImagesService skuImagesService;
+    @Autowired
+    private SpuInfoDescService spuInfoDescService;
+    @Autowired
+    private AttrGroupService attrGroupService;
+    @Autowired
+    private SkuSaleAttrValueService skuSaleAttrValueService;
 
     @Override
     public void saveSkuInfo(SkuInfoEntity skuInfoEntity) {
@@ -93,8 +98,38 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
     @Override
     public List<SkuInfoEntity> getSkusBySpuId(Long spuId) {
         LambdaQueryWrapper<SkuInfoEntity> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(SkuInfoEntity::getSpuId,spuId);
+        wrapper.eq(SkuInfoEntity::getSpuId, spuId);
         return super.list(wrapper);
+    }
+
+    @Override
+    public SkuItemVo item(Long skuId) {
+        SkuItemVo skuItemVo = new SkuItemVo();
+
+        //1、spu基本信息获取  pms_sku_info
+        SkuInfoEntity skuInfoEntity = this.getById(skuId);
+        skuItemVo.setInfo(skuInfoEntity);
+
+        Long spuId = skuInfoEntity.getSpuId();
+        Long catalogId = skuInfoEntity.getCatalogId();
+
+        //2、sku的图片信息  pms_sku_images
+        List<SkuImagesEntity> skuImagesEntityList = skuImagesService.getImagesBySkuId(skuId);
+        skuItemVo.setImages(skuImagesEntityList);
+
+        //3、获取spu的销售属性组合
+        List<SkuItemSaleAttrVo> skuItemSaleAttrVoList = skuSaleAttrValueService.getSaleAttrsBySpuId(spuId);
+        skuItemVo.setSaleAttr(skuItemSaleAttrVoList);
+
+        //4、获取spu的介绍
+        SpuInfoDescEntity spuInfoDescEntity = spuInfoDescService.getById(spuId);
+        skuItemVo.setDesc(spuInfoDescEntity);
+
+        //5、获取spu的规格参数信息
+        List<SpuItemAttrGroupVo> attrGroupVos = attrGroupService.getAttrGroupWithAttrsBySpuId(spuId, catalogId);
+        skuItemVo.setGroupAttrs(attrGroupVos);
+
+        return skuItemVo;
     }
 
 }
