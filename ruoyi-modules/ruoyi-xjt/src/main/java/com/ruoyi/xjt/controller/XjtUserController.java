@@ -22,7 +22,7 @@ public class XjtUserController {
     @Autowired
     private XjtUserService xjtUserService;
     /**
-     * 根据角色编号获取详细信息
+     * 根据角色编号获取详细信息---测试分支提交--添加
      */
     @RequiresPermissions("system:role:query")
     @GetMapping(value = "/{username}")
