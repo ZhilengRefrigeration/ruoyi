@@ -1,0 +1,140 @@
+version : '3.8'
+services:
+  project-nacos:
+    container_name: project-nacos
+    image: nacos/nacos-server
+    build:
+      context: ./nacos
+    environment:
+      - MODE=standalone
+    volumes:
+      - ./nacos/logs/:/home/nacos/logs
+      - ./nacos/conf/application.properties:/home/nacos/conf/application.properties
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+      - "9849:9849"
+    depends_on:
+      - project-mysql
+  project-mysql:
+    container_name: project-mysql
+    image: mysql:5.7
+    build:
+      context: ./mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql/conf:/etc/mysql/conf.d
+      - ./mysql/logs:/logs
+      - ./mysql/data:/var/lib/mysql
+    command: [
+          'mysqld',
+          '--innodb-buffer-pool-size=80M',
+          '--character-set-server=utf8mb4',
+          '--collation-server=utf8mb4_unicode_ci',
+          '--default-time-zone=+8:00',
+          '--lower-case-table-names=1'
+        ]
+    environment:
+      MYSQL_DATABASE: 'ry-cloud'
+      MYSQL_ROOT_PASSWORD: password
+  project-redis:
+    container_name: project-redis
+    image: redis
+    build:
+      context: ./redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis/conf/redis.conf:/home/project/redis/redis.conf
+      - ./redis/data:/data
+    command: redis-server /home/project/redis/redis.conf
+  project-nginx:
+    container_name: project-nginx
+    image: nginx
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/html/dist:/home/project/projects/project-ui
+      - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/logs:/var/log/nginx
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - project-gateway
+    links:
+      - project-gateway
+  project-gateway:
+    container_name: project-gateway
+    build:
+      context: ./project/gateway
+      dockerfile: dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - project-redis
+    links:
+      - project-redis
+  project-auth:
+    container_name: project-auth
+    build:
+      context: ./project/auth
+      dockerfile: dockerfile
+    ports:
+      - "9200:9200"
+    depends_on:
+      - project-redis
+    links:
+      - project-redis
+  project-modules-system:
+    container_name: project-modules-system
+    build:
+      context: ./project/modules/system
+      dockerfile: dockerfile
+    ports:
+      - "9201:9201"
+    depends_on:
+      - project-redis
+      - project-mysql
+    links:
+      - project-redis
+      - project-mysql
+  project-modules-gen:
+    container_name: project-modules-gen
+    build:
+      context: ./project/modules/gen
+      dockerfile: dockerfile
+    ports:
+      - "9202:9202"
+    depends_on:
+      - project-mysql
+    links:
+      - project-mysql
+  project-modules-job:
+    container_name: project-modules-job
+    build:
+      context: ./project/modules/job
+      dockerfile: dockerfile
+    ports:
+      - "9203:9203"
+    depends_on:
+      - project-mysql
+    links:
+      - project-mysql
+  project-modules-file:
+    container_name: project-modules-file
+    build:
+      context: ./project/modules/file
+      dockerfile: dockerfile
+    ports:
+      - "9300:9300"
+    volumes:
+    - ./project/uploadPath:/home/project/uploadPath
+  project-visual-monitor:
+    container_name: project-visual-monitor
+    build:
+      context: ./project/visual/monitor
+      dockerfile: dockerfile
+    ports:
+      - "9100:9100"
