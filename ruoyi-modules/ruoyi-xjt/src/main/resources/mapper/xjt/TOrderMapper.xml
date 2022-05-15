@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.xjt.mapper.TOrderMapper">
+    
+    <resultMap type="TOrder" id="TOrderResult">
+        <result property="id"    column="id"    />
+        <result property="companyid"    column="companyid"    />
+        <result property="khuserid"    column="khuserid"    />
+        <result property="fwsuserid"    column="fwsuserid"    />
+        <result property="money"    column="money"    />
+        <result property="yuepay"    column="yuepay"    />
+        <result property="fundpay"    column="fundpay"    />
+        <result property="wxorcftpay"    column="wxorcftpay"    />
+        <result property="tradetype"    column="tradetype"    />
+        <result property="ordernum"    column="ordernum"    />
+        <result property="paytime"    column="paytime"    />
+        <result property="createdate"    column="createdate"    />
+        <result property="paytype"    column="paytype"    />
+        <result property="paystate"    column="paystate"    />
+        <result property="tradeNo"    column="trade_no"    />
+        <result property="mchId"    column="mch_id"    />
+        <result property="tradeStatus"    column="trade_status"    />
+        <result property="cuid"    column="cuid"    />
+        <result property="cumoney"    column="cumoney"    />
+        <result property="refundAuditUserid"    column="refund_audit_userid"    />
+        <result property="refundMoney"    column="refund_money"    />
+        <result property="refundNote"    column="refund_note"    />
+        <result property="refundNo"    column="refund_no"    />
+        <result property="refundState"    column="refund_state"    />
+        <result property="refundTime"    column="refund_time"    />
+        <result property="refundSuccesstime"    column="refund_successtime"    />
+    </resultMap>
+
+    <sql id="selectTOrderVo">
+        select id, companyid, khuserid, fwsuserid, money, yuepay, fundpay, wxorcftpay, tradetype, ordernum, paytime, createdate, paytype, paystate, trade_no, mch_id, trade_status, cuid, cumoney, refund_audit_userid, refund_money, refund_note, refund_no, refund_state, refund_time, refund_successtime from t_order
+    </sql>
+
+    <select id="selectTOrderList" parameterType="TOrder" resultMap="TOrderResult">
+        <include refid="selectTOrderVo"/>
+        <where>  
+            <if test="companyid != null "> and companyid = #{companyid}</if>
+            <if test="khuserid != null "> and khuserid = #{khuserid}</if>
+            <if test="fwsuserid != null "> and fwsuserid = #{fwsuserid}</if>
+            <if test="money != null "> and money = #{money}</if>
+            <if test="yuepay != null "> and yuepay = #{yuepay}</if>
+            <if test="fundpay != null "> and fundpay = #{fundpay}</if>
+            <if test="wxorcftpay != null "> and wxorcftpay = #{wxorcftpay}</if>
+            <if test="tradetype != null "> and tradetype = #{tradetype}</if>
+            <if test="ordernum != null  and ordernum != ''"> and ordernum = #{ordernum}</if>
+            <if test="paytime != null "> and paytime = #{paytime}</if>
+            <if test="createdate != null "> and createdate = #{createdate}</if>
+            <if test="paytype != null "> and paytype = #{paytype}</if>
+            <if test="paystate != null "> and paystate = #{paystate}</if>
+            <if test="tradeNo != null  and tradeNo != ''"> and trade_no = #{tradeNo}</if>
+            <if test="mchId != null  and mchId != ''"> and mch_id = #{mchId}</if>
+            <if test="tradeStatus != null  and tradeStatus != ''"> and trade_status = #{tradeStatus}</if>
+            <if test="cuid != null "> and cuid = #{cuid}</if>
+            <if test="cumoney != null "> and cumoney = #{cumoney}</if>
+            <if test="refundAuditUserid != null "> and refund_audit_userid = #{refundAuditUserid}</if>
+            <if test="refundMoney != null "> and refund_money = #{refundMoney}</if>
+            <if test="refundNote != null  and refundNote != ''"> and refund_note = #{refundNote}</if>
+            <if test="refundNo != null  and refundNo != ''"> and refund_no = #{refundNo}</if>
+            <if test="refundState != null "> and refund_state = #{refundState}</if>
+            <if test="refundTime != null "> and refund_time = #{refundTime}</if>
+            <if test="refundSuccesstime != null "> and refund_successtime = #{refundSuccesstime}</if>
+        </where>
+    </select>
+    
+    <select id="selectTOrderById" parameterType="Long" resultMap="TOrderResult">
+        <include refid="selectTOrderVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTOrder" parameterType="TOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into t_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="companyid != null">companyid,</if>
+            <if test="khuserid != null">khuserid,</if>
+            <if test="fwsuserid != null">fwsuserid,</if>
+            <if test="money != null">money,</if>
+            <if test="yuepay != null">yuepay,</if>
+            <if test="fundpay != null">fundpay,</if>
+            <if test="wxorcftpay != null">wxorcftpay,</if>
+            <if test="tradetype != null">tradetype,</if>
+            <if test="ordernum != null and ordernum != ''">ordernum,</if>
+            <if test="paytime != null">paytime,</if>
+            <if test="createdate != null">createdate,</if>
+            <if test="paytype != null">paytype,</if>
+            <if test="paystate != null">paystate,</if>
+            <if test="tradeNo != null">trade_no,</if>
+            <if test="mchId != null">mch_id,</if>
+            <if test="tradeStatus != null">trade_status,</if>
+            <if test="cuid != null">cuid,</if>
+            <if test="cumoney != null">cumoney,</if>
+            <if test="refundAuditUserid != null">refund_audit_userid,</if>
+            <if test="refundMoney != null">refund_money,</if>
+            <if test="refundNote != null">refund_note,</if>
+            <if test="refundNo != null">refund_no,</if>
+            <if test="refundState != null">refund_state,</if>
+            <if test="refundTime != null">refund_time,</if>
+            <if test="refundSuccesstime != null">refund_successtime,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="companyid != null">#{companyid},</if>
+            <if test="khuserid != null">#{khuserid},</if>
+            <if test="fwsuserid != null">#{fwsuserid},</if>
+            <if test="money != null">#{money},</if>
+            <if test="yuepay != null">#{yuepay},</if>
+            <if test="fundpay != null">#{fundpay},</if>
+            <if test="wxorcftpay != null">#{wxorcftpay},</if>
+            <if test="tradetype != null">#{tradetype},</if>
+            <if test="ordernum != null and ordernum != ''">#{ordernum},</if>
+            <if test="paytime != null">#{paytime},</if>
+            <if test="createdate != null">#{createdate},</if>
+            <if test="paytype != null">#{paytype},</if>
+            <if test="paystate != null">#{paystate},</if>
+            <if test="tradeNo != null">#{tradeNo},</if>
+            <if test="mchId != null">#{mchId},</if>
+            <if test="tradeStatus != null">#{tradeStatus},</if>
+            <if test="cuid != null">#{cuid},</if>
+            <if test="cumoney != null">#{cumoney},</if>
+            <if test="refundAuditUserid != null">#{refundAuditUserid},</if>
+            <if test="refundMoney != null">#{refundMoney},</if>
+            <if test="refundNote != null">#{refundNote},</if>
+            <if test="refundNo != null">#{refundNo},</if>
+            <if test="refundState != null">#{refundState},</if>
+            <if test="refundTime != null">#{refundTime},</if>
+            <if test="refundSuccesstime != null">#{refundSuccesstime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTOrder" parameterType="TOrder">
+        update t_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="companyid != null">companyid = #{companyid},</if>
+            <if test="khuserid != null">khuserid = #{khuserid},</if>
+            <if test="fwsuserid != null">fwsuserid = #{fwsuserid},</if>
+            <if test="money != null">money = #{money},</if>
+            <if test="yuepay != null">yuepay = #{yuepay},</if>
+            <if test="fundpay != null">fundpay = #{fundpay},</if>
+            <if test="wxorcftpay != null">wxorcftpay = #{wxorcftpay},</if>
+            <if test="tradetype != null">tradetype = #{tradetype},</if>
+            <if test="ordernum != null and ordernum != ''">ordernum = #{ordernum},</if>
+            <if test="paytime != null">paytime = #{paytime},</if>
+            <if test="createdate != null">createdate = #{createdate},</if>
+            <if test="paytype != null">paytype = #{paytype},</if>
+            <if test="paystate != null">paystate = #{paystate},</if>
+            <if test="tradeNo != null">trade_no = #{tradeNo},</if>
+            <if test="mchId != null">mch_id = #{mchId},</if>
+            <if test="tradeStatus != null">trade_status = #{tradeStatus},</if>
+            <if test="cuid != null">cuid = #{cuid},</if>
+            <if test="cumoney != null">cumoney = #{cumoney},</if>
+            <if test="refundAuditUserid != null">refund_audit_userid = #{refundAuditUserid},</if>
+            <if test="refundMoney != null">refund_money = #{refundMoney},</if>
+            <if test="refundNote != null">refund_note = #{refundNote},</if>
+            <if test="refundNo != null">refund_no = #{refundNo},</if>
+            <if test="refundState != null">refund_state = #{refundState},</if>
+            <if test="refundTime != null">refund_time = #{refundTime},</if>
+            <if test="refundSuccesstime != null">refund_successtime = #{refundSuccesstime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTOrderById" parameterType="Long">
+        delete from t_order where id = #{id}
+    </delete>
+
+    <delete id="deleteTOrderByIds" parameterType="String">
+        delete from t_order where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

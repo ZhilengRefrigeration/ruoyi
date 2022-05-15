@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.xjt.mapper.TMoneyMapper">
+    
+    <resultMap type="TMoney" id="TMoneyResult">
+        <result property="id"    column="id"    />
+        <result property="userid"    column="userid"    />
+        <result property="money"    column="money"    />
+        <result property="tradetype"    column="tradetype"    />
+        <result property="tradedate"    column="tradedate"    />
+        <result property="type"    column="type"    />
+        <result property="note"    column="note"    />
+        <result property="leftmoney"    column="leftmoney"    />
+        <result property="orderid"    column="orderid"    />
+        <result property="state"    column="state"    />
+        <result property="bbsmallorderid"    column="bbsmallorderid"    />
+    </resultMap>
+
+    <sql id="selectTMoneyVo">
+        select id, userid, money, tradetype, tradedate, type, note, leftmoney, orderid, state, bbsmallorderid from t_money
+    </sql>
+
+    <select id="selectTMoneyList" parameterType="TMoney" resultMap="TMoneyResult">
+        <include refid="selectTMoneyVo"/>
+        <where>  
+            <if test="userid != null "> and userid = #{userid}</if>
+            <if test="money != null "> and money = #{money}</if>
+            <if test="tradetype != null "> and tradetype = #{tradetype}</if>
+            <if test="tradedate != null "> and tradedate = #{tradedate}</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="note != null  and note != ''"> and note = #{note}</if>
+            <if test="leftmoney != null "> and leftmoney = #{leftmoney}</if>
+            <if test="orderid != null "> and orderid = #{orderid}</if>
+            <if test="state != null "> and state = #{state}</if>
+            <if test="bbsmallorderid != null "> and bbsmallorderid = #{bbsmallorderid}</if>
+        </where>
+    </select>
+    
+    <select id="selectTMoneyById" parameterType="Long" resultMap="TMoneyResult">
+        <include refid="selectTMoneyVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTMoney" parameterType="TMoney" useGeneratedKeys="true" keyProperty="id">
+        insert into t_money
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userid != null">userid,</if>
+            <if test="money != null">money,</if>
+            <if test="tradetype != null">tradetype,</if>
+            <if test="tradedate != null">tradedate,</if>
+            <if test="type != null">type,</if>
+            <if test="note != null">note,</if>
+            <if test="leftmoney != null">leftmoney,</if>
+            <if test="orderid != null">orderid,</if>
+            <if test="state != null">state,</if>
+            <if test="bbsmallorderid != null">bbsmallorderid,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userid != null">#{userid},</if>
+            <if test="money != null">#{money},</if>
+            <if test="tradetype != null">#{tradetype},</if>
+            <if test="tradedate != null">#{tradedate},</if>
+            <if test="type != null">#{type},</if>
+            <if test="note != null">#{note},</if>
+            <if test="leftmoney != null">#{leftmoney},</if>
+            <if test="orderid != null">#{orderid},</if>
+            <if test="state != null">#{state},</if>
+            <if test="bbsmallorderid != null">#{bbsmallorderid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTMoney" parameterType="TMoney">
+        update t_money
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userid != null">userid = #{userid},</if>
+            <if test="money != null">money = #{money},</if>
+            <if test="tradetype != null">tradetype = #{tradetype},</if>
+            <if test="tradedate != null">tradedate = #{tradedate},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="note != null">note = #{note},</if>
+            <if test="leftmoney != null">leftmoney = #{leftmoney},</if>
+            <if test="orderid != null">orderid = #{orderid},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="bbsmallorderid != null">bbsmallorderid = #{bbsmallorderid},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTMoneyById" parameterType="Long">
+        delete from t_money where id = #{id}
+    </delete>
+
+    <delete id="deleteTMoneyByIds" parameterType="String">
+        delete from t_money where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
