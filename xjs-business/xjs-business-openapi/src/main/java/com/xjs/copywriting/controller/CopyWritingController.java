@@ -10,6 +10,7 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresLogin;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
+import com.xjs.annotation.RateLimiter;
 import com.xjs.copywriting.domain.CopyWriting;
 import com.xjs.copywriting.domain.RequestBody;
 import com.xjs.copywriting.factory.CopyWritingFactory;
@@ -29,8 +30,9 @@ import java.util.Optional;
 
 /**
  * 文案controller
+ *
  * @author xiejs
- * @since  2021-12-27
+ * @since 2021-12-27
  */
 @RestController
 @RequestMapping("copyWriting")
@@ -84,7 +86,7 @@ public class CopyWritingController extends BaseController {
 
         //清理重复内容
         int i = copyWritingService.deleteRepeatData();
-        log.info("清理文案重复数："+i);
+        log.info("清理文案重复数：" + i);
 
         return R.ok(copyWriting);
     }
@@ -93,6 +95,7 @@ public class CopyWritingController extends BaseController {
     @ApiOperation("删除重复文案内容")
     @RequiresPermissions("openapi:copywriting:remove")
     @Log(title = "删除重复文案", businessType = BusinessType.DELETE)
+    @RateLimiter(count = 1, time = 1)
     public AjaxResult deleteRepeatData() {
         int count = copyWritingService.deleteRepeatData();
         return AjaxResult.success(count);
@@ -152,6 +155,7 @@ public class CopyWritingController extends BaseController {
     @ApiOperation("文案列表")
     @RequiresPermissions("openapi:copywriting:list")
     @GetMapping("/list")
+    @RateLimiter(count = 1, time = 1)
     public TableDataInfo list(@Validated({SelectGroup.class}) CopyWriting copyWriting) {
         startPage();
         List<CopyWriting> list = copyWritingService.selectCopyWritingList(copyWriting);
@@ -188,6 +192,7 @@ public class CopyWritingController extends BaseController {
     @Log(title = "文案管理", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     @ApiOperation("删除文案")
+    @RateLimiter(count = 1, time = 1)
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(copyWritingService.deleteCopyWritingByIds(ids));
     }
