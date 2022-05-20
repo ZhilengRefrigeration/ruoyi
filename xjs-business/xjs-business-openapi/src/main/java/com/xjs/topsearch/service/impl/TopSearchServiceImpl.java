@@ -13,9 +13,14 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 热搜服务实现
+ *
  * @author xiejs
  * @since 2022-01-22
  */
@@ -45,41 +50,68 @@ public class TopSearchServiceImpl implements TopSearchService {
     private ApiTopsearchWeiboService apiTopsearchWeiboService;
 
 
+    private ExecutorService executor = Executors.newFixedThreadPool(5);
 
     @Override
-    public Map<String, List> getAllTopSearch() {
-        //获取全网热搜
-        List<ApiTopsearchAllnetwork> allnetworkList = tianXingTopsearchAllnetworkFactory.topSearchApi();
-        //获取微博热搜
-        List<ApiTopsearchWeibo> weiboList = tianXingTopsearchWeiboFactory.topSearchApi();
-        //获取抖音热搜
-        List<ApiTopsearchDouyin> douyinList = tianXingTopsearchDouyinFactory.topSearchApi();
-        //获取微信热搜
-        List<ApiTopsearchWechat> wechatList = tianXingTopsearchWechatFactory.topSearchApi();
-        //获取百度热搜
-        List<ApiTopsearchBaidu> baiduList = tianXingTopsearchBaiduFactory.topSearchApi();
+    public Map<String, List> getAllTopSearch() throws ExecutionException, InterruptedException {
+        long start = System.currentTimeMillis();
+
+        CompletableFuture<List<ApiTopsearchAllnetwork>> future1 = CompletableFuture.supplyAsync(() -> {
+            //获取全网热搜
+            return tianXingTopsearchAllnetworkFactory.topSearchApi();
+        }, executor);
+
+        CompletableFuture<List<ApiTopsearchWeibo>> future2 = CompletableFuture.supplyAsync(() -> {
+            //获取微博热搜
+            return tianXingTopsearchWeiboFactory.topSearchApi();
+        }, executor);
+
+        CompletableFuture<List<ApiTopsearchDouyin>> future3 = CompletableFuture.supplyAsync(() -> {
+            //获取抖音热搜
+            return tianXingTopsearchDouyinFactory.topSearchApi();
+        }, executor);
+
+        CompletableFuture<List<ApiTopsearchWechat>> future4 = CompletableFuture.supplyAsync(() -> {
+            //获取微信热搜
+            return tianXingTopsearchWechatFactory.topSearchApi();
+        }, executor);
+
+        CompletableFuture<List<ApiTopsearchBaidu>> future5 = CompletableFuture.supplyAsync(() -> {
+            //获取百度热搜
+            return tianXingTopsearchBaiduFactory.topSearchApi();
+        }, executor);
+
+        // 必须等待所有异步任务执行完成才能返回结果
+        CompletableFuture.allOf(future1, future2, future3, future4, future5).get();
+
+        long end = System.currentTimeMillis();
+
+        long count = end - start;
+        log.info("异步获取热搜榜耗费时间：{}ms",count);
+
+
         Map<String, List> listHashMap = new HashMap<>();
-        listHashMap.put("allnetworkList", allnetworkList);
-        listHashMap.put("wechatList", wechatList);
-        listHashMap.put("baiduList", baiduList);
-        listHashMap.put("weiboList", weiboList);
-        listHashMap.put("douyinList", douyinList);
+        listHashMap.put("allnetworkList", future1.get());
+        listHashMap.put("wechatList", future2.get());
+        listHashMap.put("baiduList", future3.get());
+        listHashMap.put("weiboList", future4.get());
+        listHashMap.put("douyinList", future5.get());
         return listHashMap;
     }
 
     @Override
     public Integer deleteRepeatData() {
         Integer allNetworkCount = apiTopsearchAllnetworkService.deleteRepeatData();
-        log.info("thread id:{},清除全网热搜榜重复数据，重复数：{}", Thread.currentThread().getId(),allNetworkCount);
+        log.info("thread id:{},清除全网热搜榜重复数据，重复数：{}", Thread.currentThread().getId(), allNetworkCount);
         Integer wechatCount = apiTopsearchWechatService.deleteRepeatData();
-        log.info("thread id:{},清除微信热搜榜重复数据，重复数：{}", Thread.currentThread().getId(),wechatCount);
+        log.info("thread id:{},清除微信热搜榜重复数据，重复数：{}", Thread.currentThread().getId(), wechatCount);
         Integer baiduCount = apiTopsearchBaiduService.deleteRepeatData();
-        log.info("thread id:{},清除百度热搜榜重复数据，重复数：{}", Thread.currentThread().getId(),baiduCount);
+        log.info("thread id:{},清除百度热搜榜重复数据，重复数：{}", Thread.currentThread().getId(), baiduCount);
         Integer douyinCount = apiTopsearchDouyinService.deleteRepeatData();
-        log.info("thread id:{},清除抖音热搜榜重复数据，重复数：{}", Thread.currentThread().getId(),douyinCount);
+        log.info("thread id:{},清除抖音热搜榜重复数据，重复数：{}", Thread.currentThread().getId(), douyinCount);
         Integer weiboCount = apiTopsearchWeiboService.deleteRepeatData();
-        log.info("thread id:{},清除微博热搜榜重复数据，重复数：{}", Thread.currentThread().getId(),weiboCount);
-        return allNetworkCount+wechatCount+baiduCount+douyinCount+weiboCount;
+        log.info("thread id:{},清除微博热搜榜重复数据，重复数：{}", Thread.currentThread().getId(), weiboCount);
+        return allNetworkCount + wechatCount + baiduCount + douyinCount + weiboCount;
     }
 
     @Override

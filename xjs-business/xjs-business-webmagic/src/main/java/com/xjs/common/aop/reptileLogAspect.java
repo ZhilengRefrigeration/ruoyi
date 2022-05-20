@@ -79,7 +79,7 @@ public class reptileLogAspect {
         //获取目标类名及方法名
         Signature signature = joinPoint.getSignature();
         String method = signature.getName();
-        Class aClass = signature.getDeclaringType();
+        Class<?> aClass = signature.getDeclaringType();
         Method[] methods = aClass.getMethods();
 
         //根据目标的方法名判断当前方法

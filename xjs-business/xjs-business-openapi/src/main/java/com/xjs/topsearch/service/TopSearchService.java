@@ -2,6 +2,7 @@ package com.xjs.topsearch.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * 热搜榜服务接口
@@ -14,7 +15,7 @@ public interface TopSearchService {
      * 获取所有热搜(内含插入)
      * @return
      */
-    Map<String, List> getAllTopSearch();
+    Map<String, List> getAllTopSearch() throws ExecutionException, InterruptedException;
 
 
     /**

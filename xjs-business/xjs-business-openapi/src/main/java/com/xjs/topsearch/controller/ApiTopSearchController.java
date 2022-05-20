@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import static com.xjs.consts.RedisConst.HOT;
@@ -52,7 +53,14 @@ public class ApiTopSearchController {
             Map<String, List> cacheObject = redisService.getCacheObject(HOT);
             return AjaxResult.success(cacheObject);
         }
-        Map<String, List> listHashMap = topSearchService.getAllTopSearch();
+        Map<String, List> listHashMap = null;
+        try {
+            listHashMap = topSearchService.getAllTopSearch();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         //把数据存入redis，十分钟过期
         redisService.setCacheObject(HOT,listHashMap,HOT_EXPIRE, TimeUnit.MINUTES);
         return AjaxResult.success(listHashMap);
@@ -75,7 +83,14 @@ public class ApiTopSearchController {
     public R<Map<String, List>> topSearchForRPC() {
         //清理重复数据
         topSearchService.deleteRepeatData();
-        Map<String, List> map = topSearchService.getAllTopSearch();
+        Map<String, List> map = null;
+        try {
+            map = topSearchService.getAllTopSearch();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return R.ok(map);
     }
 

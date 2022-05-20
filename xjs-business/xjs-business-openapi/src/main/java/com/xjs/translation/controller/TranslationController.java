@@ -5,6 +5,7 @@ import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
+import com.xjs.annotation.RateLimiter;
 import com.xjs.translation.domain.qo.translation.TranslationQo;
 import com.xjs.translation.domain.vo.translation.TranslationVo;
 import com.xjs.translation.factory.TranslationFactory;
@@ -41,6 +42,7 @@ public class TranslationController {
     @ApiOperation("翻译接口")
     @Log(title = "获取翻译")
     @RequiresPermissions("openapi:translation:api")
+    @RateLimiter(count = 2, time = 10)
     public AjaxResult translation(@Validated @RequestBody TranslationQo translationQo) {
         TranslationVo translationVo = new TranslationVo();
         if (BAIDU.equals(translationQo.getTranslationType())) {
