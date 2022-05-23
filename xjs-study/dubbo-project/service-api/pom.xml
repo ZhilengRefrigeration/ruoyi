@@ -3,22 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>ruoyi</artifactId>
-        <groupId>com.ruoyi</groupId>
-        <version>3.3.0</version>
+        <artifactId>dubbo-project</artifactId>
+        <groupId>com.xjs</groupId>
+        <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <packaging>pom</packaging>
-    <name>学习</name>
-    <modules>
-        <module>xjs-study-base</module>
-        <module>netty-project</module>
-        <module>dubbo-project</module>
-    </modules>
+    <name>dubbo服务API</name>
 
-    <artifactId>xjs-study</artifactId>
-    <groupId>com.xjs</groupId>
-    <version>1.0</version>
+    <artifactId>service-api</artifactId>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
