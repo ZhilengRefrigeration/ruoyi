@@ -1,0 +1,2 @@
+human=com.xjs.service.impl.HumanHelloService
+dog=com.xjs.service.impl.DogHelloService
