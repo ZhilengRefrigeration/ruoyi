@@ -17,6 +17,9 @@
         <module>dubbo-spi-api</module>
         <module>dubbo-spi-impl</module>
         <module>dubbo-spi-main</module>
+        <module>dubbo-spi-filter</module>
+        <module>dubbo-spi-loadbalance</module>
+        <module>dubbo-spi-threadpool</module>
     </modules>
 
     <artifactId>dubbo-project</artifactId>

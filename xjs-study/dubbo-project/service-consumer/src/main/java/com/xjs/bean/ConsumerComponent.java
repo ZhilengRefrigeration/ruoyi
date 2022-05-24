@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConsumerComponent {
 
-    @Reference
+    @Reference(loadbalance = "onlyFirst")
     private HelloService helloService;
 
     public String sayHello(String name) {
-        return helloService.sayHello(name);
+        return helloService.sayHello(name,10);
     }
 
 }

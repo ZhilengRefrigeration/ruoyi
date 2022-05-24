@@ -23,11 +23,26 @@ public class AnnotationConsumerApplication {
         ConsumerComponent service = context.getBean(ConsumerComponent.class);
 
         while (true) {
-            System.in.read();
-            String hello = service.sayHello("傻逼");
+            for (int i = 0; i < 1000; i++) {
+                try {
+                    Thread.sleep(5);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String msg = service.sayHello("hello");
+                            System.out.println(msg);
+                        }
+                    }).start();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
 
-            System.out.println(hello);
         }
+
+
+        //String msg = service.sayHello("hello");
+        //System.out.println(msg);
 
     }
 

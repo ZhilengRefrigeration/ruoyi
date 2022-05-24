@@ -25,6 +25,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.xjs</groupId>
+            <artifactId>dubbo-spi-shreadpool</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo</artifactId>
         </dependency>

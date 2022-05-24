@@ -6,4 +6,6 @@ package com.xjs.service;
  */
 public interface HelloService {
     String sayHello(String name);
+
+    String sayHello(String name,int timeTowait);
 }
