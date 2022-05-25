@@ -1,0 +1,19 @@
+#eureka server端口
+server:
+  port: 8759
+
+spring:
+  application:
+    name: eureka-client-consumer   #应用名称，在Eureka中作为服务名称
+
+
+#注册到Eureka服务中心
+eureka:
+  client:
+    service-url:
+      # 注册到集群，就把多个Eureka Server 地址使用逗号连接起来即可，注册到单实例，就写一个
+      defaultZone: http://localhost:8761/eureka,http://localhost:8762/eureka,http://localhost:8763/eureka
+
+  instance:
+    prefer-ip-address: true   #服务实例中显示ip，而不是显示主机名
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}   #实例名称
