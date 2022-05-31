@@ -1,11 +1,9 @@
-#eureka server端口
 server:
-  port: 8760
+  port: 9898
 
 spring:
   application:
-    name: eureka-client-provider   #应用名称，在Eureka中作为服务名称
-
+    name: oauth-server
 
 #注册到Eureka服务中心
 eureka:
@@ -18,12 +16,3 @@ eureka:
     prefer-ip-address: true   #服务实例中显示ip，而不是显示主机名
     instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}   #实例名称
 
-    #自定义元数据
-    metadata-map:
-      now: 2022
-
-
-logging:
-  level:
-    org.springframework.cloud.sleuth: debug
-    org.springframework.web.servlet.DispatcherServlet: debug

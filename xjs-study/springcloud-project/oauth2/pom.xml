@@ -3,14 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>eureka</artifactId>
+        <artifactId>springcloud-project</artifactId>
         <groupId>com.xjs</groupId>
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <name>Eureka客户端生产者</name>
+    <name>oauth2认证授权</name>
 
-    <artifactId>eureka-client-provider</artifactId>
+    <artifactId>oauth2</artifactId>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -30,8 +30,16 @@
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
+            <artifactId>spring-cloud-starter-oauth2</artifactId>
+            <version>2.2.5.RELEASE</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>2.3.4.RELEASE</version>
+        </dependency>
+
     </dependencies>
 
 </project>

@@ -13,6 +13,7 @@
     <modules>
         <module>eureka</module>
         <module>stream</module>
+        <module>oauth2</module>
     </modules>
 
     <artifactId>springcloud-project</artifactId>
