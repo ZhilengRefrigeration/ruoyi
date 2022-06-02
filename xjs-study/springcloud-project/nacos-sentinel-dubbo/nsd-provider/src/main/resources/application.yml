@@ -1,0 +1,59 @@
+server:
+  port: 10090
+
+spring:
+  application:
+    name: nacos-sentinel-dubbo-provider
+
+  main:
+    allow-bean-definition-overriding: true
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: study001
+
+    sentinel:
+      transport:
+        #sentinel控制台端口
+        dashboard: 127.0.0.1:10086
+        #sentinel会在该端口启动http server进行一些限流规则传递，如果占用，端口号依次+1，例10081
+        port: 10080
+
+      #Sentinel Nacos数据源配置，nacos中的规则会自动同步到sentinel流控规则中(Sentinel规则持久化)
+      datasource:
+        #自定义的流控规则数据源名称
+        flow:
+          nacos:
+            serverAddr: ${spring.cloud.nacos.discovery.server-addr}
+            dataId: ${spring.application.name}-flow-rules
+            groupId: sentinel
+            namespace: study001
+            dataType: json
+            ruleType: FLOW
+
+        #自定义的降级规则数据源名称
+        degrade:
+          nacos:
+            serverAddr: ${spring.cloud.nacos.discovery.server-addr}
+            dataId: ${spring.application.name}-degrade-rules
+            groupId: sentinel
+            namespace: study001
+            dataType: json
+            ruleType: degrade
+
+
+dubbo:
+  scan:
+    base-packages:
+      - com.xjs.service.impl
+  protocol:
+    name: dubbo
+    port: -1
+    host: 127.0.0.1
+  registry:
+    address: spring-cloud://localhost
+
+
+

@@ -1,0 +1,34 @@
+server:
+  port: 8521
+
+spring:
+  application:
+    name: nacos-service-consumer
+
+  cloud:
+    nacos:
+      discovery:
+        #naocs集群地址
+        server-addr: 127.0.0.1:8848,127.0.0.1:8858,127.0.0.1:8868
+        namespace: study001
+
+      config:
+        #配置中心地址
+        server-addr: 127.0.0.1:8848,127.0.0.1:8858,127.0.0.1:8868
+        #命名空间id
+        namespace: study001
+        #组id
+        group: DEFAULT_GROUP
+
+
+        file-extension: yml
+        prefix: study
+
+        extension-configs[0]:
+          data-id: study-copy.yml
+          refresh: true
+
+
+
+
+
