@@ -6,6 +6,7 @@ import com.ruoyi.common.core.constant.HttpStatus;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.redis.service.RedisService;
 import com.ruoyi.system.api.RemoteConfigService;
+import com.xjs.common.util.WeiXinUtils;
 import com.xjs.weixin.consts.WeiXinConst;
 import lombok.extern.log4j.Log4j2;
 import org.apache.http.HttpResponse;
@@ -41,9 +42,6 @@ public class WeiXinLinkPipeline implements Pipeline {
     private RedisService redisService;
     @Resource
     private RemoteConfigService remoteConfigService;
-
-
-
 
 
     @Override
@@ -134,79 +132,18 @@ public class WeiXinLinkPipeline implements Pipeline {
      */
     private void downloadPicture(InputStream inputStream, String path, String fileName, String title) {
 
-        try {
-            DataInputStream dataInputStream = new DataInputStream(inputStream);
-
-            //拼接文件路径
-            String appendPath = this.getAppendPath(title);
-
-            //如果文件夹不存在则创建
-            File file = new File(appendPath);
-
-            if (!file.exists()) {
-                boolean mkdirs = file.mkdirs();
-            }
-
-            String absolutePath = file.getAbsolutePath();
-            String absolute = absolutePath + File.separator + fileName;
-
-            FileOutputStream f = new FileOutputStream(absolute);
-
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-            byte[] bf = new byte[1024];
-            int length;
-
-            while ((length = dataInputStream.read(bf)) > 0) {
-                out.write(bf, 0, length);
-            }
-
-            f.write(out.toByteArray());
-            dataInputStream.close();
-            f.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        WeiXinUtils.downloadPicture(inputStream, path, fileName, title, this.getAppendPath(title));
     }
 
 
     /**
      * 获取拼接后的磁盘路径
+     *
      * @param title 拼接的最后的文件夹
      * @return str
      */
     private String getAppendPath(String title) {
-        //过滤title字段
-        title = title.replace(" ", "");
-        //替换\ 防止报错
-        if (title.contains("/")) {
-            title = title.replace("/", "-");
-        }
-        if (title.contains("\\")) {
-            title = title.replace("\\", "-");
-        }
-        if (title.contains(":")) {
-            title = title.replace(":", "-");
-        }
-        if (title.contains("*")) {
-            title = title.replace("*", "-");
-        }
-        if (title.contains("?")) {
-            title = title.replace("?", "-");
-        }
-        if (title.contains("\"")) {
-            title = title.replace("\"", "-");
-        }
-        if (title.contains("<")) {
-            title = title.replace("<", "-");
-        }
-        if (title.contains(">")) {
-            title = title.replace(">", "-");
-        }
-        if (title.contains("|")) {
-            title = title.replace("|", "-");
-        }
-
+        title = WeiXinUtils.filterTitle(title);
 
         return this.getPath() + File.separator + DateUtil.format(new Date(),
                 DatePattern.NORM_MONTH_PATTERN) + File.separator

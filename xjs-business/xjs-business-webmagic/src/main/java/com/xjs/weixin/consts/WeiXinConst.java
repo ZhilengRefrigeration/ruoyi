@@ -17,10 +17,17 @@ public class WeiXinConst {
      */
     public static final String REDIS_KEY = "sys_config:xjs.webmagic.wechatPicture";
 
+    public static final String REDIS_KEY_OFFICIAL = "sys_config:xjs.webmagic.official_accounts";
+
     /**
      * 系统配置表中的key
      */
     public static final String CONFIG_KEY = "xjs.webmagic.wechatPicture";
+
+
+    public static final String CONFIG_KEY_OFFICIAL = "xjs:webmagic:official_accounts";
+
+
 
     public static final String JPEG = "jpeg";
 

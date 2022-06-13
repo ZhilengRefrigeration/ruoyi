@@ -61,6 +61,16 @@ public class RedisConst {
     public static final String REPTILE_WEIXIN_LINK_COUNT = "bussiness:reptile:weixin.link.count";
 
     /**
+     * 爬虫记录循环次数常量信息：weixin.official
+     */
+    public static final String REPTILE_WEIXIN_OFFICIAL_COUNT = "bussiness:reptile:weixin.official.count";
+
+    /**
+     * 爬虫获取微信公众号名称临时常量信息:temp:official_accounts:name
+     */
+    public static final String REPTILE_WEIXIN_OFFICIAL_NAME = "temp:official_accounts:name";
+
+    /**
      *爬虫记录循环次数常量信息：zol.phone
      */
     public static final String REPTILE_ZOL_PHONE_COUNT = "bussiness:reptile:zol.phone.count";

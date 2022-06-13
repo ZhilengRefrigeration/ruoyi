@@ -40,6 +40,9 @@ public class ReptileConst {
      */
     public static final String WEIXIN_SOUGOU_URL= "https://weixin.sogou.com/";
 
+
+    public static final String WEIXIN_OFFCIAL_URL= "https://weixin.sogou.com/weixin?type=1&s_from=input&query=";
+
     /**
      * 中关村报价url
      */

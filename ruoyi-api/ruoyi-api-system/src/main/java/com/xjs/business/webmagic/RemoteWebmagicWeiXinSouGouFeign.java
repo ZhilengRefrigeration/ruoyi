@@ -18,4 +18,7 @@ public interface RemoteWebmagicWeiXinSouGouFeign {
 
     @GetMapping("/weixin_sougou/taskForPRC")
     R WeiXinSouGouTaskForPRC() ;
+
+    @GetMapping("/weixin_official_accounts/taskForPRC")
+    R WeiXinOfficialAccountsTaskForPRC() ;
 }

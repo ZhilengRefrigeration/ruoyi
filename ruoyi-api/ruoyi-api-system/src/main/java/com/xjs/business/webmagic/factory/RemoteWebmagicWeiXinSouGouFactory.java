@@ -22,6 +22,12 @@ public class RemoteWebmagicWeiXinSouGouFactory implements FallbackFactory<Remote
                 log.error("微信搜狗 爬虫定时任务 降级------服务可能正在运行");
                 return R.fail("降级处理------服务可能正在运行");
             }
+
+            @Override
+            public R WeiXinOfficialAccountsTaskForPRC() {
+                log.error("微信公众号 爬虫定时任务 降级------服务可能正在运行");
+                return R.fail("降级处理------服务可能正在运行");
+            }
         };
     }
 }
