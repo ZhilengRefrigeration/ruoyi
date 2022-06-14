@@ -38,6 +38,9 @@
         GROUP BY
             type
     </select>
+    <select id="showCopyWriting" resultType="com.xjs.copywritingNetwork.pojo.CopyWritingNetwork">
+        SELECT id,type,content FROM webmagic_copywriting_network ORDER BY RAND() LIMIT 5
+    </select>
 
     <delete id="deleteRepeatData">
         delete from webmagic_copywriting_network where id not in	(

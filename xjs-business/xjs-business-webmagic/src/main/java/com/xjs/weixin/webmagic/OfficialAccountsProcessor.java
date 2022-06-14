@@ -98,6 +98,7 @@ public class OfficialAccountsProcessor implements PageProcessor {
 
             String js = page.getHtml().get();
 
+            //解析js中的url地址以及拼接
             if (js.contains("window.location.replace(url)")) {
                 String function = js.substring(js.indexOf("{") + 1, js.indexOf("}"));
                 //System.out.println("function="+function);

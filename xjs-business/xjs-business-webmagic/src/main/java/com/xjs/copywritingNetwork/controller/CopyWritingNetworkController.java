@@ -7,6 +7,7 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
+import com.xjs.business.webmagic.domain.CopyWritingNetworkDTO;
 import com.xjs.copywritingNetwork.pojo.CopyWritingNetwork;
 import com.xjs.copywritingNetwork.service.CopyWritingNetworkService;
 import com.xjs.copywritingNetwork.task.CopyWritingNetworkTask;
@@ -14,12 +15,14 @@ import com.xjs.validation.group.SelectGroup;
 import com.xjs.web.MyBaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 文案网controller
@@ -30,7 +33,7 @@ import java.util.List;
 @RestController
 @RequestMapping("copyWritingNetwork")
 @Api(tags = "爬虫模块-文案网")
-public class CopyWritingNetworkController extends MyBaseController {
+public class CopyWritingNetworkController extends MyBaseController<CopyWritingNetwork> {
 
     @Autowired
     private CopyWritingNetworkService copyWritingNetworkService;
@@ -55,6 +58,18 @@ public class CopyWritingNetworkController extends MyBaseController {
         return R.ok(count);
     }
 
+    @GetMapping("showCopyWriting")
+    @ApiOperation("首页展示文案")
+    public R<List<CopyWritingNetworkDTO>> showCopyWriting() {
+        List<CopyWritingNetwork> data = copyWritingNetworkService.showCopyWriting();
+        List<CopyWritingNetworkDTO> collect = data.stream().map(d -> {
+            CopyWritingNetworkDTO dto = new CopyWritingNetworkDTO();
+            BeanUtils.copyProperties(d, dto);
+            return dto;
+        }).collect(Collectors.toList());
+
+        return R.ok(collect);
+    }
 
     //----------------------------代码生成-----------------------------
 

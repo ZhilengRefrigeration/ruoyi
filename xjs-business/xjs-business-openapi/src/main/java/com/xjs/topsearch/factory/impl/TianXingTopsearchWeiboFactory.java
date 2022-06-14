@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static com.xjs.consts.ApiConst.DEMOTE_ERROR;
@@ -50,7 +52,13 @@ public class TianXingTopsearchWeiboFactory implements TopserachFactory<ApiTopsea
                     ApiTopsearchWeibo apiTopsearchWeibo = new ApiTopsearchWeibo();
                     JSONObject json = (JSONObject) arrayJson;
                     apiTopsearchWeibo.setHotword(json.getString("hotword"));
-                    apiTopsearchWeibo.setHotnum(json.getString("hotwordnum"));
+
+                    //提取热度中的数字
+                    String hotwordnum = json.getString("hotwordnum");
+                    String regEx="[^0-9]";
+                    Pattern p = Pattern.compile(regEx);
+                    Matcher m = p.matcher(hotwordnum);
+                    apiTopsearchWeibo.setHotnum(m.replaceAll("").trim());
                     apiTopsearchWeibo.setHottag(json.getString("hottag"));
                     return apiTopsearchWeibo;
                 }).collect(Collectors.toList());

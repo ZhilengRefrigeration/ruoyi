@@ -55,6 +55,10 @@ public class CopyWritingNetworkServiceImpl extends ServiceImpl<CopyWritingNetwor
         return this.listObjs(wrapper);
     }
 
+    @Override
+    public List<CopyWritingNetwork> showCopyWriting() {
+        return copyWritingNetworkMapper.showCopyWriting();
+    }
 
     /**
      * 过滤数据
@@ -126,6 +130,8 @@ public class CopyWritingNetworkServiceImpl extends ServiceImpl<CopyWritingNetwor
     public int deleteCopyWritingNetworkById(Long id) {
         return copyWritingNetworkMapper.deleteCopyWritingNetworkById(id);
     }
+
+
 
 
 }

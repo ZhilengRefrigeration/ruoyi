@@ -122,6 +122,11 @@ public class CopyWritingNetworkTask {
                     String content = copyWritingNetwork.getContent();
                     boolean matches = pattern.matcher(content).matches();
                     if (StringUtils.isNotEmpty(content) && !matches) {
+
+                        //过滤数据
+                        String cont = filterContent(content);
+                        copyWritingNetwork.setContent(cont);
+
                         copyWritingNetworks.add(copyWritingNetwork);
                     }
 
@@ -139,5 +144,50 @@ public class CopyWritingNetworkTask {
         return count;
     }
 
+    /**
+     * 过滤数据
+     *
+     * @param oldStr 原始数据
+     * @return newStr
+     */
+    private String filterContent(String oldStr) {
+        try {
+            char index0 = oldStr.charAt(0);
+            char index1 = oldStr.charAt(1);
+            char index2 = oldStr.charAt(2);
+            char index3 = oldStr.charAt(3);
+            boolean matches0 = pattern.matcher(String.valueOf(index0)).matches();
+            boolean matches1 = pattern.matcher(String.valueOf(index1)).matches();
+            boolean matches2 = pattern.matcher(String.valueOf(index2)).matches();
+            //  1、
+            if (matches0 && index1 == '、') {
+                return oldStr.substring(2);
+            }
+            // 15、
+            if (matches0 && matches1 && index2 == '、') {
+                return oldStr.substring(3);
+            }
+            //100、
+            if (matches0 && matches1 && matches2 && index3 == '、') {
+                return oldStr.substring(4);
+            }
+            //1.
+            if (matches0 && index1 == '.') {
+                return oldStr.substring(2);
+            }
+            //13.
+            if (matches0 && matches1 && index2 == '.') {
+                return oldStr.substring(3);
+            }
+            //100.
+            if (matches0 && matches1 && matches2 && index3 == '.') {
+                return oldStr.substring(4);
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage()+"===="+oldStr);
+            return oldStr;
+        }
+        return oldStr;
+    }
 
 }

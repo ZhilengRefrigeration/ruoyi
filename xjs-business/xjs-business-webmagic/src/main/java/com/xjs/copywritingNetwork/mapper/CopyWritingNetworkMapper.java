@@ -50,4 +50,10 @@ public interface CopyWritingNetworkMapper extends BaseMapper<CopyWritingNetwork>
      * @return list
      */
     List<String> getType();
+
+    /**
+     * 展示文案
+     * @return List
+     */
+    List<CopyWritingNetwork> showCopyWriting();
 }

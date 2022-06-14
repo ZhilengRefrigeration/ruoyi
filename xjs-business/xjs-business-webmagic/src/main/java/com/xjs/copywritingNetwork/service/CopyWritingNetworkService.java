@@ -52,5 +52,10 @@ public interface CopyWritingNetworkService extends IService<CopyWritingNetwork> 
     int deleteCopyWritingNetworkById(Long id);
 
 
+    /**
+     * 展示文案
+     * @return List
+     */
+    List<CopyWritingNetwork> showCopyWriting();
 
 }
