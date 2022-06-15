@@ -238,7 +238,13 @@
           </el-col>
           <el-col :span="12">
             <el-form-item v-if="form.userId == undefined" label="用户密码" prop="password">
-              <el-input v-model="form.password" placeholder="请输入用户密码" type="password" maxlength="20" show-password/>
+              <Password
+                ref="passwordRef"
+                v-model="form.password"
+                :check-list="checkList"
+                placeholder="请输入用户密码"
+              >
+              </Password>
             </el-form-item>
           </el-col>
         </el-row>
@@ -342,16 +348,18 @@
 </template>
 
 <script>
+import Password,{ usePassword} from '@/components/Password'
 import { listUser, getUser, delUser, addUser, updateUser, resetUserPwd, changeUserStatus } from "@/api/system/user";
 import { getToken } from "@/utils/auth";
 import { treeselect } from "@/api/system/dept";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+let passwordE = null;// password 组件元素相关校验逻辑
 
 export default {
   name: "User",
   dicts: ['sys_normal_disable', 'sys_user_sex'],
-  components: { Treeselect },
+  components: { Treeselect, Password },
   data() {
     return {
       // 遮罩层
@@ -384,6 +392,7 @@ export default {
       postOptions: [],
       // 角色选项
       roleOptions: [],
+      checkList: [],
       // 表单参数
       form: {},
       defaultProps: {
@@ -435,7 +444,17 @@ export default {
         ],
         password: [
           { required: true, message: "用户密码不能为空", trigger: "blur" },
-          { min: 5, max: 20, message: '用户密码长度必须介于 5 和 20 之间', trigger: 'blur' }
+          { type: String, validator: (rule, value, callback)=>{
+              let { validList = [], valid } = passwordE.validate(value)
+              this.$refs.passwordRef.update(validList)
+              // 几条规则是否都以校验完成，否则会有无效密码提示
+              if (!valid) {
+                callback(new Error("无效密码"));
+              } else {
+                callback();
+              }
+            }, trigger: ["change", "blur"]
+          }
         ],
         email: [
           {
@@ -461,6 +480,8 @@ export default {
     }
   },
   created() {
+    passwordE = usePassword();
+    this.checkList = passwordE.checkList;
     this.getList();
     this.getTreeselect();
     this.getConfigKey("sys.user.initPassword").then(response => {
@@ -588,17 +609,21 @@ export default {
     },
     /** 重置密码按钮操作 */
     handleResetPwd(row) {
+      let rulesMsg = passwordE.checkList.map(item=> item.label);
       this.$prompt('请输入"' + row.userName + '"的新密码', "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         closeOnClickModal: false,
-        inputPattern: /^.{5,20}$/,
-        inputErrorMessage: "用户密码长度必须介于 5 和 20 之间"
+        inputValidator: (value) => {
+          let { validList = [], valid } = passwordE.validate(value)
+          return valid;
+        },
+        inputErrorMessage: "用户密码" + rulesMsg
       }).then(({ value }) => {
-          resetUserPwd(row.userId, value).then(response => {
-            this.$modal.msgSuccess("修改成功，新密码是：" + value);
-          });
-        }).catch(() => {});
+        resetUserPwd(row.userId, value).then(response => {
+          this.$modal.msgSuccess("修改成功，新密码是：" + value);
+        });
+      }).catch(() => {});
     },
     /** 分配角色操作 */
     handleAuthRole: function(row) {
@@ -670,3 +695,9 @@ export default {
   }
 };
 </script>
+<style rel="stylesheet/scss" lang="scss">
+/*禁止浏览器显示密码框选择*/
+input[type="password" i] {
+  -webkit-text-security: disc !important;
+}
+</style>
