@@ -89,9 +89,17 @@ public class SinaNewsServiceImpl extends ServiceImpl<SinaNewsMapper, SinaNews> i
         internationalWrapper.last("limit 5");
         List<SinaNews> internationalList = super.list(internationalWrapper);
 
+        LambdaQueryWrapper<SinaNews> militaryWrapper = new LambdaQueryWrapper<>();
+        militaryWrapper.select(SinaNews::getTitle, SinaNews::getUrl);
+        militaryWrapper.eq(SinaNews::getCategory, "军事");
+        militaryWrapper.orderByDesc(SinaNews::getCreateTime);
+        militaryWrapper.last("limit 5");
+        List<SinaNews> militaryList = super.list(militaryWrapper);
+
         return MapUtil.builder()
                 .put("internal", internalList)
                 .put("international", internationalList)
+                .put("military", militaryList)
                 .build();
     }
 

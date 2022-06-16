@@ -103,7 +103,7 @@
               <span>文案</span>
             </div>
             <div v-for="copyWriting in copyWritingList" :key="copyWriting.id" class="top_content"
-                 style="color: #bfcbd9;">
+                 style="color: #f8ac59;">
               <el-tooltip effect="light" :content="copyWriting.content+' ——— '+copyWriting.type" placement="top"
                           :enterable="false">
                 <span>{{ copyWriting.content }} ——— <span style="color: #bfcbc5">{{ copyWriting.type }}</span></span>
@@ -182,7 +182,7 @@
       </el-col>
     </el-row>
     <el-row :gutter="5">
-      <el-col :span="12">
+      <el-col :span="8">
         <div>
           <el-card class="box-card" :body-style="{padding:'3px'}" shadow="hover">
             <div slot="header" style="font-size: 18px;color: #BD2828;font-weight: 800;padding: 0">
@@ -195,7 +195,7 @@
           </el-card>
         </div>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="8">
         <div>
           <el-card class="box-card" :body-style="{padding:'3px'}" shadow="hover">
             <div slot="header" style="font-size: 18px;color: #3d8610;font-weight: 800;padding: 0">
@@ -205,6 +205,21 @@
                  style="color: #324157;">
               <span @click="toLookNews(internationalNews.url)" style="cursor: pointer">{{
                   internationalNews.title
+                }}</span>
+            </div>
+          </el-card>
+        </div>
+      </el-col>
+      <el-col :span="8">
+        <div>
+          <el-card class="box-card" :body-style="{padding:'3px'}" shadow="hover">
+            <div slot="header" style="font-size: 18px;color: #004d8c;font-weight: 800;padding: 0">
+              <span>最新军事新闻</span>
+            </div>
+            <div v-for="militaryNews in militaryNewsList" :key="militaryNews.title" class="top_content"
+                 style="color: #a95812;">
+              <span @click="toLookNews(militaryNews.url)" style="cursor: pointer">{{
+                  militaryNews.title
                 }}</span>
             </div>
           </el-card>
@@ -310,6 +325,9 @@ export default {
 
       internalNewsList: [],
       internationalNewsList: [],
+      militaryNewsList: [],
+
+
       beautyPictureList1: [],
       beautyPictureList2: [],
       beautyPictureList3: [],
@@ -346,6 +364,7 @@ export default {
         this.englishWordTableData = res.data.englishWord
         this.internalNewsList = res.data.news.internal
         this.internationalNewsList = res.data.news.international
+        this.militaryNewsList = res.data.news.military
         this.beautyPictureList1 = res.data.beautyPicture.one
         this.beautyPictureList2 = res.data.beautyPicture.two
         this.beautyPictureList3 = res.data.beautyPicture.three

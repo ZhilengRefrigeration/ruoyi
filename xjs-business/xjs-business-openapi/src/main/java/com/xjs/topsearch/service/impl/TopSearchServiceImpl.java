@@ -92,10 +92,10 @@ public class TopSearchServiceImpl implements TopSearchService {
 
         Map<String, List> listHashMap = new HashMap<>();
         listHashMap.put("allnetworkList", future1.get());
-        listHashMap.put("wechatList", future2.get());
-        listHashMap.put("baiduList", future3.get());
-        listHashMap.put("weiboList", future4.get());
-        listHashMap.put("douyinList", future5.get());
+        listHashMap.put("weiboList", future2.get());
+        listHashMap.put("douyinList", future3.get());
+        listHashMap.put("wechatList", future4.get());
+        listHashMap.put("baiduList", future5.get());
         return listHashMap;
     }
 

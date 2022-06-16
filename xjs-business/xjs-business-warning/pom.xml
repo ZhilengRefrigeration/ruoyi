@@ -10,7 +10,19 @@
     <modelVersion>4.0.0</modelVersion>
     <name>业务模块-预警模块</name>
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -21,6 +33,7 @@
             </plugin>
         </plugins>
     </build>
+
 
     <artifactId>xjs-business-warning</artifactId>
 
