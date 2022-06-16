@@ -1,15 +1,6 @@
 package com.ruoyi.system.controller;
 
-import java.util.List;
-import javax.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
@@ -20,10 +11,15 @@ import com.ruoyi.common.security.annotation.InnerAuth;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.system.api.domain.SysOperLog;
 import com.ruoyi.system.service.ISysOperLogService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 操作日志记录
- * 
+ *
  * @author ruoyi
  */
 @RestController
@@ -74,5 +70,13 @@ public class SysOperlogController extends BaseController
     public AjaxResult add(@RequestBody SysOperLog operLog)
     {
         return toAjax(operLogService.insertOperlog(operLog));
+    }
+
+    //--------------------------------内部调用rpc----------------------------------------
+    @GetMapping("selectNewOperLog")
+    @InnerAuth
+    public R<List<SysOperLog>> selectNewOperLog() {
+        List<SysOperLog> sysOperLogs = operLogService.selectNewOperLog();
+        return R.ok(sysOperLogs);
     }
 }

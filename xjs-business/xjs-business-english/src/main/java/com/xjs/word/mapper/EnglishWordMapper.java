@@ -46,4 +46,11 @@ public interface EnglishWordMapper extends BaseMapper<EnglishWord> {
      * @return 结果
      */
     int deleteEnglishWordByIds(Long[] ids);
+
+    /**
+     * 随机获取5条英语单词数据
+     * @return list
+     */
+    List<EnglishWord> getEnglishWordByRandom();
+
 }

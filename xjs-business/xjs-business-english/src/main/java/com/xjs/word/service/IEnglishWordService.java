@@ -72,6 +72,12 @@ public interface IEnglishWordService extends IService<EnglishWord> {
      */
     public int deleteEnglishWordByIds(Long[] ids);
 
+    /**
+     * 随机获取5条英语单词数据
+     * @return list
+     */
+    List<EnglishWord> getEnglishWordByRandom();
+
 
     //------------------------代码自动生成-----------------------------------
 
@@ -84,4 +90,7 @@ public interface IEnglishWordService extends IService<EnglishWord> {
      * @return 结果
      */
     public int deleteEnglishWordById(Long id);
+
+
+
 }

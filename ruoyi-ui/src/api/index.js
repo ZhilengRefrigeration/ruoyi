@@ -2,18 +2,12 @@
 
 import request from '@/utils/request'
 
-export function showWbSearch() {
+export function showData() {
   return request({
-    url: '/openapi/index/showWbSearch',
+    url: '/openapi/index/showData',
     method: 'get'
   })
 }
 
-export function showCopyWriting() {
-  return request({
-    url: '/openapi/index/showCopyWriting',
-    method: 'get'
-  })
-}
 
 

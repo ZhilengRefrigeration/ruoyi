@@ -68,7 +68,6 @@ public class CopyWritingController extends BaseController {
 
     @GetMapping
     @ApiOperation("文案接口")
-    @Log(title = "获取文案")
     @RequiresLogin
     public AjaxResult copyWriting(@Validated RequestBody requestBody) {
         requestBody = Optional.ofNullable(requestBody).orElseGet(RequestBody::new);

@@ -2,6 +2,7 @@ package com.xjs.apilog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xjs.apilog.domain.ApiLog;
+import com.xjs.other.LogNumberVo;
 
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,27 @@ import java.util.Map;
  * @date 2021-12-26
  */
 public interface IApiLogService extends IService<ApiLog> {
+
+    /**
+     * 获取所有api名称
+     * @return
+     */
+    List<String> getApiName();
+
+    /**
+     * 根据时间查询API记录统计
+     * @param startDate 开始时间
+     * @param endDate 结束时间
+     * @return map
+     */
+    Map<String, List> statisticsByDate(String startDate, String endDate);
+
+    /**
+     * 获取次数
+     * @return LogNumberVo
+     */
+    LogNumberVo getCount();
+
 
     //------------------------代码自动生成-----------------------------------
 
@@ -48,17 +70,6 @@ public interface IApiLogService extends IService<ApiLog> {
      */
     int deleteApiLogById(Long id);
 
-    /**
-     * 获取所有api名称
-     * @return
-     */
-    List<String> getApiName();
 
-    /**
-     * 根据时间查询API记录统计
-     * @param startDate 开始时间
-     * @param endDate 结束时间
-     * @return map
-     */
-    Map<String, List> statisticsByDate(String startDate, String endDate);
+
 }

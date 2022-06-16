@@ -175,6 +175,11 @@ public class EnglishWordServiceImpl extends ServiceImpl<EnglishWordMapper, Engli
         return englishWordMapper.deleteEnglishWordByIds(ids);
     }
 
+    @Override
+    public List<EnglishWord> getEnglishWordByRandom() {
+        return englishWordMapper.getEnglishWordByRandom();
+    }
+
 
     /**
      * 查询英语单词列表

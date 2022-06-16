@@ -40,7 +40,6 @@ public class ApiAWordController extends BaseController {
 
     @GetMapping
     @ApiOperation("每日一句接口")
-    @Log(title = "获取每日一句")
     @RequiresLogin
     public AjaxResult getApiAWord(@Validated RequestBody requestBody) {
         requestBody = Optional.ofNullable(requestBody).orElseGet(RequestBody::new);

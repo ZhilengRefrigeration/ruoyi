@@ -52,6 +52,9 @@
         <include refid="selectCopyWritingVo"/>
         where id = #{id}
     </select>
+    <select id="NeteaseHotWord" resultType="com.xjs.copywriting.domain.CopyWriting">
+        SELECT id,source,content FROM api_copywriting WHERE type=#{wyy}  ORDER BY RAND() LIMIT 5
+    </select>
 
     <delete id="deleteCopyWritingById" parameterType="Long">
         delete

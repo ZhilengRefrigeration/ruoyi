@@ -1,13 +1,19 @@
 package com.xjs.maillog.service.impl;
 
+import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xjs.maillog.domain.MailLog;
 import com.xjs.maillog.mapper.MailLogMapper;
 import com.xjs.maillog.service.MailLogService;
+import com.xjs.other.LogNumberVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+
+import static com.xjs.consts.CommonConst.TODAY_END;
+import static com.xjs.consts.CommonConst.TODAY_START;
 
 /**
  * 邮件日志Service业务层处理
@@ -20,7 +26,27 @@ public class MailLogServiceImpl extends ServiceImpl<MailLogMapper,MailLog> imple
     @Resource
     private MailLogMapper mailLogMapper;
 
+
+    @Override
+    public LogNumberVo getCount() {
+        LogNumberVo logNumberVo = new LogNumberVo();
+
+        long total = super.count();
+        logNumberVo.setTotal(total);
+
+        LambdaQueryWrapper<MailLog> wrapper = new LambdaQueryWrapper<>();
+        String startDate = DateUtil.today() + " "+TODAY_START;
+        String endDate = DateUtil.today() + " "+TODAY_END;
+        wrapper.between(MailLog::getCreateTime, startDate, endDate);
+        long todayCount = super.count(wrapper);
+        logNumberVo.setTodayNumber(todayCount);
+
+        return logNumberVo;
+
+    }
+
     //---------------------------代码生成-----------------------------------
+
 
     /**
      * 查询邮件日志

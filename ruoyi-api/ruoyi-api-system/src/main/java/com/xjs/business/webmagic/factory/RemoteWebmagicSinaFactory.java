@@ -6,6 +6,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 /**
  * 内部 调用 新浪 爬虫定时任务 降级
  * @author xiejs
@@ -21,6 +23,12 @@ public class RemoteWebmagicSinaFactory implements FallbackFactory<RemoteWebmagic
             @Override
             public R sinaTaskForPRC() {
                 log.error("新浪 爬虫定时任务 降级------服务可能正在运行");
+                return R.fail("降级处理------服务可能正在运行");
+            }
+
+            @Override
+            public R<Map<Object, Object>> getNews() {
+                log.error("新浪 获取最新新闻 降级------服务可能正在运行");
                 return R.fail("降级处理------服务可能正在运行");
             }
         };

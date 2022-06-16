@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.xjs.sina.pojo.SinaNews;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 新浪新闻爬虫Service接口
@@ -49,5 +50,11 @@ public interface SinaNewsService extends IService<SinaNews> {
      */
     public int deleteSinaNewsById(Long id);
 
+
+    /**
+     * 获取最新国内、国际新闻
+     * @return map
+     */
+    Map<Object, Object> getNews();
 
 }

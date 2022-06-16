@@ -1,6 +1,7 @@
 package com.xjs.reptileLog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xjs.other.LogNumberVo;
 import com.xjs.reptileLog.domain.WebmagicLog;
 
 import java.util.List;
@@ -11,6 +12,12 @@ import java.util.List;
  * @since 2022-02-17
  */
 public interface WebmagicLogService extends IService<WebmagicLog> {
+
+    /**
+     * 获取次数
+     * @return LogNumberVo
+     */
+    LogNumberVo getCount();
 
     //------------------------代码生成-------------------------
 

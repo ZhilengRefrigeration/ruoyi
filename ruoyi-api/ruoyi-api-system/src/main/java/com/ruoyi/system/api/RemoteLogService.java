@@ -1,6 +1,7 @@
 package com.ruoyi.system.api;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -11,9 +12,11 @@ import com.ruoyi.system.api.domain.SysLogininfor;
 import com.ruoyi.system.api.domain.SysOperLog;
 import com.ruoyi.system.api.factory.RemoteLogFallbackFactory;
 
+import java.util.List;
+
 /**
  * 日志服务
- * 
+ *
  * @author ruoyi
  */
 @FeignClient(contextId = "remoteLogService", value = ServiceNameConstants.SYSTEM_SERVICE, fallbackFactory = RemoteLogFallbackFactory.class)
@@ -38,4 +41,7 @@ public interface RemoteLogService
      */
     @PostMapping("/logininfor")
     public R<Boolean> saveLogininfor(@RequestBody SysLogininfor sysLogininfor, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+
+    @GetMapping("/operlog/selectNewOperLog")
+    R<List<SysOperLog>> selectNewOperLog(@RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }

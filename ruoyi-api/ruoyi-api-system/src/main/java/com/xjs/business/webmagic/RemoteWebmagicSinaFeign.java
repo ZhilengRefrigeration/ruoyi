@@ -6,6 +6,8 @@ import com.xjs.business.webmagic.factory.RemoteWebmagicSinaFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.Map;
+
 /**
  * 内部 调用 新浪 爬虫定时任务
  * @author xiejs
@@ -18,4 +20,7 @@ public interface RemoteWebmagicSinaFeign {
 
     @GetMapping("/sinaNews/taskForPRC")
     R sinaTaskForPRC();
+
+    @GetMapping("/sinaNews/getNewsForRpc")
+    R<Map<Object, Object>> getNews();
 }

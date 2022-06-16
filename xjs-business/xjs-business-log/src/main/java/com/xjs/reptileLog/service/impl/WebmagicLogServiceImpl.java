@@ -1,6 +1,9 @@
 package com.xjs.reptileLog.service.impl;
 
+import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xjs.other.LogNumberVo;
 import com.xjs.reptileLog.domain.WebmagicLog;
 import com.xjs.reptileLog.mapper.WebmagicLogMapper;
 import com.xjs.reptileLog.service.WebmagicLogService;
@@ -8,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+
+import static com.xjs.consts.CommonConst.TODAY_END;
+import static com.xjs.consts.CommonConst.TODAY_START;
 
 /**
  * @author xiejs
@@ -18,6 +24,24 @@ public class WebmagicLogServiceImpl extends ServiceImpl<WebmagicLogMapper, Webma
 
     @Resource
     private WebmagicLogMapper webmagicLogMapper;
+
+    @Override
+    public LogNumberVo getCount() {
+        LogNumberVo logNumberVo = new LogNumberVo();
+
+        long total = super.count();
+        logNumberVo.setTotal(total);
+
+        LambdaQueryWrapper<WebmagicLog> wrapper = new LambdaQueryWrapper<>();
+        String startDate = DateUtil.today() + " "+TODAY_START;
+        String endDate = DateUtil.today() + " "+TODAY_END;
+        wrapper.between(WebmagicLog::getCreateTime, startDate, endDate);
+        long todayCount = super.count(wrapper);
+        logNumberVo.setTodayNumber(todayCount);
+
+        return logNumberVo;
+
+    }
 
 
     //------------------------代码生成-----------------------------

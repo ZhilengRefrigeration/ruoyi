@@ -41,4 +41,7 @@ public interface RemoteLogFeign {
 
     @PostMapping("maillog/saveForRPC")
     R<Object> saveMailLog(@RequestBody MailLog mailLog);
+
+    @GetMapping("log/groupLogNumberForRPC")
+    R<Map<Object, Object>> groupLogNumber();
 }

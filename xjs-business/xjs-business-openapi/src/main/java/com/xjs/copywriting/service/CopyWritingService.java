@@ -30,6 +30,12 @@ public interface CopyWritingService extends IService<CopyWriting> {
      */
     int deleteRepeatData();
 
+    /**
+     * 获取网易云热评
+     * @return list
+     */
+    List<CopyWriting> NeteaseHotWord();
+
 
     //-------------------------代码自动生成----------------------------------
     /**

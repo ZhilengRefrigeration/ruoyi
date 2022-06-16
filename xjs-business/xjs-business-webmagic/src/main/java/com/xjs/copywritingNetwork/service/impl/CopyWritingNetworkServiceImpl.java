@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xjs.copywritingNetwork.mapper.CopyWritingNetworkMapper;
 import com.xjs.copywritingNetwork.pojo.CopyWritingNetwork;
 import com.xjs.copywritingNetwork.service.CopyWritingNetworkService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

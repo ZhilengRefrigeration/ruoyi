@@ -43,6 +43,11 @@ public class ServiceNameConstants {
     public static final String BUSINESS_WEBMAGIC_SERVICE = "xjs-webmagic";
 
     /**
+     * 英语服务的serviceid
+     */
+    public static final String BUSINESS_ENGLISH_SERVICE = "xjs-english";
+
+    /**
      * 优惠服务的serviceid
      */
     public static final String MALL_COUPON_SERVICE = "xjs-mall-coupon";

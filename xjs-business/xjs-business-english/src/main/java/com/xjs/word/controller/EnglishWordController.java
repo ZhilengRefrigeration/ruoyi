@@ -1,6 +1,7 @@
 package com.xjs.word.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.log.annotation.Log;
@@ -77,6 +78,15 @@ public class EnglishWordController extends MyBaseController<EnglishWord> {
     @ApiOperation("查询英语单词列表")
     public AjaxResult list(@Validated({SelectGroup.class}) EnglishWord englishWord) {
         return AjaxResult.success(englishWordService.selectEnglishWordList(startPageMP(), englishWord));
+    }
+
+
+    //------------------------内部调用rpc-----------------------------------
+    @GetMapping("getEnglishWordForRpc")
+    @ApiOperation("随机获取5条英语单词数据")
+    public R<List<EnglishWord>> getEnglishWordByRandom() {
+        List<EnglishWord> englishWordList=englishWordService.getEnglishWordByRandom();
+        return R.ok(englishWordList);
     }
 
 

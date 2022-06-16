@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xjs.topsearch.domain.ApiTopsearchWeibo;
 import com.xjs.topsearch.mapper.ApiTopsearchWeiboMapper;
 import com.xjs.topsearch.service.ApiTopsearchWeiboService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,6 +26,7 @@ public class ApiTopsearchWeiboServiceImpl extends ServiceImpl<ApiTopsearchWeiboM
     }
 
     @Override
+    @Cacheable(cacheNames = "bussiness:index:wb_search",key = "#root.method.name")
     public List<ApiTopsearchWeibo> showWbSearch() {
         LambdaQueryWrapper<ApiTopsearchWeibo> wrapper = new LambdaQueryWrapper<>();
         wrapper.select(ApiTopsearchWeibo::getHotword,ApiTopsearchWeibo::getId);

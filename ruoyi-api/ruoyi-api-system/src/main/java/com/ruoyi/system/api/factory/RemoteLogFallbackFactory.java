@@ -9,9 +9,11 @@ import com.ruoyi.system.api.RemoteLogService;
 import com.ruoyi.system.api.domain.SysLogininfor;
 import com.ruoyi.system.api.domain.SysOperLog;
 
+import java.util.List;
+
 /**
  * 日志服务降级处理
- * 
+ *
  * @author ruoyi
  */
 @Component
@@ -34,6 +36,11 @@ public class RemoteLogFallbackFactory implements FallbackFactory<RemoteLogServic
             @Override
             public R<Boolean> saveLogininfor(SysLogininfor sysLogininfor, String source)
             {
+                return null;
+            }
+
+            @Override
+            public R<List<SysOperLog>> selectNewOperLog(String source) {
                 return null;
             }
         };

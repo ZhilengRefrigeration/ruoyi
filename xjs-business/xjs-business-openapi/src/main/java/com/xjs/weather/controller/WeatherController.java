@@ -2,7 +2,6 @@ package com.xjs.weather.controller;
 
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.web.domain.AjaxResult;
-import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.security.annotation.RequiresLogin;
 import com.xjs.utils.WeekUtils;
 import com.xjs.weather.domain.Casts;
@@ -40,7 +39,6 @@ public class WeatherController {
 
     @GetMapping("now")
     @ApiOperation("获取实时天气信息")
-    @Log(title = "获取实时天气")
     @RequiresLogin
     public AjaxResult getNowWeatherApiData() {
         return AjaxResult.success(weatherService.saveNowWeather());
@@ -48,7 +46,6 @@ public class WeatherController {
 
     @GetMapping("forecast")
     @ApiOperation("获取预报天气信息")
-    @Log(title = "获取预报天气")
     @RequiresLogin
     public AjaxResult getForecastWeatherApiData() {
         ForecastWeather forecastWeather = weatherService.cacheForecastWeather();

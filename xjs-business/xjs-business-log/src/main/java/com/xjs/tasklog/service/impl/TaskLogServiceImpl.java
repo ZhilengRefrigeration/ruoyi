@@ -1,6 +1,10 @@
 package com.xjs.tasklog.service.impl;
 
+import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xjs.apilog.domain.ApiLog;
+import com.xjs.other.LogNumberVo;
 import com.xjs.tasklog.domain.TaskLog;
 import com.xjs.tasklog.mapper.TaskLogMapper;
 import com.xjs.tasklog.service.TaskLogService;
@@ -8,6 +12,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+
+import static com.xjs.consts.CommonConst.TODAY_END;
+import static com.xjs.consts.CommonConst.TODAY_START;
 
 /**
  * 任务日志service实现
@@ -19,6 +26,23 @@ import java.util.List;
 public class TaskLogServiceImpl extends ServiceImpl<TaskLogMapper, TaskLog> implements TaskLogService {
     @Resource
     private TaskLogMapper taskLogMapper;
+
+    @Override
+    public LogNumberVo getCount() {
+        LogNumberVo logNumberVo = new LogNumberVo();
+
+        long total = super.count();
+        logNumberVo.setTotal(total);
+
+        LambdaQueryWrapper<TaskLog> wrapper = new LambdaQueryWrapper<>();
+        String startDate = DateUtil.today() + " "+TODAY_START;
+        String endDate = DateUtil.today() + " "+TODAY_END;
+        wrapper.between(TaskLog::getCreateTime, startDate, endDate);
+        long todayCount = super.count(wrapper);
+        logNumberVo.setTodayNumber(todayCount);
+
+        return logNumberVo;
+    }
 
 
     //----------------------------------代码生成------------------------------------

@@ -1,6 +1,7 @@
 package com.xjs.copywriting.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xjs.consts.CopyWritingConst;
 import com.xjs.copywriting.domain.CopyWriting;
 import com.xjs.copywriting.mapper.CopyWritingMapper;
 import com.xjs.copywriting.service.CopyWritingService;
@@ -34,6 +35,12 @@ public class CopyWritingServiceImpl extends ServiceImpl<CopyWritingMapper, CopyW
     @Override
     public int deleteRepeatData() {
         return copyWritingMapper.deleteRepeatData();
+    }
+
+    @Override
+    @Cacheable(cacheNames = "bussiness:index:yun_hot_word",key = "#root.method.name")
+    public List<CopyWriting> NeteaseHotWord() {
+        return copyWritingMapper.NeteaseHotWord(CopyWritingConst.WYY);
     }
 
 

@@ -47,6 +47,9 @@
         <include refid="selectEnglishWordVo"/>
         where id = #{id}
     </select>
+    <select id="getEnglishWordByRandom" resultType="com.xjs.word.domain.EnglishWord">
+        select english_word,chinese_word,look_count,create_time from english_word ORDER BY RAND() LIMIT 5
+    </select>
 
     <delete id="deleteEnglishWordById" parameterType="Long">
         delete

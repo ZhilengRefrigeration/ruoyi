@@ -23,6 +23,9 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * redis配置
@@ -93,8 +96,21 @@ public class RedisConfig extends CachingConfigurerSupport {
             config = config.disableCachingNullValues();
         }
 
-        RedisCacheManager cacheManager = RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(config).build();
-        return cacheManager;
+        //单独给某个定义过期时间
+        Set<String> cacheNames = new HashSet<>();
+        cacheNames.add("bussiness:index:wb_search");
+        cacheNames.add("bussiness:index:log_count");
+        cacheNames.add("bussiness:index:oper_log");
+        ConcurrentHashMap<String, RedisCacheConfiguration> configMap = new ConcurrentHashMap<>();
+        configMap.put("bussiness:index:wb_search", config.entryTtl(Duration.ofMinutes(10L)));
+        configMap.put("bussiness:index:log_count", config.entryTtl(Duration.ofMinutes(10L)));
+        configMap.put("bussiness:index:oper_log", config.entryTtl(Duration.ofSeconds(10L)));
+
+        return RedisCacheManager.builder(redisConnectionFactory)
+                .cacheDefaults(config)
+                .initialCacheNames(cacheNames)
+                .withInitialCacheConfigurations(configMap)
+                .build();
     }
 
 

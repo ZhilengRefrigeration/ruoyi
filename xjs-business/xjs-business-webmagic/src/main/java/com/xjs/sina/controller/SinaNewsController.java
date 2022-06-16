@@ -18,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 新浪爬虫数据controller
@@ -28,7 +29,7 @@ import java.util.List;
 @RestController
 @RequestMapping("sinaNews")
 @Api(tags = "爬虫模块-新浪新闻")
-public class SinaNewsController extends MyBaseController {
+public class SinaNewsController extends MyBaseController<SinaNews> {
     @Autowired
     private SinaNewsTask sinaNewsTask;
     @Autowired
@@ -49,6 +50,14 @@ public class SinaNewsController extends MyBaseController {
     public R sinaTaskForPRC() {
          sinaNewsTask.reptileSinaNews();
         return R.ok();
+    }
+
+
+    @GetMapping("getNewsForRpc")
+    @ApiOperation("获取最新新闻")
+    public R<Map<Object, Object>> getNews() {
+        Map<Object, Object> map=sinaNewsService.getNews();
+        return R.ok(map);
     }
 
 

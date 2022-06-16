@@ -55,6 +55,12 @@ public class RemoteLogFactory implements FallbackFactory<RemoteLogFeign> {
                 log.error("日志模块邮件日志服务添加调用失败");
                 return R.fail("日志模块邮件日志服务添加调用失败" + cause.getMessage());
             }
+
+            @Override
+            public R<Map<Object, Object>> groupLogNumber() {
+                log.error("日志模块获取日志次数调用失败");
+                return R.fail("日志模块获取日志次数调用失败" + cause.getMessage());
+            }
         };
     }
 }

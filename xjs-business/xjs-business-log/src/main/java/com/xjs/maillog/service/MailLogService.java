@@ -2,6 +2,7 @@ package com.xjs.maillog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xjs.maillog.domain.MailLog;
+import com.xjs.other.LogNumberVo;
 
 import java.util.List;
 
@@ -12,6 +13,11 @@ import java.util.List;
  * @since 2022-04-14
  */
 public interface MailLogService extends IService<MailLog> {
+    /**
+     * 获取次数
+     * @return LogNumberVo
+     */
+    LogNumberVo getCount();
 
 
     //---------------------------代码生成-----------------------------------
@@ -47,4 +53,6 @@ public interface MailLogService extends IService<MailLog> {
      * @return 结果
      */
     int deleteMailLogById(Long id);
+
+
 }

@@ -1,6 +1,7 @@
 package com.xjs.tasklog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.xjs.other.LogNumberVo;
 import com.xjs.tasklog.domain.TaskLog;
 
 import java.util.List;
@@ -11,6 +12,13 @@ import java.util.List;
  * @since 2022-03-01
  */
 public interface TaskLogService extends IService<TaskLog> {
+
+
+    /**
+     * 获取次数
+     * @return LogNumberVo
+     */
+    LogNumberVo getCount();
 
     //-----------------------代码生成------------------------------
 

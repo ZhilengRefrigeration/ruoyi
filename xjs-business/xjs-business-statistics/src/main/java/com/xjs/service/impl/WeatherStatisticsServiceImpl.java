@@ -13,6 +13,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.xjs.consts.CommonConst.TODAY_END;
+import static com.xjs.consts.CommonConst.TODAY_START;
+
+
 /**
  * 天气统计service接口实现
  * @author xiejs
@@ -28,8 +32,8 @@ public class WeatherStatisticsServiceImpl implements WeatherStatisticsService {
     @Override
     public Map<String, List> historyWeather(String startDate, String endDate) {
         if (StringUtils.isEmpty(startDate) || StringUtils.isEmpty(endDate)) {
-            startDate = DateUtil.today() + " 00:00:00";
-            endDate = DateUtil.today() + " 23:59:59";
+            startDate = DateUtil.today() + " "+TODAY_START;
+            endDate = DateUtil.today() + " "+TODAY_END;
         }
         return remoteWeatherFeign.getHistoryWeatherForRPC(startDate, endDate).getData();
     }

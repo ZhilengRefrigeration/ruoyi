@@ -2,6 +2,7 @@ package com.xjs.copywriting.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xjs.copywriting.domain.CopyWriting;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -64,4 +65,10 @@ public interface CopyWritingMapper extends BaseMapper<CopyWriting> {
      */
     int deleteCopyWritingByIds(Long[] ids);
 
+    /**
+     * 随机获取5条网易云热评
+     * @param wyy 类型
+     * @return list
+     */
+    List<CopyWriting> NeteaseHotWord(@Param("wyy") Integer wyy);
 }
