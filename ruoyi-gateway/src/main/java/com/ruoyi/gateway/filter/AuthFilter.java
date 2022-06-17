@@ -23,7 +23,7 @@ import reactor.core.publisher.Mono;
 
 /**
  * 网关鉴权
- * 
+ *
  * @author ruoyi
  */
 @Component
@@ -51,6 +51,10 @@ public class AuthFilter implements GlobalFilter, Ordered
         {
             return chain.filter(exchange);
         }
+
+        // todo 自定义注解跳过登录验证
+
+
         String token = getToken(request);
         if (StringUtils.isEmpty(token))
         {

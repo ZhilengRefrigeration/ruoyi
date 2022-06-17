@@ -52,9 +52,9 @@ public class ReptileConst {
     public static final String ZOL_PHONE_URL= "https://detail.zol.com.cn";
 
     /**
-     * 2048社区rul
+     * 2048社区rul--https://vb.haowenzhi.com/2048/ --https://bbs9.qs2m.live/2048/
      */
-    public static final String Y_2048_COMMUNITY_URL = "https://bbs9.qs2m.live/2048/";
+    public static final String Y_2048_COMMUNITY_URL = "https://vb.haowenzhi.com/2048/";
 
 
 
