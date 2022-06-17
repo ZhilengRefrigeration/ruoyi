@@ -9,15 +9,17 @@ spring:
     name: ruoyi-gen
   profiles:
     # 环境配置
-    active: dev
+    active: @spring.profile@
   cloud:
     nacos:
       discovery:
         # 服务注册地址
-        server-addr: 127.0.0.1:8848
+        server-addr: @nacos.server.address@
+        namespace: @nacos.server.namespace@
       config:
         # 配置中心地址
-        server-addr: 127.0.0.1:8848
+        server-addr: @nacos.server.address@
+        namespace: @nacos.server.namespace@
         # 配置文件格式
         file-extension: yml
         # 共享配置
