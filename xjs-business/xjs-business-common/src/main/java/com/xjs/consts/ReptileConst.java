@@ -41,12 +41,36 @@ public class ReptileConst {
     public static final String WEIXIN_SOUGOU_URL= "https://weixin.sogou.com/";
 
 
+    /**
+     * 微信公众号url
+     */
     public static final String WEIXIN_OFFCIAL_URL= "https://weixin.sogou.com/weixin?type=1&s_from=input&query=";
 
     /**
      * 中关村报价url
      */
     public static final String ZOL_PHONE_URL= "https://detail.zol.com.cn";
+
+    /**
+     * 2048社区rul
+     */
+    public static final String Y_2048_COMMUNITY_URL = "https://bbs9.qs2m.live/2048/";
+
+
+
+
+
+
+    //---------------------------------header----------------------------------
+    /**
+     * 请求头key
+     */
+    public static final String headerKey = "User-Agent";
+    /**
+     * 请求头value
+     */
+    public static final String headerValue = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36";
+
 
 
 

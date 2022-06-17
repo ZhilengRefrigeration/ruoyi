@@ -35,6 +35,21 @@ public interface IApiLogService extends IService<ApiLog> {
      */
     LogNumberVo getCount();
 
+    /**
+     * 查询日志列表
+     * @param apiLog 日志
+     * @param pageNum 开始页
+     * @param pageSize 总页
+     * @return list
+     */
+    List<ApiLog> selectApiLogList(ApiLog apiLog, Integer pageNum, Integer pageSize);
+
+    /**
+     * 根据条件查询总数
+     * @return long
+     */
+    long countByCondition(ApiLog apiLog);
+
 
     //------------------------代码自动生成-----------------------------------
 

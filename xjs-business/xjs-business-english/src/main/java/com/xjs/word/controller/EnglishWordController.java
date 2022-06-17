@@ -43,7 +43,6 @@ public class EnglishWordController extends MyBaseController<EnglishWord> {
      */
     @RequiresPermissions("english:word:collect")
     @GetMapping("collect")
-    @Log(title = "查看单词夹")
     @ApiOperation("英语单词收藏夹")
     public AjaxResult collect() {
         IPage<EnglishWord> englishWordList = englishWordService.getEnglishWordByCollect(startPageMP());

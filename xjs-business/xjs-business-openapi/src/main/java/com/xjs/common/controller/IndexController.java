@@ -4,6 +4,7 @@ import cn.hutool.core.map.MapUtil;
 import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.web.domain.AjaxResult;
+import com.ruoyi.common.security.annotation.RequiresLogin;
 import com.ruoyi.system.api.RemoteLogService;
 import com.ruoyi.system.api.RemoteUserService;
 import com.ruoyi.system.api.domain.SysOperLog;
@@ -81,6 +82,7 @@ public class IndexController {
 
     @GetMapping("showData")
     @ApiOperation("展示数据")
+    @RequiresLogin
     public AjaxResult showWbSearch() throws ExecutionException, InterruptedException {
         CompletableFuture<List<ApiTopsearchWeibo>> weiboListFuture = CompletableFuture.supplyAsync(() ->
                 apiTopsearchWeiboService.showWbSearch(), executor);

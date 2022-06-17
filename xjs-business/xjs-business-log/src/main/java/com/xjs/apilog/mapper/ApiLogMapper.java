@@ -23,6 +23,15 @@ public interface ApiLogMapper extends BaseMapper<ApiLog> {
      */
     List<ApiLogVo> statisticsByDate(@Param("startDate") String startDate, @Param("endDate") String endDate);
 
+    List<ApiLog> selectApiLogListByOptimization(@Param("apiLog") ApiLog apiLog, @Param("pageNum") Integer pageNum, @Param("pageSize") Integer pageSize);
+
+    /**
+     * 根据条件查询总数
+     * @param apiLog 条件
+     * @return
+     */
+    long countByCondition(ApiLog apiLog);
+
 
     //------------------------代码自动生成-----------------------------------
 

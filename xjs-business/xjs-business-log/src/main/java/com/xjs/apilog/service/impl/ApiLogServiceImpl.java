@@ -74,6 +74,16 @@ public class ApiLogServiceImpl extends ServiceImpl<ApiLogMapper,ApiLog> implemen
         return logNumberVo;
     }
 
+    @Override
+    public List<ApiLog> selectApiLogList(ApiLog apiLog, Integer pageNum, Integer pageSize) {
+        return apiLogMapper.selectApiLogListByOptimization(apiLog,pageNum,pageSize);
+    }
+
+    @Override
+    public long countByCondition(ApiLog apiLog) {
+        return apiLogMapper.countByCondition(apiLog);
+
+    }
 
 
     //------------------------代码自动生成-----------------------------------

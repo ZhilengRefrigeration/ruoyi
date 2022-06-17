@@ -9,6 +9,14 @@ export function listLog(query) {
   })
 }
 
+// 根据id查询日志
+export function getInfo(id) {
+  return request({
+    url: '/log/apilog/'+id,
+    method: 'get'
+  })
+}
+
 // 查询日志详细
 export function getLog(id) {
   return request({

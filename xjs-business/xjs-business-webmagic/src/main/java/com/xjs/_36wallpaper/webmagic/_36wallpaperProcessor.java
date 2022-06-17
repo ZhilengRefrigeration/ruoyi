@@ -6,6 +6,7 @@ import com.ruoyi.system.api.RemoteConfigService;
 import com.xjs._36wallpaper.consts._36wallpaperConst;
 import com.xjs._36wallpaper.pojo._36wallpaper;
 import com.xjs._36wallpaper.service._36wallpaperService;
+import com.xjs.consts.ReptileConst;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
@@ -39,7 +40,6 @@ import static com.xjs.consts.ReptileConst._36_WALLPAPER_URL;
  */
 @Log4j2
 @Component
-
 public class _36wallpaperProcessor implements PageProcessor {
 
     /**
@@ -56,15 +56,6 @@ public class _36wallpaperProcessor implements PageProcessor {
      * 图片保存到磁盘的路径
      */
     private String path ;
-
-    /**
-     * 请求头key
-     */
-    private static final String headerKey = "User-Agent";
-    /**
-     * 请求头value
-     */
-    private static final String headerValue = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36";
 
 
     private static RemoteConfigService remoteConfigService;
@@ -256,7 +247,7 @@ public class _36wallpaperProcessor implements PageProcessor {
     @Override
     public Site getSite() {
         return Site.me()
-                .addHeader(headerKey, headerValue)
+                .addHeader(ReptileConst.headerKey, ReptileConst.headerValue)
                 .setCharset("utf8")//设置字符编码
                 .setTimeOut(2000)//设置超时时间
                 .setRetrySleepTime(100)//设置重试间隔时间

@@ -5,6 +5,7 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.redis.service.RedisService;
+import com.xjs.consts.ReptileConst;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Page;
@@ -35,15 +36,6 @@ public class OfficialAccountsProcessor implements PageProcessor {
 
     @Autowired
     private RedisService redisService;
-
-    /**
-     * 请求头key
-     */
-    private static final String headerKey = "User-Agent";
-    /**
-     * 请求头value
-     */
-    private static final String headerValue = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36";
 
 
     @Override
@@ -145,7 +137,7 @@ public class OfficialAccountsProcessor implements PageProcessor {
     public Site getSite() {
         return Site.me()
                 //.addHeader(headerKey, headerValue)
-                .addHeader(headerKey, headerValue)
+                .addHeader(ReptileConst.headerKey, ReptileConst.headerValue)
                 .setCharset("utf8")//设置字符编码
                 .setTimeOut(2000)//设置超时时间
                 .setRetrySleepTime(100)//设置重试间隔时间

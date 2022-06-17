@@ -343,7 +343,6 @@ export default {
   },
 
   mounted() {
-
   },
 
 

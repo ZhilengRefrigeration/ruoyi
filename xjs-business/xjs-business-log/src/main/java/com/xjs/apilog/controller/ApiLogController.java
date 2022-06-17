@@ -1,10 +1,13 @@
 package com.xjs.apilog.controller;
 
+import com.ruoyi.common.core.constant.HttpStatus;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
+import com.ruoyi.common.core.web.page.PageDomain;
 import com.ruoyi.common.core.web.page.TableDataInfo;
+import com.ruoyi.common.core.web.page.TableSupport;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
@@ -57,12 +60,9 @@ public class ApiLogController extends BaseController {
     @GetMapping("byDateForRPC")
     @ApiOperation("根据时间查询API记录")
     public R<Map<String, List>> statisticsByDate(@RequestParam String startDate, @RequestParam String endDate) {
-        Map<String, List> map = apiLogService.statisticsByDate(startDate,endDate);
+        Map<String, List> map = apiLogService.statisticsByDate(startDate, endDate);
         return R.ok(map);
     }
-
-
-    //------------------------代码自动生成-----------------------------------
 
     /**
      * 查询日志列表
@@ -71,9 +71,22 @@ public class ApiLogController extends BaseController {
     @GetMapping("/list")
     @ApiOperation("查询日志列表")
     public TableDataInfo list(@Validated({SelectGroup.class}) ApiLog apiLog) {
-        startPage();
-        List<ApiLog> list = apiLogService.selectApiLogList(apiLog);
-        return getDataTable(list);
+        PageDomain pageDomain = TableSupport.buildPageRequest();
+        int pageNum = pageDomain.getPageNum() - 1;
+        int pageSize = pageDomain.getPageSize();
+
+        pageNum = pageNum * pageSize;
+
+        List<ApiLog> list = apiLogService.selectApiLogList(apiLog, pageNum, pageSize);
+        long count = apiLogService.countByCondition(apiLog);
+
+        TableDataInfo rspData = new TableDataInfo();
+        rspData.setCode(HttpStatus.SUCCESS);
+        rspData.setRows(list);
+        rspData.setMsg("查询成功");
+        rspData.setTotal(count);
+        return rspData;
+
     }
 
     /**
@@ -84,11 +97,19 @@ public class ApiLogController extends BaseController {
     @PostMapping("/export")
     @ApiOperation("导出日志列表")
     public void export(HttpServletResponse response, ApiLog apiLog) {
-        startPage();
-        List<ApiLog> list = apiLogService.selectApiLogList(apiLog);
+        PageDomain pageDomain = TableSupport.buildPageRequest();
+        Integer pageNum = pageDomain.getPageNum();
+        Integer pageSize = pageDomain.getPageSize();
+
+        pageNum = pageNum * pageSize;
+
+        List<ApiLog> list = apiLogService.selectApiLogList(apiLog, pageNum, pageSize);
         ExcelUtil<ApiLog> util = new ExcelUtil<ApiLog>(ApiLog.class);
         util.exportExcel(response, list, "日志数据");
     }
+
+    //------------------------代码自动生成-----------------------------------
+
 
     /**
      * 获取日志详细信息

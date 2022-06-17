@@ -157,7 +157,7 @@ public class ApiLogAspect {
         if (Objects.nonNull(jsonResult)) {
             response = jsonResult.toString();
 
-            //数据量太大就不set了   
+            //数据量太大就不set了
             if ("高德-区域编码".equals(name)) {
                 entity.setResponse("\"数据量太大了~~\"");
             }else {
@@ -177,12 +177,12 @@ public class ApiLogAspect {
 
 
     /**
-     * 预警切入
+     * 预警切入(加锁防止api异步调用累加次数异常)
      *
      * @param between   api接口调用时间
      * @param joinPoint aop连接对象
      */
-    private void warning(long between, ProceedingJoinPoint joinPoint) {
+    private synchronized void warning(long between, ProceedingJoinPoint joinPoint) {
 
         Map<String, String> annotationInfo = this.getAnnotationInfo(joinPoint);
 

@@ -137,7 +137,7 @@
       <el-table-column label="API名称" align="center" prop="apiName" :show-overflow-tooltip="true"/>
       <el-table-column label="请求URL" align="center" prop="url" :show-overflow-tooltip="true"/>
       <el-table-column label="请求方法" align="center" prop="method" :show-overflow-tooltip="true"/>
-      <el-table-column label="请求参数" align="center" prop="request" :show-overflow-tooltip="true">
+<!--      <el-table-column label="请求参数" align="center" prop="request" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <span>{{ scope.row.request !== "" ? scope.row.request : "-" }}</span>
         </template>
@@ -146,7 +146,7 @@
         <template slot-scope="scope">
           <span>{{ scope.row.response !== "" ? scope.row.response : "-" }}</span>
         </template>
-      </el-table-column>
+      </el-table-column>-->
       <el-table-column label="创建时间" align="center" prop="createTime" :show-overflow-tooltip="true"/>
       <el-table-column label="是否请求成功" align="center" prop="isSuccess" :show-overflow-tooltip="true">
         <template slot-scope="scope">
@@ -161,7 +161,7 @@
             <el-button circle
                        type=""
                        icon="el-icon-view"
-                       @click="handleView(scope.row,scope.index)"
+                       @click="handleView(scope.row.id)"
                        v-hasPermi="['log:apilog:query']"
             ></el-button>
           </el-tooltip>
@@ -217,7 +217,7 @@
 </template>
 
 <script>
-import {listLog, delLog, getApiName} from "@/api/business/log/apilog";
+import {listLog, delLog, getApiName,getInfo} from "@/api/business/log/apilog";
 import {pickerOptions} from "@/layout/mixin/PickerOptions"
 
 export default {
@@ -314,23 +314,26 @@ export default {
       this.getList();
     },
     /** 详细按钮操作 */
-    handleView(row) {
+    handleView(id) {
       this.open = true;
-      this.form = row;
-      try {
-        this.request = JSON.parse(this.form.request)
-        this.response = JSON.parse(this.form.response)
-      } catch (err) {
-        this.open = false;
-        this.$notify({
-          title: '警告',
-          message: '参数不是json格式！！！',
-          type: 'warning'
-        });
 
-      }
+      getInfo(id).then(res =>{
+        this.form=res.data
 
+        try {
+          this.request = JSON.parse(this.form.request)
+          this.response = JSON.parse(this.form.response)
+        } catch (err) {
+          this.open = false;
+          this.$notify({
+            title: '警告',
+            message: '参数不是json格式！！！',
+            type: 'warning'
+          });
+        }
+      })
     },
+
     /** 重置按钮操作 */
     resetQuery() {
       this.daterangeCreateTime = [];
