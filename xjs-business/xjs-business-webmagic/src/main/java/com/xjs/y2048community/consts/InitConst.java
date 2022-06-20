@@ -22,7 +22,7 @@ public class InitConst {
     /**
      * 控制开关，true开 false关
      */
-    public static final Boolean CONTROL = true;
+    public static final Boolean CONTROL = false;
 
 
 }

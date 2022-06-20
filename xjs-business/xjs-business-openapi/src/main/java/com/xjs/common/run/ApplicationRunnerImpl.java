@@ -22,8 +22,12 @@ public class ApplicationRunnerImpl implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args)  {
         log.info("获取天气数据中...");
-        weatherService.saveNowWeather();
-        weatherService.cacheForecastWeather();
+        try {
+            weatherService.saveNowWeather();
+            weatherService.cacheForecastWeather();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         log.info("获取天气数据完成...");
     }
 }

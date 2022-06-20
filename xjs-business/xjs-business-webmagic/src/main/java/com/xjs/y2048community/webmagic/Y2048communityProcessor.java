@@ -42,7 +42,7 @@ public class Y2048communityProcessor implements PageProcessor {
 
         //  根据每天日期获取最新
 
-        // todo 网络情况好的时候爬取所有页面
+        // 网络情况好的时候爬取所有页面
 
 
         try {
