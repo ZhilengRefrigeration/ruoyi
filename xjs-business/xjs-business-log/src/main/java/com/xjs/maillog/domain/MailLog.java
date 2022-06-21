@@ -3,6 +3,8 @@ package com.xjs.maillog.domain;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.ruoyi.common.core.annotation.Excel;
+import com.xjs.annotation.Desensitized;
+import com.xjs.enums.SensitiveTypeEnum;
 import com.xjs.validation.group.SelectGroup;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -42,6 +44,7 @@ public class MailLog implements Serializable {
      */
     @Excel(name = "收件人")
     @Size(max = 20, message = "请控制收件人长度在20字符", groups = { SelectGroup.class})
+    @Desensitized(SensitiveTypeEnum.EMAIL)
     private String recipient;
 
     /**

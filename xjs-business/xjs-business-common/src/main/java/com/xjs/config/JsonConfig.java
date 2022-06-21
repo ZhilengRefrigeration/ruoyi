@@ -1,12 +1,12 @@
 package com.xjs.config;
 
-import com.alibaba.fastjson.serializer.PropertyFilter;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.alibaba.fastjson.serializer.ValueFilter;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.xjs.config.filter.DesensitizedValueFilter;
+import com.xjs.config.filter.IgnoreNullValueFilter;
+import com.xjs.config.filter.SnowflakeValueFilter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
@@ -27,6 +27,7 @@ import java.util.List;
 @Configuration
 @Log4j2
 public class JsonConfig {
+
     @Bean
     public HttpMessageConverters fastJsonHttpMessageConverters() {
         FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
@@ -50,30 +51,7 @@ public class JsonConfig {
         //解决远程调用  ---（Content-Type cannot contain wildcard type '*'）报错
         fastConverter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON, MediaType.APPLICATION_JSON_UTF8));
 
-
-        //解决mp雪花算法前端精度丢失
-        ValueFilter valueFilter = new ValueFilter() {
-            @Override
-            public Object process(Object object, String name, Object value) {
-                if ((StringUtils.endsWith(name, "Id") || StringUtils.equals(name, "id")) && value != null
-                        && value.getClass() == Long.class) {
-                    return String.valueOf(value);
-                }
-                return value;
-            }
-        };
-
-        //忽略某些空值
-        PropertyFilter filter = (source, key, value) -> {
-            if (value instanceof List && ((List) value).size() == 0) {
-                if ("children".equals(key)) {
-                    return false;
-                }
-            }
-            return true;
-        };
-
-        fastJsonConfig.setSerializeFilters(valueFilter, filter);
+        fastJsonConfig.setSerializeFilters(new DesensitizedValueFilter(), new IgnoreNullValueFilter(),new SnowflakeValueFilter());
 
         fastConverter.setFastJsonConfig(fastJsonConfig);
 

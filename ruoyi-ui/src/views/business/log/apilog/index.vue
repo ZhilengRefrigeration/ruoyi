@@ -157,7 +157,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-tooltip class="item" effect="dark" content="点击查看json格式" placement="top-start">
+          <el-tooltip class="item" effect="dark" content="点击查看json格式" placement="left-start">
             <el-button circle
                        type=""
                        icon="el-icon-view"
@@ -315,7 +315,6 @@ export default {
     },
     /** 详细按钮操作 */
     handleView(id) {
-      this.open = true;
 
       getInfo(id).then(res =>{
         this.form=res.data
@@ -323,6 +322,7 @@ export default {
         try {
           this.request = JSON.parse(this.form.request)
           this.response = JSON.parse(this.form.response)
+          this.open = true;
         } catch (err) {
           this.open = false;
           this.$notify({

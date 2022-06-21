@@ -74,11 +74,11 @@
       <el-col :span="4">
         <div>
           <el-card shadow="hover" :body-style="{padding:'3px'}">
-              <div class="board">
-                <div class="top_board">IP信息</div>
-                <div class="content_board">IP:<span class="num_class">{{ ipInfo.ip }}</span></div>
-                <div class="content_board">归属地:<span class="num_class">{{ ipInfo.desc }}</span></div>
-              </div>
+            <div class="board">
+              <div class="top_board">IP信息</div>
+              <div class="content_board">IP:<span class="num_class">{{ ipInfo.ip }}</span></div>
+              <div class="content_board">归属地:<span class="num_class">{{ ipInfo.desc }}</span></div>
+            </div>
           </el-card>
         </div>
       </el-col>
@@ -332,7 +332,7 @@ export default {
       beautyPictureList2: [],
       beautyPictureList3: [],
 
-      ipInfo:{},
+      ipInfo: {},
 
 
     };
@@ -361,14 +361,21 @@ export default {
         this.loginCount = res.data.loginCount
         this.operLogTableData = res.data.sysOperLog
         this.englishWordTableData = res.data.englishWord
-        this.internalNewsList = res.data.news.internal
-        this.internationalNewsList = res.data.news.international
-        this.militaryNewsList = res.data.news.military
-        this.beautyPictureList1 = res.data.beautyPicture.one
-        this.beautyPictureList2 = res.data.beautyPicture.two
-        this.beautyPictureList3 = res.data.beautyPicture.three
+        if (res.data.news) {
+          this.internalNewsList = res.data.news.internal;
+          this.internationalNewsList = res.data.news.international;
+          this.militaryNewsList = res.data.news.military;
+        }
+        if (res.data.beautyPicture) {
+          this.beautyPictureList1 = res.data.beautyPicture.one;
+          this.beautyPictureList2 = res.data.beautyPicture.two
+          this.beautyPictureList3 = res.data.beautyPicture.three
+        }
+
         this.ipInfo = res.data.ipInfo
 
+        this.$modal.closeLoading()
+      }).catch(err => {
         this.$modal.closeLoading()
       })
     },
