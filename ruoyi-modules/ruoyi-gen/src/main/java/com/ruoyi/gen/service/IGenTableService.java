@@ -20,6 +20,13 @@ public interface IGenTableService
     public List<GenTable> selectGenTableList(GenTable genTable);
 
     /**
+     * 查询所有可以生成代码的数据库名称列表
+     *
+     * @return 数据库名称列表
+     */
+    public List<String> selectGenSchemaList();
+
+    /**
      * 查询据库列表
      * 
      * @param genTable 业务信息
@@ -29,11 +36,12 @@ public interface IGenTableService
 
     /**
      * 查询据库列表
-     * 
+     *
+     * @param schemaName 数据库的名称
      * @param tableNames 表名称组
      * @return 数据库表集合
      */
-    public List<GenTable> selectDbTableListByNames(String[] tableNames);
+    public List<GenTable> selectDbTableListByNames(String schemaName, String[] tableNames);
 
     /**
      * 查询所有表信息
@@ -83,11 +91,12 @@ public interface IGenTableService
 
     /**
      * 生成代码（下载方式）
-     * 
-     * @param tableName 表名称
+     *
+     * @param schemaName 库名称
+     * @param tableName  表名称
      * @return 数据
      */
-    public byte[] downloadCode(String tableName);
+    public byte[] downloadCode(String schemaName, String tableName);
 
     /**
      * 生成代码（自定义路径）
@@ -95,22 +104,24 @@ public interface IGenTableService
      * @param tableName 表名称
      * @return 数据
      */
-    public void generatorCode(String tableName);
+    public void generatorCode(String schemaName, String tableName);
 
     /**
      * 同步数据库
-     * 
-     * @param tableName 表名称
+     *
+     * @param schemaName 数据库的名称
+     * @param tableName  表名称
      */
-    public void synchDb(String tableName);
+    public void synchDb(String schemaName, String tableName);
 
     /**
      * 批量生成代码（下载方式）
-     * 
+     *
+     * @param schemaName 库名称
      * @param tableNames 表数组
      * @return 数据
      */
-    public byte[] downloadCode(String[] tableNames);
+    public byte[] downloadCode(String schemaName, String[] tableNames);
 
     /**
      * 修改保存参数校验

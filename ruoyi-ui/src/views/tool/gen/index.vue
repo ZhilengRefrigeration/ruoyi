@@ -1,6 +1,14 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
+      <el-form-item label="库名称" prop="schemaName">
+        <el-input
+          v-model="queryParams.schemaName"
+          placeholder="请输入库名称"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="表名称" prop="tableName">
         <el-input
           v-model="queryParams.tableName"
@@ -87,6 +95,13 @@
           <span>{{(queryParams.pageNum - 1) * queryParams.pageSize + scope.$index + 1}}</span>
         </template>
       </el-table-column>
+      <el-table-column
+        label="库名称"
+        align="center"
+        prop="schemaName"
+        :show-overflow-tooltip="true"
+        width="120"
+      />
       <el-table-column
         label="表名称"
         align="center"
@@ -180,6 +195,7 @@ import { listTable, previewTable, delTable, genCode, synchDb } from "@/api/tool/
 import importTable from "./importTable";
 import hljs from "highlight.js/lib/highlight";
 import "highlight.js/styles/github-gist.css";
+import {MessageBox} from "element-ui";
 hljs.registerLanguage("java", require("highlight.js/lib/languages/java"));
 hljs.registerLanguage("xml", require("highlight.js/lib/languages/xml"));
 hljs.registerLanguage("html", require("highlight.js/lib/languages/xml"));
@@ -198,6 +214,8 @@ export default {
       uniqueId: "",
       // 选中数组
       ids: [],
+      // 选中库数组
+      schemaNames: [],
       // 选中表数组
       tableNames: [],
       // 非单个禁用
@@ -216,6 +234,7 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
+        schemaName: undefined,
         tableName: undefined,
         tableComment: undefined
       },
@@ -257,24 +276,41 @@ export default {
     },
     /** 生成代码操作 */
     handleGenTable(row) {
+      console.log(schemaName)
+      console.log(this.schemaNames)
       const tableNames = row.tableName || this.tableNames;
       if (tableNames == "") {
         this.$modal.msgError("请选择要生成的数据");
         return;
       }
+      // 获取数据库名字
+      let schemaName = row.schemaName
+      if (schemaName === undefined) {
+        // 居然已经选中生成的表信息了，那么就不会导致 this.schemaNames 为空了
+        schemaName = this.schemaNames[0];
+        for (let i = 1; i < this.schemaNames.length; i++) {
+          if (schemaName != this.schemaNames[i]) {
+            MessageBox.alert("请确保选中的表在同一个数据库当中", {
+              confirmButtonText: '知道了',
+              type: "error",
+            });
+            return;
+          }
+        }
+      }
       if(row.genType === "1") {
-        genCode(row.tableName).then(response => {
+        genCode(schemaName, row.tableName).then(response => {
           this.$modal.msgSuccess("成功生成到自定义路径：" + row.genPath);
         });
       } else {
-        this.$download.zip("/code/gen/batchGenCode?tables=" + tableNames, "ruoyi");
+        this.$download.zip(`/code/gen/batchGenCode/${schemaName}?tables=${tableNames}`, "ruoyi");
       }
     },
     /** 同步数据库操作 */
     handleSynchDb(row) {
       const tableName = row.tableName;
       this.$modal.confirm('确认要强制同步"' + tableName + '"表结构吗？').then(function() {
-        return synchDb(tableName);
+        return synchDb(row.schemaName, tableName);
       }).then(() => {
         this.$modal.msgSuccess("同步成功");
       }).catch(() => {});
@@ -311,6 +347,7 @@ export default {
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.tableId);
+      this.schemaNames = selection.map(item => item.schemaName);
       this.tableNames = selection.map(item => item.tableName);
       this.single = selection.length != 1;
       this.multiple = !selection.length;
