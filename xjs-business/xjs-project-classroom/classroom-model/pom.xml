@@ -19,6 +19,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.xjs</groupId>
+            <artifactId>xjs-business-common</artifactId>
+        </dependency>
+
+
+        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>easyexcel</artifactId>
             <scope>provided</scope>

@@ -69,6 +69,13 @@
             <version>${aliyunoss.version}</version>
         </dependency>
 
+        <!--腾讯云cos-->
+        <dependency>
+            <groupId>com.qcloud</groupId>
+            <artifactId>cos_api</artifactId>
+            <version>${tencentcos.version}</version>
+        </dependency>
+
         <!-- RuoYi Api System -->
         <dependency>
             <groupId>com.ruoyi</groupId>

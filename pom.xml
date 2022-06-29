@@ -47,6 +47,7 @@
         <mybatisplus.version>3.5.1</mybatisplus.version>
         <commonsNet.version>3.6</commonsNet.version>
         <aliyunoss.version>3.14.0</aliyunoss.version>
+        <tencentcos.version>5.6.54</tencentcos.version>
         <bean-searcher.version>3.5.1</bean-searcher.version>
         <oshi.version>5.7.1</oshi.version>
         <webmagic.version>0.7.5</webmagic.version>

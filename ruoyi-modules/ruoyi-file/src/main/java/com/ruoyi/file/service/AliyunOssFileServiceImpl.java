@@ -6,7 +6,6 @@ import com.ruoyi.common.core.text.UUID;
 import com.ruoyi.common.core.utils.file.FileUploadUtils;
 import com.ruoyi.file.utils.OssClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +23,7 @@ import static com.ruoyi.file.utils.OssClient.*;
  * @since 2022-01-25
  */
 @Service
-@Primary
+//@Primary
 public class AliyunOssFileServiceImpl implements ISysFileService {
 
     @Autowired
