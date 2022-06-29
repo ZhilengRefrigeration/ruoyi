@@ -8,6 +8,7 @@ import com.xjs.sina.mapper.SinaNewsMapper;
 import com.xjs.sina.pojo.SinaNews;
 import com.xjs.sina.service.SinaNewsService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.Map;
  * @since 2022-02-15
  */
 @Service
+@Transactional
 public class SinaNewsServiceImpl extends ServiceImpl<SinaNewsMapper, SinaNews> implements SinaNewsService {
     @Resource
     private SinaNewsMapper sinaNewsMapper;

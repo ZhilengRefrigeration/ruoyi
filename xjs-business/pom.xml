@@ -28,6 +28,7 @@
         <module>xjs-business-workflow</module>
         <module>xjs-project-blog</module>
         <module>xjs-project-exam</module>
+        <module>xjs-project-classroom</module>
     </modules>
 
     <properties>

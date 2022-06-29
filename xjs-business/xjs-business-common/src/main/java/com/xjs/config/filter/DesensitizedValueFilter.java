@@ -50,7 +50,7 @@ public class DesensitizedValueFilter implements ValueFilter {
                 default:
             }
         } catch (NoSuchFieldException e) {
-            log.error("当前数据类型为{},值为{}", object.getClass(), value);
+            //log.error("当前数据类型为{},值为{}", object.getClass(), value);
             return value;
         }
         return value;

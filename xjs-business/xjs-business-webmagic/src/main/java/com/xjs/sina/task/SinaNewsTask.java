@@ -54,6 +54,9 @@ public class SinaNewsTask {
         } finally {
             //执行完初始化
             this.count = 0L;
+            //删除重复
+            int num = sinaNewsService.deleteRepeatData();
+            log.info("重复数据为:{}", num);
         }
         return thisCount;
     }
@@ -189,10 +192,6 @@ public class SinaNewsTask {
                     .collect(Collectors.toList());
 
             sinaNewsService.saveBatch(collect, 30);
-
-            //删除重复
-            int num = sinaNewsService.deleteRepeatData();
-            log.info("重复数据为:{}", num);
 
         } catch (Exception e) {
             log.error(e.getMessage());
