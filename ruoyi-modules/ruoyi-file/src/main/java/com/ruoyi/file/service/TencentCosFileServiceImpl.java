@@ -12,8 +12,8 @@ import com.ruoyi.common.core.text.UUID;
 import com.ruoyi.common.core.utils.file.FileUploadUtils;
 import com.ruoyi.file.config.TencentCosProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -29,14 +29,15 @@ import static com.ruoyi.file.utils.OssClient.*;
  * @since 2022-06-29
  */
 @Service
-@Primary
-public class TencentOssFileServiceImpl implements ISysFileService {
+//@Primary
+public class TencentCosFileServiceImpl implements ISysFileService {
 
     @Autowired
     private TencentCosProperties tencentCosProperties;
 
     @Override
     public String uploadFile(MultipartFile file) throws Exception {
+        Assert.notNull(file, () -> "file is null !");
         try {
             COSClient cosClient = this.createCOSClient();
             String bucketName = tencentCosProperties.getBucketName();
