@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xjs.apitools.mapper.BeautyPictureMapper">
+
+    <resultMap id="beautyPictureMap" type="com.xjs.apitools.domain.ApiBeautyPicture">
+        <result property="id" column="id"/>
+        <result property="imageUrl" column="url"/>
+        <result property="imageSize" column="size"/>
+        <result property="imageFileLength" column="length"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+
+    <select id="getRandomPicture" resultMap="beautyPictureMap">
+        SELECT url
+        FROM api_beauty_picture
+        ORDER BY RAND()
+            LIMIT 10
+    </select>
+</mapper>

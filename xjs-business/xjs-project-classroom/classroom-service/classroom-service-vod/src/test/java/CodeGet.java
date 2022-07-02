@@ -8,7 +8,7 @@ public class CodeGet {
 
     public static void main(String[] args) {
 
-        FastAutoGenerator.create("jdbc:mysql://localhost:3306/xjs-srb-core?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8",
+        FastAutoGenerator.create("jdbc:mysql://localhost:3306/xjs-classroom?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8",
                         "root", "root")
                 .globalConfig(builder -> {
                     builder.author("xiejs") // 设置作者
@@ -22,7 +22,7 @@ public class CodeGet {
                             .pathInfo(Collections.singletonMap(OutputFile.mapperXml, "D:\\Dev\\IdeaPerject\\GitHub\\Cloud\\xjs-business\\xjs-project-classroom\\classroom-service\\classroom-service-vod\\src\\main\\resources\\mapper")); // 设置mapperXml生成路径
                 })
                 .strategyConfig(builder -> {
-                    builder.addInclude("integral_grade")
+                    builder.addInclude("subject")
                             .entityBuilder()
                             .enableLombok()
                             .logicDeleteColumnName("is_deleted")

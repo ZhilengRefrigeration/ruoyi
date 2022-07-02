@@ -2,8 +2,8 @@
   <div class="app-container">
 
     <!--查询表单-->
-    <el-card class="operate-container" shadow="never">
-      <el-form :inline="true" class="demo-form-inline">
+    <el-card class="operate-container" shadow="hover">
+      <el-form :inline="true" class="demo-form-inline" style="height: 40px">
         <el-form-item label="名称">
           <el-input v-model="searchObj.name" placeholder="讲师名"/>
         </el-form-item>
@@ -34,7 +34,7 @@
     </el-card>
 
     <!-- 工具按钮 -->
-    <el-card class="operate-container" shadow="never">
+    <el-card class="operate-container" shadow="hover">
       <i class="el-icon-tickets" style="margin-top: 5px"></i>
       <span style="margin-top: 5px">数据列表</span>
       <el-button class="btn-add" @click="add()" style="margin-left: 10px;">添加</el-button>
@@ -67,6 +67,9 @@
       <el-table-column prop="joinDate" label="入驻时间" width="160"/>
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
+          <router-link :to="{path:'/classroom/classroom-teacher/teacher-form/',query:{id:scope.row.id,onlyRead:true}}">
+            <el-button type="text" size="mini">查看</el-button>
+          </router-link>
           <router-link :to="{path:'/classroom/classroom-teacher/teacher-form/',query:{id:scope.row.id}}">
             <el-button type="text" size="mini">修改</el-button>
           </router-link>

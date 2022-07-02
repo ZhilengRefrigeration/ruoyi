@@ -4,21 +4,27 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.ChineseDate;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.xjs.apitools.domain.*;
 import com.xjs.apitools.factory.ApiToolsFactory;
 import com.xjs.apitools.factory.impl.*;
+import com.xjs.apitools.mapper.BeautyPictureMapper;
 import com.xjs.apitools.service.ApiToolsService;
 import com.xjs.exception.ApiException;
 import com.xjs.utils.WeekUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -34,6 +40,9 @@ public class ApiToolsServiceImpl implements ApiToolsService {
      * 文件单位
      */
     public static final String KB = "KB";
+
+    @Resource
+    private BeautyPictureMapper beautyPictureMapper;
 
     private ApiToolsFactory<ApiHoliday, Object> holidayFactory;
     private ApiToolsFactory<ApiMobileBelong, RequestBody> mobileBelongFactory;
@@ -166,9 +175,9 @@ public class ApiToolsServiceImpl implements ApiToolsService {
 
     @Override
     public List<ApiBeautyPicture> getBeautyPictureList() {
-        List<ApiBeautyPicture> apiBeautyPictureList = beautyPictureFactory.apiDataList();
+        List<ApiBeautyPicture> apiBeautyPictureList = Optional.ofNullable(beautyPictureFactory.apiDataList()).orElseGet(ArrayList::new);
         if (CollUtil.isEmpty(apiBeautyPictureList)) {
-            throw new ApiException("获取的mm图片数据为空");
+            return apiBeautyPictureList;
         }
         apiBeautyPictureList.forEach(bp -> {
             String imageFileLength = bp.getImageFileLength();
@@ -176,8 +185,15 @@ public class ApiToolsServiceImpl implements ApiToolsService {
                 BigDecimal decimal = new BigDecimal(imageFileLength);
                 BigDecimal divide = decimal.divide(new BigDecimal(1024), 0, RoundingMode.HALF_UP);
                 bp.setImageFileLength(divide.toPlainString() + KB);
+
+                //保存到数据库
+                List<ApiBeautyPicture> pictureList = beautyPictureMapper.selectList(new LambdaQueryWrapper<ApiBeautyPicture>().eq(ApiBeautyPicture::getImageUrl, bp.getImageUrl()));
+                if (CollectionUtils.isEmpty(pictureList)) {
+                    beautyPictureMapper.insert(bp);
+                }
             }
         });
+
         return apiBeautyPictureList;
     }
 

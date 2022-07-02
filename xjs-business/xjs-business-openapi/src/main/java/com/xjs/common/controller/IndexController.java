@@ -10,6 +10,7 @@ import com.ruoyi.system.api.domain.SysOperLog;
 import com.ruoyi.system.api.model.LoginUser;
 import com.xjs.apitools.domain.ApiBeautyPicture;
 import com.xjs.apitools.service.ApiToolsService;
+import com.xjs.apitools.service.BeautyPictureService;
 import com.xjs.business.english.RemoteEnglishFeign;
 import com.xjs.business.english.domain.EnglishWordDTO;
 import com.xjs.business.log.RemoteLogFeign;
@@ -78,6 +79,8 @@ public class IndexController {
     private ApiToolsService apiToolsService;
     @Autowired
     private IPService ipService;
+    @Autowired
+    private BeautyPictureService beautyPictureService;
 
     @GetMapping("showData")
     @ApiOperation("展示数据")
@@ -174,11 +177,13 @@ public class IndexController {
                         .map(ApiBeautyPicture::getImageUrl).collect(Collectors.toList()), executor);
 
         CompletableFuture<List<String>> twoFuture = CompletableFuture.supplyAsync(() ->
-                apiToolsService.getBeautyPictureList().stream()
+                //apiToolsService.getBeautyPictureList().stream()
+                beautyPictureService.getRandomPicture().stream()
                         .map(ApiBeautyPicture::getImageUrl).collect(Collectors.toList()), executor);
 
         CompletableFuture<List<String>> threeFuture = CompletableFuture.supplyAsync(() ->
-                apiToolsService.getBeautyPictureList().stream()
+                //apiToolsService.getBeautyPictureList().stream()
+                beautyPictureService.getRandomPicture().stream()
                         .map(ApiBeautyPicture::getImageUrl).collect(Collectors.toList()), executor);
 
 

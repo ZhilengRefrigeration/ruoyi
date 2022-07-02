@@ -3,16 +3,16 @@
     <!-- 输入表单 -->
     <el-form label-width="120px" :model="teacher" :rules="rules" ref="form">
       <el-form-item label="讲师名称" prop="name">
-        <el-input v-model="teacher.name"/>
+        <el-input v-model="teacher.name" :disabled="onlyRead"/>
       </el-form-item>
       <el-form-item label="入驻时间" prop="joinDate">
-        <el-date-picker v-model="teacher.joinDate" value-format="yyyy-MM-dd"/>
+        <el-date-picker v-model="teacher.joinDate" value-format="yyyy-MM-dd" :disabled="onlyRead"/>
       </el-form-item>
       <el-form-item label="讲师排序" prop="sort">
-        <el-input-number v-model="teacher.sort" :min="0"/>
+        <el-input-number v-model="teacher.sort" :min="0" :disabled="onlyRead"/>
       </el-form-item>
       <el-form-item label="讲师头衔" prop="level">
-        <el-select v-model="teacher.level">
+        <el-select v-model="teacher.level" :disabled="onlyRead">
           <!--
             数据类型一定要和取出的json中的一致，否则没法回填
             因此，这里value使用动态绑定的值，保证其数据类型是number
@@ -22,16 +22,17 @@
         </el-select>
       </el-form-item>
       <el-form-item label="讲师简介" prop="intro">
-        <el-input v-model="teacher.intro"/>
+        <el-input v-model="teacher.intro" :disabled="onlyRead"/>
       </el-form-item>
       <el-form-item label="讲师资历" prop="career">
-        <el-input v-model="teacher.career" :rows="10" type="textarea"/>
+        <el-input v-model="teacher.career" :rows="10" type="textarea" :disabled="onlyRead"/>
       </el-form-item>
 
       <!-- 讲师头像 -->
       <!-- 讲师头像 -->
-      <el-form-item label="讲师头像" prop="avatar">
+      <el-form-item label="讲师头像" prop="avatar" >
         <el-upload
+          :disabled=onlyRead
           ref="avatar"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
@@ -48,7 +49,7 @@
         </el-upload>
       </el-form-item>
 
-      <el-form-item>
+      <el-form-item v-if="!onlyRead">
         <el-button type="primary" @click="saveOrUpdate()">保存</el-button>
       </el-form-item>
     </el-form>
@@ -68,6 +69,8 @@ export default {
         level: 1,
         avatar: null
       },
+
+      onlyRead: false,
 
       fileList: [],
 
@@ -102,6 +105,7 @@ export default {
     if (this.$route.query.id) {
       const id = this.$route.query.id
       this.fetchDataById(id)
+      this.onlyRead = this.$route.query.onlyRead
     }
   },
 
