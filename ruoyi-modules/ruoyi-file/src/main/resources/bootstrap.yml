@@ -16,12 +16,12 @@ spring:
     nacos:
       discovery:
         # 服务注册地址
-        server-addr: 192.168.254.146:8948
-        namespace: 83b5e907-a1b8-4a03-ad76-0f2a1f6e8437
+        server-addr: 192.168.254.146:18948
+        namespace: xxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxx
       config:
         # 配置中心地址
-        server-addr: 192.168.254.146:8948
-        namespace: 83b5e907-a1b8-4a03-ad76-0f2a1f6e8437
+        server-addr: 192.168.254.146:18948
+        namespace: xxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxx
         # 配置文件格式
         file-extension: yml
         # 共享配置
@@ -42,19 +42,19 @@ file:
     port: 21
     user-name: lanjinjun
     password:
-    domain: https://test53.ourslook.com
+    domain: https://test53.our.com
   # 文件服务器之4 Minio配置
   minio:
-    url: http://10.16.58.152:9000
+    url: http://110.116.158.152:9000
     accessKey: D99KGE6ZTQXSATTJWU24
-    secretKey: QyVqGnhIQQE734UYSUFlGOZViE6+ZlDEfUG3NjhJ
+    secretKey: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     bucketName: appt-file
     domain: https://yq666.bj.gov.cn
     expiry-duration: 32400
   # 文件服务器之5 aliyun oss
   aliyun-oss:
     access-key: LTAI4GDQSbwgmbsRxxbDXnKT
-    secret-key: I1xYosCsIf4YgHeFbWUOU4faImeWD2
+    secret-key: xxxxXxxxxxxxxxxxxxxxxxxxxxxxxx
     bucket-name: react-yuebaoxiao-pro
     endpoint: oss-cn-shanghai.aliyuncs.com
     domain: https://react-yuebaoxiao-pro.oss-cn-shanghai.aliyuncs.com
@@ -62,14 +62,14 @@ file:
   # 文件服务器之6 qiniu 七牛 kodo
   qiniu:
     access-key: pRYrSe_EW4sJHsQ6JyuiRYShA2JCLKtMhT-N4TQD
-    secret-key: CwTEh1kSLBdxBhIWfFz6h1GgDSokx97CYEV0cC1O
+    secret-key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     bucket-name: guangdong-oss
     domain: http://guangdong-oss.ityun.ltd
     expiry-duration: 32400
   # 文件服务器之7 tencent cos 文件存储
   tencent-cos:
     access-key: AKIDX9hNAzpdUI0XyRpASj098xa7uYzOekmh
-    secret-key: sW5VgkdHlDYqy01xiGbkjV5TghUEvYEw
+    secret-key: Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     endpoint: ap-chengdu
     bucket-name: tencent-cloud-cos-dazer-1253883700
     domain: https://cos.ityun.ltd
