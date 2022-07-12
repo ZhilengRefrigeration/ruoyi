@@ -12,6 +12,7 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.ruoyi.common.core.exception.CaptchaException;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.gateway.config.properties.CaptchaProperties;
@@ -53,6 +54,9 @@ public class ValidateCodeFilter extends AbstractGatewayFilterFactory<Object>
             try
             {
                 String rspStr = resolveBodyFromRequest(request);
+                if (StringUtils.isNull(rspStr)) {
+                    throw new CaptchaException("验证码不能为空");
+                }
                 JSONObject obj = JSON.parseObject(rspStr);
                 validateCodeService.checkCaptcha(obj.getString(CODE), obj.getString(UUID));
             }
