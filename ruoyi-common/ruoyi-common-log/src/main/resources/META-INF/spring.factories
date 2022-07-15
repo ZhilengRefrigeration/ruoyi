@@ -1,3 +1,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.ruoyi.common.log.service.AsyncLogService,\
+  com.ruoyi.common.log.service.impl.AsyncLogService,\
+  com.ruoyi.common.log.service.impl.RabbitLogService,\
+  com.ruoyi.common.log.mq.rabbit.RabbitLogDirect,\
+  com.ruoyi.common.log.mq.rabbit.RabbitLogCallback,\
   com.ruoyi.common.log.aspect.LogAspect

@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.ruoyi.common.log.service.ILogService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -21,7 +22,6 @@ import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.ip.IpUtils;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessStatus;
-import com.ruoyi.common.log.service.AsyncLogService;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysOperLog;
 
@@ -37,7 +37,7 @@ public class LogAspect
     private static final Logger log = LoggerFactory.getLogger(LogAspect.class);
     
     @Autowired
-    private AsyncLogService asyncLogService;
+    private ILogService logService;
 
     /**
      * 处理完请求后执行
@@ -92,8 +92,8 @@ public class LogAspect
             operLog.setRequestMethod(ServletUtils.getRequest().getMethod());
             // 处理设置注解上的参数
             getControllerMethodDescription(joinPoint, controllerLog, operLog, jsonResult);
-            // 保存数据库
-            asyncLogService.saveSysLog(operLog);
+            // 保存日志
+            logService.saveSysLog(operLog);
         }
         catch (Exception exp)
         {
