@@ -62,9 +62,6 @@ public class SwaggerAutoConfiguration
             swaggerProperties.getExcludePath().addAll(DEFAULT_EXCLUDE_PATH);
         }
 
-        List<Predicate<String>> excludePath = new ArrayList<>();
-        swaggerProperties.getExcludePath().forEach(path -> excludePath.add(PathSelectors.ant(path)));
-
         ApiSelectorBuilder builder = new Docket(DocumentationType.SWAGGER_2).host(swaggerProperties.getHost())
                 .apiInfo(apiInfo(swaggerProperties)).select()
                 .apis(RequestHandlerSelectors.basePackage(swaggerProperties.getBasePackage()));
