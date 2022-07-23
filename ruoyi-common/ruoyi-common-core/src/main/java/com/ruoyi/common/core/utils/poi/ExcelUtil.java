@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
@@ -140,9 +141,25 @@ public class ExcelUtil<T>
      */
     public Class<T> clazz;
 
+    /**
+     * 需要排除列属性
+     */
+    public String[] excludeFields;
+
     public ExcelUtil(Class<T> clazz)
     {
         this.clazz = clazz;
+    }
+
+    /**
+     * 隐藏Excel中列属性
+     *
+     * @param fields 列属性名 示例[单个"name"/多个"id","name"]
+     * @throws Exception
+     */
+    public void hideColumn(String... fields)
+    {
+        this.excludeFields = fields;
     }
 
     public void init(List<T> list, String sheetName, String title, Type type)
@@ -392,12 +409,6 @@ public class ExcelUtil<T>
      * @param sheetName 工作表的名称
      * @return 结果
      */
-    /**
-     * 对list数据源将其里面的数据导入到excel表单
-     *
-     * @param sheetName 工作表的名称
-     * @return 结果
-     */
     public void importTemplateExcel(HttpServletResponse response, String sheetName)
     {
         importTemplateExcel(response, sheetName, StringUtils.EMPTY);
@@ -531,20 +542,6 @@ public class ExcelUtil<T>
         styles.put("data", style);
 
         style = wb.createCellStyle();
-        style.cloneStyleFrom(styles.get("data"));
-        style.setAlignment(HorizontalAlignment.CENTER);
-        style.setVerticalAlignment(VerticalAlignment.CENTER);
-        style.setFillForegroundColor(IndexedColors.GREY_50_PERCENT.getIndex());
-        style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        Font headerFont = wb.createFont();
-        headerFont.setFontName("Arial");
-        headerFont.setFontHeightInPoints((short) 10);
-        headerFont.setBold(true);
-        headerFont.setColor(IndexedColors.WHITE.getIndex());
-        style.setFont(headerFont);
-        styles.put("header", style);
-
-        style = wb.createCellStyle();
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setVerticalAlignment(VerticalAlignment.CENTER);
         Font totalFont = wb.createFont();
@@ -553,24 +550,60 @@ public class ExcelUtil<T>
         style.setFont(totalFont);
         styles.put("total", style);
 
-        styles.putAll(annotationStyles(wb));
+        styles.putAll(annotationHeaderStyles(wb, styles));
+
+        styles.putAll(annotationDataStyles(wb));
 
         return styles;
     }
 
     /**
-     * 根据Excel注解创建表格样式
+     * 根据Excel注解创建表格头样式
      * 
      * @param wb 工作薄对象
      * @return 自定义样式列表
      */
-    private Map<String, CellStyle> annotationStyles(Workbook wb)
+    private Map<String, CellStyle> annotationHeaderStyles(Workbook wb, Map<String, CellStyle> styles)
+    {
+        Map<String, CellStyle> headerStyles = new HashMap<String, CellStyle>();
+        for (Object[] os : fields)
+        {
+            Excel excel = (Excel) os[1];
+            String key = StringUtils.format("header_{}_{}", excel.headerColor(), excel.headerBackgroundColor());
+            if (!headerStyles.containsKey(key))
+            {
+                CellStyle style = wb.createCellStyle();
+                style = wb.createCellStyle();
+                style.cloneStyleFrom(styles.get("data"));
+                style.setAlignment(HorizontalAlignment.CENTER);
+                style.setVerticalAlignment(VerticalAlignment.CENTER);
+                style.setFillForegroundColor(excel.headerBackgroundColor().index);
+                style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+                Font headerFont = wb.createFont();
+                headerFont.setFontName("Arial");
+                headerFont.setFontHeightInPoints((short) 10);
+                headerFont.setBold(true);
+                headerFont.setColor(excel.headerColor().index);
+                style.setFont(headerFont);
+                headerStyles.put(key, style);
+            }
+        }
+        return headerStyles;
+    }
+
+    /**
+     * 根据Excel注解创建表格列样式
+     * 
+     * @param wb 工作薄对象
+     * @return 自定义样式列表
+     */
+    private Map<String, CellStyle> annotationDataStyles(Workbook wb)
     {
         Map<String, CellStyle> styles = new HashMap<String, CellStyle>();
         for (Object[] os : fields)
         {
             Excel excel = (Excel) os[1];
-            String key = "data_" + excel.align() + "_" + excel.color();
+            String key = StringUtils.format("data_{}_{}_{}", excel.align(), excel.color(), excel.backgroundColor());
             if (!styles.containsKey(key))
             {
                 CellStyle style = wb.createCellStyle();
@@ -585,6 +618,8 @@ public class ExcelUtil<T>
                 style.setTopBorderColor(IndexedColors.GREY_50_PERCENT.getIndex());
                 style.setBorderBottom(BorderStyle.THIN);
                 style.setBottomBorderColor(IndexedColors.GREY_50_PERCENT.getIndex());
+                style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+                style.setFillForegroundColor(excel.backgroundColor().getIndex());
                 Font dataFont = wb.createFont();
                 dataFont.setFontName("Arial");
                 dataFont.setFontHeightInPoints((short) 10);
@@ -606,7 +641,7 @@ public class ExcelUtil<T>
         // 写入列信息
         cell.setCellValue(attr.name());
         setDataValidation(attr, row, column);
-        cell.setCellStyle(styles.get("header"));
+        cell.setCellStyle(styles.get(StringUtils.format("header_{}_{}", attr.headerColor(), attr.headerBackgroundColor())));
         return cell;
     }
 
@@ -714,7 +749,7 @@ public class ExcelUtil<T>
             {
                 // 创建cell
                 cell = row.createCell(column);
-                cell.setCellStyle(styles.get("data_" + attr.align() + "_" + attr.color()));
+                cell.setCellStyle(styles.get(StringUtils.format("data_{}_{}_{}", attr.align(), attr.color(), attr.backgroundColor())));
 
                 // 用于读取对象中的属性
                 Object value = getTargetValue(vo, field, attr);
@@ -1003,28 +1038,31 @@ public class ExcelUtil<T>
         tempFields.addAll(Arrays.asList(clazz.getDeclaredFields()));
         for (Field field : tempFields)
         {
-            // 单注解
-            if (field.isAnnotationPresent(Excel.class))
+            if (!ArrayUtils.contains(this.excludeFields, field.getName()))
             {
-                Excel attr = field.getAnnotation(Excel.class);
-                if (attr != null && (attr.type() == Type.ALL || attr.type() == type))
+                // 单注解
+                if (field.isAnnotationPresent(Excel.class))
                 {
-                    field.setAccessible(true);
-                    fields.add(new Object[] { field, attr });
-                }
-            }
-
-            // 多注解
-            if (field.isAnnotationPresent(Excels.class))
-            {
-                Excels attrs = field.getAnnotation(Excels.class);
-                Excel[] excels = attrs.value();
-                for (Excel attr : excels)
-                {
+                    Excel attr = field.getAnnotation(Excel.class);
                     if (attr != null && (attr.type() == Type.ALL || attr.type() == type))
                     {
                         field.setAccessible(true);
                         fields.add(new Object[] { field, attr });
+                    }
+                }
+
+                // 多注解
+                if (field.isAnnotationPresent(Excels.class))
+                {
+                    Excels attrs = field.getAnnotation(Excels.class);
+                    Excel[] excels = attrs.value();
+                    for (Excel attr : excels)
+                    {
+                        if (attr != null && (attr.type() == Type.ALL || attr.type() == type))
+                        {
+                            field.setAccessible(true);
+                            fields.add(new Object[] { field, attr });
+                        }
                     }
                 }
             }
