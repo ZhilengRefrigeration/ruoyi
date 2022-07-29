@@ -1,0 +1,74 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: ${project.artifactId}
+  namespace: ${env.NAME_SPACE}
+  labels:
+    app: ${project.artifactId}
+spec:
+  replicas: ${deployment.spec.replicas}
+  selector:
+    matchLabels:
+      app: ${project.artifactId}
+  template:
+    metadata:
+      labels:
+        app: ${project.artifactId}
+    spec:
+      containers:
+        - name: ${project.artifactId}
+          image: '${docker.repository}/${project.artifactId}:${project.version}'
+          ports:
+            - name: http-server
+              containerPort: 9000
+              protocol: TCP
+            - name: job-agent-server
+              containerPort: 9999
+              protocol: TCP
+          env:
+            - name: APP_PORT
+              value: '9000'
+            - name: APP_DEPLOY
+              value: '${env.APP_DEPLOY}'
+            - name: NACOS_SERVER_IP
+              value: 'nacos-server.${env.NAME_SPACE}.${env.DOMAIN_NAME}'
+            - name: NACOS_SERVER_PORT
+              value: '8848'
+            - name: SW_AGENT_NAMESPACE
+              value: ${env.NAME_SPACE}
+            - name: SW_AGENT_NAME
+              value: ${project.artifactId}
+            - name: SW_AGENT_COLLECTOR_BACKEND_SERVICES
+              value: ${env.NAME_SPACE}-skywalk-skywalking-oap.${env.NAME_SPACE}.${env.DOMAIN_NAME}:11800
+            - name: SW_GRPC_LOG_SERVER_HOST
+              value: ${env.NAME_SPACE}-skywalk-skywalking-oap.${env.NAME_SPACE}.${env.DOMAIN_NAME}
+            - name: SW_GRPC_LOG_SERVER_PORT
+              value: '11800'
+            - name: JAVA_OPTS
+              value: '-server -javaagent:/opt/agent/skywalking-agent.jar -XX:+UseContainerSupport -XX:InitialRAMPercentage=85.0 -XX:MaxRAMPercentage=85.0'
+          resources:
+            limits:
+              cpu: '2'
+              memory: 4Gi
+            requests:
+              cpu: '50m'
+              memory: 512Mi
+          livenessProbe:
+            tcpSocket:
+              port: 9000
+            initialDelaySeconds: 60
+            timeoutSeconds: 1
+            periodSeconds: 20
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            tcpSocket:
+              port: 9000
+            initialDelaySeconds: 60
+            timeoutSeconds: 1
+            periodSeconds: 20
+            successThreshold: 1
+            failureThreshold: 3
+          imagePullPolicy: Always
+      imagePullSecrets:
+        - name: ruoyi-harbor-secret
