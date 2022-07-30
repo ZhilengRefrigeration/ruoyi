@@ -1,6 +1,7 @@
 package com.ruoyi.file.service;
 
 import org.apache.commons.io.FilenameUtils;
+import com.ruoyi.file.utils.FileUploadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class FastDfsSysFileServiceImpl implements ISysFileService
     public String uploadFile(MultipartFile file) throws Exception
     {
         StorePath storePath = storageClient.uploadFile(file.getInputStream(), file.getSize(),
-                FilenameUtils.getExtension(file.getOriginalFilename()), null);
+               FileUploadUtils.getExtension(file), null);
         return domain + "/" + storePath.getFullPath();
     }
 }
