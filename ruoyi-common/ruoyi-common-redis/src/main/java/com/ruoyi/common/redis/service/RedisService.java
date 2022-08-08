@@ -243,16 +243,17 @@ public class RedisService
         return redisTemplate.opsForHash().multiGet(key, hKeys);
     }
 
+
     /**
-     * 删除Hash中的某条数据
+     * 删除Hash中的数据
      *
      * @param key Redis键
-     * @param hKey  Hash键
+     * @param hKeys  Hash键
      * @return 是否成功
      */
-    public boolean deleteCacheMapValue(final String key, final String hKey)
+    public long deleteCacheMapValue(final String key, final Object... hKeys)
     {
-        return Boolean.TRUE.equals(redisTemplate.opsForHash().delete(key, hKey));
+        return redisTemplate.opsForHash().delete(key, hKeys);
     }
 
     /**
