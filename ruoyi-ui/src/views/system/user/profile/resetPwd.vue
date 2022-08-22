@@ -4,7 +4,13 @@
       <el-input v-model="user.oldPassword" placeholder="请输入旧密码" type="password" show-password/>
     </el-form-item>
     <el-form-item label="新密码" prop="newPassword">
-      <el-input v-model="user.newPassword" placeholder="请输入新密码" type="password" show-password/>
+      <Password
+        ref="passwordRef"
+        v-model="user.newPassword"
+        :check-list="checkList"
+        placeholder="请输入新密码"
+      >
+      </Password>
     </el-form-item>
     <el-form-item label="确认密码" prop="confirmPassword">
       <el-input v-model="user.confirmPassword" placeholder="请确认新密码" type="password" show-password/>
@@ -18,8 +24,14 @@
 
 <script>
 import { updateUserPwd } from "@/api/system/user";
-
+import Password,{ usePassword} from '@/components/Password'
+let passwordE = null;// password 组件元素相关校验逻辑
 export default {
+  components: { Password },
+  created() {
+    passwordE = usePassword();
+    this.checkList = passwordE.checkList;
+  },
   data() {
     const equalToPassword = (rule, value, callback) => {
       if (this.user.newPassword !== value) {
@@ -29,6 +41,7 @@ export default {
       }
     };
     return {
+      checkList: [],
       user: {
         oldPassword: undefined,
         newPassword: undefined,
@@ -41,7 +54,17 @@ export default {
         ],
         newPassword: [
           { required: true, message: "新密码不能为空", trigger: "blur" },
-          { min: 6, max: 20, message: "长度在 6 到 20 个字符", trigger: "blur" }
+          { type: String, validator: (rule, value, callback)=>{
+              let { validList = [], valid } = passwordE.validate(value)
+              this.$refs.passwordRef.update(validList)
+              // 几条规则是否都以校验完成，否则会有无效密码提示
+              if (!valid) {
+                callback(new Error("无效密码"));
+              } else {
+                callback();
+              }
+            }, trigger: ["change", "blur"]
+          }
         ],
         confirmPassword: [
           { required: true, message: "确认密码不能为空", trigger: "blur" },
