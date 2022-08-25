@@ -38,20 +38,20 @@ public class AuthLogic
      */
     public void logout()
     {
-        String token = SecurityUtils.getToken();
-        if (token == null)
+        String userKey = SecurityUtils.getUserKey();
+        if (userKey == null)
         {
             return;
         }
-        logoutByToken(token);
+        logoutByToken(userKey);
     }
 
     /**
      * 会话注销，根据指定Token
      */
-    public void logoutByToken(String token)
+    public void logoutByToken(String userKey)
     {
-        tokenService.delLoginUser(token);
+        tokenService.delLoginUser(userKey);
     }
 
     /**
@@ -69,8 +69,8 @@ public class AuthLogic
      */
     public LoginUser getLoginUser()
     {
-        String token = SecurityUtils.getToken();
-        if (token == null)
+        String userKey = SecurityUtils.getUserKey();
+        if (userKey == null)
         {
             throw new NotLoginException("未提供token");
         }
@@ -85,12 +85,12 @@ public class AuthLogic
     /**
      * 获取当前用户缓存信息, 如果未登录，则抛出异常
      * 
-     * @param token 前端传递的认证信息
+     * @param userKey 前端传递的认证信息
      * @return 用户缓存信息
      */
-    public LoginUser getLoginUser(String token)
+    public LoginUser getLoginUser(String userKey)
     {
-        return tokenService.getLoginUser(token);
+        return tokenService.getLoginUser(userKey);
     }
 
     /**
@@ -118,7 +118,6 @@ public class AuthLogic
      * 验证用户是否具备某权限, 如果验证未通过，则抛出异常: NotPermissionException
      * 
      * @param permission 权限字符串
-     * @return 用户是否具备某权限
      */
     public void checkPermi(String permission)
     {

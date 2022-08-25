@@ -27,11 +27,11 @@ public class AuthUtil
     /**
      * 会话注销，根据指定Token
      * 
-     * @param tokenValue 指定token
+     * @param userKey 指定token
      */
-    public static void logoutByToken(String token)
+    public static void logoutByToken(String userKey)
     {
-        authLogic.logoutByToken(token);
+        authLogic.logoutByToken(userKey);
     }
 
     /**
@@ -45,9 +45,9 @@ public class AuthUtil
     /**
      * 获取当前登录用户信息
      */
-    public static LoginUser getLoginUser(String token)
+    public static LoginUser getLoginUser(String userKey)
     {
-        return authLogic.getLoginUser(token);
+        return authLogic.getLoginUser(userKey);
     }
 
     /**

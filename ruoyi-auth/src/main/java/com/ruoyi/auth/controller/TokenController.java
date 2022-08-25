@@ -41,14 +41,14 @@ public class TokenController
     }
 
     @DeleteMapping("logout")
-    public R<?> logout(HttpServletRequest request)
+    public R<?> logout()
     {
-        String token = SecurityUtils.getToken(request);
-        if (StringUtils.isNotEmpty(token))
+        String userKey = SecurityUtils.getUserKey();
+        if (StringUtils.isNotEmpty(userKey))
         {
-            String username = JwtUtils.getUserName(token);
+            String username = SecurityUtils.getUsername();
             // 删除用户缓存记录
-            AuthUtil.logoutByToken(token);
+            AuthUtil.logout();
             // 记录用户退出日志
             sysLoginService.logout(username);
         }
@@ -56,9 +56,9 @@ public class TokenController
     }
 
     @PostMapping("refresh")
-    public R<?> refresh(HttpServletRequest request)
+    public R<?> refresh()
     {
-        LoginUser loginUser = tokenService.getLoginUser(request);
+        LoginUser loginUser = tokenService.getLoginUser();
         if (StringUtils.isNotNull(loginUser))
         {
             // 刷新令牌有效期
