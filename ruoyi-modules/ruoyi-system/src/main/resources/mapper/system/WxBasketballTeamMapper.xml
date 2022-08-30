@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.WxBasketballTeamMapper">
+    
+    <resultMap type="WxBasketballTeam" id="WxBasketballTeamResult">
+        <result property="id"    column="ID"    />
+        <result property="isDeleted"    column="IS_DELETED"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+        <result property="modifiedBy"    column="MODIFIED_BY"    />
+        <result property="lastUpdatedTime"    column="LAST_UPDATED_TIME"    />
+        <result property="teamName"    column="TEAM_NAME"    />
+        <result property="teamDes"    column="TEAM_DES"    />
+        <result property="remark"    column="REMARK"    />
+        <result property="buildId"    column="BUILD_ID"    />
+        <result property="defaultPicture"    column="DEFAULT_PICTURE"    />
+        <result property="buildingName"    column="BUILDING_NAME"    />
+        <result property="createdId"    column="CREATED_ID"    />
+        <result property="contactTel"    column="CONTACT_TEL"    />
+        <result property="teamLogo"    column="team_logo"    />
+    </resultMap>
+
+    <sql id="selectWxBasketballTeamVo">
+        select ID, IS_DELETED, CREATED_TIME, CREATED_BY, MODIFIED_BY, LAST_UPDATED_TIME, TEAM_NAME, TEAM_DES, REMARK, BUILD_ID, DEFAULT_PICTURE, BUILDING_NAME, CREATED_ID, CONTACT_TEL, team_logo from basketball_team
+    </sql>
+
+    <select id="selectWxBasketballTeamList" parameterType="WxBasketballTeam" resultMap="WxBasketballTeamResult">
+        <include refid="selectWxBasketballTeamVo"/>
+        <where>  
+            <if test="teamName != null  and teamName != ''"> and TEAM_NAME like concat('%', #{teamName}, '%')</if>
+            <if test="teamDes != null  and teamDes != ''"> and TEAM_DES = #{teamDes}</if>
+            <if test="buildId != null "> and BUILD_ID = #{buildId}</if>
+            <if test="createdId != null "> and CREATED_ID = #{createdId}</if>
+        </where>
+    </select>
+    
+    <select id="selectWxBasketballTeamById" parameterType="Long" resultMap="WxBasketballTeamResult">
+        <include refid="selectWxBasketballTeamVo"/>
+        where ID = #{id}
+    </select>
+        
+    <insert id="insertWxBasketballTeam" parameterType="WxBasketballTeam" useGeneratedKeys="true" keyProperty="id">
+        insert into basketball_team
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="isDeleted != null">IS_DELETED,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="modifiedBy != null">MODIFIED_BY,</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME,</if>
+            <if test="teamName != null">TEAM_NAME,</if>
+            <if test="teamDes != null">TEAM_DES,</if>
+            <if test="remark != null">REMARK,</if>
+            <if test="buildId != null">BUILD_ID,</if>
+            <if test="defaultPicture != null">DEFAULT_PICTURE,</if>
+            <if test="buildingName != null">BUILDING_NAME,</if>
+            <if test="createdId != null">CREATED_ID,</if>
+            <if test="contactTel != null">CONTACT_TEL,</if>
+            <if test="teamLogo != null">team_logo,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="modifiedBy != null">#{modifiedBy},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+            <if test="teamName != null">#{teamName},</if>
+            <if test="teamDes != null">#{teamDes},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="buildId != null">#{buildId},</if>
+            <if test="defaultPicture != null">#{defaultPicture},</if>
+            <if test="buildingName != null">#{buildingName},</if>
+            <if test="createdId != null">#{createdId},</if>
+            <if test="contactTel != null">#{contactTel},</if>
+            <if test="teamLogo != null">#{teamLogo},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWxBasketballTeam" parameterType="WxBasketballTeam">
+        update basketball_team
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="isDeleted != null">IS_DELETED = #{isDeleted},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="modifiedBy != null">MODIFIED_BY = #{modifiedBy},</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME = #{lastUpdatedTime},</if>
+            <if test="teamName != null">TEAM_NAME = #{teamName},</if>
+            <if test="teamDes != null">TEAM_DES = #{teamDes},</if>
+            <if test="remark != null">REMARK = #{remark},</if>
+            <if test="buildId != null">BUILD_ID = #{buildId},</if>
+            <if test="defaultPicture != null">DEFAULT_PICTURE = #{defaultPicture},</if>
+            <if test="buildingName != null">BUILDING_NAME = #{buildingName},</if>
+            <if test="createdId != null">CREATED_ID = #{createdId},</if>
+            <if test="contactTel != null">CONTACT_TEL = #{contactTel},</if>
+            <if test="teamLogo != null">team_logo = #{teamLogo},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteWxBasketballTeamById" parameterType="Long">
+        delete from basketball_team where ID = #{id}
+    </delete>
+
+    <delete id="deleteWxBasketballTeamByIds" parameterType="String">
+        delete from basketball_team where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.WxBuildingInfoMapper">
+    
+    <resultMap type="WxBuildingInfo" id="WxBuildingInfoResult">
+        <result property="id"    column="ID"    />
+        <result property="isDeleted"    column="IS_DELETED"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+        <result property="modifiedBy"    column="MODIFIED_BY"    />
+        <result property="lastUpdatedTime"    column="LAST_UPDATED_TIME"    />
+        <result property="buildingName"    column="BUILDING_NAME"    />
+        <result property="address"    column="ADDRESS"    />
+        <result property="longitude"    column="LONGITUDE"    />
+        <result property="latitude"    column="LATITUDE"    />
+        <result property="provinceCode"    column="PROVINCE_CODE"    />
+        <result property="cityCode"    column="CITY_CODE"    />
+        <result property="countyCode"    column="COUNTY_CODE"    />
+        <result property="remark"    column="REMARK"    />
+        <result property="cityName"    column="CITY_NAME"    />
+        <result property="defaultPicture"    column="DEFAULT_PICTURE"    />
+        <result property="isSupportlive"    column="IS_SUPPORTLIVE"    />
+        <result property="status"    column="STATUS"    />
+        <result property="rejectReason"    column="REJECT_REASON"    />
+        <result property="isOpen"    column="IS_OPEN"    />
+        <result property="mittelkurs"    column="MITTELKURS"    />
+        <result property="chatGroupUrl"    column="CHAT_GROUP_URL"    />
+        <result property="createdId"    column="CREATED_ID"    />
+        <result property="desc"    column="desc"    />
+    </resultMap>
+
+    <sql id="selectWxBuildingInfoVo">
+        select ID, IS_DELETED, CREATED_TIME, CREATED_BY, MODIFIED_BY, LAST_UPDATED_TIME, BUILDING_NAME, ADDRESS, LONGITUDE, LATITUDE, PROVINCE_CODE, CITY_CODE, COUNTY_CODE, REMARK, CITY_NAME, DEFAULT_PICTURE, IS_SUPPORTLIVE, STATUS, REJECT_REASON, IS_OPEN, MITTELKURS, CHAT_GROUP_URL, CREATED_ID from building_info
+    </sql>
+
+    <select id="selectWxBuildingInfoList" parameterType="WxBuildingInfo" resultMap="WxBuildingInfoResult">
+        <include refid="selectWxBuildingInfoVo"/>
+        <where>  
+            <if test="id != null "> and ID = #{id}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
+            <if test="buildingName != null  and buildingName != ''"> and BUILDING_NAME like concat('%', #{buildingName}, '%')</if>
+            <if test="address != null  and address != ''"> and ADDRESS like concat('%', #{address}, '%')</if>
+            <if test="longitude != null "> and LONGITUDE = #{longitude}</if>
+            <if test="latitude != null "> and LATITUDE = #{latitude}</if>
+            <if test="provinceCode != null  and provinceCode != ''"> and PROVINCE_CODE = #{provinceCode}</if>
+            <if test="cityCode != null  and cityCode != ''"> and CITY_CODE = #{cityCode}</if>
+            <if test="countyCode != null  and countyCode != ''"> and COUNTY_CODE = #{countyCode}</if>
+            <if test="remark != null  and remark != ''"> and REMARK = #{remark}</if>
+            <if test="cityName != null  and cityName != ''"> and CITY_NAME like concat('%', #{cityName}, '%')</if>
+            <if test="status != null "> and STATUS = #{status}</if>
+            <if test="isOpen != null "> and IS_OPEN = #{isOpen}</if>
+            <if test="createdId != null "> and CREATED_ID = #{createdId}</if>
+        </where>
+    </select>
+    
+    <select id="selectWxBuildingInfoById" parameterType="Long" resultMap="WxBuildingInfoResult">
+        <include refid="selectWxBuildingInfoVo"/>
+        where ID = #{id}
+    </select>
+        
+    <insert id="insertWxBuildingInfo" parameterType="WxBuildingInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into building_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="isDeleted != null">IS_DELETED,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="modifiedBy != null">MODIFIED_BY,</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME,</if>
+            <if test="buildingName != null">BUILDING_NAME,</if>
+            <if test="address != null">ADDRESS,</if>
+            <if test="longitude != null">LONGITUDE,</if>
+            <if test="latitude != null">LATITUDE,</if>
+            <if test="provinceCode != null">PROVINCE_CODE,</if>
+            <if test="cityCode != null">CITY_CODE,</if>
+            <if test="countyCode != null">COUNTY_CODE,</if>
+            <if test="remark != null">REMARK,</if>
+            <if test="cityName != null">CITY_NAME,</if>
+            <if test="defaultPicture != null">DEFAULT_PICTURE,</if>
+            <if test="isSupportlive != null">IS_SUPPORTLIVE,</if>
+            <if test="status != null">STATUS,</if>
+            <if test="rejectReason != null">REJECT_REASON,</if>
+            <if test="isOpen != null">IS_OPEN,</if>
+            <if test="mittelkurs != null">MITTELKURS,</if>
+            <if test="chatGroupUrl != null">CHAT_GROUP_URL,</if>
+            <if test="createdId != null">CREATED_ID,</if>
+            <if test="desc != null">desc,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="modifiedBy != null">#{modifiedBy},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+            <if test="buildingName != null">#{buildingName},</if>
+            <if test="address != null">#{address},</if>
+            <if test="longitude != null">#{longitude},</if>
+            <if test="latitude != null">#{latitude},</if>
+            <if test="provinceCode != null">#{provinceCode},</if>
+            <if test="cityCode != null">#{cityCode},</if>
+            <if test="countyCode != null">#{countyCode},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="cityName != null">#{cityName},</if>
+            <if test="defaultPicture != null">#{defaultPicture},</if>
+            <if test="isSupportlive != null">#{isSupportlive},</if>
+            <if test="status != null">#{status},</if>
+            <if test="rejectReason != null">#{rejectReason},</if>
+            <if test="isOpen != null">#{isOpen},</if>
+            <if test="mittelkurs != null">#{mittelkurs},</if>
+            <if test="chatGroupUrl != null">#{chatGroupUrl},</if>
+            <if test="createdId != null">#{createdId},</if>
+            <if test="desc != null">#{desc},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWxBuildingInfo" parameterType="WxBuildingInfo">
+        update building_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="isDeleted != null">IS_DELETED = #{isDeleted},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="modifiedBy != null">MODIFIED_BY = #{modifiedBy},</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME = #{lastUpdatedTime},</if>
+            <if test="buildingName != null">BUILDING_NAME = #{buildingName},</if>
+            <if test="address != null">ADDRESS = #{address},</if>
+            <if test="longitude != null">LONGITUDE = #{longitude},</if>
+            <if test="latitude != null">LATITUDE = #{latitude},</if>
+            <if test="provinceCode != null">PROVINCE_CODE = #{provinceCode},</if>
+            <if test="cityCode != null">CITY_CODE = #{cityCode},</if>
+            <if test="countyCode != null">COUNTY_CODE = #{countyCode},</if>
+            <if test="remark != null">REMARK = #{remark},</if>
+            <if test="cityName != null">CITY_NAME = #{cityName},</if>
+            <if test="defaultPicture != null">DEFAULT_PICTURE = #{defaultPicture},</if>
+            <if test="isSupportlive != null">IS_SUPPORTLIVE = #{isSupportlive},</if>
+            <if test="status != null">STATUS = #{status},</if>
+            <if test="rejectReason != null">REJECT_REASON = #{rejectReason},</if>
+            <if test="isOpen != null">IS_OPEN = #{isOpen},</if>
+            <if test="mittelkurs != null">MITTELKURS = #{mittelkurs},</if>
+            <if test="chatGroupUrl != null">CHAT_GROUP_URL = #{chatGroupUrl},</if>
+            <if test="createdId != null">CREATED_ID = #{createdId},</if>
+            <if test="desc != null">desc = #{desc},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteWxBuildingInfoById" parameterType="Long">
+        delete from building_info where ID = #{id}
+    </delete>
+
+    <delete id="deleteWxBuildingInfoByIds" parameterType="String">
+        delete from building_info where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
