@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.WxUserMapper">
+    
+    <resultMap type="WxUser" id="WxUserResult">
+        <result property="id"    column="ID"    />
+        <result property="isDeleted"    column="IS_DELETED"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+        <result property="modifiedBy"    column="MODIFIED_BY"    />
+        <result property="lastUpdatedTime"    column="LAST_UPDATED_TIME"    />
+        <result property="loginName"    column="LOGIN_NAME"    />
+        <result property="passWord"    column="PASS_WORD"    />
+        <result property="role"    column="ROLE"    />
+        <result property="openid"    column="OPENID"    />
+        <result property="avatar"    column="AVATAR"    />
+        <result property="gender"    column="GENDER"    />
+        <result property="userName"    column="USER_NAME"    />
+        <result property="telephone"    column="TELEPHONE"    />
+        <result property="birthday"    column="BIRTHDAY"    />
+        <result property="height"    column="HEIGHT"    />
+        <result property="weight"    column="WEIGHT"    />
+        <result property="teamPosition"    column="TEAM_POSITION"    />
+        <result property="tag"    column="TAG"    />
+        <result property="enabled"    column="ENABLED"    />
+        <result property="unionid"    column="UNIONID"    />
+        <result property="officialAccountOpenid"    column="OFFICIAL_ACCOUNT_OPENID"    />
+        <result property="realName"    column="real_name"    />
+    </resultMap>
+
+    <sql id="selectWxUserVo">
+        select ID, IS_DELETED, CREATED_TIME, CREATED_BY, MODIFIED_BY, LAST_UPDATED_TIME, LOGIN_NAME, PASS_WORD, ROLE, OPENID, AVATAR, GENDER, USER_NAME, TELEPHONE, BIRTHDAY, HEIGHT, WEIGHT, TEAM_POSITION, TAG, ENABLED, UNIONID, OFFICIAL_ACCOUNT_OPENID, real_name from user_info
+    </sql>
+
+    <select id="selectWxUserList" parameterType="WxUser" resultMap="WxUserResult">
+        <include refid="selectWxUserVo"/>
+        <where>  
+            <if test="isDeleted != null "> and IS_DELETED = #{isDeleted}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
+            <if test="modifiedBy != null  and modifiedBy != ''"> and MODIFIED_BY = #{modifiedBy}</if>
+            <if test="lastUpdatedTime != null "> and LAST_UPDATED_TIME = #{lastUpdatedTime}</if>
+            <if test="loginName != null  and loginName != ''"> and LOGIN_NAME like concat('%', #{loginName}, '%')</if>
+            <if test="passWord != null  and passWord != ''"> and PASS_WORD = #{passWord}</if>
+            <if test="role != null  and role != ''"> and ROLE = #{role}</if>
+            <if test="openid != null  and openid != ''"> and OPENID = #{openid}</if>
+            <if test="avatar != null  and avatar != ''"> and AVATAR = #{avatar}</if>
+            <if test="gender != null  and gender != ''"> and GENDER = #{gender}</if>
+            <if test="userName != null  and userName != ''"> and USER_NAME like concat('%', #{userName}, '%')</if>
+            <if test="telephone != null  and telephone != ''"> and TELEPHONE = #{telephone}</if>
+            <if test="birthday != null "> and BIRTHDAY = #{birthday}</if>
+            <if test="height != null "> and HEIGHT = #{height}</if>
+            <if test="weight != null "> and WEIGHT = #{weight}</if>
+            <if test="teamPosition != null  and teamPosition != ''"> and TEAM_POSITION = #{teamPosition}</if>
+            <if test="tag != null  and tag != ''"> and TAG = #{tag}</if>
+            <if test="enabled != null  and enabled != ''"> and ENABLED = #{enabled}</if>
+            <if test="unionid != null  and unionid != ''"> and UNIONID = #{unionid}</if>
+            <if test="officialAccountOpenid != null  and officialAccountOpenid != ''"> and OFFICIAL_ACCOUNT_OPENID = #{officialAccountOpenid}</if>
+            <if test="realName != null  and realName != ''"> and real_name like concat('%', #{realName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectWxUserById" parameterType="Long" resultMap="WxUserResult">
+        <include refid="selectWxUserVo"/>
+        where ID = #{id}
+    </select>
+        
+    <insert id="insertWxUser" parameterType="WxUser" useGeneratedKeys="true" keyProperty="id">
+        insert into user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="isDeleted != null">IS_DELETED,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="modifiedBy != null">MODIFIED_BY,</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME,</if>
+            <if test="loginName != null">LOGIN_NAME,</if>
+            <if test="passWord != null">PASS_WORD,</if>
+            <if test="role != null">ROLE,</if>
+            <if test="openid != null">OPENID,</if>
+            <if test="avatar != null">AVATAR,</if>
+            <if test="gender != null">GENDER,</if>
+            <if test="userName != null">USER_NAME,</if>
+            <if test="telephone != null">TELEPHONE,</if>
+            <if test="birthday != null">BIRTHDAY,</if>
+            <if test="height != null">HEIGHT,</if>
+            <if test="weight != null">WEIGHT,</if>
+            <if test="teamPosition != null">TEAM_POSITION,</if>
+            <if test="tag != null">TAG,</if>
+            <if test="enabled != null">ENABLED,</if>
+            <if test="unionid != null">UNIONID,</if>
+            <if test="officialAccountOpenid != null">OFFICIAL_ACCOUNT_OPENID,</if>
+            <if test="realName != null">real_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="modifiedBy != null">#{modifiedBy},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+            <if test="loginName != null">#{loginName},</if>
+            <if test="passWord != null">#{passWord},</if>
+            <if test="role != null">#{role},</if>
+            <if test="openid != null">#{openid},</if>
+            <if test="avatar != null">#{avatar},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="telephone != null">#{telephone},</if>
+            <if test="birthday != null">#{birthday},</if>
+            <if test="height != null">#{height},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="teamPosition != null">#{teamPosition},</if>
+            <if test="tag != null">#{tag},</if>
+            <if test="enabled != null">#{enabled},</if>
+            <if test="unionid != null">#{unionid},</if>
+            <if test="officialAccountOpenid != null">#{officialAccountOpenid},</if>
+            <if test="realName != null">#{realName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWxUser" parameterType="WxUser">
+        update user_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="isDeleted != null">IS_DELETED = #{isDeleted},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="modifiedBy != null">MODIFIED_BY = #{modifiedBy},</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME = #{lastUpdatedTime},</if>
+            <if test="loginName != null">LOGIN_NAME = #{loginName},</if>
+            <if test="passWord != null">PASS_WORD = #{passWord},</if>
+            <if test="role != null">ROLE = #{role},</if>
+            <if test="openid != null">OPENID = #{openid},</if>
+            <if test="avatar != null">AVATAR = #{avatar},</if>
+            <if test="gender != null">GENDER = #{gender},</if>
+            <if test="userName != null">USER_NAME = #{userName},</if>
+            <if test="telephone != null">TELEPHONE = #{telephone},</if>
+            <if test="birthday != null">BIRTHDAY = #{birthday},</if>
+            <if test="height != null">HEIGHT = #{height},</if>
+            <if test="weight != null">WEIGHT = #{weight},</if>
+            <if test="teamPosition != null">TEAM_POSITION = #{teamPosition},</if>
+            <if test="tag != null">TAG = #{tag},</if>
+            <if test="enabled != null">ENABLED = #{enabled},</if>
+            <if test="unionid != null">UNIONID = #{unionid},</if>
+            <if test="officialAccountOpenid != null">OFFICIAL_ACCOUNT_OPENID = #{officialAccountOpenid},</if>
+            <if test="realName != null">real_name = #{realName},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteWxUserById" parameterType="Long">
+        delete from user_info where ID = #{id}
+    </delete>
+
+    <delete id="deleteWxUserByIds" parameterType="String">
+        delete from user_info where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

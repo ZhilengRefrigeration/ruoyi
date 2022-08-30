@@ -238,6 +238,8 @@
                 <artifactId>ruoyi-api-system</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
+            <!-- basketball微信小程序接口 -->
+
 
         </dependencies>
     </dependencyManagement>
