@@ -21,9 +21,9 @@ public class SysPasswordService
     @Autowired
     private RedisService redisService;
 
-    private int maxRetryCount = CacheConstants.passwordMaxRetryCount;
+    private int maxRetryCount = CacheConstants.PASSWORD_MAX_RETRY_COUNT;
 
-    private Long lockTime = CacheConstants.passwordLockTime;
+    private Long lockTime = CacheConstants.PASSWORD_LOCK_TIME;
 
     @Autowired
     private SysRecordLogService recordLogService;
@@ -60,7 +60,7 @@ public class SysPasswordService
         if (!matches(user, password))
         {
             retryCount = retryCount + 1;
-            recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL, String.format("密码输入错误%s次", maxRetryCount));
+            recordLogService.recordLogininfor(username, Constants.LOGIN_FAIL, String.format("密码输入错误%s次", retryCount));
             redisService.setCacheObject(getCacheKey(username), retryCount, lockTime, TimeUnit.MINUTES);
             throw new ServiceException("用户不存在/密码错误");
         }
