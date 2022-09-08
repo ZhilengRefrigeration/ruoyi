@@ -1,0 +1,78 @@
+pipeline {
+  agent {
+    node {
+      label 'maven'
+    }
+
+  }
+  stages {
+    stage('拉取代码') {
+      agent none
+      steps {
+        container('maven') {
+          git(url: 'https://gitee.com/hongtaohu/RuoYi-Cloud.git', credentialsId: 'gitee-id', branch: 'master', changelog: true, poll: false)
+          sh 'ls -al'
+        }
+
+      }
+    }
+
+    stage('项目编译') {
+      agent none
+      steps {
+        container('maven') {
+          sh 'ls -al'
+          sh 'mvn clean package -Dmaven.test.skip=true'
+        }
+
+      }
+    }
+
+    stage('构建ruoyi-gen镜像') {
+      agent none
+      steps {
+        container('maven') {
+          sh 'ls ruoyi-modules/ruoyi-gen/target'
+          sh 'docker build -t ruoyi-gen:latest -f ruoyi-modules/ruoyi-gen/Dockerfile  ./ruoyi-modules/ruoyi-gen/'
+        }
+
+      }
+    }
+
+    stage('推送ruoyi-gen镜像') {
+      agent none
+      steps {
+        container('maven') {
+          withCredentials([usernamePassword(credentialsId : 'harbor-registry' ,passwordVariable : 'HARBOR_PWD_TEXT' ,usernameVariable : 'HARBOR_USER_TEXT' ,)]) {
+            sh 'echo "$HARBOR_PWD_TEXT" | docker login $REGISTRY -u "$HARBOR_USER_TEXT" --password-stdin'
+            sh 'docker tag ruoyi-gen:latest $REGISTRY/$HARBOR_NAMESPACE/ruoyi-gen:SNAPSHOT-$BUILD_NUMBER'
+            sh 'docker push  $REGISTRY/$HARBOR_NAMESPACE/ruoyi-gen:SNAPSHOT-$BUILD_NUMBER'
+          }
+
+        }
+
+      }
+    }
+
+    stage('部署ruoyi-gen到dev环境') {
+      agent none
+      steps {
+        kubernetesDeploy(configs: 'ruoyi-modules/ruoyi-gen/deploy/**', enableConfigSubstitution: true, kubeconfigId: "$KUBECONFIG_CREDENTIAL_ID")
+      }
+    }
+
+  }
+  environment {
+    DOCKER_CREDENTIAL_ID = 'dockerhub-id'
+    GITHUB_CREDENTIAL_ID = 'github-id'
+    KUBECONFIG_CREDENTIAL_ID = 'demo-kubeconfig'
+    REGISTRY = '192.168.2.147:30002'
+    DOCKERHUB_NAMESPACE = 'docker_username'
+    GITHUB_ACCOUNT = 'kubesphere'
+    APP_NAME = 'devops-java-sample'
+    HARBOR_NAMESPACE = 'ruoyi'
+  }
+  parameters {
+    string(name: 'TAG_NAME', defaultValue: '', description: '')
+  }
+}
