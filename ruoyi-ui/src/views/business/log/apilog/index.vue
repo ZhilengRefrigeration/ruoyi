@@ -137,16 +137,16 @@
       <el-table-column label="API名称" align="center" prop="apiName" :show-overflow-tooltip="true"/>
       <el-table-column label="请求URL" align="center" prop="url" :show-overflow-tooltip="true"/>
       <el-table-column label="请求方法" align="center" prop="method" :show-overflow-tooltip="true"/>
-<!--      <el-table-column label="请求参数" align="center" prop="request" :show-overflow-tooltip="true">
-        <template slot-scope="scope">
-          <span>{{ scope.row.request !== "" ? scope.row.request : "-" }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="响应参数" align="center" prop="response" :show-overflow-tooltip="true">
-        <template slot-scope="scope">
-          <span>{{ scope.row.response !== "" ? scope.row.response : "-" }}</span>
-        </template>
-      </el-table-column>-->
+      <!--      <el-table-column label="请求参数" align="center" prop="request" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
+                <span>{{ scope.row.request !== "" ? scope.row.request : "-" }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="响应参数" align="center" prop="response" :show-overflow-tooltip="true">
+              <template slot-scope="scope">
+                <span>{{ scope.row.response !== "" ? scope.row.response : "-" }}</span>
+              </template>
+            </el-table-column>-->
       <el-table-column label="创建时间" align="center" prop="createTime" :show-overflow-tooltip="true"/>
       <el-table-column label="是否请求成功" align="center" prop="isSuccess" :show-overflow-tooltip="true">
         <template slot-scope="scope">
@@ -206,6 +206,26 @@
       </div>
     </el-dialog>
 
+    <el-dialog title="内容详细" :visible.sync="openNoJson" width="700px" append-to-body>
+      <el-row>
+        <el-col :span="24">
+          请求参数：
+        </el-col>
+        <el-col :span="24">
+          {{ this.request || '---'}}
+        </el-col>
+        <el-col :span="24">
+          响应参数：
+        </el-col>
+        <el-col :span="24">
+          {{ this.response }}
+        </el-col>
+      </el-row>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="openNoJson = false">关 闭</el-button>
+      </div>
+    </el-dialog>
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -217,7 +237,7 @@
 </template>
 
 <script>
-import {listLog, delLog, getApiName,getInfo} from "@/api/business/log/apilog";
+import {listLog, delLog, getApiName, getInfo} from "@/api/business/log/apilog";
 import {pickerOptions} from "@/layout/mixin/PickerOptions"
 
 export default {
@@ -244,6 +264,7 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      openNoJson: false,
       // 查询参数  需要给一个null值，否则input框等无法输入
       queryParams: {
         pageNum: 1,
@@ -302,8 +323,8 @@ export default {
 
     dateQuery() {
       //清空时间参数
-      this.queryParams.createTime=null
-      this.queryParams.endCreateTime=null
+      this.queryParams.createTime = null
+      this.queryParams.endCreateTime = null
 
       this.handleQuery();
     },
@@ -316,8 +337,8 @@ export default {
     /** 详细按钮操作 */
     handleView(id) {
 
-      getInfo(id).then(res =>{
-        this.form=res.data
+      getInfo(id).then(res => {
+        this.form = res.data
 
         try {
           this.request = JSON.parse(this.form.request)
@@ -330,6 +351,10 @@ export default {
             message: '参数不是json格式！！！',
             type: 'warning'
           });
+
+          this.request=this.form.request
+          this.response=this.form.response
+          this.openNoJson = true
         }
       })
     },

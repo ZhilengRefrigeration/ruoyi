@@ -85,52 +85,57 @@ public class IndexController {
     @GetMapping("showData")
     @ApiOperation("展示数据")
     public AjaxResult showWbSearch() throws ExecutionException, InterruptedException {
-        CompletableFuture<List<ApiTopsearchWeibo>> weiboListFuture = CompletableFuture.supplyAsync(() ->
-                apiTopsearchWeiboService.showWbSearch(), executor);
+        Map<Object, Object> map = null;
+        try {
+            CompletableFuture<List<ApiTopsearchWeibo>> weiboListFuture = CompletableFuture.supplyAsync(() ->
+                    apiTopsearchWeiboService.showWbSearch(), executor);
 
-        CompletableFuture<List<CopyWritingNetworkDTO>> networkDTOListFuture = CompletableFuture.supplyAsync(indexController::getCopyWritingNetworkList, executor);
+            CompletableFuture<List<CopyWritingNetworkDTO>> networkDTOListFuture = CompletableFuture.supplyAsync(indexController::getCopyWritingNetworkList, executor);
 
-        CompletableFuture<List<CopyWriting>> yunListFuture = CompletableFuture.supplyAsync(() ->
-                copyWritingService.NeteaseHotWord(), executor);
+            CompletableFuture<List<CopyWriting>> yunListFuture = CompletableFuture.supplyAsync(() ->
+                    copyWritingService.NeteaseHotWord(), executor);
 
-        CompletableFuture<Map<Object, Object>> logCountFuture = CompletableFuture.supplyAsync(indexController::getLogCount, executor);
+            CompletableFuture<Map<Object, Object>> logCountFuture = CompletableFuture.supplyAsync(indexController::getLogCount, executor);
 
-        CompletableFuture<Integer> loginCountFuture = CompletableFuture.supplyAsync(indexController::getLoginCount, executor);
+            CompletableFuture<Integer> loginCountFuture = CompletableFuture.supplyAsync(indexController::getLoginCount, executor);
 
-        CompletableFuture<List<SysOperLog>> sysOperLogFuture = CompletableFuture.supplyAsync(indexController::getSysOperLog, executor);
+            CompletableFuture<List<SysOperLog>> sysOperLogFuture = CompletableFuture.supplyAsync(indexController::getSysOperLog, executor);
 
-        CompletableFuture<List<EnglishWordDTO>> englishFuture = CompletableFuture.supplyAsync(indexController::getEnglish, executor);
+            CompletableFuture<List<EnglishWordDTO>> englishFuture = CompletableFuture.supplyAsync(indexController::getEnglish, executor);
 
-        CompletableFuture<Map<String, List<String>>> beautyPictureFuture = CompletableFuture.supplyAsync(indexController::getBeautyPictureList, executor);
+            CompletableFuture<Map<String, List<String>>> beautyPictureFuture = CompletableFuture.supplyAsync(indexController::getBeautyPictureList, executor);
 
-        CompletableFuture<Map<Object, Object>> newsFuture = CompletableFuture.supplyAsync(indexController::getNews, executor);
+            CompletableFuture<Map<Object, Object>> newsFuture = CompletableFuture.supplyAsync(indexController::getNews, executor);
 
-        CompletableFuture<IPInfoVo> ipInfoFuture = CompletableFuture.supplyAsync(indexController::getIpInfo, executor);
+            CompletableFuture<IPInfoVo> ipInfoFuture = CompletableFuture.supplyAsync(indexController::getIpInfo, executor);
 
-        CompletableFuture.allOf(
-                weiboListFuture,
-                networkDTOListFuture,
-                yunListFuture,
-                logCountFuture,
-                sysOperLogFuture,
-                englishFuture,
-                newsFuture,
-                beautyPictureFuture,
-                ipInfoFuture
-        ).get();
+            CompletableFuture.allOf(
+                    weiboListFuture,
+                    networkDTOListFuture,
+                    yunListFuture,
+                    logCountFuture,
+                    sysOperLogFuture,
+                    englishFuture,
+                    newsFuture,
+                    beautyPictureFuture,
+                    ipInfoFuture
+            ).get();
 
-        Map<Object, Object> map = MapUtil.builder()
-                .put("weiboList", weiboListFuture.get())
-                .put("networkDTOList", networkDTOListFuture.get())
-                .put("yunList", yunListFuture.get())
-                .put("logCount", logCountFuture.get())
-                .put("loginCount", loginCountFuture.get())
-                .put("sysOperLog", sysOperLogFuture.get())
-                .put("englishWord", englishFuture.get())
-                .put("news", newsFuture.get())
-                .put("beautyPicture", beautyPictureFuture.get())
-                .put("ipInfo", ipInfoFuture.get())
-                .build();
+            map = MapUtil.builder()
+                    .put("weiboList", weiboListFuture.get())
+                    .put("networkDTOList", networkDTOListFuture.get())
+                    .put("yunList", yunListFuture.get())
+                    .put("logCount", logCountFuture.get())
+                    .put("loginCount", loginCountFuture.get())
+                    .put("sysOperLog", sysOperLogFuture.get())
+                    .put("englishWord", englishFuture.get())
+                    .put("news", newsFuture.get())
+                    .put("beautyPicture", beautyPictureFuture.get())
+                    .put("ipInfo", ipInfoFuture.get())
+                    .build();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return AjaxResult.success(map);
     }
 
