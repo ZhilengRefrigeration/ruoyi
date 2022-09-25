@@ -2,10 +2,12 @@ package com.ruoyi.common.core.utils.poi;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -455,6 +457,11 @@ public class ExcelUtil<T>
     public void exportExcel(HttpServletResponse response, List<T> list, String sheetName, String title)
     {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        try {
+            response.addHeader("Content-Disposition", "attachment;FileName=" + URLEncoder.encode(title,"utf-8"));
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
         response.setCharacterEncoding("utf-8");
         this.init(list, sheetName, title, Type.EXPORT);
         exportExcel(response);

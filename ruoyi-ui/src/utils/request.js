@@ -73,6 +73,12 @@ service.interceptors.response.use(res => {
     const msg = errorCode[code] || res.data.msg || errorCode['default']
     // 二进制数据则直接返回
     if(res.request.responseType ===  'blob' || res.request.responseType ===  'arraybuffer'){
+      // 响应返回的内联显示的标题
+      let disposition = res.headers['content-disposition'];
+      // 根据标志，不区分大小写，获取文件名称
+      let filename = disposition.split(/filename=/i).pop();
+      // 文件名称解码
+      res.data.filename = decodeURI(filename);
       return res.data
     }
     if (code === 401) {
@@ -141,6 +147,8 @@ export function download(url, params, filename, config) {
     const isLogin = await blobValidate(data);
     if (isLogin) {
       const blob = new Blob([data])
+      // 如果方法参数的文件名称为空，则使用响应请求返回的文件名称
+      filename = filename || data.filename
       saveAs(blob, filename)
     } else {
       const resText = await data.text();
