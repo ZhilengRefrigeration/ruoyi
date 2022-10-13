@@ -1,10 +1,19 @@
 package com.ruoyi.file.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.Objects;
+
+import com.alibaba.fastjson2.util.UUIDUtils;
+import com.aliyun.oss.ClientException;
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSSException;
+import com.ruoyi.system.api.model.LoginUser;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.common.core.exception.file.FileNameLengthLimitExceededException;
 import com.ruoyi.common.core.exception.file.FileSizeLimitExceededException;
@@ -31,6 +40,7 @@ public class FileUploadUtils
      * 默认的文件名最大长度 100
      */
     public static final int DEFAULT_FILE_NAME_LENGTH = 100;
+
 
     /**
      * 根据文件路径上传
@@ -176,5 +186,47 @@ public class FileUploadUtils
             }
         }
         return false;
+    }
+
+    /**
+     * Oss文件上传
+     *
+     * @param ossClient oss客户端
+     * @param file 上传的文件
+     * @param bucketName oss存储桶名称
+     * @return 返回上传成功的文件名
+     * @throws FileSizeLimitExceededException 如果超出最大大小
+     * @throws FileNameLengthLimitExceededException 文件名太长
+     */
+    public static String uploadFileByOss(OSS ossClient,String bucketName,MultipartFile file) throws InvalidExtensionException {
+        assertAllowed(file,MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION);
+        String date = DateUtils.getDate();
+        String replace = date.replace("-", "/");
+        String newFileName= DateUtils.dateTimeNow()+file.getOriginalFilename()+"."+FileTypeUtils.getExtension(file);
+        String objectName=replace+"/"+newFileName;
+        try {
+            InputStream inputStream = file.getInputStream();
+            // 创建PutObject请求。
+            ossClient.putObject(bucketName, objectName, inputStream);
+        } catch (OSSException oe) {
+            System.out.println("Caught an OSSException, which means your request made it to OSS, "
+                    + "but was rejected with an error response for some reason.");
+            System.out.println("Error Message:" + oe.getErrorMessage());
+            System.out.println("Error Code:" + oe.getErrorCode());
+            System.out.println("Request ID:" + oe.getRequestId());
+            System.out.println("Host ID:" + oe.getHostId());
+        } catch (ClientException ce) {
+            System.out.println("Caught an ClientException, which means the client encountered "
+                    + "a serious internal problem while trying to communicate with OSS, "
+                    + "such as not being able to access the network.");
+            System.out.println("Error Message:" + ce.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (ossClient != null) {
+                ossClient.shutdown();
+            }
+        }
+        return objectName;
     }
 }
