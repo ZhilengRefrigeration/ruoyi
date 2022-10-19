@@ -12,16 +12,16 @@
         <result property="modifiedBy"    column="MODIFIED_BY"    />
         <result property="lastUpdatedTime"    column="LAST_UPDATED_TIME"    />
         <result property="scene"    column="scene"    />
-        <result property="base64"    column="base64"  />
         <result property="codeImgUrl"    column="code_img_url"    />
         <result property="userId"    column="user_id"    />
         <result property="busType"    column="bus_type"    />
         <result property="page"    column="page"    />
         <result property="width"    column="width"    />
+        <result property="useDesc"    column="use_desc"    />
     </resultMap>
 
     <sql id="selectUserWxAqrCodeVo">
-        select ID, IS_DELETED, CREATED_TIME, CREATED_BY, MODIFIED_BY, LAST_UPDATED_TIME, scene, base64, code_img_url, user_id, bus_type, page, width from user_wx_aqr_code
+        select ID, IS_DELETED, CREATED_TIME, CREATED_BY, MODIFIED_BY, LAST_UPDATED_TIME, scene, code_img_url, user_id, bus_type, page, width, use_desc from user_wx_aqr_code
     </sql>
 
     <select id="selectUserWxAqrCodeList" parameterType="UserWxAqrCode" resultMap="UserWxAqrCodeResult">
@@ -33,12 +33,12 @@
             <if test="modifiedBy != null  and modifiedBy != ''"> and MODIFIED_BY = #{modifiedBy}</if>
             <if test="lastUpdatedTime != null "> and LAST_UPDATED_TIME = #{lastUpdatedTime}</if>
             <if test="scene != null  and scene != ''"> and scene = #{scene}</if>
-            <if test="base64 != null  and base64 != ''"> and base64 = #{base64}</if>
             <if test="codeImgUrl != null  and codeImgUrl != ''"> and code_img_url = #{codeImgUrl}</if>
             <if test="userId != null "> and user_id = #{userId}</if>
             <if test="busType != null  and busType != ''"> and bus_type = #{busType}</if>
             <if test="page != null  and page != ''"> and page = #{page}</if>
             <if test="width != null "> and width = #{width}</if>
+            <if test="useDesc != null  and useDesc != ''"> and use_desc = #{useDesc}</if>
         </where>
     </select>
 
@@ -56,12 +56,12 @@
             <if test="modifiedBy != null">MODIFIED_BY,</if>
             <if test="lastUpdatedTime != null">LAST_UPDATED_TIME,</if>
             <if test="scene != null">scene,</if>
-            <if test="base64 != null">base64,</if>
             <if test="codeImgUrl != null">code_img_url,</if>
             <if test="userId != null">user_id,</if>
             <if test="busType != null">bus_type,</if>
             <if test="page != null">page,</if>
             <if test="width != null">width,</if>
+            <if test="useDesc != null">use_desc,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="isDeleted != null">#{isDeleted},</if>
@@ -70,12 +70,12 @@
             <if test="modifiedBy != null">#{modifiedBy},</if>
             <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
             <if test="scene != null">#{scene},</if>
-            <if test="base64 != null">#{base64},</if>
             <if test="codeImgUrl != null">#{codeImgUrl},</if>
             <if test="userId != null">#{userId},</if>
             <if test="busType != null">#{busType},</if>
             <if test="page != null">#{page},</if>
             <if test="width != null">#{width},</if>
+            <if test="useDesc != null">#{useDesc},</if>
         </trim>
     </insert>
 
@@ -88,12 +88,12 @@
             <if test="modifiedBy != null">MODIFIED_BY = #{modifiedBy},</if>
             <if test="lastUpdatedTime != null">LAST_UPDATED_TIME = #{lastUpdatedTime},</if>
             <if test="scene != null">scene = #{scene},</if>
-            <if test="base64 != null">base64 = #{base64},</if>
             <if test="codeImgUrl != null">code_img_url = #{codeImgUrl},</if>
             <if test="userId != null">user_id = #{userId},</if>
             <if test="busType != null">bus_type = #{busType},</if>
             <if test="page != null">page = #{page},</if>
             <if test="width != null">width = #{width},</if>
+            <if test="useDesc != null">use_desc = #{useDesc},</if>
         </trim>
         where ID = #{id}
     </update>

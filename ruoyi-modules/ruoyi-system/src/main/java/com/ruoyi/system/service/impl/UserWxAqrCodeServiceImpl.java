@@ -110,12 +110,10 @@ public class UserWxAqrCodeServiceImpl implements IUserWxAqrCodeService
         System.out.println("id = "+userWxAqrCode.getId()+"   accessToken = "+ accessToken);
         WxAppletsCodeVo wxAppletsCodeVo = new WxAppletsCodeVo();
         wxAppletsCodeVo.setScene(String.valueOf(userWxAqrCode.getId()));
-        wxAppletsCodeVo.setPage("pages/index2/index2");
+        wxAppletsCodeVo.setPage(userWxAqrCode.getPage());
         wxAppletsCodeVo = wxAppletsFeign.getWxacodeunlimit(wxAppletsCodeVo,accessToken);
         //更新二维码表
         userWxAqrCode.setCodeImgUrl(wxAppletsCodeVo.getCodeImgUrl());
-        userWxAqrCode.setBase64(wxAppletsCodeVo.getBase64());
-        userWxAqrCode.setPage(wxAppletsCodeVo.getPage());
         userWxAqrCode.setScene(wxAppletsCodeVo.getScene());
         userWxAqrCode.setWidth(wxAppletsCodeVo.getWidth());
         userWxAqrCodeMapper.updateUserWxAqrCode(userWxAqrCode);

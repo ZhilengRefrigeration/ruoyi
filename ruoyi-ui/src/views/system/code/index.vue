@@ -1,14 +1,6 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="创建人" prop="createdBy">
-        <el-input
-          v-model="queryParams.createdBy"
-          placeholder="请输入创建人"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item label="参数" prop="scene">
         <el-input
           v-model="queryParams.scene"
@@ -35,6 +27,14 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="宽度" prop="width">
+        <el-input
+          v-model="queryParams.width"
+          placeholder="请输入宽度"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -49,18 +49,10 @@
           icon="el-icon-plus"
           size="mini"
           @click="genAqrCode"
-          v-hasPermi="['system:code:genAqrCode']">生成单个二维码</el-button>
+          v-hasPermi="['system:code:genAqrCode']"
+        >生成小程序二维码</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="genAqrCode"
-          v-hasPermi="['system:code:genAqrCode']">生成多个二维码</el-button>
-      </el-col>
-<!--      <el-col :span="1.5">
         <el-button
           type="primary"
           plain
@@ -69,7 +61,7 @@
           @click="handleAdd"
           v-hasPermi="['system:code:add']"
         >新增</el-button>
-      </el-col>-->
+      </el-col>
       <el-col :span="1.5">
         <el-button
           type="success"
@@ -108,14 +100,8 @@
     <el-table v-loading="loading" :data="codeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="主键ID" align="center" prop="id" />
-      <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="创建人" align="center" prop="createdBy" />
+      <el-table-column label="用途说明" align="center" prop="useDesc" />
       <el-table-column label="参数" align="center" prop="scene" />
-      <el-table-column label="二维码地址" align="center" prop="codeImgUrl" />
       <el-table-column label="用户ID" align="center" prop="userId" />
       <el-table-column label="业务分类枚举" align="center" prop="busType">
         <template slot-scope="scope">
@@ -124,6 +110,12 @@
       </el-table-column>
       <el-table-column label="页面路径" align="center" prop="page" />
       <el-table-column label="宽度" align="center" prop="width" />
+      <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="创建人" align="center" prop="createdBy" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -155,21 +147,6 @@
     <!-- 添加或修改微信用户小程序二维码对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="删除表示" prop="isDeleted">
-          <el-input v-model="form.isDeleted" placeholder="请输入删除表示" />
-        </el-form-item>
-        <el-form-item label="创建时间" prop="createdTime">
-          <el-date-picker clearable
-                          v-model="form.createdTime"
-                          type="date"
-                          value-format="yyyy-MM-dd"
-                          placeholder="请选择创建时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="创建人" prop="createdBy">
-          <el-input v-model="form.createdBy" placeholder="请输入创建人" />
-        </el-form-item>
-
         <el-form-item label="参数" prop="scene">
           <el-input v-model="form.scene" placeholder="请输入参数" />
         </el-form-item>
@@ -195,20 +172,25 @@
         <el-form-item label="宽度" prop="width">
           <el-input v-model="form.width" placeholder="请输入宽度" />
         </el-form-item>
+        <el-form-item label="用途说明" prop="useDesc">
+          <el-input v-model="form.useDesc" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+
+
     <!-- 生成微信用户小程序二维码对话框 -->
     <el-dialog :title="aqrTitle" :visible.sync="aqrOpen" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="用户ID" prop="userId">
-          <el-input v-model="form.userId" placeholder="请输入用户ID" />
+        <el-form-item label="用途说明" prop="useDesc">
+          <el-input v-model="form.useDesc" type="textarea" placeholder="请输入内容" />
         </el-form-item>
         <el-form-item label="业务分类" prop="busType">
-          <el-select v-model="form.busType" placeholder="请选择业务分类枚举">
+          <el-select v-model="form.busType" placeholder="请选择业务分类">
             <el-option
               v-for="dict in dict.type.wx_aqr_type"
               :key="dict.value"
@@ -217,9 +199,22 @@
             ></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="页面路径" prop="page">
+          <el-input v-model="form.page" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+        <el-form-item label="参数" prop="scene">
+          <el-input v-model="form.scene" placeholder="请输入参数" />
+        </el-form-item>
+        <el-form-item label="用户ID" prop="userId">
+          <el-input v-model="form.userId" placeholder="请输入用户ID" />
+        </el-form-item>
+
+        <el-form-item label="宽度" prop="width">
+          <el-input v-model="form.width" placeholder="请输入宽度" />
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitAqrForm">确 定</el-button>
+        <el-button type="primary" @click="aqrSubmitForm">确 定</el-button>
         <el-button @click="aqrCancel">取 消</el-button>
       </div>
     </el-dialog>
@@ -253,28 +248,37 @@ export default {
       // 是否显示弹出层
       open: false,
 
-      // 生成二维码弹出层标题
+      // 弹出层标题
       aqrTitle: "",
-      // 生成二维码是否显示弹出层
+      // 是否显示弹出层
       aqrOpen: false,
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        createdBy: null,
-        modifiedBy: null,
-        contentType: null,
-        buffer: null,
-        errcode: null,
-        errmsg: null,
+        scene: null,
         userId: null,
         busType: null,
-        busTypeDesc: null
+        page: null,
+        width: null,
+        useDesc: null
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
+        // scene: [
+        //   { required: true, message: "参数不能为空", trigger: "blur" }
+        // ],
+        busType: [
+          { required: true, message: "业务分类枚举不能为空", trigger: "change" }
+        ],
+        page: [
+          { required: true, message: "页面路径不能为空", trigger: "blur" }
+        ],
+        useDesc: [
+          { required: true, message: "用途说明不能为空", trigger: "blur" }
+        ]
       }
     };
   },
@@ -296,6 +300,11 @@ export default {
       this.open = false;
       this.reset();
     },
+
+    aqrCancel() {
+      this.aqrOpen = false;
+      this.reset();
+    },
     // 表单重置
     reset() {
       this.form = {
@@ -305,13 +314,13 @@ export default {
         createdBy: null,
         modifiedBy: null,
         lastUpdatedTime: null,
-        contentType: null,
-        buffer: null,
-        errcode: null,
-        errmsg: null,
+        scene: null,
+        codeImgUrl: null,
         userId: null,
         busType: null,
-        busTypeDesc: null
+        page: null,
+        width: null,
+        useDesc: null
       };
       this.resetForm("form");
     },
@@ -336,6 +345,12 @@ export default {
       this.reset();
       this.open = true;
       this.title = "添加微信用户小程序二维码";
+    },
+
+    genAqrCode() {
+      this.reset();
+      this.aqrOpen = true;
+      this.aqrTitle = "生成微信用户小程序二维码";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -367,18 +382,10 @@ export default {
         }
       });
     },
-    /** 生成微信用户小程序二维码按钮操作 */
-    genAqrCode(){
-      this.reset();
-      this.aqrOpen = true;
-      this.aqrTitle = "生成微信用户小程序二维码";
-    },
-    aqrCancel() {
-      this.aqrOpen = false;
-      this.reset();
-    },
+
+
     /** 提交按钮 */
-    submitAqrForm() {
+    aqrSubmitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
           genAqrCode(this.form).then(response => {

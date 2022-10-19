@@ -1,4 +1,5 @@
 package com.ruoyi.system.domain;
+
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -45,10 +46,6 @@ public class UserWxAqrCode extends BaseEntity
     @Excel(name = "参数")
     private String scene;
 
-    /** 微信二维码的base64编码 */
-    @Excel(name = "微信二维码的base64编码")
-    private String base64;
-
     /** 二维码地址 */
     @Excel(name = "二维码地址")
     private String codeImgUrl;
@@ -68,6 +65,10 @@ public class UserWxAqrCode extends BaseEntity
     /** 宽度 */
     @Excel(name = "宽度")
     private Integer width;
+
+    /** 用途说明 */
+    @Excel(name = "用途说明")
+    private String useDesc;
 
     public void setId(Long id)
     {
@@ -132,15 +133,6 @@ public class UserWxAqrCode extends BaseEntity
     {
         return scene;
     }
-    public void setBase64(String base64)
-    {
-        this.base64 = base64;
-    }
-
-    public String getBase64()
-    {
-        return base64;
-    }
     public void setCodeImgUrl(String codeImgUrl)
     {
         this.codeImgUrl = codeImgUrl;
@@ -186,6 +178,15 @@ public class UserWxAqrCode extends BaseEntity
     {
         return width;
     }
+    public void setUseDesc(String useDesc)
+    {
+        this.useDesc = useDesc;
+    }
+
+    public String getUseDesc()
+    {
+        return useDesc;
+    }
 
     @Override
     public String toString() {
@@ -197,12 +198,12 @@ public class UserWxAqrCode extends BaseEntity
                 .append("modifiedBy", getModifiedBy())
                 .append("lastUpdatedTime", getLastUpdatedTime())
                 .append("scene", getScene())
-                .append("base64", getBase64())
                 .append("codeImgUrl", getCodeImgUrl())
                 .append("userId", getUserId())
                 .append("busType", getBusType())
                 .append("page", getPage())
                 .append("width", getWidth())
+                .append("useDesc", getUseDesc())
                 .toString();
     }
 }
