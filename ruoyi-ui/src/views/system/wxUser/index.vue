@@ -72,12 +72,11 @@
     <el-table v-loading="loading" :data="wxUserList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="主键ID" align="center" prop="id" />
-      <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
+      <el-table-column label="头像" align="center" prop="avatar" >
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
+          <el-avatar :src="scope.row.avatar"></el-avatar>
         </template>
       </el-table-column>
-      <el-table-column label="创建人" align="center" prop="createdBy" show-overflow-tooltip="true"/>
       <el-table-column label="登录名称" align="center" prop="loginName" show-overflow-tooltip="true"/>
       <el-table-column label="角色" align="center" prop="role" />
       <el-table-column label="OPENID" align="center" prop="openid" show-overflow-tooltip="true"/>
@@ -104,6 +103,12 @@
         ></el-switch>
       </template>
       </el-table-column>
+      <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="创建人" align="center" prop="createdBy" show-overflow-tooltip="true"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button

@@ -80,18 +80,32 @@
     <el-table v-loading="loading" :data="basketBallTeamList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="ID" align="center" prop="id" />
-      <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
+      <el-table-column label="球队logo" align="center" prop="avatar" >
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
+          <el-avatar :src="scope.row.teamLogo"></el-avatar>
         </template>
       </el-table-column>
-      <el-table-column label="创建人" align="center" show-overflow-tooltip="true" prop="createdBy" />
       <el-table-column label="球队名称" align="center" prop="teamName" />
       <el-table-column label="球队简介" align="center" show-overflow-tooltip="true" prop="teamDes" />
       <el-table-column label="球馆id" align="center" prop="buildId" />
       <el-table-column label="球馆名称" show-overflow-tooltip="true" align="center" prop="buildingName" />
       <el-table-column label="创建人ID" align="center" prop="createdId" />
       <el-table-column label="球队联系人电话" align="center" prop="contactTel" />
+      <el-table-column label="球队图片" align="center" prop="contactTel" >
+        <template slot-scope="scope">
+        <el-image
+          style="width: 200px; height: 100px"
+          :src="scope.row.defaultPicture"
+          :preview-src-list="[scope.row.defaultPicture]"
+          :fit="imgfit"></el-image>
+        </template>
+      </el-table-column>
+      <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="创建人" align="center" show-overflow-tooltip="true" prop="createdBy" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -195,6 +209,7 @@ export default {
       loading: true,
       // 选中数组
       ids: [],
+      imgfit:"fill",
       // 非单个禁用
       single: true,
       // 非多个禁用

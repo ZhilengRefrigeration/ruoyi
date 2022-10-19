@@ -9,22 +9,6 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="创建时间" prop="createdTime">
-        <el-date-picker clearable
-          v-model="queryParams.createdTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择创建时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="创建人" prop="createdBy">
-        <el-input
-          v-model="queryParams.createdBy"
-          placeholder="请输入创建人"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item label="名称" prop="buildingName">
         <el-input
           v-model="queryParams.buildingName"
@@ -41,46 +25,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="经度" prop="longitude">
-        <el-input
-          v-model="queryParams.longitude"
-          placeholder="请输入经度"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="纬度" prop="latitude">
-        <el-input
-          v-model="queryParams.latitude"
-          placeholder="请输入纬度"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="省" prop="provinceCode">
-        <el-input
-          v-model="queryParams.provinceCode"
-          placeholder="请输入省"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="市" prop="cityCode">
-        <el-input
-          v-model="queryParams.cityCode"
-          placeholder="请输入市"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="区县编码" prop="countyCode">
-        <el-input
-          v-model="queryParams.countyCode"
-          placeholder="请输入区县编码"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+
       <el-form-item label="城市" prop="cityName">
         <el-input
           v-model="queryParams.cityName"
@@ -97,14 +42,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="创建人ID" prop="createdId">
-        <el-input
-          v-model="queryParams.createdId"
-          placeholder="请输入创建人ID"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -160,29 +98,46 @@
     <el-table v-loading="loading" :data="WxBuildingList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="ID" align="center" prop="id" />
+
+      <el-table-column label="球队图片" align="center" prop="contactTel" >
+        <template slot-scope="scope">
+          <el-image
+            style="width: 200px; height: 100px"
+            :src="scope.row.defaultPicture"
+            :preview-src-list="[scope.row.defaultPicture]"
+            :fit="imgfit"></el-image>
+        </template>
+      </el-table-column>
+      <el-table-column label="名称" align="center" prop="buildingName" show-overflow-tooltip="true"/>
+<!--      <el-table-column label="经度" align="center" prop="longitude" show-overflow-tooltip="true"/>
+      <el-table-column label="纬度" align="center" prop="latitude" show-overflow-tooltip="true"/>-->
+<!--      <el-table-column label="省" align="center" prop="cityName" show-overflow-tooltip="true"/>
+      <el-table-column label="市" align="center" prop="cityName" />
+      <el-table-column label="区县编码" align="center" prop="countyCode" />-->
+      <el-table-column label="城市" align="center" prop="cityName" />
+      <el-table-column label="是否支持在线" align="center" prop="isSupportlive" />
+      <el-table-column label="球馆状态" align="center" prop="status" />
+      <el-table-column label="地址" align="center" prop="address" show-overflow-tooltip="true"/>
+      <el-table-column label="备注" align="center" prop="remark" show-overflow-tooltip="true"/>
+      <el-table-column label="是否开放" align="center" prop="isOpen" />
+<!--      <el-table-column label="人均价格" align="center" prop="mittelkurs" show-overflow-tooltip="true"/>-->
+      <el-table-column label="微信管理员二维码" align="center" show-overflow-tooltip="true">
+      <template slot-scope="scope">
+        <el-image
+          style="width: 100px; height: 100px"
+          :src="scope.row.chatGroupUrl"
+          :preview-src-list="[scope.row.chatGroupUrl]"
+          :fit="imgfit"></el-image>
+      </template>
+      </el-table-column>
+      <el-table-column label="创建人ID" align="center" prop="createdId" />
+<!--      <el-table-column label="描述" align="center" prop="desc" show-overflow-tooltip="true"/>-->
       <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="创建人" align="center" prop="createdBy" />
-      <el-table-column label="名称" align="center" prop="buildingName" show-overflow-tooltip="true"/>
-      <el-table-column label="经度" align="center" prop="longitude" show-overflow-tooltip="true"/>
-      <el-table-column label="纬度" align="center" prop="latitude" show-overflow-tooltip="true"/>
-      <el-table-column label="省" align="center" prop="provinceCode" show-overflow-tooltip="true"/>
-      <el-table-column label="市" align="center" prop="cityCode" />
-      <el-table-column label="区县编码" align="center" prop="countyCode" />
-      <el-table-column label="备注" align="center" prop="remark" show-overflow-tooltip="true"/>
-      <el-table-column label="城市" align="center" prop="cityName" />
-      <el-table-column label="默认图片" show-overflow-tooltip="true" align="center" prop="defaultPicture" />
-      <el-table-column label="是否支持在线" align="center" prop="isSupportlive" />
-      <el-table-column label="球馆状态" align="center" prop="status" />
-      <el-table-column label="拒绝原因" align="center" prop="rejectReason" />
-      <el-table-column label="是否开放" align="center" prop="isOpen" />
-      <el-table-column label="人均价格" align="center" prop="mittelkurs" show-overflow-tooltip="true"/>
-      <el-table-column label="微信管理员二维码" align="center" prop="chatGroupUrl" show-overflow-tooltip="true"/>
-      <el-table-column label="创建人ID" align="center" prop="createdId" />
-      <el-table-column label="描述" align="center" prop="desc" show-overflow-tooltip="true"/>
+<!--      <el-table-column label="创建人" align="center" prop="createdBy" />-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -214,9 +169,6 @@
     <!-- 添加或修改球场管理对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="删除" prop="isDeleted">
-          <el-input v-model="form.isDeleted" placeholder="请输入删除" />
-        </el-form-item>
         <el-form-item label="创建时间" prop="createdTime">
           <el-date-picker clearable
             v-model="form.createdTime"
@@ -310,6 +262,7 @@ export default {
       loading: true,
       // 选中数组
       ids: [],
+      imgfit:"fill",
       // 非单个禁用
       single: true,
       // 非多个禁用
