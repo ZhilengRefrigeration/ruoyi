@@ -1,14 +1,6 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="参数" prop="scene">
-        <el-input
-          v-model="queryParams.scene"
-          placeholder="请输入参数"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item label="绑定用户" prop="userName">
         <el-input
           v-model="queryParams.userName"
@@ -42,14 +34,6 @@
             :value="dict.value"
           />
         </el-select>
-      </el-form-item>
-      <el-form-item label="宽度" prop="width">
-        <el-input
-          v-model="queryParams.width"
-          placeholder="请输入宽度"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -126,7 +110,6 @@
         </template>
       </el-table-column>
       <el-table-column label="用途说明" align="center" prop="useDesc" show-overflow-tooltip="true" />
-      <el-table-column label="参数" align="center" prop="scene" />
       <el-table-column label="绑定用户" align="center" prop="userName" />
       <el-table-column label="绑定球队" align="center" prop="teamName" />
       <el-table-column label="球衣号" align="center" prop="jerseyNo" />
@@ -136,6 +119,7 @@
         </template>
       </el-table-column>
       <el-table-column label="页面路径" align="center" prop="page" show-overflow-tooltip="true"/>
+      <el-table-column label="参数" align="center" prop="scene"  show-overflow-tooltip="true"/>
       <el-table-column label="宽度" align="center" prop="width" />
       <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
         <template slot-scope="scope">
