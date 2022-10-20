@@ -11,7 +11,7 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
  * 微信用户小程序二维码对象 user_wx_aqr_code
  *
  * @author ruoyi
- * @date 2022-10-19
+ * @date 2022-10-20
  */
 public class UserWxAqrCode extends BaseEntity
 {
@@ -69,6 +69,14 @@ public class UserWxAqrCode extends BaseEntity
     /** 用途说明 */
     @Excel(name = "用途说明")
     private String useDesc;
+
+    /** 球衣号 */
+    @Excel(name = "球衣号")
+    private String jerseyNo;
+
+    /** 球队ID */
+    @Excel(name = "球队ID")
+    private Long teamId;
 
     public void setId(Long id)
     {
@@ -187,6 +195,24 @@ public class UserWxAqrCode extends BaseEntity
     {
         return useDesc;
     }
+    public void setJerseyNo(String jerseyNo)
+    {
+        this.jerseyNo = jerseyNo;
+    }
+
+    public String getJerseyNo()
+    {
+        return jerseyNo;
+    }
+    public void setTeamId(Long teamId)
+    {
+        this.teamId = teamId;
+    }
+
+    public Long getTeamId()
+    {
+        return teamId;
+    }
 
     @Override
     public String toString() {
@@ -204,6 +230,8 @@ public class UserWxAqrCode extends BaseEntity
                 .append("page", getPage())
                 .append("width", getWidth())
                 .append("useDesc", getUseDesc())
+                .append("jerseyNo", getJerseyNo())
+                .append("teamId", getTeamId())
                 .toString();
     }
 }

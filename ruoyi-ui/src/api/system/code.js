@@ -16,7 +16,13 @@ export function getCode(id) {
     method: 'get'
   })
 }
-
+// 查询微信用户和球队列表
+export function getUserAndTeams(){
+  return request({
+    url: '/system/code/getUserAndTeams',
+    method: 'get'
+  })
+}
 // 新增微信用户小程序二维码
 export function addCode(data) {
   return request({

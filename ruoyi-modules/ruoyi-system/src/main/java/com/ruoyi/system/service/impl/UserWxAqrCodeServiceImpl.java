@@ -4,9 +4,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.vo.WxAppletsCodeVo;
 import com.ruoyi.system.api.feign.WxAppletsFeign;
+import com.ruoyi.system.domain.vo.UserWxAqrCodeVo;
+import org.apache.commons.lang.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.UserWxAqrCodeMapper;
@@ -48,7 +51,7 @@ public class UserWxAqrCodeServiceImpl implements IUserWxAqrCodeService
      * @return 微信用户小程序二维码
      */
     @Override
-    public List<UserWxAqrCode> selectUserWxAqrCodeList(UserWxAqrCode userWxAqrCode)
+    public List<UserWxAqrCodeVo> selectUserWxAqrCodeList(UserWxAqrCodeVo userWxAqrCode)
     {
         return userWxAqrCodeMapper.selectUserWxAqrCodeList(userWxAqrCode);
     }
@@ -109,8 +112,28 @@ public class UserWxAqrCodeServiceImpl implements IUserWxAqrCodeService
         int id = userWxAqrCodeMapper.insertUserWxAqrCode(userWxAqrCode);
         System.out.println("id = "+userWxAqrCode.getId()+"   accessToken = "+ accessToken);
         WxAppletsCodeVo wxAppletsCodeVo = new WxAppletsCodeVo();
-        wxAppletsCodeVo.setScene(String.valueOf(userWxAqrCode.getId()));
-        wxAppletsCodeVo.setPage(userWxAqrCode.getPage());
+        if(StringUtils.isEmpty(userWxAqrCode.getScene())) {
+            StringBuffer sceneBuffer = new StringBuffer();
+            sceneBuffer.append("id=");
+            sceneBuffer.append(userWxAqrCode.getId());
+            sceneBuffer.append("&tid=");
+            sceneBuffer.append(userWxAqrCode.getTeamId());
+            sceneBuffer.append("&uid=");
+            sceneBuffer.append(userWxAqrCode.getUserId());
+            wxAppletsCodeVo.setScene(sceneBuffer.toString());
+        }else {
+            wxAppletsCodeVo.setScene(userWxAqrCode.getScene());
+        }
+        if(StringUtils.isEmpty(userWxAqrCode.getScene())) {
+            wxAppletsCodeVo.setPage("pages/index2/index2");
+        }else {
+            wxAppletsCodeVo.setPage(userWxAqrCode.getPage());
+        }
+        if(userWxAqrCode.getWidth() == null) {
+            wxAppletsCodeVo.setWidth(50);
+        }else {
+            wxAppletsCodeVo.setWidth(userWxAqrCode.getWidth());
+        }
         wxAppletsCodeVo = wxAppletsFeign.getWxacodeunlimit(wxAppletsCodeVo,accessToken);
         //更新二维码表
         userWxAqrCode.setCodeImgUrl(wxAppletsCodeVo.getCodeImgUrl());

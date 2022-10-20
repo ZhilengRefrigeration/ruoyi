@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.UserWxAqrCode;
+import com.ruoyi.system.domain.vo.UserWxAqrCodeVo;
 
 /**
  * 微信用户小程序二维码Service接口
@@ -25,7 +26,7 @@ public interface IUserWxAqrCodeService
      * @param userWxAqrCode 微信用户小程序二维码
      * @return 微信用户小程序二维码集合
      */
-    public List<UserWxAqrCode> selectUserWxAqrCodeList(UserWxAqrCode userWxAqrCode);
+    public List<UserWxAqrCodeVo> selectUserWxAqrCodeList(UserWxAqrCodeVo userWxAqrCode);
 
     /**
      * 新增微信用户小程序二维码

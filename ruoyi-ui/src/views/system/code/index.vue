@@ -9,16 +9,32 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="用户ID" prop="userId">
+      <el-form-item label="绑定用户" prop="userName">
         <el-input
-          v-model="queryParams.userId"
-          placeholder="请输入用户ID"
+          v-model="queryParams.userName"
+          placeholder="请输入用户"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="业务分类枚举" prop="busType">
-        <el-select v-model="queryParams.busType" placeholder="请选择业务分类枚举" clearable>
+      <el-form-item label="球衣号" prop="jerseyNo">
+        <el-input
+          v-model="queryParams.jerseyNo"
+          placeholder="请输入球衣号"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="绑定球队" prop="teamName">
+        <el-input
+          v-model="queryParams.teamName"
+          placeholder="请输入球队"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="业务分类" prop="busType">
+        <el-select v-model="queryParams.busType" placeholder="请选择业务分类" clearable>
           <el-option
             v-for="dict in dict.type.wx_aqr_type"
             :key="dict.value"
@@ -99,16 +115,27 @@
 
     <el-table v-loading="loading" :data="codeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="主键ID" align="center" prop="id" />
-      <el-table-column label="用途说明" align="center" prop="useDesc" />
+      <el-table-column label="ID" align="center" prop="id" />
+      <el-table-column label="二维码" align="center" prop="contactTel" >
+        <template slot-scope="scope">
+          <el-image
+            style="width: 200px; height: 100px"
+            :src="scope.row.codeImgUrl"
+            :preview-src-list="[scope.row.codeImgUrl]"
+            :fit="imgfit"></el-image>
+        </template>
+      </el-table-column>
+      <el-table-column label="用途说明" align="center" prop="useDesc" show-overflow-tooltip="true" />
       <el-table-column label="参数" align="center" prop="scene" />
-      <el-table-column label="用户ID" align="center" prop="userId" />
-      <el-table-column label="业务分类枚举" align="center" prop="busType">
+      <el-table-column label="绑定用户" align="center" prop="userName" />
+      <el-table-column label="绑定球队" align="center" prop="teamName" />
+      <el-table-column label="球衣号" align="center" prop="jerseyNo" />
+      <el-table-column label="业务分类" align="center" prop="busType">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.wx_aqr_type" :value="scope.row.busType"/>
         </template>
       </el-table-column>
-      <el-table-column label="页面路径" align="center" prop="page" />
+      <el-table-column label="页面路径" align="center" prop="page" show-overflow-tooltip="true"/>
       <el-table-column label="宽度" align="center" prop="width" />
       <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
         <template slot-scope="scope">
@@ -156,8 +183,8 @@
         <el-form-item label="用户ID" prop="userId">
           <el-input v-model="form.userId" placeholder="请输入用户ID" />
         </el-form-item>
-        <el-form-item label="业务分类枚举" prop="busType">
-          <el-select v-model="form.busType" placeholder="请选择业务分类枚举">
+        <el-form-item label="业务分类" prop="busType">
+          <el-select v-model="form.busType" placeholder="请选择业务分类">
             <el-option
               v-for="dict in dict.type.wx_aqr_type"
               :key="dict.value"
@@ -205,10 +232,30 @@
         <el-form-item label="参数" prop="scene">
           <el-input v-model="form.scene" placeholder="请输入参数" />
         </el-form-item>
-        <el-form-item label="用户ID" prop="userId">
-          <el-input v-model="form.userId" placeholder="请输入用户ID" />
+        <el-form-item label="用户">
+          <el-select v-model="form.userId" filterable placeholder="请选择用户">
+            <el-option
+              v-for="item in userOptions"
+              :key="item.id"
+              :label="item.userName"
+              :value="item.id"
+              :disabled="item.enabled == 0"
+            ></el-option>
+          </el-select>
         </el-form-item>
-
+        <el-form-item label="球队">
+          <el-select v-model="form.teamId" filterable  placeholder="请选择球队">
+            <el-option
+              v-for="item in teamOptions"
+              :key="item.id"
+              :label="item.teamName"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="球衣号" prop="jerseyNo">
+          <el-input v-model="form.jerseyNo" placeholder="请输入球衣号" />
+        </el-form-item>
         <el-form-item label="宽度" prop="width">
           <el-input v-model="form.width" placeholder="请输入宽度" />
         </el-form-item>
@@ -222,8 +269,7 @@
 </template>
 
 <script>
-import {listCode, getCode, delCode, addCode, updateCode, genAqrCode} from "@/api/system/code";
-
+import {listCode, getCode, delCode, addCode, updateCode, genAqrCode, getUserAndTeams} from "@/api/system/code";
 export default {
   name: "Code",
   dicts: ['wx_aqr_type'],
@@ -233,6 +279,7 @@ export default {
       loading: true,
       // 选中数组
       ids: [],
+      imgfit:"fill",
       // 非单个禁用
       single: true,
       // 非多个禁用
@@ -243,6 +290,10 @@ export default {
       total: 0,
       // 微信用户小程序二维码表格数据
       codeList: [],
+      // 用户选项
+      userOptions: [],
+      // 球队选项
+      teamOptions: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -284,6 +335,7 @@ export default {
   },
   created() {
     this.getList();
+    //this.getuserAndteamsList();
   },
   methods: {
     /** 查询微信用户小程序二维码列表 */
@@ -292,6 +344,14 @@ export default {
       listCode(this.queryParams).then(response => {
         this.codeList = response.rows;
         this.total = response.total;
+        this.loading = false;
+      });
+    },
+    getuserAndteamsList() {
+      this.loading = true;
+      getUserAndTeams().then(response => {
+        this.userOptions = response.users;
+        this.teamOptions = response.teams;
         this.loading = false;
       });
     },
@@ -351,6 +411,12 @@ export default {
       this.reset();
       this.aqrOpen = true;
       this.aqrTitle = "生成微信用户小程序二维码";
+      getUserAndTeams().then(response => {
+        this.userOptions = response.users;
+        this.teamOptions = response.teams;
+        this.aqrOpen = true;
+        this.aqrTitle = "生成微信用户小程序二维码";
+      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

@@ -4,6 +4,11 @@ import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.system.domain.WxBasketballTeam;
+import com.ruoyi.system.domain.WxUser;
+import com.ruoyi.system.domain.vo.UserWxAqrCodeVo;
+import com.ruoyi.system.service.IWxBasketballTeamService;
+import com.ruoyi.system.service.IWxUserService;
 import org.apache.commons.lang.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,16 +34,20 @@ public class UserWxAqrCodeController extends BaseController
 {
     @Autowired
     private IUserWxAqrCodeService userWxAqrCodeService;
+    @Autowired
+    private IWxUserService wxUserService;
+    @Autowired
+    private IWxBasketballTeamService wxBasketballTeamService;
 
     /**
      * 查询微信用户小程序二维码列表
      */
     @RequiresPermissions("system:code:list")
     @GetMapping("/list")
-    public TableDataInfo list(UserWxAqrCode userWxAqrCode)
+    public TableDataInfo list(UserWxAqrCodeVo userWxAqrCode)
     {
         startPage();
-        List<UserWxAqrCode> list = userWxAqrCodeService.selectUserWxAqrCodeList(userWxAqrCode);
+        List<UserWxAqrCodeVo> list = userWxAqrCodeService.selectUserWxAqrCodeList(userWxAqrCode);
         return getDataTable(list);
     }
 
@@ -48,10 +57,10 @@ public class UserWxAqrCodeController extends BaseController
     @RequiresPermissions("system:code:export")
     @Log(title = "微信用户小程序二维码", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, UserWxAqrCode userWxAqrCode)
+    public void export(HttpServletResponse response, UserWxAqrCodeVo userWxAqrCode)
     {
-        List<UserWxAqrCode> list = userWxAqrCodeService.selectUserWxAqrCodeList(userWxAqrCode);
-        ExcelUtil<UserWxAqrCode> util = new ExcelUtil<UserWxAqrCode>(UserWxAqrCode.class);
+        List<UserWxAqrCodeVo> list = userWxAqrCodeService.selectUserWxAqrCodeList(userWxAqrCode);
+        ExcelUtil<UserWxAqrCodeVo> util = new ExcelUtil<UserWxAqrCodeVo>(UserWxAqrCodeVo.class);
         util.exportExcel(response, list, "微信用户小程序二维码数据");
     }
 
@@ -63,6 +72,21 @@ public class UserWxAqrCodeController extends BaseController
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
         return AjaxResult.success(userWxAqrCodeService.selectUserWxAqrCodeById(id));
+    }
+    @RequiresPermissions("system:code:getUserAndTeams")
+    @GetMapping(value = "/getUserAndTeams")
+    public AjaxResult getUserAndTeam()
+    {
+        AjaxResult ajax = AjaxResult.success();
+        WxUser wxUser = new WxUser();
+        wxUser.setIsDeleted(0);
+        List<WxUser> users = wxUserService.selectWxUserList(wxUser);
+        WxBasketballTeam team = new WxBasketballTeam();
+        team.setIsDeleted("0");
+        List<WxBasketballTeam> teams = wxBasketballTeamService.selectWxBasketballTeamList(team);
+        ajax.put("users", users);
+        ajax.put("teams", teams);
+        return ajax;
     }
 
     /**

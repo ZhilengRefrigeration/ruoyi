@@ -23,7 +23,7 @@ public class WxUser extends BaseEntity
 
     /** 删除 */
     @Excel(name = "删除")
-    private Long isDeleted;
+    private Integer isDeleted;
 
     /** 创建时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -121,12 +121,12 @@ public class WxUser extends BaseEntity
     {
         return id;
     }
-    public void setIsDeleted(Long isDeleted) 
+    public void setIsDeleted(Integer isDeleted)
     {
         this.isDeleted = isDeleted;
     }
 
-    public Long getIsDeleted() 
+    public Integer getIsDeleted()
     {
         return isDeleted;
     }

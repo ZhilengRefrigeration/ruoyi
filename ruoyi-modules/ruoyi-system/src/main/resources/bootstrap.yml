@@ -1,7 +1,10 @@
 # Tomcat
 server:
   port: 9201
-
+# Mybatis开启驼峰映射
+mybatis:
+  configuration:
+    mapUnderscoreToCamelCase: true
 # Spring
 spring: 
   application:

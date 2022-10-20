@@ -18,20 +18,19 @@
         <result property="page"    column="page"    />
         <result property="width"    column="width"    />
         <result property="useDesc"    column="use_desc"    />
+        <result property="jerseyNo"    column="jersey_no"    />
+        <result property="teamId"    column="team_id"    />
     </resultMap>
 
     <sql id="selectUserWxAqrCodeVo">
-        select ID, IS_DELETED, CREATED_TIME, CREATED_BY, MODIFIED_BY, LAST_UPDATED_TIME, scene, code_img_url, user_id, bus_type, page, width, use_desc from user_wx_aqr_code
+        select ID, IS_DELETED, CREATED_TIME, CREATED_BY, MODIFIED_BY, LAST_UPDATED_TIME, scene, code_img_url, user_id, bus_type, page, width, use_desc, jersey_no, team_id from user_wx_aqr_code
     </sql>
 
-    <select id="selectUserWxAqrCodeList" parameterType="UserWxAqrCode" resultMap="UserWxAqrCodeResult">
+    <select id="selectUserWxAqrCodeList1" parameterType="UserWxAqrCode" resultMap="UserWxAqrCodeResult">
         <include refid="selectUserWxAqrCodeVo"/>
         <where>
-            <if test="isDeleted != null "> and IS_DELETED = #{isDeleted}</if>
-            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
             <if test="createdBy != null  and createdBy != ''"> and CREATED_BY like concat('%', #{createdBy}, '%')</if>
             <if test="modifiedBy != null  and modifiedBy != ''"> and MODIFIED_BY = #{modifiedBy}</if>
-            <if test="lastUpdatedTime != null "> and LAST_UPDATED_TIME = #{lastUpdatedTime}</if>
             <if test="scene != null  and scene != ''"> and scene = #{scene}</if>
             <if test="codeImgUrl != null  and codeImgUrl != ''"> and code_img_url = #{codeImgUrl}</if>
             <if test="userId != null "> and user_id = #{userId}</if>
@@ -39,12 +38,34 @@
             <if test="page != null  and page != ''"> and page = #{page}</if>
             <if test="width != null "> and width = #{width}</if>
             <if test="useDesc != null  and useDesc != ''"> and use_desc = #{useDesc}</if>
+            <if test="jerseyNo != null  and jerseyNo != ''"> and jersey_no = #{jerseyNo}</if>
+            <if test="teamId != null "> and team_id = #{teamId}</if>
         </where>
     </select>
 
     <select id="selectUserWxAqrCodeById" parameterType="Long" resultMap="UserWxAqrCodeResult">
         <include refid="selectUserWxAqrCodeVo"/>
         where ID = #{id}
+    </select>
+    <select id="selectUserWxAqrCodeList" resultType="com.ruoyi.system.domain.vo.UserWxAqrCodeVo">
+        select t.*,u.USER_NAME,team.TEAM_NAME
+        from user_wx_aqr_code t left join  user_info u on u.id = t.user_id
+        LEFT JOIN basketball_team team on team.id = t.team_id
+        <where>
+            <if test="createdBy != null  and createdBy != ''"> and t.CREATED_BY like concat('%', #{createdBy}, '%')</if>
+            <if test="modifiedBy != null  and modifiedBy != ''"> and t.MODIFIED_BY = #{modifiedBy}</if>
+            <if test="scene != null  and scene != ''"> and t.scene = #{scene}</if>
+            <if test="codeImgUrl != null  and codeImgUrl != ''"> and t.code_img_url = #{codeImgUrl}</if>
+            <if test="userId != null "> and t.user_id = #{userId}</if>
+            <if test="busType != null  and busType != ''"> and t.bus_type = #{busType}</if>
+            <if test="page != null  and page != ''"> and t.page = #{page}</if>
+            <if test="width != null "> and t.width = #{width}</if>
+            <if test="useDesc != null  and useDesc != ''"> and t.use_desc = #{useDesc}</if>
+            <if test="jerseyNo != null  and jerseyNo != ''"> and t.jersey_no = #{jerseyNo}</if>
+            <if test="teamId != null "> and t.team_id = #{teamId}</if>
+            <if test="teamName != null  and teamName != ''"> and team.TEAM_NAME like concat('%', #{teamName}, '%')</if>
+            <if test="userName != null  and userName != ''"> and u.USER_NAME like concat('%', #{userName}, '%')</if>
+        </where>
     </select>
 
     <insert id="insertUserWxAqrCode" parameterType="UserWxAqrCode" useGeneratedKeys="true" keyProperty="id">
@@ -55,13 +76,15 @@
             <if test="createdBy != null">CREATED_BY,</if>
             <if test="modifiedBy != null">MODIFIED_BY,</if>
             <if test="lastUpdatedTime != null">LAST_UPDATED_TIME,</if>
-            <if test="scene != null">scene,</if>
+            <if test="scene != null and scene != ''">scene,</if>
             <if test="codeImgUrl != null">code_img_url,</if>
             <if test="userId != null">user_id,</if>
-            <if test="busType != null">bus_type,</if>
-            <if test="page != null">page,</if>
+            <if test="busType != null and busType != ''">bus_type,</if>
+            <if test="page != null and page != ''">page,</if>
             <if test="width != null">width,</if>
-            <if test="useDesc != null">use_desc,</if>
+            <if test="useDesc != null and useDesc != ''">use_desc,</if>
+            <if test="jerseyNo != null">jersey_no,</if>
+            <if test="teamId != null">team_id,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="isDeleted != null">#{isDeleted},</if>
@@ -69,13 +92,15 @@
             <if test="createdBy != null">#{createdBy},</if>
             <if test="modifiedBy != null">#{modifiedBy},</if>
             <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
-            <if test="scene != null">#{scene},</if>
+            <if test="scene != null and scene != ''">#{scene},</if>
             <if test="codeImgUrl != null">#{codeImgUrl},</if>
             <if test="userId != null">#{userId},</if>
-            <if test="busType != null">#{busType},</if>
-            <if test="page != null">#{page},</if>
+            <if test="busType != null and busType != ''">#{busType},</if>
+            <if test="page != null and page != ''">#{page},</if>
             <if test="width != null">#{width},</if>
-            <if test="useDesc != null">#{useDesc},</if>
+            <if test="useDesc != null and useDesc != ''">#{useDesc},</if>
+            <if test="jerseyNo != null">#{jerseyNo},</if>
+            <if test="teamId != null">#{teamId},</if>
         </trim>
     </insert>
 
@@ -87,13 +112,15 @@
             <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
             <if test="modifiedBy != null">MODIFIED_BY = #{modifiedBy},</if>
             <if test="lastUpdatedTime != null">LAST_UPDATED_TIME = #{lastUpdatedTime},</if>
-            <if test="scene != null">scene = #{scene},</if>
+            <if test="scene != null and scene != ''">scene = #{scene},</if>
             <if test="codeImgUrl != null">code_img_url = #{codeImgUrl},</if>
             <if test="userId != null">user_id = #{userId},</if>
-            <if test="busType != null">bus_type = #{busType},</if>
-            <if test="page != null">page = #{page},</if>
+            <if test="busType != null and busType != ''">bus_type = #{busType},</if>
+            <if test="page != null and page != ''">page = #{page},</if>
             <if test="width != null">width = #{width},</if>
-            <if test="useDesc != null">use_desc = #{useDesc},</if>
+            <if test="useDesc != null and useDesc != ''">use_desc = #{useDesc},</if>
+            <if test="jerseyNo != null">jersey_no = #{jerseyNo},</if>
+            <if test="teamId != null">team_id = #{teamId},</if>
         </trim>
         where ID = #{id}
     </update>
