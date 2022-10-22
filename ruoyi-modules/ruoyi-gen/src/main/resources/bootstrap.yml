@@ -7,21 +7,3 @@ spring:
   application:
     # 应用名称
     name: ruoyi-gen
-  profiles:
-    # 环境配置
-    active: dev
-  cloud:
-    nacos:
-      discovery:
-        # 服务注册地址
-        server-addr: 192.168.1.211:30006
-        namespace: dev
-      config:
-        # 配置中心地址
-        server-addr: 192.168.1.211:30006
-        # 配置文件格式
-        file-extension: yml
-        namespace: dev
-        # 共享配置
-        shared-configs:
-          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
