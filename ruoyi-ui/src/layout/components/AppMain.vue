@@ -29,6 +29,7 @@ export default {
 <style lang="scss" scoped>
 .app-main {
   /* 50= navbar  50  */
+  background-color: #EBEFFB;
   min-height: calc(100vh - 50px);
   width: 100%;
   position: relative;
@@ -42,11 +43,11 @@ export default {
 .hasTagsView {
   .app-main {
     /* 84 = navbar + tags-view = 50 + 34 */
-    min-height: calc(100vh - 84px);
+    min-height: calc(100vh - 0px);
   }
 
   .fixed-header + .app-main {
-    padding-top: 84px;
+    padding-top: 24px;
   }
 }
 </style>
