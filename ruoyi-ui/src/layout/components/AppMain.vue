@@ -1,20 +1,24 @@
 <template>
   <section class="app-main">
-    <transition name="fade-transform" mode="out-in">
-      <keep-alive :include="cachedViews">
-        <router-view v-if="!$route.meta.link" :key="key" />
-      </keep-alive>
-    </transition>
+    <div class="left-main">
+      <transition name="fade-transform" mode="out-in">
+        <keep-alive :include="cachedViews">
+          <router-view v-if="!$route.meta.link" :key="key" />
+        </keep-alive>
+      </transition>
+    </div>
+    <RightFence></RightFence>
     <iframe-toggle />
   </section>
 </template>
 
 <script>
 import iframeToggle from "./IframeToggle/index"
+import RightFence from '@/components/RightFence.vue'
 
 export default {
   name: 'AppMain',
-  components: { iframeToggle },
+  components: { iframeToggle, RightFence },
   computed: {
     cachedViews() {
       return this.$store.state.tagsView.cachedViews
@@ -30,10 +34,13 @@ export default {
 .app-main {
   /* 50= navbar  50  */
   background-color: #EBEFFB;
-  min-height: calc(100vh - 50px);
+  height: calc(100vh - 50px);
   width: 100%;
+  overflow-y: auto;
   position: relative;
-  overflow: hidden;
+}
+.left-main{
+  width: calc(75% - 40px);
 }
 
 .fixed-header + .app-main {
@@ -43,7 +50,7 @@ export default {
 .hasTagsView {
   .app-main {
     /* 84 = navbar + tags-view = 50 + 34 */
-    min-height: calc(100vh - 0px);
+    height: calc(100vh - 80px);
   }
 
   .fixed-header + .app-main {

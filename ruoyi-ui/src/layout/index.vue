@@ -1,5 +1,10 @@
 <template>
   <div :class="classObj" class="app-wrapper" :style="{'--current-color': theme}">
+    <div class="app-layout-header">
+      <div class="me-header">
+        <p-header></p-header>
+      </div>
+    </div>
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside"/>
     <sidebar v-if="!sidebar.hide" class="sidebar-container" />
     <div :class="{hasTagsView:needTagsView,sidebarHide:sidebar.hide}" class="main-container">
@@ -11,12 +16,14 @@
       <right-panel>
         <settings />
       </right-panel>
+      <RightFence></RightFence>
     </div>
   </div>
 </template>
 
 <script>
 import RightPanel from '@/components/RightPanel'
+import pHeader from '@/components/Header'
 import { AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 import { mapState } from 'vuex'
@@ -28,6 +35,7 @@ export default {
     AppMain,
     Navbar,
     RightPanel,
+    pHeader,
     Settings,
     Sidebar,
     TagsView
@@ -65,12 +73,25 @@ export default {
 <style lang="scss" scoped>
   @import "~@/assets/styles/mixin.scss";
   @import "~@/assets/styles/variables.scss";
-
+  .app-layout-header {
+    width: 100%;
+    position: fixed;
+  }
+  .me-header {
+    width: 100%;
+    // height: 0.6rem;
+    height: 80px;
+    background-image: url('./../assets/img/home/head_bg_logo.png');
+    color: #333;
+    // background-size: cover;
+    background-size: 100% 100%;
+  }
   .app-wrapper {
     @include clearfix;
     position: relative;
-    height: 100%;
+    height: calc(100% - 0px);
     width: 100%;
+    overflow-y: hidden;
 
     &.mobile.openSidebar {
       position: fixed;

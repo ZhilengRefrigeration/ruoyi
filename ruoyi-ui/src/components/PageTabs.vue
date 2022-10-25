@@ -35,7 +35,7 @@ export default {
       return this.tabList.length > 0
     },
     ...mapGetters({
-      isCollapse: 'getCollapseStatus',
+
     }),
   },
   created(){

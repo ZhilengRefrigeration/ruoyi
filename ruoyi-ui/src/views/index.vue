@@ -1,10 +1,10 @@
 <template>
-  <div class="app-container">
+  <div class="app-container home-page">
     <PageTabs
       class="alive-tabs"
       :tabdate="tabdate">
     </PageTabs>
-    <div style="width: 100%;height:100%;background-color: #ffffff;margin-left: 5px;box-shadow: 0px 1px 8px 0px rgba(0,0,0,0.1);border-radius: 6px;">
+    <div style="width: 100%;height: calc(100vh - 500px);background-color: #ffffff;margin-left: 5px;box-shadow: 0px 1px 8px 0px rgba(0,0,0,0.1);border-radius: 6px;">
 
     </div>
   </div>
@@ -36,6 +36,8 @@ export default {
   activated() {
   },
   created() {
+    console.log('用户基本信息', sessionStorage.getItem('userInfo'))
+    console.log('缓存', JSON.stringify(sessionStorage.sessionObj))
     let roleType =
       sessionStorage.getItem('userInfo') && JSON.parse(sessionStorage.getItem('userInfo')).roleType
         ? JSON.parse(sessionStorage.getItem('userInfo')).roleType
