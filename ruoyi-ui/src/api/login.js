@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 登录方法
 export function login(username, password, code, uuid) {
   return request({
-    url: '/auth/login',
+    url: '/system/login',
     headers: {
       isToken: false
     },
@@ -15,7 +15,7 @@ export function login(username, password, code, uuid) {
 // 注册方法
 export function register(data) {
   return request({
-    url: '/auth/register',
+    url: '/system/register',
     headers: {
       isToken: false
     },
@@ -27,7 +27,7 @@ export function register(data) {
 // 刷新方法
 export function refreshToken() {
   return request({
-    url: '/auth/refresh',
+    url: '/system/refresh',
     method: 'post'
   })
 }
@@ -43,7 +43,7 @@ export function getInfo() {
 // 退出方法
 export function logout() {
   return request({
-    url: '/auth/logout',
+    url: '/system/logout',
     method: 'delete'
   })
 }

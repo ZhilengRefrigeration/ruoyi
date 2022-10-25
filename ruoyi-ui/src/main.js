@@ -12,6 +12,7 @@ import store from './store'
 import router from './router'
 import directive from './directive' // directive
 import plugins from './plugins' // plugins
+import global from './plugins/global';
 import { download } from '@/utils/request'
 
 import './assets/icons' // icon
@@ -48,6 +49,7 @@ Vue.prototype.selectDictLabel = selectDictLabel
 Vue.prototype.selectDictLabels = selectDictLabels
 Vue.prototype.download = download
 Vue.prototype.handleTree = handleTree
+Vue.prototype.$global = global;
 
 // 全局组件挂载
 Vue.component('DictTag', DictTag)
