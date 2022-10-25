@@ -81,13 +81,14 @@ export default {
   display: flex;
   position: relative;
   padding-left: 0px;
+  margin-top: 0px;
 }
 
 .tabs-li {
   width: 100px;
   height: 40px;
-  margin: 0 5px;
-  border-radius: 5px;
+  margin-right: 10px;
+  border-radius: 6px;
   font-size: 12px;
   cursor: pointer;
   line-height: 38px;
@@ -106,11 +107,13 @@ export default {
 }
 
 .tabs-li.active {
+  height: 43px;
+  line-height: 43px;
   border: 1px solid #d9d9d9;
   border-width: 1px 1px 0;
   background-color: #006CE1;
   position: relative;
-  bottom: 4px
+  bottom: 4px;
 }
 
 .tabs-li::marker {

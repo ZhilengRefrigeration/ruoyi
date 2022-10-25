@@ -4,8 +4,17 @@
       class="alive-tabs"
       :tabdate="tabdate">
     </PageTabs>
-    <div style="width: 100%;height: calc(100vh - 500px);background-color: #ffffff;margin-left: 5px;box-shadow: 0px 1px 8px 0px rgba(0,0,0,0.1);border-radius: 6px;">
+    <div class="tabs-content">
+        <el-row>
+          <el-col :span="5">
+            <div style="background-color: #00afff;height: 90%">
 
+            </div>
+          </el-col>
+          <el-col :span="19">
+
+          </el-col>
+        </el-row>
     </div>
   </div>
 </template>
@@ -76,6 +85,14 @@ export default {
 .home-page {
   width: 100%;
   height: calc(100% - 0.3rem);
+}
+.tabs-content{
+  width: 100%;
+  height: calc(100vh - 219px);
+  background-color: #ffffff;
+  box-shadow: 0px 1px 8px 0px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  padding: 24px;
 }
 
 </style>

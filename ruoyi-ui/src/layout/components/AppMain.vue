@@ -38,6 +38,7 @@ export default {
   width: 100%;
   overflow-y: auto;
   position: relative;
+  padding: 24px;
 }
 .left-main{
   width: calc(75% - 40px);

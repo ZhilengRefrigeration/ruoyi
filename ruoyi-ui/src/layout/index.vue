@@ -89,7 +89,7 @@ export default {
   .app-wrapper {
     @include clearfix;
     position: relative;
-    height: calc(100% - 0px);
+    height: 100%;
     width: 100%;
     overflow-y: hidden;
 
