@@ -229,17 +229,17 @@
           </el-select>
         </el-form-item>
         <el-form-item label="数据权限" v-show="form.dataScope == 2">
-          <el-checkbox v-model="deptExpand" @change="handleCheckedTreeExpand($event, 'dept')">展开/折叠</el-checkbox>
-          <el-checkbox v-model="deptNodeAll" @change="handleCheckedTreeNodeAll($event, 'dept')">全选/全不选</el-checkbox>
-          <el-checkbox v-model="form.deptCheckStrictly" @change="handleCheckedTreeConnect($event, 'dept')">父子联动</el-checkbox>
+          <el-checkbox v-model="sysOrgExpand" @change="handleCheckedTreeExpand($event, 'sysOrg')">展开/折叠</el-checkbox>
+          <el-checkbox v-model="orgNodeAll" @change="handleCheckedTreeNodeAll($event, 'sysOrg')">全选/全不选</el-checkbox>
+          <el-checkbox v-model="form.orgCheckStrictly" @change="handleCheckedTreeConnect($event, 'sysOrg')">父子联动</el-checkbox>
           <el-tree
             class="tree-border"
-            :data="deptOptions"
+            :data="sysOrgOptions"
             show-checkbox
             default-expand-all
-            ref="dept"
+            ref="sysOrg"
             node-key="id"
-            :check-strictly="!form.deptCheckStrictly"
+            :check-strictly="!form.orgCheckStrictly"
             empty-text="加载中，请稍候"
             :props="defaultProps"
           ></el-tree>
@@ -254,7 +254,7 @@
 </template>
 
 <script>
-import { listRole, getRole, delRole, addRole, updateRole, dataScope, changeRoleStatus, deptTreeSelect } from "@/api/system/role";
+import { listRole, getRole, delRole, addRole, updateRole, dataScope, changeRoleStatus, sysOrgTreeSelect } from "@/api/system/role";
 import { treeselect as menuTreeselect, roleMenuTreeselect } from "@/api/system/menu";
 
 export default {
@@ -284,8 +284,8 @@ export default {
       openDataScope: false,
       menuExpand: false,
       menuNodeAll: false,
-      deptExpand: true,
-      deptNodeAll: false,
+      sysOrgExpand: true,
+      orgNodeAll: false,
       // 日期范围
       dateRange: [],
       // 数据范围选项
@@ -300,11 +300,11 @@ export default {
         },
         {
           value: "3",
-          label: "本部门数据权限"
+          label: "本机构数据权限"
         },
         {
           value: "4",
-          label: "本部门及以下数据权限"
+          label: "本机构及以下数据权限"
         },
         {
           value: "5",
@@ -313,8 +313,8 @@ export default {
       ],
       // 菜单列表
       menuOptions: [],
-      // 部门列表
-      deptOptions: [],
+      // 机构列表
+      sysOrgOptions: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -372,12 +372,12 @@ export default {
       checkedKeys.unshift.apply(checkedKeys, halfCheckedKeys);
       return checkedKeys;
     },
-    // 所有部门节点数据
-    getDeptAllCheckedKeys() {
-      // 目前被选中的部门节点
-      let checkedKeys = this.$refs.dept.getCheckedKeys();
-      // 半选中的部门节点
-      let halfCheckedKeys = this.$refs.dept.getHalfCheckedKeys();
+    // 所有机构节点数据
+    getSysOrgAllCheckedKeys() {
+      // 目前被选中的机构节点
+      let checkedKeys = this.$refs.sysOrg.getCheckedKeys();
+      // 半选中的机构节点
+      let halfCheckedKeys = this.$refs.sysOrg.getHalfCheckedKeys();
       checkedKeys.unshift.apply(checkedKeys, halfCheckedKeys);
       return checkedKeys;
     },
@@ -388,10 +388,10 @@ export default {
         return response;
       });
     },
-    /** 根据角色ID查询部门树结构 */
-    getDeptTree(roleId) {
-      return deptTreeSelect(roleId).then(response => {
-        this.deptOptions = response.depts;
+    /** 根据角色ID查询机构树结构 */
+    getSysOrgTree(roleId) {
+      return sysOrgTreeSelect(roleId).then(response => {
+        this.sysOrgOptions = response.sysOrgs;
         return response;
       });
     },
@@ -423,8 +423,8 @@ export default {
       }
       this.menuExpand = false,
       this.menuNodeAll = false,
-      this.deptExpand = true,
-      this.deptNodeAll = false,
+      this.sysOrgExpand = true,
+      this.orgNodeAll = false,
       this.form = {
         roleId: undefined,
         roleName: undefined,
@@ -432,9 +432,9 @@ export default {
         roleSort: 0,
         status: "0",
         menuIds: [],
-        deptIds: [],
+        orgIds: [],
         menuCheckStrictly: true,
-        deptCheckStrictly: true,
+        orgCheckStrictly: true,
         remark: undefined
       };
       this.resetForm("form");
@@ -476,10 +476,10 @@ export default {
         for (let i = 0; i < treeList.length; i++) {
           this.$refs.menu.store.nodesMap[treeList[i].id].expanded = value;
         }
-      } else if (type == 'dept') {
-        let treeList = this.deptOptions;
+      } else if (type == 'sysOrg') {
+        let treeList = this.sysOrgOptions;
         for (let i = 0; i < treeList.length; i++) {
-          this.$refs.dept.store.nodesMap[treeList[i].id].expanded = value;
+          this.$refs.sysOrg.store.nodesMap[treeList[i].id].expanded = value;
         }
       }
     },
@@ -487,16 +487,16 @@ export default {
     handleCheckedTreeNodeAll(value, type) {
       if (type == 'menu') {
         this.$refs.menu.setCheckedNodes(value ? this.menuOptions: []);
-      } else if (type == 'dept') {
-        this.$refs.dept.setCheckedNodes(value ? this.deptOptions: []);
+      } else if (type == 'sysOrg') {
+        this.$refs.sysOrg.setCheckedNodes(value ? this.sysOrgOptions: []);
       }
     },
     // 树权限（父子联动）
     handleCheckedTreeConnect(value, type) {
       if (type == 'menu') {
         this.form.menuCheckStrictly = value ? true: false;
-      } else if (type == 'dept') {
-        this.form.deptCheckStrictly = value ? true: false;
+      } else if (type == 'sysOrg') {
+        this.form.orgCheckStrictly = value ? true: false;
       }
     },
     /** 新增按钮操作 */
@@ -530,19 +530,19 @@ export default {
     /** 选择角色权限范围触发 */
     dataScopeSelectChange(value) {
       if(value !== '2') {
-        this.$refs.dept.setCheckedKeys([]);
+        this.$refs.sysOrg.setCheckedKeys([]);
       }
     },
     /** 分配数据权限操作 */
     handleDataScope(row) {
       this.reset();
-      const deptTreeSelect = this.getDeptTree(row.roleId);
+      const sysOrgTreeSelect = this.getSysOrgTree(row.roleId);
       getRole(row.roleId).then(response => {
         this.form = response.data;
         this.openDataScope = true;
         this.$nextTick(() => {
-          deptTreeSelect.then(res => {
-            this.$refs.dept.setCheckedKeys(res.checkedKeys);
+          sysOrgTreeSelect.then(res => {
+            this.$refs.sysOrg.setCheckedKeys(res.checkedKeys);
           });
         });
         this.title = "分配数据权限";
@@ -578,7 +578,7 @@ export default {
     /** 提交按钮（数据权限） */
     submitDataScope: function() {
       if (this.form.roleId != undefined) {
-        this.form.deptIds = this.getDeptAllCheckedKeys();
+        this.form.orgIds = this.getSysOrgAllCheckedKeys();
         dataScope(this.form).then(response => {
           this.$modal.msgSuccess("修改成功");
           this.openDataScope = false;

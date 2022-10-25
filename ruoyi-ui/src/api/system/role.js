@@ -110,10 +110,10 @@ export function authUserSelectAll(data) {
   })
 }
 
-// 根据角色ID查询部门树结构
-export function deptTreeSelect(roleId) {
+// 根据角色ID查询机构树结构
+export function sysOrgTreeSelect(roleId) {
   return request({
-    url: '/system/role/deptTree/' + roleId,
+    url: '/system/role/orgTree/' + roleId,
     method: 'get'
   })
 }

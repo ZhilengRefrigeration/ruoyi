@@ -120,7 +120,7 @@
         <el-form-item>
           <span slot="label">
             树编码字段
-            <el-tooltip content="树显示的编码字段名， 如：dept_id" placement="top">
+            <el-tooltip content="树显示的编码字段名， 如：org_id" placement="top">
               <i class="el-icon-question"></i>
             </el-tooltip>
           </span>
@@ -156,7 +156,7 @@
         <el-form-item>
           <span slot="label">
             树名称字段
-            <el-tooltip content="树节点的显示名称字段名， 如：dept_name" placement="top">
+            <el-tooltip content="树节点的显示名称字段名， 如：org_name" placement="top">
               <i class="el-icon-question"></i>
             </el-tooltip>
           </span>
