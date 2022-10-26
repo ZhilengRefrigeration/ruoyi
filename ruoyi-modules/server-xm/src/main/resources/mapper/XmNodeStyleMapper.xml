@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.server.xm.mapper.XmNodeStyleMapper">
+
+    <resultMap type="com.server.xm.entity.XmNodeStyle" id="XmNodeStyleMap">
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="direction" column="DIRECTION" jdbcType="VARCHAR"/>
+        <result property="hyperLink" column="HYPER_LINK" jdbcType="VARCHAR"/>
+        <result property="icons" column="ICONS" jdbcType="VARCHAR"/>
+        <result property="memo" column="MEMO" jdbcType="VARCHAR"/>
+        <result property="style" column="STYLE" jdbcType="VARCHAR"/>
+        <result property="tags" column="TAGS" jdbcType="VARCHAR"/>
+        <result property="nodeId" column="NODE_ID" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="XmNodeStyleMap">
+        select ID,
+               DIRECTION,
+               HYPER_LINK,
+               ICONS,
+               MEMO,
+               STYLE,
+               TAGS,
+               NODE_ID
+        from xm_node_style
+        where ID = #{id}
+    </select>
+    <select id="queryByNid" resultMap="XmNodeStyleMap" parameterType="arraylist">
+        select ID,
+               DIRECTION,
+               HYPER_LINK,
+               ICONS,
+               MEMO,
+               STYLE,
+               TAGS,
+               NODE_ID
+        from xm_node_style
+        where NODE_ID IN
+        <foreach collection="nids" index="index" item="nid" separator="," open="(" close=")">
+            #{nid}
+        </foreach>
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="XmNodeStyleMap">
+        select ID,
+               DIRECTION,
+               HYPER_LINK,
+               ICONS,
+               MEMO,
+               STYLE,
+               TAGS,
+               NODE_ID
+        from xm_node_style
+        limit #{offset}
+           , #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="XmNodeStyleMap">
+        select
+        ID, DIRECTION, HYPER_LINK, ICONS, MEMO, STYLE, TAGS, NODE_ID
+        from xm_node_style
+        <where>
+            <if test="id != null and id != ''">
+                and ID = #{id}
+            </if>
+            <if test="direction != null and direction != ''">
+                and DIRECTION = #{direction}
+            </if>
+            <if test="hyperLink != null and hyperLink != ''">
+                and HYPER_LINK = #{hyperLink}
+            </if>
+            <if test="icons != null and icons != ''">
+                and ICONS = #{icons}
+            </if>
+            <if test="memo != null and memo != ''">
+                and MEMO = #{memo}
+            </if>
+            <if test="style != null and style != ''">
+                and STYLE = #{style}
+            </if>
+            <if test="tags != null and tags != ''">
+                and TAGS = #{tags}
+            </if>
+            <if test="nodeId != null and nodeId != ''">
+                and NODE_ID = #{nodeId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into xm_node_style(ID,DIRECTION, HYPER_LINK, ICONS, MEMO, STYLE, TAGS, NODE_ID)
+        values (#{id},#{direction}, #{hyperLink}, #{icons}, #{memo}, #{style}, #{tags}, #{nodeId})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into xm_node_style(ID,DIRECTION, HYPER_LINK, ICONS, MEMO, STYLE, TAGS, NODE_ID)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id},#{entity.direction}, #{entity.hyperLink}, #{entity.icons}, #{entity.memo}, #{entity.style}, #{entity.tags},
+            #{entity.nodeId})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into xm_node_style(DIRECTION, HYPER_LINK, ICONS, MEMO, STYLE, TAGS, NODE_ID)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.direction}, #{entity.hyperLink}, #{entity.icons}, #{entity.memo}, #{entity.style}, #{entity.tags},
+            #{entity.nodeId})
+        </foreach>
+        on duplicate key update
+        DIRECTION = values(DIRECTION) , HYPER_LINK = values(HYPER_LINK) , ICONS = values(ICONS) , MEMO = values(MEMO) ,
+        STYLE = values(STYLE) , TAGS = values(TAGS) , NODE_ID = values(NODE_ID)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update xm_node_style
+        <set>
+            <if test="direction != null and direction != ''">
+                DIRECTION = #{direction},
+            </if>
+            <if test="hyperLink != null and hyperLink != ''">
+                HYPER_LINK = #{hyperLink},
+            </if>
+            <if test="icons != null and icons != ''">
+                ICONS = #{icons},
+            </if>
+            <if test="memo != null and memo != ''">
+                MEMO = #{memo},
+            </if>
+            <if test="style != null and style != ''">
+                STYLE = #{style},
+            </if>
+            <if test="tags != null and tags != ''">
+                TAGS = #{tags},
+            </if>
+            <if test="nodeId != null and nodeId != ''">
+                NODE_ID = #{nodeId},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from xm_node_style
+        where ID = #{id}
+    </delete>
+
+</mapper>
+

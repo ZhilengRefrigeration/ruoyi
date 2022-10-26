@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.server.xm.mapper.XmNodeMapper">
+
+    <resultMap type="com.server.xm.entity.XmNode" id="XmNodeMap">
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="name" column="NAME" jdbcType="VARCHAR"/>
+        <result property="typeId" column="TYPE_ID" jdbcType="VARCHAR"/>
+        <result property="nodeLevel" column="NODE_LEVEL" jdbcType="VARCHAR"/>
+        <result property="parentId" column="PARENT_ID" jdbcType="VARCHAR"/>
+        <result property="topId" column="TOP_ID" jdbcType="VARCHAR"/>
+        <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="UPDATE_TIME" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="CREATE_BY" jdbcType="VARCHAR"/>
+        <result property="updateBy" column="UPDATE_BY" jdbcType="VARCHAR"/>
+        <result property="delFlag" column="DEL_FLAG" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="XmNodeMap">
+        select ID,
+               NAME,
+               TYPE_ID,
+               NODE_LEVEL,
+               PARENT_ID,
+               TOP_ID,
+               CREATE_TIME,
+               UPDATE_TIME,
+               CREATE_BY,
+               UPDATE_BY,
+               DEL_FLAG
+        from xm_node
+        where ID = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="XmNodeMap">
+        select ID,
+               NAME,
+               TYPE_ID,
+               NODE_LEVEL,
+               PARENT_ID,
+               TOP_ID,
+               CREATE_TIME,
+               UPDATE_TIME,
+               CREATE_BY,
+               UPDATE_BY,
+               DEL_FLAG
+        from xm_node
+        limit #{offset}
+           , #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="XmNodeMap">
+        select
+        ID, NAME, TYPE_ID, NODE_LEVEL, PARENT_ID, TOP_ID, CREATE_TIME, UPDATE_TIME, CREATE_BY, UPDATE_BY, DEL_FLAG
+        from xm_node
+        <where>
+            <if test="id != null and id != ''">
+                and ID = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and NAME = #{name}
+            </if>
+            <if test="typeId != null and typeId != ''">
+                and TYPE_ID = #{typeId}
+            </if>
+            <if test="nodeLevel != null and nodeLevel != ''">
+                and NODE_LEVEL = #{nodeLevel}
+            </if>
+            <if test="parentId != null and parentId != ''">
+                and PARENT_ID = #{parentId}
+            </if>
+            <if test="topId != null and topId != ''">
+                and TOP_ID = #{topId}
+            </if>
+            <if test="createTime != null">
+                and CREATE_TIME = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and UPDATE_TIME = #{updateTime}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                and CREATE_BY = #{createBy}
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                and UPDATE_BY = #{updateBy}
+            </if>
+            <if test="delFlag != null and delFlag != ''">
+                and DEL_FLAG = #{delFlag}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into xm_node(ID,NAME, TYPE_ID, NODE_LEVEL, PARENT_ID, TOP_ID, CREATE_TIME, UPDATE_TIME, CREATE_BY,
+                                      UPDATE_BY, DEL_FLAG)
+        values (#{id},#{name}, #{typeId}, #{nodeLevel}, #{parentId}, #{topId}, #{createTime}, #{updateTime}, #{createBy}, #{updateBy}, #{delFlag})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into xm_node(ID,NAME, TYPE_ID, NODE_LEVEL, PARENT_ID, TOP_ID, CREATE_TIME, UPDATE_TIME, CREATE_BY,
+        UPDATE_BY, DEL_FLAG)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id},#{entity.name}, #{entity.typeId}, #{entity.nodeLevel}, #{entity.parentId}, #{entity.topId},
+            #{entity.createTime}, #{entity.updateTime}, #{entity.createBy}, #{entity.updateBy}, #{entity.delFlag})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into xm_node(NAME, TYPE_ID, NODE_LEVEL, PARENT_ID, TOP_ID, CREATE_TIME, UPDATE_TIME, CREATE_BY,
+        UPDATE_BY, DEL_FLAG)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.name}, #{entity.typeId}, #{entity.nodeLevel}, #{entity.parentId}, #{entity.topId},
+            #{entity.createTime}, #{entity.updateTime}, #{entity.createBy}, #{entity.updateBy}, #{entity.delFlag})
+        </foreach>
+        on duplicate key update
+        NAME = values(NAME) , TYPE_ID = values(TYPE_ID) , NODE_LEVEL = values(NODE_LEVEL) , PARENT_ID =
+        values(PARENT_ID) , TOP_ID = values(TOP_ID) , CREATE_TIME = values(CREATE_TIME) , UPDATE_TIME =
+        values(UPDATE_TIME) , CREATE_BY = values(CREATE_BY) , UPDATE_BY = values(UPDATE_BY) , DEL_FLAG =
+        values(DEL_FLAG)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update xm_node
+        <set>
+            <if test="name != null and name != ''">
+                NAME = #{name},
+            </if>
+            <if test="typeId != null and typeId != ''">
+                TYPE_ID = #{typeId},
+            </if>
+            <if test="nodeLevel != null and nodeLevel != ''">
+                NODE_LEVEL = #{nodeLevel},
+            </if>
+            <if test="parentId != null and parentId != ''">
+                PARENT_ID = #{parentId},
+            </if>
+            <if test="topId != null and topId != ''">
+                TOP_ID = #{topId},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME = #{updateTime},
+            </if>
+            <if test="createBy != null and createBy != ''">
+                CREATE_BY = #{createBy},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                UPDATE_BY = #{updateBy},
+            </if>
+            <if test="delFlag != null and delFlag != ''">
+                DEL_FLAG = #{delFlag},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from xm_node
+        where ID = #{id}
+    </delete>
+
+</mapper>
+
