@@ -130,6 +130,7 @@ com.ruoyi
 nginx：
 
 
+```
 location /stage {
         alias /home/ruoyi/stage;
         try_files $uri $uri/ /stage/index.html; #解决页面刷新404问题
@@ -155,3 +156,4 @@ location /stage {
 		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 		proxy_pass http://192.168.1.211:30008/;
 	}
+```
