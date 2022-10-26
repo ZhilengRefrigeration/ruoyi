@@ -127,12 +127,18 @@ com.ruoyi
 
 ## 若依微服务交流群
 
+
+```
 nginx中用一个server 实现两个环境的配置;
 
 stage和prod环境在编译的时候需修改文件
 RuoYi-Cloud\ruoyi-ui\vue.config.js                     中的21行修改       publicPath: "/prod/"
 RuoYi-Cloud\ruoyi-ui\src\router\index.js               中的174行下新增    base: "/prod/"
 RuoYi-Cloud\ruoyi-ui\src\layout\components\Navbar.vue  中的105行         location.href = '/prod/index';
+
+```
+
+
 
 ```
 server {
