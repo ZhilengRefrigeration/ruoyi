@@ -127,11 +127,29 @@ com.ruoyi
 
 ## 若依微服务交流群
 
-nginx：
+nginx中用一个server 实现两个环境的配置;
 
+stage和prod环境在编译的时候需修改文件
+RuoYi-Cloud\ruoyi-ui\vue.config.js                     中的21行修改       publicPath: "/prod/"
+RuoYi-Cloud\ruoyi-ui\src\router\index.js               中的174行下新增    base: "/prod/"
+RuoYi-Cloud\ruoyi-ui\src\layout\components\Navbar.vue  中的105行         location.href = '/prod/index';
 
 ```
-location /stage {
+server {
+    listen       80;
+    listen  [::]:80;
+    server_name  localhost;
+    #charset koi8-r;
+    #access_log  /var/log/nginx/host.access.log  main;
+    #location-stage 测试环境-----
+    location /wx/{
+			proxy_set_header Host $http_host;
+			proxy_set_header X-Real-IP $remote_addr;
+			proxy_set_header REMOTE-HOST $remote_addr;
+			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+			proxy_pass http://192.168.1.211:32003/;
+    }
+	location /stage {
         alias /home/ruoyi/stage;
         try_files $uri $uri/ /stage/index.html; #解决页面刷新404问题
         index index.html;
@@ -143,7 +161,7 @@ location /stage {
 		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 		proxy_pass http://192.168.1.211:32008/;
 	}
-	#location-prod 生产环境-----
+    #location-prod 生产环境-----
     location /prod {
         alias /home/ruoyi/prod;
         try_files $uri $uri/ /prod/index.html; #解决页面刷新404问题
@@ -156,4 +174,17 @@ location /stage {
 		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 		proxy_pass http://192.168.1.211:30008/;
 	}
+
+    location /image/{
+		alias /bt/pic/;
+		autoindex on;
+	}    
+   
+    # redirect server error pages to the static page /50x.html
+    #
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}
 ```
