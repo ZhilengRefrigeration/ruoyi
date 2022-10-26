@@ -68,10 +68,10 @@
                 and ID = #{id}
             </if>
             <if test="name != null and name != ''">
-                and NAME = #{name}
+                and NAME like concat('%',#{name},'%')
             </if>
             <if test="typeId != null and typeId != ''">
-                and TYPE_ID = #{typeId}
+                and TYPE_ID like concat('%',#{type},'%')
             </if>
             <if test="nodeLevel != null and nodeLevel != ''">
                 and NODE_LEVEL = #{nodeLevel}
@@ -97,17 +97,17 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into xm_top(NAME, TYPE_ID, NODE_LEVEL, CREATE_TIME, UPDATE_TIME, CREATE_BY, UPDATE_BY,
+        insert into xm_top(ID,NAME, TYPE_ID, NODE_LEVEL, PARENT_ID,CREATE_TIME, UPDATE_TIME, CREATE_BY, UPDATE_BY,
                                         DEL_FLAG)
-        values (#{name}, #{typeId}, #{nodeLevel}, #{createTime}, #{updateTime}, #{createBy}, #{updateBy}, #{delFlag})
+        values (#{entity.id},#{name}, #{typeId}, #{nodeLevel},#{entity.parentId}, #{createTime}, #{updateTime}, #{createBy}, #{updateBy}, #{delFlag})
     </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into xm_top(NAME, TYPE_ID, NODE_LEVEL, CREATE_TIME, UPDATE_TIME, CREATE_BY, UPDATE_BY,
+        insert into xm_top(ID,NAME, TYPE_ID, NODE_LEVEL, PARENT_ID,CREATE_TIME, UPDATE_TIME, CREATE_BY, UPDATE_BY,
         DEL_FLAG)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.name}, #{entity.typeId}, #{entity.nodeLevel}, #{entity.createTime}, #{entity.updateTime},
+            (#{entity.id},#{entity.name}, #{entity.typeId}, #{entity.nodeLevel},#{entity.parentId}, #{entity.createTime}, #{entity.updateTime},
             #{entity.createBy}, #{entity.updateBy}, #{entity.delFlag})
         </foreach>
     </insert>

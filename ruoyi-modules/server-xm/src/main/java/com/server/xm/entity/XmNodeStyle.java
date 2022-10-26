@@ -1,6 +1,9 @@
 package com.server.xm.entity;
 
+import com.alibaba.fastjson2.JSON;
+import com.ruoyi.common.core.utils.uuid.UUID;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import com.server.xm.entity.vo.XmTopVo;
 
 
 /**
@@ -40,9 +43,22 @@ public class XmNodeStyle extends BaseEntity {
      */
     private String nodeId;
 
+    public XmNodeStyle(){}
+    public XmNodeStyle(XmTopVo xmTopVo){
+        this.setId(UUID.randomUUID().toString());
+        this.setDirection(xmTopVo.getDirection().toString());
+        this.setIcons(JSON.toJSONString(xmTopVo.getIcons()));
+        this.setTags(JSON.toJSONString(xmTopVo.getTags()));
+        this.setMemo(xmTopVo.getMemo());
+        this.setHyperLink(xmTopVo.getHyperLink());
+        this.setStyle(JSON.toJSONString(xmTopVo.getStyle()));
+        this.setNodeId(xmTopVo.getId());
+    }
+
+
 
     public String getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(String id) {

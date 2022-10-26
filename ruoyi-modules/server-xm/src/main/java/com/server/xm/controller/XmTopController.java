@@ -1,6 +1,7 @@
 package com.server.xm.controller;
 
 import com.ruoyi.common.core.web.controller.BaseController;
+import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.server.xm.entity.XmTop;
 import com.server.xm.entity.vo.XmTopVo;
@@ -41,6 +42,11 @@ public class XmTopController extends BaseController {
         startPage();
         List<XmTop> list = this.xmTopService.queryAll(xmTop);
         return getDataTable(list);
+    }
+    @PostMapping("/create")
+    public AjaxResult create(@RequestBody XmTopVo xmTopVo){
+        this.xmTopService.insert(xmTopVo);
+        return AjaxResult.success();
     }
 
 }

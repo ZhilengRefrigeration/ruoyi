@@ -29,7 +29,7 @@
                CREATE_BY,
                UPDATE_BY,
                DEL_FLAG
-        from sev-xmind.xm_node
+        from xm_node
         where ID = #{id}
     </select>
 
@@ -46,7 +46,7 @@
                CREATE_BY,
                UPDATE_BY,
                DEL_FLAG
-        from sev-xmind.xm_node
+        from xm_node
         limit #{offset}
            , #{limit}
     </select>
@@ -55,7 +55,7 @@
     <select id="queryAll" resultMap="XmNodeMap">
         select
         ID, NAME, TYPE_ID, NODE_LEVEL, PARENT_ID, TOP_ID, CREATE_TIME, UPDATE_TIME, CREATE_BY, UPDATE_BY, DEL_FLAG
-        from sev-xmind.xm_node
+        from xm_node
         <where>
             <if test="id != null and id != ''">
                 and ID = #{id}
@@ -95,23 +95,23 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into sev-xmind.xm_node(NAME, TYPE_ID, NODE_LEVEL, PARENT_ID, TOP_ID, CREATE_TIME, UPDATE_TIME, CREATE_BY,
+        insert into xm_node(ID,NAME, TYPE_ID, NODE_LEVEL, PARENT_ID, TOP_ID, CREATE_TIME, UPDATE_TIME, CREATE_BY,
                                       UPDATE_BY, DEL_FLAG)
-        values (#{name}, #{typeId}, #{nodeLevel}, #{parentId}, #{topId}, #{createTime}, #{updateTime}, #{createBy}, #{updateBy}, #{delFlag})
+        values (#{id},#{name}, #{typeId}, #{nodeLevel}, #{parentId}, #{topId}, #{createTime}, #{updateTime}, #{createBy}, #{updateBy}, #{delFlag})
     </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into sev-xmind.xm_node(NAME, TYPE_ID, NODE_LEVEL, PARENT_ID, TOP_ID, CREATE_TIME, UPDATE_TIME, CREATE_BY,
+        insert into xm_node(ID,NAME, TYPE_ID, NODE_LEVEL, PARENT_ID, TOP_ID, CREATE_TIME, UPDATE_TIME, CREATE_BY,
         UPDATE_BY, DEL_FLAG)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.name}, #{entity.typeId}, #{entity.nodeLevel}, #{entity.parentId}, #{entity.topId},
+            (#{entity.id},#{entity.name}, #{entity.typeId}, #{entity.nodeLevel}, #{entity.parentId}, #{entity.topId},
             #{entity.createTime}, #{entity.updateTime}, #{entity.createBy}, #{entity.updateBy}, #{entity.delFlag})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into sev-xmind.xm_node(NAME, TYPE_ID, NODE_LEVEL, PARENT_ID, TOP_ID, CREATE_TIME, UPDATE_TIME, CREATE_BY,
+        insert into xm_node(NAME, TYPE_ID, NODE_LEVEL, PARENT_ID, TOP_ID, CREATE_TIME, UPDATE_TIME, CREATE_BY,
         UPDATE_BY, DEL_FLAG)
         values
         <foreach collection="entities" item="entity" separator=",">
@@ -127,7 +127,7 @@
 
     <!--通过主键修改数据-->
     <update id="update">
-        update sev-xmind.xm_node
+        update xm_node
         <set>
             <if test="name != null and name != ''">
                 NAME = #{name},
@@ -166,7 +166,7 @@
     <!--通过主键删除-->
     <delete id="deleteById">
         delete
-        from sev-xmind.xm_node
+        from xm_node
         where ID = #{id}
     </delete>
 

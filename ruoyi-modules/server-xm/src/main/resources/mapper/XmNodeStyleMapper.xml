@@ -92,15 +92,15 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into xm_node_style(DIRECTION, HYPER_LINK, ICONS, MEMO, STYLE, TAGS, NODE_ID)
-        values (#{direction}, #{hyperLink}, #{icons}, #{memo}, #{style}, #{tags}, #{nodeId})
+        insert into xm_node_style(ID,DIRECTION, HYPER_LINK, ICONS, MEMO, STYLE, TAGS, NODE_ID)
+        values (#{id},#{direction}, #{hyperLink}, #{icons}, #{memo}, #{style}, #{tags}, #{nodeId})
     </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into xm_node_style(DIRECTION, HYPER_LINK, ICONS, MEMO, STYLE, TAGS, NODE_ID)
+        insert into xm_node_style(ID,DIRECTION, HYPER_LINK, ICONS, MEMO, STYLE, TAGS, NODE_ID)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.direction}, #{entity.hyperLink}, #{entity.icons}, #{entity.memo}, #{entity.style}, #{entity.tags},
+            (#{entity.id},#{entity.direction}, #{entity.hyperLink}, #{entity.icons}, #{entity.memo}, #{entity.style}, #{entity.tags},
             #{entity.nodeId})
         </foreach>
     </insert>

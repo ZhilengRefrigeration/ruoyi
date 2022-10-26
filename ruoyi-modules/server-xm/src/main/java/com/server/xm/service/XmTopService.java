@@ -42,7 +42,7 @@ public interface XmTopService {
      * @param xmTop 实例对象
      * @return 实例对象
      */
-    XmTop insert(XmTop xmTop);
+    void insert(XmTopVo xmTopVo);
 
     /**
      * 修改数据

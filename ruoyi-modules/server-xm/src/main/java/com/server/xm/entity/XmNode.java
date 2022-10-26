@@ -1,6 +1,10 @@
 package com.server.xm.entity;
 
+import com.ruoyi.common.core.utils.bean.BeanUtils;
+import com.ruoyi.common.core.utils.uuid.UUID;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import com.server.xm.entity.vo.XmTopVo;
+import org.springframework.context.annotation.Bean;
 
 import java.util.Date;
 import java.io.Serializable;
@@ -39,10 +43,20 @@ public class XmNode extends BaseEntity {
      * 是否删除，1已删除，0未删除
      */
     private String delFlag;
-
+    public XmNode(){}
+    public XmNode(XmTopVo xmTopVo,String level,String parentId,String topId){
+        BeanUtils.copyProperties(xmTopVo,this);
+//        if(null == xmTopVo.getId()){
+//            this.setId(UUID.randomUUID().toString());
+//        }
+        this.setName(xmTopVo.getTopic());
+        this.setNodeLevel(level);
+        this.setParentId(parentId);
+        this.setTopId(topId);
+    }
 
     public String getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(String id) {
@@ -90,7 +104,7 @@ public class XmNode extends BaseEntity {
     }
 
     public String getDelFlag() {
-        return delFlag;
+        return null != this.delFlag?this.delFlag : "0";
     }
 
     public void setDelFlag(String delFlag) {

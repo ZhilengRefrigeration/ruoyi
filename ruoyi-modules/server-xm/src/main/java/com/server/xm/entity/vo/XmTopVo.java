@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class XmTopVo implements Serializable {
     private static final long serialVersionUID = 814901162125497459L;
@@ -25,7 +26,11 @@ public class XmTopVo implements Serializable {
     private List<String> tags;
     private List<XmTopVo> children;
 
-    public XmTopVo() {}
+    public XmTopVo() {
+        if(null == this.id){
+            this.setId(UUID.randomUUID().toString());
+        }
+    }
     public XmTopVo(XmTop top, XmNodeStyle style){
         //基本信息同步
         BeanUtils.copyProperties(top,this);
@@ -33,15 +38,16 @@ public class XmTopVo implements Serializable {
         this.setIcons(JSON.parseObject(style.getIcons(), ArrayList.class));
         this.setStyle(JSON.parseObject(style.getStyle(),Map.class));
         this.setTags(JSON.parseObject(style.getTags(),ArrayList.class));
+        this.setDirection(Integer.parseInt(style.getDirection()));
+        this.setHyperLink(style.getHyperLink());
+        this.setMemo(style.getMemo());
     }
 
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
+
 
     public String getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(String id) {

@@ -1,9 +1,12 @@
 package com.server.xm.entity;
 
+import com.ruoyi.common.core.utils.bean.BeanUtils;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import com.server.xm.entity.vo.XmTopVo;
 
 import java.util.Date;
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * Xmind列表(XmTop)实体类
@@ -22,19 +25,30 @@ public class XmTop extends BaseEntity {
     /**
      * 所属分类
      */
-    private String typeId;
+    private String type;
     /**
      * 节点等级
      */
     private String nodeLevel;
+    private String parentId;
     /**
      * 是否删除，1已删除，0未删除
      */
     private String delFlag;
 
+    public XmTop(){}
+    public XmTop(XmTopVo xmTopVo,String level,String parentId){
+        BeanUtils.copyProperties(xmTopVo,this);
+//        if(null == xmTopVo.getId()){
+//            this.setId(UUID.randomUUID().toString());
+//        }
+        this.setName(xmTopVo.getTopic());
+        this.setNodeLevel(level);
+        this.setParentId(parentId);
+    }
 
     public String getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(String id) {
@@ -50,11 +64,11 @@ public class XmTop extends BaseEntity {
     }
 
     public String getTypeId() {
-        return typeId;
+        return type;
     }
 
     public void setTypeId(String typeId) {
-        this.typeId = typeId;
+        this.type = typeId;
     }
 
     public String getNodeLevel() {
@@ -66,11 +80,18 @@ public class XmTop extends BaseEntity {
     }
 
     public String getDelFlag() {
-        return delFlag;
+        return null != this.delFlag ? this.delFlag : "0";
     }
 
     public void setDelFlag(String delFlag) {
         this.delFlag = delFlag;
     }
 
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
 }
