@@ -20,6 +20,10 @@ public class GenTable extends BaseEntity
     /** 编号 */
     private Long tableId;
 
+    /** 库名称 */
+    @NotBlank(message = "库名称不能为空")
+    private String schemaName;
+
     /** 表名称 */
     @NotBlank(message = "表名称不能为空")
     private String tableName;
@@ -103,6 +107,16 @@ public class GenTable extends BaseEntity
     public void setTableId(Long tableId)
     {
         this.tableId = tableId;
+    }
+
+    public String getSchemaName()
+    {
+        return schemaName;
+    }
+
+    public void setSchemaName(String schemaName)
+    {
+        this.schemaName = schemaName;
     }
 
     public String getTableName()

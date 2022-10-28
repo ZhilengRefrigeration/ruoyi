@@ -80,8 +80,19 @@ public class GenTableServiceImpl implements IGenTableService
     }
 
     /**
+     * 查询所有可以生成代码的数据库名称列表
+     *
+     * @return 数据库名称列表
+     */
+    @Override
+    public List<String> selectGenSchemaList()
+    {
+        return genTableMapper.selectGenSchemaList();
+    }
+
+    /**
      * 查询据库列表
-     * 
+     *
      * @param genTable 业务信息
      * @return 数据库表集合
      */
@@ -93,14 +104,15 @@ public class GenTableServiceImpl implements IGenTableService
 
     /**
      * 查询据库列表
-     * 
+     *
+     * @param schemaName 数据库的名称
      * @param tableNames 表名称组
      * @return 数据库表集合
      */
     @Override
-    public List<GenTable> selectDbTableListByNames(String[] tableNames)
+    public List<GenTable> selectDbTableListByNames(String schemaName, String[] tableNames)
     {
-        return genTableMapper.selectDbTableListByNames(tableNames);
+        return genTableMapper.selectDbTableListByNames(schemaName, tableNames);
     }
 
     /**
@@ -170,7 +182,7 @@ public class GenTableServiceImpl implements IGenTableService
                 if (row > 0)
                 {
                     // 保存列信息
-                    List<GenTableColumn> genTableColumns = genTableColumnMapper.selectDbTableColumnsByName(tableName);
+                    List<GenTableColumn> genTableColumns = genTableColumnMapper.selectDbTableColumnsByName(table.getSchemaName(), tableName);
                     for (GenTableColumn column : genTableColumns)
                     {
                         GenUtils.initColumnField(column, table);
@@ -220,30 +232,32 @@ public class GenTableServiceImpl implements IGenTableService
 
     /**
      * 生成代码（下载方式）
-     * 
-     * @param tableName 表名称
+     *
+     * @param schemaName 库名称
+     * @param tableName  表名称
      * @return 数据
      */
     @Override
-    public byte[] downloadCode(String tableName)
+    public byte[] downloadCode(String schemaName, String tableName)
     {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ZipOutputStream zip = new ZipOutputStream(outputStream);
-        generatorCode(tableName, zip);
+        generatorCode(schemaName, tableName, zip);
         IOUtils.closeQuietly(zip);
         return outputStream.toByteArray();
     }
 
     /**
      * 生成代码（自定义路径）
-     * 
-     * @param tableName 表名称
+     *
+     * @param schemaName 库名称
+     * @param tableName  表名称
      */
     @Override
-    public void generatorCode(String tableName)
+    public void generatorCode(String schemaName, String tableName)
     {
         // 查询表信息
-        GenTable table = genTableMapper.selectGenTableByName(tableName);
+        GenTable table = genTableMapper.selectGenTableByName(schemaName, tableName);
         // 设置主子表信息
         setSubTable(table);
         // 设置主键列信息
@@ -283,13 +297,13 @@ public class GenTableServiceImpl implements IGenTableService
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void synchDb(String tableName)
+    public void synchDb(String schemaName, String tableName)
     {
-        GenTable table = genTableMapper.selectGenTableByName(tableName);
+        GenTable table = genTableMapper.selectGenTableByName(schemaName, tableName);
         List<GenTableColumn> tableColumns = table.getColumns();
         Map<String, GenTableColumn> tableColumnMap = tableColumns.stream().collect(Collectors.toMap(GenTableColumn::getColumnName, Function.identity()));
 
-        List<GenTableColumn> dbTableColumns = genTableColumnMapper.selectDbTableColumnsByName(tableName);
+        List<GenTableColumn> dbTableColumns = genTableColumnMapper.selectDbTableColumnsByName(schemaName, tableName);
         if (StringUtils.isEmpty(dbTableColumns))
         {
             throw new ServiceException("同步数据失败，原表结构不存在");
@@ -333,18 +347,19 @@ public class GenTableServiceImpl implements IGenTableService
 
     /**
      * 批量生成代码（下载方式）
-     * 
+     *
+     * @param schemaName 库名称
      * @param tableNames 表数组
      * @return 数据
      */
     @Override
-    public byte[] downloadCode(String[] tableNames)
+    public byte[] downloadCode(String schemaName, String[] tableNames)
     {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ZipOutputStream zip = new ZipOutputStream(outputStream);
         for (String tableName : tableNames)
         {
-            generatorCode(tableName, zip);
+            generatorCode(schemaName, tableName, zip);
         }
         IOUtils.closeQuietly(zip);
         return outputStream.toByteArray();
@@ -353,10 +368,10 @@ public class GenTableServiceImpl implements IGenTableService
     /**
      * 查询表信息并生成代码
      */
-    private void generatorCode(String tableName, ZipOutputStream zip)
+    private void generatorCode(String schemaName, String tableName, ZipOutputStream zip)
     {
         // 查询表信息
-        GenTable table = genTableMapper.selectGenTableByName(tableName);
+        GenTable table = genTableMapper.selectGenTableByName(schemaName, tableName);
         // 设置主子表信息
         setSubTable(table);
         // 设置主键列信息
@@ -474,7 +489,7 @@ public class GenTableServiceImpl implements IGenTableService
         String subTableName = table.getSubTableName();
         if (StringUtils.isNotEmpty(subTableName))
         {
-            table.setSubTable(genTableMapper.selectGenTableByName(subTableName));
+            table.setSubTable(genTableMapper.selectGenTableByName(table.getSchemaName(), subTableName));
         }
     }
 

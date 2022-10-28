@@ -8,14 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
@@ -53,6 +46,17 @@ public class GenController extends BaseController
         startPage();
         List<GenTable> list = genTableService.selectGenTableList(genTable);
         return getDataTable(list);
+    }
+
+    /**
+     * 查询所有可以生成代码的数据库名称列表
+     */
+    @RequiresPermissions("tool:gen:list")
+    @GetMapping("/schema/list")
+    public AjaxResult genSchemaList()
+    {
+        List<String> list = genTableService.selectGenSchemaList();
+        return AjaxResult.success(list);
     }
 
     /**
@@ -102,12 +106,12 @@ public class GenController extends BaseController
      */
     @RequiresPermissions("tool:gen:import")
     @Log(title = "代码生成", businessType = BusinessType.IMPORT)
-    @PostMapping("/importTable")
-    public AjaxResult importTableSave(String tables)
+    @PostMapping("/importTable/{schemaName}")
+    public AjaxResult importTableSave(@PathVariable("schemaName") String schemaName, @RequestParam("tables") String tables)
     {
         String[] tableNames = Convert.toStrArray(tables);
         // 查询表信息
-        List<GenTable> tableList = genTableService.selectDbTableListByNames(tableNames);
+        List<GenTable> tableList = genTableService.selectDbTableListByNames(schemaName, tableNames);
         genTableService.importGenTable(tableList);
         return AjaxResult.success();
     }
@@ -153,10 +157,10 @@ public class GenController extends BaseController
      */
     @RequiresPermissions("tool:gen:code")
     @Log(title = "代码生成", businessType = BusinessType.GENCODE)
-    @GetMapping("/download/{tableName}")
-    public void download(HttpServletResponse response, @PathVariable("tableName") String tableName) throws IOException
+    @GetMapping("/download/{schemaName}/{tableName}")
+    public void download(HttpServletResponse response, @PathVariable("schemaName") String schemaName, @PathVariable("tableName") String tableName) throws IOException
     {
-        byte[] data = genTableService.downloadCode(tableName);
+        byte[] data = genTableService.downloadCode(schemaName, tableName);
         genCode(response, data);
     }
 
@@ -165,10 +169,10 @@ public class GenController extends BaseController
      */
     @RequiresPermissions("tool:gen:code")
     @Log(title = "代码生成", businessType = BusinessType.GENCODE)
-    @GetMapping("/genCode/{tableName}")
-    public AjaxResult genCode(@PathVariable("tableName") String tableName)
+    @GetMapping("/genCode/{schemaName}/{tableName}")
+    public AjaxResult genCode(@PathVariable("schemaName") String schemaName, @PathVariable("tableName") String tableName)
     {
-        genTableService.generatorCode(tableName);
+        genTableService.generatorCode(schemaName, tableName);
         return AjaxResult.success();
     }
 
@@ -177,10 +181,10 @@ public class GenController extends BaseController
      */
     @RequiresPermissions("tool:gen:edit")
     @Log(title = "代码生成", businessType = BusinessType.UPDATE)
-    @GetMapping("/synchDb/{tableName}")
-    public AjaxResult synchDb(@PathVariable("tableName") String tableName)
+    @GetMapping("/synchDb/{schemaName}/{tableName}")
+    public AjaxResult synchDb(@PathVariable("schemaName") String schemaName, @PathVariable("tableName") String tableName)
     {
-        genTableService.synchDb(tableName);
+        genTableService.synchDb(schemaName, tableName);
         return AjaxResult.success();
     }
 
@@ -189,11 +193,11 @@ public class GenController extends BaseController
      */
     @RequiresPermissions("tool:gen:code")
     @Log(title = "代码生成", businessType = BusinessType.GENCODE)
-    @GetMapping("/batchGenCode")
-    public void batchGenCode(HttpServletResponse response, String tables) throws IOException
+    @GetMapping("/batchGenCode/{schemaName}")
+    public void batchGenCode(HttpServletResponse response, @PathVariable("schemaName") String schemaName, String tables) throws IOException
     {
         String[] tableNames = Convert.toStrArray(tables);
-        byte[] data = genTableService.downloadCode(tableNames);
+        byte[] data = genTableService.downloadCode(schemaName, tableNames);
         genCode(response, data);
     }
 

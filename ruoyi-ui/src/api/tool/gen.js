@@ -8,6 +8,14 @@ export function listTable(query) {
     params: query
   })
 }
+
+export function listSchema() {
+  return request({
+    url: '/code/gen/schema/list',
+    method: 'get',
+  })
+}
+
 // 查询db数据库列表
 export function listDbTable(query) {
   return request({
@@ -35,9 +43,9 @@ export function updateGenTable(data) {
 }
 
 // 导入表
-export function importTable(data) {
+export function importTable(data, schemaName) {
   return request({
-    url: '/code/gen/importTable',
+    url: `/code/gen/importTable/${schemaName}`,
     method: 'post',
     params: data
   })
@@ -68,9 +76,9 @@ export function genCode(tableName) {
 }
 
 // 同步数据库
-export function synchDb(tableName) {
+export function synchDb(schemaName, tableName) {
   return request({
-    url: '/code/gen/synchDb/' + tableName,
+    url: `/code/gen/synchDb/${schemaName}/${tableName}`,
     method: 'get'
   })
 }

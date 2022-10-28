@@ -2,6 +2,7 @@ package com.ruoyi.gen.mapper;
 
 import java.util.List;
 import com.ruoyi.gen.domain.GenTableColumn;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 业务字段 数据层
@@ -12,11 +13,12 @@ public interface GenTableColumnMapper
 {
     /**
      * 根据表名称查询列信息
-     * 
-     * @param tableName 表名称
+     *
+     * @param schemaName 数据库名字
+     * @param tableName  表名称
      * @return 列信息
      */
-    public List<GenTableColumn> selectDbTableColumnsByName(String tableName);
+    public List<GenTableColumn> selectDbTableColumnsByName(@Param("schemaName") String schemaName, @Param("tableName") String tableName);
 
     /**
      * 查询业务字段列表

@@ -2,6 +2,7 @@ package com.ruoyi.gen.mapper;
 
 import java.util.List;
 import com.ruoyi.gen.domain.GenTable;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 业务 数据层
@@ -19,6 +20,13 @@ public interface GenTableMapper
     public List<GenTable> selectGenTableList(GenTable genTable);
 
     /**
+     * 查询所有可以生成代码的数据库名称列表
+     *
+     * @return 数据库名称列表
+     */
+    public List<String> selectGenSchemaList();
+
+    /**
      * 查询据库列表
      * 
      * @param genTable 业务信息
@@ -32,7 +40,7 @@ public interface GenTableMapper
      * @param tableNames 表名称组
      * @return 数据库表集合
      */
-    public List<GenTable> selectDbTableListByNames(String[] tableNames);
+    public List<GenTable> selectDbTableListByNames(@Param("schemaName") String schemaName, @Param("tableNames") String[] tableNames);
 
     /**
      * 查询所有表信息
@@ -55,7 +63,7 @@ public interface GenTableMapper
      * @param tableName 表名称
      * @return 业务信息
      */
-    public GenTable selectGenTableByName(String tableName);
+    public GenTable selectGenTableByName(@Param("schemaName") String schemaName, @Param("tableName") String tableName);
 
     /**
      * 新增业务
