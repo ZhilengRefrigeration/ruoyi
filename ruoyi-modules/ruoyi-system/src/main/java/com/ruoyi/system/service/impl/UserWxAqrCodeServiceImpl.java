@@ -124,7 +124,7 @@ public class UserWxAqrCodeServiceImpl implements IUserWxAqrCodeService
         }else {
             wxAppletsCodeVo.setScene(userWxAqrCode.getScene());
         }
-        if(StringUtils.isEmpty(userWxAqrCode.getScene())) {
+        if(StringUtils.isEmpty(userWxAqrCode.getPage())) {
             wxAppletsCodeVo.setPage("pages/index2/index2");
         }else {
             wxAppletsCodeVo.setPage(userWxAqrCode.getPage());
