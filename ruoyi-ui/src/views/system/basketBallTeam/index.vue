@@ -91,7 +91,7 @@
       <el-table-column label="球馆名称" show-overflow-tooltip="true" align="center" prop="buildingName" />
       <el-table-column label="创建人ID" align="center" prop="createdId" />
       <el-table-column label="球队联系人电话" align="center" prop="contactTel" />
-      <el-table-column label="球队图片" align="center" prop="contactTel" >
+      <el-table-column label="球队图片" align="center" prop="defaultPicture" >
         <template slot-scope="scope">
         <el-image
           style="width: 200px; height: 100px"

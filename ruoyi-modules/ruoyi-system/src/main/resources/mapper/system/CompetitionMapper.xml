@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CompetitionMapper">
+    
+    <resultMap type="Competition" id="CompetitionResult">
+        <result property="id"    column="id"    />
+        <result property="mainTeamId"    column="main_team_id"    />
+        <result property="mainTeamName"    column="main_team_name"    />
+        <result property="guestTeamId"    column="guest_team_id"    />
+        <result property="guestTeamName"    column="guest_team_name"    />
+        <result property="competitionCode"    column="competition_code"    />
+        <result property="competitionName"    column="competition_name"    />
+        <result property="designated"    column="designated"    />
+        <result property="competitionType"    column="competition_type"    />
+        <result property="competitionTime"    column="competition_time"    />
+        <result property="buildingId"    column="building_id"    />
+        <result property="buildingName"    column="building_name"    />
+        <result property="competitionAddress"    column="competition_address"    />
+        <result property="founder"    column="founder"    />
+        <result property="status"    column="status"    />
+        <result property="cityCode"    column="city_code"    />
+        <result property="cityName"    column="city_name"    />
+        <result property="maxPlayer"    column="max_player"    />
+        <result property="createdTime"    column="created_time"    />
+        <result property="lastUpdatedTime"    column="last_updated_time"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="modifiedBy"    column="modified_by"    />
+        <result property="isDeleted"    column="is_deleted"    />
+        <result property="longitude"    column="longitude"    />
+        <result property="latitude"    column="latitude"    />
+        <result property="remark"    column="remark"    />
+        <result property="competitionNature"    column="competition_nature"    />
+        <result property="enrollBeginTime"    column="enroll_begin_time"    />
+        <result property="enrollEndTime"    column="enroll_end_time"    />
+        <result property="contacts"    column="contacts"    />
+        <result property="contactsAreaCode"    column="contacts_area_code"    />
+        <result property="contactsTel"    column="contacts_tel"    />
+        <result property="competitionBeginTime"    column="competition_begin_time"    />
+        <result property="competitionEndTime"    column="competition_end_time"    />
+        <result property="organizer"    column="organizer"    />
+        <result property="undertake"    column="undertake"    />
+        <result property="competitionBackImg"    column="competition_back_img"    />
+        <result property="createdId"    column="created_id"    />
+        <result property="auditStatus"    column="audit_status"    />
+        <result property="heightHide"    column="height_hide"    />
+        <result property="sponsor"    column="sponsor"    />
+    </resultMap>
+
+    <sql id="selectCompetitionVo">
+        select id, main_team_id, main_team_name, guest_team_id, guest_team_name, competition_code, competition_name, designated, competition_type, competition_time, building_id, building_name, competition_address, founder, status, city_code, city_name, max_player, created_time, last_updated_time, created_by, modified_by, is_deleted, longitude, latitude, remark, competition_nature, enroll_begin_time, enroll_end_time, contacts, contacts_area_code, contacts_tel, competition_begin_time, competition_end_time, organizer, undertake, competition_back_img, created_id, audit_status, height_hide, sponsor from competition
+    </sql>
+
+    <select id="selectCompetitionList" parameterType="Competition" resultMap="CompetitionResult">
+        <include refid="selectCompetitionVo"/>
+        <where>  
+            <if test="mainTeamId != null "> and main_team_id = #{mainTeamId}</if>
+            <if test="mainTeamName != null  and mainTeamName != ''"> and main_team_name like concat('%', #{mainTeamName}, '%')</if>
+            <if test="guestTeamId != null "> and guest_team_id = #{guestTeamId}</if>
+            <if test="guestTeamName != null  and guestTeamName != ''"> and guest_team_name like concat('%', #{guestTeamName}, '%')</if>
+            <if test="competitionCode != null  and competitionCode != ''"> and competition_code = #{competitionCode}</if>
+            <if test="competitionName != null  and competitionName != ''"> and competition_name like concat('%', #{competitionName}, '%')</if>
+            <if test="designated != null "> and designated = #{designated}</if>
+            <if test="competitionType != null "> and competition_type = #{competitionType}</if>
+            <if test="competitionTime != null "> and competition_time = #{competitionTime}</if>
+            <if test="buildingId != null "> and building_id = #{buildingId}</if>
+            <if test="buildingName != null  and buildingName != ''"> and building_name like concat('%', #{buildingName}, '%')</if>
+            <if test="competitionAddress != null  and competitionAddress != ''"> and competition_address = #{competitionAddress}</if>
+            <if test="founder != null "> and founder = #{founder}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="cityCode != null  and cityCode != ''"> and city_code = #{cityCode}</if>
+            <if test="cityName != null  and cityName != ''"> and city_name like concat('%', #{cityName}, '%')</if>
+            <if test="maxPlayer != null "> and max_player = #{maxPlayer}</if>
+            <if test="createdTime != null "> and created_time = #{createdTime}</if>
+            <if test="lastUpdatedTime != null "> and last_updated_time = #{lastUpdatedTime}</if>
+            <if test="createdBy != null  and createdBy != ''"> and created_by = #{createdBy}</if>
+            <if test="modifiedBy != null  and modifiedBy != ''"> and modified_by = #{modifiedBy}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+            <if test="longitude != null "> and longitude = #{longitude}</if>
+            <if test="latitude != null "> and latitude = #{latitude}</if>
+            <if test="competitionNature != null "> and competition_nature = #{competitionNature}</if>
+            <if test="enrollBeginTime != null "> and enroll_begin_time = #{enrollBeginTime}</if>
+            <if test="enrollEndTime != null "> and enroll_end_time = #{enrollEndTime}</if>
+            <if test="contacts != null  and contacts != ''"> and contacts = #{contacts}</if>
+            <if test="contactsAreaCode != null  and contactsAreaCode != ''"> and contacts_area_code = #{contactsAreaCode}</if>
+            <if test="contactsTel != null  and contactsTel != ''"> and contacts_tel = #{contactsTel}</if>
+            <if test="competitionBeginTime != null "> and competition_begin_time = #{competitionBeginTime}</if>
+            <if test="competitionEndTime != null "> and competition_end_time = #{competitionEndTime}</if>
+            <if test="organizer != null  and organizer != ''"> and organizer = #{organizer}</if>
+            <if test="undertake != null  and undertake != ''"> and undertake = #{undertake}</if>
+            <if test="competitionBackImg != null  and competitionBackImg != ''"> and competition_back_img = #{competitionBackImg}</if>
+            <if test="createdId != null "> and created_id = #{createdId}</if>
+            <if test="auditStatus != null "> and audit_status = #{auditStatus}</if>
+            <if test="heightHide != null "> and height_hide = #{heightHide}</if>
+            <if test="sponsor != null  and sponsor != ''"> and sponsor = #{sponsor}</if>
+        </where>
+    </select>
+    
+    <select id="selectCompetitionById" parameterType="Long" resultMap="CompetitionResult">
+        <include refid="selectCompetitionVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCompetition" parameterType="Competition" useGeneratedKeys="true" keyProperty="id">
+        insert into competition
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mainTeamId != null">main_team_id,</if>
+            <if test="mainTeamName != null">main_team_name,</if>
+            <if test="guestTeamId != null">guest_team_id,</if>
+            <if test="guestTeamName != null">guest_team_name,</if>
+            <if test="competitionCode != null">competition_code,</if>
+            <if test="competitionName != null">competition_name,</if>
+            <if test="designated != null">designated,</if>
+            <if test="competitionType != null">competition_type,</if>
+            <if test="competitionTime != null">competition_time,</if>
+            <if test="buildingId != null">building_id,</if>
+            <if test="buildingName != null">building_name,</if>
+            <if test="competitionAddress != null">competition_address,</if>
+            <if test="founder != null">founder,</if>
+            <if test="status != null">status,</if>
+            <if test="cityCode != null">city_code,</if>
+            <if test="cityName != null">city_name,</if>
+            <if test="maxPlayer != null">max_player,</if>
+            <if test="createdTime != null">created_time,</if>
+            <if test="lastUpdatedTime != null">last_updated_time,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="modifiedBy != null">modified_by,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+            <if test="longitude != null">longitude,</if>
+            <if test="latitude != null">latitude,</if>
+            <if test="remark != null">remark,</if>
+            <if test="competitionNature != null">competition_nature,</if>
+            <if test="enrollBeginTime != null">enroll_begin_time,</if>
+            <if test="enrollEndTime != null">enroll_end_time,</if>
+            <if test="contacts != null">contacts,</if>
+            <if test="contactsAreaCode != null">contacts_area_code,</if>
+            <if test="contactsTel != null">contacts_tel,</if>
+            <if test="competitionBeginTime != null">competition_begin_time,</if>
+            <if test="competitionEndTime != null">competition_end_time,</if>
+            <if test="organizer != null">organizer,</if>
+            <if test="undertake != null">undertake,</if>
+            <if test="competitionBackImg != null">competition_back_img,</if>
+            <if test="createdId != null">created_id,</if>
+            <if test="auditStatus != null">audit_status,</if>
+            <if test="heightHide != null">height_hide,</if>
+            <if test="sponsor != null">sponsor,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mainTeamId != null">#{mainTeamId},</if>
+            <if test="mainTeamName != null">#{mainTeamName},</if>
+            <if test="guestTeamId != null">#{guestTeamId},</if>
+            <if test="guestTeamName != null">#{guestTeamName},</if>
+            <if test="competitionCode != null">#{competitionCode},</if>
+            <if test="competitionName != null">#{competitionName},</if>
+            <if test="designated != null">#{designated},</if>
+            <if test="competitionType != null">#{competitionType},</if>
+            <if test="competitionTime != null">#{competitionTime},</if>
+            <if test="buildingId != null">#{buildingId},</if>
+            <if test="buildingName != null">#{buildingName},</if>
+            <if test="competitionAddress != null">#{competitionAddress},</if>
+            <if test="founder != null">#{founder},</if>
+            <if test="status != null">#{status},</if>
+            <if test="cityCode != null">#{cityCode},</if>
+            <if test="cityName != null">#{cityName},</if>
+            <if test="maxPlayer != null">#{maxPlayer},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="modifiedBy != null">#{modifiedBy},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="longitude != null">#{longitude},</if>
+            <if test="latitude != null">#{latitude},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="competitionNature != null">#{competitionNature},</if>
+            <if test="enrollBeginTime != null">#{enrollBeginTime},</if>
+            <if test="enrollEndTime != null">#{enrollEndTime},</if>
+            <if test="contacts != null">#{contacts},</if>
+            <if test="contactsAreaCode != null">#{contactsAreaCode},</if>
+            <if test="contactsTel != null">#{contactsTel},</if>
+            <if test="competitionBeginTime != null">#{competitionBeginTime},</if>
+            <if test="competitionEndTime != null">#{competitionEndTime},</if>
+            <if test="organizer != null">#{organizer},</if>
+            <if test="undertake != null">#{undertake},</if>
+            <if test="competitionBackImg != null">#{competitionBackImg},</if>
+            <if test="createdId != null">#{createdId},</if>
+            <if test="auditStatus != null">#{auditStatus},</if>
+            <if test="heightHide != null">#{heightHide},</if>
+            <if test="sponsor != null">#{sponsor},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCompetition" parameterType="Competition">
+        update competition
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="mainTeamId != null">main_team_id = #{mainTeamId},</if>
+            <if test="mainTeamName != null">main_team_name = #{mainTeamName},</if>
+            <if test="guestTeamId != null">guest_team_id = #{guestTeamId},</if>
+            <if test="guestTeamName != null">guest_team_name = #{guestTeamName},</if>
+            <if test="competitionCode != null">competition_code = #{competitionCode},</if>
+            <if test="competitionName != null">competition_name = #{competitionName},</if>
+            <if test="designated != null">designated = #{designated},</if>
+            <if test="competitionType != null">competition_type = #{competitionType},</if>
+            <if test="competitionTime != null">competition_time = #{competitionTime},</if>
+            <if test="buildingId != null">building_id = #{buildingId},</if>
+            <if test="buildingName != null">building_name = #{buildingName},</if>
+            <if test="competitionAddress != null">competition_address = #{competitionAddress},</if>
+            <if test="founder != null">founder = #{founder},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="cityCode != null">city_code = #{cityCode},</if>
+            <if test="cityName != null">city_name = #{cityName},</if>
+            <if test="maxPlayer != null">max_player = #{maxPlayer},</if>
+            <if test="createdTime != null">created_time = #{createdTime},</if>
+            <if test="lastUpdatedTime != null">last_updated_time = #{lastUpdatedTime},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="modifiedBy != null">modified_by = #{modifiedBy},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+            <if test="longitude != null">longitude = #{longitude},</if>
+            <if test="latitude != null">latitude = #{latitude},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="competitionNature != null">competition_nature = #{competitionNature},</if>
+            <if test="enrollBeginTime != null">enroll_begin_time = #{enrollBeginTime},</if>
+            <if test="enrollEndTime != null">enroll_end_time = #{enrollEndTime},</if>
+            <if test="contacts != null">contacts = #{contacts},</if>
+            <if test="contactsAreaCode != null">contacts_area_code = #{contactsAreaCode},</if>
+            <if test="contactsTel != null">contacts_tel = #{contactsTel},</if>
+            <if test="competitionBeginTime != null">competition_begin_time = #{competitionBeginTime},</if>
+            <if test="competitionEndTime != null">competition_end_time = #{competitionEndTime},</if>
+            <if test="organizer != null">organizer = #{organizer},</if>
+            <if test="undertake != null">undertake = #{undertake},</if>
+            <if test="competitionBackImg != null">competition_back_img = #{competitionBackImg},</if>
+            <if test="createdId != null">created_id = #{createdId},</if>
+            <if test="auditStatus != null">audit_status = #{auditStatus},</if>
+            <if test="heightHide != null">height_hide = #{heightHide},</if>
+            <if test="sponsor != null">sponsor = #{sponsor},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCompetitionById" parameterType="Long">
+        delete from competition where id = #{id}
+    </delete>
+
+    <delete id="deleteCompetitionByIds" parameterType="String">
+        delete from competition where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
