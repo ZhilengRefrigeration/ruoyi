@@ -108,20 +108,20 @@
             :fit="imgfit"></el-image>
         </template>
       </el-table-column>
-      <el-table-column label="名称" align="center" prop="buildingName" show-overflow-tooltip="true"/>
-<!--      <el-table-column label="经度" align="center" prop="longitude" show-overflow-tooltip="true"/>
-      <el-table-column label="纬度" align="center" prop="latitude" show-overflow-tooltip="true"/>-->
-<!--      <el-table-column label="省" align="center" prop="cityName" show-overflow-tooltip="true"/>
+      <el-table-column label="名称" align="center" prop="buildingName" show-overflow-tooltip/>
+<!--      <el-table-column label="经度" align="center" prop="longitude" show-overflow-tooltip/>
+      <el-table-column label="纬度" align="center" prop="latitude" show-overflow-tooltip/>-->
+<!--      <el-table-column label="省" align="center" prop="cityName" show-overflow-tooltip/>
       <el-table-column label="市" align="center" prop="cityName" />
       <el-table-column label="区县编码" align="center" prop="countyCode" />-->
       <el-table-column label="城市" align="center" prop="cityName" />
       <el-table-column label="是否支持在线" align="center" prop="isSupportlive" />
       <el-table-column label="球馆状态" align="center" prop="status" />
-      <el-table-column label="地址" align="center" prop="address" show-overflow-tooltip="true"/>
-      <el-table-column label="备注" align="center" prop="remark" show-overflow-tooltip="true"/>
+      <el-table-column label="地址" align="center" prop="address" show-overflow-tooltip/>
+      <el-table-column label="备注" align="center" prop="remark" show-overflow-tooltip/>
       <el-table-column label="是否开放" align="center" prop="isOpen" />
-<!--      <el-table-column label="人均价格" align="center" prop="mittelkurs" show-overflow-tooltip="true"/>-->
-      <el-table-column label="微信管理员二维码" align="center" show-overflow-tooltip="true">
+<!--      <el-table-column label="人均价格" align="center" prop="mittelkurs" show-overflow-tooltip/>-->
+      <el-table-column label="微信管理员二维码" align="center" show-overflow-tooltip>
       <template slot-scope="scope">
         <el-image
           style="width: 100px; height: 100px"
@@ -131,7 +131,7 @@
       </template>
       </el-table-column>
       <el-table-column label="创建人ID" align="center" prop="createdId" />
-<!--      <el-table-column label="描述" align="center" prop="desc" show-overflow-tooltip="true"/>-->
+<!--      <el-table-column label="描述" align="center" prop="desc" show-overflow-tooltip/>-->
       <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>

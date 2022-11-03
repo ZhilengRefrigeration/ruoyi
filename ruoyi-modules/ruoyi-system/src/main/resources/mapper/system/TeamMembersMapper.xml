@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TeamMembersMapper">
+    
+    <resultMap type="TeamMembers" id="TeamMembersResult">
+        <result property="id"    column="id"    />
+        <result property="teamId"    column="team_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="roleCode"    column="role_code"    />
+        <result property="jerseyNumber"    column="jersey_number"    />
+        <result property="status"    column="status"    />
+        <result property="remark"    column="remark"    />
+        <result property="createdTime"    column="created_time"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="isDeleted"    column="IS_DELETED"    />
+        <result property="lastUpdatedTime"    column="last_updated_time"    />
+        <result property="modifiedBy"    column="modified_by"    />
+        <result property="roleName"    column="role_name"    />
+    </resultMap>
+
+    <sql id="selectTeamMembersVo">
+        select id, team_id, user_id, role_code, jersey_number, status, remark, created_time, created_by, IS_DELETED, last_updated_time, modified_by, role_name from team_members
+    </sql>
+    <select id="selectTeamMembersById" parameterType="Long" resultMap="TeamMembersResult">
+        <include refid="selectTeamMembersVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectTeamMembersList" resultType="com.ruoyi.system.domain.vo.TeamMembersVo">
+        select t.id, t.team_id, t.user_id, t.role_code, t.jersey_number, t.status, t.remark, t.created_time,
+        t.created_by, t.IS_DELETED, t.last_updated_time, t.modified_by, t.role_name,u.*
+        from team_members t left join user_info u on u.id = t.user_id
+        <where>
+             t.IS_DELETED = 0 and u.IS_DELETED = 0
+            <if test="teamId != null "> and t.team_id = #{teamId}</if>
+            <if test="userId != null "> and t.user_id = #{userId}</if>
+            <if test="roleCode != null  and roleCode != ''"> and t.role_code = #{roleCode}</if>
+            <if test="jerseyNumber != null  and jerseyNumber != ''"> and t.jersey_number = #{jerseyNumber}</if>
+            <if test="status != null "> and t.status = #{status}</if>
+            <if test="createdTime != null "> and t.created_time = #{createdTime}</if>
+            <if test="createdBy != null  and createdBy != ''"> and t.created_by = #{createdBy}</if>
+            <if test="lastUpdatedTime != null "> and t.last_updated_time = #{lastUpdatedTime}</if>
+            <if test="modifiedBy != null  and modifiedBy != ''"> and t.cmodified_by = #{modifiedBy}</if>
+            <if test="roleName != null  and roleName != ''"> and t.role_name like concat('%', #{roleName}, '%')</if>
+            <if test="userName != null "> and t.user_name like concat('%', #{userName}, '%')</if>
+        </where>
+    </select>
+    <insert id="insertTeamMembers" parameterType="TeamMembers" useGeneratedKeys="true" keyProperty="id">
+        insert into team_members
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="teamId != null">team_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="roleCode != null">role_code,</if>
+            <if test="jerseyNumber != null">jersey_number,</if>
+            <if test="status != null">status,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createdTime != null">created_time,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="isDeleted != null">IS_DELETED,</if>
+            <if test="lastUpdatedTime != null">last_updated_time,</if>
+            <if test="modifiedBy != null">modified_by,</if>
+            <if test="roleName != null">role_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="teamId != null">#{teamId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="roleCode != null">#{roleCode},</if>
+            <if test="jerseyNumber != null">#{jerseyNumber},</if>
+            <if test="status != null">#{status},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+            <if test="modifiedBy != null">#{modifiedBy},</if>
+            <if test="roleName != null">#{roleName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTeamMembers" parameterType="TeamMembers">
+        update team_members
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="teamId != null">team_id = #{teamId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="roleCode != null">role_code = #{roleCode},</if>
+            <if test="jerseyNumber != null">jersey_number = #{jerseyNumber},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createdTime != null">created_time = #{createdTime},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="isDeleted != null">IS_DELETED = #{isDeleted},</if>
+            <if test="lastUpdatedTime != null">last_updated_time = #{lastUpdatedTime},</if>
+            <if test="modifiedBy != null">modified_by = #{modifiedBy},</if>
+            <if test="roleName != null">role_name = #{roleName},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTeamMembersById" parameterType="Long">
+        delete from team_members where id = #{id}
+    </delete>
+
+    <delete id="deleteTeamMembersByIds" parameterType="String">
+        delete from team_members where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

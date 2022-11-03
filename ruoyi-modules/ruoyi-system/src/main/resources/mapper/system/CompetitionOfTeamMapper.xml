@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CompetitionOfTeamMapper">
+    
+    <resultMap type="CompetitionOfTeam" id="CompetitionOfTeamResult">
+        <result property="id"    column="id"    />
+        <result property="competitionId"    column="competition_id"    />
+        <result property="teamId"    column="team_id"    />
+        <result property="teamName"    column="team_name"    />
+        <result property="competitionGroup"    column="competition_group"    />
+        <result property="createdTime"    column="created_time"    />
+        <result property="status"    column="status"    />
+        <result property="lastUpdatedTime"    column="last_updated_time"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="modifiedBy"    column="modified_by"    />
+        <result property="isDeleted"    column="is_deleted"    />
+        <result property="remark"    column="remark"    />
+        <result property="contacts"    column="contacts"    />
+        <result property="contactsTel"    column="contacts_tel"    />
+        <result property="contactsAreaCode"    column="contacts_area_code"    />
+        <result property="serialNumber"    column="serial_number"    />
+    </resultMap>
+
+    <sql id="selectCompetitionOfTeamVo">
+        select id, competition_id, team_id, team_name, competition_group, created_time, status, last_updated_time, created_by, modified_by, is_deleted, remark, contacts, contacts_tel, contacts_area_code, serial_number from competition_of_team
+    </sql>
+
+    <select id="selectCompetitionOfTeamList" parameterType="CompetitionOfTeam" resultMap="CompetitionOfTeamResult">
+        <include refid="selectCompetitionOfTeamVo"/>
+        <where>  
+            <if test="competitionId != null "> and competition_id = #{competitionId}</if>
+            <if test="teamId != null "> and team_id = #{teamId}</if>
+            <if test="teamName != null  and teamName != ''"> and team_name like concat('%', #{teamName}, '%')</if>
+            <if test="competitionGroup != null  and competitionGroup != ''"> and competition_group = #{competitionGroup}</if>
+            <if test="createdTime != null "> and created_time = #{createdTime}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="lastUpdatedTime != null "> and last_updated_time = #{lastUpdatedTime}</if>
+            <if test="createdBy != null  and createdBy != ''"> and created_by = #{createdBy}</if>
+            <if test="modifiedBy != null  and modifiedBy != ''"> and modified_by = #{modifiedBy}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+            <if test="contacts != null  and contacts != ''"> and contacts = #{contacts}</if>
+            <if test="contactsTel != null  and contactsTel != ''"> and contacts_tel = #{contactsTel}</if>
+            <if test="contactsAreaCode != null  and contactsAreaCode != ''"> and contacts_area_code = #{contactsAreaCode}</if>
+            <if test="serialNumber != null "> and serial_number = #{serialNumber}</if>
+        </where>
+    </select>
+    
+    <select id="selectCompetitionOfTeamById" parameterType="Long" resultMap="CompetitionOfTeamResult">
+        <include refid="selectCompetitionOfTeamVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCompetitionOfTeam" parameterType="CompetitionOfTeam" useGeneratedKeys="true" keyProperty="id">
+        insert into competition_of_team
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="competitionId != null">competition_id,</if>
+            <if test="teamId != null">team_id,</if>
+            <if test="teamName != null">team_name,</if>
+            <if test="competitionGroup != null">competition_group,</if>
+            <if test="createdTime != null">created_time,</if>
+            <if test="status != null">status,</if>
+            <if test="lastUpdatedTime != null">last_updated_time,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="modifiedBy != null">modified_by,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+            <if test="remark != null">remark,</if>
+            <if test="contacts != null">contacts,</if>
+            <if test="contactsTel != null">contacts_tel,</if>
+            <if test="contactsAreaCode != null">contacts_area_code,</if>
+            <if test="serialNumber != null">serial_number,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="competitionId != null">#{competitionId},</if>
+            <if test="teamId != null">#{teamId},</if>
+            <if test="teamName != null">#{teamName},</if>
+            <if test="competitionGroup != null">#{competitionGroup},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="modifiedBy != null">#{modifiedBy},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="contacts != null">#{contacts},</if>
+            <if test="contactsTel != null">#{contactsTel},</if>
+            <if test="contactsAreaCode != null">#{contactsAreaCode},</if>
+            <if test="serialNumber != null">#{serialNumber},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCompetitionOfTeam" parameterType="CompetitionOfTeam">
+        update competition_of_team
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="competitionId != null">competition_id = #{competitionId},</if>
+            <if test="teamId != null">team_id = #{teamId},</if>
+            <if test="teamName != null">team_name = #{teamName},</if>
+            <if test="competitionGroup != null">competition_group = #{competitionGroup},</if>
+            <if test="createdTime != null">created_time = #{createdTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="lastUpdatedTime != null">last_updated_time = #{lastUpdatedTime},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="modifiedBy != null">modified_by = #{modifiedBy},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="contacts != null">contacts = #{contacts},</if>
+            <if test="contactsTel != null">contacts_tel = #{contactsTel},</if>
+            <if test="contactsAreaCode != null">contacts_area_code = #{contactsAreaCode},</if>
+            <if test="serialNumber != null">serial_number = #{serialNumber},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCompetitionOfTeamById" parameterType="Long">
+        delete from competition_of_team where id = #{id}
+    </delete>
+
+    <delete id="deleteCompetitionOfTeamByIds" parameterType="String">
+        delete from competition_of_team where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

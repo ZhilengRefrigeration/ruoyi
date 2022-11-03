@@ -8,7 +8,13 @@ export function listBasketBallTeam(query) {
     params: query
   })
 }
-
+export function listTeamMembers(query) {
+  return request({
+    url: '/system/teamMembers/list',
+    method: 'get',
+    params: query
+  })
+}
 // 查询球队管理详细
 export function getBasketBallTeam(id) {
   return request({

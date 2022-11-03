@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CompetitionMembersScoreMapper">
+    
+    <resultMap type="CompetitionMembersScore" id="CompetitionMembersScoreResult">
+        <result property="id"    column="id"    />
+        <result property="competitionId"    column="competition_id"    />
+        <result property="competitionVsId"    column="competition_vs_id"    />
+        <result property="teamId"    column="team_id"    />
+        <result property="teamName"    column="team_name"    />
+        <result property="nodeNum"    column="node_num"    />
+        <result property="teamUserId"    column="team_user_id"    />
+        <result property="jerseyNumber"    column="jersey_number"    />
+        <result property="totalScore"    column="total_score"    />
+        <result property="twoPoints"    column="two_points"    />
+        <result property="threePoints"    column="three_points"    />
+        <result property="penalty"    column="penalty"    />
+        <result property="backboard"    column="backboard"    />
+        <result property="frontPlate"    column="front_plate"    />
+        <result property="backPlate"    column="back_plate"    />
+        <result property="assists"    column="assists"    />
+        <result property="snatch"    column="snatch"    />
+        <result property="block"    column="block"    />
+        <result property="fault"    column="fault"    />
+        <result property="breaks"    column="breaks"    />
+        <result property="createdTime"    column="created_time"    />
+        <result property="lastUpdatedTime"    column="last_updated_time"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="modifiedBy"    column="modified_by"    />
+        <result property="isDeleted"    column="is_deleted"    />
+        <result property="remark"    column="remark"    />
+        <result property="isFirstLaunch"    column="is_first_launch"    />
+    </resultMap>
+
+    <sql id="selectCompetitionMembersScoreVo">
+        select id, competition_id, competition_vs_id, team_id, team_name, node_num, team_user_id, jersey_number, total_score, two_points, three_points, penalty, backboard, front_plate, back_plate, assists, snatch, block, fault, breaks, created_time, last_updated_time, created_by, modified_by, is_deleted, remark, is_first_launch from competition_members_score
+    </sql>
+
+    <select id="selectCompetitionMembersScoreList" parameterType="CompetitionMembersScore" resultMap="CompetitionMembersScoreResult">
+        <include refid="selectCompetitionMembersScoreVo"/>
+        <where>  
+            <if test="competitionId != null "> and competition_id = #{competitionId}</if>
+            <if test="competitionVsId != null "> and competition_vs_id = #{competitionVsId}</if>
+            <if test="teamId != null "> and team_id = #{teamId}</if>
+            <if test="teamName != null  and teamName != ''"> and team_name like concat('%', #{teamName}, '%')</if>
+            <if test="nodeNum != null "> and node_num = #{nodeNum}</if>
+            <if test="teamUserId != null "> and team_user_id = #{teamUserId}</if>
+            <if test="jerseyNumber != null  and jerseyNumber != ''"> and jersey_number = #{jerseyNumber}</if>
+            <if test="totalScore != null "> and total_score = #{totalScore}</if>
+            <if test="twoPoints != null "> and two_points = #{twoPoints}</if>
+            <if test="threePoints != null "> and three_points = #{threePoints}</if>
+            <if test="penalty != null "> and penalty = #{penalty}</if>
+            <if test="backboard != null "> and backboard = #{backboard}</if>
+            <if test="frontPlate != null "> and front_plate = #{frontPlate}</if>
+            <if test="backPlate != null "> and back_plate = #{backPlate}</if>
+            <if test="assists != null "> and assists = #{assists}</if>
+            <if test="snatch != null "> and snatch = #{snatch}</if>
+            <if test="block != null "> and block = #{block}</if>
+            <if test="fault != null "> and fault = #{fault}</if>
+            <if test="breaks != null "> and breaks = #{breaks}</if>
+            <if test="createdTime != null "> and created_time = #{createdTime}</if>
+            <if test="lastUpdatedTime != null "> and last_updated_time = #{lastUpdatedTime}</if>
+            <if test="createdBy != null  and createdBy != ''"> and created_by = #{createdBy}</if>
+            <if test="modifiedBy != null  and modifiedBy != ''"> and modified_by = #{modifiedBy}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+            <if test="isFirstLaunch != null "> and is_first_launch = #{isFirstLaunch}</if>
+        </where>
+    </select>
+    
+    <select id="selectCompetitionMembersScoreById" parameterType="Long" resultMap="CompetitionMembersScoreResult">
+        <include refid="selectCompetitionMembersScoreVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCompetitionMembersScore" parameterType="CompetitionMembersScore" useGeneratedKeys="true" keyProperty="id">
+        insert into competition_members_score
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="competitionId != null">competition_id,</if>
+            <if test="competitionVsId != null">competition_vs_id,</if>
+            <if test="teamId != null">team_id,</if>
+            <if test="teamName != null">team_name,</if>
+            <if test="nodeNum != null">node_num,</if>
+            <if test="teamUserId != null">team_user_id,</if>
+            <if test="jerseyNumber != null">jersey_number,</if>
+            <if test="totalScore != null">total_score,</if>
+            <if test="twoPoints != null">two_points,</if>
+            <if test="threePoints != null">three_points,</if>
+            <if test="penalty != null">penalty,</if>
+            <if test="backboard != null">backboard,</if>
+            <if test="frontPlate != null">front_plate,</if>
+            <if test="backPlate != null">back_plate,</if>
+            <if test="assists != null">assists,</if>
+            <if test="snatch != null">snatch,</if>
+            <if test="block != null">block,</if>
+            <if test="fault != null">fault,</if>
+            <if test="breaks != null">breaks,</if>
+            <if test="createdTime != null">created_time,</if>
+            <if test="lastUpdatedTime != null">last_updated_time,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="modifiedBy != null">modified_by,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+            <if test="remark != null">remark,</if>
+            <if test="isFirstLaunch != null">is_first_launch,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="competitionId != null">#{competitionId},</if>
+            <if test="competitionVsId != null">#{competitionVsId},</if>
+            <if test="teamId != null">#{teamId},</if>
+            <if test="teamName != null">#{teamName},</if>
+            <if test="nodeNum != null">#{nodeNum},</if>
+            <if test="teamUserId != null">#{teamUserId},</if>
+            <if test="jerseyNumber != null">#{jerseyNumber},</if>
+            <if test="totalScore != null">#{totalScore},</if>
+            <if test="twoPoints != null">#{twoPoints},</if>
+            <if test="threePoints != null">#{threePoints},</if>
+            <if test="penalty != null">#{penalty},</if>
+            <if test="backboard != null">#{backboard},</if>
+            <if test="frontPlate != null">#{frontPlate},</if>
+            <if test="backPlate != null">#{backPlate},</if>
+            <if test="assists != null">#{assists},</if>
+            <if test="snatch != null">#{snatch},</if>
+            <if test="block != null">#{block},</if>
+            <if test="fault != null">#{fault},</if>
+            <if test="breaks != null">#{breaks},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="modifiedBy != null">#{modifiedBy},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="isFirstLaunch != null">#{isFirstLaunch},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCompetitionMembersScore" parameterType="CompetitionMembersScore">
+        update competition_members_score
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="competitionId != null">competition_id = #{competitionId},</if>
+            <if test="competitionVsId != null">competition_vs_id = #{competitionVsId},</if>
+            <if test="teamId != null">team_id = #{teamId},</if>
+            <if test="teamName != null">team_name = #{teamName},</if>
+            <if test="nodeNum != null">node_num = #{nodeNum},</if>
+            <if test="teamUserId != null">team_user_id = #{teamUserId},</if>
+            <if test="jerseyNumber != null">jersey_number = #{jerseyNumber},</if>
+            <if test="totalScore != null">total_score = #{totalScore},</if>
+            <if test="twoPoints != null">two_points = #{twoPoints},</if>
+            <if test="threePoints != null">three_points = #{threePoints},</if>
+            <if test="penalty != null">penalty = #{penalty},</if>
+            <if test="backboard != null">backboard = #{backboard},</if>
+            <if test="frontPlate != null">front_plate = #{frontPlate},</if>
+            <if test="backPlate != null">back_plate = #{backPlate},</if>
+            <if test="assists != null">assists = #{assists},</if>
+            <if test="snatch != null">snatch = #{snatch},</if>
+            <if test="block != null">block = #{block},</if>
+            <if test="fault != null">fault = #{fault},</if>
+            <if test="breaks != null">breaks = #{breaks},</if>
+            <if test="createdTime != null">created_time = #{createdTime},</if>
+            <if test="lastUpdatedTime != null">last_updated_time = #{lastUpdatedTime},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="modifiedBy != null">modified_by = #{modifiedBy},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="isFirstLaunch != null">is_first_launch = #{isFirstLaunch},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCompetitionMembersScoreById" parameterType="Long">
+        delete from competition_members_score where id = #{id}
+    </delete>
+
+    <delete id="deleteCompetitionMembersScoreByIds" parameterType="String">
+        delete from competition_members_score where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

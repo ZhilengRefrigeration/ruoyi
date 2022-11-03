@@ -77,9 +77,9 @@
           <el-avatar :src="scope.row.avatar"></el-avatar>
         </template>
       </el-table-column>
-      <el-table-column label="登录名称" align="center" prop="loginName" show-overflow-tooltip="true"/>
+      <el-table-column label="登录名称" align="center" prop="loginName" show-overflow-tooltip/>
       <el-table-column label="角色" align="center" prop="role" />
-      <el-table-column label="OPENID" align="center" prop="openid" show-overflow-tooltip="true"/>
+      <el-table-column label="OPENID" align="center" prop="openid" show-overflow-tooltip/>
       <el-table-column label="性别" align="center" prop="gender" >
         <template slot-scope="scope">
           <span v-if="scope.row.gender==1">男</span>
@@ -108,7 +108,7 @@
           <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="创建人" align="center" prop="createdBy" show-overflow-tooltip="true"/>
+      <el-table-column label="创建人" align="center" prop="createdBy" show-overflow-tooltip/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button

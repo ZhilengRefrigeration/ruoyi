@@ -86,9 +86,9 @@
         </template>
       </el-table-column>
       <el-table-column label="球队名称" align="center" prop="teamName" />
-      <el-table-column label="球队简介" align="center" show-overflow-tooltip="true" prop="teamDes" />
+      <el-table-column label="球队简介" align="center" show-overflow-tooltip prop="teamDes" />
       <el-table-column label="球馆id" align="center" prop="buildId" />
-      <el-table-column label="球馆名称" show-overflow-tooltip="true" align="center" prop="buildingName" />
+      <el-table-column label="球馆名称" show-overflow-tooltip align="center" prop="buildingName" />
       <el-table-column label="创建人ID" align="center" prop="createdId" />
       <el-table-column label="球队联系人电话" align="center" prop="contactTel" />
       <el-table-column label="球队图片" align="center" prop="defaultPicture" >
@@ -105,7 +105,7 @@
           <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="创建人" align="center" show-overflow-tooltip="true" prop="createdBy" />
+      <el-table-column label="创建人" align="center" show-overflow-tooltip prop="createdBy" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -122,6 +122,13 @@
             @click="handleDelete(scope.row)"
             v-hasPermi="['system:basketBallTeam:remove']"
           >删除</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-user-solid"
+            @click="handleTeamMembers(scope.row)"
+            v-hasPermi="['system:basketBallTeam:edit']"
+          >球队成员</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -195,11 +202,33 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+    <!-- 球队成员管理对话框 -->
+    <el-dialog :title="teamMembersTitle" :visible.sync="teamMembersOpen" width="700px" append-to-body>
+      <el-table :data="teamMembersList">
+        <el-table-column label="头像" align="center" prop="avatar"  >
+          <template slot-scope="scope">
+            <el-avatar :src="scope.row.avatar"></el-avatar>
+          </template>
+        </el-table-column>
+        <el-table-column label="成员名称" align="center" prop="userName" ></el-table-column>
+        <el-table-column label="球衣号" align="center" prop="jerseyNumber" ></el-table-column>
+        <el-table-column label="场上位置" align="center" prop="teamPosition" ></el-table-column>
+        <el-table-column label="身高(cm)" align="center" prop="height" ></el-table-column>
+        <el-table-column label="体重(kg)" align="center" prop="weight" ></el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { listBasketBallTeam, getBasketBallTeam, delBasketBallTeam, addBasketBallTeam, updateBasketBallTeam } from "@/api/system/basketBallTeam";
+import {
+  listBasketBallTeam,
+  getBasketBallTeam,
+  delBasketBallTeam,
+  addBasketBallTeam,
+  updateBasketBallTeam,
+  listTeamMembers
+} from "@/api/system/basketBallTeam";
 
 export default {
   name: "BasketBallTeam",
@@ -222,6 +251,9 @@ export default {
       basketBallTeamList: [],
       // 弹出层标题
       title: "",
+      teamMembersTitle: "",
+      teamMembersList:[],
+      teamMembersOpen:false,
       // 是否显示弹出层
       open: false,
       // 查询参数
@@ -312,6 +344,19 @@ export default {
         this.form = response.data;
         this.open = true;
         this.title = "修改球队管理";
+      });
+    },
+    /** 修改按钮操作 */
+    handleTeamMembers(row) {
+      const id = row.id || this.ids
+      const param = {
+        teamId:id
+      }
+      listTeamMembers(param).then(response => {
+        console.info(response)
+        this.teamMembersList = response.rows;
+        this.teamMembersOpen = true;
+        this.teamMembersTitle = "球队成员";
       });
     },
     /** 提交按钮 */

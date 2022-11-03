@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CompetitionResultMapper">
+    
+    <resultMap type="CompetitionResult" id="CompetitionResultResult">
+        <result property="id"    column="id"    />
+        <result property="competitionId"    column="competition_id"    />
+        <result property="competitionVsId"    column="competition_vs_id"    />
+        <result property="teamId"    column="team_id"    />
+        <result property="teamName"    column="team_name"    />
+        <result property="oneNodeScore"    column="one_node_score"    />
+        <result property="twoNodeScore"    column="two_node_score"    />
+        <result property="competitionGroup"    column="competition_group"    />
+        <result property="status"    column="status"    />
+        <result property="createdTime"    column="created_time"    />
+        <result property="lastUpdatedTime"    column="last_updated_time"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="modifiedBy"    column="modified_by"    />
+        <result property="isDeleted"    column="is_deleted"    />
+        <result property="remark"    column="remark"    />
+        <result property="threeNodeScore"    column="three_node_score"    />
+        <result property="fourNodeScore"    column="four_node_score"    />
+        <result property="fiveNodeScore"    column="five_node_score"    />
+        <result property="sixNodeScore"    column="six_node_score"    />
+        <result property="integral"    column="integral"    />
+    </resultMap>
+
+    <sql id="selectCompetitionResultVo">
+        select id, competition_id, competition_vs_id, team_id, team_name, one_node_score, two_node_score, competition_group, status, created_time, last_updated_time, created_by, modified_by, is_deleted, remark, three_node_score, four_node_score, five_node_score, six_node_score, integral from competition_result
+    </sql>
+
+    <select id="selectCompetitionResultList" parameterType="CompetitionResult" resultMap="CompetitionResultResult">
+        <include refid="selectCompetitionResultVo"/>
+        <where>  
+            <if test="competitionId != null "> and competition_id = #{competitionId}</if>
+            <if test="competitionVsId != null "> and competition_vs_id = #{competitionVsId}</if>
+            <if test="teamId != null "> and team_id = #{teamId}</if>
+            <if test="teamName != null  and teamName != ''"> and team_name like concat('%', #{teamName}, '%')</if>
+            <if test="oneNodeScore != null "> and one_node_score = #{oneNodeScore}</if>
+            <if test="twoNodeScore != null "> and two_node_score = #{twoNodeScore}</if>
+            <if test="competitionGroup != null  and competitionGroup != ''"> and competition_group = #{competitionGroup}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="createdTime != null "> and created_time = #{createdTime}</if>
+            <if test="lastUpdatedTime != null "> and last_updated_time = #{lastUpdatedTime}</if>
+            <if test="createdBy != null  and createdBy != ''"> and created_by = #{createdBy}</if>
+            <if test="modifiedBy != null  and modifiedBy != ''"> and modified_by = #{modifiedBy}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+            <if test="threeNodeScore != null "> and three_node_score = #{threeNodeScore}</if>
+            <if test="fourNodeScore != null "> and four_node_score = #{fourNodeScore}</if>
+            <if test="fiveNodeScore != null "> and five_node_score = #{fiveNodeScore}</if>
+            <if test="sixNodeScore != null "> and six_node_score = #{sixNodeScore}</if>
+            <if test="integral != null "> and integral = #{integral}</if>
+        </where>
+    </select>
+    
+    <select id="selectCompetitionResultById" parameterType="Long" resultMap="CompetitionResultResult">
+        <include refid="selectCompetitionResultVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCompetitionResult" parameterType="CompetitionResult" useGeneratedKeys="true" keyProperty="id">
+        insert into competition_result
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="competitionId != null">competition_id,</if>
+            <if test="competitionVsId != null">competition_vs_id,</if>
+            <if test="teamId != null">team_id,</if>
+            <if test="teamName != null">team_name,</if>
+            <if test="oneNodeScore != null">one_node_score,</if>
+            <if test="twoNodeScore != null">two_node_score,</if>
+            <if test="competitionGroup != null">competition_group,</if>
+            <if test="status != null">status,</if>
+            <if test="createdTime != null">created_time,</if>
+            <if test="lastUpdatedTime != null">last_updated_time,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="modifiedBy != null">modified_by,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+            <if test="remark != null">remark,</if>
+            <if test="threeNodeScore != null">three_node_score,</if>
+            <if test="fourNodeScore != null">four_node_score,</if>
+            <if test="fiveNodeScore != null">five_node_score,</if>
+            <if test="sixNodeScore != null">six_node_score,</if>
+            <if test="integral != null">integral,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="competitionId != null">#{competitionId},</if>
+            <if test="competitionVsId != null">#{competitionVsId},</if>
+            <if test="teamId != null">#{teamId},</if>
+            <if test="teamName != null">#{teamName},</if>
+            <if test="oneNodeScore != null">#{oneNodeScore},</if>
+            <if test="twoNodeScore != null">#{twoNodeScore},</if>
+            <if test="competitionGroup != null">#{competitionGroup},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="modifiedBy != null">#{modifiedBy},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="threeNodeScore != null">#{threeNodeScore},</if>
+            <if test="fourNodeScore != null">#{fourNodeScore},</if>
+            <if test="fiveNodeScore != null">#{fiveNodeScore},</if>
+            <if test="sixNodeScore != null">#{sixNodeScore},</if>
+            <if test="integral != null">#{integral},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCompetitionResult" parameterType="CompetitionResult">
+        update competition_result
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="competitionId != null">competition_id = #{competitionId},</if>
+            <if test="competitionVsId != null">competition_vs_id = #{competitionVsId},</if>
+            <if test="teamId != null">team_id = #{teamId},</if>
+            <if test="teamName != null">team_name = #{teamName},</if>
+            <if test="oneNodeScore != null">one_node_score = #{oneNodeScore},</if>
+            <if test="twoNodeScore != null">two_node_score = #{twoNodeScore},</if>
+            <if test="competitionGroup != null">competition_group = #{competitionGroup},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createdTime != null">created_time = #{createdTime},</if>
+            <if test="lastUpdatedTime != null">last_updated_time = #{lastUpdatedTime},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="modifiedBy != null">modified_by = #{modifiedBy},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="threeNodeScore != null">three_node_score = #{threeNodeScore},</if>
+            <if test="fourNodeScore != null">four_node_score = #{fourNodeScore},</if>
+            <if test="fiveNodeScore != null">five_node_score = #{fiveNodeScore},</if>
+            <if test="sixNodeScore != null">six_node_score = #{sixNodeScore},</if>
+            <if test="integral != null">integral = #{integral},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCompetitionResultById" parameterType="Long">
+        delete from competition_result where id = #{id}
+    </delete>
+
+    <delete id="deleteCompetitionResultByIds" parameterType="String">
+        delete from competition_result where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

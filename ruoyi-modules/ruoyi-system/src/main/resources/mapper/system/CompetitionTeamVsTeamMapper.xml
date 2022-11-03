@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CompetitionTeamVsTeamMapper">
+    
+    <resultMap type="CompetitionTeamVsTeam" id="CompetitionTeamVsTeamResult">
+        <result property="id"    column="id"    />
+        <result property="competitionId"    column="competition_id"    />
+        <result property="mainTeamId"    column="main_team_id"    />
+        <result property="mainTeamName"    column="main_team_name"    />
+        <result property="guestTeamId"    column="guest_team_id"    />
+        <result property="guestTeamName"    column="guest_team_name"    />
+        <result property="competitionTime"    column="competition_time"    />
+        <result property="buildingId"    column="building_id"    />
+        <result property="buildingName"    column="building_name"    />
+        <result property="competitionAddress"    column="competition_address"    />
+        <result property="competitionGroup"    column="competition_group"    />
+        <result property="status"    column="status"    />
+        <result property="createdTime"    column="created_time"    />
+        <result property="lastUpdatedTime"    column="last_updated_time"    />
+        <result property="createdBy"    column="created_by"    />
+        <result property="modifiedBy"    column="modified_by"    />
+        <result property="isDeleted"    column="is_deleted"    />
+        <result property="remark"    column="remark"    />
+        <result property="mainTeamScore"    column="main_team_score"    />
+        <result property="guestTeamScore"    column="guest_team_score"    />
+        <result property="vsType"    column="vs_type"    />
+        <result property="batchNumber"    column="batch_number"    />
+    </resultMap>
+
+    <sql id="selectCompetitionTeamVsTeamVo">
+        select id, competition_id, main_team_id, main_team_name, guest_team_id, guest_team_name, competition_time, building_id, building_name, competition_address, competition_group, status, created_time, last_updated_time, created_by, modified_by, is_deleted, remark, main_team_score, guest_team_score, vs_type, batch_number from competition_team_vs_team
+    </sql>
+
+    <select id="selectCompetitionTeamVsTeamList" parameterType="CompetitionTeamVsTeam" resultMap="CompetitionTeamVsTeamResult">
+        <include refid="selectCompetitionTeamVsTeamVo"/>
+        <where>  
+            <if test="competitionId != null "> and competition_id = #{competitionId}</if>
+            <if test="mainTeamId != null "> and main_team_id = #{mainTeamId}</if>
+            <if test="mainTeamName != null  and mainTeamName != ''"> and main_team_name like concat('%', #{mainTeamName}, '%')</if>
+            <if test="guestTeamId != null "> and guest_team_id = #{guestTeamId}</if>
+            <if test="guestTeamName != null  and guestTeamName != ''"> and guest_team_name like concat('%', #{guestTeamName}, '%')</if>
+            <if test="competitionTime != null "> and competition_time = #{competitionTime}</if>
+            <if test="buildingId != null "> and building_id = #{buildingId}</if>
+            <if test="buildingName != null  and buildingName != ''"> and building_name like concat('%', #{buildingName}, '%')</if>
+            <if test="competitionAddress != null  and competitionAddress != ''"> and competition_address = #{competitionAddress}</if>
+            <if test="competitionGroup != null  and competitionGroup != ''"> and competition_group = #{competitionGroup}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="createdTime != null "> and created_time = #{createdTime}</if>
+            <if test="lastUpdatedTime != null "> and last_updated_time = #{lastUpdatedTime}</if>
+            <if test="createdBy != null  and createdBy != ''"> and created_by = #{createdBy}</if>
+            <if test="modifiedBy != null  and modifiedBy != ''"> and modified_by = #{modifiedBy}</if>
+            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
+            <if test="mainTeamScore != null "> and main_team_score = #{mainTeamScore}</if>
+            <if test="guestTeamScore != null "> and guest_team_score = #{guestTeamScore}</if>
+            <if test="vsType != null  and vsType != ''"> and vs_type = #{vsType}</if>
+            <if test="batchNumber != null  and batchNumber != ''"> and batch_number = #{batchNumber}</if>
+        </where>
+    </select>
+    
+    <select id="selectCompetitionTeamVsTeamById" parameterType="Long" resultMap="CompetitionTeamVsTeamResult">
+        <include refid="selectCompetitionTeamVsTeamVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertCompetitionTeamVsTeam" parameterType="CompetitionTeamVsTeam" useGeneratedKeys="true" keyProperty="id">
+        insert into competition_team_vs_team
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="competitionId != null">competition_id,</if>
+            <if test="mainTeamId != null">main_team_id,</if>
+            <if test="mainTeamName != null">main_team_name,</if>
+            <if test="guestTeamId != null">guest_team_id,</if>
+            <if test="guestTeamName != null">guest_team_name,</if>
+            <if test="competitionTime != null">competition_time,</if>
+            <if test="buildingId != null">building_id,</if>
+            <if test="buildingName != null">building_name,</if>
+            <if test="competitionAddress != null">competition_address,</if>
+            <if test="competitionGroup != null">competition_group,</if>
+            <if test="status != null">status,</if>
+            <if test="createdTime != null">created_time,</if>
+            <if test="lastUpdatedTime != null">last_updated_time,</if>
+            <if test="createdBy != null">created_by,</if>
+            <if test="modifiedBy != null">modified_by,</if>
+            <if test="isDeleted != null">is_deleted,</if>
+            <if test="remark != null">remark,</if>
+            <if test="mainTeamScore != null">main_team_score,</if>
+            <if test="guestTeamScore != null">guest_team_score,</if>
+            <if test="vsType != null">vs_type,</if>
+            <if test="batchNumber != null">batch_number,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="competitionId != null">#{competitionId},</if>
+            <if test="mainTeamId != null">#{mainTeamId},</if>
+            <if test="mainTeamName != null">#{mainTeamName},</if>
+            <if test="guestTeamId != null">#{guestTeamId},</if>
+            <if test="guestTeamName != null">#{guestTeamName},</if>
+            <if test="competitionTime != null">#{competitionTime},</if>
+            <if test="buildingId != null">#{buildingId},</if>
+            <if test="buildingName != null">#{buildingName},</if>
+            <if test="competitionAddress != null">#{competitionAddress},</if>
+            <if test="competitionGroup != null">#{competitionGroup},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="modifiedBy != null">#{modifiedBy},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="mainTeamScore != null">#{mainTeamScore},</if>
+            <if test="guestTeamScore != null">#{guestTeamScore},</if>
+            <if test="vsType != null">#{vsType},</if>
+            <if test="batchNumber != null">#{batchNumber},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCompetitionTeamVsTeam" parameterType="CompetitionTeamVsTeam">
+        update competition_team_vs_team
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="competitionId != null">competition_id = #{competitionId},</if>
+            <if test="mainTeamId != null">main_team_id = #{mainTeamId},</if>
+            <if test="mainTeamName != null">main_team_name = #{mainTeamName},</if>
+            <if test="guestTeamId != null">guest_team_id = #{guestTeamId},</if>
+            <if test="guestTeamName != null">guest_team_name = #{guestTeamName},</if>
+            <if test="competitionTime != null">competition_time = #{competitionTime},</if>
+            <if test="buildingId != null">building_id = #{buildingId},</if>
+            <if test="buildingName != null">building_name = #{buildingName},</if>
+            <if test="competitionAddress != null">competition_address = #{competitionAddress},</if>
+            <if test="competitionGroup != null">competition_group = #{competitionGroup},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createdTime != null">created_time = #{createdTime},</if>
+            <if test="lastUpdatedTime != null">last_updated_time = #{lastUpdatedTime},</if>
+            <if test="createdBy != null">created_by = #{createdBy},</if>
+            <if test="modifiedBy != null">modified_by = #{modifiedBy},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="mainTeamScore != null">main_team_score = #{mainTeamScore},</if>
+            <if test="guestTeamScore != null">guest_team_score = #{guestTeamScore},</if>
+            <if test="vsType != null">vs_type = #{vsType},</if>
+            <if test="batchNumber != null">batch_number = #{batchNumber},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCompetitionTeamVsTeamById" parameterType="Long">
+        delete from competition_team_vs_team where id = #{id}
+    </delete>
+
+    <delete id="deleteCompetitionTeamVsTeamByIds" parameterType="String">
+        delete from competition_team_vs_team where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

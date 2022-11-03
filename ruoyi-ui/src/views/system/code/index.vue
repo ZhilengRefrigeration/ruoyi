@@ -109,7 +109,7 @@
             :fit="imgfit"></el-image>
         </template>
       </el-table-column>
-      <el-table-column label="用途说明" align="center" prop="useDesc" show-overflow-tooltip="true" />
+      <el-table-column label="用途说明" align="center" prop="useDesc" show-overflow-tooltip />
       <el-table-column label="绑定用户" align="center" prop="userName" />
       <el-table-column label="绑定球队" align="center" prop="teamName" />
       <el-table-column label="球衣号" align="center" prop="jerseyNo" />
@@ -118,8 +118,8 @@
           <dict-tag :options="dict.type.wx_aqr_type" :value="scope.row.busType"/>
         </template>
       </el-table-column>
-      <el-table-column label="页面路径" align="center" prop="page" show-overflow-tooltip="true"/>
-      <el-table-column label="参数" align="center" prop="scene"  show-overflow-tooltip="true"/>
+      <el-table-column label="页面路径" align="center" prop="page" show-overflow-tooltip/>
+      <el-table-column label="参数" align="center" prop="scene"  show-overflow-tooltip/>
       <el-table-column label="宽度" align="center" prop="width" />
       <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
         <template slot-scope="scope">

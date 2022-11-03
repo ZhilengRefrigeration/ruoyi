@@ -124,7 +124,7 @@
             :fit="imgfit"></el-image>
         </template>
       </el-table-column>
-      <el-table-column label="比赛名称" align="center" prop="competitionName" width="200" show-overflow-tooltip="true"/>
+      <el-table-column label="比赛名称" align="center" prop="competitionName" width="200" show-overflow-tooltip/>
       <el-table-column label="比赛状态" align="center" prop="status" width="100">
         <template slot-scope="scope">
           <el-tag>
@@ -171,17 +171,17 @@
           <span>{{ parseTime(scope.row.competitionEndTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="比赛地址" align="center" prop="competitionAddress"  show-overflow-tooltip="true" width="180"/>
-      <el-table-column label="备注说明" align="center" prop="remark" show-overflow-tooltip="true"  width="210"/>
+      <el-table-column label="比赛地址" align="center" prop="competitionAddress"  show-overflow-tooltip width="180"/>
+      <el-table-column label="备注说明" align="center" prop="remark" show-overflow-tooltip  width="210"/>
       <el-table-column label="身高隐藏" align="center" prop="heightHide" width="100">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.heightHide==1" type='info' >隐藏</el-tag>
           <el-tag v-else type='success' >显示</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="主办方" align="center" prop="organizer" width="180" show-overflow-tooltip="true"/>
-      <el-table-column label="承办方" align="center" prop="undertake" width="180" show-overflow-tooltip="true"/>
-      <el-table-column label="赞助商" align="center" prop="sponsor" width="100" show-overflow-tooltip="true"/>
+      <el-table-column label="主办方" align="center" prop="organizer" width="180" show-overflow-tooltip/>
+      <el-table-column label="承办方" align="center" prop="undertake" width="180" show-overflow-tooltip/>
+      <el-table-column label="赞助商" align="center" prop="sponsor" width="100" show-overflow-tooltip/>
       <el-table-column label="创建时间" align="center" prop="createdTime" width="100">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
