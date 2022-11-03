@@ -127,7 +127,7 @@
             type="text"
             icon="el-icon-user-solid"
             @click="handleTeamMembers(scope.row)"
-            v-hasPermi="['system:basketBallTeam:edit']"
+            v-hasPermi="['system:teamMembers:list']"
           >球队成员</el-button>
         </template>
       </el-table-column>
