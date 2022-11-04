@@ -1,10 +1,12 @@
 package com.ruoyi.job;
 
+import com.ruoyi.job.config.BackupConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.ruoyi.common.security.annotation.EnableCustomConfig;
 import com.ruoyi.common.security.annotation.EnableRyFeignClients;
 import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
  * 定时任务
@@ -14,6 +16,7 @@ import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
 @EnableCustomConfig
 @EnableCustomSwagger2   
 @EnableRyFeignClients
+@EnableConfigurationProperties(BackupConfig.class)
 @SpringBootApplication
 public class RuoYiJobApplication
 {
