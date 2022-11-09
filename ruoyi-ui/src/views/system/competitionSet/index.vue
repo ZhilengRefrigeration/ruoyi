@@ -18,9 +18,8 @@
         <el-tag size="small" v-if="competitionObj.competitionType==5">五人制</el-tag>
         <el-tag size="small" v-if="competitionObj.competitionType==6">六人制</el-tag>
       </el-descriptions-item>
-      <el-descriptions-item label="报名起止时间">开始报名时间</el-descriptions-item>
-      <el-descriptions-item label="比赛起止时间">开始报名时间</el-descriptions-item>
-      <el-descriptions-item label="比赛地址">开始报名时间</el-descriptions-item>
+      <el-descriptions-item label="报名起止时间">{{competitionObj.enrollBeginTime}}-{{competitionObj.enrollEndTime}}</el-descriptions-item>
+      <el-descriptions-item label="比赛起止时间">{{competitionObj.competitionBeginTime}}-{{competitionObj.competitionEndTime}}</el-descriptions-item>
       <el-descriptions-item label="比赛主办方">{{competitionObj.organizer}}</el-descriptions-item>
       <el-descriptions-item label="比赛承办商">{{competitionObj.undertake}}</el-descriptions-item>
       <el-descriptions-item label="赛事联系人">{{competitionObj.contacts}}</el-descriptions-item>
