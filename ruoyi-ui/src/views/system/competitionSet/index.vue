@@ -34,12 +34,12 @@
     </el-descriptions>
   <el-tabs type="border-card" tab-position="left" style="height: 900px">
     <el-tab-pane>
-      <span slot="label"><i class="el-icon-date"></i> 我的行程</span>
-      我的行程
+      <span slot="label"><i class="el-icon-s-tools"></i> 赛会设置</span>赛会设置
     </el-tab-pane>
-    <el-tab-pane label="消息中心">消息中心</el-tab-pane>
-    <el-tab-pane label="角色管理">角色管理</el-tab-pane>
-    <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>
+    <el-tab-pane label="球队审核"><span slot="label"><i class="el-icon-s-check"></i> 球队审核</span> 球队审核 </el-tab-pane>
+    <el-tab-pane label="球队分组"> <span slot="label"><i class="el-icon-film"></i> 球队分组</span> 球队分组</el-tab-pane>
+    <el-tab-pane label="赛程设置"> <span slot="label"><i class="el-icon-c-scale-to-original"></i> 赛程设置</span> 赛程设置</el-tab-pane>
+    <el-tab-pane label="赛会推广"> <span slot="label"><i class="el-icon-s-promotion"></i> 赛会推广</span> 赛会推广</el-tab-pane>
   </el-tabs>
   </div>
 </template>
