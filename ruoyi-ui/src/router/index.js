@@ -121,6 +121,20 @@ export const dynamicRoutes = [
     ]
   },
   {
+    path: '/system/competition',
+    component: Layout,
+    hidden: true,
+    permissions: ['system:user:edit'],
+    children: [
+      {
+        path: 'set/:id(\\d+)',
+        component: () => import('@/views/system/competitionSet/index'),
+        name: 'competitionSet',
+        meta: { title: '赛会配置', activeMenu: '/system/competition' }
+      }
+    ]
+  },
+  {
     path: '/system/dict-data',
     component: Layout,
     hidden: true,

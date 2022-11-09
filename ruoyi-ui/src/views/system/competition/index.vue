@@ -187,7 +187,7 @@
           <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" fixed="right" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -203,6 +203,13 @@
             @click="handleDelete(scope.row)"
             v-hasPermi="['system:competition:remove']"
           >删除</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-setting"
+            @click="handleCompetitionSet(scope.row)"
+            v-hasPermi="['system:competition:edit']"
+          >赛会设置</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -573,6 +580,11 @@ export default {
         this.getList();
         this.$modal.msgSuccess("删除成功");
       }).catch(() => {});
+    },
+    /** 分配角色操作 */
+    handleCompetitionSet: function(row) {
+      const id = row.id;
+      this.$router.push("/system/competition/set/" + id);
     },
     /** 导出按钮操作 */
     handleExport() {

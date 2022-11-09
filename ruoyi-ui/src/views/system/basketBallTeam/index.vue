@@ -210,7 +210,8 @@
             <el-avatar :src="scope.row.avatar"></el-avatar>
           </template>
         </el-table-column>
-        <el-table-column label="成员名称" align="center" prop="userName" ></el-table-column>
+        <el-table-column label="微信昵称" align="center" prop="userName" ></el-table-column>
+        <el-table-column label="成员名称" align="center" prop="realName" ></el-table-column>
         <el-table-column label="球衣号" align="center" prop="jerseyNumber" ></el-table-column>
         <el-table-column label="场上位置" align="center" prop="teamPosition" ></el-table-column>
         <el-table-column label="身高(cm)" align="center" prop="height" ></el-table-column>
