@@ -95,7 +95,7 @@ public class CompetitionOfTeamController extends BaseController
     }
     @RequiresPermissions("system:competitionOfTeam:batchEditById")
     @Log(title = "赛会中-参赛队伍", businessType = BusinessType.UPDATE)
-    @PutMapping
+    @PutMapping("/batchEditById")
     public AjaxResult batchEditById(@RequestBody List<CompetitionOfTeam> list)
     {
         return toAjax(competitionOfTeamService.batchUpdateCompetitionOfTeam(list));
