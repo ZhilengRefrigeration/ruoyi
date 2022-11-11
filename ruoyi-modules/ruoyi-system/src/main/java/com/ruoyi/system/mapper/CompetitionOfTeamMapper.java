@@ -59,4 +59,8 @@ public interface CompetitionOfTeamMapper
      * @return 结果
      */
     public int deleteCompetitionOfTeamByIds(Long[] ids);
+
+    int removeTeamGroup(Long[] ids);
+
+    int intoTeamGroup(String competitionGroup, List<Long> ids);
 }

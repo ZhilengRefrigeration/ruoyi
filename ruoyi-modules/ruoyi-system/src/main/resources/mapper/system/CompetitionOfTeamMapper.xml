@@ -109,6 +109,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         where id = #{id}
     </update>
+    <update id="removeTeamGroup">
+        update competition_of_team set competition_group = null where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    <update id="intoTeamGroup">
+        update competition_of_team set competition_group = #{competitionGroup} where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
 
     <delete id="deleteCompetitionOfTeamById" parameterType="Long">
         delete from competition_of_team where id = #{id}

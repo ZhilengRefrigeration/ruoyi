@@ -66,4 +66,8 @@ public interface ICompetitionOfTeamService
      * @return 结果
      */
     public int deleteCompetitionOfTeamById(Long id);
+
+    int removeTeamGroup(Long[] ids);
+
+    int intoTeamGroup(String competitionGroup,List<Long> ids);
 }

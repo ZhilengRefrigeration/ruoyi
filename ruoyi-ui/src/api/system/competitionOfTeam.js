@@ -34,7 +34,30 @@ export function updateCompetitionOfTeam(data) {
     data: data
   })
 }
-
+//赛会中-参赛队伍批量修改
+export function batchEditById(data) {
+  return request({
+    url: '/system/competitionOfTeam/batchEditById',
+    method: 'put',
+    data: data
+  })
+}
+//赛会中-参赛队伍移入分组
+export function intoTeamGroup(data,competitionGroup) {
+  return request({
+    url: '/system/competitionOfTeam/intoTeamGroup/'+competitionGroup,
+    method: 'post',
+    data: data
+  })
+}
+//赛会中-参赛队伍移除分组
+export function removeTeamGroup(ids,data) {
+  return request({
+    url: '/system/competitionOfTeam/removeTeamGroup/'+ids,
+    method: 'put',
+    data: data
+  })
+}
 // 删除赛会中-参赛队伍
 export function delCompetitionOfTeam(id) {
   return request({

@@ -156,7 +156,7 @@
               <el-table-column label="联系人电话" align="center" prop="contactsTel" />
               <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
-                  <el-button v-if="scope.row.competitionGroup" type="primary" icon="el-icon-delete" circle></el-button>
+                  <el-button v-if="scope.row.competitionGroup" @click="clickDelTeamGroup(scope.row)" type="primary" icon="el-icon-delete" circle></el-button>
                 </template>
             </el-table-column>
             </el-table>
@@ -237,7 +237,7 @@
 
 
     <el-dialog
-      title="选择球队"
+      title="选择球队添加到分组"
       :visible.sync="addTeamDialogVisible"
       width="30%"
       center>
@@ -266,7 +266,7 @@
 
 <script>
 import { listCompetition, getCompetition, delCompetition, addCompetition, updateCompetition } from "@/api/system/competition";
-import { listCompetitionOfTeam, getCompetitionOfTeam, delCompetitionOfTeam, addCompetitionOfTeam, updateCompetitionOfTeam } from "@/api/system/competitionOfTeam";
+import { listCompetitionOfTeam, batchEditById, intoTeamGroup, removeTeamGroup, updateCompetitionOfTeam } from "@/api/system/competitionOfTeam";
 import { listCompetitionMembers, getCompetitionMembers, delCompetitionMembers, addCompetitionMembers, updateCompetitionMembers } from "@/api/system/competitionMembers";
 import { listCompetitionTeamGroup, getCompetitionTeamGroup, delCompetitionTeamGroup, addCompetitionTeamGroup, updateCompetitionTeamGroup } from "@/api/system/competitionTeamGroup";
 export default {
@@ -359,6 +359,23 @@ export default {
         });
       }
     },
+    //球队移除分组
+    clickDelTeamGroup(row){
+      let competitionObj = this.competitionObj;
+      let that = this;
+      that.$modal.confirm('是否确认从分组中移除球队为"' + row.teamName + '"的数据？').then(function() {
+        removeTeamGroup(row.id,{}).then(response => {
+          listCompetitionOfTeam({"pageNum": 1, "pageSize": 1000,"competitionId":competitionObj.id,"competitionGroup":row.competitionGroup})
+            .then(response => {
+              that.alreadyGroupTeamList = response.rows;
+            });
+          that.$message({
+            message: '恭喜你，球队移除成功',
+            type: 'success'
+          });
+        });
+      })
+    },
     //删除分组
     delGroup(row){
       console.info(row)
@@ -392,15 +409,18 @@ export default {
       });
     },
     handleSelectionTeamChange(val){
+      //console.info(this.currentGroupRow)
+      let list = [];
       for (let i = 0;i<val.length;i++){
         let team = val[i];
         let selectedTeam = {
           "id": team.id,
-          "competitionGroup": team.competitionGroup
+          "competitionGroup": this.currentGroupRow.competitionGroup
         };
-        this.teamMultipleSelection.push(selectedTeam);
+        list.push(selectedTeam);
       }
-
+      this.teamMultipleSelection=list;
+      //console.info(this.teamMultipleSelection)
       //this.multipleSelection = val;
     },
     //保存选择的分组数据
@@ -413,8 +433,14 @@ export default {
         });
       }else {
         this.addTeamDialogVisible = false;
-        updateCompetitionOfTeam({"id": id, "status": tage}).then(response => {
-
+        batchEditById(this.teamMultipleSelection).then(response => {
+          this.$message({
+            message: '恭喜你，成功新增到分组',
+            type: 'success'
+          });
+          listCompetitionOfTeam({"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id,"competitionGroup":this.currentGroupRow.competitionGroup}).then(response => {
+            this.alreadyGroupTeamList = response.rows;
+          });
         });
       }
     },

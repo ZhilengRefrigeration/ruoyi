@@ -101,4 +101,14 @@ public class CompetitionOfTeamServiceImpl implements ICompetitionOfTeamService
     {
         return competitionOfTeamMapper.deleteCompetitionOfTeamById(id);
     }
+
+    @Override
+    public int removeTeamGroup(Long[] ids) {
+        return competitionOfTeamMapper.removeTeamGroup(ids);
+    }
+
+    @Override
+    public int intoTeamGroup(String competitionGroup, List<Long> ids) {
+        return competitionOfTeamMapper.intoTeamGroup(competitionGroup,ids);
+    }
 }

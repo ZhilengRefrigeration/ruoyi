@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.system.domain.vo.CompetitionOfTeamVo;
+import io.swagger.v3.oas.annotations.Parameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -94,11 +95,27 @@ public class CompetitionOfTeamController extends BaseController
         return toAjax(competitionOfTeamService.updateCompetitionOfTeam(competitionOfTeam));
     }
     @RequiresPermissions("system:competitionOfTeam:batchEditById")
-    @Log(title = "赛会中-参赛队伍", businessType = BusinessType.UPDATE)
+    @Log(title = "赛会中-参赛队伍批量修改", businessType = BusinessType.UPDATE)
     @PutMapping("/batchEditById")
     public AjaxResult batchEditById(@RequestBody List<CompetitionOfTeam> list)
     {
         return toAjax(competitionOfTeamService.batchUpdateCompetitionOfTeam(list));
+    }
+
+    @RequiresPermissions("system:competitionOfTeam:removeTeamGroup")
+    @Log(title = "赛会中-参赛队伍移除分组", businessType = BusinessType.UPDATE)
+    @PutMapping("/removeTeamGroup/{ids}")
+    public AjaxResult removeTeamGroup(@PathVariable Long[] ids)
+    {
+        return toAjax(competitionOfTeamService.removeTeamGroup(ids));
+    }
+
+    @RequiresPermissions("system:competitionOfTeam:intoTeamGroup")
+    @Log(title = "赛会中-参赛队伍移入分组", businessType = BusinessType.UPDATE)
+    @PostMapping("/intoTeamGroup/{competitionGroup}")
+    public AjaxResult intoTeamGroup(@PathVariable String competitionGroup,@RequestBody List<Long> ids)
+    {
+        return toAjax(competitionOfTeamService.intoTeamGroup(competitionGroup,ids));
     }
     /**
      * 删除赛会中-参赛队伍
