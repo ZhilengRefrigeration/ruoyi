@@ -57,8 +57,8 @@ public class CompetitionOfTeamController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response, CompetitionOfTeam competitionOfTeam)
     {
-        List<CompetitionOfTeam> list = competitionOfTeamService.selectCompetitionOfTeamList(competitionOfTeam);
-        ExcelUtil<CompetitionOfTeam> util = new ExcelUtil<CompetitionOfTeam>(CompetitionOfTeam.class);
+        List<CompetitionOfTeamVo> list = competitionOfTeamService.selectCompetitionOfTeamList(competitionOfTeam);
+        ExcelUtil<CompetitionOfTeamVo> util = new ExcelUtil<CompetitionOfTeamVo>(CompetitionOfTeamVo.class);
         util.exportExcel(response, list, "赛会中-参赛队伍数据");
     }
 
