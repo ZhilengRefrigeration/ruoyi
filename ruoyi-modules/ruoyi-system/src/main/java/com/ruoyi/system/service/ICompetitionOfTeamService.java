@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.CompetitionOfTeam;
+import com.ruoyi.system.domain.vo.CompetitionOfTeamVo;
 
 /**
  * 赛会中-参赛队伍Service接口
@@ -25,7 +26,7 @@ public interface ICompetitionOfTeamService
      * @param competitionOfTeam 赛会中-参赛队伍
      * @return 赛会中-参赛队伍集合
      */
-    public List<CompetitionOfTeam> selectCompetitionOfTeamList(CompetitionOfTeam competitionOfTeam);
+    public List<CompetitionOfTeamVo> selectCompetitionOfTeamList(CompetitionOfTeam competitionOfTeam);
 
     /**
      * 新增赛会中-参赛队伍
@@ -42,6 +43,13 @@ public interface ICompetitionOfTeamService
      * @return 结果
      */
     public int updateCompetitionOfTeam(CompetitionOfTeam competitionOfTeam);
+    /**
+     * 修改赛会中-参赛队伍
+     *
+     * @param list 赛会中-参赛队伍
+     * @return 结果
+     */
+    public int batchUpdateCompetitionOfTeam(List<CompetitionOfTeam> list);
 
     /**
      * 批量删除赛会中-参赛队伍

@@ -1,6 +1,8 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.system.domain.vo.CompetitionOfTeamVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CompetitionOfTeamMapper;
@@ -38,7 +40,7 @@ public class CompetitionOfTeamServiceImpl implements ICompetitionOfTeamService
      * @return 赛会中-参赛队伍
      */
     @Override
-    public List<CompetitionOfTeam> selectCompetitionOfTeamList(CompetitionOfTeam competitionOfTeam)
+    public List<CompetitionOfTeamVo> selectCompetitionOfTeamList(CompetitionOfTeam competitionOfTeam)
     {
         return competitionOfTeamMapper.selectCompetitionOfTeamList(competitionOfTeam);
     }
@@ -65,6 +67,15 @@ public class CompetitionOfTeamServiceImpl implements ICompetitionOfTeamService
     public int updateCompetitionOfTeam(CompetitionOfTeam competitionOfTeam)
     {
         return competitionOfTeamMapper.updateCompetitionOfTeam(competitionOfTeam);
+    }
+
+    @Override
+    public int batchUpdateCompetitionOfTeam(List<CompetitionOfTeam> list) {
+        for (int i = 0; i < list.size(); i++) {
+            CompetitionOfTeam team = list.get(i);
+            competitionOfTeamMapper.updateCompetitionOfTeam(team);
+        }
+        return 1;
     }
 
     /**

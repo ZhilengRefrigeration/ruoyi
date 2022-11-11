@@ -26,32 +26,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <sql id="selectCompetitionOfTeamVo">
         select id, competition_id, team_id, team_name, competition_group, created_time, status, last_updated_time, created_by, modified_by, is_deleted, remark, contacts, contacts_tel, contacts_area_code, serial_number from competition_of_team
     </sql>
-
-    <select id="selectCompetitionOfTeamList" parameterType="CompetitionOfTeam" resultMap="CompetitionOfTeamResult">
-        <include refid="selectCompetitionOfTeamVo"/>
-        <where>  
-            <if test="competitionId != null "> and competition_id = #{competitionId}</if>
-            <if test="teamId != null "> and team_id = #{teamId}</if>
-            <if test="teamName != null  and teamName != ''"> and team_name like concat('%', #{teamName}, '%')</if>
-            <if test="competitionGroup != null  and competitionGroup != ''"> and competition_group = #{competitionGroup}</if>
-            <if test="createdTime != null "> and created_time = #{createdTime}</if>
-            <if test="status != null "> and status = #{status}</if>
-            <if test="lastUpdatedTime != null "> and last_updated_time = #{lastUpdatedTime}</if>
-            <if test="createdBy != null  and createdBy != ''"> and created_by = #{createdBy}</if>
-            <if test="modifiedBy != null  and modifiedBy != ''"> and modified_by = #{modifiedBy}</if>
-            <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
-            <if test="contacts != null  and contacts != ''"> and contacts = #{contacts}</if>
-            <if test="contactsTel != null  and contactsTel != ''"> and contacts_tel = #{contactsTel}</if>
-            <if test="contactsAreaCode != null  and contactsAreaCode != ''"> and contacts_area_code = #{contactsAreaCode}</if>
-            <if test="serialNumber != null "> and serial_number = #{serialNumber}</if>
-        </where>
-    </select>
-    
     <select id="selectCompetitionOfTeamById" parameterType="Long" resultMap="CompetitionOfTeamResult">
         <include refid="selectCompetitionOfTeamVo"/>
         where id = #{id}
     </select>
-        
+    <select id="selectCompetitionOfTeamList" resultType="com.ruoyi.system.domain.vo.CompetitionOfTeamVo">
+        select t.*,team.* from competition_of_team t left join basketball_team team on team.id = t.team_id
+        <where>
+            <if test="competitionId != null "> and t.competition_id = #{competitionId}</if>
+            <if test="teamId != null "> and t.team_id = #{teamId}</if>
+            <if test="teamName != null  and teamName != ''"> and t.team_name like concat('%', #{teamName}, '%')</if>
+            <if test="competitionGroup != null  and competitionGroup != ''"> and t.competition_group = #{competitionGroup}</if>
+            <if test="createdTime != null "> and t.created_time = #{createdTime}</if>
+            <if test="status != null "> and t.status = #{status}</if>
+            <if test="lastUpdatedTime != null "> and t.last_updated_time = #{lastUpdatedTime}</if>
+            <if test="createdBy != null  and createdBy != ''"> and t.created_by = #{createdBy}</if>
+            <if test="modifiedBy != null  and modifiedBy != ''"> and t.modified_by = #{modifiedBy}</if>
+            <if test="isDeleted != null "> and t.is_deleted = #{isDeleted}</if>
+            <if test="contacts != null  and contacts != ''"> and t.contacts = #{contacts}</if>
+            <if test="contactsTel != null  and contactsTel != ''"> and t.contacts_tel = #{contactsTel}</if>
+            <if test="contactsAreaCode != null  and contactsAreaCode != ''"> and t.contacts_area_code = #{contactsAreaCode}</if>
+            <if test="serialNumber != null "> and t.serial_number = #{serialNumber}</if>
+        </where>
+    </select>
+
     <insert id="insertCompetitionOfTeam" parameterType="CompetitionOfTeam" useGeneratedKeys="true" keyProperty="id">
         insert into competition_of_team
         <trim prefix="(" suffix=")" suffixOverrides=",">

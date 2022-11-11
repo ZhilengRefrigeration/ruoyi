@@ -3,6 +3,8 @@ package com.ruoyi.system.controller;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.system.domain.vo.CompetitionOfTeamVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,10 +42,10 @@ public class CompetitionOfTeamController extends BaseController
      */
     @RequiresPermissions("system:competitionOfTeam:list")
     @GetMapping("/list")
-    public TableDataInfo list(CompetitionOfTeam competitionOfTeam)
+    public TableDataInfo list(CompetitionOfTeamVo competitionOfTeam)
     {
         startPage();
-        List<CompetitionOfTeam> list = competitionOfTeamService.selectCompetitionOfTeamList(competitionOfTeam);
+        List<CompetitionOfTeamVo> list = competitionOfTeamService.selectCompetitionOfTeamList(competitionOfTeam);
         return getDataTable(list);
     }
 
@@ -91,7 +93,13 @@ public class CompetitionOfTeamController extends BaseController
     {
         return toAjax(competitionOfTeamService.updateCompetitionOfTeam(competitionOfTeam));
     }
-
+    @RequiresPermissions("system:competitionOfTeam:batchEditById")
+    @Log(title = "赛会中-参赛队伍", businessType = BusinessType.UPDATE)
+    @PutMapping
+    public AjaxResult batchEditById(@RequestBody List<CompetitionOfTeam> list)
+    {
+        return toAjax(competitionOfTeamService.batchUpdateCompetitionOfTeam(list));
+    }
     /**
      * 删除赛会中-参赛队伍
      */

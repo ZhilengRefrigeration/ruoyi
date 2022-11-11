@@ -117,7 +117,7 @@
                 type="primary"
                 plain
                 icon="el-icon-plus"
-                @click="handleAdd"
+                @click="handleAddGroup"
                 v-hasPermi="['system:competition:add']"
               >新增分组</el-button>
             </el-col>
@@ -132,7 +132,7 @@
             </el-table-column>
             <el-table-column property="remark" label="操作">
               <template slot-scope="scope">
-                <el-button type="primary" v-if="scope.row.id"  plain icon="el-icon-delete">删除</el-button>
+                <el-button type="primary" v-if="scope.row.id" @click="delGroup(scope.row)"  plain icon="el-icon-delete">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -140,7 +140,7 @@
         <el-container>
           <el-header style="text-align: left; font-size: 25px;font-weight: bold;color: #ae192a">
             <span>分组球队-{{currentGroupRow.competitionGroup}}组</span>
-            <el-button v-if="currentGroupRow.competitionGroup" type="primary" style="margin-left: 150px">新增球队</el-button>
+            <el-button v-if="currentGroupRow.competitionGroup&&currentGroupRow.id" type="primary" @click="addTeamDialog(currentGroupRow)" style="margin-left: 150px">新增球队</el-button>
           </el-header>
           <el-main>
             <el-table :data="alreadyGroupTeamList">
@@ -215,6 +215,52 @@
         </el-table-column>
       </el-table>
     </el-drawer>
+
+    <el-dialog
+      title="新增分组"
+      :visible.sync="addGroupDialogVisible"
+      width="30%"
+      center>
+      <el-select v-model="addGroupCode" placeholder="请选择">
+        <el-option
+          v-for="item in groupNumbers"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>组
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addGroupDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addGroupIsOk">确 定</el-button>
+      </span>
+    </el-dialog>
+
+
+    <el-dialog
+      title="选择球队"
+      :visible.sync="addTeamDialogVisible"
+      width="30%"
+      center>
+      <el-table
+        ref="multipleTable"
+        :data="selectTeamList"
+        tooltip-effect="dark"
+        style="width: 100%"
+        @selection-change="handleSelectionTeamChange">
+        <el-table-column
+          type="selection"
+          width="55">
+        </el-table-column>
+        <el-table-column label="球队名" align="center" prop="teamName" />
+        <el-table-column label="球队所属的组" align="center" prop="competitionGroup" />
+        <el-table-column label="联系人" align="center" prop="contacts" />
+        <el-table-column label="联系人电话" align="center" prop="contactsTel" />
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addTeamDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="selectTeamIsOk">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -223,7 +269,6 @@ import { listCompetition, getCompetition, delCompetition, addCompetition, update
 import { listCompetitionOfTeam, getCompetitionOfTeam, delCompetitionOfTeam, addCompetitionOfTeam, updateCompetitionOfTeam } from "@/api/system/competitionOfTeam";
 import { listCompetitionMembers, getCompetitionMembers, delCompetitionMembers, addCompetitionMembers, updateCompetitionMembers } from "@/api/system/competitionMembers";
 import { listCompetitionTeamGroup, getCompetitionTeamGroup, delCompetitionTeamGroup, addCompetitionTeamGroup, updateCompetitionTeamGroup } from "@/api/system/competitionTeamGroup";
-
 export default {
   name: "CompetitionSet",
   dicts: ['competition_status'],
@@ -243,10 +288,16 @@ export default {
       competitionTeamGroupList:[],
       //已经分组的球队数据
       alreadyGroupTeamList: [],
+      selectTeamList:[],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
       open: false,
+      groupNumbers:[],
+      addGroupCode:"",
+      addGroupDialogVisible:false,
+      addTeamDialogVisible:false,
+      teamMultipleSelection:[],
       // 查询参数
     };
   },
@@ -272,6 +323,100 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
+    },
+    //点击新增分组按钮
+    handleAddGroup(){
+      //循环获取0-25的组的数据值
+      for (let i = 0; i < 26; i++) {
+        let groupList = {"value":String.fromCharCode(65+i),"label":String.fromCharCode(65+i)}
+        this.groupNumbers[i] = groupList;
+      }
+      this.addGroupDialogVisible=true;
+    },
+    //新增分组保存
+    addGroupIsOk(){
+      if(this.addGroupCode) {
+        addCompetitionTeamGroup({
+          "status": 1,
+          "competitionId": this.competitionObj.id,
+          "competitionGroup": this.addGroupCode
+        }).then(response => {
+          this.$message({
+            message: '恭喜你，新增分组成功',
+            type: 'success'
+          });
+          this.addGroupDialogVisible=false;
+          listCompetitionTeamGroup({"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+            this.competitionTeamGroupList = response.rows;
+            this.competitionTeamGroupList.push({"competitionGroup":"未分","id":null})
+          });
+        });
+      }else {
+        this.$message({
+          showClose: true,
+          message: '请选择分组值',
+          type: 'warning'
+        });
+      }
+    },
+    //删除分组
+    delGroup(row){
+      console.info(row)
+      listCompetitionOfTeam({"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id,"competitionGroup":row.competitionGroup}).then(response => {
+        if(response.rows.length>0){
+          this.$message({
+            showClose: true,
+            message: '当前分组下已有球队数据，请删除分组下的球队数据后再做删除分组操作',
+            type: 'warning'
+          });
+        }else {
+          const id = row.id;
+          this.$modal.confirm('是否确认删除赛会中分组数据为"' + row.competitionGroup + '"的数据？').then(function() {
+            return delCompetitionTeamGroup(id);
+          }).then(() => {
+            listCompetitionTeamGroup({"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+              this.competitionTeamGroupList = response.rows;
+              this.competitionTeamGroupList.push({"competitionGroup":"未分","id":null})
+            });
+            this.$modal.msgSuccess("删除成功");
+          }).catch(() => {});
+        }
+      });
+    },
+    addTeamDialog(row){
+      console.info(row)
+      this.addTeamDialogVisible = true
+      listCompetitionOfTeam({"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+        let newArr = response.rows.filter(item => !item.competitionGroup);
+        this.selectTeamList = newArr;
+      });
+    },
+    handleSelectionTeamChange(val){
+      for (let i = 0;i<val.length;i++){
+        let team = val[i];
+        let selectedTeam = {
+          "id": team.id,
+          "competitionGroup": team.competitionGroup
+        };
+        this.teamMultipleSelection.push(selectedTeam);
+      }
+
+      //this.multipleSelection = val;
+    },
+    //保存选择的分组数据
+    selectTeamIsOk(){
+      if(this.teamMultipleSelection.length==0){
+        this.$message({
+          showClose: true,
+          message: '请选择球队',
+          type: 'warning'
+        });
+      }else {
+        this.addTeamDialogVisible = false;
+        updateCompetitionOfTeam({"id": id, "status": tage}).then(response => {
+
+        });
+      }
     },
     // 取消按钮
     cancel() {

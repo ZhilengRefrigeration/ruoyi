@@ -2,6 +2,7 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.domain.CompetitionOfTeam;
+import com.ruoyi.system.domain.vo.CompetitionOfTeamVo;
 
 /**
  * 赛会中-参赛队伍Mapper接口
@@ -25,7 +26,7 @@ public interface CompetitionOfTeamMapper
      * @param competitionOfTeam 赛会中-参赛队伍
      * @return 赛会中-参赛队伍集合
      */
-    public List<CompetitionOfTeam> selectCompetitionOfTeamList(CompetitionOfTeam competitionOfTeam);
+    public List<CompetitionOfTeamVo> selectCompetitionOfTeamList(CompetitionOfTeam competitionOfTeam);
 
     /**
      * 新增赛会中-参赛队伍
