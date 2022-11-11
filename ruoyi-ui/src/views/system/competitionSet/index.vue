@@ -111,6 +111,17 @@
     <el-tab-pane label="球队分组" name="competitionTeamGroup"> <span slot="label"><i class="el-icon-film"></i> 球队分组</span>
       <el-container style="height: 700px; border: 1px solid #eee">
         <el-aside width="300px" style="background-color: rgb(238, 241, 246)">
+          <el-row :gutter="10" class="mb8">
+            <el-col :span="1.5">
+              <el-button
+                type="primary"
+                plain
+                icon="el-icon-plus"
+                @click="handleAdd"
+                v-hasPermi="['system:competition:add']"
+              >新增分组</el-button>
+            </el-col>
+          </el-row>
           <el-table ref="singleTable" :data="competitionTeamGroupList"
             highlight-current-row
             @current-change="handleCurrentChange" style="width: 100%">
@@ -119,9 +130,11 @@
                 <el-tag>{{scope.row.competitionGroup}}组</el-tag>
               </template>
             </el-table-column>
-<!--            <el-table-column property="remark" label="操作">
-              <el-button type="primary" icon="el-icon-setting" circle></el-button>
-            </el-table-column>-->
+            <el-table-column property="remark" label="操作">
+              <template slot-scope="scope">
+                <el-button type="primary" v-if="scope.row.id"  plain icon="el-icon-delete">删除</el-button>
+              </template>
+            </el-table-column>
           </el-table>
         </el-aside>
         <el-container>
@@ -139,17 +152,12 @@
                   <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="状态" align="center" prop="status" >
-                <template slot-scope="scope">
-                  <el-tag v-if="scope.row.status==0">申请</el-tag>
-                  <el-tag v-if="scope.row.status==1">同意</el-tag>
-                  <el-tag v-if="scope.row.status==-1">驳回</el-tag>
-                </template>
-              </el-table-column>
               <el-table-column label="联系人" align="center" prop="contacts" />
               <el-table-column label="联系人电话" align="center" prop="contactsTel" />
               <el-table-column label="操作" align="center">
-              <el-button type="primary" icon="el-icon-delete" circle></el-button>
+                <template slot-scope="scope">
+                  <el-button v-if="scope.row.competitionGroup" type="primary" icon="el-icon-delete" circle></el-button>
+                </template>
             </el-table-column>
             </el-table>
           </el-main>
@@ -164,7 +172,7 @@
       title="球队成员"
       :visible.sync="drawer"
       direction="ltr"
-      size="80%">
+      size="60%">
       <el-table :data="competitionMembersList" @selection-change="handleSelectionChange">
         <el-table-column label="个人照片" align="center" prop="personalPhoto" >
           <template slot-scope="scope">
@@ -180,22 +188,22 @@
         <el-table-column label="证件类型" align="center" prop="idType" />
         <el-table-column label="证件号码" align="center" prop="idCardNo" />
         <el-table-column label="联系电话" align="center" prop="contactsTel" />
-        <el-table-column label="申请时间" align="center" prop="createdTime" width="180">
+<!--        <el-table-column label="申请时间" align="center" prop="createdTime" width="180">
           <template slot-scope="scope">
             <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
           </template>
-        </el-table-column>
-        <el-table-column label="比赛得分" align="center" prop="score" />
+        </el-table-column>-->
+<!--        <el-table-column label="比赛得分" align="center" prop="score" />
         <el-table-column label="总罚球" align="center" prop="penalty" />
         <el-table-column label="2分球" align="center" prop="twoPoints" />
         <el-table-column label="3分球" align="center" prop="threePoints" />
         <el-table-column label="总犯规" align="center" prop="breaks" />
         <el-table-column label="总篮板球" align="center" prop="rebound" />
-        <el-table-column label="总盖帽" align="center" prop="block" />
+        <el-table-column label="总盖帽" align="center" prop="block" />-->
         <el-table-column label="状态" align="center" prop="status" >
           <template slot-scope="scope">
             <el-tag v-if="scope.row.status==0">报名加入中</el-tag>
-            <el-tag v-if="scope.row.status==1">同意加入</el-tag>
+            <el-tag v-if="scope.row.status==1">已加入</el-tag>
             <el-tag v-if="scope.row.status==-1">不同意加入</el-tag>
           </template>
         </el-table-column>
@@ -279,7 +287,7 @@ export default {
     },
     handleTeamUser(row){
       this.drawer = true
-      listCompetitionMembers({"competitionId":this.competitionObj.id,"competitionTeamId":row.teamId}).then(response => {
+      listCompetitionMembers({"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id,"competitionTeamId":row.teamId}).then(response => {
          this.competitionMembersList =  response.rows;
       });
     },
@@ -290,19 +298,31 @@ export default {
     handleCurrentChange(val) {
       this.currentGroupRow = val;
       console.info(val)
-      listCompetitionOfTeam({"competitionId":this.competitionObj.id,"competitionGroup":val.competitionGroup}).then(response => {
-        this.alreadyGroupTeamList = response.rows;
+      let competitionGroupVal = null;
+      let isGroup = false;
+      if(val.id!=null){
+        competitionGroupVal = val.competitionGroup;
+        isGroup = true;
+      }
+      listCompetitionOfTeam({"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id,"competitionGroup":competitionGroupVal}).then(response => {
+        if(competitionGroupVal){
+          this.alreadyGroupTeamList = response.rows;
+        }else {
+          let newArr = response.rows.filter(item => !item.competitionGroup);
+          this.alreadyGroupTeamList = newArr;
+        }
       });
     },
     handleTagClick(tab, event){
       console.info(tab.name)
       if(tab.name=='competitionTeamApprove'){
-        listCompetitionOfTeam({"competitionId":this.competitionObj.id}).then(response => {
+        listCompetitionOfTeam({"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
           this.competitionOfTeamList = response.rows;
         });
       }else if(tab.name=='competitionTeamGroup'){
-        listCompetitionTeamGroup({"competitionId":this.competitionObj.id}).then(response => {
+        listCompetitionTeamGroup({"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
           this.competitionTeamGroupList = response.rows;
+          this.competitionTeamGroupList.push({"competitionGroup":"未分","id":null})
         });
       }else if(tab.name=='competitionVsSet'){
 
