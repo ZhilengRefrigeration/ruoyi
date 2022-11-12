@@ -225,6 +225,7 @@
               v-hasPermi="['system:competitionOfTeam:edit']"
             >比赛记录</el-button>
             <el-button
+              v-if="new Date(scope.row.competitionDate).getTime() > new Date().getTime()"
               size="mini"
               type="text"
               icon="el-icon-edit"
@@ -232,11 +233,12 @@
               v-hasPermi="['system:competitionTeamVsTeam:edit']"
             >编辑赛程</el-button>
             <el-button
+              v-if="new Date(scope.row.competitionDate).getTime() > new Date().getTime()"
               size="mini"
               type="text"
               icon="el-icon-delete"
-              @click="handleTeamUser(scope.row)"
-              v-hasPermi="['system:competitionOfTeam:edit']"
+              @click="handleTeamVsTeamDel(scope.row)"
+              v-hasPermi="['system:competitionOfTeam:del']"
             >删除赛程</el-button>
           </template>
         </el-table-column>
@@ -784,6 +786,17 @@ export default {
       this.vsform = row;
       this.vsOpen=true;
       this.vsTitle = "编辑赛程"
+    },
+    handleTeamVsTeamDel(row){
+      const ids = row.id || this.ids;
+      this.$modal.confirm('是否确认删除赛会中的赛程数据？').then(function() {
+        return delCompetitionTeamVsTeam(ids);
+      }).then(() => {
+        listCompetitionTeamVsTeam({"orderByColumn":"competition_time","pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+          this.competitionTeamVsTeamList = response.rows;
+        });
+        this.$modal.msgSuccess("删除赛程成功");
+      }).catch(() => {});
     },
     /** 提交按钮 */
     submitTeamVsTeamForm() {
