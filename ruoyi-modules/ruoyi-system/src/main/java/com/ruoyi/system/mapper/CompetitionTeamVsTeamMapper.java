@@ -59,4 +59,11 @@ public interface CompetitionTeamVsTeamMapper
      * @return 结果
      */
     public int deleteCompetitionTeamVsTeamByIds(Long[] ids);
+    /**
+     * 批量删除赛会中-球队VS球队关系
+     *
+     * @param teamVsTeam 需要删除的数据条件
+     * @return 结果
+     */
+    public int updateCompetitionTeamVsTeamByCondition(CompetitionTeamVsTeam teamVsTeam);
 }

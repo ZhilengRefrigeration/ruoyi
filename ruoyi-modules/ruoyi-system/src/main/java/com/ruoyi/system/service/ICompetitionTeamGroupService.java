@@ -1,6 +1,7 @@
 package com.ruoyi.system.service;
 
 import java.util.List;
+
 import com.ruoyi.system.domain.CompetitionTeamGroup;
 
 /**
@@ -58,4 +59,6 @@ public interface ICompetitionTeamGroupService
      * @return 结果
      */
     public int deleteCompetitionTeamGroupById(Long id);
+   //赛会中-一键编排分组内的球队的单组循环赛赛程
+   public Boolean arrangeTeamGroupSchedule(CompetitionTeamGroup competitionTeamGroup);
 }

@@ -25,6 +25,15 @@ export function addCompetitionTeamGroup(data) {
     data: data
   })
 }
+// 赛会中-分组下一键自动排循环赛
+export function arrangeTeamGroupSchedule(data) {
+  return request({
+    url: '/system/competitionTeamGroup/arrangeTeamGroupSchedule',
+    method: 'post',
+    data: data
+  })
+}
+
 
 // 修改赛会中-分组
 export function updateCompetitionTeamGroup(data) {

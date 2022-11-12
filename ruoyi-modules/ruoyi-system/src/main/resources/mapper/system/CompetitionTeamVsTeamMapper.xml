@@ -144,6 +144,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         where id = #{id}
     </update>
+    <update id="updateCompetitionTeamVsTeamByCondition">
+        update competition_team_vs_team set is_deleted = 1
+        <where>
+            <if test="competitionId != null "> and competition_id = #{competitionId}</if>
+            <if test="mainTeamId != null "> and main_team_id = #{mainTeamId}</if>
+            <if test="mainTeamName != null  and mainTeamName != ''"> and main_team_name like concat('%', #{mainTeamName}, '%')</if>
+            <if test="guestTeamId != null "> and guest_team_id = #{guestTeamId}</if>
+            <if test="guestTeamName != null  and guestTeamName != ''"> and guest_team_name like concat('%', #{guestTeamName}, '%')</if>
+            <if test="competitionTime != null "> and competition_time = #{competitionTime}</if>
+            <if test="buildingId != null "> and building_id = #{buildingId}</if>
+            <if test="buildingName != null  and buildingName != ''"> and building_name like concat('%', #{buildingName}, '%')</if>
+            <if test="competitionAddress != null  and competitionAddress != ''"> and competition_address = #{competitionAddress}</if>
+            <if test="competitionGroup != null  and competitionGroup != ''"> and competition_group = #{competitionGroup}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="lastUpdatedTime != null "> and last_updated_time = #{lastUpdatedTime}</if>
+            <if test="vsType != null  and vsType != ''"> and vs_type = #{vsType}</if>
+            <if test="batchNumber != null  and batchNumber != ''"> and batch_number = #{batchNumber}</if>
+        </where>
+    </update>
 
     <delete id="deleteCompetitionTeamVsTeamById" parameterType="Long">
         delete from competition_team_vs_team where id = #{id}
@@ -155,4 +174,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
 </mapper>

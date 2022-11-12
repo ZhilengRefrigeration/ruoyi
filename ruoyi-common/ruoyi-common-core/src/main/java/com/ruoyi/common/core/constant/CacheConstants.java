@@ -51,4 +51,9 @@ public class CacheConstants
      * 登录账户密码错误次数 redis key
      */
     public static final String PWD_ERR_CNT_KEY = "pwd_err_cnt:";
+
+    /**
+     * 存放赛程循环赛的锁的key
+     */
+    public static final String ARRANGE_TEAM_GROUP_SCHEDULE="arrange:team:group:schedule:";
 }

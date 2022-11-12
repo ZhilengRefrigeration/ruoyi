@@ -1,8 +1,8 @@
 package com.ruoyi.system.controller;
 
 import java.util.List;
-import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -91,7 +91,13 @@ public class CompetitionTeamGroupController extends BaseController
     {
         return toAjax(competitionTeamGroupService.updateCompetitionTeamGroup(competitionTeamGroup));
     }
-
+    @RequiresPermissions("system:competitionTeamGroup:arrangeTeamGroupSchedule")
+    @Log(title = "赛会中-一键编排分组内的球队的单组循环赛赛程", businessType = BusinessType.OTHER)
+    @PostMapping("/arrangeTeamGroupSchedule")
+    public AjaxResult arrangeTeamGroupSchedule(@RequestBody CompetitionTeamGroup competitionTeamGroup)
+    {
+        return toAjax(competitionTeamGroupService.arrangeTeamGroupSchedule(competitionTeamGroup));
+    }
     /**
      * 删除赛会中-分组
      */

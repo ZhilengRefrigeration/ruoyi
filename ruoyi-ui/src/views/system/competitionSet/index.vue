@@ -57,6 +57,11 @@
         max-height="800"
         v-loading="loading" :data="competitionOfTeamList" @selection-change="handleSelectionChange">
         <el-table-column label="球队ID" align="center" prop="teamId" />
+        <el-table-column label="球队logo" align="center" prop="avatar" >
+          <template slot-scope="scope">
+            <el-avatar :src="scope.row.teamLogo"></el-avatar>
+          </template>
+        </el-table-column>
         <el-table-column label="球队名" align="center" prop="teamName" />
         <el-table-column label="球队所属的组" align="center" prop="competitionGroup" />
         <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
@@ -148,6 +153,11 @@
           <el-main>
             <el-table :data="alreadyGroupTeamList">
               <el-table-column label="球队ID" align="center" prop="teamId" />
+              <el-table-column label="球队logo" align="center" prop="avatar" >
+                <template slot-scope="scope">
+                  <el-avatar :src="scope.row.teamLogo"></el-avatar>
+                </template>
+              </el-table-column>
               <el-table-column label="球队名" align="center" prop="teamName" />
               <el-table-column label="球队所属的组" align="center" prop="competitionGroup" />
               <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
@@ -417,7 +427,7 @@
 import { listCompetition, getCompetition, delCompetition, addCompetition, updateCompetition } from "@/api/system/competition";
 import { listCompetitionOfTeam, batchEditById, intoTeamGroup, removeTeamGroup, updateCompetitionOfTeam } from "@/api/system/competitionOfTeam";
 import { listCompetitionMembers, getCompetitionMembers, delCompetitionMembers, addCompetitionMembers, updateCompetitionMembers } from "@/api/system/competitionMembers";
-import { listCompetitionTeamGroup, getCompetitionTeamGroup, delCompetitionTeamGroup, addCompetitionTeamGroup, updateCompetitionTeamGroup } from "@/api/system/competitionTeamGroup";
+import { listCompetitionTeamGroup, arrangeTeamGroupSchedule, delCompetitionTeamGroup, addCompetitionTeamGroup, updateCompetitionTeamGroup } from "@/api/system/competitionTeamGroup";
 import { listCompetitionTeamVsTeam, getCompetitionTeamVsTeam, delCompetitionTeamVsTeam, addCompetitionTeamVsTeam, updateCompetitionTeamVsTeam } from "@/api/system/competitionTeamVsTeam";
 import { listWxBuilding, getWxBuilding, delWxBuilding, addWxBuilding, updateWxBuilding } from "@/api/system/WxBuilding";
 
@@ -740,7 +750,7 @@ export default {
       this.vsTitle = "新增赛程"
     },
     handleMindTeamVsTeam(){
-
+      /*arrangeTeamGroupSchedule({})*/
     },
     changeMainTeamName(val){
       let obj={}
