@@ -171,11 +171,11 @@
       <el-row :gutter="10" class="mb8">
         <el-col :span="1.5">
           <el-button
-            type="primary"
+            type="success"
             plain
             icon="el-icon-time"
-            @click="handleAdd"
-            v-hasPermi="['system:competitionOfTeam:add']"
+            @click="handleTeamVsTeamAdd"
+            v-hasPermi="['system:competitionTeamVsTeam:add']"
           >手动设置赛程</el-button>
         </el-col>
         <el-col :span="1.5">
@@ -183,8 +183,8 @@
             type="success"
             plain
             icon="el-icon-bangzhu"
-            @click="handleUpdate"
-            v-hasPermi="['system:competitionOfTeam:edit']"
+            @click="handleMindTeamVsTeam"
+            v-hasPermi="['system:competitionTeamVsTeam:add']"
           >系统智能设置小组循环赛赛程</el-button>
         </el-col>
       </el-row>
@@ -196,17 +196,50 @@
         max-height="800"
         style=" margin-top: 20px">
         <el-table-column label="比赛日期" align="center" prop="competitionDate" width="180"/>
-        <el-table-column label="主队名" align="center" prop="mainTeamName" />
-        <el-table-column label="主队得分" align="center" prop="mainTeamScore" />
         <el-table-column label="比赛时间" align="center" prop="competitionTime" width="180">
           <template slot-scope="scope">
-            <el-tag effect="plain" size="medium" >{{ parseTime(scope.row.competitionTime, '{h}:{i}') }}</el-tag>
+            <el-tag type="danger" style="font-weight: bold;font-size: larger" >{{ parseTime(scope.row.competitionTime, '{h}:{i}') }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="客队得分" align="center" prop="guestTeamScore" />
+        <el-table-column label="主队名" align="center" prop="mainTeamName" />
+        <el-table-column label="主队得分" align="center" prop="mainTeamScore" >
+          <template slot-scope="scope">
+            <el-tag type="success" style="font-weight: bold;font-size: larger" >{{ scope.row.mainTeamScore }}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="客队得分" align="center" prop="guestTeamScore" >
+          <template slot-scope="scope">
+            <el-tag type="success" style="font-weight: bold;font-size: larger" >{{ scope.row.guestTeamScore }}</el-tag>
+          </template>
+        </el-table-column>
         <el-table-column label="客队名" align="center" prop="guestTeamName" />
         <el-table-column label="球场名称" align="center" prop="buildingName" />
         <el-table-column label="比赛类型" align="center" prop="vsType" />
+        <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              type="text"
+              icon="el-icon-edit-outline"
+              @click="handleTeamUser(scope.row)"
+              v-hasPermi="['system:competitionOfTeam:edit']"
+            >比赛记录</el-button>
+            <el-button
+              size="mini"
+              type="text"
+              icon="el-icon-edit"
+              @click="handleTeamUser(scope.row)"
+              v-hasPermi="['system:competitionOfTeam:edit']"
+            >编辑赛程</el-button>
+            <el-button
+              size="mini"
+              type="text"
+              icon="el-icon-delete"
+              @click="handleTeamUser(scope.row)"
+              v-hasPermi="['system:competitionOfTeam:edit']"
+            >删除赛程</el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </el-tab-pane>
     <el-tab-pane label="赛会推广" name="competitionSpread"> <span slot="label"><i class="el-icon-s-promotion"></i> 赛会推广</span> 赛会推广</el-tab-pane>
@@ -305,6 +338,76 @@
         <el-button type="primary" @click="selectTeamIsOk">确 定</el-button>
       </span>
     </el-dialog>
+    <!--赛程新增或者编辑-->
+    <el-dialog :title="vsTitle" :visible.sync="vsOpen" width="650px" append-to-body>
+      <el-form ref="vsform" :model="vsform" :rules="vsRules" label-width="80px">
+        <el-form-item  prop="id" hidden>
+          <el-input  v-model="vsform.id" />
+        </el-form-item>
+        <el-form-item label="比赛时间" prop="competitionTime">
+          <el-date-picker clearable
+                          v-model="vsform.competitionTime"
+                          type="datetime"
+                          value-format="yyyy-MM-dd HH:mm:ss"
+                          placeholder="请选择比赛时间">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="比赛类型" prop="vsType">
+          <el-radio-group v-model="vsform.vsType">
+            <el-radio label="循环赛"></el-radio>
+            <el-radio label="淘汰赛"></el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="主队名" prop="mainTeamName">
+          <el-select v-model="vsform.mainTeamName" filterable clearable @change="changeMainTeamName" placeholder="请选择主队名">
+            <el-option
+              v-for="item in competitionOfTeamList"
+              :value="item.teamId"
+              :key="item.teamId"
+              :label="item.teamName">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="客队名" prop="guestTeamName">
+          <el-select v-model="vsform.guestTeamName" filterable clearable  @change="changeGuestTeamName" placeholder="请选择客队名">
+            <el-option
+              v-for="item in competitionOfTeamList"
+              :value="item.teamId"
+              :key="item.teamId"
+              :label="item.teamName">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="球场名称" prop="buildingName">
+          <el-select
+            v-model="vsform.buildingName"
+            filterable
+            @change="changeBuildName"
+            remote
+            reserve-keyword
+            placeholder="请输入关键词"
+            :remote-method="remoteMethod"
+            :loading="buildLoading">
+            <el-option
+              v-for="item in buildingList"
+              :key="item.id"
+              :label="item.buildingName"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="比赛地址" prop="competitionAddress">
+          <el-input  v-model="vsform.competitionAddress" disabled />
+        </el-form-item>
+        <el-form-item label="备注说明" prop="remark">
+          <el-input v-model="vsform.remark" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitTeamVsTeamForm">确 定</el-button>
+        <el-button @click="vsOpen=false">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -314,6 +417,8 @@ import { listCompetitionOfTeam, batchEditById, intoTeamGroup, removeTeamGroup, u
 import { listCompetitionMembers, getCompetitionMembers, delCompetitionMembers, addCompetitionMembers, updateCompetitionMembers } from "@/api/system/competitionMembers";
 import { listCompetitionTeamGroup, getCompetitionTeamGroup, delCompetitionTeamGroup, addCompetitionTeamGroup, updateCompetitionTeamGroup } from "@/api/system/competitionTeamGroup";
 import { listCompetitionTeamVsTeam, getCompetitionTeamVsTeam, delCompetitionTeamVsTeam, addCompetitionTeamVsTeam, updateCompetitionTeamVsTeam } from "@/api/system/competitionTeamVsTeam";
+import { listWxBuilding, getWxBuilding, delWxBuilding, addWxBuilding, updateWxBuilding } from "@/api/system/WxBuilding";
+
 export default {
   name: "CompetitionSet",
   dicts: ['competition_status'],
@@ -345,6 +450,28 @@ export default {
       addTeamDialogVisible:false,
       teamMultipleSelection:[],
       // 查询参数
+      vsform:{},
+      vsTitle:"",
+      vsRules: {
+        competitionTime: [
+          { required: true, message: "比赛时间不能为空", trigger: "blur" }
+        ],
+        mainTeamName: [
+          { required: true, message: "主队名不能为空", trigger: "blur" }
+        ],
+        guestTeamName: [
+          { required: true, message: "客队名不能为空", trigger: "blur" }
+        ],
+        buildingName: [
+          { required: true, message: "比赛球场名称不能为空", trigger: "blur" }
+        ],
+        vsType:[
+          { required: true, message: "比赛类型不能为空", trigger: "blur" }
+        ]
+      },
+      vsOpen:false,
+      buildingList: [],
+      buildLoading:false,
     };
   },
   created() {
@@ -355,20 +482,14 @@ export default {
         this.competitionObj = response.data;
         this.loading = false;
       });
+      listCompetitionOfTeam({"pageNum": 1, "pageSize": 1000,"competitionId":id}).then(response => {
+        this.competitionOfTeamList = response.rows;
+      });
     }
   },
   methods: {
     onSubmit() {
       console.log('submit!');
-    },
-    /** 查询比赛信息列表 */
-    getList() {
-      this.loading = true;
-      listCompetition(this.queryParams).then(response => {
-        this.competitionList = response.rows;
-        this.total = response.total;
-        this.loading = false;
-      });
     },
     //点击新增分组按钮
     handleAddGroup(){
@@ -611,31 +732,75 @@ export default {
       this.open = true;
       this.title = "添加比赛信息";
     },
-    /** 修改按钮操作 */
-    handleUpdate(row) {
-      this.reset();
-      const id = row.id || this.ids
-      getCompetition(id).then(response => {
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改比赛信息";
+    handleTeamVsTeamAdd(){
+      this.vsform = { };
+      this.vsOpen=true;
+      this.vsTitle = "新增赛程"
+    },
+    handleMindTeamVsTeam(){
+
+    },
+    changeMainTeamName(val){
+      let obj={}
+      obj = this.competitionOfTeamList.find(function(i){
+        return i.teamId ===val
+      });
+      this.vsform.mainTeamName = obj.teamName;
+      this.vsform.mainTeamId = val;
+      //在change中获取到整条对象数据
+      console.info(this.vsform)
+    },
+    changeGuestTeamName(val){
+      let obj={}
+      obj = this.competitionOfTeamList.find(function(i){
+        return i.teamId ===val
+      });
+      this.vsform.guestTeamName = obj.teamName;
+      this.vsform.guestTeamId = val;
+      console.info(this.vsform)
+    },
+    changeBuildName(val){
+      let obj={}
+      obj = this.buildingList.find(function(i){
+        return i.id ===val
+      });
+      this.vsform.buildingName = obj.buildingName;
+      this.vsform.buildingId = val;
+      this.vsform.competitionAddress=obj.address ;
+      console.info(this.vsform)
+    },
+    //远程查询球场信息
+    remoteMethod(query) {
+      this.buildLoading = true;
+      let queryParam = {
+        "pageNum": 1, "pageSize": 30,"status":2,"isDeleted":0,"buildingName":query
+      }
+      listWxBuilding(queryParam).then(response => {
+        this.buildingList = response.rows;
+        this.buildLoading = false;
       });
     },
     /** 提交按钮 */
-    submitForm() {
-      this.$refs["form"].validate(valid => {
+    submitTeamVsTeamForm() {
+      this.$refs["vsform"].validate(valid => {
         if (valid) {
-          if (this.form.id != null) {
-            updateCompetition(this.form).then(response => {
-              this.$modal.msgSuccess("修改成功");
-              this.open = false;
-              this.getList();
+          console.info(this.vsform)
+          if (this.vsform.id != null) {
+            updateCompetitionTeamVsTeam(this.vsform).then(response => {
+              this.$modal.msgSuccess("编辑赛程成功");
+              this.vsOpen = false;
+              listCompetitionTeamVsTeam({"orderByColumn":"competition_time","pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+                this.competitionTeamVsTeamList = response.rows;
+              });
             });
           } else {
-            addCompetition(this.form).then(response => {
-              this.$modal.msgSuccess("新增成功");
-              this.open = false;
-              this.getList();
+            this.vsform.competitionId = this.competitionObj.id;
+            addCompetitionTeamVsTeam(this.vsform).then(response => {
+              this.$modal.msgSuccess("新增赛程成功");
+              this.vsOpen = false;
+              listCompetitionTeamVsTeam({"orderByColumn":"competition_time","pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+                this.competitionTeamVsTeamList = response.rows;
+              });
             });
           }
         }
