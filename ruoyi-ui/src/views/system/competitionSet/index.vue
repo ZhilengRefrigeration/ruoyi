@@ -221,15 +221,15 @@
               size="mini"
               type="text"
               icon="el-icon-edit-outline"
-              @click="handleTeamUser(scope.row)"
+              @click="handleTeamVsTeamRecord(scope.row)"
               v-hasPermi="['system:competitionOfTeam:edit']"
             >比赛记录</el-button>
             <el-button
               size="mini"
               type="text"
               icon="el-icon-edit"
-              @click="handleTeamUser(scope.row)"
-              v-hasPermi="['system:competitionOfTeam:edit']"
+              @click="handleTeamVsTeamEdit(scope.row)"
+              v-hasPermi="['system:competitionTeamVsTeam:edit']"
             >编辑赛程</el-button>
             <el-button
               size="mini"
@@ -779,6 +779,11 @@ export default {
         this.buildingList = response.rows;
         this.buildLoading = false;
       });
+    },
+    handleTeamVsTeamEdit(row){
+      this.vsform = row;
+      this.vsOpen=true;
+      this.vsTitle = "编辑赛程"
     },
     /** 提交按钮 */
     submitTeamVsTeamForm() {
