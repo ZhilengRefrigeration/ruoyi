@@ -1,6 +1,8 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CompetitionTeamVsTeamMapper;
@@ -26,7 +28,7 @@ public class CompetitionTeamVsTeamServiceImpl implements ICompetitionTeamVsTeamS
      * @return 赛会中-球队VS球队关系
      */
     @Override
-    public CompetitionTeamVsTeam selectCompetitionTeamVsTeamById(Long id)
+    public CompetitionTeamVsTeamVo selectCompetitionTeamVsTeamById(Long id)
     {
         return competitionTeamVsTeamMapper.selectCompetitionTeamVsTeamById(id);
     }
@@ -38,7 +40,7 @@ public class CompetitionTeamVsTeamServiceImpl implements ICompetitionTeamVsTeamS
      * @return 赛会中-球队VS球队关系
      */
     @Override
-    public List<CompetitionTeamVsTeam> selectCompetitionTeamVsTeamList(CompetitionTeamVsTeam competitionTeamVsTeam)
+    public List<CompetitionTeamVsTeamVo> selectCompetitionTeamVsTeamList(CompetitionTeamVsTeam competitionTeamVsTeam)
     {
         return competitionTeamVsTeamMapper.selectCompetitionTeamVsTeamList(competitionTeamVsTeam);
     }

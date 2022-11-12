@@ -30,12 +30,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectCompetitionTeamVsTeamVo">
-        select id, competition_id, main_team_id, main_team_name, guest_team_id, guest_team_name, competition_time, building_id, building_name, competition_address, competition_group, status, created_time, last_updated_time, created_by, modified_by, is_deleted, remark, main_team_score, guest_team_score, vs_type, batch_number from competition_team_vs_team
+        select id, competition_id, main_team_id, main_team_name, guest_team_id, guest_team_name, competition_time, DATE_FORMAT(competition_time,'%Y-%m-%d') as competitionDate, building_id, building_name, competition_address, competition_group, status, created_time, last_updated_time, created_by, modified_by, is_deleted, remark, main_team_score, guest_team_score, vs_type, batch_number from competition_team_vs_team
     </sql>
 
-    <select id="selectCompetitionTeamVsTeamList" parameterType="CompetitionTeamVsTeam" resultMap="CompetitionTeamVsTeamResult">
+
+
+    <select id="selectCompetitionTeamVsTeamList"
+            resultType="com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo">
         <include refid="selectCompetitionTeamVsTeamVo"/>
-        <where>  
+        <where>
             <if test="competitionId != null "> and competition_id = #{competitionId}</if>
             <if test="mainTeamId != null "> and main_team_id = #{mainTeamId}</if>
             <if test="mainTeamName != null  and mainTeamName != ''"> and main_team_name like concat('%', #{mainTeamName}, '%')</if>
@@ -58,12 +61,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="batchNumber != null  and batchNumber != ''"> and batch_number = #{batchNumber}</if>
         </where>
     </select>
-    
-    <select id="selectCompetitionTeamVsTeamById" parameterType="Long" resultMap="CompetitionTeamVsTeamResult">
+    <select id="selectCompetitionTeamVsTeamById"
+            resultType="com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo">
         <include refid="selectCompetitionTeamVsTeamVo"/>
         where id = #{id}
     </select>
-        
+
     <insert id="insertCompetitionTeamVsTeam" parameterType="CompetitionTeamVsTeam" useGeneratedKeys="true" keyProperty="id">
         insert into competition_team_vs_team
         <trim prefix="(" suffix=")" suffixOverrides=",">

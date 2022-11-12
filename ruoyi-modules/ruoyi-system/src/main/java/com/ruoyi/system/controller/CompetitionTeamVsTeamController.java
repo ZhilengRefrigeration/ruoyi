@@ -3,6 +3,8 @@ package com.ruoyi.system.controller;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,7 +45,7 @@ public class CompetitionTeamVsTeamController extends BaseController
     public TableDataInfo list(CompetitionTeamVsTeam competitionTeamVsTeam)
     {
         startPage();
-        List<CompetitionTeamVsTeam> list = competitionTeamVsTeamService.selectCompetitionTeamVsTeamList(competitionTeamVsTeam);
+        List<CompetitionTeamVsTeamVo> list = competitionTeamVsTeamService.selectCompetitionTeamVsTeamList(competitionTeamVsTeam);
         return getDataTable(list);
     }
 
@@ -55,8 +57,8 @@ public class CompetitionTeamVsTeamController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response, CompetitionTeamVsTeam competitionTeamVsTeam)
     {
-        List<CompetitionTeamVsTeam> list = competitionTeamVsTeamService.selectCompetitionTeamVsTeamList(competitionTeamVsTeam);
-        ExcelUtil<CompetitionTeamVsTeam> util = new ExcelUtil<CompetitionTeamVsTeam>(CompetitionTeamVsTeam.class);
+        List<CompetitionTeamVsTeamVo> list = competitionTeamVsTeamService.selectCompetitionTeamVsTeamList(competitionTeamVsTeam);
+        ExcelUtil<CompetitionTeamVsTeamVo> util = new ExcelUtil<CompetitionTeamVsTeamVo>(CompetitionTeamVsTeamVo.class);
         util.exportExcel(response, list, "赛会中-球队VS球队关系数据");
     }
 

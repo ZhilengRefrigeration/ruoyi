@@ -3,6 +3,12 @@ package com.ruoyi.common.core.web.controller;
 import java.beans.PropertyEditorSupport;
 import java.util.Date;
 import java.util.List;
+
+import com.github.pagehelper.PageHelper;
+import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.core.utils.sql.SqlUtil;
+import com.ruoyi.common.core.web.page.PageDomain;
+import com.ruoyi.common.core.web.page.TableSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.WebDataBinder;
@@ -45,7 +51,17 @@ public class BaseController
      */
     protected void startPage()
     {
-        PageUtils.startPage();
+        PageDomain pageDomain = TableSupport.buildPageRequest();
+        Integer pageNum = pageDomain.getPageNum();
+        Integer pageSize = pageDomain.getPageSize();
+        if (StringUtils.isNotNull(pageNum) && StringUtils.isNotNull(pageSize))
+        {
+            String orderBy = SqlUtil.escapeOrderBySql(pageDomain.getOrderBy());
+            PageHelper.startPage(pageNum, pageSize, orderBy);
+        }else {
+            String orderBy = SqlUtil.escapeOrderBySql(pageDomain.getOrderBy());
+            PageHelper.orderBy(orderBy);
+        }
     }
 
     /**

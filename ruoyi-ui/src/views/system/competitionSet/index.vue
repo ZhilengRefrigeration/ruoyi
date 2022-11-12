@@ -53,7 +53,9 @@
 
     </el-tab-pane>
     <el-tab-pane label="球队审核" name="competitionTeamApprove"><span slot="label"><i class="el-icon-s-check"></i> 球队审核</span>
-      <el-table v-loading="loading" :data="competitionOfTeamList" @selection-change="handleSelectionChange">
+      <el-table
+        max-height="800"
+        v-loading="loading" :data="competitionOfTeamList" @selection-change="handleSelectionChange">
         <el-table-column label="球队ID" align="center" prop="teamId" />
         <el-table-column label="球队名" align="center" prop="teamName" />
         <el-table-column label="球队所属的组" align="center" prop="competitionGroup" />
@@ -107,9 +109,10 @@
           </template>
         </el-table-column>
       </el-table>
+
     </el-tab-pane>
     <el-tab-pane label="球队分组" name="competitionTeamGroup"> <span slot="label"><i class="el-icon-film"></i> 球队分组</span>
-      <el-container style="height: 700px; border: 1px solid #eee">
+      <el-container style="height: 800px; border: 1px solid #eee">
         <el-aside width="300px" style="background-color: rgb(238, 241, 246)">
           <el-row :gutter="10" class="mb8">
             <el-col :span="1.5">
@@ -164,7 +167,48 @@
         </el-container>
       </el-container>
     </el-tab-pane>
-    <el-tab-pane label="赛程设置" name="competitionVsSet"> <span slot="label"><i class="el-icon-c-scale-to-original"></i> 赛程设置</span> 赛程设置</el-tab-pane>
+    <el-tab-pane label="赛程设置" name="competitionVsSet"> <span slot="label"><i class="el-icon-c-scale-to-original"></i> 赛程设置</span>
+      <el-row :gutter="10" class="mb8">
+        <el-col :span="1.5">
+          <el-button
+            type="primary"
+            plain
+            icon="el-icon-time"
+            @click="handleAdd"
+            v-hasPermi="['system:competitionOfTeam:add']"
+          >手动设置赛程</el-button>
+        </el-col>
+        <el-col :span="1.5">
+          <el-button
+            type="success"
+            plain
+            icon="el-icon-bangzhu"
+            @click="handleUpdate"
+            v-hasPermi="['system:competitionOfTeam:edit']"
+          >系统智能设置小组循环赛赛程</el-button>
+        </el-col>
+      </el-row>
+      <el-table
+        title="赛程列表"
+        :data="competitionTeamVsTeamList"
+        :span-method="(...arg)=>objectSpanMethod(...arg,competitionTeamVsTeamList)"
+        border
+        max-height="800"
+        style=" margin-top: 20px">
+        <el-table-column label="比赛日期" align="center" prop="competitionDate" width="180"/>
+        <el-table-column label="主队名" align="center" prop="mainTeamName" />
+        <el-table-column label="主队得分" align="center" prop="mainTeamScore" />
+        <el-table-column label="比赛时间" align="center" prop="competitionTime" width="180">
+          <template slot-scope="scope">
+            <el-tag effect="plain" size="medium" >{{ parseTime(scope.row.competitionTime, '{h}:{i}') }}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="客队得分" align="center" prop="guestTeamScore" />
+        <el-table-column label="客队名" align="center" prop="guestTeamName" />
+        <el-table-column label="球场名称" align="center" prop="buildingName" />
+        <el-table-column label="比赛类型" align="center" prop="vsType" />
+      </el-table>
+    </el-tab-pane>
     <el-tab-pane label="赛会推广" name="competitionSpread"> <span slot="label"><i class="el-icon-s-promotion"></i> 赛会推广</span> 赛会推广</el-tab-pane>
   </el-tabs>
 
@@ -269,6 +313,7 @@ import { listCompetition, getCompetition, delCompetition, addCompetition, update
 import { listCompetitionOfTeam, batchEditById, intoTeamGroup, removeTeamGroup, updateCompetitionOfTeam } from "@/api/system/competitionOfTeam";
 import { listCompetitionMembers, getCompetitionMembers, delCompetitionMembers, addCompetitionMembers, updateCompetitionMembers } from "@/api/system/competitionMembers";
 import { listCompetitionTeamGroup, getCompetitionTeamGroup, delCompetitionTeamGroup, addCompetitionTeamGroup, updateCompetitionTeamGroup } from "@/api/system/competitionTeamGroup";
+import { listCompetitionTeamVsTeam, getCompetitionTeamVsTeam, delCompetitionTeamVsTeam, addCompetitionTeamVsTeam, updateCompetitionTeamVsTeam } from "@/api/system/competitionTeamVsTeam";
 export default {
   name: "CompetitionSet",
   dicts: ['competition_status'],
@@ -289,6 +334,7 @@ export default {
       //已经分组的球队数据
       alreadyGroupTeamList: [],
       selectTeamList:[],
+      competitionTeamVsTeamList:[],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -466,6 +512,41 @@ export default {
     reset() {
 
     },
+    objectSpanMethod({ row, column, rowIndex, columnIndex },data) {
+      if (columnIndex === 0) {
+        if(column.property==='competitionDate') {
+          var spanArr = this.getSpanArr(data, column.property)
+          const _row = spanArr[rowIndex]
+          const _col = _row > 0 ? 1 : 0
+          return {
+            rowspan: _row,
+            colspan: _col
+          }
+        }
+    }
+    },
+    // 处理合并行的数据
+    getSpanArr: function(data, spanKey) {
+      var that = this
+      var spanArr = []
+      var pos = ''
+      for (var i = 0; i < data.length; i++) {
+        if (i === 0) {
+          spanArr.push(1)
+          pos = 0
+        } else {
+          // 判断当前元素与上一个元素是否相同
+          if (data[i][spanKey] === data[i - 1][spanKey]) {
+            spanArr[pos] += 1
+            spanArr.push(0)
+          } else {
+            spanArr.push(1)
+            pos = i
+          }
+        }
+      }
+      return spanArr
+    },
     handleCurrentChange(val) {
       this.currentGroupRow = val;
       console.info(val)
@@ -496,7 +577,9 @@ export default {
           this.competitionTeamGroupList.push({"competitionGroup":"未分","id":null})
         });
       }else if(tab.name=='competitionVsSet'){
-
+        listCompetitionTeamVsTeam({"orderByColumn":"competition_time","pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+          this.competitionTeamVsTeamList = response.rows;
+        });
       }else if(tab.name=='competitionSpread'){
 
       }

@@ -2,6 +2,7 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.domain.CompetitionTeamVsTeam;
+import com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo;
 
 /**
  * 赛会中-球队VS球队关系Mapper接口
@@ -17,7 +18,7 @@ public interface CompetitionTeamVsTeamMapper
      * @param id 赛会中-球队VS球队关系主键
      * @return 赛会中-球队VS球队关系
      */
-    public CompetitionTeamVsTeam selectCompetitionTeamVsTeamById(Long id);
+    public CompetitionTeamVsTeamVo selectCompetitionTeamVsTeamById(Long id);
 
     /**
      * 查询赛会中-球队VS球队关系列表
@@ -25,7 +26,7 @@ public interface CompetitionTeamVsTeamMapper
      * @param competitionTeamVsTeam 赛会中-球队VS球队关系
      * @return 赛会中-球队VS球队关系集合
      */
-    public List<CompetitionTeamVsTeam> selectCompetitionTeamVsTeamList(CompetitionTeamVsTeam competitionTeamVsTeam);
+    public List<CompetitionTeamVsTeamVo> selectCompetitionTeamVsTeamList(CompetitionTeamVsTeam competitionTeamVsTeam);
 
     /**
      * 新增赛会中-球队VS球队关系
