@@ -66,6 +66,66 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectCompetitionTeamVsTeamVo"/>
         where id = #{id}
     </select>
+    <select id="getCompetitionById" resultType="com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo">
+        select
+            t.id as id,
+            t.competition_id as competitionId,
+            t.main_team_id as mainTeamId,
+            b1.TEAM_NAME as mainTeamName,
+            b1.team_logo as mainTeamLogo,
+            t.guest_team_id as guestTeamId,
+            b2.TEAM_NAME as guestTeamName,
+            b2.team_logo as guestTeamLogo,
+            t.competition_time as competitionTime,
+            t.building_id as buildingId,
+            t.building_name as buildingName,
+            t.competition_address as competitionAddress,
+            t.competition_group as competitionGroup,
+            t.status,
+            t.vs_type as vsType,
+            t.created_time as createdTime,
+            t.last_updated_time as lastUpdatedTime,
+            t.created_by as createdBy,
+            t.modified_by as modifiedBy,
+            t.main_team_score as mainTeamScore,
+            t.guest_team_score as guestTeamScore,
+            t.is_deleted as isDeleted,
+            DATE_FORMAT(t.competition_time,'%Y-%m-%d') as competitionDate,
+            CASE dayofweek(t.competition_time)
+                WHEN 1 THEN
+                    '星期日'
+                WHEN 2 THEN
+                    '星期一'
+                WHEN 3 THEN
+                    '星期二'
+                WHEN 4 THEN
+                    '星期三'
+                WHEN 5 THEN
+                    '星期四'
+                WHEN 6 THEN
+                    '星期五'
+                WHEN 7 THEN
+                    '星期六'
+                END as weekDayName,
+            CASE t.status
+                WHEN -1 THEN
+                    '已取消'
+                WHEN 0 THEN
+                    '报名中'
+                WHEN 1 THEN
+                    '比赛中'
+                WHEN 2 THEN
+                    '已结束'
+                END as statusName,
+            DATE_FORMAT(t.competition_time,'%H:%i') AS theTime,
+            t.remark as remark
+        from competition_team_vs_team t
+                 LEFT JOIN basketball_team b1 ON b1.id = t.main_team_id
+                 left join basketball_team b2 on t.guest_team_id=b2.id
+        where 1=1 AND  t.id=#{id}
+          AND  t.is_deleted = 0
+            LIMIT 1
+    </select>
 
     <insert id="insertCompetitionTeamVsTeam" parameterType="CompetitionTeamVsTeam" useGeneratedKeys="true" keyProperty="id">
         insert into competition_team_vs_team

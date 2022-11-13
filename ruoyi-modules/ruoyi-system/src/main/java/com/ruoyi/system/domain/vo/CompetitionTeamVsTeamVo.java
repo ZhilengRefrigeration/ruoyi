@@ -17,4 +17,6 @@ public class CompetitionTeamVsTeamVo extends CompetitionTeamVsTeam {
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "比赛时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date competitionDate;
+    private String weekDayName;
+    private String theTime;
 }

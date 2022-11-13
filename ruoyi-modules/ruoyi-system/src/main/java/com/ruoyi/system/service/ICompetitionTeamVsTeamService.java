@@ -3,6 +3,7 @@ package com.ruoyi.system.service;
 import java.util.List;
 import com.ruoyi.system.domain.CompetitionTeamVsTeam;
 import com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo;
+import com.ruoyi.system.domain.vo.CompetitionUnifiedRecordVo;
 
 /**
  * 赛会中-球队VS球队关系Service接口
@@ -59,4 +60,6 @@ public interface ICompetitionTeamVsTeamService
      * @return 结果
      */
     public int deleteCompetitionTeamVsTeamById(Long id);
+
+    public CompetitionUnifiedRecordVo getCompetitionUnifiedRecordById(Long id);
 }

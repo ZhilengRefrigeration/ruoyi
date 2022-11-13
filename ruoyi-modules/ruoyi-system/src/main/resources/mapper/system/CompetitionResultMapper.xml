@@ -59,7 +59,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectCompetitionResultVo"/>
         where id = #{id}
     </select>
-        
+    <select id="findByCompetitionVsId" resultType="com.ruoyi.system.domain.CompetitionResult">
+        select rs.id,
+        vs.competition_id as competitionId,
+        vs.id as competitionVsId,
+        vs.competition_group as competitionGroup,
+        team.id as teamId,
+        team.team_name as teamName,
+        rs.one_node_score as oneNodeScore,
+        rs.two_node_score as twoNodeScore,
+        rs.three_node_score as threeNodeScore,
+        rs.four_node_score as fourNodeScore,
+        rs.five_node_score as fiveNodeScore,
+        rs.six_node_score as sixNodeScore,
+        rs.integral
+        from competition_team_vs_team vs
+        inner join basketball_team team on (vs.main_team_id=team.id or vs.guest_team_id=team.id) and team.IS_DELETED=0
+        left join competition_Result rs on (rs.competition_vs_id=vs.id and team.id = rs.team_id) and rs.is_deleted=0
+        where 1=1 and vs.is_deleted=0
+        <if test="competitionId != null ">
+            AND  vs.competition_Id = #{competitionId}
+        </if>
+        <if test="competitionVsId != null ">
+            AND  vs.id = #{competitionVsId}
+        </if>
+    </select>
+
     <insert id="insertCompetitionResult" parameterType="CompetitionResult" useGeneratedKeys="true" keyProperty="id">
         insert into competition_result
         <trim prefix="(" suffix=")" suffixOverrides=",">

@@ -420,6 +420,20 @@
         <el-button @click="vsOpen=false">取 消</el-button>
       </div>
     </el-dialog>
+
+    <!--赛程比赛数据记录-->
+    <el-dialog :title="vsRecordTitle" :visible.sync="vsRecordOpen" width="750px" append-to-body>
+      <el-row>
+        <el-col :span="24"><div class="grid-content bg-purple-dark">{{ competitionUnifiedRecord.teamVsTeamVo.competitionTime }}</div></el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="8"><div class="grid-content bg-purple">{{competitionUnifiedRecord.teamVsTeamVo.mainTeamName}}</div></el-col>
+        <el-col :span="8"><div class="grid-content bg-purple-light">{{competitionUnifiedRecord.teamVsTeamVo.mainTeamScore}} :
+          {{competitionUnifiedRecord.teamVsTeamVo.guestTeamScore}}
+        </div></el-col>
+        <el-col :span="8"><div class="grid-content bg-purple">{{competitionUnifiedRecord.teamVsTeamVo.guestTeamName}}</div></el-col>
+      </el-row>
+    </el-dialog>
   </div>
 </template>
 
@@ -428,7 +442,7 @@ import { listCompetition, getCompetition, delCompetition, addCompetition, update
 import { listCompetitionOfTeam, batchEditById, intoTeamGroup, removeTeamGroup, updateCompetitionOfTeam } from "@/api/system/competitionOfTeam";
 import { listCompetitionMembers, getCompetitionMembers, delCompetitionMembers, addCompetitionMembers, updateCompetitionMembers } from "@/api/system/competitionMembers";
 import { listCompetitionTeamGroup, arrangeTeamGroupSchedule, delCompetitionTeamGroup, addCompetitionTeamGroup, updateCompetitionTeamGroup } from "@/api/system/competitionTeamGroup";
-import { listCompetitionTeamVsTeam, getCompetitionTeamVsTeam, delCompetitionTeamVsTeam, addCompetitionTeamVsTeam, updateCompetitionTeamVsTeam } from "@/api/system/competitionTeamVsTeam";
+import { listCompetitionTeamVsTeam, getCompetitionUnifiedRecord, delCompetitionTeamVsTeam, addCompetitionTeamVsTeam, updateCompetitionTeamVsTeam } from "@/api/system/competitionTeamVsTeam";
 import { listWxBuilding, getWxBuilding, delWxBuilding, addWxBuilding, updateWxBuilding } from "@/api/system/WxBuilding";
 
 export default {
@@ -484,6 +498,17 @@ export default {
       vsOpen:false,
       buildingList: [],
       buildLoading:false,
+      vsRecordTitle:"",
+      vsRecordOpen:false,
+      competitionUnifiedRecord:{
+        teamVsTeamVo:{
+          competitionTime:null,
+          mainTeamName:null,
+          guestTeamName: null,
+          mainTeamScore:null,
+          guestTeamScore:null
+        },
+      }
     };
   },
   created() {
@@ -797,6 +822,14 @@ export default {
       this.vsOpen=true;
       this.vsTitle = "编辑赛程"
     },
+    handleTeamVsTeamRecord(row){
+      this.vsRecordOpen=true;
+      this.vsRecordTitle = "比赛数据记录";
+      //获取比赛数据
+      getCompetitionUnifiedRecord(row.id).then(response=>{
+        this.competitionUnifiedRecord = response.data
+      })
+    },
     handleTeamVsTeamDel(row){
       const ids = row.id || this.ids;
       this.$modal.confirm('是否确认删除赛会中的赛程数据？').then(function() {
@@ -882,5 +915,28 @@ export default {
 
 .box-card {
   width: 275px;
+}
+.el-row {
+  margin-bottom: 20px;
+}
+.el-col {
+  border-radius: 4px;
+}
+.bg-purple-dark {
+  background: #99a9bf;
+}
+.bg-purple {
+  background: #d3dce6;
+}
+.bg-purple-light {
+  background: #e5e9f2;
+}
+.grid-content {
+  border-radius: 4px;
+  min-height: 36px;
+}
+.row-bg {
+  padding: 10px 0;
+  background-color: #f9fafc;
 }
 </style>

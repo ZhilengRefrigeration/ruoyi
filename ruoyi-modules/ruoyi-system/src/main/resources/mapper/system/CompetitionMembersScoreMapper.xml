@@ -73,7 +73,48 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectCompetitionMembersScoreVo"/>
         where id = #{id}
     </select>
-        
+    <select id="findMembersScoreByCompetitionVsId"
+            resultType="com.ruoyi.system.domain.CompetitionMembersScore">
+        SELECT
+        DISTINCT
+        sco.id,
+        vs.competition_id as competitionId,
+        vs.id as competitionVsId,
+        vs.competition_group as competitionGroup,
+        team.id AS teamId,
+        member.user_id as teamUserId,
+        cm.real_name as realName,
+        team.team_name as teamName,
+        sco.node_num as nodeNum,
+        member.jersey_number as jerseyNumber,
+        sco.total_score as totalScore,
+        sco.two_points as twoPoints,
+        sco.three_points as threePoints,
+        sco.penalty,
+        sco.backboard,
+        sco.front_plate as frontPlate,
+        sco.back_plate as backPlate,
+        sco.assists,
+        sco.snatch,
+        sco.block,
+        sco.fault,
+        sco.breaks,
+        IFNULL(sco.is_first_launch,0) AS isFirstLaunch
+        FROM
+        competition_team_vs_team vs
+        inner join basketball_team team on (vs.main_team_id=team.id or vs.guest_team_id=team.id) and team.IS_DELETED=0
+        left join competition_members member on team.id = member.competition_team_id and member.IS_DELETED=0
+        left join competition_members_score sco on (vs.id=sco.competition_vs_id and member.user_id = sco.team_user_id) and sco.is_deleted=0
+        left join user_info userInfo on member.user_id = userInfo.id and userInfo.is_deleted=0
+        left join competition_members cm on cm.user_id=userInfo.id and cm.is_deleted=0
+        WHERE 1 = 1  AND vs.is_deleted = 0
+        <if test="competitionId != null ">
+            AND  vs.competition_Id = #{competitionId}
+        </if>
+        <if test="competitionVsId != null ">
+            AND  vs.id = #{competitionVsId}
+        </if>
+    </select>
     <insert id="insertCompetitionMembersScore" parameterType="CompetitionMembersScore" useGeneratedKeys="true" keyProperty="id">
         insert into competition_members_score
         <trim prefix="(" suffix=")" suffixOverrides=",">

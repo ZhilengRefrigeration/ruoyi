@@ -66,4 +66,6 @@ public interface CompetitionTeamVsTeamMapper
      * @return 结果
      */
     public int updateCompetitionTeamVsTeamByCondition(CompetitionTeamVsTeam teamVsTeam);
+
+    public CompetitionTeamVsTeamVo getCompetitionById(Long id);
 }

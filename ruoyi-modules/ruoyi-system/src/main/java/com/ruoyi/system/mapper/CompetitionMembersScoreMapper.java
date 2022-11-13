@@ -2,6 +2,7 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.domain.CompetitionMembersScore;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 赛会中-赛程-人员得分Mapper接口
@@ -58,4 +59,6 @@ public interface CompetitionMembersScoreMapper
      * @return 结果
      */
     public int deleteCompetitionMembersScoreByIds(Long[] ids);
+
+    public List<CompetitionMembersScore> findMembersScoreByCompetitionVsId(@Param("competitionId") Long competitionId,@Param("competitionVsId") Long competitionVsId);
 }
