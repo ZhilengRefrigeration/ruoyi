@@ -422,17 +422,68 @@
     </el-dialog>
 
     <!--赛程比赛数据记录-->
-    <el-dialog :title="vsRecordTitle" :visible.sync="vsRecordOpen" width="750px" append-to-body>
+    <el-dialog :title="vsRecordTitle" :visible.sync="vsRecordOpen" width="850px" append-to-body>
       <el-row>
-        <el-col :span="24"><div class="grid-content bg-purple-dark">{{ competitionUnifiedRecord.teamVsTeamVo.competitionTime }}</div></el-col>
+        <el-col :span="16" style="font-size: large;font-weight: bold"><i class="el-icon-time">比赛时间：</i>{{ competitionUnifiedRecord.teamVsTeamVo.competitionTime }} {{ competitionUnifiedRecord.teamVsTeamVo.weekDayName }}</el-col>
       </el-row>
       <el-row>
-        <el-col :span="8"><div class="grid-content bg-purple">{{competitionUnifiedRecord.teamVsTeamVo.mainTeamName}}</div></el-col>
-        <el-col :span="8"><div class="grid-content bg-purple-light">{{competitionUnifiedRecord.teamVsTeamVo.mainTeamScore}} :
-          {{competitionUnifiedRecord.teamVsTeamVo.guestTeamScore}}
-        </div></el-col>
-        <el-col :span="8"><div class="grid-content bg-purple">{{competitionUnifiedRecord.teamVsTeamVo.guestTeamName}}</div></el-col>
+        <el-col :span="8" style="font-size: large;font-weight: bold" >
+          <el-avatar :src="competitionUnifiedRecord.teamVsTeamVo.mainTeamLogo"></el-avatar>
+          <span style="position: absolute;margin-left: 10px;margin-top: 8px">{{competitionUnifiedRecord.teamVsTeamVo.mainTeamName}}</span>
+        </el-col>
+        <el-col :span="8" style="text-align: center">
+          <span style="font-weight: bold;font-size: xx-large;color: #ae192a">
+            {{competitionUnifiedRecord.teamVsTeamVo.mainTeamScore}}:{{competitionUnifiedRecord.teamVsTeamVo.guestTeamScore}}</span>
+        </el-col>
+        <el-col :span="8"  style="font-size: large;font-weight: bold">
+          <el-avatar :src="competitionUnifiedRecord.teamVsTeamVo.guestTeamLogo"></el-avatar>
+          <span style="position: absolute;margin-left: 10px;margin-top: 8px">{{competitionUnifiedRecord.teamVsTeamVo.guestTeamName}}</span>
+        </el-col>
       </el-row>
+      <el-form>
+      <el-container>
+        <el-aside style="width: 50%;margin-bottom:0px">
+          <el-form-item label="第一节">
+            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="0" label="描述文字"></el-input-number>
+          </el-form-item>
+          <el-form-item label="第二节">
+            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="1" label="描述文字"></el-input-number>
+          </el-form-item>
+          <el-form-item label="第三节">
+            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="1"  label="描述文字"></el-input-number>
+          </el-form-item>
+          <el-form-item label="第四节">
+            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="1"  label="描述文字"></el-input-number>
+          </el-form-item>
+          <el-form-item label="第五节">
+            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="1"  label="描述文字"></el-input-number>
+          </el-form-item>
+          <el-form-item label="第六节">
+            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="1"  label="描述文字"></el-input-number>
+          </el-form-item>
+        </el-aside>
+        <el-main style="width: 45%; background-color: white;">
+          <el-form-item label="第一节">
+            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="1"  label="描述文字"></el-input-number>
+          </el-form-item>
+          <el-form-item label="第二节">
+            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="1"  label="描述文字"></el-input-number>
+          </el-form-item>
+          <el-form-item label="第三节">
+            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="1"  label="描述文字"></el-input-number>
+          </el-form-item>
+          <el-form-item label="第四节">
+            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="1"  label="描述文字"></el-input-number>
+          </el-form-item>
+          <el-form-item label="第五节">
+            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="1" label="描述文字"></el-input-number>
+          </el-form-item>
+          <el-form-item label="第六节">
+            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="1" label="描述文字"></el-input-number>
+          </el-form-item>
+        </el-main>
+      </el-container>
+      </el-form>
     </el-dialog>
   </div>
 </template>
@@ -506,7 +557,8 @@ export default {
           mainTeamName:null,
           guestTeamName: null,
           mainTeamScore:null,
-          guestTeamScore:null
+          guestTeamScore:null,
+          weekDayName:null
         },
       }
     };
@@ -887,17 +939,11 @@ export default {
 };
 </script>
 <style>
-.el-header {
-  background-color: #bdc8c6;
-  color: #333;
-  line-height: 60px;
-}
-
 .el-aside {
-  color: #333;
-}
-.text {
-  font-size: 14px;
+  background: white;
+  border-width: 0 1px 0 0;
+  border-style: solid;
+  border-color:#d3dce6;
 }
 
 .item {
@@ -933,7 +979,7 @@ export default {
 }
 .grid-content {
   border-radius: 4px;
-  min-height: 36px;
+
 }
 .row-bg {
   padding: 10px 0;
