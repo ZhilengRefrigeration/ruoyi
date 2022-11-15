@@ -137,7 +137,7 @@ public class CompetitionTeamVsTeamServiceImpl implements ICompetitionTeamVsTeamS
             firstList.sort((o1, o2) -> o2.getTotalScore().compareTo(o1.getTotalScore()));
             //不是首发球员
             List<CompetitionMembersScore> noFirstList = mainMembersScoreList.stream().filter(a -> a.getIsFirstLaunch() == 0).collect(Collectors.toList());
-            noFirstList.sort((o1, o2) -> o2.getTotalScore().compareTo(o1.getTotalScore()));
+            //noFirstList.sort((o1, o2) -> o2.getTotalScore().compareTo(o1.getTotalScore()));
             mainMembersScoreList = firstList;
             mainMembersScoreList.addAll(noFirstList);
             competitionMembersScoreList.addAll(mainMembersScoreList);
@@ -149,7 +149,7 @@ public class CompetitionTeamVsTeamServiceImpl implements ICompetitionTeamVsTeamS
             gustFirstList.sort((o1, o2) -> o2.getTotalScore().compareTo(o1.getTotalScore()));
             //不是首发球员
             List<CompetitionMembersScore> gustNoFirstList = gustMembersScoreList.stream().filter(a -> a.getIsFirstLaunch() == 0).collect(Collectors.toList());
-            gustNoFirstList.sort((o1, o2) -> o2.getTotalScore().compareTo(o1.getTotalScore()));
+            //gustNoFirstList.sort((o1, o2) -> o2.getTotalScore().compareTo(o1.getTotalScore()));
             gustMembersScoreList =  gustFirstList;
             gustMembersScoreList.addAll(gustNoFirstList);
             competitionMembersScoreList.addAll(gustMembersScoreList);

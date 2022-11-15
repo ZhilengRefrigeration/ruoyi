@@ -433,7 +433,7 @@
         </el-col>
         <el-col :span="8" style="text-align: center">
           <span style="font-weight: bold;font-size: xx-large;color: #ae192a">
-            {{competitionUnifiedRecord.teamVsTeamVo.mainTeamScore}}:{{competitionUnifiedRecord.teamVsTeamVo.guestTeamScore}}</span>
+            {{competitionUnifiedRecord.teamVsTeamVo.mainTeamScore===null?0:competitionUnifiedRecord.teamVsTeamVo.mainTeamScore}}:{{competitionUnifiedRecord.teamVsTeamVo.guestTeamScore===null?0:competitionUnifiedRecord.teamVsTeamVo.guestTeamScore}}</span>
         </el-col>
         <el-col :span="8"  style="font-size: large;font-weight: bold">
           <el-avatar :src="competitionUnifiedRecord.teamVsTeamVo.guestTeamLogo"></el-avatar>
@@ -442,44 +442,44 @@
       </el-row>
       <el-form>
       <el-container>
-        <el-aside style="width: 50%;margin-bottom:0px">
+        <el-aside style="width: 50%;margin-top:10px">
           <el-form-item label="第一节">
-            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="0" label="描述文字"></el-input-number>
+            <el-input-number v-model="competitionUnifiedRecord.competitionResultList[0].oneNodeScore" @change="handleMainOneNodeChange" :min="0"></el-input-number>
           </el-form-item>
           <el-form-item label="第二节">
-            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="1" label="描述文字"></el-input-number>
+            <el-input-number v-model="competitionUnifiedRecord.competitionResultList[0].twoNodeScore" @change="handleMainTwoNodeChange" :min="0"></el-input-number>
           </el-form-item>
           <el-form-item label="第三节">
-            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="1"  label="描述文字"></el-input-number>
+            <el-input-number v-model="competitionUnifiedRecord.competitionResultList[0].threeNodeScore" @change="handleMainThreeNodeChange" :min="0"></el-input-number>
           </el-form-item>
           <el-form-item label="第四节">
-            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="1"  label="描述文字"></el-input-number>
+            <el-input-number v-model="competitionUnifiedRecord.competitionResultList[0].fourNodeScore" @change="handleMainFourNodeChange" :min="0"></el-input-number>
           </el-form-item>
           <el-form-item label="第五节">
-            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="1"  label="描述文字"></el-input-number>
+            <el-input-number v-model="competitionUnifiedRecord.competitionResultList[0].fiveNodeScore" @change="handleMainFiveNodeChange" :min="0"></el-input-number>
           </el-form-item>
           <el-form-item label="第六节">
-            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="1"  label="描述文字"></el-input-number>
+            <el-input-number v-model="competitionUnifiedRecord.competitionResultList[0].sixNodeScore" @change="handleMainSixNodeChange" :min="0"></el-input-number>
           </el-form-item>
         </el-aside>
         <el-main style="width: 45%; background-color: white;">
           <el-form-item label="第一节">
-            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="1"  label="描述文字"></el-input-number>
+            <el-input-number v-model="competitionUnifiedRecord.competitionResultList[1].oneNodeScore" @change="handleGuestOneNodeChange" :min="0"></el-input-number>
           </el-form-item>
           <el-form-item label="第二节">
-            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="1"  label="描述文字"></el-input-number>
+            <el-input-number v-model="competitionUnifiedRecord.competitionResultList[1].twoNodeScore" @change="handleGuestTwoNodeChange" :min="0"></el-input-number>
           </el-form-item>
           <el-form-item label="第三节">
-            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="1"  label="描述文字"></el-input-number>
+            <el-input-number v-model="competitionUnifiedRecord.competitionResultList[1].threeNodeScore" @change="handleGuestThreeNodeChange" :min="0"></el-input-number>
           </el-form-item>
           <el-form-item label="第四节">
-            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="1"  label="描述文字"></el-input-number>
+            <el-input-number v-model="competitionUnifiedRecord.competitionResultList[1].fourNodeScore" @change="handleGuestFourNodeChange" :min="0"></el-input-number>
           </el-form-item>
           <el-form-item label="第五节">
-            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="1" label="描述文字"></el-input-number>
+            <el-input-number v-model="competitionUnifiedRecord.competitionResultList[1].fiveNodeScore" @change="handleGuestFiveNodeChange" :min="0"></el-input-number>
           </el-form-item>
           <el-form-item label="第六节">
-            <el-input-number v-model="competitionUnifiedRecord.teamVsTeamVo.mainTeamScore" @change="handleChange" :min="1" label="描述文字"></el-input-number>
+            <el-input-number v-model="competitionUnifiedRecord.competitionResultList[1].sixNodeScore" @change="handleGuestSixNodeChange" :min="0" label="描述文字"></el-input-number>
           </el-form-item>
         </el-main>
       </el-container>
@@ -552,6 +552,25 @@ export default {
       vsRecordTitle:"",
       vsRecordOpen:false,
       competitionUnifiedRecord:{
+        competitionResultList:[
+          {
+            fiveNodeScore: 0,
+            fourNodeScore: 0,
+            oneNodeScore: 0,
+            sixNodeScore: 0,
+            threeNodeScore:0,
+            twoNodeScore: 0,
+          },
+          {
+            fiveNodeScore: 0,
+            fourNodeScore: 0,
+            oneNodeScore: 0,
+            sixNodeScore: 0,
+            threeNodeScore:0,
+            twoNodeScore: 0,
+          }
+        ],
+        competitionMembersScoreList:[],
         teamVsTeamVo:{
           competitionTime:null,
           mainTeamName:null,
@@ -919,15 +938,103 @@ export default {
         }
       });
     },
-    /** 删除按钮操作 */
-    handleDelete(row) {
-      const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除比赛信息编号为"' + ids + '"的数据项？').then(function() {
-        return delCompetition(ids);
-      }).then(() => {
-        this.getList();
-        this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
+    handleMainOneNodeChange(currentValue, oldValue){
+     let totalScore =currentValue + parseInt(this.competitionUnifiedRecord.competitionResultList[0].twoNodeScore)
+      + parseInt(this.competitionUnifiedRecord.competitionResultList[0].threeNodeScore)
+      + parseInt(this.competitionUnifiedRecord.competitionResultList[0].fourNodeScore)
+      + parseInt(this.competitionUnifiedRecord.competitionResultList[0].fiveNodeScore)
+      + parseInt(this.competitionUnifiedRecord.competitionResultList[0].sixNodeScore);
+      this.competitionUnifiedRecord.teamVsTeamVo.mainTeamScore = totalScore;
+    },
+    handleMainTwoNodeChange(currentValue, oldValue){
+      let totalScore =currentValue + parseInt(this.competitionUnifiedRecord.competitionResultList[0].oneNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[0].threeNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[0].fourNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[0].fiveNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[0].sixNodeScore);
+      this.competitionUnifiedRecord.teamVsTeamVo.mainTeamScore = totalScore;
+    },
+    handleMainThreeNodeChange(currentValue, oldValue){
+      let totalScore =currentValue + parseInt(this.competitionUnifiedRecord.competitionResultList[0].oneNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[0].twoNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[0].fourNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[0].fiveNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[0].sixNodeScore);
+      this.competitionUnifiedRecord.teamVsTeamVo.mainTeamScore = totalScore;
+    },
+    handleMainFourNodeChange(currentValue, oldValue){
+      let totalScore =currentValue + parseInt(this.competitionUnifiedRecord.competitionResultList[0].oneNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[0].twoNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[0].threeNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[0].fiveNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[0].sixNodeScore);
+      this.competitionUnifiedRecord.teamVsTeamVo.mainTeamScore = totalScore;
+    },
+    handleMainFiveNodeChange(currentValue, oldValue){
+      let totalScore =currentValue + parseInt(this.competitionUnifiedRecord.competitionResultList[0].oneNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[0].twoNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[0].fourNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[0].threeNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[0].sixNodeScore);
+      this.competitionUnifiedRecord.teamVsTeamVo.mainTeamScore = totalScore;
+    },
+    handleMainSixNodeChange(currentValue, oldValue){
+      let totalScore =currentValue + parseInt(this.competitionUnifiedRecord.competitionResultList[0].oneNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[0].twoNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[0].fourNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[0].threeNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[0].fiveNodeScore);
+      this.competitionUnifiedRecord.teamVsTeamVo.mainTeamScore = totalScore;
+    },
+
+
+    handleGuestOneNodeChange(currentValue, oldValue){
+      let totalScore =currentValue + parseInt(this.competitionUnifiedRecord.competitionResultList[1].twoNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].threeNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].fourNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].fiveNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].sixNodeScore);
+      this.competitionUnifiedRecord.teamVsTeamVo.guestTeamScore = totalScore;
+    },
+    handleGuestTwoNodeChange(currentValue, oldValue){
+      let totalScore =currentValue + parseInt(this.competitionUnifiedRecord.competitionResultList[1].oneNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].threeNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].fourNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].fiveNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].sixNodeScore);
+      this.competitionUnifiedRecord.teamVsTeamVo.guestTeamScore = totalScore;
+    },
+    handleGuestThreeNodeChange(currentValue, oldValue){
+      let totalScore =currentValue + parseInt(this.competitionUnifiedRecord.competitionResultList[1].oneNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].twoNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].fourNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].fiveNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].sixNodeScore);
+      this.competitionUnifiedRecord.teamVsTeamVo.guestTeamScore = totalScore;
+    },
+    handleGuestFiveNodeChange(currentValue, oldValue){
+      let totalScore =currentValue + parseInt(this.competitionUnifiedRecord.competitionResultList[1].oneNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].twoNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].threeNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].fourNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].sixNodeScore);
+      this.competitionUnifiedRecord.teamVsTeamVo.guestTeamScore = totalScore;
+    },
+    handleGuestSixNodeChange(currentValue, oldValue){
+      let totalScore =currentValue + parseInt(this.competitionUnifiedRecord.competitionResultList[1].oneNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].twoNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].threeNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].fourNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].fiveNodeScore);
+      this.competitionUnifiedRecord.teamVsTeamVo.guestTeamScore = totalScore;
+    },
+    handleGuestFourNodeChange(currentValue, oldValue){
+      let totalScore =currentValue + parseInt(this.competitionUnifiedRecord.competitionResultList[1].oneNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].twoNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].threeNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].fiveNodeScore)
+        + parseInt(this.competitionUnifiedRecord.competitionResultList[1].sixNodeScore);
+      this.competitionUnifiedRecord.teamVsTeamVo.guestTeamScore = totalScore;
     },
     /** 导出按钮操作 */
     handleExport() {
