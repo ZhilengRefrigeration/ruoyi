@@ -31,6 +31,12 @@ export function getCompetitionUnifiedRecord(id) {
     method: 'get'
   })
 }
+export function getCompetitionVsRecordById(id) {
+  return request({
+    url: '/system/competitionTeamVsTeam/getCompetitionVsRecordById/' + id,
+    method: 'get'
+  })
+}
 
 // 修改赛会中-球队VS球队关系
 export function updateCompetitionTeamVsTeam(data) {

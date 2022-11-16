@@ -18,7 +18,7 @@ public class CompetitionUnifiedRecordVo implements Serializable {
     private CompetitionTeamVsTeamVo teamVsTeamVo;
 
     @ApiModelProperty(value = "对阵节数统分数据", required = false)
-    private List<CompetitionResult> competitionResultList;
+    private List<CompetitionResultVo> competitionResultList;
 
     @ApiModelProperty(value = "赛程队员数据", required = false)
     private List<CompetitionMembersScore> competitionMembersScoreList;

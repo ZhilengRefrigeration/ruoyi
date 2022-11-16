@@ -106,4 +106,11 @@ public class CompetitionTeamVsTeamController extends BaseController
     public AjaxResult getCompetitionUnifiedRecordById(@PathVariable("id") Long id) {
         return AjaxResult.success(competitionTeamVsTeamService.getCompetitionUnifiedRecordById(id));
     }
+
+    @Log(title = "赛会中-球队VS球队比赛结果数据2", businessType = BusinessType.OTHER)
+    @ApiOperation("根据ID获取当前比赛赛程的所有统分结果2")
+    @GetMapping("/getCompetitionVsRecordById/{id}")
+    public AjaxResult getCompetitionVsRecordById(@PathVariable("id") Long id) {
+        return AjaxResult.success(competitionTeamVsTeamService.getCompetitionVsRecordById(id));
+    }
 }

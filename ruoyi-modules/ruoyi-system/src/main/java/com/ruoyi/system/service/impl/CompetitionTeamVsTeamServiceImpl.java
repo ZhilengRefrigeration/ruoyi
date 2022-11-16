@@ -2,13 +2,17 @@ package com.ruoyi.system.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.system.domain.CompetitionMembersScore;
 import com.ruoyi.system.domain.CompetitionResult;
+import com.ruoyi.system.domain.vo.CompetitionResultVo;
 import com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo;
 import com.ruoyi.system.domain.vo.CompetitionUnifiedRecordVo;
+import com.ruoyi.system.domain.vo.CompetitionVsRecordVo;
 import com.ruoyi.system.mapper.CompetitionMembersScoreMapper;
 import com.ruoyi.system.mapper.CompetitionResultMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,7 +124,7 @@ public class CompetitionTeamVsTeamServiceImpl implements ICompetitionTeamVsTeamS
         unifiedRecordVo.setTeamVsTeamVo(competitionTeamVsTeamVo);
 
         //查询队伍数据
-        List<CompetitionResult> competitionResultList = competitionResultMapper.findByCompetitionVsId(competitionTeamVsTeamVo.getCompetitionId(),competitionTeamVsTeamVo.getId());
+        List<CompetitionResultVo> competitionResultList = competitionResultMapper.findByCompetitionVsId(competitionTeamVsTeamVo.getCompetitionId(),competitionTeamVsTeamVo.getId());
         unifiedRecordVo.setCompetitionResultList(competitionResultList);
 
         //查询赛程中个人成绩
@@ -156,5 +160,33 @@ public class CompetitionTeamVsTeamServiceImpl implements ICompetitionTeamVsTeamS
             unifiedRecordVo.setCompetitionMembersScoreList(competitionMembersScoreList);
         }
         return unifiedRecordVo;
+    }
+
+    @Override
+    public CompetitionVsRecordVo getCompetitionVsRecordById(Long id) {
+        CompetitionVsRecordVo recordVo = new CompetitionVsRecordVo();
+        CompetitionTeamVsTeamVo competitionTeamVsTeamVo = competitionTeamVsTeamMapper.getCompetitionById(id);
+        if(StringUtils.isEmpty(competitionTeamVsTeamVo)){
+            throw new ServiceException("赛程不存在");
+        }
+        //获取主队每节数据
+        List<CompetitionResultVo> competitionResultList = competitionResultMapper.findByCompetitionVsId(competitionTeamVsTeamVo.getCompetitionId(),competitionTeamVsTeamVo.getId());
+        Optional<CompetitionResultVo> main = competitionResultList.stream().filter(a -> a.getTeamId().equals(competitionTeamVsTeamVo.getMainTeamId())).findFirst();
+        Optional<CompetitionResultVo> guest = competitionResultList.stream().filter(a -> a.getTeamId().equals(competitionTeamVsTeamVo.getGuestTeamId())).findFirst();
+        List<CompetitionMembersScore> membersScoreList = competitionMembersScoreMapper.findMembersScoreByCompetitionVsId(competitionTeamVsTeamVo.getCompetitionId(),competitionTeamVsTeamVo.getId());
+        if(main.isPresent()){
+            CompetitionResultVo resultVo =  main.get();
+            List<CompetitionMembersScore> membersScores = membersScoreList.stream().filter(a -> a.getTeamId().equals(competitionTeamVsTeamVo.getMainTeamId())).collect(Collectors.toList());
+            resultVo.setMembersScoreList(membersScores);
+            recordVo.setMainTeam(resultVo);
+        }
+        if(guest.isPresent()){
+            CompetitionResultVo resultVo = guest.get();
+            List<CompetitionMembersScore> membersScores = membersScoreList.stream().filter(a -> a.getTeamId().equals(competitionTeamVsTeamVo.getGuestTeamId())).collect(Collectors.toList());
+            resultVo.setMembersScoreList(membersScores);
+            recordVo.setGuestTeam(resultVo);
+        }
+        recordVo.setTeamVsTeamVo(competitionTeamVsTeamVo);
+        return recordVo;
     }
 }

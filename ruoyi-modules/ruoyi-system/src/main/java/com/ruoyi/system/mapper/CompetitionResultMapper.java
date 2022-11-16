@@ -2,6 +2,7 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.domain.CompetitionResult;
+import com.ruoyi.system.domain.vo.CompetitionResultVo;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -60,5 +61,5 @@ public interface CompetitionResultMapper
      */
     public int deleteCompetitionResultByIds(Long[] ids);
 
-    public List<CompetitionResult> findByCompetitionVsId(@Param("competitionId") Long competitionId,@Param("competitionVsId") Long competitionVsId);
+    public List<CompetitionResultVo> findByCompetitionVsId(@Param("competitionId") Long competitionId, @Param("competitionVsId") Long competitionVsId);
 }

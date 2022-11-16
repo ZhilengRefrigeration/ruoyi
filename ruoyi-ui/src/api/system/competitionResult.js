@@ -34,7 +34,13 @@ export function updateCompetitionResult(data) {
     data: data
   })
 }
-
+export function batchUpdateCompetitionResult(list) {
+  return request({
+    url: '/system/competitionResult/batchEdit',
+    method: 'put',
+    data: list
+  })
+}
 // 删除赛会中-赛程结果记录
 export function delCompetitionResult(id) {
   return request({

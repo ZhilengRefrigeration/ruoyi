@@ -90,4 +90,16 @@ public class CompetitionResultServiceImpl implements ICompetitionResultService
     {
         return competitionResultMapper.deleteCompetitionResultById(id);
     }
+
+    @Override
+    public int batchUpdateCompetitionResult(List<CompetitionResult> list) {
+        for (CompetitionResult result:list){
+            if(result.getId()==null){
+                competitionResultMapper.insertCompetitionResult(result);
+            }else {
+                competitionResultMapper.updateCompetitionResult(result);
+            }
+        }
+        return 1;
+    }
 }

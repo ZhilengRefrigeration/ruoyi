@@ -76,7 +76,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="findMembersScoreByCompetitionVsId"
             resultType="com.ruoyi.system.domain.CompetitionMembersScore">
         SELECT
-        DISTINCT
         sco.id,
         vs.competition_id as competitionId,
         vs.id as competitionVsId,
@@ -114,6 +113,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="competitionVsId != null ">
             AND  vs.id = #{competitionVsId}
         </if>
+        ORDER BY sco.is_first_launch desc
     </select>
     <insert id="insertCompetitionMembersScore" parameterType="CompetitionMembersScore" useGeneratedKeys="true" keyProperty="id">
         insert into competition_members_score

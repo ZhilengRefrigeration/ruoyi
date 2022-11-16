@@ -58,4 +58,6 @@ public interface ICompetitionResultService
      * @return 结果
      */
     public int deleteCompetitionResultById(Long id);
+
+    public int batchUpdateCompetitionResult(List<CompetitionResult> list);
 }

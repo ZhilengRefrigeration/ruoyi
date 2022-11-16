@@ -91,7 +91,13 @@ public class CompetitionResultController extends BaseController
     {
         return toAjax(competitionResultService.updateCompetitionResult(competitionResult));
     }
-
+    @RequiresPermissions("system:competitionResult:batchEdit")
+    @Log(title = "赛会中-批量保存赛程结果记录", businessType = BusinessType.UPDATE)
+    @PutMapping("/batchEdit")
+    public AjaxResult batchEdit(@RequestBody List<CompetitionResult> list)
+    {
+        return toAjax(competitionResultService.batchUpdateCompetitionResult(list));
+    }
     /**
      * 删除赛会中-赛程结果记录
      */
