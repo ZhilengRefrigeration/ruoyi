@@ -49,7 +49,7 @@ public class CompetitionTeamVsTeamController extends BaseController
      * 导出赛会中-球队VS球队关系列表
      */
     @RequiresPermissions("system:competitionTeamVsTeam:export")
-    @Log(title = "赛会中-球队VS球队关系", businessType = BusinessType.EXPORT)
+    @Log(title = "赛会中球队VS球队关系", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, CompetitionTeamVsTeam competitionTeamVsTeam)
     {
@@ -72,7 +72,7 @@ public class CompetitionTeamVsTeamController extends BaseController
      * 新增赛会中-球队VS球队关系
      */
     @RequiresPermissions("system:competitionTeamVsTeam:add")
-    @Log(title = "赛会中-球队VS球队关系", businessType = BusinessType.INSERT)
+    @Log(title = "赛会中球队VS球队关系", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody CompetitionTeamVsTeam competitionTeamVsTeam)
     {
@@ -83,7 +83,7 @@ public class CompetitionTeamVsTeamController extends BaseController
      * 修改赛会中-球队VS球队关系
      */
     @RequiresPermissions("system:competitionTeamVsTeam:edit")
-    @Log(title = "赛会中-球队VS球队关系", businessType = BusinessType.UPDATE)
+    @Log(title = "赛会中球队VS球队关系", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody CompetitionTeamVsTeam competitionTeamVsTeam)
     {
@@ -94,20 +94,20 @@ public class CompetitionTeamVsTeamController extends BaseController
      * 删除赛会中-球队VS球队关系
      */
     @RequiresPermissions("system:competitionTeamVsTeam:remove")
-    @Log(title = "赛会中-球队VS球队关系", businessType = BusinessType.DELETE)
+    @Log(title = "赛会中球队VS球队关系", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(competitionTeamVsTeamService.deleteCompetitionTeamVsTeamByIds(ids));
     }
-    @Log(title = "赛会中-球队VS球队比赛结果数据", businessType = BusinessType.OTHER)
+    @Log(title = "赛会中球队VS球队比赛结果数据", businessType = BusinessType.OTHER)
     @ApiOperation("根据ID获取当前比赛赛程的所有统分结果")
     @GetMapping("/competitionUnifiedRecord/{id}")
     public AjaxResult getCompetitionUnifiedRecordById(@PathVariable("id") Long id) {
         return AjaxResult.success(competitionTeamVsTeamService.getCompetitionUnifiedRecordById(id));
     }
 
-    @Log(title = "赛会中-球队VS球队比赛结果数据2", businessType = BusinessType.OTHER)
+    @Log(title = "赛会中球队VS球队比赛结果数据2", businessType = BusinessType.OTHER)
     @ApiOperation("根据ID获取当前比赛赛程的所有统分结果2")
     @GetMapping("/getCompetitionVsRecordById/{id}")
     public AjaxResult getCompetitionVsRecordById(@PathVariable("id") Long id) {

@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.CompetitionResult;
+import com.ruoyi.system.domain.vo.CompetitionVsRecordVo;
 
 /**
  * 赛会中-赛程结果记录Service接口
@@ -60,4 +61,6 @@ public interface ICompetitionResultService
     public int deleteCompetitionResultById(Long id);
 
     public int batchUpdateCompetitionResult(List<CompetitionResult> list);
+
+    int editData(CompetitionVsRecordVo obj);
 }

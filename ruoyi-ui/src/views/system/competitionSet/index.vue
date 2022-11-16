@@ -488,7 +488,7 @@
           <el-button
             type="primary"
             icon="el-icon-check"
-            @click="handleTeamVsTeamRecordSave(competitionRecord)"
+            @click="handleTeamVsTeamRecordSave"
             v-hasPermi="['system:competitionOfTeam:save']"
           >数据保存</el-button>
           <el-button
@@ -589,6 +589,7 @@ export default {
           membersScoreList:[]
         },
         teamVsTeamVo:{
+          id:null,
           competitionTime:null,
           mainTeamName:null,
           guestTeamName: null,
@@ -929,12 +930,15 @@ export default {
         this.$modal.msgSuccess("删除赛程成功");
       }).catch(() => {});
     },
-    handleTeamVsTeamRecordSave(list){
-      batchUpdateCompetitionResult(list).then(response => {
+    handleTeamVsTeamRecordSave(){
+      let list2 = [];
+      list2.push(this.competitionRecord.mainTeam);
+      list2.push(this.competitionRecord.guestTeam);
+      batchUpdateCompetitionResult(list2).then(response => {
         this.$modal.msgSuccess("比赛结果记录成功");
         this.vsRecordOpen = false;
       });
-      console.info(data)
+      console.info(list2)
     },
     /** 提交按钮 */
     submitTeamVsTeamForm() {
