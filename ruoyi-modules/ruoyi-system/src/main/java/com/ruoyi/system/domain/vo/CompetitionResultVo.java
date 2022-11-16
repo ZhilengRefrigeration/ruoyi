@@ -15,5 +15,5 @@ import java.util.List;
 @Data
 public class CompetitionResultVo extends CompetitionResult {
     @ApiModelProperty(value = "客队队员数据", required = false)
-    private List<CompetitionMembersScore> membersScoreList;
+    private List<CompetitionMembersScoreVo> membersScoreList;
 }

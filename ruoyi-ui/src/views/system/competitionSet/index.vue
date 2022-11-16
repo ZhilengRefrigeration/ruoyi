@@ -420,9 +420,27 @@
         <el-button @click="vsOpen=false">取 消</el-button>
       </div>
     </el-dialog>
-
+    <!--赛程按组系统智能排赛程-->
+    <el-dialog
+      width="20%"
+      title="智能分组赛程排班"
+      :visible.sync="mindVisible" append-to-body>
+      <el-select v-model="selectGroupValue" placeholder="请选择需要智能排班的分组">
+        <el-option
+          v-for="item in competitionTeamGroupList"
+          :key="item.id"
+          :label="item.competitionGroup"
+          :value="item.id">
+        </el-option>
+      </el-select>
+      <div style="text-align: right; margin: 0">
+        <el-button size="mini" type="text" @click="mindVisible = false">取消</el-button>
+        <el-button type="primary" size="mini" @click="mindSetOk">确定</el-button>
+      </div>
+      <el-button slot="reference">删除</el-button>
+    </el-dialog>
     <!--赛程比赛数据记录-->
-    <el-dialog :title="vsRecordTitle" :visible.sync="vsRecordOpen" width="850px" append-to-body>
+    <el-dialog :title="vsRecordTitle" :visible.sync="vsRecordOpen" width="70%"  append-to-body :close-on-click-modal="false" >
       <el-skeleton  :loading="skeletonLoading" animated :count="3">
         <el-form>
       <el-row>
@@ -464,8 +482,8 @@
             <el-input-number v-model="competitionRecord.mainTeam.sixNodeScore" @change="handleMainSixNodeChange" :min="0"></el-input-number>
           </el-form-item>
         </el-aside>
-        <el-main style="width: 45%; background-color: white;">
-          <el-form-item label="第一节">
+        <el-main style="width: 55%; background-color: white;">
+          <el-form-item  label="第一节">
             <el-input-number v-model="competitionRecord.guestTeam.oneNodeScore" @change="handleGuestOneNodeChange" :min="0"></el-input-number>
           </el-form-item>
           <el-form-item label="第二节">
@@ -496,11 +514,112 @@
             type="primary"
             icon="el-icon-close"
             @click="vsRecordOpen=false"
-          >取消</el-button>
+          >关闭</el-button>
         </el-row>
       </div>
-        </el-form>
+      </el-form>
+       <div class="a-div">
+         <el-tabs type="card" style="margin-top: 10px" @tab-click="handleTagTeamClick">
+           <el-tab-pane>
+             <span slot="label"><i class="el-icon-s-flag"></i> {{competitionRecord.mainTeam.teamName}}</span>
+           </el-tab-pane>
+           <el-tab-pane>
+             <span slot="label"><i class="el-icon-s-flag"></i> {{competitionRecord.guestTeam.teamName}}</span>
+           </el-tab-pane>
+         </el-tabs>
+         <el-table title="球员得分" :data="teamMembersScoreList" :span-method="objectSpanMethod" border style="width: 100%;">
+           <el-table-column label="球员" align="center" prop="realName" />
+           <el-table-column label="球衣号" align="center" prop="jerseyNumber" />
+           <el-table-column label="总得分" align="center" prop="totalScore" />
+           <el-table-column label="2分球" align="center" prop="twoPoints" />
+           <el-table-column label="3分球" align="center" prop="threePoints" />
+           <el-table-column label="罚球" align="center" prop="penalty" />
+           <el-table-column label="篮板" align="center" prop="backboard" />
+           <el-table-column label="前板" align="center" prop="frontPlate" />
+           <el-table-column label="后板" align="center" prop="backPlate" />
+           <el-table-column label="助攻" align="center" prop="assists" />
+           <el-table-column label="抢断" align="center" prop="snatch" />
+           <el-table-column label="盖帽" align="center" prop="block" />
+           <el-table-column label="失误" align="center" prop="fault" />
+           <el-table-column label="犯规" align="center" prop="breaks" />
+           <el-table-column label="首发" align="center" prop="isFirstLaunch" >
+             <template slot-scope="scope">
+               <el-switch v-model="scope.row.isFirstLaunch==1" disabled></el-switch>
+             </template>
+           </el-table-column>
+           <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+             <template slot-scope="scope">
+               <el-button
+                 size="mini"
+                 type="text"
+                 icon="el-icon-edit"
+                 @click="handleUpdateMemberScore(scope.row)"
+                 v-hasPermi="['system:competitionMemberScore:edit']"
+               >计分</el-button>
+             </template>
+           </el-table-column>
+         </el-table>
+       </div>
       </el-skeleton>
+      <el-dialog :close-on-click-modal="false" width="25%" title="球员得分记录" :visible.sync="innerMemberVisible" append-to-body>
+        <el-form ref="scoreform" :model="scoreform" :rules="scoreformRules" size="mini" label-width="80px">
+          <el-form-item label="球队名" prop="teamName">
+            <el-input v-model="scoreform.teamName"  :disabled="true" />
+          </el-form-item>
+          <el-form-item label="球员名" prop="realName">
+            <el-input v-model="scoreform.realName"  :disabled="true" />
+          </el-form-item>
+          <el-form-item label="球衣号" prop="jerseyNumber">
+            <el-input v-model="scoreform.jerseyNumber"  :disabled="true" />
+          </el-form-item>
+          <el-form-item label="首发" prop="isFirstLaunch">
+            <el-switch @change="switchFirstLaunch" v-model="isFirstLaunch"></el-switch>
+          </el-form-item>
+          <el-form-item label="总得分" prop="totalScore">
+            <el-input-number :min="0" v-model="scoreform.totalScore"  placeholder="请输入总得分" />
+          </el-form-item>
+          <el-form-item label="2分球" prop="twoPoints">
+            <el-input-number :min="0" v-model="scoreform.twoPoints" placeholder="请输入2分球" />
+          </el-form-item>
+          <el-form-item label="3分球" prop="threePoints">
+            <el-input-number :min="0" v-model="scoreform.threePoints" placeholder="请输入3分球" />
+          </el-form-item>
+          <el-form-item label="罚球" prop="penalty">
+            <el-input-number :min="0" v-model="scoreform.penalty" placeholder="请输入罚球" />
+          </el-form-item>
+          <el-form-item label="篮板" prop="backboard">
+            <el-input-number :min="0" v-model="scoreform.backboard" placeholder="请输入篮板" />
+          </el-form-item>
+          <el-form-item label="前板" prop="frontPlate">
+            <el-input-number :min="0" v-model="scoreform.frontPlate" placeholder="请输入前板" />
+          </el-form-item>
+          <el-form-item label="后板" prop="backPlate">
+            <el-input-number :min="0" v-model="scoreform.backPlate" placeholder="请输入后板" />
+          </el-form-item>
+          <el-form-item label="助攻" prop="assists">
+            <el-input-number :min="0" v-model="scoreform.assists" placeholder="请输入助攻" />
+          </el-form-item>
+          <el-form-item label="抢断" prop="snatch">
+            <el-input-number :min="0" v-model="scoreform.snatch" placeholder="请输入抢断" />
+          </el-form-item>
+          <el-form-item label="盖帽" prop="block">
+            <el-input-number :min="0" v-model="scoreform.block" placeholder="请输入盖帽" />
+          </el-form-item>
+          <el-form-item label="失误" prop="fault">
+            <el-input-number :min="0" v-model="scoreform.fault" placeholder="请输入失误" />
+          </el-form-item>
+          <el-form-item label="犯规" prop="breaks">
+            <el-input-number :min="0" v-model="scoreform.breaks" placeholder="请输入犯规" />
+          </el-form-item>
+          <el-form-item label="备注说明" prop="remark">
+            <el-input v-model="scoreform.remark" type="textarea" placeholder="请输入内容" />
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="submitScoreForm">确 定</el-button>
+          <el-button @click="innerMemberVisible=false">取 消</el-button>
+        </div>
+      </el-dialog>
     </el-dialog>
   </div>
 </template>
@@ -513,13 +632,15 @@ import { listCompetitionTeamGroup, arrangeTeamGroupSchedule, delCompetitionTeamG
 import { listCompetitionTeamVsTeam,getCompetitionVsRecordById, delCompetitionTeamVsTeam, addCompetitionTeamVsTeam, updateCompetitionTeamVsTeam } from "@/api/system/competitionTeamVsTeam";
 import { listWxBuilding, getWxBuilding, delWxBuilding, addWxBuilding, updateWxBuilding } from "@/api/system/WxBuilding";
 import { listCompetitionResult, getCompetitionResult, editDataCompetitionResult, batchUpdateCompetitionResult, updateCompetitionResult } from "@/api/system/competitionResult";
+import { listCompetitionMemberScore, getCompetitionMemberScore, delCompetitionMemberScore, addCompetitionMemberScore, updateCompetitionMemberScore } from "@/api/system/competitionMemberScore";
 
 export default {
   name: "CompetitionSet",
   dicts: ['competition_status'],
   data() {
     return {
-
+      mindVisible:false,
+      selectGroupValue:null,
       imgfit:"fill",
       drawer:false,
       activeName:"competitionInfo",
@@ -566,10 +687,13 @@ export default {
       },
       skeletonLoading:false,
       vsOpen:false,
+      isFirstLaunch:false,
       buildingList: [],
       buildLoading:false,
       vsRecordTitle:"",
       vsRecordOpen:false,
+      teamMembersScoreList:[],
+      innerMemberVisible:false,
       competitionRecord:{
         mainTeam:{
             id:null,
@@ -600,6 +724,12 @@ export default {
           guestTeamScore:null,
           weekDayName:null
         },
+      },
+      scoreform:{},
+      scoreformRules:{
+        totalScore: [
+          { required: true, message: "总分不能为空", trigger: "blur" }
+        ]
       }
     };
   },
@@ -617,9 +747,6 @@ export default {
     }
   },
   methods: {
-    onSubmit() {
-      console.log('submit!');
-    },
     //点击新增分组按钮
     handleAddGroup(){
       //循环获取0-25的组的数据值
@@ -867,7 +994,25 @@ export default {
       this.vsTitle = "新增赛程"
     },
     handleMindTeamVsTeam(){
-      /*arrangeTeamGroupSchedule({})*/
+      this.mindVisible = true;
+      this.competitionTeamGroupList = [];
+      listCompetitionTeamGroup({"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+        this.competitionTeamGroupList = response.rows;
+      });
+
+    },
+    mindSetOk(){
+        let param ={
+              id:this.selectGroupValue,
+              status:1
+        }
+        arrangeTeamGroupSchedule(param).then(response => {
+          this.$modal.msgSuccess("赛程智能设置成功");
+          this.mindVisible = false;
+          listCompetitionTeamVsTeam({"orderByColumn":"competition_time","pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+            this.competitionTeamVsTeamList = response.rows;
+          });
+        });
     },
     changeMainTeamName(val){
       let obj={}
@@ -921,6 +1066,7 @@ export default {
       //获取比赛数据
       getCompetitionVsRecordById(row.id).then(response=>{
         this.competitionRecord = response.data;
+        this.teamMembersScoreList = this.competitionRecord.mainTeam.membersScoreList;
         this.skeletonLoading = false
       })
     },
@@ -1068,6 +1214,49 @@ export default {
         + parseInt(this.competitionRecord.guestTeam.sixNodeScore);
       this.competitionRecord.teamVsTeamVo.guestTeamScore = totalScore;
     },
+    handleTagTeamClick(tab, event){
+      console.info(tab.index)
+      if(tab.index==0){
+        this.teamMembersScoreList = this.competitionRecord.mainTeam.membersScoreList;
+      }else {
+        this.teamMembersScoreList = this.competitionRecord.guestTeam.membersScoreList;
+      }
+    },
+    handleUpdateMemberScore(row){
+      this.scoreform = row;
+      this.innerMemberVisible = true;
+      if (this.scoreform.isFirstLaunch===1){
+        this.isFirstLaunch = true;
+      }else {
+        this.isFirstLaunch = false;
+      }
+    },
+    switchFirstLaunch(val){
+      if (val){
+        this.scoreform.isFirstLaunch = 1;
+      }else {
+        this.scoreform.isFirstLaunch = 0;
+      }
+    },
+    submitScoreForm(){
+      if(this.scoreform.id == null){
+        addCompetitionMemberScore(this.scoreform).then(response => {
+          this.$modal.msgSuccess("球员计分成功");
+          this.innerMemberVisible = false;
+          getCompetitionVsRecordById(this.scoreform.competitionVsId).then(response=>{
+            this.competitionRecord = response.data;
+          })
+        });
+      }else {
+        updateCompetitionMemberScore(this.scoreform).then(response => {
+          this.$modal.msgSuccess("球员计分成功");
+          this.innerMemberVisible = false;
+          getCompetitionVsRecordById(this.scoreform.competitionVsId).then(response=>{
+            this.competitionRecord = response.data;
+          })
+        });
+      }
+    },
     /** 导出按钮操作 */
     handleExport() {
       this.download('system/competition/export', {
@@ -1085,6 +1274,14 @@ export default {
   border-color:#d3dce6;
 }
 .s-div {
+  background: white;
+  border-width: 1px 1px 1px 1px;
+  border-style: solid;
+  border-color:#d3dce6;
+  border-radius: 15px;
+}
+.a-div {
+  margin-top: 10px;
   background: white;
   border-width: 1px 1px 1px 1px;
   border-style: solid;

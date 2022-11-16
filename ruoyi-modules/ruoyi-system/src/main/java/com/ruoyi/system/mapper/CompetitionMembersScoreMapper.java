@@ -2,6 +2,7 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.domain.CompetitionMembersScore;
+import com.ruoyi.system.domain.vo.CompetitionMembersScoreVo;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -60,5 +61,5 @@ public interface CompetitionMembersScoreMapper
      */
     public int deleteCompetitionMembersScoreByIds(Long[] ids);
 
-    public List<CompetitionMembersScore> findMembersScoreByCompetitionVsId(@Param("competitionId") Long competitionId,@Param("competitionVsId") Long competitionVsId);
+    public List<CompetitionMembersScoreVo> findMembersScoreByCompetitionVsId(@Param("competitionId") Long competitionId, @Param("competitionVsId") Long competitionVsId);
 }
