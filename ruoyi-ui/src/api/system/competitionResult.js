@@ -41,6 +41,14 @@ export function batchUpdateCompetitionResult(list) {
     data: list
   })
 }
+export function editDataCompetitionResult(data) {
+  return request({
+    url: '/system/competitionResult/editData',
+    method: 'put',
+    data: data
+  })
+}
+
 // 删除赛会中-赛程结果记录
 export function delCompetitionResult(id) {
   return request({

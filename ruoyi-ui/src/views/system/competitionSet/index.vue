@@ -423,6 +423,8 @@
 
     <!--赛程比赛数据记录-->
     <el-dialog :title="vsRecordTitle" :visible.sync="vsRecordOpen" width="850px" append-to-body>
+      <el-skeleton  :loading="skeletonLoading" animated :count="3">
+        <el-form>
       <el-row>
         <el-col :span="16" style="font-size: large;font-weight: bold"><i class="el-icon-time">比赛时间：</i>{{ competitionRecord.teamVsTeamVo.competitionTime }} {{ competitionRecord.teamVsTeamVo.weekDayName }}</el-col>
       </el-row>
@@ -441,7 +443,6 @@
           <span style="position: absolute;margin-left: 10px;margin-top: 8px">{{competitionRecord.teamVsTeamVo.guestTeamName}}</span>
         </el-col>
       </el-row>
-      <el-form>
       <el-container>
         <el-aside style="width: 50%;margin-top:10px">
           <el-form-item label="第一节">
@@ -497,8 +498,9 @@
             @click="vsRecordOpen=false"
           >取消</el-button>
         </el-row>
-      </el-form>
       </div>
+        </el-form>
+      </el-skeleton>
     </el-dialog>
   </div>
 </template>
@@ -510,7 +512,7 @@ import { listCompetitionMembers, getCompetitionMembers, delCompetitionMembers, a
 import { listCompetitionTeamGroup, arrangeTeamGroupSchedule, delCompetitionTeamGroup, addCompetitionTeamGroup, updateCompetitionTeamGroup } from "@/api/system/competitionTeamGroup";
 import { listCompetitionTeamVsTeam,getCompetitionVsRecordById, delCompetitionTeamVsTeam, addCompetitionTeamVsTeam, updateCompetitionTeamVsTeam } from "@/api/system/competitionTeamVsTeam";
 import { listWxBuilding, getWxBuilding, delWxBuilding, addWxBuilding, updateWxBuilding } from "@/api/system/WxBuilding";
-import { listCompetitionResult, getCompetitionResult, delCompetitionResult, batchUpdateCompetitionResult, updateCompetitionResult } from "@/api/system/competitionResult";
+import { listCompetitionResult, getCompetitionResult, editDataCompetitionResult, batchUpdateCompetitionResult, updateCompetitionResult } from "@/api/system/competitionResult";
 
 export default {
   name: "CompetitionSet",
@@ -562,6 +564,7 @@ export default {
           { required: true, message: "比赛类型不能为空", trigger: "blur" }
         ]
       },
+      skeletonLoading:false,
       vsOpen:false,
       buildingList: [],
       buildLoading:false,
@@ -912,11 +915,13 @@ export default {
       this.vsTitle = "编辑赛程"
     },
     handleTeamVsTeamRecord(row){
+      this.skeletonLoading = true;
       this.vsRecordOpen=true;
       this.vsRecordTitle = "比赛数据记录";
       //获取比赛数据
       getCompetitionVsRecordById(row.id).then(response=>{
-        this.competitionRecord = response.data
+        this.competitionRecord = response.data;
+        this.skeletonLoading = false
       })
     },
     handleTeamVsTeamDel(row){
@@ -931,14 +936,13 @@ export default {
       }).catch(() => {});
     },
     handleTeamVsTeamRecordSave(){
-      let list2 = [];
-      list2.push(this.competitionRecord.mainTeam);
-      list2.push(this.competitionRecord.guestTeam);
-      batchUpdateCompetitionResult(list2).then(response => {
+      editDataCompetitionResult(this.competitionRecord).then(response => {
         this.$modal.msgSuccess("比赛结果记录成功");
         this.vsRecordOpen = false;
+        listCompetitionTeamVsTeam({"orderByColumn":"competition_time","pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+          this.competitionTeamVsTeamList = response.rows;
+        });
       });
-      console.info(list2)
     },
     /** 提交按钮 */
     submitTeamVsTeamForm() {
