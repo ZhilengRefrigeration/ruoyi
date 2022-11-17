@@ -209,7 +209,7 @@
             icon="el-icon-setting"
             @click="handleCompetitionSet(scope.row)"
             v-hasPermi="['system:competition:edit']"
-          >赛会设置</el-button>
+          >设置</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -223,135 +223,62 @@
     />
 
     <!-- 添加或修改比赛信息对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="主队ID" prop="mainTeamId">
-          <el-input v-model="form.mainTeamId" placeholder="请输入主队ID" />
+    <el-dialog :title="title" :visible.sync="open" width="650px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+        <el-form-item label="比赛名称" prop="competitionName" >
+          <el-input v-model="form.competitionName" disabled />
         </el-form-item>
-        <el-form-item label="主队名" prop="mainTeamName">
-          <el-input v-model="form.mainTeamName" placeholder="请输入主队名" />
-        </el-form-item>
-        <el-form-item label="客队ID" prop="guestTeamId">
-          <el-input v-model="form.guestTeamId" placeholder="请输入客队ID" />
-        </el-form-item>
-        <el-form-item label="客队名" prop="guestTeamName">
-          <el-input v-model="form.guestTeamName" placeholder="请输入客队名" />
-        </el-form-item>
-        <el-form-item label="赛事编号" prop="competitionCode">
-          <el-input v-model="form.competitionCode" placeholder="请输入赛事编号" />
-        </el-form-item>
-        <el-form-item label="比赛名称" prop="competitionName">
-          <el-input v-model="form.competitionName" placeholder="请输入比赛名称" />
-        </el-form-item>
-        <el-form-item label="是否指定对手" prop="designated">
-          <el-input v-model="form.designated" placeholder="请输入是否指定对手" />
-        </el-form-item>
-        <el-form-item label="比赛时间" prop="competitionTime">
-          <el-date-picker clearable
-            v-model="form.competitionTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择比赛时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="球场ID" prop="buildingId">
-          <el-input v-model="form.buildingId" placeholder="请输入球场ID" />
-        </el-form-item>
-        <el-form-item label="球场名称" prop="buildingName">
-          <el-input v-model="form.buildingName" placeholder="请输入球场名称" />
+        <el-form-item label="比赛球场" prop="buildingName">
+          <el-select v-model="form.buildingName" filterable @change="changeBuildName" remote reserve-keyword
+            placeholder="请输入球场名称" :remote-method="remoteMethod" :loading="buildLoading">
+            <el-option
+              v-for="item in buildingList"
+              :key="item.id"
+              :label="item.buildingName"
+              :value="item.id">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="比赛地址" prop="competitionAddress">
-          <el-input v-model="form.competitionAddress" placeholder="请输入比赛地址" />
-        </el-form-item>
-        <el-form-item label="发起人ID" prop="founder">
-          <el-input v-model="form.founder" placeholder="请输入发起人ID" />
-        </el-form-item>
-        <el-form-item label="城市编码" prop="cityCode">
-          <el-input v-model="form.cityCode" placeholder="请输入城市编码" />
-        </el-form-item>
-        <el-form-item label="城市名称" prop="cityName">
-          <el-input v-model="form.cityName" placeholder="请输入城市名称" />
-        </el-form-item>
-        <el-form-item label="最大参与人数" prop="maxPlayer">
-          <el-input v-model="form.maxPlayer" placeholder="请输入最大参与人数" />
-        </el-form-item>
-        <el-form-item label="创建时间" prop="createdTime">
-          <el-date-picker clearable
-            v-model="form.createdTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择创建时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="最后修改时间" prop="lastUpdatedTime">
-          <el-date-picker clearable
-            v-model="form.lastUpdatedTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择最后修改时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="创建人" prop="createdBy">
-          <el-input v-model="form.createdBy" placeholder="请输入创建人" />
-        </el-form-item>
-        <el-form-item label="最后修改人" prop="modifiedBy">
-          <el-input v-model="form.modifiedBy" placeholder="请输入最后修改人" />
-        </el-form-item>
-        <el-form-item label="是否删除" prop="isDeleted">
-          <el-input v-model="form.isDeleted" placeholder="请输入是否删除" />
-        </el-form-item>
-        <el-form-item label="经度" prop="longitude">
-          <el-input v-model="form.longitude" placeholder="请输入经度" />
-        </el-form-item>
-        <el-form-item label="纬度" prop="latitude">
-          <el-input v-model="form.latitude" placeholder="请输入纬度" />
-        </el-form-item>
-        <el-form-item label="备注说明" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="比赛性质" prop="competitionNature">
-          <el-input v-model="form.competitionNature" placeholder="请输入比赛性质" />
+          <el-input v-model="form.competitionAddress" disabled />
         </el-form-item>
         <el-form-item label="报名开始时间" prop="enrollBeginTime">
           <el-date-picker clearable
-            v-model="form.enrollBeginTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择报名开始时间">
+                          v-model="form.enrollBeginTime"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择报名开始时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="报名结束时间" prop="enrollEndTime">
           <el-date-picker clearable
-            v-model="form.enrollEndTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择报名结束时间">
+                          v-model="form.enrollEndTime"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择报名结束时间">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="比赛开始时间" prop="competitionBeginTime">
+          <el-date-picker clearable
+                          v-model="form.competitionBeginTime"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择比赛开始时间">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="比赛结束时间" prop="competitionEndTime">
+          <el-date-picker clearable
+                          v-model="form.competitionEndTime"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="请选择比赛结束时间">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="赛事联系人" prop="contacts">
           <el-input v-model="form.contacts" placeholder="请输入赛事联系人" />
         </el-form-item>
-        <el-form-item label="赛事联系人电话区号" prop="contactsAreaCode">
-          <el-input v-model="form.contactsAreaCode" placeholder="请输入赛事联系人电话区号" />
-        </el-form-item>
         <el-form-item label="赛事联系人电话" prop="contactsTel">
           <el-input v-model="form.contactsTel" placeholder="请输入赛事联系人电话" />
-        </el-form-item>
-        <el-form-item label="比赛开始时间" prop="competitionBeginTime">
-          <el-date-picker clearable
-            v-model="form.competitionBeginTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择比赛开始时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="比赛结束时间" prop="competitionEndTime">
-          <el-date-picker clearable
-            v-model="form.competitionEndTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择比赛结束时间">
-          </el-date-picker>
         </el-form-item>
         <el-form-item label="主办方" prop="organizer">
           <el-input v-model="form.organizer" placeholder="请输入主办方" />
@@ -359,17 +286,30 @@
         <el-form-item label="承办方" prop="undertake">
           <el-input v-model="form.undertake" type="textarea" placeholder="请输入内容" />
         </el-form-item>
-        <el-form-item label="赛会背景图" prop="competitionBackImg">
-          <el-input v-model="form.competitionBackImg" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="创建人userId" prop="createdId">
-          <el-input v-model="form.createdId" placeholder="请输入创建人userId" />
-        </el-form-item>
-        <el-form-item label="身高隐藏  0不隐藏 1=隐藏" prop="heightHide">
-          <el-input v-model="form.heightHide" placeholder="请输入身高隐藏  0不隐藏 1=隐藏" />
-        </el-form-item>
         <el-form-item label="赞助商" prop="sponsor">
-          <el-input v-model="form.sponsor" placeholder="请输入赞助商" />
+          <el-input v-model="form.sponsor" type="textarea" placeholder="请输入赞助商" />
+        </el-form-item>
+        <el-form-item label="赛会背景图" prop="competitionBackImg">
+          <el-upload
+            multiple
+            class="avatar-uploader"
+            action="https://adu.shjmall.cn/liguanghui/file/uploadMore"
+            :show-file-list="false"
+            name="files"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload">
+            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="身高" prop="heightHide">
+          <el-select v-model="form.heightHide" >
+            <el-option label="隐藏" :value="1"/>
+            <el-option label="显示" :value="0" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="备注说明" prop="remark">
+          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -382,6 +322,7 @@
 
 <script>
 import { listCompetition, getCompetition, delCompetition, addCompetition, updateCompetition } from "@/api/system/competition";
+import {listWxBuilding} from "@/api/system/WxBuilding";
 
 export default {
   name: "Competition",
@@ -389,6 +330,7 @@ export default {
   data() {
     return {
       imgfit:"fill",
+      imageUrl:null,
       // 遮罩层
       loading: true,
       // 选中数组
@@ -404,8 +346,10 @@ export default {
       total: 0,
       // 比赛信息表格数据
       competitionList: [],
+      buildingList:[],
       // 弹出层标题
       title: "",
+      buildLoading:false,
       // 是否显示弹出层
       open: false,
       // 查询参数
@@ -471,6 +415,45 @@ export default {
     cancel() {
       this.open = false;
       this.reset();
+    },
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+      let imgUrl = res.data[0];
+      this.form.competitionBackImg = "https://adu.shjmall.cn/liguanghui/image/"+imgUrl;
+    },
+    beforeAvatarUpload(file) {
+      console.info(file.type)
+      const isJPG = (file.type === 'image/jpeg'||file.type === 'image/png');
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG/PNG 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
+    },
+    changeBuildName(val){
+      let obj={}
+      obj = this.buildingList.find(function(i){
+        return i.id ===val
+      });
+      this.form.buildingName = obj.buildingName;
+      this.form.buildingId = val;
+      this.form.competitionAddress=obj.address ;
+      console.info(this.form)
+    },
+    //远程查询球场信息
+    remoteMethod(query) {
+      this.buildLoading = true;
+      let queryParam = {
+        "pageNum": 1, "pageSize": 30,"status":2,"isDeleted":0,"buildingName":query
+      }
+      listWxBuilding(queryParam).then(response => {
+        this.buildingList = response.rows;
+        this.buildLoading = false;
+      });
     },
     // 表单重置
     reset() {
@@ -539,7 +522,7 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加比赛信息";
+      this.title = "添加赛会信息";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -548,7 +531,7 @@ export default {
       getCompetition(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改比赛信息";
+        this.title = "修改赛会信息";
       });
     },
     /** 提交按钮 */
@@ -595,3 +578,28 @@ export default {
   }
 };
 </script>
+<style>
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+</style>

@@ -169,28 +169,6 @@
     <!-- 添加或修改球场管理对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="创建时间" prop="createdTime">
-          <el-date-picker clearable
-            v-model="form.createdTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择创建时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="创建人" prop="createdBy">
-          <el-input v-model="form.createdBy" placeholder="请输入创建人" />
-        </el-form-item>
-        <el-form-item label="更新人" prop="modifiedBy">
-          <el-input v-model="form.modifiedBy" placeholder="请输入更新人" />
-        </el-form-item>
-        <el-form-item label="更新时间" prop="lastUpdatedTime">
-          <el-date-picker clearable
-            v-model="form.lastUpdatedTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择更新时间">
-          </el-date-picker>
-        </el-form-item>
         <el-form-item label="名称" prop="buildingName">
           <el-input v-model="form.buildingName" placeholder="请输入名称" />
         </el-form-item>
@@ -235,9 +213,6 @@
         </el-form-item>
         <el-form-item label="微信管理员二维码路径" prop="chatGroupUrl">
           <el-input v-model="form.chatGroupUrl" placeholder="请输入微信管理员二维码路径" />
-        </el-form-item>
-        <el-form-item label="创建人ID" prop="createdId">
-          <el-input v-model="form.createdId" placeholder="请输入创建人ID" />
         </el-form-item>
         <el-form-item label="描述" prop="desc">
           <el-input v-model="form.desc" type="textarea" placeholder="请输入内容" />

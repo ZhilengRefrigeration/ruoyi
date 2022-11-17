@@ -130,10 +130,10 @@ public class CompetitionTeamGroupServiceImpl implements ICompetitionTeamGroupSer
             }
             //获取比赛时间
             Competition competition =  competitionMapper.selectCompetitionById(teamGroup.getCompetitionId());
-            Date competitionBeginTime = competition.getCompetitionBeginTime();
+            Date competitionBeginTime = new Date();
             Calendar calendar = new GregorianCalendar();
             calendar.setTime(competitionBeginTime);
-            calendar.add(Calendar.DATE,1); //把日期往后增加一天,整数  往后推,负数往前移动
+            calendar.add(Calendar.DATE,5); //把日期往后增加一天,整数  往后推,负数往前移动
             //按报名优先级来排序
             CompetitionOfTeam ofTeam = new CompetitionOfTeam();
             ofTeam.setCompetitionId(teamGroup.getCompetitionId());

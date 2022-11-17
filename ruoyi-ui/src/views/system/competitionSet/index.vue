@@ -71,18 +71,16 @@
         </el-table-column>
         <el-table-column label="状态" align="center" prop="status" >
           <template slot-scope="scope">
-            <el-tag v-if="scope.row.status==0">申请</el-tag>
-            <el-tag v-if="scope.row.status==1">同意</el-tag>
-            <el-tag v-if="scope.row.status==-1">驳回</el-tag>
+            <el-tag v-if="scope.row.status===0" style="color: #0656fa;">申请中</el-tag>
+            <el-tag v-if="scope.row.status===1"  style="color: #04fa08">已同意</el-tag>
+            <el-tag v-if="scope.row.status===-1"  style="color: #bfc2c5">已驳回</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="联系人" align="center" prop="contacts" />
         <el-table-column label="联系人电话" align="center" prop="contactsTel" />
-        <el-table-column label="组内的序号" align="center" prop="serialNumber" />
-        <el-table-column label="备注说明" align="center" prop="remark" />
         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
           <template slot-scope="scope">
-            <el-popconfirm  v-if="competitionObj.status==0" @confirm="bindConfirm(scope.row.id,1)"
+            <el-popconfirm  v-if="competitionObj.status===0" @confirm="bindConfirm(scope.row.id,1)"
               title="你确定同意此球队加入赛会吗？"
             >
               <el-button
@@ -93,7 +91,7 @@
                 v-hasPermi="['system:competitionOfTeam:edit']"
               >同意</el-button>
             </el-popconfirm>
-            <el-popconfirm  v-if="competitionObj.status==0" @confirm="bindConfirm(scope.row.id,-1)"
+            <el-popconfirm  v-if="competitionObj.status===0" @confirm="bindConfirm(scope.row.id,-1)"
               title="你确定不同意此球队加入赛会吗？"
             >
             <el-button
@@ -873,10 +871,11 @@ export default {
       this.reset();
     },
     bindConfirm(id,tage){
-      console.info(id)
-      console.info(tage)
       updateCompetitionOfTeam({"id":id,"status":tage}).then(response => {
-
+        this.$modal.msgSuccess("球队审核成功");
+        listCompetitionOfTeam({"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+          this.competitionOfTeamList = response.rows;
+        });
       });
     },
     handleTeamUser(row){
@@ -954,7 +953,7 @@ export default {
           this.competitionTeamGroupList.push({"competitionGroup":"未分","id":null})
         });
       }else if(tab.name=='competitionVsSet'){
-        listCompetitionTeamVsTeam({"orderByColumn":"competition_time","pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+        listCompetitionTeamVsTeam({"orderByColumn":"competition_time","isDeleted":0,"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
           this.competitionTeamVsTeamList = response.rows;
         });
       }else if(tab.name=='competitionSpread'){
@@ -1004,12 +1003,12 @@ export default {
     mindSetOk(){
         let param ={
               id:this.selectGroupValue,
-              status:1
+              status:0
         }
         arrangeTeamGroupSchedule(param).then(response => {
           this.$modal.msgSuccess("赛程智能设置成功");
           this.mindVisible = false;
-          listCompetitionTeamVsTeam({"orderByColumn":"competition_time","pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+          listCompetitionTeamVsTeam({"orderByColumn":"competition_time","isDeleted":0,"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
             this.competitionTeamVsTeamList = response.rows;
           });
         });
@@ -1075,7 +1074,7 @@ export default {
       this.$modal.confirm('是否确认删除赛会中的赛程数据？').then(function() {
         return delCompetitionTeamVsTeam(ids);
       }).then(() => {
-        listCompetitionTeamVsTeam({"orderByColumn":"competition_time","pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+        listCompetitionTeamVsTeam({"orderByColumn":"competition_time","isDeleted":0,"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
           this.competitionTeamVsTeamList = response.rows;
         });
         this.$modal.msgSuccess("删除赛程成功");
@@ -1085,7 +1084,7 @@ export default {
       editDataCompetitionResult(this.competitionRecord).then(response => {
         this.$modal.msgSuccess("比赛结果记录成功");
         this.vsRecordOpen = false;
-        listCompetitionTeamVsTeam({"orderByColumn":"competition_time","pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+        listCompetitionTeamVsTeam({"orderByColumn":"competition_time","isDeleted":0,"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
           this.competitionTeamVsTeamList = response.rows;
         });
       });
@@ -1099,7 +1098,7 @@ export default {
             updateCompetitionTeamVsTeam(this.vsform).then(response => {
               this.$modal.msgSuccess("编辑赛程成功");
               this.vsOpen = false;
-              listCompetitionTeamVsTeam({"orderByColumn":"competition_time","pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+              listCompetitionTeamVsTeam({"orderByColumn":"competition_time","isDeleted":0,"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
                 this.competitionTeamVsTeamList = response.rows;
               });
             });
@@ -1108,7 +1107,7 @@ export default {
             addCompetitionTeamVsTeam(this.vsform).then(response => {
               this.$modal.msgSuccess("新增赛程成功");
               this.vsOpen = false;
-              listCompetitionTeamVsTeam({"orderByColumn":"competition_time","pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+              listCompetitionTeamVsTeam({"orderByColumn":"competition_time","isDeleted":0,"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
                 this.competitionTeamVsTeamList = response.rows;
               });
             });

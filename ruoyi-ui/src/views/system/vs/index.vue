@@ -169,7 +169,7 @@
 
     <!-- 添加或修改约战对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-form-item label="主队ID" prop="mainTeamId">
           <el-input v-model="form.mainTeamId" placeholder="请输入主队ID" />
         </el-form-item>
@@ -181,12 +181,6 @@
         </el-form-item>
         <el-form-item label="客队名" prop="guestTeamName">
           <el-input v-model="form.guestTeamName" placeholder="请输入客队名" />
-        </el-form-item>
-        <el-form-item label="赛事编号" prop="competitionCode">
-          <el-input v-model="form.competitionCode" placeholder="请输入赛事编号" />
-        </el-form-item>
-        <el-form-item label="比赛名称" prop="competitionName">
-          <el-input v-model="form.competitionName" placeholder="请输入比赛名称" />
         </el-form-item>
         <el-form-item label="是否指定对手" prop="designated">
           <el-input v-model="form.designated" placeholder="请输入是否指定对手" />
@@ -220,31 +214,6 @@
         <el-form-item label="最大参与人数" prop="maxPlayer">
           <el-input v-model="form.maxPlayer" placeholder="请输入最大参与人数" />
         </el-form-item>
-        <el-form-item label="创建时间" prop="createdTime">
-          <el-date-picker clearable
-                          v-model="form.createdTime"
-                          type="date"
-                          value-format="yyyy-MM-dd"
-                          placeholder="请选择创建时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="最后修改时间" prop="lastUpdatedTime">
-          <el-date-picker clearable
-                          v-model="form.lastUpdatedTime"
-                          type="date"
-                          value-format="yyyy-MM-dd"
-                          placeholder="请选择最后修改时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="创建人" prop="createdBy">
-          <el-input v-model="form.createdBy" placeholder="请输入创建人" />
-        </el-form-item>
-        <el-form-item label="最后修改人" prop="modifiedBy">
-          <el-input v-model="form.modifiedBy" placeholder="请输入最后修改人" />
-        </el-form-item>
-        <el-form-item label="是否删除" prop="isDeleted">
-          <el-input v-model="form.isDeleted" placeholder="请输入是否删除" />
-        </el-form-item>
         <el-form-item label="经度" prop="longitude">
           <el-input v-model="form.longitude" placeholder="请输入经度" />
         </el-form-item>
@@ -253,68 +222,6 @@
         </el-form-item>
         <el-form-item label="备注说明" prop="remark">
           <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="比赛性质" prop="competitionNature">
-          <el-input v-model="form.competitionNature" placeholder="请输入比赛性质" />
-        </el-form-item>
-        <el-form-item label="报名开始时间" prop="enrollBeginTime">
-          <el-date-picker clearable
-                          v-model="form.enrollBeginTime"
-                          type="date"
-                          value-format="yyyy-MM-dd"
-                          placeholder="请选择报名开始时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="报名结束时间" prop="enrollEndTime">
-          <el-date-picker clearable
-                          v-model="form.enrollEndTime"
-                          type="date"
-                          value-format="yyyy-MM-dd"
-                          placeholder="请选择报名结束时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="赛事联系人" prop="contacts">
-          <el-input v-model="form.contacts" placeholder="请输入赛事联系人" />
-        </el-form-item>
-        <el-form-item label="赛事联系人电话区号" prop="contactsAreaCode">
-          <el-input v-model="form.contactsAreaCode" placeholder="请输入赛事联系人电话区号" />
-        </el-form-item>
-        <el-form-item label="赛事联系人电话" prop="contactsTel">
-          <el-input v-model="form.contactsTel" placeholder="请输入赛事联系人电话" />
-        </el-form-item>
-        <el-form-item label="比赛开始时间" prop="competitionBeginTime">
-          <el-date-picker clearable
-                          v-model="form.competitionBeginTime"
-                          type="date"
-                          value-format="yyyy-MM-dd"
-                          placeholder="请选择比赛开始时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="比赛结束时间" prop="competitionEndTime">
-          <el-date-picker clearable
-                          v-model="form.competitionEndTime"
-                          type="date"
-                          value-format="yyyy-MM-dd"
-                          placeholder="请选择比赛结束时间">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="主办方" prop="organizer">
-          <el-input v-model="form.organizer" placeholder="请输入主办方" />
-        </el-form-item>
-        <el-form-item label="承办方" prop="undertake">
-          <el-input v-model="form.undertake" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="赛会背景图" prop="competitionBackImg">
-          <el-input v-model="form.competitionBackImg" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="创建人userId" prop="createdId">
-          <el-input v-model="form.createdId" placeholder="请输入创建人userId" />
-        </el-form-item>
-        <el-form-item label="身高隐藏  0不隐藏 1=隐藏" prop="heightHide">
-          <el-input v-model="form.heightHide" placeholder="请输入身高隐藏  0不隐藏 1=隐藏" />
-        </el-form-item>
-        <el-form-item label="赞助商" prop="sponsor">
-          <el-input v-model="form.sponsor" placeholder="请输入赞助商" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
