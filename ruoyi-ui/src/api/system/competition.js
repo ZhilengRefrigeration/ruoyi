@@ -25,7 +25,13 @@ export function addCompetition(data) {
     data: data
   })
 }
-
+export function genCompetitionCommonAqrSpread(data) {
+  return request({
+    url: '/system/competition/genCompetitionCommonAqrSpread',
+    method: 'post',
+    data: data
+  })
+}
 // 修改比赛信息
 export function updateCompetition(data) {
   return request({

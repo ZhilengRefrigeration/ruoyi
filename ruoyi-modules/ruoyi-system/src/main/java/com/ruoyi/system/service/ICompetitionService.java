@@ -1,6 +1,8 @@
 package com.ruoyi.system.service;
 
 import java.util.List;
+
+import com.ruoyi.system.api.domain.vo.WxAppletsCodeVo;
 import com.ruoyi.system.domain.Competition;
 
 /**
@@ -58,4 +60,6 @@ public interface ICompetitionService
      * @return 结果
      */
     public int deleteCompetitionById(Long id);
+
+    WxAppletsCodeVo genCompetitionCommonAqrSpread(WxAppletsCodeVo wxAppletsCodeVo);
 }

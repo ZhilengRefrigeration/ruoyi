@@ -10,3 +10,10 @@ spring:
   application:
     # 应用名称
     name: ruoyi-system
+
+image:
+  #图片域名
+  domainName: "https://adu.shjmall.cn/liguanghui/image/"
+  location:
+    linux: /bt/pic/
+    windows: D://test//

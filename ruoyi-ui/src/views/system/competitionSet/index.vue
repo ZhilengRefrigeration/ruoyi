@@ -30,8 +30,8 @@
           <el-tag size="small" v-if="competitionObj.heightHide==1" type='info' >隐藏</el-tag>
           <el-tag size="small" v-else type='success' >显示</el-tag>
         </el-descriptions-item>
-        <el-descriptions-item label="报名起止时间">{{competitionObj.enrollBeginTime}}-{{competitionObj.enrollEndTime}}</el-descriptions-item>
-        <el-descriptions-item label="比赛起止时间">{{competitionObj.competitionBeginTime}}-{{competitionObj.competitionEndTime}}</el-descriptions-item>
+        <el-descriptions-item label="报名起止时间">{{competitionObj.enrollBeginTime}} 至 {{competitionObj.enrollEndTime}}</el-descriptions-item>
+        <el-descriptions-item label="比赛起止时间">{{competitionObj.competitionBeginTime}} 至 {{competitionObj.competitionEndTime}}</el-descriptions-item>
         <el-descriptions-item label="比赛主办方">{{competitionObj.organizer}}</el-descriptions-item>
         <el-descriptions-item label="比赛承办商">{{competitionObj.undertake}}</el-descriptions-item>
         <el-descriptions-item label="赛事联系人">{{competitionObj.contacts}}</el-descriptions-item>
@@ -252,7 +252,83 @@
         </el-table-column>
       </el-table>
     </el-tab-pane>
-    <el-tab-pane label="赛会推广" name="competitionSpread"> <span slot="label"><i class="el-icon-s-promotion"></i> 赛会推广</span> 赛会推广</el-tab-pane>
+    <el-tab-pane label="赛会推广" name="competitionSpread"> <span slot="label"><i class="el-icon-s-promotion"></i> 赛会推广</span>
+      <el-tabs type="border-card" tab-position="top" >
+        <el-tab-pane label="普通海报" >
+          <el-row >
+            <el-col :span="8" >
+              <el-card :body-style="{ padding: '0px' }" >
+                <img :src="competitionObj.competitionBackImg" class="image">
+                <div style="padding: 14px;">
+                  <span>赛会名称：{{competitionObj.competitionName}}</span>
+                  <div class="bottom clearfix">
+                    <time class="time">报名时间：{{competitionObj.enrollBeginTime}} 至 {{competitionObj.enrollEndTime}}</time>
+                    <el-button type="text" @click="genCompetitionCommonAqrCode(competitionObj.id)" class="button">获取赛会推广码</el-button>
+                  </div>
+                </div>
+                <el-divider><i class="el-icon-caret-bottom">推广二维码</i></el-divider>
+                <div style="width: 100%;text-align: center">
+                  <el-image
+                    class="s-image"
+                    :src="spreadImgurl"
+                    :preview-src-list="[spreadImgurl]"
+                    :fit="imgfit"></el-image>
+                </div>
+                <el-divider content-position="center"> <span style="color: #ae192a">注：点击预览可以分享或者保存哦</span></el-divider>
+              </el-card>
+            </el-col>
+          </el-row>
+        </el-tab-pane>
+        <el-tab-pane label="自定义海报">
+          <el-row >
+            <el-col :span="8" >
+              <el-card :body-style="{ padding: '0px' }" >
+                <img :src="competitionObj.competitionBackImg"  class="image">
+                <div style="padding: 14px;">
+                  <span>赛会名称：{{competitionObj.competitionName}}</span>
+                  <div class="bottom clearfix">
+                    <time class="time">报名时间：{{competitionObj.enrollBeginTime}} 至 {{competitionObj.enrollEndTime}}</time>
+                  </div>
+                </div>
+              </el-card>
+              <el-divider><i class="el-icon-caret-bottom">推广海报</i></el-divider>
+              <el-carousel :interval="0" type="card" height="400px" style="margin-top: 20px"
+                           :autoplay="false"
+                           trigger="click" @change="clickCarousel">
+                <el-carousel-item v-for="item in autoSpreadCardImgs" :key="item.id">
+                  <el-image style="width: 300px; height: 400px" :src="item.img" :fit="imgfit"></el-image>
+                </el-carousel-item>
+              </el-carousel>
+            </el-col>
+            <el-col :span="2">
+              <el-divider><i class="el-icon-caret-right"></i></el-divider>
+            </el-col>
+            <el-col :span="8" >
+              <el-card :body-style="{ padding: '0px' }" >
+                <div class='invite-head'>
+                  <div class='card-com' bindtap='saveImageToPhotos'>
+                    <div class='inv-card'>
+                      <div class='pic'>
+                        <el-image  class='img' id='card-img' :src="spreadAdImg" />
+                      </div>
+                      <div class='info' id='card-info'>
+                        <div class='u-name'><label class='n'>
+                          无篮球,不兄弟
+                        </label></div>
+                        <div class='u-des'>邀请你和我一起做篮球兄弟！</div>
+                        <div class='pp'>长按二维码，开启你的篮球之旅</div>
+                        <el-image class='ewm-img' id='ewm-img' :src="spreadImgurl" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <el-divider content-position="center"> <span style="color: #ae192a">注：请截图保存或者分享哦</span></el-divider>
+              </el-card>
+            </el-col>
+          </el-row>
+        </el-tab-pane>
+      </el-tabs>
+    </el-tab-pane>
   </el-tabs>
 
     <el-drawer
@@ -623,7 +699,7 @@
 </template>
 
 <script>
-import { listCompetition, getCompetition, delCompetition, addCompetition, updateCompetition } from "@/api/system/competition";
+import { listCompetition, getCompetition, genCompetitionCommonAqrSpread, addCompetition, updateCompetition } from "@/api/system/competition";
 import { listCompetitionOfTeam, batchEditById, intoTeamGroup, removeTeamGroup, updateCompetitionOfTeam } from "@/api/system/competitionOfTeam";
 import { listCompetitionMembers, getCompetitionMembers, delCompetitionMembers, addCompetitionMembers, updateCompetitionMembers } from "@/api/system/competitionMembers";
 import { listCompetitionTeamGroup, arrangeTeamGroupSchedule, delCompetitionTeamGroup, addCompetitionTeamGroup, updateCompetitionTeamGroup } from "@/api/system/competitionTeamGroup";
@@ -631,12 +707,50 @@ import { listCompetitionTeamVsTeam,getCompetitionVsRecordById, delCompetitionTea
 import { listWxBuilding, getWxBuilding, delWxBuilding, addWxBuilding, updateWxBuilding } from "@/api/system/WxBuilding";
 import { listCompetitionResult, getCompetitionResult, editDataCompetitionResult, batchUpdateCompetitionResult, updateCompetitionResult } from "@/api/system/competitionResult";
 import { listCompetitionMemberScore, getCompetitionMemberScore, delCompetitionMemberScore, addCompetitionMemberScore, updateCompetitionMemberScore } from "@/api/system/competitionMemberScore";
+import {getWxApplesAccessToken, genWxApplesAqrCode} from "@/api/system/wxApplesCode";
 
 export default {
   name: "CompetitionSet",
   dicts: ['competition_status'],
   data() {
     return {
+      spreadImgurl:null,
+      spreadPage:"pages/competition/competitiondetail/competitiondetail",
+      spreadAdImg:"https://adu.shjmall.cn/liguanghui/image/wxIcon/spreadTempImg/timg0.jpg",
+      autoSpreadCardImgs: [
+        {
+          id: '0',
+          img: 'https://adu.shjmall.cn/liguanghui/image/wxIcon/spreadTempImg/timg0.jpg'
+        },
+        {
+          id: '1',
+          img: 'https://adu.shjmall.cn/liguanghui/image/wxIcon/spreadTempImg/timg1.jpg'
+        }, {
+          id: '2',
+          img: 'https://adu.shjmall.cn/liguanghui/image/wxIcon/spreadTempImg/timg2.jpg'
+        }, {
+          id: '3',
+          img: 'https://adu.shjmall.cn/liguanghui/image/wxIcon/spreadTempImg/timg3.jpg'
+        }, {
+          id: '4',
+          img: 'https://adu.shjmall.cn/liguanghui/image/wxIcon/spreadTempImg/timg4.jpg'
+        }, {
+          id: '5',
+          img: 'https://adu.shjmall.cn/liguanghui/image/wxIcon/spreadTempImg/timg5.jpg'
+        }, {
+          id: '6',
+          img: 'https://adu.shjmall.cn/liguanghui/image/wxIcon/spreadTempImg/timg6.png'
+        }, {
+          id: '7',
+          img: 'https://adu.shjmall.cn/liguanghui/image/wxIcon/spreadTempImg/timg7.png'
+        }, {
+          id: '8',
+          img: 'https://adu.shjmall.cn/liguanghui/image/wxIcon/spreadTempImg/timg8.png'
+        }, {
+          id: '9',
+          img: 'https://adu.shjmall.cn/liguanghui/image/wxIcon/spreadTempImg/timg9.png'
+        }
+      ],
       mindVisible:false,
       selectGroupValue:null,
       imgfit:"fill",
@@ -957,7 +1071,7 @@ export default {
           this.competitionTeamVsTeamList = response.rows;
         });
       }else if(tab.name=='competitionSpread'){
-
+         this.genCompetitionCommonAqrCode(this.competitionObj.id);
       }
     },
     /** 关闭按钮 */
@@ -1256,6 +1370,24 @@ export default {
         });
       }
     },
+    //获取普通赛会推广二维码
+    genCompetitionCommonAqrCode(id){
+      let data ={
+        "page":this.spreadPage,
+        "scene":id
+      };
+      genCompetitionCommonAqrSpread(data).then(response => {
+        this.$modal.msgSuccess("生成普通推广二维码成功");
+        this.spreadImgurl = response.data.codeImgUrl;
+      });
+    },
+    clickCarousel(data){
+         console.info(data)
+      if(this.spreadImgurl===null){
+        this.genCompetitionCommonAqrCode(this.competitionObj.id);
+      }
+      this.spreadAdImg = this.autoSpreadCardImgs[data].img;
+    },
     /** 导出按钮操作 */
     handleExport() {
       this.download('system/competition/export', {
@@ -1326,4 +1458,91 @@ export default {
   padding: 10px 0;
   background-color: #f9fafc;
 }
+.time {
+  font-size: 13px;
+  color: #999;
+}
+
+.bottom {
+  margin-top: 13px;
+  line-height: 12px;
+}
+
+.button {
+  padding: 0;
+  float: right;
+}
+
+.image {
+  width: 510px;
+  max-height: 300px;
+  display: block;
+}
+.image2{
+  width: 500px;
+  height: 710px;
+  padding: 5px;
+  display: block;
+}
+.s-image {
+  width: 200px;
+  height: 200px;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+
+.clearfix:after {
+  clear: both
+}
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 200px;
+  margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n+1) {
+  background-color: #d3dce6;
+}
+
+
+.canvas{ width:400px; height:690px; background-color: #fff; position: fixed; left: -100%; top: -100%; }
+.invite-head{ width: 100%; height: 725px; background-color: #f5f5f5; position: relative;}
+.invite-head .share-btn{ width: 114px; height: 60px; background-color: #e94579;
+  position: absolute; right: 0; bottom: 38px; border-radius: 40px 0 0  40px;  display: flex;
+  justify-content: center; align-items: center;}
+.invite-head .share-btn .i{ width: 48px; height: 24px; background-repeat: no-repeat; background-size: cover;
+  display: inline-block; background-image:url('https://7830-x01-a0804c-1258524456.tcb.qcloud.la/icons/i-ffxx-ico.png')}
+.card-com,.renew-com{ width: 400px; height: 690px; background-color: #fff;overflow: hidden;
+  position: absolute; left: 50%; transform: translateX(-50%); top: 15px;}
+.inv-card{ width: 100%; height: 100%; }
+.inv-card .pic{ width: 100%; height: 570px; }
+.inv-card .pic .img{ width: 100%; height: 100%; display: inline-block;}
+.inv-card .info{ width: 100%; height: 120px; padding: 15px 0 0 15px; box-sizing: border-box;
+  background-color: #fff; position: relative;}
+.inv-card .info .u-name{ color: #333; font-size: 24px;}
+.inv-card .info .u-des{ color: #333; font-size: 22px; margin-top: 2px; }
+.inv-card .info .pp{ color: #999; font-size:16px; margin-top: 5px;}
+.inv-card .info .ewm-img{ width: 80px; height: 80px; position: absolute; right: 15px; bottom: 20px;}
+.inv-tip{ width: 100%; text-align: center;color: #333; font-size: 24px; position: absolute; bottom: 135px;}
+.query{ position: fixed; left: 100%; bottom: -100%;}
+.pd{ width: 15px; height: 40px;}
+.ewm-leftTop{ width:306px; height:590px;}
+.pt1{ height: 610px;}
+.pt2{ height: 640px;}
+.pt3{ height: 668px;}
+.invite-modle{ width: 100%; height: 240px; background-color:#fff; box-shadow:0,0,0 rgba(170,170,170, .38);
+  padding: 48px 0 0 28px; box-sizing: border-box; position: fixed; bottom: 0; left: 0;}
+.poster-mod{ width: 100%; height: 150px; overflow: hidden; background: #fff;  white-space: nowrap;}
+.poster-item{ height: 144px; background-color: #f0f0f0; border-radius: 6px;  border:1.5px solid transparent;   display: inline-block; overflow: hidden; margin-right: 35px;}
+.poster-item.cur{ border-color: #e94579;}
+.poster-item .img{ width: 144px; height: 144px;}
 </style>

@@ -1,11 +1,20 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import com.ruoyi.common.core.constant.CacheConstants;
+import com.ruoyi.common.redis.service.RedisService;
+import com.ruoyi.system.api.domain.vo.WxAppletsCodeVo;
+import com.ruoyi.system.service.WxApplesCodeService;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CompetitionMapper;
 import com.ruoyi.system.domain.Competition;
 import com.ruoyi.system.service.ICompetitionService;
+
+import javax.annotation.Resource;
 
 /**
  * 比赛信息Service业务层处理
@@ -16,9 +25,12 @@ import com.ruoyi.system.service.ICompetitionService;
 @Service
 public class CompetitionServiceImpl implements ICompetitionService 
 {
-    @Autowired
+    @Resource
     private CompetitionMapper competitionMapper;
-
+    @Resource
+    private WxApplesCodeService wxApplesCodeService;
+    @Resource
+    private RedisService redisService;
     /**
      * 查询比赛信息
      * 
@@ -89,5 +101,17 @@ public class CompetitionServiceImpl implements ICompetitionService
     public int deleteCompetitionById(Long id)
     {
         return competitionMapper.deleteCompetitionById(id);
+    }
+
+    @Override
+    public WxAppletsCodeVo genCompetitionCommonAqrSpread(WxAppletsCodeVo wxAppletsCodeVo) {
+        Object key = redisService.getCacheObject(CacheConstants.COMPETITION_SPREAD_AQR_CODE + wxAppletsCodeVo.getScene());
+        if(ObjectUtils.isEmpty(key)){
+            wxAppletsCodeVo = wxApplesCodeService.genWxApplesAqrCode(wxAppletsCodeVo);
+            redisService.setCacheObject(CacheConstants.COMPETITION_SPREAD_AQR_CODE + wxAppletsCodeVo.getScene(),wxAppletsCodeVo.getCodeImgUrl(),30L, TimeUnit.DAYS);
+        }else {
+            wxAppletsCodeVo.setCodeImgUrl((String) key);
+        }
+        return wxAppletsCodeVo;
     }
 }

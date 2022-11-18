@@ -3,6 +3,8 @@ package com.ruoyi.system.controller;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.system.api.domain.vo.WxAppletsCodeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -79,6 +81,14 @@ public class CompetitionController extends BaseController
     public AjaxResult add(@RequestBody Competition competition)
     {
         return toAjax(competitionService.insertCompetition(competition));
+    }
+
+    @RequiresPermissions("system:competition:genCompetitionCommonAqrSpread")
+    @Log(title = "生成赛会普通微信推广码", businessType = BusinessType.OTHER)
+    @PostMapping("/genCompetitionCommonAqrSpread")
+    public AjaxResult genCompetitionCommonAqrSpread(@RequestBody WxAppletsCodeVo wxAppletsCodeVo)
+    {
+        return AjaxResult.success(competitionService.genCompetitionCommonAqrSpread(wxAppletsCodeVo));
     }
 
     /**
