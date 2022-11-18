@@ -1071,7 +1071,9 @@ export default {
           this.competitionTeamVsTeamList = response.rows;
         });
       }else if(tab.name=='competitionSpread'){
-         this.genCompetitionCommonAqrCode(this.competitionObj.id);
+        if(this.spreadImgurl === null) {
+          this.genCompetitionCommonAqrCode(this.competitionObj.id);
+        }
       }
     },
     /** 关闭按钮 */
