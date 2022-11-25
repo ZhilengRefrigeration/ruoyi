@@ -46,4 +46,19 @@ public class SecurityConstants
      * 角色权限
      */
     public static final String ROLE_PERMISSION = "role_permission";
+
+    /**
+     * 缓存在redis中的控制器路径与权限字符串对应的hash键
+     */
+    public static final String PATH_PERMISSION_MAP = "path_permission_map";
+
+    /**
+     * 缓存的角色名前缀
+     */
+    public static final String ROLE_PREFIX = "ROLE_";
+
+    /**
+     * 匿名角色（公共权限的角色名字）
+     */
+    public static final String ROLE_ANON = "ROLE_ANON";
 }
