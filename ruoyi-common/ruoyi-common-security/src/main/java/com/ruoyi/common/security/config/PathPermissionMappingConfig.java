@@ -14,11 +14,18 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 import javax.annotation.PostConstruct;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 /**
- * 缓存所有api，方便网关鉴权
+ * =====================================网关鉴权使用说明=======================================
+ * 场景：
+ *      微服务部署在内网，确定安全，无需在每个微服务都实现一次权限控制的逻辑，可以在网关层面实现统一鉴权
+ * 使用方式：
+ *      1、在每个微服务的配置文件中添加参数：security.aspect.enabled: false 关闭系统默认的通过注解方式鉴权，默认开启
+ *      2、在每个微服务的配置文件中添加参数：routePrefix: 值为网关中微服务匹配的路由地址，例如: /auth
+ *      3、在网关配置文件中添加参数：security.gateway.enabled: true 启用网关统一鉴权，默认关闭
+ *
+ * 通过反射扫描所有控制器，缓存所有控制器的映射路径以及对应的权限注解，缓存到redis，方便网关鉴权
  */
 @ConditionalOnProperty(prefix = "security.gateway", name = "enabled", havingValue = "true")
 public class PathPermissionMappingConfig {
@@ -59,7 +66,7 @@ public class PathPermissionMappingConfig {
             }
             if(requiresRoles != null) {
                 for (String role : requiresRoles.value()) {
-                    addPathPermsMap(SecurityConstants.ROLE_PREFIX+ role, pathPermsMap, methods, patternValues);
+                    addPathPermsMap(SecurityConstants.ROLE_PREFIX + role, pathPermsMap, methods, patternValues);
                 }
             }
         });
@@ -82,12 +89,6 @@ public class PathPermissionMappingConfig {
                 pathPermsMap.put(key, perms);
             }
         }
-    }
-
-    public static void main(String[] args) {
-        String[] arr = new String[] {"a", "b"};
-        Set<String> set = Arrays.stream(arr).collect(Collectors.toSet());
-        System.out.println("set = " + set);
     }
 
 }
