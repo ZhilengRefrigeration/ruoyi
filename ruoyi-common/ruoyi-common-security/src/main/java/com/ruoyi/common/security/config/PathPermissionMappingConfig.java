@@ -19,18 +19,21 @@ import java.util.*;
 /**
  * =====================================网关鉴权使用说明=======================================
  * 场景：
- *      微服务部署在内网，确定安全，无需在每个微服务都实现一次权限控制的逻辑，可以在网关层面实现统一鉴权
+ *      微服务部署在内网，确定安全，无需在每个微服务都实现鉴权的逻辑，可以在网关层面实现统一鉴权
  * 使用方式：
- *      1、在每个微服务的配置文件中添加参数：security.aspect.enabled: false 关闭系统默认的通过注解方式鉴权，默认开启
- *      2、在每个微服务的配置文件中添加参数：routePrefix: 值为网关中微服务匹配的路由地址，例如: /auth
+ *      1、在每个微服务的配置文件中添加参数：security.annotation.enabled: false 关闭系统默认的通过注解方式鉴权，默认开启
+ *      2、在每个微服务的配置文件中添加参数：pathPrefix: 值为网关中微服务匹配的路由地址前缀，例如: /auth
  *      3、在网关配置文件中添加参数：security.gateway.enabled: true 启用网关统一鉴权，默认关闭
  *
  * 通过反射扫描所有控制器，缓存所有控制器的映射路径以及对应的权限注解，缓存到redis，方便网关鉴权
  */
-@ConditionalOnProperty(prefix = "security.gateway", name = "enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "security.annotation", name = "enabled", havingValue = "false")
 public class PathPermissionMappingConfig {
-    @Value("${routePrefix}")
-    private String routePrefix;
+    /**
+     * 微服务在网关配置中predicates中的Path前缀，例如： /system
+     */
+    @Value("${pathPrefix}")
+    private String pathPrefix;
 
     @PostConstruct
     public PathPermissionMappingConfig execute() {
@@ -85,7 +88,7 @@ public class PathPermissionMappingConfig {
     private void addPathPermsMap(String perms, Map<String, String> pathPermsMap, Set<RequestMethod> methods, Set<String> patternValues) {
         for (RequestMethod method : methods) {
             for (String patternValue : patternValues) {
-                String key = routePrefix + patternValue + "_" + method.name();
+                String key = pathPrefix + patternValue + "_" + method.name();
                 pathPermsMap.put(key, perms);
             }
         }

@@ -21,7 +21,7 @@ import java.lang.reflect.Method;
  */
 @Aspect
 @Component
-@ConditionalOnProperty(prefix = "security.aspect", name = "enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "security.annotation", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class PreAuthorizeAspect
 {
     /**

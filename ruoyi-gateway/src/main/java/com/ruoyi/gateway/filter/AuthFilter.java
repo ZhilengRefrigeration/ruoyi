@@ -133,21 +133,21 @@ public class AuthFilter implements GlobalFilter, Ordered
 
             if(!rolePerms.isEmpty()) {
                 if(rolePerms.contains(SecurityConstants.ROLE_ANON)) {
-                    log.info("允许访问公共权限:{}，{}", api, rolePerms);
+                    log.debug("允许访问公共权限:{}，{}", api, rolePerms);
                     return true;
                 }
                 rolePerms = rolePerms.stream().map(item -> item.substring(SecurityConstants.ROLE_PREFIX.length())).collect(Collectors.toSet());
                 // 求交集
                 rolePerms.retainAll(roles);
                 if(!rolePerms.isEmpty()) {
-                    log.info("允许访问角色权限:{}， {}", api, rolePerms);
+                    log.debug("允许访问角色权限:{}， {}", api, rolePerms);
                     return true;
                 }
             }
             // 求交集
             matchedPerms.retainAll(permissions);
             if(!matchedPerms.isEmpty()) {
-                log.info("允许访问资源权限:{}，{}", api, matchedPerms);
+                log.debug("允许访问资源权限:{}，{}", api, matchedPerms);
                 return true;
             }
         }
