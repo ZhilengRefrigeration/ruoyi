@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 
 /**
  * 网关鉴权
- * 
+ *
  * @author ruoyi
  */
 @Component
@@ -92,14 +92,17 @@ public class AuthFilter implements GlobalFilter, Ordered
         // 内部请求来源参数清除
         removeHeader(mutate, SecurityConstants.FROM_SOURCE);
         // 通过网关鉴权
-        if(gatewayAuth) {
+        if (gatewayAuth)
+        {
             // admin不需要鉴权
-            if(isAdmin(userid)) {
+            if (isAdmin(userid))
+            {
                 return chain.filter(exchange.mutate().request(mutate.build()).build());
             }
             // 网关验证权限
             String api = url + "_" + request.getMethod().name();
-            if(!hasPermission(api, userkey)) {
+            if (!hasPermission(api, userkey))
+            {
                 log.warn("无权访问：{}", api);
                 return ServletUtils.webFluxResponseWriter(exchange.getResponse(), "无权访问", HttpStatus.FORBIDDEN);
             }
@@ -107,11 +110,13 @@ public class AuthFilter implements GlobalFilter, Ordered
         return chain.filter(exchange.mutate().request(mutate.build()).build());
     }
 
-    private boolean isAdmin(String userid) {
+    private boolean isAdmin(String userid)
+    {
         return "1".equals(userid);
     }
 
-    private boolean hasPermission(String api, String token) {
+    private boolean hasPermission(String api, String token)
+    {
         // 使用JSONObject接收，避免导入依赖
         JSONObject loginUser = redisService.getCacheObject(CacheConstants.LOGIN_TOKEN_KEY + token);
         // 获取登录用户的资源列表
@@ -125,28 +130,33 @@ public class AuthFilter implements GlobalFilter, Ordered
                 .filter(entry -> match(entry.getKey(), api))
                 .map(entry -> entry.getValue())
                 .collect(Collectors.toSet());
-        if(!matchedPerms.isEmpty()) {
+        if (!matchedPerms.isEmpty())
+        {
             // 所有角色权限
             Set<String> rolePerms = matchedPerms.stream().filter(item -> item.startsWith("ROLE_")).collect(Collectors.toSet());
             // 所有资源权限
             matchedPerms.removeAll(rolePerms);
 
-            if(!rolePerms.isEmpty()) {
-                if(rolePerms.contains(SecurityConstants.ROLE_ANON)) {
+            if (!rolePerms.isEmpty())
+            {
+                if (rolePerms.contains(SecurityConstants.ROLE_ANON))
+                {
                     log.debug("允许访问公共权限:{}，{}", api, rolePerms);
                     return true;
                 }
                 rolePerms = rolePerms.stream().map(item -> item.substring(SecurityConstants.ROLE_PREFIX.length())).collect(Collectors.toSet());
                 // 求交集
                 rolePerms.retainAll(roles);
-                if(!rolePerms.isEmpty()) {
+                if (!rolePerms.isEmpty())
+                {
                     log.debug("允许访问角色权限:{}， {}", api, rolePerms);
                     return true;
                 }
             }
             // 求交集
             matchedPerms.retainAll(permissions);
-            if(!matchedPerms.isEmpty()) {
+            if (!matchedPerms.isEmpty())
+            {
                 log.debug("允许访问资源权限:{}，{}", api, matchedPerms);
                 return true;
             }
@@ -155,9 +165,11 @@ public class AuthFilter implements GlobalFilter, Ordered
         return false;
     }
 
-    private boolean match(String pattern, String api) {
+    private boolean match(String pattern, String api)
+    {
         return antPathMatcher.match(pattern, api);
     }
+
     private void addHeader(ServerHttpRequest.Builder mutate, String name, Object value)
     {
         if (value == null)
