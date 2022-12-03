@@ -32,10 +32,10 @@ public class HeaderInterceptor implements AsyncHandlerInterceptor
         SecurityContextHolder.setUserName(ServletUtils.getHeader(request, SecurityConstants.DETAILS_USERNAME));
         SecurityContextHolder.setUserKey(ServletUtils.getHeader(request, SecurityConstants.USER_KEY));
 
-        String token = SecurityUtils.getToken();
-        if (StringUtils.isNotEmpty(token))
+        String userKey = SecurityUtils.getUserKey();
+        if (StringUtils.isNotEmpty(userKey))
         {
-            LoginUser loginUser = AuthUtil.getLoginUser(token);
+            LoginUser loginUser = AuthUtil.getLoginUser(userKey);
             if (StringUtils.isNotNull(loginUser))
             {
                 AuthUtil.verifyLoginUserExpire(loginUser);
