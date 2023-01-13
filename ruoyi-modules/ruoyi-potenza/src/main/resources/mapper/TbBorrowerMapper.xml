@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.potenza.mapper.TbBorrowerMapper">
+
+    <resultMap type="com.ruoyi.potenza.domain.TbBorrower" id="TbBorrowerResult">
+        <result property="borrowerId"    column="borrower_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="productId"    column="product_id"    />
+        <result property="borrowerMoney"    column="borrower_money"    />
+        <result property="periodsId"    column="periods_id"    />
+        <result property="wayId"    column="way_id"    />
+        <result property="borrowerPurpose"    column="borrower_purpose"    />
+        <result property="borrowerState"    column="borrower_state"    />
+        <result property="loanerId"    column="loaner_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTbBorrowerVo">
+        select borrower_id, user_id, user_name, product_id, borrower_money, periods_id, way_id, borrower_purpose, borrower_state, loaner_id, create_by, update_by, del_flag, create_time, update_time from tb_borrower where del_flag=0
+    </sql>
+    <select id="pageList" resultType="com.ruoyi.potenza.domain.TbBorrower">
+        select  * from tb_borrower where del_flag=0
+    </select>
+    <select id="selectTbBorrowerList" parameterType="com.ruoyi.potenza.domain.TbBorrower" resultMap="TbBorrowerResult">
+        <include refid="selectTbBorrowerVo"/>
+        <where>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="productId != null "> and product_id = #{productId}</if>
+            <if test="borrowerMoney != null "> and borrower_money = #{borrowerMoney}</if>
+            <if test="periodsId != null "> and periods_id = #{periodsId}</if>
+            <if test="wayId != null "> and way_id = #{wayId}</if>
+            <if test="borrowerPurpose != null  and borrowerPurpose != ''"> and borrower_purpose = #{borrowerPurpose}</if>
+            <if test="borrowerState != null "> and borrower_state = #{borrowerState}</if>
+            <if test="loanerId != null "> and loaner_id = #{loanerId}</if>
+        </where>
+    </select>
+
+    <select id="selectTbBorrowerByBorrowerId" parameterType="Long" resultMap="TbBorrowerResult">
+        <include refid="selectTbBorrowerVo"/>
+        where borrower_id = #{borrowerId}
+    </select>
+
+    <insert id="insertTbBorrower" parameterType="com.ruoyi.potenza.domain.TbBorrower" useGeneratedKeys="true" keyProperty="borrowerId">
+        insert into tb_borrower
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null and userName != ''">user_name,</if>
+            <if test="productId != null">product_id,</if>
+            <if test="borrowerMoney != null">borrower_money,</if>
+            <if test="periodsId != null">periods_id,</if>
+            <if test="wayId != null">way_id,</if>
+            <if test="borrowerPurpose != null and borrowerPurpose != ''">borrower_purpose,</if>
+            <if test="borrowerState != null">borrower_state,</if>
+            <if test="loanerId != null">loaner_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="productId != null">#{productId},</if>
+            <if test="borrowerMoney != null">#{borrowerMoney},</if>
+            <if test="periodsId != null">#{periodsId},</if>
+            <if test="wayId != null">#{wayId},</if>
+            <if test="borrowerPurpose != null and borrowerPurpose != ''">#{borrowerPurpose},</if>
+            <if test="borrowerState != null">#{borrowerState},</if>
+            <if test="loanerId != null">#{loanerId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTbBorrower" parameterType="com.ruoyi.potenza.domain.TbBorrower">
+        update tb_borrower
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="borrowerMoney != null">borrower_money = #{borrowerMoney},</if>
+            <if test="periodsId != null">periods_id = #{periodsId},</if>
+            <if test="wayId != null">way_id = #{wayId},</if>
+            <if test="borrowerPurpose != null and borrowerPurpose != ''">borrower_purpose = #{borrowerPurpose},</if>
+            <if test="borrowerState != null">borrower_state = #{borrowerState},</if>
+            <if test="loanerId != null">loaner_id = #{loanerId},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where borrower_id = #{borrowerId}
+    </update>
+
+</mapper>
