@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.potenza.mapper.TbBorrowerPlanMapper">
+
+
+    <resultMap type="com.ruoyi.potenza.domain.TbBorrowerPlan" id="TbBorrowerPlanResult">
+        <result property="planId"    column="plan_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="borrowerPeriods"    column="borrower_periods"    />
+        <result property="periodsMoney"    column="periods_money"    />
+        <result property="periodsCapital"    column="periods_capital"    />
+        <result property="periodsInterests"    column="periods_interests"    />
+        <result property="planDate"    column="plan_date"    />
+        <result property="planState"    column="plan_state"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTbBorrowerPlanVo">
+        select plan_id, user_id, user_name, borrower_periods, periods_money, periods_capital, periods_interests, plan_date, plan_state, del_flag, create_time, update_time from tb_borrower_plan
+    </sql>
+
+    <select id="selectTbBorrowerPlanList" parameterType="com.ruoyi.potenza.domain.TbBorrowerPlan" resultMap="TbBorrowerPlanResult">
+        <include refid="selectTbBorrowerPlanVo"/>
+        <where>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="borrowerPeriods != null "> and borrower_periods = #{borrowerPeriods}</if>
+            <if test="periodsMoney != null "> and periods_money = #{periodsMoney}</if>
+            <if test="periodsCapital != null "> and periods_capital = #{periodsCapital}</if>
+            <if test="periodsInterests != null "> and periods_interests = #{periodsInterests}</if>
+            <if test="planDate != null "> and plan_date = #{planDate}</if>
+            <if test="planState != null "> and plan_state = #{planState}</if>
+        </where>
+    </select>
+
+    <select id="selectTbBorrowerPlanByPlanId" parameterType="Long" resultMap="TbBorrowerPlanResult">
+        <include refid="selectTbBorrowerPlanVo"/>
+        where plan_id = #{planId}
+    </select>
+
+    <insert id="insertTbBorrowerPlan" parameterType="com.ruoyi.potenza.domain.TbBorrowerPlan" useGeneratedKeys="true" keyProperty="planId">
+        insert into tb_borrower_plan
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null and userName != ''">user_name,</if>
+            <if test="borrowerPeriods != null">borrower_periods,</if>
+            <if test="periodsMoney != null">periods_money,</if>
+            <if test="periodsCapital != null">periods_capital,</if>
+            <if test="periodsInterests != null">periods_interests,</if>
+            <if test="planDate != null">plan_date,</if>
+            <if test="planState != null">plan_state,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="borrowerPeriods != null">#{borrowerPeriods},</if>
+            <if test="periodsMoney != null">#{periodsMoney},</if>
+            <if test="periodsCapital != null">#{periodsCapital},</if>
+            <if test="periodsInterests != null">#{periodsInterests},</if>
+            <if test="planDate != null">#{planDate},</if>
+            <if test="planState != null">#{planState},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTbBorrowerPlan" parameterType="com.ruoyi.potenza.domain.TbBorrowerPlan">
+        update tb_borrower_plan
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="borrowerPeriods != null">borrower_periods = #{borrowerPeriods},</if>
+            <if test="periodsMoney != null">periods_money = #{periodsMoney},</if>
+            <if test="periodsCapital != null">periods_capital = #{periodsCapital},</if>
+            <if test="periodsInterests != null">periods_interests = #{periodsInterests},</if>
+            <if test="planDate != null">plan_date = #{planDate},</if>
+            <if test="planState != null">plan_state = #{planState},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where plan_id = #{planId}
+    </update>
+
+    <delete id="deleteTbBorrowerPlanByPlanId" parameterType="Long">
+        delete from tb_borrower_plan where plan_id = #{planId}
+    </delete>
+
+    <delete id="deleteTbBorrowerPlanByPlanIds" parameterType="String">
+        delete from tb_borrower_plan where plan_id in
+        <foreach item="planId" collection="array" open="(" separator="," close=")">
+            #{planId}
+        </foreach>
+    </delete>
+</mapper>
