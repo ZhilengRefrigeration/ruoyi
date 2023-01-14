@@ -52,7 +52,6 @@ public class BorrowerPeriodsController extends BaseController{
     /**
      * 导出贷款周期列表
      */
-    @RequiresPermissions("potenza:periods:export")
     @Log(title = "贷款周期", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, TbBorrowerPeriods tbBorrowerPeriods)
@@ -66,7 +65,7 @@ public class BorrowerPeriodsController extends BaseController{
      * 获取贷款周期详细信息
      */
     @RequiresPermissions("potenza:periods:query")
-    @GetMapping(value = "/{periodsId}")
+    @GetMapping(value = "/{periodsById}")
     public AjaxResult getInfo(@PathVariable("periodsId") Long periodsId)
     {
         return success(tbBorrowerPeriodsService.selectTbBorrowerPeriodsByPeriodsId(periodsId));
@@ -77,7 +76,7 @@ public class BorrowerPeriodsController extends BaseController{
      */
     @RequiresPermissions("potenza:periods:add")
     @Log(title = "贷款周期", businessType = BusinessType.INSERT)
-    @PostMapping
+    @PostMapping("periodsInsert")
     public AjaxResult add(@RequestBody TbBorrowerPeriods tbBorrowerPeriods)
     {
         return toAjax(tbBorrowerPeriodsService.insertTbBorrowerPeriods(tbBorrowerPeriods));
@@ -88,7 +87,7 @@ public class BorrowerPeriodsController extends BaseController{
      */
     @RequiresPermissions("potenza:periods:edit")
     @Log(title = "贷款周期", businessType = BusinessType.UPDATE)
-    @PutMapping
+    @PutMapping("/periodsUpdate")
     public AjaxResult edit(@RequestBody TbBorrowerPeriods tbBorrowerPeriods)
     {
         return toAjax(tbBorrowerPeriodsService.updateTbBorrowerPeriods(tbBorrowerPeriods));

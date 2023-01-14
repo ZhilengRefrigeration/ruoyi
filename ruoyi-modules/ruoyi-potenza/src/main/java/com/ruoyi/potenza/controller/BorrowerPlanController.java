@@ -52,7 +52,6 @@ public class BorrowerPlanController extends BaseController{
     /**
      * 导出计划列表
      */
-    @RequiresPermissions("potenza:plan:export")
     @Log(title = "计划", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, TbBorrowerPlan tbBorrowerPlan)
@@ -65,8 +64,7 @@ public class BorrowerPlanController extends BaseController{
     /**
      * 获取计划详细信息
      */
-    @RequiresPermissions("potenza:plan:query")
-    @GetMapping(value = "/{planId}")
+    @GetMapping(value = "/{planById}")
     public AjaxResult getInfo(@PathVariable("planId") Long planId)
     {
         return success(tbBorrowerPlanService.selectTbBorrowerPlanByPlanId(planId));
@@ -75,9 +73,8 @@ public class BorrowerPlanController extends BaseController{
     /**
      * 新增计划
      */
-    @RequiresPermissions("potenza:plan:add")
     @Log(title = "计划", businessType = BusinessType.INSERT)
-    @PostMapping
+    @PostMapping("planInsert")
     public AjaxResult add(@RequestBody TbBorrowerPlan tbBorrowerPlan)
     {
         return toAjax(tbBorrowerPlanService.insertTbBorrowerPlan(tbBorrowerPlan));
@@ -86,9 +83,8 @@ public class BorrowerPlanController extends BaseController{
     /**
      * 修改计划
      */
-    @RequiresPermissions("potenza:plan:edit")
     @Log(title = "计划", businessType = BusinessType.UPDATE)
-    @PutMapping
+    @PutMapping("planUpdate")
     public AjaxResult edit(@RequestBody TbBorrowerPlan tbBorrowerPlan)
     {
         return toAjax(tbBorrowerPlanService.updateTbBorrowerPlan(tbBorrowerPlan));
@@ -97,7 +93,6 @@ public class BorrowerPlanController extends BaseController{
     /**
      * 删除计划
      */
-    @RequiresPermissions("potenza:plan:remove")
     @Log(title = "计划", businessType = BusinessType.DELETE)
     @DeleteMapping("/{planIds}")
     public AjaxResult remove(@PathVariable Long[] planIds)

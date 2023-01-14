@@ -30,7 +30,7 @@ import com.ruoyi.common.core.utils.poi.ExcelUtil;
  * @description: TODO
  * @date 2023/1/13 16:00
  */
-@RequestMapping("/Borrower")
+@RequestMapping("/borrower")
 @RestController
 @Slf4j
 public class BorrowerController extends BaseController {
@@ -57,7 +57,7 @@ public class BorrowerController extends BaseController {
         return tbBorrowerService.borrowerDele(idVo);
     }
 
-    @RequiresPermissions("potenza:borrower:list")
+
     @GetMapping("/list")
     public TableDataInfo list(TbBorrower tbBorrower)
     {
@@ -69,7 +69,7 @@ public class BorrowerController extends BaseController {
     /**
      * 导出贷款列表
      */
-    @RequiresPermissions("potenza:borrower:export")
+
     @Log(title = "贷款", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, TbBorrower tbBorrower)
@@ -82,8 +82,8 @@ public class BorrowerController extends BaseController {
     /**
      * 获取贷款详细信息
      */
-    @RequiresPermissions("potenza:borrower:query")
-    @GetMapping(value = "/{borrowerId}")
+
+    @GetMapping(value = "/{borrowerById}")
     public AjaxResult getInfo(@PathVariable("borrowerId") Long borrowerId)
     {
         return success(tbBorrowerService.selectTbBorrowerByBorrowerId(borrowerId));
@@ -92,9 +92,9 @@ public class BorrowerController extends BaseController {
     /**
      * 新增贷款
      */
-    @RequiresPermissions("potenza:borrower:add")
+
     @Log(title = "贷款", businessType = BusinessType.INSERT)
-    @PostMapping
+    @PostMapping("/borrowerInsert")
     public AjaxResult add(@RequestBody TbBorrower tbBorrower)
     {
         return toAjax(tbBorrowerService.insertTbBorrower(tbBorrower));
@@ -103,9 +103,9 @@ public class BorrowerController extends BaseController {
     /**
      * 修改贷款
      */
-    @RequiresPermissions("potenza:borrower:edit")
+
     @Log(title = "贷款", businessType = BusinessType.UPDATE)
-    @PutMapping
+    @PutMapping("/borrowerUpdate")
     public AjaxResult edit(@RequestBody TbBorrower tbBorrower)
     {
         return toAjax(tbBorrowerService.updateTbBorrower(tbBorrower));

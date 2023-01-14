@@ -62,6 +62,7 @@ public class TokenService
         Map<String, Object> rspMap = new HashMap<String, Object>();
         rspMap.put("access_token", JwtUtils.createToken(claimsMap));
         rspMap.put("expires_in", expireTime);
+        System.err.println(rspMap);
         return rspMap;
     }
 
