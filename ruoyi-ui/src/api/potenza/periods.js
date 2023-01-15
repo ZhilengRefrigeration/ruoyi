@@ -42,3 +42,12 @@ export function delPeriods(periodsId) {
     method: 'delete'
   })
 }
+
+
+export function detail(data) {
+  return request({
+    url: '/potenza/periods/detail',
+    method: 'post',
+    data: data
+  })
+}

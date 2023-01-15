@@ -36,4 +36,15 @@ export function updateBorrower(data) {
 }
 
 
+// 添加贷款
+export function insertBorrower(data) {
+  return request({
+    url: '/potenza/borrower/loans',
+    method: 'post',
+    data: data
+  })
+}
+
+
+
 

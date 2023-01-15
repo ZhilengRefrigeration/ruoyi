@@ -7,6 +7,7 @@
     <resultMap type="com.ruoyi.potenza.domain.TbBorrowerPeriods" id="TbBorrowerPeriodsResult">
         <result property="periodsId"    column="periods_id"    />
         <result property="periodsName"    column="periods_name"    />
+        <result property="rateInterest"    column="rate_interest"    />
         <result property="createBy"    column="create_by"    />
         <result property="updateBy"    column="update_by"    />
         <result property="delFlag"    column="del_flag"    />
@@ -15,7 +16,7 @@
     </resultMap>
 
     <sql id="selectTbBorrowerPeriodsVo">
-        select periods_id, periods_name, create_by, update_by, del_flag, create_time, update_time from tb_borrower_periods
+        select periods_id, periods_name,rate_interest, create_by, update_by, del_flag, create_time, update_time from tb_borrower_periods
     </sql>
 
     <select id="selectTbBorrowerPeriodsList" parameterType="com.ruoyi.potenza.domain.TbBorrowerPeriods" resultMap="TbBorrowerPeriodsResult">
@@ -34,6 +35,7 @@
         insert into tb_borrower_periods
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="periodsName != null">periods_name,</if>
+            <if test="rateInterest != null">rate_interest,</if>
             <if test="createBy != null">create_by,</if>
             <if test="updateBy != null">update_by,</if>
             <if test="delFlag != null">del_flag,</if>
@@ -42,6 +44,7 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="periodsName != null">#{periodsName},</if>
+            <if test="rateInterest != null">#{rateInterest},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="updateBy != null">#{updateBy},</if>
             <if test="delFlag != null">#{delFlag},</if>
@@ -54,6 +57,7 @@
         update tb_borrower_periods
         <trim prefix="SET" suffixOverrides=",">
             <if test="periodsName != null">periods_name = #{periodsName},</if>
+            <if test="rateInterest != null">rate_interest = #{rateInterest},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="delFlag != null">del_flag = #{delFlag},</if>

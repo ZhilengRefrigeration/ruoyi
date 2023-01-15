@@ -3,6 +3,7 @@ package com.ruoyi.potenza.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.potenza.domain.TbBorrowerPlan;
+import com.ruoyi.potenza.mapper.TbBorrowerPeriodsMapper;
 import com.ruoyi.potenza.service.TbBorrowerPlanService;
 import com.ruoyi.potenza.mapper.TbBorrowerPlanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import java.util.List;
 @Service
 public class TbBorrowerPlanServiceImpl extends ServiceImpl<TbBorrowerPlanMapper, TbBorrowerPlan>
     implements TbBorrowerPlanService{
+
     @Autowired
     private TbBorrowerPlanMapper tbBorrowerPlanMapper;
 

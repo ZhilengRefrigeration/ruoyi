@@ -111,6 +111,22 @@ public class BorrowerController extends BaseController {
         return toAjax(tbBorrowerService.updateTbBorrower(tbBorrower));
     }
 
+    @PostMapping("/borrowerInserts")
+    public AjaxResult borrowerInserts(@RequestBody TbBorrower tbBorrower)
+    {
+        return toAjax(tbBorrowerService.borrowerInserts(tbBorrower));
+    }
+
+
+    @PostMapping("/loans")
+    public AjaxResult loans(@RequestBody TbBorrower tbBorrower)
+    {
+        return tbBorrowerService.loans(tbBorrower);
+    }
+
+
+
+
 
 
 }

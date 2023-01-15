@@ -4,6 +4,7 @@ import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.potenza.domain.vo.PeriodDetailVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,7 +65,6 @@ public class BorrowerPeriodsController extends BaseController{
     /**
      * 获取贷款周期详细信息
      */
-    @RequiresPermissions("potenza:periods:query")
     @GetMapping(value = "/{periodsById}")
     public AjaxResult getInfo(@PathVariable("periodsId") Long periodsId)
     {
@@ -74,7 +74,6 @@ public class BorrowerPeriodsController extends BaseController{
     /**
      * 新增贷款周期
      */
-    @RequiresPermissions("potenza:periods:add")
     @Log(title = "贷款周期", businessType = BusinessType.INSERT)
     @PostMapping("periodsInsert")
     public AjaxResult add(@RequestBody TbBorrowerPeriods tbBorrowerPeriods)
@@ -85,7 +84,6 @@ public class BorrowerPeriodsController extends BaseController{
     /**
      * 修改贷款周期
      */
-    @RequiresPermissions("potenza:periods:edit")
     @Log(title = "贷款周期", businessType = BusinessType.UPDATE)
     @PutMapping("/periodsUpdate")
     public AjaxResult edit(@RequestBody TbBorrowerPeriods tbBorrowerPeriods)
@@ -96,11 +94,18 @@ public class BorrowerPeriodsController extends BaseController{
     /**
      * 删除贷款周期
      */
-    @RequiresPermissions("potenza:periods:remove")
     @Log(title = "贷款周期", businessType = BusinessType.DELETE)
     @DeleteMapping("/{periodsIds}")
     public AjaxResult remove(@PathVariable Long[] periodsIds)
     {
         return toAjax(tbBorrowerPeriodsService.deleteTbBorrowerPeriodsByPeriodsIds(periodsIds));
+    }
+
+
+    @Log(title = "周期详细", businessType = BusinessType.UPDATE)
+    @PostMapping("/detail")
+    public AjaxResult detail(@RequestBody PeriodDetailVo periodDetailVo)
+    {
+        return tbBorrowerPeriodsService.detail(periodDetailVo);
     }
 }
