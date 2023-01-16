@@ -23,6 +23,11 @@
             <version>3.4.2</version>
         </dependency>
 
+
+
+
+<!--        SpringCloud Alibaba Nacos-->
+
         <!-- SpringCloud Alibaba Nacos -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
