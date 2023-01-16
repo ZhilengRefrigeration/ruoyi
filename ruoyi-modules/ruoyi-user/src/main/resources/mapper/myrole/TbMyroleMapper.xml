@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bwie.user.mapper.TbMyroleMapper">
+    
+    <resultMap type="com.bwie.user.domain.TbMyrole" id="TbMyroleResult">
+        <result property="roleId"    column="role_id"    />
+        <result property="roleName"    column="role_name"    />
+        <result property="deleted"    column="deleted"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTbMyroleVo">
+        select role_id, role_name, deleted, create_time, update_time from tb_myrole
+    </sql>
+
+    <select id="selectTbMyroleList" parameterType="com.bwie.user.domain.TbMyrole" resultMap="TbMyroleResult">
+        <include refid="selectTbMyroleVo"/>
+        <where>  
+            <if test="roleName != null  and roleName != ''"> and role_name like concat('%', #{roleName}, '%')</if>
+            <if test="deleted != null "> and deleted = #{deleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectTbMyroleByRoleId" parameterType="Long" resultMap="TbMyroleResult">
+        <include refid="selectTbMyroleVo"/>
+        where role_id = #{roleId}
+    </select>
+        
+    <insert id="insertTbMyrole" parameterType="com.bwie.user.domain.TbMyrole" useGeneratedKeys="true" keyProperty="roleId">
+        insert into tb_myrole
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roleName != null and roleName != ''">role_name,</if>
+            <if test="deleted != null">deleted,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roleName != null and roleName != ''">#{roleName},</if>
+            <if test="deleted != null">#{deleted},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbMyrole" parameterType="com.bwie.user.domain.TbMyrole">
+        update tb_myrole
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="roleName != null and roleName != ''">role_name = #{roleName},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where role_id = #{roleId}
+    </update>
+
+    <delete id="deleteTbMyroleByRoleId" parameterType="Long">
+        delete from tb_myrole where role_id = #{roleId}
+    </delete>
+
+    <delete id="deleteTbMyroleByRoleIds" parameterType="String">
+        delete from tb_myrole where role_id in 
+        <foreach item="roleId" collection="array" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </delete>
+</mapper>

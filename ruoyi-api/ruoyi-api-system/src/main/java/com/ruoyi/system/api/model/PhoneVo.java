@@ -15,4 +15,5 @@ import java.io.Serializable;
 @Data
 public class PhoneVo extends BaseEntity {
     private String phone;
+    private String code;
 }

@@ -1,23 +1,28 @@
-package com.ruoyi.system.api.model;
+package com.bwie.user.domain;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import java.io.Serializable;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ruoyi.common.core.web.domain.BaseEntity;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
-
 /**
- * @author 苏海龙
- * @version 1.0
- * @description: TODO
- * @date 2023/1/10 15:03
+ * 用户信息表
+ * @TableName tb_user
  */
-
+@TableName(value ="tb_user")
 @Data
-public class TbUserVo extends BaseEntity {
+public class TbUser implements Serializable {
+    /**
+     * 用户ID
+     */
+    @TableId(type = IdType.AUTO)
     private Long userId;
-    private String token;
 
     /**
      * 用户账号
@@ -130,4 +135,6 @@ public class TbUserVo extends BaseEntity {
      */
     private Integer honorIntegral;
 
+    @TableField(exist = false)
+    private static final long serialVersionUID = 1L;
 }

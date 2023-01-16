@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.bwie.ruoyi.mapper.TbUserMapper">
+<mapper namespace="com.bwie.user.mapper.TbUserMapper">
 
-    <resultMap id="BaseResultMap" type="com.bwie.ruoyi.pojo.TbUser">
+    <resultMap id="BaseResultMap" type="com.bwie.user.domain.TbUser">
             <id property="userId" column="user_id" jdbcType="BIGINT"/>
             <result property="userName" column="user_name" jdbcType="VARCHAR"/>
             <result property="nickName" column="nick_name" jdbcType="VARCHAR"/>

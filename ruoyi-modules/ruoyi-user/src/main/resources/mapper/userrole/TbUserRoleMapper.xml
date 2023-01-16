@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bwie.user.mapper.TbUserRoleMapper">
+    
+    <resultMap type="com.bwie.user.domain.TbUserRole" id="TbUserRoleResult">
+        <result property="userRoleId"    column="user_role_id"    />
+        <result property="userRoleName"    column="user_role_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="roleFunction"    column="role_function"    />
+    </resultMap>
+
+    <sql id="selectTbUserRoleVo">
+        select user_role_id, user_role_name, create_by, create_time, update_by, update_time, role_function from tb_user_role
+    </sql>
+
+    <select id="selectTbUserRoleList" parameterType="com.bwie.user.domain.TbUserRole" resultMap="TbUserRoleResult">
+        <include refid="selectTbUserRoleVo"/>
+        <where>  
+            <if test="userRoleName != null  and userRoleName != ''"> and user_role_name like concat('%', #{userRoleName}, '%')</if>
+            <if test="roleFunction != null  and roleFunction != ''"> and role_function = #{roleFunction}</if>
+        </where>
+    </select>
+    
+    <select id="selectTbUserRoleByUserRoleId" parameterType="Long" resultMap="TbUserRoleResult">
+        <include refid="selectTbUserRoleVo"/>
+        where user_role_id = #{userRoleId}
+    </select>
+        
+    <insert id="insertTbUserRole" parameterType="com.bwie.user.domain.TbUserRole" useGeneratedKeys="true" keyProperty="userRoleId">
+        insert into tb_user_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userRoleName != null and userRoleName != ''">user_role_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="roleFunction != null">role_function,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userRoleName != null and userRoleName != ''">#{userRoleName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="roleFunction != null">#{roleFunction},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbUserRole" parameterType="com.bwie.user.domain.TbUserRole">
+        update tb_user_role
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userRoleName != null and userRoleName != ''">user_role_name = #{userRoleName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="roleFunction != null">role_function = #{roleFunction},</if>
+        </trim>
+        where user_role_id = #{userRoleId}
+    </update>
+
+    <delete id="deleteTbUserRoleByUserRoleId" parameterType="Long">
+        delete from tb_user_role where user_role_id = #{userRoleId}
+    </delete>
+
+    <delete id="deleteTbUserRoleByUserRoleIds" parameterType="String">
+        delete from tb_user_role where user_role_id in 
+        <foreach item="userRoleId" collection="array" open="(" separator="," close=")">
+            #{userRoleId}
+        </foreach>
+    </delete>
+</mapper>
