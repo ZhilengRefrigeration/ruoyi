@@ -1,7 +1,9 @@
 package com.ruoyi.potenza.service;
 
+import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.potenza.domain.TbBorrowerPeriods;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ruoyi.potenza.domain.vo.PeriodDetailVo;
 
 import java.util.List;
 
@@ -58,4 +60,6 @@ public interface TbBorrowerPeriodsService extends IService<TbBorrowerPeriods> {
      * @return 结果
      */
     public int deleteTbBorrowerPeriodsByPeriodsId(Long periodsId);
+
+    AjaxResult detail(PeriodDetailVo periodDetailVo);
 }

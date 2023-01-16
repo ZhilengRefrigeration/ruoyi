@@ -36,6 +36,8 @@ public class TbBorrowerPeriods implements Serializable {
      */
     private String updateBy;
 
+    private Double  rateInterest;
+
     /**
      * 删除状态0：存在，2：删除
      */

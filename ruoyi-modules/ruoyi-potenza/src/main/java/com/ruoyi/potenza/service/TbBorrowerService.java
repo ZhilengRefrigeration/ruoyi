@@ -51,5 +51,7 @@ public interface TbBorrowerService extends IService<TbBorrower> {
     public int updateTbBorrower(TbBorrower tbBorrower);
 
 
+    int borrowerInserts(TbBorrower tbBorrower);
 
+    AjaxResult loans(TbBorrower tbBorrower);
 }

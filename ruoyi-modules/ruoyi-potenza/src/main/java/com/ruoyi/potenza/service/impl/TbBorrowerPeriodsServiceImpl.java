@@ -2,24 +2,30 @@ package com.ruoyi.potenza.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.core.utils.DateUtils;
+import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.potenza.domain.TbBorrowerPeriods;
+import com.ruoyi.potenza.domain.vo.PeriodDetailVo;
 import com.ruoyi.potenza.service.TbBorrowerPeriodsService;
 import com.ruoyi.potenza.mapper.TbBorrowerPeriodsMapper;
+import com.ruoyi.potenza.utils.AverageCapitalPlusInterestUtils;
+import com.ruoyi.potenza.utils.AverageCapitalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
-* @author 86155
-* @description 针对表【tb_borrower_periods(贷款周期表)】的数据库操作Service实现
-* @createDate 2023-01-13 15:56:37
-*/
+ * @author 86155
+ * @description 针对表【tb_borrower_periods(贷款周期表)】的数据库操作Service实现
+ * @createDate 2023-01-13 15:56:37
+ */
 @Service
 public class TbBorrowerPeriodsServiceImpl extends ServiceImpl<TbBorrowerPeriodsMapper, TbBorrowerPeriods>
-    implements TbBorrowerPeriodsService{
+        implements TbBorrowerPeriodsService{
+
     @Autowired
     private TbBorrowerPeriodsMapper tbBorrowerPeriodsMapper;
+
 
     /**
      * 查询贷款周期
@@ -93,6 +99,33 @@ public class TbBorrowerPeriodsServiceImpl extends ServiceImpl<TbBorrowerPeriodsM
     public int deleteTbBorrowerPeriodsByPeriodsId(Long periodsId)
     {
         return tbBorrowerPeriodsMapper.deleteTbBorrowerPeriodsByPeriodsId(periodsId);
+    }
+
+    @Override
+    public AjaxResult detail(PeriodDetailVo periodDetailVo) {
+
+        //查询利率
+        Integer periodsId = periodDetailVo.getPeriodsId();
+        long periodsid = periodsId.longValue();
+        TbBorrowerPeriods tbBorrowerPeriods = tbBorrowerPeriodsMapper.selectTbBorrowerPeriodsByPeriodsId(periodsid);
+        if(tbBorrowerPeriods==null){
+            return AjaxResult.error();
+        }
+        Integer wayId = periodDetailVo.getWayId();
+        //等额本息
+        if(wayId==0){
+            double principalInterestCount = AverageCapitalPlusInterestUtils.
+                    getPrincipalInterestCount(periodDetailVo.getBorrowerMoney(),
+                            tbBorrowerPeriods.getRateInterest()/100,
+                            tbBorrowerPeriods.getPeriodsName());
+            return AjaxResult.success(principalInterestCount);
+        }
+        //等额本金
+        double principalInterestCount = AverageCapitalUtils.
+                getPrincipalInterestCount(periodDetailVo.getBorrowerMoney(),
+                        tbBorrowerPeriods.getRateInterest()/100,
+                        tbBorrowerPeriods.getPeriodsName());
+        return AjaxResult.success(principalInterestCount);
     }
 
 }
