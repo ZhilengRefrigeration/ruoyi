@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.product.mapper.TbFinancialProductMapper">
+
+    <resultMap id="BaseResultMap" type="com.ruoyi.product.pojo.TbFinancialProduct">
+            <id property="productId" column="product_id" jdbcType="INTEGER"/>
+            <result property="firmId" column="firm_id" jdbcType="INTEGER"/>
+            <result property="firmName" column="firm_name" jdbcType="VARCHAR"/>
+            <result property="productName" column="product_name" jdbcType="VARCHAR"/>
+            <result property="productDesc" column="product_desc" jdbcType="VARCHAR"/>
+            <result property="userId" column="user_id" jdbcType="INTEGER"/>
+            <result property="typeId" column="type_id" jdbcType="INTEGER"/>
+            <result property="periods" column="periods" jdbcType="INTEGER"/>
+            <result property="productRate" column="product_rate" jdbcType="INTEGER"/>
+            <result property="produtCharge" column="produt_charge" jdbcType="INTEGER"/>
+            <result property="maxPrice" column="max_price" jdbcType="INTEGER"/>
+            <result property="minPrice" column="min_price" jdbcType="INTEGER"/>
+            <result property="termsForLate" column="terms_for_late" jdbcType="INTEGER"/>
+            <result property="termsProductLate" column="terms_product_late" jdbcType="VARCHAR"/>
+            <result property="modeProduct" column="mode_product" jdbcType="INTEGER"/>
+            <result property="productPhoto" column="product_photo" jdbcType="VARCHAR"/>
+            <result property="delFlag" column="del_flag" jdbcType="INTEGER"/>
+            <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        product_id,firm_id,firm_name,
+        product_name,product_desc,user_id,
+        type_id,periods,product_rate,
+        produt_charge,max_price,min_price,
+        terms_for_late,terms_product_late,mode_product,
+        product_photo,del_flag,create_by,
+        create_time,update_by,update_time
+    </sql>
+</mapper>

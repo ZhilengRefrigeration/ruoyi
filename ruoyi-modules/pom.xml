@@ -15,6 +15,7 @@
         <module>ruoyi-file</module>
         <module>ruoyi-potenza</module>
         <module>ruoyi-user</module>
+        <module>ruoyi-product</module>
     </modules>
 
     <artifactId>ruoyi-modules</artifactId>
