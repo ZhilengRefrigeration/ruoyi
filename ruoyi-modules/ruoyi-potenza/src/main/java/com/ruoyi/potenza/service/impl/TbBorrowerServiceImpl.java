@@ -115,10 +115,10 @@ public class TbBorrowerServiceImpl extends ServiceImpl<TbBorrowerMapper, TbBorro
         //查询利率
         TbBorrowerPeriods tbBorrowerPeriods = tbBorrowerPeriodsMapper.selectTbBorrowerPeriodsByPeriodsId(periodsid);
 
-        double perMonthPrincipalInterest = AverageCapitalPlusInterestUtils.
-                getPerMonthPrincipalInterest(tbBorrower.getBorrowerMoney(),
-                                            tbBorrowerPeriods.getRateInterest()/100,
-                                            tbBorrowerPeriods.getPeriodsName());
+//        double perMonthPrincipalInterest = AverageCapitalPlusInterestUtils.
+//                getPerMonthPrincipalInterest(tbBorrower.getBorrowerMoney(),
+//                                            tbBorrowerPeriods.getRateInterest()/100,
+//                                            tbBorrowerPeriods.getPeriodsName());
 
 
         double principalInterestCount = AverageCapitalPlusInterestUtils.

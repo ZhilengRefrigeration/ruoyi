@@ -7,6 +7,8 @@ import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.potenza.domain.TbBorrower;
 import com.ruoyi.potenza.domain.vo.IdVo;
 import com.ruoyi.potenza.service.TbBorrowerService;
+import com.ruoyi.potenza.utils.AverageCapitalPlusInterestUtils;
+import com.ruoyi.potenza.utils.AverageCapitalUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
@@ -122,6 +124,12 @@ public class BorrowerController extends BaseController {
     public AjaxResult loans(@RequestBody TbBorrower tbBorrower)
     {
         return tbBorrowerService.loans(tbBorrower);
+    }
+
+    @PostMapping("ttt")
+    public void   ttt(){
+        AverageCapitalUtils.main();
+        AverageCapitalPlusInterestUtils.main();
     }
 
 

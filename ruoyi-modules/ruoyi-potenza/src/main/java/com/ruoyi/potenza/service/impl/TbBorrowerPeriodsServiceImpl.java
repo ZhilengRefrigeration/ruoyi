@@ -12,7 +12,9 @@ import com.ruoyi.potenza.utils.AverageCapitalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 86155
@@ -121,11 +123,13 @@ public class TbBorrowerPeriodsServiceImpl extends ServiceImpl<TbBorrowerPeriodsM
             return AjaxResult.success(principalInterestCount);
         }
         //等额本金
-        double principalInterestCount = AverageCapitalUtils.
-                getPrincipalInterestCount(periodDetailVo.getBorrowerMoney(),
-                        tbBorrowerPeriods.getRateInterest()/100,
-                        tbBorrowerPeriods.getPeriodsName());
-        return AjaxResult.success(principalInterestCount);
+//        double principalInterestCount = AverageCapitalUtils.
+//                getPrincipalInterestCount(periodDetailVo.getBorrowerMoney(),
+//                        tbBorrowerPeriods.getRateInterest()/100,
+//                        tbBorrowerPeriods.getPeriodsName());
+//        return AjaxResult.success(principalInterestCount);
+
+        return AjaxResult.error();
     }
 
 }
