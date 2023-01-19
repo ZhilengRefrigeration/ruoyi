@@ -11,9 +11,22 @@ import com.ruoyi.product.pojo.vo.ProductInfoVo;
 import com.ruoyi.product.service.TbFinancialProductService;
 import com.ruoyi.product.mapper.TbFinancialProductMapper;
 
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.TermQueryBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.sort.FieldSortBuilder;
+import org.elasticsearch.search.sort.SortBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
+import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +39,8 @@ public class TbFinancialProductServiceImpl extends ServiceImpl<TbFinancialProduc
     implements TbFinancialProductService{
     @Autowired
     private TbFinancialProductMapper tbFinancialProductMapper;
+    @Autowired
+    private ElasticsearchRestTemplate elasticsearchRestTemplate;
 
     /**
      * 产品数据查询
@@ -34,21 +49,64 @@ public class TbFinancialProductServiceImpl extends ServiceImpl<TbFinancialProduc
      */
     @Override
     public AjaxResult listPage(PageInfoVo pageInfoVo) {
-        Page<TbFinancialProduct> page = new Page<>(pageInfoVo.getPageNum(), pageInfoVo.getPageSize());
-        Page<TbFinancialProduct> financialProductPage = page(page, new QueryWrapper<TbFinancialProduct>().lambda().eq(TbFinancialProduct::getFirmName, pageInfoVo.getKeyword()).last("limit 1"));
-        List<ProductInfoVo> collect = financialProductPage.getRecords().stream().map((item) -> {
-            ProductInfoVo productInfoVo = new ProductInfoVo();
-            BeanUtils.copyProperties(item, productInfoVo);
-            return productInfoVo;
+        if(pageInfoVo.getKeyword()==null){
+            Page<TbFinancialProduct> page = new Page<>(pageInfoVo.getPageNum(), pageInfoVo.getPageSize());
+            //.lambda().eq(TbFinancialProduct::getFirmName, pageInfoVo.getKeyword()).last("limit 1")
+            Page<TbFinancialProduct> financialProductPage = page(page, new QueryWrapper<>());
+            List<ProductInfoVo> collect = financialProductPage.getRecords().stream().map((item) -> {
+                ProductInfoVo productInfoVo = new ProductInfoVo();
+                BeanUtils.copyProperties(item, productInfoVo);
+                return productInfoVo;
 
+            }).collect(Collectors.toList());
+            Page<ProductInfoVo> infoVoPage = new Page<>();
+            infoVoPage.setRecords(collect);
+            infoVoPage.setCurrent(financialProductPage.getCurrent());
+            infoVoPage.setSize(financialProductPage.getSize());
+            infoVoPage.setTotal(financialProductPage.getTotal());
+
+            return AjaxResult.success(infoVoPage);
+        }
+        //获取分页数据
+        Pageable page = PageRequest.of(pageInfoVo.getPageNum() - 1, pageInfoVo.getPageSize());
+        TermQueryBuilder termQuery = QueryBuilders.termQuery("productName", pageInfoVo.getKeyword());
+        SortBuilder sortBuilder = new FieldSortBuilder("createTime").order(SortOrder.DESC);
+        //高亮查询数据
+        HighlightBuilder highlightBuilder = new HighlightBuilder();
+        highlightBuilder.preTags("<strong style='color:red'>")
+                .postTags("</strong>")
+                .field("productName");
+        NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
+                .withQuery(termQuery)
+                .withPageable(page)
+                .withSort(sortBuilder)
+                .withHighlightBuilder(highlightBuilder)
+//                .withQuery(queryBuilder)
+                .build();
+        long total = elasticsearchRestTemplate.count(searchQuery, TbFinancialProduct.class);
+        SearchHits<TbFinancialProduct> search = elasticsearchRestTemplate.search(searchQuery, TbFinancialProduct.class);
+        List<ProductInfoVo> productInfoVoList = search.getSearchHits().stream().map((item) -> {
+            TbFinancialProduct content = item.getContent();
+            List<String> productName = item.getHighlightField("productName");
+            if (productName != null && productName.size() > 0) {
+                String name = productName.get(0);
+                //设置高亮查询
+                content.setProductName(name);
+
+            }
+            ProductInfoVo productInfoVo = new ProductInfoVo();
+            BeanUtils.copyProperties(content, productInfoVo);
+            return productInfoVo;
         }).collect(Collectors.toList());
         Page<ProductInfoVo> infoVoPage = new Page<>();
-        infoVoPage.setRecords(collect);
-        infoVoPage.setCurrent(financialProductPage.getCurrent());
-        infoVoPage.setSize(financialProductPage.getSize());
-        infoVoPage.setTotal(financialProductPage.getTotal());
+        infoVoPage.setRecords(productInfoVoList);
+        infoVoPage.setCurrent(pageInfoVo.getPageNum()-1);
+        infoVoPage.setSize(pageInfoVo.getPageSize());
+        infoVoPage.setTotal(total);
 
         return AjaxResult.success(infoVoPage);
+
+
     }
 
     /**
@@ -57,6 +115,7 @@ public class TbFinancialProductServiceImpl extends ServiceImpl<TbFinancialProduc
      * @return
      */
     @Override
+    @Transactional //分布式事务
     public AjaxResult add(ProductInfoVo productInfoVo) {
         String firmName = productInfoVo.getFirmName();
         TbFinancialProduct one = getOne(new QueryWrapper<TbFinancialProduct>().lambda().eq(TbFinancialProduct::getFirmName, firmName));
@@ -66,8 +125,7 @@ public class TbFinancialProductServiceImpl extends ServiceImpl<TbFinancialProduc
         TbFinancialProduct financialProduct = new TbFinancialProduct();
         BeanUtils.copyProperties(productInfoVo,financialProduct);
         save(financialProduct);
-
-
+        elasticsearchRestTemplate.save(financialProduct);
         return AjaxResult.success();
     }
 
@@ -112,6 +170,17 @@ public class TbFinancialProductServiceImpl extends ServiceImpl<TbFinancialProduc
         BeanUtils.copyProperties(productInfoVo,product);
         tbFinancialProductMapper.updateById(product);
         return AjaxResult.success("修改成功");
+    }
+
+    @Override
+    public AjaxResult selectProduct(ProductInfoVo productInfoVo) {
+        Integer productId = productInfoVo.getProductId();
+        TbFinancialProduct one = getOne(new QueryWrapper<TbFinancialProduct>().lambda().eq(TbFinancialProduct::getProductId, productId));
+        if(one==null){
+            return AjaxResult.error(402,"产品Id不存在");
+        }
+        TbFinancialProduct financialProduct = tbFinancialProductMapper.selectById(productId);
+        return AjaxResult.success(financialProduct);
     }
 }
 

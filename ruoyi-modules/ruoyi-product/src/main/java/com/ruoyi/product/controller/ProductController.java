@@ -69,5 +69,15 @@ public class ProductController {
 
     }
 
+    /**
+     * 通过id查询数据
+     * @param productInfoVo
+     * @return
+     */
+    @PostMapping(value = "/selectProduct")
+    public AjaxResult selectProduct(@RequestBody ProductInfoVo productInfoVo){
+        return tbFinancialProductService.selectProduct(productInfoVo);
+    }
+
 
 }

@@ -21,4 +21,6 @@ public interface TbFinancialProductService extends IService<TbFinancialProduct> 
     AjaxResult deleteById(IdVo idVo);
 
     AjaxResult updateId(ProductInfoVo productInfoVo);
+
+    AjaxResult selectProduct(ProductInfoVo productInfoVo);
 }

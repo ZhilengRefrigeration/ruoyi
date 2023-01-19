@@ -5,6 +5,7 @@ import com.ruoyi.common.security.annotation.EnableRyFeignClients;
 import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * 系统模块
@@ -15,6 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableCustomSwagger2
 @EnableRyFeignClients
 @SpringBootApplication
+@EnableScheduling  //定时任务
 public class RuoYiProductApplication
 {
     public static void main(String[] args)
