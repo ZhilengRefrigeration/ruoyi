@@ -14,6 +14,8 @@ public class RuoYiGatewayApplication
 {
     public static void main(String[] args)
     {
+        // 标记 sentinel 类型为 网关
+        System.setProperty("csp.sentinel.app.type", "1");
         SpringApplication.run(RuoYiGatewayApplication.class, args);
         System.out.println("(♥◠‿◠)ﾉﾞ  若依网关启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
                 " .-------.       ____     __        \n" +
