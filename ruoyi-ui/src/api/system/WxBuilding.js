@@ -25,7 +25,14 @@ export function addWxBuilding(data) {
     data: data
   })
 }
-
+// 批量上传图片
+export function batchUploadFiles(data,url) {
+  return request({
+    url: url,
+    method: 'post',
+    data: data
+  })
+}
 // 修改球场管理
 export function updateWxBuilding(data) {
   return request({

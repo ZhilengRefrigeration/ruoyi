@@ -37,6 +37,7 @@ import DictTag from '@/components/DictTag'
 import VueMeta from 'vue-meta'
 // 字典数据组件
 import DictData from '@/components/DictData'
+import VueAMap from 'vue-amap';
 
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
@@ -57,7 +58,29 @@ Vue.component('Editor', Editor)
 Vue.component('FileUpload', FileUpload)
 Vue.component('ImageUpload', ImageUpload)
 Vue.component('ImagePreview', ImagePreview)
+Vue.use(VueAMap)
+// 初始化地图
 
+VueAMap.initAMapApiLoader({
+  key: '0ecbb910088383bb6661f414b08b7156',
+//这些是引入的插件
+  plugin: ['AMap.Autocomplete',
+    'AMap.PlaceSearch',
+    'AMap.Scale',
+    'AMap.ToolBar',
+    'AMap.MapType',
+    'AMap.Geolocation',
+    'AMap.Geocoder',
+    'AMap.AutoComplete ',
+    'AMap.PlaceSearch',
+    'AMap.Scale',
+    'AMap.OverView',
+    'AMap.PolyEditor',
+    'AMap.CircleEditor',
+  ],
+//版本
+  v: '1.4.4'
+});
 Vue.use(directive)
 Vue.use(plugins)
 Vue.use(VueMeta)

@@ -52,6 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="cityName != null  and cityName != ''"> and CITY_NAME like concat('%', #{cityName}, '%')</if>
             <if test="status != null "> and STATUS = #{status}</if>
             <if test="isOpen != null "> and IS_OPEN = #{isOpen}</if>
+            <if test="isSupportlive != null "> and IS_SUPPORTLIVE = #{isSupportlive}</if>
             <if test="createdId != null "> and CREATED_ID = #{createdId}</if>
         </where>
     </select>

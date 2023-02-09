@@ -80,8 +80,8 @@ public class WxBuildingInfo extends BaseEntity
     private String defaultPicture;
 
     /** 是否支持在线 */
-    @Excel(name = "是否支持在线")
-    private Long isSupportlive;
+    @Excel(name = "支持在线")
+    private Boolean isSupportlive;
 
     /** 球馆状态 */
     @Excel(name = "球馆状态")
@@ -93,7 +93,7 @@ public class WxBuildingInfo extends BaseEntity
 
     /** 是否开放 */
     @Excel(name = "是否开放")
-    private Long isOpen;
+    private Boolean isOpen;
 
     /** 人均价格 */
     @Excel(name = "人均价格")
@@ -246,12 +246,12 @@ public class WxBuildingInfo extends BaseEntity
     {
         return defaultPicture;
     }
-    public void setIsSupportlive(Long isSupportlive) 
+    public void setIsSupportlive(Boolean isSupportlive)
     {
         this.isSupportlive = isSupportlive;
     }
 
-    public Long getIsSupportlive() 
+    public Boolean getIsSupportlive()
     {
         return isSupportlive;
     }
@@ -273,12 +273,12 @@ public class WxBuildingInfo extends BaseEntity
     {
         return rejectReason;
     }
-    public void setIsOpen(Long isOpen) 
+    public void setIsOpen(Boolean isOpen)
     {
         this.isOpen = isOpen;
     }
 
-    public Long getIsOpen() 
+    public Boolean getIsOpen()
     {
         return isOpen;
     }

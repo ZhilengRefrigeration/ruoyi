@@ -530,6 +530,7 @@ export default {
       const id = row.id || this.ids
       getCompetition(id).then(response => {
         this.form = response.data;
+        this.imageUrl = this.form.competitionBackImg;
         this.open = true;
         this.title = "修改赛会信息";
       });
