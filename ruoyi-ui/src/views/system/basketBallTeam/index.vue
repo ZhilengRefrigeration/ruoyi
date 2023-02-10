@@ -82,7 +82,7 @@
       <el-table-column label="ID" align="center" prop="id" />
       <el-table-column label="球队logo" align="center" prop="avatar" >
         <template slot-scope="scope">
-          <el-avatar :src="scope.row.teamLogo"></el-avatar>
+          <el-avatar :src="scope.row.teamLogo" ></el-avatar>
         </template>
       </el-table-column>
       <el-table-column label="球队名称" align="center" prop="teamName" />
@@ -142,7 +142,7 @@
     />
 
     <!-- 添加或修改球队管理对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="700px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="球队名称" prop="teamName">
           <el-input v-model="form.teamName" placeholder="请输入球队名称" />
@@ -157,7 +157,16 @@
           <el-input v-model="form.buildId" placeholder="请输入球馆id" />
         </el-form-item>
         <el-form-item label="球队图片" prop="defaultPicture">
-          <el-input v-model="form.defaultPicture" placeholder="请输入球队图片" />
+          <el-upload
+            class="avatar-uploader"
+            action="https://adu.shjmall.cn/liguanghui/file/uploadMore"
+            :show-file-list="false"
+            name="files"
+            :on-success="handleTeamAvatarSuccess"
+            :before-upload="beforeAvatarUpload">
+            <img v-if="form.defaultPicture" :src="form.defaultPicture" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
         </el-form-item>
         <el-form-item label="球馆名称" prop="buildingName">
           <el-input v-model="form.buildingName" placeholder="请输入球馆名称" />
@@ -166,7 +175,16 @@
           <el-input v-model="form.contactTel" placeholder="请输入球队联系人电话" />
         </el-form-item>
         <el-form-item label="球队logo" prop="teamLogo">
-          <el-input v-model="form.teamLogo" type="textarea" placeholder="请输入内容" />
+          <el-upload
+            class="avatar-uploader"
+            action="https://adu.shjmall.cn/liguanghui/file/uploadMore"
+            :show-file-list="false"
+            name="files"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload">
+            <img v-if="form.teamLogo" :src="form.teamLogo" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -362,6 +380,29 @@ export default {
         this.$modal.msgSuccess("删除成功");
       }).catch(() => {});
     },
+    handleTeamAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+      let imgUrl = res.data[0];
+      this.form.defaultPicture = "https://adu.shjmall.cn/liguanghui/image/"+imgUrl;
+    },
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+      let imgUrl = res.data[0];
+      this.form.teamLogo = "https://adu.shjmall.cn/liguanghui/image/"+imgUrl;
+    },
+    beforeAvatarUpload(file) {
+      console.info(file.type)
+      const isJPG = (file.type === 'image/jpeg'||file.type === 'image/png' || file.type === 'image/x-icon');
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG/PNG/ICO 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
+    },
     /** 导出按钮操作 */
     handleExport() {
       this.download('system/basketBallTeam/export', {
@@ -371,3 +412,28 @@ export default {
   }
 };
 </script>
+<style>
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+</style>
