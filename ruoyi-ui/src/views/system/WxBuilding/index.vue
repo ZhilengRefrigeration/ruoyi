@@ -84,6 +84,19 @@
           v-hasPermi="['system:WxBuilding:edit']"
         >修改</el-button>
       </el-col>
+
+      <el-col :span="1.5">
+        <el-button
+          type="success"
+          plain
+          icon="el-icon-s-check"
+          size="mini"
+          :disabled="single"
+          @click="handleApprovalUpdate"
+          v-hasPermi="['system:WxBuilding:approval']"
+        >审批</el-button>
+      </el-col>
+
       <el-col :span="1.5">
         <el-button
           type="danger"
@@ -269,8 +282,29 @@
         <el-form-item label="支持在线" prop="isSupportlive">
           <el-switch v-model="form.isSupportlive" ></el-switch>
         </el-form-item>
+        <el-form-item label="是否开放" prop="isOpen">
+          <el-switch v-model="form.isOpen" ></el-switch>
+        </el-form-item>
+        <el-form-item label="人均价格" prop="mittelkurs">
+          <el-input v-model="form.mittelkurs" placeholder="请输入人均价格" />
+        </el-form-item>
+        <el-form-item label="管理员二维码" prop="chatGroupUrl">
+          <el-upload
+            class="avatar-uploader"
+            action="https://adu.shjmall.cn/liguanghui/file/uploadMore"
+            :show-file-list="false"
+            name="files"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload">
+            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="描述" prop="desc">
+          <el-input v-model="form.desc" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
         <el-form-item label="状态" prop="status">
-          <el-select v-model="form.status">
+          <el-select v-model="form.status" disabled  >
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -280,7 +314,84 @@
           </el-select>
         </el-form-item>
         <el-form-item label="拒绝原因" prop="rejectReason">
-          <el-input v-model="form.rejectReason" placeholder="请输入拒绝原因" />
+          <el-input v-model="form.rejectReason" disabled />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button @click="cancel">取 消</el-button>
+      </div>
+    </el-dialog>
+
+    <!-- 球场审批的对话框 -->
+    <el-dialog :title="approveTitle" :visible.sync="approveOpen" width="55%" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+        <el-form-item label="名称" prop="buildingName">
+          <el-input v-model="form.buildingName" placeholder="请输入名称" />
+        </el-form-item>
+        <el-form-item label="地址" prop="address">
+          <el-input v-model="form.address" placeholder="请输入地址" />
+        </el-form-item>
+        <el-form-item label="经度" prop="longitude">
+          <el-input v-model="form.longitude" placeholder="请输入经度" />
+        </el-form-item>
+        <el-form-item label="纬度" prop="latitude">
+          <el-input v-model="form.latitude" placeholder="请输入纬度" />
+        </el-form-item>
+        <el-form-item label="省" prop="provinceCode">
+          <el-input v-model="form.provinceCode" placeholder="请输入省" />
+        </el-form-item>
+        <el-form-item label="市" prop="cityCode">
+          <el-input v-model="form.cityCode" placeholder="请输入市" />
+        </el-form-item>
+        <el-form-item label="区县编码" prop="countyCode">
+          <el-input v-model="form.countyCode" placeholder="请输入区县编码" />
+        </el-form-item>
+
+        <el-form-item label="在线地图" prop="onlineMap">
+          <el-amap
+            ref="map"
+            :vid="'amapDemo'"
+            :center="center"
+            :zoom="zoom"
+            :events="events"
+            :plugin="plugin"
+            class="amap-demo"
+            style="height: 500px;width: 800px"
+          >
+            <el-amap-marker v-for="(u,i) in markers" :position="u.position" :key="i">
+            </el-amap-marker>
+          </el-amap>
+        </el-form-item>
+
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+        <el-form-item label="城市" prop="cityName">
+          <el-input v-model="form.cityName" placeholder="请输入城市" />
+        </el-form-item>
+        <el-form-item label="球场图片" prop="defaultPicture">
+          <el-upload
+            class="upload-demo"
+            ref="upload"
+            :action="uploadUrl"
+            multiple
+            :limit="5"
+            :on-exceed = "handleExceed"
+            :on-preview="handlePictureCardPreview"
+            :on-remove="handleRemove"
+            :before-remove="beforeRemove"
+            :file-list="fileList"
+            list-type="picture-card"
+            :auto-upload="false">
+            <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+            <el-button style="margin-left: 10px;margin-top: 105px" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过2M</div>
+          </el-upload>
+        </el-form-item>
+
+        <el-form-item label="支持在线" prop="isSupportlive">
+          <el-switch v-model="form.isSupportlive" ></el-switch>
         </el-form-item>
         <el-form-item label="是否开放" prop="isOpen">
           <el-switch v-model="form.isOpen" ></el-switch>
@@ -302,6 +413,19 @@
         </el-form-item>
         <el-form-item label="描述" prop="desc">
           <el-input v-model="form.desc" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+        <el-form-item label="状态" prop="status">
+          <el-select v-model="form.status"  >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="拒绝原因" prop="rejectReason">
+          <el-input v-model="form.rejectReason" placeholder="请输入拒绝原因" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -459,6 +583,8 @@ export default {
       },
       imgPreviewDialogVisible:false,
       dialogImageUrl:null,
+      approveTitle:null,
+      approveOpen:false,
     };
   },
   created() {
@@ -625,6 +751,27 @@ export default {
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
       this.imgPreviewDialogVisible = true;
+    },
+    //审批
+    handleApprovalUpdate(row){
+      this.reset();
+      const id = row.id || this.ids;
+      this.fileList = [];
+      getWxBuilding(id).then(response => {
+        this.form = response.data;
+        this.approveOpen = true;
+        this.imageUrl = this.form.chatGroupUrl;
+        var defaultPictureKeys = Object.keys(response.data.defaultPicture);
+        // alert(defaultPictureKeys.length == 0);//true 即为空对象
+        if(defaultPictureKeys.length > 0){
+          var array = response.data.defaultPicture.split(",");//逗号是分隔符
+          array.forEach((item) => {
+            let imgItem = {url: item} //单个图片
+            this.fileList.push(imgItem);
+          });
+        }
+        this.approveTitle = "球场审批";
+      });
     },
     /** 提交按钮 */
     submitForm() {
