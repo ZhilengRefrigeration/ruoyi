@@ -56,9 +56,28 @@
             <onMismatch>DENY</onMismatch>
         </filter>
     </appender>
-
+    <appender name="file_all" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/ruoyi-system.log</file>
+        <!-- 循环政策：基于时间创建日志文件 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 日志文件名格式 -->
+            <fileNamePattern>${log.path}/ruoyi-system.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志最大的历史 60天 -->
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- 过滤的级别 -->
+            <level>DEBUG</level>
+            <!-- 匹配时的操作：接收（记录） -->
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+    </appender>
     <!-- 系统模块日志级别控制  -->
-	<logger name="com.ruoyi" level="info" />
+	<logger name="com.ruoyi" level="debug" />
 	<!-- Spring日志级别控制  -->
 	<logger name="org.springframework" level="warn" />
 
@@ -70,5 +89,6 @@
     <root level="info">
         <appender-ref ref="file_info" />
         <appender-ref ref="file_error" />
+        <appender-ref ref="file_all" />
     </root>
 </configuration>
