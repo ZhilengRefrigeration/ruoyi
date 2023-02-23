@@ -595,7 +595,7 @@ export default {
     handleExport() {
       this.download('${moduleName}/${businessName}/export', {
         ...this.queryParams
-      }, `${businessName}_#[[${new Date().getTime()}]]#.xlsx`)
+      })
     }
   }
 };
