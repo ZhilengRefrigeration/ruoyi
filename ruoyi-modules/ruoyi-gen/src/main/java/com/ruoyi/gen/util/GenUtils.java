@@ -40,6 +40,10 @@ public class GenUtils
         column.setCreateBy(table.getCreateBy());
         // 设置java字段名
         column.setJavaField(StringUtils.toCamelCase(columnName));
+        // 如果字段全部是大写，说明字段配置成大写。要改成小写。例如:TITLE -> title
+        if(StringUtils.isAllUpperCase(column.getJavaField())) {
+        	column.setJavaField(column.getJavaField().toLowerCase());
+        }
         // 设置默认类型
         column.setJavaType(GenConstants.TYPE_STRING);
         column.setQueryType(GenConstants.QUERY_EQ);
