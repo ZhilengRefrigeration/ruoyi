@@ -77,6 +77,12 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-swagger</artifactId>
         </dependency>
+        
+        <dependency>
+		    <groupId>org.nutz</groupId>
+		    <artifactId>nutz</artifactId>
+		    <version>1.r.69.20210929</version>
+		</dependency>
 
     </dependencies>
 
