@@ -94,6 +94,13 @@
 	<logger name="io.lettuce" level="info" />
 	<logger name="druid.sql" level="info" />
 	<logger name="org.mybatis" level="info" />
+	<logger name="io.micrometer" level="info" />
+	<logger name="com.baomidou" level="info" />
+	<logger name="io.netty" level="info" />
+	<logger name="net.sf" level="info" />
+	<logger name="org.reflections" level="info" />
+	
+	
       <!-- Spring日志级别控制  -->
 	<logger name="com.ruoyi.system.mapper" level="debug" />
 

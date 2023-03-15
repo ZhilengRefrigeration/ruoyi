@@ -77,12 +77,35 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-swagger</artifactId>
         </dependency>
-        
+        <!-- nutz used nutmap-->
         <dependency>
 		    <groupId>org.nutz</groupId>
 		    <artifactId>nutz</artifactId>
 		    <version>1.r.69.20210929</version>
 		</dependency>
+		<!-- ehcache -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>net.sf.ehcache</groupId>
+		    <artifactId>ehcache</artifactId>
+		</dependency>
+		
+		<!-- test -->
+		 <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.vaadin.external.google</groupId>
+                    <artifactId>android-json</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>test</scope>
+          </dependency>
+
 
     </dependencies>
 

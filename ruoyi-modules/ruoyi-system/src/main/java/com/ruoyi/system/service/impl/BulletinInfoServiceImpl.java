@@ -3,6 +3,7 @@ package com.ruoyi.system.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.ruoyi.cache.service.IOrgCacheService;
 import com.ruoyi.common.core.utils.DateUtils;
 
 import org.apache.commons.lang3.StringUtils;
@@ -23,8 +24,7 @@ import com.ruoyi.system.mapper.BulletinInfoMapper;
 import com.ruoyi.system.mapper.BulletinReciveMapper;
 import com.ruoyi.system.domain.BulletinInfo;
 import com.ruoyi.system.service.IBulletinInfoService;
-
-import ecc.c3.util.IDUtil;
+import com.ruoyi.util.IDUtil;
 
 /**
  * 公告栏Service业务层处理
@@ -40,6 +40,8 @@ public class BulletinInfoServiceImpl implements IBulletinInfoService
     private BulletinInfoMapper bulletinInfoMapper;
     @Autowired
     private BulletinReciveMapper bulletinReciveMapper;
+    @Autowired
+    private IOrgCacheService orgCacheService;
 
     /**
      * 查询公告栏
@@ -52,9 +54,8 @@ public class BulletinInfoServiceImpl implements IBulletinInfoService
     {
     	List<BulletinRecive>  reciveUserIdAndbulletinId=bulletinReciveMapper.selectBulletinReciveUserIdByBulletinIds(new String[] {bulletinId});
     	BulletinInfo info= bulletinInfoMapper.selectBulletinInfoByBulletinId(bulletinId);
-    	//TODO  把员工换算成名称
-    	info.setCreateBy(info.getCreateUserId()+"");
-    	info.setUpdateBy(info.getUpdateUserId()+"");
+    	info.setCreateBy(orgCacheService.getSysUser(info.getCreateUserId()).map(sysUser->sysUser.getUserName()).orElse(""));
+    	info.setUpdateBy(orgCacheService.getSysUser(info.getUpdateUserId()).map(sysUser->sysUser.getUserName()).orElse(""));
     	List<Long> reciveUserIdList=reciveUserIdAndbulletinId.stream().map(userId->userId.getReciveUserId()).collect(Collectors.toList());
     	info.setReceiveStaffIds(reciveUserIdList);
     	info.setReciveStaffNames(StringUtils.join(reciveUserIdList.iterator(), ","));
@@ -78,13 +79,14 @@ public class BulletinInfoServiceImpl implements IBulletinInfoService
     		final NutMap reciveBulletinReciveMap=NutMap.NEW();
     		List<BulletinRecive>  reciveUserIdAndbulletinIdList=bulletinReciveMapper.selectBulletinReciveUserIdByBulletinIds(bulletinIds);
     		reciveUserIdAndbulletinIdList.forEach(reciveUserIdAndBulletinId->{
-    			//TODO 这里要把reciveUserId换算成用户名
-    			reciveUserNameMap.addv2(reciveUserIdAndBulletinId.getBulletinId(), reciveUserIdAndBulletinId.getReciveUserId()+"");
+    			String reciveUserName=orgCacheService.getSysUser(reciveUserIdAndBulletinId.getReciveUserId()).map(sysUser->sysUser.getUserName()).orElse("");
+    			reciveUserNameMap.addv2(reciveUserIdAndBulletinId.getBulletinId(), reciveUserName);
     			reciveBulletinReciveMap.addv2(reciveUserIdAndBulletinId.getBulletinId(), reciveUserIdAndBulletinId);
     		});
     		list.forEach(info->{
     			String reciveStaffNames=String.join(",", reciveUserNameMap.getList(info.getBulletinId(), String.class, Collections.emptyList()));
     			info.setReciveStaffNames(reciveStaffNames);
+    			info.setCreateBy(orgCacheService.getSysUser(info.getCreateUserId()).map(sysUser->sysUser.getUserName()).orElse(""));
     			info.setBulletinReciveList(reciveBulletinReciveMap.getList(info.getBulletinId(), BulletinRecive.class,Collections.emptyList()));
     		});
     	}

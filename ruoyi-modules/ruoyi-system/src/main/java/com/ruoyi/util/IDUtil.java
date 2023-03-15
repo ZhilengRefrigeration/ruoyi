@@ -1,4 +1,4 @@
-package ecc.c3.util;
+package com.ruoyi.util;
 
 import java.util.Random;
 

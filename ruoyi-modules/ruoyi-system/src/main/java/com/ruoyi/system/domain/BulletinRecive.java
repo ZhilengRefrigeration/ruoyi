@@ -23,6 +23,10 @@ public class BulletinRecive extends BaseEntity
     /** 接收员工ID */
     @Excel(name = "接收员工ID")
     private Long reciveUserId;
+    /**
+     * 接收部门ID
+     */
+    private Long reciveDeptId;
 
     /** 阅读时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -48,8 +52,16 @@ public class BulletinRecive extends BaseEntity
     /** A:已阅读，B:已删除 C:未阅读 */
     @Excel(name = "A:已阅读，B:已删除 C:未阅读")
     private String sts;
+    
+    
 
-    /**
+    public Long getReciveDeptId() {
+		return reciveDeptId;
+	}
+	public void setReciveDeptId(Long reciveDeptId) {
+		this.reciveDeptId = reciveDeptId;
+	}
+	/**
             *  设置 ReciveId
     * @param 接收ID
     */

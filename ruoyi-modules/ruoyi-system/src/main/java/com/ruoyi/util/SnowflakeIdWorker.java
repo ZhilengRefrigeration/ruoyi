@@ -1,4 +1,4 @@
-package ecc.c3.util;
+package com.ruoyi.util;
 
 /**
  * Twitter_Snowflake<br>

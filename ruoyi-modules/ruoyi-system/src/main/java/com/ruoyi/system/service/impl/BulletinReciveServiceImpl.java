@@ -3,6 +3,7 @@ package com.ruoyi.system.service.impl;
 import java.util.Collections;
 import java.util.List;
 
+import com.ruoyi.cache.service.IOrgCacheService;
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.common.security.utils.SecurityUtils;
 
@@ -30,6 +31,8 @@ public class BulletinReciveServiceImpl implements IBulletinReciveService
     private BulletinReciveMapper bulletinReciveMapper;
     @Autowired
     private BulletinInfoMapper bulletinInfoMapper;
+    @Autowired
+    private IOrgCacheService orgCacheService;
 
     @Transactional
     /**
@@ -67,6 +70,12 @@ public class BulletinReciveServiceImpl implements IBulletinReciveService
     	if(reciveList.isEmpty()) {
     		return Collections.emptyList();
     	}
+    	reciveList.forEach(recive->{
+    		orgCacheService.getSysUser(recive.getReciveUserId()).ifPresent(cacheSysUser->{
+    			recive.setCreateBy(cacheSysUser.getUserName());
+    			recive.setReciveDeptId(cacheSysUser.getDeptId());
+    		});
+    	});
     	NutMap map=NutMap.NEW();
     	String[] bulletinIds=new String[reciveList.size()];
     	for (int i = 0; i < bulletinIds.length; i++) {
