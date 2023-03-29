@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.ruoyi.cache.domain.CacheSysDept;
+import com.ruoyi.cache.service.IOrgCacheService;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.text.Convert;
@@ -34,6 +37,8 @@ public class SysDeptServiceImpl implements ISysDeptService
 
     @Autowired
     private SysRoleMapper roleMapper;
+    @Autowired
+    private IOrgCacheService orgCacheService;
 
     /**
      * 查询部门管理数据
@@ -218,7 +223,12 @@ public class SysDeptServiceImpl implements ISysDeptService
             throw new ServiceException("部门停用，不允许新增");
         }
         dept.setAncestors(info.getAncestors() + "," + dept.getParentId());
-        return deptMapper.insertDept(dept);
+        int updateCount= deptMapper.insertDept(dept);
+        if(updateCount>0) {
+        	CacheSysDept cacheDept=new CacheSysDept(dept);
+        	orgCacheService.saveDeptInfo(cacheDept);
+        }
+        return updateCount;
     }
 
     /**
@@ -245,6 +255,10 @@ public class SysDeptServiceImpl implements ISysDeptService
         {
             // 如果该部门是启用状态，则启用该部门的所有上级部门
             updateParentDeptStatusNormal(dept);
+        }
+        if(result>0) {
+        	CacheSysDept cacheDept=new CacheSysDept(dept);
+        	orgCacheService.saveDeptInfo(cacheDept);
         }
         return result;
     }

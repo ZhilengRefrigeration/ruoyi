@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BulletinInfoMapper">
+    
+    <resultMap type="BulletinInfo" id="BulletinInfoResult">
+        <result property="bulletinId"    column="BULLETIN_ID"    />
+        <result property="title"    column="TITLE"    />
+        <result property="content"    column="CONTENT"    />
+        <result property="createTime"    column="CREATE_TIME"    />
+        <result property="readNum"    column="READ_NUM"    />
+        <result property="sendTime"    column="SEND_TIME"    />
+        <result property="createUserId"    column="CREATE_USER_ID"    />
+        <result property="updateUserId"    column="UPDATE_USER_ID"    />
+        <result property="updateTime"    column="UPDATE_TIME"    />
+        <result property="remark"    column="REMARK"    />
+        <result property="sts"    column="STS"    />
+    </resultMap>
+
+    <resultMap id="BulletinInfoBulletinReciveResult" type="BulletinInfo" extends="BulletinInfoResult">
+        <collection property="bulletinReciveList" notNullColumn="sub_RECIVE_ID" javaType="java.util.List" resultMap="BulletinReciveResult" />
+    </resultMap>
+
+    <resultMap type="BulletinRecive" id="BulletinReciveResult">
+        <result property="reciveId"    column="sub_RECIVE_ID"    />
+        <result property="reciveUserId"    column="sub_RECIVE_USER_ID"    />
+        <result property="readTime"    column="sub_READ_TIME"    />
+        <result property="readNum"    column="sub_READ_NUM"    />
+        <result property="createTime"    column="sub_CREATE_TIME"    />
+        <result property="createUserId"    column="sub_CREATE_USER_ID"    />
+        <result property="updateUserId"    column="sub_UPDATE_USER_ID"    />
+        <result property="updateTime"    column="sub_UPDATE_TIME"    />
+        <result property="remark"    column="sub_REMARK"    />
+        <result property="bulletinId"    column="sub_BULLETIN_ID"    />
+        <result property="sts"    column="sub_STS"    />
+    </resultMap>
+
+    <sql id="selectBulletinInfoVo">
+        select BULLETIN_ID, TITLE, CONTENT, CREATE_TIME, READ_NUM, SEND_TIME, CREATE_USER_ID, UPDATE_USER_ID, UPDATE_TIME, REMARK, STS from t_bulletin_info
+    </sql>
+
+    <select id="selectBulletinInfoList" parameterType="BulletinInfo" resultMap="BulletinInfoResult">
+        <include refid="selectBulletinInfoVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and TITLE like concat('%', #{title}, '%')</if>
+            <if test="createUserId != null  and createUserId != ''"> and CREATE_USER_ID = #{createUserId}</if>
+            <if test="sts != null  and sts != ''"> and STS = #{sts}</if>
+        </where>
+        order by UPDATE_TIME desc
+    </select>
+    
+    <select id="selectBulletinInfoListbyBulletinIds"  resultMap="BulletinInfoResult">
+        <include refid="selectBulletinInfoVo"/> where BULLETIN_ID in
+        <foreach item="bulletinId" collection="array" open="(" separator="," close=")">
+            #{bulletinId}
+        </foreach>
+    </select>
+    
+    
+    
+    <select id="selectBulletinInfoByBulletinId" parameterType="Long" resultMap="BulletinInfoBulletinReciveResult">
+        select a.BULLETIN_ID, a.TITLE, a.CONTENT, a.CREATE_TIME, a.READ_NUM, a.SEND_TIME, a.CREATE_USER_ID, a.UPDATE_USER_ID, a.UPDATE_TIME, a.REMARK, a.STS,
+ b.RECIVE_ID as sub_RECIVE_ID, b.RECIVE_USER_ID as sub_RECIVE_USER_ID, b.READ_TIME as sub_READ_TIME, b.READ_NUM as sub_READ_NUM, b.CREATE_TIME as sub_CREATE_TIME, b.CREATE_USER_ID as sub_CREATE_USER_ID, b.UPDATE_USER_ID as sub_UPDATE_USER_ID, b.UPDATE_TIME as sub_UPDATE_TIME, b.REMARK as sub_REMARK, b.BULLETIN_ID as sub_BULLETIN_ID, b.STS as sub_STS
+        from t_bulletin_info a
+        left join t_bulletin_recive b on b.BULLETIN_ID = a.BULLETIN_ID
+        where a.BULLETIN_ID = #{bulletinId}
+    </select>
+        
+    <insert id="insertBulletinInfo" parameterType="BulletinInfo">
+        insert into t_bulletin_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="bulletinId != null">BULLETIN_ID,</if>
+            <if test="title != null and title != ''">TITLE,</if>
+            <if test="content != null and content != ''">CONTENT,</if>
+            <if test="createTime != null">CREATE_TIME,</if>
+            <if test="readNum != null">READ_NUM,</if>
+            <if test="sendTime != null">SEND_TIME,</if>
+            <if test="createUserId != null and createUserId != ''">CREATE_USER_ID,</if>
+            <if test="updateUserId != null">UPDATE_USER_ID,</if>
+            <if test="updateTime != null">UPDATE_TIME,</if>
+            <if test="remark != null">REMARK,</if>
+            <if test="sts != null and sts != ''">STS,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="bulletinId != null">#{bulletinId},</if>
+            <if test="title != null and title != ''">#{title},</if>
+            <if test="content != null and content != ''">#{content},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="readNum != null">#{readNum},</if>
+            <if test="sendTime != null">#{sendTime},</if>
+            <if test="createUserId != null and createUserId != ''">#{createUserId},</if>
+            <if test="updateUserId != null">#{updateUserId},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="sts != null and sts != ''">#{sts},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBulletinInfo" parameterType="BulletinInfo">
+        update t_bulletin_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null and title != ''">TITLE = #{title},</if>
+            <if test="content != null and content != ''">CONTENT = #{content},</if>
+            <if test="createTime != null">CREATE_TIME = #{createTime},</if>
+            <if test="readNum != null">READ_NUM = #{readNum},</if>
+            <if test="sendTime != null">SEND_TIME = #{sendTime},</if>
+            <if test="createUserId != null and createUserId != ''">CREATE_USER_ID = #{createUserId},</if>
+            <if test="updateUserId != null">UPDATE_USER_ID = #{updateUserId},</if>
+            <if test="updateTime != null">UPDATE_TIME = #{updateTime},</if>
+            <if test="remark != null">REMARK = #{remark},</if>
+            <if test="sts != null and sts != ''">STS = #{sts},</if>
+        </trim>
+        where BULLETIN_ID = #{bulletinId}
+    </update>
+
+    <delete id="deleteBulletinInfoByBulletinId" parameterType="String">
+        delete from t_bulletin_info where BULLETIN_ID = #{bulletinId}
+    </delete>
+
+    <delete id="deleteBulletinInfoByBulletinIds" parameterType="String">
+        delete from t_bulletin_info where BULLETIN_ID in 
+        <foreach item="bulletinId" collection="array" open="(" separator="," close=")">
+            #{bulletinId}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteBulletinReciveByBulletinIds" parameterType="String">
+        delete from t_bulletin_recive where BULLETIN_ID in 
+        <foreach item="bulletinId" collection="array" open="(" separator="," close=")">
+            #{bulletinId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteBulletinReciveByBulletinId" parameterType="String">
+        delete from t_bulletin_recive where BULLETIN_ID = #{bulletinId}
+    </delete>
+
+    <insert id="batchBulletinRecive">
+        insert into t_bulletin_recive( RECIVE_ID, RECIVE_USER_ID, READ_TIME, READ_NUM, CREATE_TIME, CREATE_USER_ID, UPDATE_USER_ID, UPDATE_TIME, REMARK, BULLETIN_ID, STS) values
+		<foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.reciveId}, #{item.reciveUserId}, #{item.readTime}, #{item.readNum}, #{item.createTime}, #{item.createUserId}, #{item.updateUserId}, #{item.updateTime}, #{item.remark}, #{item.bulletinId}, #{item.sts})
+        </foreach>
+    </insert>
+</mapper>
