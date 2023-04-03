@@ -227,6 +227,24 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>Dev</id>
+            <properties>
+                <nacos.address>127.0.0.1:8848</nacos.address>
+            </properties>
+        </profile>
+        <profile>
+            <id>DockerCompose</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <nacos.address>http://ruoyi-nacos:8848</nacos.address>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
@@ -238,7 +256,34 @@
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
+            <!--解决bootstrap.yml中无法使用@@取值-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <delimiters>
+                        <delimiter>@</delimiter>
+                    </delimiters>
+                    <useDefaultDelimiters>false</useDefaultDelimiters>
+                </configuration>
+            </plugin>
         </plugins>
+        <!--解决bootstrap.yml中无法使用@@取值-->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
+
         <pluginManagement>
             <plugins>
                 <plugin>

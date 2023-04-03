@@ -2,7 +2,7 @@ version : '3.8'
 services:
   ruoyi-nacos:
     container_name: ruoyi-nacos
-    image: nacos/nacos-server
+    image: ruoyi-nacos
     build:
       context: ./nacos
     environment:
@@ -18,7 +18,7 @@ services:
       - ruoyi-mysql
   ruoyi-mysql:
     container_name: ruoyi-mysql
-    image: mysql:5.7
+    image: ruoyi-mysql
     build:
       context: ./mysql
     ports:
@@ -37,10 +37,10 @@ services:
         ]
     environment:
       MYSQL_DATABASE: 'ry-cloud'
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root
   ruoyi-redis:
     container_name: ruoyi-redis
-    image: redis
+    image: ruoyi-redis
     build:
       context: ./redis
     ports:
@@ -51,7 +51,7 @@ services:
     command: redis-server /home/ruoyi/redis/redis.conf
   ruoyi-nginx:
     container_name: ruoyi-nginx
-    image: nginx
+    image: ruoyi-nginx
     build:
       context: ./nginx
     ports:
@@ -67,74 +67,103 @@ services:
       - ruoyi-gateway
   ruoyi-gateway:
     container_name: ruoyi-gateway
+    image: ruoyi-gateway
     build:
       context: ./ruoyi/gateway
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     depends_on:
       - ruoyi-redis
+      - ruoyi-nacos
     links:
       - ruoyi-redis
+      - ruoyi-nacos
   ruoyi-auth:
     container_name: ruoyi-auth
+    image: ruoyi-auth
     build:
       context: ./ruoyi/auth
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     ports:
       - "9200:9200"
     depends_on:
       - ruoyi-redis
+      - ruoyi-nacos
     links:
       - ruoyi-redis
+      - ruoyi-nacos
   ruoyi-modules-system:
     container_name: ruoyi-modules-system
+    image: ruoyi-modules-system
     build:
       context: ./ruoyi/modules/system
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     ports:
       - "9201:9201"
     depends_on:
       - ruoyi-redis
       - ruoyi-mysql
+      - ruoyi-nacos
     links:
       - ruoyi-redis
       - ruoyi-mysql
+      - ruoyi-nacos
   ruoyi-modules-gen:
     container_name: ruoyi-modules-gen
+    image: ruoyi-modules-gen
     build:
       context: ./ruoyi/modules/gen
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     ports:
       - "9202:9202"
     depends_on:
       - ruoyi-mysql
+      - ruoyi-nacos
     links:
       - ruoyi-mysql
+      - ruoyi-nacos
   ruoyi-modules-job:
     container_name: ruoyi-modules-job
+    image: ruoyi-modules-job
     build:
       context: ./ruoyi/modules/job
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     ports:
       - "9203:9203"
     depends_on:
       - ruoyi-mysql
+      - ruoyi-nacos
     links:
       - ruoyi-mysql
+      - ruoyi-nacos
   ruoyi-modules-file:
     container_name: ruoyi-modules-file
+    image: ruoyi-modules-file
     build:
       context: ./ruoyi/modules/file
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     ports:
       - "9300:9300"
+    depends_on:
+      - ruoyi-mysql
+      - ruoyi-nacos
+    links:
+      - ruoyi-mysql
+      - ruoyi-nacos
     volumes:
     - ./ruoyi/uploadPath:/home/ruoyi/uploadPath
   ruoyi-visual-monitor:
     container_name: ruoyi-visual-monitor
+    image: ruoyi-visual-monitor
     build:
       context: ./ruoyi/visual/monitor
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     ports:
       - "9100:9100"
+    depends_on:
+      - ruoyi-mysql
+      - ruoyi-nacos
+    links:
+      - ruoyi-mysql
+      - ruoyi-nacos
