@@ -510,6 +510,7 @@ public class SysUserServiceImpl implements ISysUserService
                     BeanValidators.validateWithException(validator, user);
                     checkUserAllowed(user);
                     checkUserDataScope(user.getUserId());
+                    user.setUserId(u.getUserId());
                     user.setUpdateBy(operName);
                     this.updateUser(user);
                     successNum++;
