@@ -383,12 +383,12 @@ export default {
     handleTeamAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
       let imgUrl = res.data[0];
-      this.form.defaultPicture = "https://adu.shjmall.cn/liguanghui/image/"+imgUrl;
+      this.form.defaultPicture = "https://mall.lzsport.cn/image/"+imgUrl;
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
       let imgUrl = res.data[0];
-      this.form.teamLogo = "https://adu.shjmall.cn/liguanghui/image/"+imgUrl;
+      this.form.teamLogo = "https://mall.lzsport.cn/image/"+imgUrl;
     },
     beforeAvatarUpload(file) {
       console.info(file.type)

@@ -716,39 +716,39 @@ export default {
     return {
       spreadImgurl:null,
       spreadPage:"pages/competition/competitiondetail/competitiondetail",
-      spreadAdImg:"https://adu.shjmall.cn/liguanghui/image/wxIcon/spreadTempImg/timg0.jpg",
+      spreadAdImg:"https://mall.lzsport.cn/image/wxIcon/spreadTempImg/timg0.jpg",
       autoSpreadCardImgs: [
         {
           id: '0',
-          img: 'https://adu.shjmall.cn/liguanghui/image/wxIcon/spreadTempImg/timg0.jpg'
+          img: 'https://mall.lzsport.cn/image/wxIcon/spreadTempImg/timg0.jpg'
         },
         {
           id: '1',
-          img: 'https://adu.shjmall.cn/liguanghui/image/wxIcon/spreadTempImg/timg1.jpg'
+          img: 'https://mall.lzsport.cn/image/wxIcon/spreadTempImg/timg1.jpg'
         }, {
           id: '2',
-          img: 'https://adu.shjmall.cn/liguanghui/image/wxIcon/spreadTempImg/timg2.jpg'
+          img: 'https://mall.lzsport.cn/image/wxIcon/spreadTempImg/timg2.jpg'
         }, {
           id: '3',
-          img: 'https://adu.shjmall.cn/liguanghui/image/wxIcon/spreadTempImg/timg3.jpg'
+          img: 'https://mall.lzsport.cn/image/wxIcon/spreadTempImg/timg3.jpg'
         }, {
           id: '4',
-          img: 'https://adu.shjmall.cn/liguanghui/image/wxIcon/spreadTempImg/timg4.jpg'
+          img: 'https://mall.lzsport.cn/image/wxIcon/spreadTempImg/timg4.jpg'
         }, {
           id: '5',
-          img: 'https://adu.shjmall.cn/liguanghui/image/wxIcon/spreadTempImg/timg5.jpg'
+          img: 'https://mall.lzsport.cn/image/wxIcon/spreadTempImg/timg5.jpg'
         }, {
           id: '6',
-          img: 'https://adu.shjmall.cn/liguanghui/image/wxIcon/spreadTempImg/timg6.png'
+          img: 'https://mall.lzsport.cn/image/wxIcon/spreadTempImg/timg6.png'
         }, {
           id: '7',
-          img: 'https://adu.shjmall.cn/liguanghui/image/wxIcon/spreadTempImg/timg7.png'
+          img: 'https://mall.lzsport.cn/image/wxIcon/spreadTempImg/timg7.png'
         }, {
           id: '8',
-          img: 'https://adu.shjmall.cn/liguanghui/image/wxIcon/spreadTempImg/timg8.png'
+          img: 'https://mall.lzsport.cn/image/wxIcon/spreadTempImg/timg8.png'
         }, {
           id: '9',
-          img: 'https://adu.shjmall.cn/liguanghui/image/wxIcon/spreadTempImg/timg9.png'
+          img: 'https://mall.lzsport.cn/image/wxIcon/spreadTempImg/timg9.png'
         }
       ],
       mindVisible:false,

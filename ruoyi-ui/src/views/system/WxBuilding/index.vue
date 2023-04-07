@@ -739,7 +739,7 @@ export default {
       batchUploadFiles(formData,action).then(response => {
         console.info(response)
         response.data.forEach((item) => {
-          let imgItem = {url: "https://adu.shjmall.cn/liguanghui/image/"+item} //单个图片
+          let imgItem = {url: "https://mall.lzsport.cn/image/"+item} //单个图片
           this.fileList.push(imgItem);
         });
         this.$modal.msgSuccess("文件上传到服务器成功");
@@ -812,7 +812,7 @@ export default {
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
       let imgUrl = res.data[0];
-      this.form.chatGroupUrl = "https://adu.shjmall.cn/liguanghui/image/"+imgUrl;
+      this.form.chatGroupUrl = "https://mall.lzsport.cn/image/"+imgUrl;
     },
     beforeAvatarUpload(file) {
       console.info(file.type)
