@@ -13,7 +13,7 @@ spring:
 
 image:
   #图片域名
-  domainName: "https://mall.lzsport.cn/file/"
+  domainName: "https://mall.lzsport.cn/image/"
   location:
     linux: /bt/pic/
     windows: D://test//
