@@ -81,7 +81,7 @@ public class WxBuildingInfo extends BaseEntity
 
     /** 是否支持在线 */
     @Excel(name = "支持在线")
-    private Integer isSupportlive;
+    private String isSupportlive;
 
     /** 球馆状态 */
     @Excel(name = "球馆状态")
@@ -246,12 +246,12 @@ public class WxBuildingInfo extends BaseEntity
     {
         return defaultPicture;
     }
-    public void setIsSupportlive(Integer isSupportlive)
+    public void setIsSupportlive(String isSupportlive)
     {
         this.isSupportlive = isSupportlive;
     }
 
-    public Integer getIsSupportlive()
+    public String getIsSupportlive()
     {
         return isSupportlive;
     }
