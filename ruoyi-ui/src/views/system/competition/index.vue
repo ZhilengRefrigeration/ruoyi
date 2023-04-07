@@ -293,7 +293,7 @@
           <el-upload
             multiple
             class="avatar-uploader"
-            action="https://adu.shjmall.cn/liguanghui/file/uploadMore"
+            action="https://mall.lzsport.cn/lqwx/file/uploadMore"
             :show-file-list="false"
             name="files"
             :on-success="handleAvatarSuccess"

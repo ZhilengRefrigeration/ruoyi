@@ -159,7 +159,7 @@
         <el-form-item label="球队图片" prop="defaultPicture">
           <el-upload
             class="avatar-uploader"
-            action="https://adu.shjmall.cn/liguanghui/file/uploadMore"
+            action="https://mall.lzsport.cn/lqwx/file/uploadMore"
             :show-file-list="false"
             name="files"
             :on-success="handleTeamAvatarSuccess"
@@ -177,7 +177,7 @@
         <el-form-item label="球队logo" prop="teamLogo">
           <el-upload
             class="avatar-uploader"
-            action="https://adu.shjmall.cn/liguanghui/file/uploadMore"
+            action="https://mall.lzsport.cn/lqwx/file/uploadMore"
             :show-file-list="false"
             name="files"
             :on-success="handleAvatarSuccess"

@@ -291,7 +291,7 @@
         <el-form-item label="管理员二维码" prop="chatGroupUrl">
           <el-upload
             class="avatar-uploader"
-            action="https://adu.shjmall.cn/liguanghui/file/uploadMore"
+            action="https://mall.lzsport.cn/lqwx/file/uploadMore"
             :show-file-list="false"
             name="files"
             :on-success="handleAvatarSuccess"
@@ -402,7 +402,7 @@
         <el-form-item label="管理员二维码" prop="chatGroupUrl">
           <el-upload
             class="avatar-uploader"
-            action="https://adu.shjmall.cn/liguanghui/file/uploadMore"
+            action="https://mall.lzsport.cn/lqwx/file/uploadMore"
             :show-file-list="false"
             name="files"
             :on-success="handleAvatarSuccess"
@@ -518,7 +518,7 @@ export default {
         }
       ],
       imageUrl:null,
-      uploadUrl : "https://adu.shjmall.cn/liguanghui/file/uploadMoreFiles",
+      uploadUrl : "https://mall.lzsport.cn/lqwx/file/uploadMoreFiles",
       fileList:[],
       booleanOptions:[{
         value: true,
