@@ -39,7 +39,7 @@
       <el-form-item label="支持在线" prop="isSupportlive">
         <el-select v-model="queryParams.isSupportlive">
           <el-option
-            v-for="item in booleanOptions"
+            v-for="item in isLiveOptions"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -145,7 +145,7 @@
         <template slot-scope="scope">
           <el-switch
             disabled
-            v-model="scope.row.isSupportlive"
+            v-model="scope.row.isSupportlive==1?true:false"
           ></el-switch>
         </template>
       </el-table-column>
@@ -527,6 +527,13 @@ export default {
         value: false,
         label: '否'
       }],
+      isLiveOptions:[{
+        value: "1",
+        label: '是'
+      },{
+        value: "0",
+        label: '否'
+      }],
       options: [{
         value: 1,
         label: '待审核'
@@ -783,6 +790,7 @@ export default {
             imgs.push(item.url);
           });
           this.form.defaultPicture = imgs.join(',')
+          this.form.isSupportlive = this.form.isSupportlive?1:0;
           if (this.form.id != null) {
             updateWxBuilding(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
