@@ -186,7 +186,7 @@ Router.prototype.push = function push(location) {
 
 export default new Router({
   mode: 'history', // 去掉url中的#
-  base: "/prod/",
+  base: process.env.ENV_NG,
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })
