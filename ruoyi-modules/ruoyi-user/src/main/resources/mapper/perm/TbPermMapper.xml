@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bwie.user.mapper.TbPermMapper">
+    
+    <resultMap type="com.bwie.user.domain.TbPerm" id="TbPermResult">
+        <result property="permId"    column="perm_id"    />
+        <result property="permName"    column="perm_name"    />
+        <result property="permCode"    column="perm_code"    />
+        <result property="deleted"    column="deleted"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTbPermVo">
+        select perm_id, perm_name, perm_code, deleted, create_time, update_time from tb_perm
+    </sql>
+
+    <select id="selectTbPermList" parameterType="com.bwie.user.domain.TbPerm" resultMap="TbPermResult">
+        <include refid="selectTbPermVo"/>
+        <where>  
+            <if test="permName != null  and permName != ''"> and perm_name like concat('%', #{permName}, '%')</if>
+            <if test="permCode != null  and permCode != ''"> and perm_code = #{permCode}</if>
+            <if test="deleted != null "> and deleted = #{deleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectTbPermByPermId" parameterType="Long" resultMap="TbPermResult">
+        <include refid="selectTbPermVo"/>
+        where perm_id = #{permId}
+    </select>
+        
+    <insert id="insertTbPerm" parameterType="com.bwie.user.domain.TbPerm" useGeneratedKeys="true" keyProperty="permId">
+        insert into tb_perm
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="permName != null and permName != ''">perm_name,</if>
+            <if test="permCode != null and permCode != ''">perm_code,</if>
+            <if test="deleted != null">deleted,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="permName != null and permName != ''">#{permName},</if>
+            <if test="permCode != null and permCode != ''">#{permCode},</if>
+            <if test="deleted != null">#{deleted},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTbPerm" parameterType="com.bwie.user.domain.TbPerm">
+        update tb_perm
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="permName != null and permName != ''">perm_name = #{permName},</if>
+            <if test="permCode != null and permCode != ''">perm_code = #{permCode},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where perm_id = #{permId}
+    </update>
+
+    <delete id="deleteTbPermByPermId" parameterType="Long">
+        delete from tb_perm where perm_id = #{permId}
+    </delete>
+
+    <delete id="deleteTbPermByPermIds" parameterType="String">
+        delete from tb_perm where perm_id in 
+        <foreach item="permId" collection="array" open="(" separator="," close=")">
+            #{permId}
+        </foreach>
+    </delete>
+</mapper>

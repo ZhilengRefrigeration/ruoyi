@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.invest.mapper.TbFirmMapper">
+
+    <resultMap type="com.ruoyi.invest.domain.TbFirm" id="TbFirmResult">
+        <result property="firmId"    column="firm_id"    />
+        <result property="firmName"    column="firm_name"    />
+        <result property="firmPic"    column="firm_pic"    />
+        <result property="firmMarket"    column="firm_market"    />
+        <result property="firmDesc"    column="firm_desc"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectTbFirmVo">
+        select firm_id, firm_name, firm_pic, firm_market, firm_desc, del_flag, create_time, create_by, update_time, update_by from tb_firm
+    </sql>
+
+    <select id="selectTbFirmList" parameterType="com.ruoyi.invest.domain.TbFirm" resultMap="TbFirmResult">
+        <include refid="selectTbFirmVo"/>
+        <where>
+            <if test="firmName != null  and firmName != ''"> and firm_name like concat('%', #{firmName}, '%')</if>
+            <if test="firmPic != null  and firmPic != ''"> and firm_pic = #{firmPic}</if>
+            <if test="firmMarket != null "> and firm_market = #{firmMarket}</if>
+            <if test="firmDesc != null  and firmDesc != ''"> and firm_desc = #{firmDesc}</if>
+        </where>
+    </select>
+
+    <select id="selectTbFirmByFirmId" parameterType="Long" resultMap="TbFirmResult">
+        <include refid="selectTbFirmVo"/>
+        where firm_id = #{firmId}
+    </select>
+
+    <insert id="insertTbFirm" parameterType="com.ruoyi.invest.domain.TbFirm">
+        insert into tb_firm
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="firmId != null">firm_id,</if>
+            <if test="firmName != null">firm_name,</if>
+            <if test="firmPic != null">firm_pic,</if>
+            <if test="firmMarket != null">firm_market,</if>
+            <if test="firmDesc != null">firm_desc,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="firmId != null">#{firmId},</if>
+            <if test="firmName != null">#{firmName},</if>
+            <if test="firmPic != null">#{firmPic},</if>
+            <if test="firmMarket != null">#{firmMarket},</if>
+            <if test="firmDesc != null">#{firmDesc},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTbFirm" parameterType="com.ruoyi.invest.domain.TbFirm">
+        update tb_firm
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="firmName != null">firm_name = #{firmName},</if>
+            <if test="firmPic != null">firm_pic = #{firmPic},</if>
+            <if test="firmMarket != null">firm_market = #{firmMarket},</if>
+            <if test="firmDesc != null">firm_desc = #{firmDesc},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+        </trim>
+        where firm_id = #{firmId}
+    </update>
+
+    <delete id="deleteTbFirmByFirmId" parameterType="Long">
+        delete from tb_firm where firm_id = #{firmId}
+    </delete>
+
+    <delete id="deleteTbFirmByFirmIds" parameterType="String">
+        delete from tb_firm where firm_id in
+        <foreach item="firmId" collection="array" open="(" separator="," close=")">
+            #{firmId}
+        </foreach>
+    </delete>
+</mapper>
