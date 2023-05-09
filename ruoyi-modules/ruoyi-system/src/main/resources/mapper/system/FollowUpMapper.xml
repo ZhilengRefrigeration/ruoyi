@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.FollowUpMapper">
+    
+    <resultMap type="FollowUp" id="FollowUpResult">
+        <result property="id"    column="id"    />
+        <result property="customerId"    column="customer_id"    />
+        <result property="followUpDate"    column="follow_up_date"    />
+        <result property="followUpRecord"    column="follow_up_record"    />
+        <result property="preToStoreDate"    column="pre_to_store_date"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="followLevel"    column="follow_level"    />
+    </resultMap>
+
+    <sql id="selectFollowUpVo">
+        select id, customer_id, follow_up_date, follow_up_record, pre_to_store_date, create_by, create_time, update_by, update_time, remark, follow_level from f_follow_up
+    </sql>
+
+    <select id="selectFollowUpList" parameterType="FollowUp" resultMap="FollowUpResult">
+        <include refid="selectFollowUpVo"/>
+        <where>  
+            <if test="customerId != null  and customerId != ''"> and customer_id = #{customerId}</if>
+            <if test="followUpDate != null "> and follow_up_date = #{followUpDate}</if>
+            <if test="followUpRecord != null  and followUpRecord != ''"> and follow_up_record = #{followUpRecord}</if>
+            <if test="preToStoreDate != null "> and pre_to_store_date = #{preToStoreDate}</if>
+            <if test="followLevel != null  and followLevel != ''"> and follow_level = #{followLevel}</if>
+        </where>
+    </select>
+    
+    <select id="selectFollowUpById" parameterType="Integer" resultMap="FollowUpResult">
+        <include refid="selectFollowUpVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFollowUp" parameterType="FollowUp" useGeneratedKeys="true" keyProperty="id">
+        insert into f_follow_up
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">customer_id,</if>
+            <if test="followUpDate != null">follow_up_date,</if>
+            <if test="followUpRecord != null">follow_up_record,</if>
+            <if test="preToStoreDate != null">pre_to_store_date,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="followLevel != null">follow_level,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">#{customerId},</if>
+            <if test="followUpDate != null">#{followUpDate},</if>
+            <if test="followUpRecord != null">#{followUpRecord},</if>
+            <if test="preToStoreDate != null">#{preToStoreDate},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="followLevel != null">#{followLevel},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFollowUp" parameterType="FollowUp">
+        update f_follow_up
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="followUpDate != null">follow_up_date = #{followUpDate},</if>
+            <if test="followUpRecord != null">follow_up_record = #{followUpRecord},</if>
+            <if test="preToStoreDate != null">pre_to_store_date = #{preToStoreDate},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="followLevel != null">follow_level = #{followLevel},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFollowUpById" parameterType="Integer">
+        delete from f_follow_up where id = #{id}
+    </delete>
+
+    <delete id="deleteFollowUpByIds" parameterType="String">
+        delete from f_follow_up where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

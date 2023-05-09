@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CustomerMapper">
+    
+    <resultMap type="Customer" id="CustomerResult">
+        <result property="id"    column="id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="nickName"    column="nick_name"    />
+        <result property="userType"    column="user_type"    />
+        <result property="email"    column="email"    />
+        <result property="phoneNumber"    column="phonenumber"    />
+        <result property="sex"    column="sex"    />
+        <result property="avatar"    column="avatar"    />
+        <result property="clueChannel"    column="clue_channel"    />
+        <result property="dataSource"    column="data_source"    />
+        <result property="liveAddress"    column="live_address"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="loginIp"    column="login_ip"    />
+        <result property="loginDate"    column="login_date"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="wechat"    column="wechat"    />
+        <result property="buyCarType"    column="buy_car_type"    />
+        <result property="existModels"    column="exist_models"    />
+        <result property="isAssessment"    column="is_assessment"    />
+        <result property="intentionCarModels"    column="intention_car_models"    />
+        <result property="contrastCarModels"    column="contrast_car_models"    />
+        <result property="isTestDrive"    column="is_test_drive"    />
+        <result property="isOffer"    column="is_offer"    />
+        <result property="isFinance"    column="is_finance"    />
+        <result property="unBookingCarReason"    column="un_booking_car_reason"    />
+        <result property="preToStoreDate"    column="pre_to_store_date"    />
+        <result property="lastToStoreDate"    column="last_to_store_date"    />
+        <result property="storeName"    column="store_name"    />
+        <result property="orderDate"    column="order_date"    />
+    </resultMap>
+
+    <resultMap id="CustomerFollowUpResult" type="Customer" extends="CustomerResult">
+        <collection property="followUpList" notNullColumn="sub_id" javaType="java.util.List" resultMap="FollowUpResult" />
+    </resultMap>
+
+    <resultMap type="FollowUp" id="FollowUpResult">
+        <result property="id"    column="sub_id"    />
+        <result property="customerId"    column="sub_customer_id"    />
+        <result property="followUpDate"    column="sub_follow_up_date"    />
+        <result property="followUpRecord"    column="sub_follow_up_record"    />
+        <result property="preToStoreDate"    column="sub_pre_to_store_date"    />
+        <result property="createBy"    column="sub_create_by"    />
+        <result property="createTime"    column="sub_create_time"    />
+        <result property="updateBy"    column="sub_update_by"    />
+        <result property="updateTime"    column="sub_update_time"    />
+        <result property="remark"    column="sub_remark"    />
+        <result property="followLevel"    column="sub_follow_level"    />
+    </resultMap>
+
+    <sql id="selectCustomerVo">
+        select id, user_name, nick_name, user_type, email, phonenumber, sex, avatar, clue_channel, data_source, live_address, status, del_flag, login_ip, login_date, create_by, create_time, update_by, update_time, remark, wechat, buy_car_type, exist_models, is_assessment, intention_car_models, contrast_car_models, is_test_drive, is_offer, is_finance, un_booking_car_reason, pre_to_store_date, last_to_store_date, store_name, order_date from f_customer
+    </sql>
+
+    <select id="selectCustomerList" resultType="com.ruoyi.system.domain.vo.CustomerVo">
+        SELECT t.*,f.follow_up_date as followUpLastDate,f.follow_level as followUpLastLevel,
+        (CASE f.follow_level
+            WHEN 'H' THEN
+            date_add(f.follow_up_date,interval 1 day)
+            WHEN 'A' THEN
+            date_add(f.follow_up_date,interval 3 day)
+            WHEN 'B' THEN
+            date_add(f.follow_up_date,interval 7 day)
+            WHEN 'C' THEN
+            date_add(f.follow_up_date,interval 13 day)
+            ELSE
+              IF(ISNULL(f.follow_level),f.follow_level,'暂不回访')
+            END
+        ) as followUpOverdueDate,
+        (case f.follow_level
+            WHEN 'H' THEN '24小时内回访'
+            WHEN 'A' THEN
+            date_add(f.follow_up_date,interval 3 day)
+            WHEN 'B' THEN
+            date_add(f.follow_up_date,interval 5 day)
+            WHEN 'C' THEN
+            date_add(f.follow_up_date,interval 7 day)
+            when '成交' then  '成交'
+            when '战败' then  '战败'
+            when '休眠' then  '休眠'
+            when '订车' then  '订车'
+            ELSE ''
+            end
+        ) as  proposalNextFollowDate,f1.followUpTimes FROM f_customer t
+        LEFT JOIN (
+        SELECT a.* FROM f_follow_up AS a
+        LEFT JOIN (
+        SELECT MAX(create_time) AS create_time, customer_id FROM f_follow_up GROUP BY customer_id
+        ) AS b ON a.customer_id = b.customer_id where a.create_time = b.create_time
+        ) f on f.customer_id = t.id
+        LEFT JOIN (SELECT customer_id,COUNT(id) as followUpTimes FROM f_follow_up GROUP BY customer_id) f1 on f1.customer_id = t.id
+        <where>  
+            <if test="userName != null  and userName != ''"> and t.user_name like concat('%', #{userName}, '%')</if>
+            <if test="nickName != null  and nickName != ''"> and t.nick_name like concat('%', #{nickName}, '%')</if>
+            <if test="userType != null  and userType != ''"> and t.user_type = #{userType}</if>
+            <if test="email != null  and email != ''"> and t.email = #{email}</if>
+            <if test="phoneNumber != null  and phoneNumber != ''"> and t.phonenumber = #{phoneNumber}</if>
+            <if test="sex != null  and sex != ''"> and t.sex = #{sex}</if>
+            <if test="avatar != null  and avatar != ''"> and t.avatar = #{avatar}</if>
+            <if test="clueChannel != null  and clueChannel != ''"> and t.clue_channel = #{clueChannel}</if>
+            <if test="dataSource != null  and dataSource != ''"> and t.data_source = #{dataSource}</if>
+            <if test="liveAddress != null  and liveAddress != ''"> and t.live_address = #{liveAddress}</if>
+            <if test="status != null  and status != ''"> and t.status = #{status}</if>
+            <if test="loginDate != null "> and t.login_date = #{loginDate}</if>
+            <if test="wechat != null  and wechat != ''"> and t.wechat = #{wechat}</if>
+            <if test="buyCarType != null  and buyCarType != ''"> and t.buy_car_type = #{buyCarType}</if>
+            <if test="existModels != null  and existModels != ''"> and t.exist_models = #{existModels}</if>
+            <if test="isAssessment != null "> and t.is_assessment = #{isAssessment}</if>
+            <if test="intentionCarModels != null  and intentionCarModels != ''"> and t.intention_car_models = #{intentionCarModels}</if>
+            <if test="contrastCarModels != null  and contrastCarModels != ''"> and t.contrast_car_models = #{contrastCarModels}</if>
+            <if test="isTestDrive != null "> and t.is_test_drive = #{isTestDrive}</if>
+            <if test="isOffer != null "> and t.is_offer = #{isOffer}</if>
+            <if test="isFinance != null "> and t.is_finance = #{isFinance}</if>
+            <if test="unBookingCarReason != null  and unBookingCarReason != ''"> and t.un_booking_car_reason = #{unBookingCarReason}</if>
+            <if test="preToStoreDate != null "> and t.pre_to_store_date = #{preToStoreDate}</if>
+            <if test="lastToStoreDate != null "> and t.last_to_store_date = #{lastToStoreDate}</if>
+            <if test="storeName != null  and storeName != ''"> and t.store_name like concat('%', #{storeName}, '%')</if>
+            <if test="orderDate != null "> and t.order_date = #{orderDate}</if>
+            <if test="followUpLastDate != null "> and f.follow_up_date = #{followUpLastDate}</if>
+            <if test="followUpLastLevel != null "> and f.follow_level = #{followUpLastLevel}</if>
+            <if test="proposalNextFollowDate != null "> and f.pre_to_store_date = #{proposalNextFollowDate}</if>
+
+        </where>
+    </select>
+    
+    <select id="selectCustomerById" parameterType="Long" resultMap="CustomerFollowUpResult">
+        select a.id, a.user_name, a.nick_name, a.user_type, a.email, a.phonenumber, a.sex, a.avatar, a.clue_channel, a.data_source, a.live_address, a.status, a.del_flag, a.login_ip, a.login_date, a.create_by, a.create_time, a.update_by, a.update_time, a.remark, a.wechat, a.buy_car_type, a.exist_models, a.is_assessment, a.intention_car_models, a.contrast_car_models, a.is_test_drive, a.is_offer, a.is_finance, a.un_booking_car_reason, a.pre_to_store_date, a.last_to_store_date, a.store_name, a.order_date,
+ b.id as sub_id, b.customer_id as sub_customer_id, b.follow_up_date as sub_follow_up_date, b.follow_up_record as sub_follow_up_record, b.pre_to_store_date as sub_pre_to_store_date, b.create_by as sub_create_by, b.create_time as sub_create_time, b.update_by as sub_update_by, b.update_time as sub_update_time, b.remark as sub_remark, b.follow_level as sub_follow_level
+        from f_customer a
+        left join f_follow_up b on b.customer_id = a.id
+        where a.id = #{id}
+    </select>
+        
+    <insert id="insertCustomer" parameterType="Customer" useGeneratedKeys="true" keyProperty="id">
+        insert into f_customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null and userName != ''">user_name,</if>
+            <if test="nickName != null and nickName != ''">nick_name,</if>
+            <if test="userType != null">user_type,</if>
+            <if test="email != null">email,</if>
+            <if test="phoneNumber != null">phonenumber,</if>
+            <if test="sex != null">sex,</if>
+            <if test="avatar != null">avatar,</if>
+            <if test="clueChannel != null">clue_channel,</if>
+            <if test="dataSource != null">data_source,</if>
+            <if test="liveAddress != null">live_address,</if>
+            <if test="status != null">status,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="loginIp != null">login_ip,</if>
+            <if test="loginDate != null">login_date,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="wechat != null">wechat,</if>
+            <if test="buyCarType != null">buy_car_type,</if>
+            <if test="existModels != null">exist_models,</if>
+            <if test="isAssessment != null">is_assessment,</if>
+            <if test="intentionCarModels != null">intention_car_models,</if>
+            <if test="contrastCarModels != null">contrast_car_models,</if>
+            <if test="isTestDrive != null">is_test_drive,</if>
+            <if test="isOffer != null">is_offer,</if>
+            <if test="isFinance != null">is_finance,</if>
+            <if test="unBookingCarReason != null">un_booking_car_reason,</if>
+            <if test="preToStoreDate != null">pre_to_store_date,</if>
+            <if test="lastToStoreDate != null">last_to_store_date,</if>
+            <if test="storeName != null">store_name,</if>
+            <if test="orderDate != null">order_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="nickName != null and nickName != ''">#{nickName},</if>
+            <if test="userType != null">#{userType},</if>
+            <if test="email != null">#{email},</if>
+            <if test="phoneNumber != null">#{phoneNumber},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="avatar != null">#{avatar},</if>
+            <if test="clueChannel != null">#{clueChannel},</if>
+            <if test="dataSource != null">#{dataSource},</if>
+            <if test="liveAddress != null">#{liveAddress},</if>
+            <if test="status != null">#{status},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="loginIp != null">#{loginIp},</if>
+            <if test="loginDate != null">#{loginDate},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="wechat != null">#{wechat},</if>
+            <if test="buyCarType != null">#{buyCarType},</if>
+            <if test="existModels != null">#{existModels},</if>
+            <if test="isAssessment != null">#{isAssessment},</if>
+            <if test="intentionCarModels != null">#{intentionCarModels},</if>
+            <if test="contrastCarModels != null">#{contrastCarModels},</if>
+            <if test="isTestDrive != null">#{isTestDrive},</if>
+            <if test="isOffer != null">#{isOffer},</if>
+            <if test="isFinance != null">#{isFinance},</if>
+            <if test="unBookingCarReason != null">#{unBookingCarReason},</if>
+            <if test="preToStoreDate != null">#{preToStoreDate},</if>
+            <if test="lastToStoreDate != null">#{lastToStoreDate},</if>
+            <if test="storeName != null">#{storeName},</if>
+            <if test="orderDate != null">#{orderDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCustomer" parameterType="Customer">
+        update f_customer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="nickName != null and nickName != ''">nick_name = #{nickName},</if>
+            <if test="userType != null">user_type = #{userType},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="phoneNumber != null">phonenumber = #{phoneNumber},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="clueChannel != null">clue_channel = #{clueChannel},</if>
+            <if test="dataSource != null">data_source = #{dataSource},</if>
+            <if test="liveAddress != null">live_address = #{liveAddress},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="loginIp != null">login_ip = #{loginIp},</if>
+            <if test="loginDate != null">login_date = #{loginDate},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="wechat != null">wechat = #{wechat},</if>
+            <if test="buyCarType != null">buy_car_type = #{buyCarType},</if>
+            <if test="existModels != null">exist_models = #{existModels},</if>
+            <if test="isAssessment != null">is_assessment = #{isAssessment},</if>
+            <if test="intentionCarModels != null">intention_car_models = #{intentionCarModels},</if>
+            <if test="contrastCarModels != null">contrast_car_models = #{contrastCarModels},</if>
+            <if test="isTestDrive != null">is_test_drive = #{isTestDrive},</if>
+            <if test="isOffer != null">is_offer = #{isOffer},</if>
+            <if test="isFinance != null">is_finance = #{isFinance},</if>
+            <if test="unBookingCarReason != null">un_booking_car_reason = #{unBookingCarReason},</if>
+            <if test="preToStoreDate != null">pre_to_store_date = #{preToStoreDate},</if>
+            <if test="lastToStoreDate != null">last_to_store_date = #{lastToStoreDate},</if>
+            <if test="storeName != null">store_name = #{storeName},</if>
+            <if test="orderDate != null">order_date = #{orderDate},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCustomerById" parameterType="Long">
+        delete from f_customer where id = #{id}
+    </delete>
+
+    <delete id="deleteCustomerByIds" parameterType="String">
+        delete from f_customer where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteFollowUpByCustomerIds" parameterType="String">
+        delete from f_follow_up where customer_id in 
+        <foreach item="customerId" collection="array" open="(" separator="," close=")">
+            #{customerId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteFollowUpByCustomerId" parameterType="Long">
+        delete from f_follow_up where customer_id = #{customerId}
+    </delete>
+
+    <insert id="batchFollowUp">
+        insert into f_follow_up( id, customer_id, follow_up_date, follow_up_record, pre_to_store_date, create_by, create_time, update_by, update_time, remark, follow_level) values
+		<foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.id}, #{item.customerId}, #{item.followUpDate}, #{item.followUpRecord}, #{item.preToStoreDate}, #{item.createBy}, #{item.createTime}, #{item.updateBy}, #{item.updateTime}, #{item.remark}, #{item.followLevel})
+        </foreach>
+    </insert>
+</mapper>
