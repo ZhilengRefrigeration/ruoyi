@@ -138,42 +138,42 @@
           v-hasPermi="['system:customer:export']"
         >导出</el-button>
       </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" :columns="columns" :pageName="$options.name" ></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="customerList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="客户姓名" align="center" prop="userName" width="120"/>
-      <el-table-column label="客户级别" align="center" prop="userType">
+      <el-table-column label="客户姓名" align="center" prop="userName" width="120" v-if="columns[1].visible" show-overflow-tooltip />
+      <el-table-column label="客户级别" align="center" prop="userType"  v-if="columns[3].visible" show-overflow-tooltip >
         <template slot-scope="scope">
           <dict-tag :options="dict.type.customer_level" :value="scope.row.userType"/>
         </template>
       </el-table-column>
-      <el-table-column label="手机号码" align="center" prop="phoneNumber" width="110"/>
-      <el-table-column label="线索渠道" align="center" prop="clueChannel">
+      <el-table-column label="手机号码" align="center" prop="phoneNumber" width="110"  v-if="columns[5].visible" show-overflow-tooltip />
+      <el-table-column label="线索渠道" align="center" prop="clueChannel"  v-if="columns[8].visible" show-overflow-tooltip >
         <template slot-scope="scope">
           <dict-tag :options="dict.type.clue_channels" :value="scope.row.clueChannel"/>
         </template>
       </el-table-column>
-      <el-table-column label="信息来源" align="center" prop="dataSource">
+      <el-table-column label="信息来源" align="center" prop="dataSource" v-if="columns[9].visible" show-overflow-tooltip >
         <template slot-scope="scope">
           <dict-tag :options="dict.type.customer_source" :value="scope.row.dataSource"/>
         </template>
       </el-table-column>
-      <el-table-column label="客户居住" align="center" prop="liveAddress"  width="100"/>
-      <el-table-column label="到店状态" align="center" prop="status" width="100">
+      <el-table-column label="客户居住" align="center" prop="liveAddress"  width="100" v-if="columns[10].visible" show-overflow-tooltip />
+      <el-table-column label="到店状态" align="center" prop="status" width="100" v-if="columns[11].visible" show-overflow-tooltip >
         <template slot-scope="scope">
           <dict-tag :options="dict.type.to_store_status" :value="scope.row.status"/>
         </template>
       </el-table-column>
-      <el-table-column label="微信号" align="center" prop="wechat" width="100"/>
-      <el-table-column label="下单日期" align="center" prop="orderDate" width="120">
+      <el-table-column label="微信号" align="center" prop="wechat" width="110"  v-if="columns[20].visible" show-overflow-tooltip />
+      <el-table-column label="下单日期" align="center" prop="orderDate" width="120" v-if="columns[33].visible" show-overflow-tooltip >
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.orderDate, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
 <!--      <el-table-column label="是否评估" align="center" prop="isAssessment" />-->
-      <el-table-column label="意向车型" align="center" prop="intentionCarModels" width="120"/>
+      <el-table-column label="意向车型" align="center" prop="intentionCarModels" width="120" v-if="columns[24].visible" show-overflow-tooltip />
 <!--      <el-table-column label="对比车型" align="center" prop="contrastCarModels" />
       <el-table-column label="是否试驾" align="center" prop="isTestDrive" />
       <el-table-column label="是否报价" align="center" prop="isOffer" />
@@ -183,18 +183,18 @@
           <span>{{ parseTime(scope.row.lastToStoreDate, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>-->
-      <el-table-column label="已有车辆" align="center" prop="existModels" />
-      <el-table-column label="预计到店" class-name="specialColor" align="center" prop="preToStoreDate" width="120">
+      <el-table-column label="已有车辆" align="center" prop="existModels"  v-if="columns[22].visible" show-overflow-tooltip />
+      <el-table-column label="预计到店" class-name="specialColor" align="center" prop="preToStoreDate" width="120"  v-if="columns[30].visible" show-overflow-tooltip >
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.preToStoreDate, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="跟进次数" class-name="specialColor" align="center" prop="followUpTimes" />
-      <el-table-column label="最新跟进日" class-name="specialColor" align="center" prop="followUpLastDate" width="100" />
-      <el-table-column label="最新跟进级别" class-name="specialColor" align="center" prop="followUpLastLevel" width="100"/>
-      <el-table-column label="建议下次跟进日" class-name="specialColor" align="center" prop="proposalNextFollowDate" width="120"/>
+      <el-table-column label="跟进次数" class-name="specialColor" align="center" prop="followUpTimes" show-overflow-tooltip />
+      <el-table-column label="最新跟进日" class-name="specialColor" align="center" prop="followUpLastDate" width="100" show-overflow-tooltip />
+      <el-table-column label="最新跟进级别" class-name="specialColor" align="center" prop="followUpLastLevel" width="100" show-overflow-tooltip />
+      <el-table-column label="建议下次跟进日" class-name="specialColor" align="center" prop="proposalNextFollowDate" width="120" show-overflow-tooltip />
       <el-table-column label="跟进超期" class-name="specialColor" align="center" prop="followUpOverdueDate" width="120"/>
-      <el-table-column label="未订车原因" align="center" prop="unBookingCarReason" width="110" show-overflow-tooltip/>
+      <el-table-column label="未订车原因" align="center" prop="unBookingCarReason" width="110" show-overflow-tooltip v-if="columns[29].visible" show-overflow-tooltip />
       <el-table-column label="备注" align="center" prop="remark" show-overflow-tooltip />
 
       <el-table-column label="操作" width="160" align="center" fixed="right" class-name="small-padding fixed-width">
@@ -557,12 +557,52 @@ export default {
           { required: true, message: "级别不能为空", trigger: "blur" }
         ],
       },
-
+// 列表的列的显示隐藏设置
+      columns:[
+        { key: 0, label: `客户ID`, visible: true },
+        { key: 1, label: `客户名`, visible: true },
+        { key: 2, label: `客户昵称`, visible: true },
+        { key: 3, label: `客户级别`, visible: true },
+        { key: 4, label: `用户邮箱`, visible: true },
+        { key: 5, label: `手机号码`, visible: true },
+        { key: 6, label: `客户性别`, visible: true },
+        { key: 7, label: `头像地址`, visible: true },
+        { key: 8, label: `线索渠道`, visible: true },
+        { key: 9, label: `信息来源`, visible: true },
+        { key: 10, label: `客户居住`, visible: true },
+        { key: 11, label: `到店状态`, visible: true },
+        { key: 12, label: `删除标志`, visible: true },
+        { key: 13, label: `最后登录IP`, visible: true },
+        { key: 14, label: `最后登录时间`, visible: true },
+        { key: 15, label: `创建者`, visible: true },
+        { key: 16, label: `创建时间`, visible: true },
+        { key: 17, label: `更新者`, visible: true },
+        { key: 18, label: `更新时间`, visible: true },
+        { key: 19, label: `备注`, visible: true },
+        { key: 20, label: `微信号`, visible: true },
+        { key: 21, label: `购车类型`, visible: true },
+        { key: 22, label: `置换/保有车型`, visible: true },
+        { key: 23, label: `是否评估`, visible: true },
+        { key: 24, label: `意向车型`, visible: true },
+        { key: 25, label: `对比车型`, visible: true },
+        { key: 26, label: `是否试驾`, visible: true },
+        { key: 27, label: `是否报价`, visible: true },
+        { key: 28, label: `是否金融`, visible: true },
+        { key: 29, label: `未订车原因`, visible: true },
+        { key: 30, label: `预计到店`, visible: true },
+        { key: 31, label: `最后到店`, visible: true },
+        { key: 32, label: `4S店`, visible: true },
+        { key: 33, label: `下单日期`, visible: true },
+      ],
     };
   },
   created() {
     this.getList();
     this.dafaultValue = new Date;
+    var columns1 = JSON.parse(localStorage.getItem(this.$options.name));
+    if(columns1){
+      this.columns = columns1;
+    }
   },
   methods: {
     /** 查询客户信息列表 */

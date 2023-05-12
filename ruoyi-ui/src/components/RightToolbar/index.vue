@@ -35,6 +35,10 @@ export default {
     };
   },
   props: {
+    pageName: {
+      type: String,
+      default: "",
+    },
     showSearch: {
       type: Boolean,
       default: true,
@@ -83,9 +87,16 @@ export default {
         const key = this.columns[item].key;
         this.columns[item].visible = !data.includes(key);
       }
+      localStorage.setItem(this.pageName, JSON.stringify(this.columns));
     },
     // 打开显隐列dialog
     showColumn() {
+      var columns = JSON.parse(localStorage.getItem(this.pageName));
+      for (let item in columns) {
+        if (columns[item].visible === false) {
+          this.value.push(parseInt(item));
+        }
+      }
       this.open = true;
     },
   },
