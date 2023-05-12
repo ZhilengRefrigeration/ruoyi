@@ -189,13 +189,13 @@
           <span>{{ parseTime(scope.row.preToStoreDate, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="跟进次数" class-name="specialColor" align="center" prop="followUpTimes" show-overflow-tooltip />
-      <el-table-column label="最新跟进日" class-name="specialColor" align="center" prop="followUpLastDate" width="100" show-overflow-tooltip />
-      <el-table-column label="最新跟进级别" class-name="specialColor" align="center" prop="followUpLastLevel" width="100" show-overflow-tooltip />
-      <el-table-column label="建议下次跟进日" class-name="specialColor" align="center" prop="proposalNextFollowDate" width="120" show-overflow-tooltip />
-      <el-table-column label="跟进超期" class-name="specialColor" align="center" prop="followUpOverdueDate" width="120"/>
+      <el-table-column label="跟进次数" class-name="specialColor" align="center" prop="followUpTimes" v-if="columns[34].visible" show-overflow-tooltip />
+      <el-table-column label="最新跟进日" class-name="specialColor" align="center" prop="followUpLastDate" width="100" v-if="columns[35].visible" show-overflow-tooltip />
+      <el-table-column label="最新跟进级别" class-name="specialColor" align="center" prop="followUpLastLevel" width="100" v-if="columns[36].visible" show-overflow-tooltip />
+      <el-table-column label="建议下次跟进日" class-name="specialColor" align="center" prop="proposalNextFollowDate" width="120" v-if="columns[37].visible" show-overflow-tooltip />
+      <el-table-column label="跟进超期" class-name="specialColor" align="center" prop="followUpOverdueDate" width="120" v-if="columns[38].visible" show-overflow-tooltip />
       <el-table-column label="未订车原因" align="center" prop="unBookingCarReason" width="110" show-overflow-tooltip v-if="columns[29].visible" show-overflow-tooltip />
-      <el-table-column label="备注" align="center" prop="remark" show-overflow-tooltip />
+      <el-table-column label="备注" align="center" prop="remark" show-overflow-tooltip v-if="columns[19].visible" />
 
       <el-table-column label="操作" width="160" align="center" fixed="right" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -581,7 +581,7 @@ export default {
         { key: 19, label: `备注`, visible: true },
         { key: 20, label: `微信号`, visible: true },
         { key: 21, label: `购车类型`, visible: true },
-        { key: 22, label: `置换/保有车型`, visible: true },
+        { key: 22, label: `已有车辆`, visible: true },
         { key: 23, label: `是否评估`, visible: true },
         { key: 24, label: `意向车型`, visible: true },
         { key: 25, label: `对比车型`, visible: true },
@@ -593,6 +593,11 @@ export default {
         { key: 31, label: `最后到店`, visible: true },
         { key: 32, label: `4S店`, visible: true },
         { key: 33, label: `下单日期`, visible: true },
+        { key: 34, label: `跟进次数`, visible: true },
+        { key: 35, label: `最新跟进日`, visible: true },
+        { key: 36, label: `最新跟进级别`, visible: true },
+        { key: 37, label: `建议下次跟进日`, visible: true },
+        { key: 38, label: `跟进超期`, visible: true },
       ],
     };
   },
