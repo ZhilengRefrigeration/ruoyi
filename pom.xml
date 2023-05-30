@@ -257,6 +257,25 @@
         </pluginManagement>
     </build>
 
+<!--    全局变量的配置-->
+    <profiles>
+        <profile>
+            <!--开发环境-->
+            <id>dev</id>
+            <properties>
+                <profiles.active>dev</profiles.active>
+                <nacosAddress>localhost:8848</nacosAddress>
+                <nacosNameSpace>66076b31-9cbd-476b-8fea-6143fc9df04d</nacosNameSpace>
+                <nacosUser>nacos</nacosUser>
+                <nacosPassword>nacos</nacosPassword>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+
+    </profiles>
+
     <repositories>
         <repository>
             <id>public</id>
