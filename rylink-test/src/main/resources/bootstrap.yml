@@ -1,0 +1,83 @@
+# Tomcat
+server:
+  port: 8080
+
+# Spring
+spring: 
+  application:
+    # 应用名称
+    name: rylink-test
+  profiles:
+    # 环境配置
+    active: '@profiles.active@'
+  cloud:
+    nacos:
+      username: @nacosUser@
+      password: @nacosPassword@
+      discovery:
+        # 服务注册地址
+        server-addr: @nacosAddress@
+        namespace: @nacosNameSpace@
+      config:
+        # 配置中心地址
+        server-addr: @nacosAddress@
+        namespace: @nacosNameSpace@
+        name: ${spring.application.name}-${spring.profiles.active}.yml
+        # 配置文件格式
+        file-extension: yml
+        # 共享配置
+        shared-configs:
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+    sentinel:
+      # 取消控制台懒加载
+      eager: true
+      transport:
+        # 控制台地址
+        dashboard: 127.0.0.1:8718
+      # nacos配置持久化
+      datasource:
+        ds1:
+          nacos:
+            server-addr: @nacosAddress@
+            dataId: sentinel-ruoyi-gateway
+            groupId: DEFAULT_GROUP
+            data-type: json
+            rule-type: gw-flow
+
+  #数据源配置
+  datasource:
+    druid:
+      stat-view-servlet:
+        enabled: true
+        loginUsername: admin
+        loginPassword: 123456
+    dynamic:
+      druid:
+        initial-size: 5
+        min-idle: 5
+        maxActive: 20
+        maxWait: 60000
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT 1 FROM DUAL
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxPoolPreparedStatementPerConnectionSize: 20
+        filters: stat,wall,slf4j
+      datasource:
+        # 主库数据源
+        master:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/ry-cloud?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+          username: root
+          password: 1qaz!QAZ
+          # 从库数据源
+          # slave:
+          # url:
+          # username:
+          # password:
+          # driver-class-name:
+
+
