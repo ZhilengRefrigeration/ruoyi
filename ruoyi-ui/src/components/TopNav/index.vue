@@ -92,7 +92,9 @@ export default {
       if (path !== undefined && path.lastIndexOf("/") > 0 && hideList.indexOf(path) === -1) {
         const tmpPath = path.substring(1, path.length);
         activePath = "/" + tmpPath.substring(0, tmpPath.indexOf("/"));
-        this.$store.dispatch('app/toggleSideBarHide', false);
+        if (!this.$route.meta.link) {
+          this.$store.dispatch('app/toggleSideBarHide', false);
+        }
       } else if(!this.$route.children) {
         activePath = path;
         this.$store.dispatch('app/toggleSideBarHide', true);
@@ -125,7 +127,13 @@ export default {
         window.open(key, "_blank");
       } else if (!route || !route.children) {
         // 没有子路由路径内部打开
-        this.$router.push({ path: key });
+        const routeMenu = this.childrenMenus.find(item => item.path === key);
+        if (routeMenu && routeMenu.query) {
+          let query = JSON.parse(routeMenu.query);
+          this.$router.push({ path: key, query: query });
+        } else {
+          this.$router.push({ path: key });
+        }
         this.$store.dispatch('app/toggleSideBarHide', true);
       } else {
         // 显示左侧联动菜单
@@ -145,6 +153,8 @@ export default {
       }
       if(routes.length > 0) {
         this.$store.commit("SET_SIDEBAR_ROUTERS", routes);
+      } else {
+        this.$store.dispatch('app/toggleSideBarHide', true);
       }
     },
     ishttp(url) {

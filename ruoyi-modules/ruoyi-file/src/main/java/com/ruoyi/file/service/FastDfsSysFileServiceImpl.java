@@ -1,5 +1,7 @@
 package com.ruoyi.file.service;
 
+import java.io.InputStream;
+import com.alibaba.nacos.common.utils.IoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -10,7 +12,7 @@ import com.ruoyi.common.core.utils.file.FileTypeUtils;
 
 /**
  * FastDFS 文件存储
- * 
+ *
  * @author ruoyi
  */
 @Service
@@ -27,7 +29,7 @@ public class FastDfsSysFileServiceImpl implements ISysFileService
 
     /**
      * FastDfs文件上传接口
-     * 
+     *
      * @param file 上传的文件
      * @return 访问地址
      * @throws Exception
@@ -35,8 +37,10 @@ public class FastDfsSysFileServiceImpl implements ISysFileService
     @Override
     public String uploadFile(MultipartFile file) throws Exception
     {
-        StorePath storePath = storageClient.uploadFile(file.getInputStream(), file.getSize(),
+        InputStream inputStream = file.getInputStream();
+        StorePath storePath = storageClient.uploadFile(inputStream, file.getSize(),
                 FileTypeUtils.getExtension(file), null);
+        IoUtils.closeQuietly(inputStream);
         return domain + "/" + storePath.getFullPath();
     }
 }
