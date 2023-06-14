@@ -2,6 +2,7 @@ package com.ruoyi.system.domain;
 
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
@@ -77,6 +78,11 @@ public class UserWxAqrCode extends BaseEntity
     /** 球队ID */
     @Excel(name = "球队ID")
     private Long teamId;
+
+    @Excel(name = "赛会参赛人员ID")
+    private Long competitionMembersId;
+    @Excel(name = "赛会参赛球队ID")
+    private Long competitionOfTeamId;
 
     public void setId(Long id)
     {
@@ -214,24 +220,19 @@ public class UserWxAqrCode extends BaseEntity
         return teamId;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-                .append("id", getId())
-                .append("isDeleted", getIsDeleted())
-                .append("createdTime", getCreatedTime())
-                .append("createdBy", getCreatedBy())
-                .append("modifiedBy", getModifiedBy())
-                .append("lastUpdatedTime", getLastUpdatedTime())
-                .append("scene", getScene())
-                .append("codeImgUrl", getCodeImgUrl())
-                .append("userId", getUserId())
-                .append("busType", getBusType())
-                .append("page", getPage())
-                .append("width", getWidth())
-                .append("useDesc", getUseDesc())
-                .append("jerseyNo", getJerseyNo())
-                .append("teamId", getTeamId())
-                .toString();
+    public Long getCompetitionMembersId() {
+        return competitionMembersId;
+    }
+
+    public void setCompetitionMembersId(Long competitionMembersId) {
+        this.competitionMembersId = competitionMembersId;
+    }
+
+    public Long getCompetitionOfTeamId() {
+        return competitionOfTeamId;
+    }
+
+    public void setCompetitionOfTeamId(Long competitionOfTeamId) {
+        this.competitionOfTeamId = competitionOfTeamId;
     }
 }

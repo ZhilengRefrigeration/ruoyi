@@ -9,12 +9,12 @@ import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.vo.WxAppletsCodeVo;
 import com.ruoyi.system.api.feign.WxAppletsFeign;
 import com.ruoyi.system.domain.vo.UserWxAqrCodeVo;
-import org.apache.commons.lang.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.UserWxAqrCodeMapper;
 import com.ruoyi.system.domain.UserWxAqrCode;
 import com.ruoyi.system.service.IUserWxAqrCodeService;
+import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 
@@ -116,10 +116,19 @@ public class UserWxAqrCodeServiceImpl implements IUserWxAqrCodeService
             StringBuffer sceneBuffer = new StringBuffer();
             sceneBuffer.append("id=");
             sceneBuffer.append(userWxAqrCode.getId());
-            sceneBuffer.append("&tid=");
-            sceneBuffer.append(userWxAqrCode.getTeamId());
-            sceneBuffer.append("&uid=");
-            sceneBuffer.append(userWxAqrCode.getUserId());
+            sceneBuffer.append("ty=");
+            sceneBuffer.append(userWxAqrCode.getBusType());
+            if(!ObjectUtils.isEmpty(userWxAqrCode.getBusType())&&userWxAqrCode.getBusType().equals("sh")) {
+                sceneBuffer.append("&tid=");
+                sceneBuffer.append(userWxAqrCode.getCompetitionOfTeamId());
+                sceneBuffer.append("&uid=");
+                sceneBuffer.append(userWxAqrCode.getCompetitionMembersId());
+            }else {
+                sceneBuffer.append("&tid=");
+                sceneBuffer.append(userWxAqrCode.getTeamId());
+                sceneBuffer.append("&uid=");
+                sceneBuffer.append(userWxAqrCode.getUserId());
+            }
             wxAppletsCodeVo.setScene(sceneBuffer.toString());
         }else {
             wxAppletsCodeVo.setScene(userWxAqrCode.getScene());
