@@ -20,10 +20,12 @@
         <result property="useDesc"    column="use_desc"    />
         <result property="jerseyNo"    column="jersey_no"    />
         <result property="teamId"    column="team_id"    />
+        <result property="competitionMembersId"    column="competition_members_id"    />
+        <result property="competitionOfTeamId"    column="competition_of_team_id"    />
     </resultMap>
 
     <sql id="selectUserWxAqrCodeVo">
-        select ID, IS_DELETED, CREATED_TIME, CREATED_BY, MODIFIED_BY, LAST_UPDATED_TIME, scene, code_img_url, user_id, bus_type, page, width, use_desc, jersey_no, team_id from user_wx_aqr_code
+        select ID, IS_DELETED, CREATED_TIME, CREATED_BY, MODIFIED_BY, LAST_UPDATED_TIME, scene, code_img_url, user_id, bus_type, page, width, use_desc, jersey_no, team_id,competition_of_team_id,competition_members_id from user_wx_aqr_code
     </sql>
 
     <select id="selectUserWxAqrCodeList1" parameterType="UserWxAqrCode" resultMap="UserWxAqrCodeResult">
@@ -40,6 +42,8 @@
             <if test="useDesc != null  and useDesc != ''"> and use_desc = #{useDesc}</if>
             <if test="jerseyNo != null  and jerseyNo != ''"> and jersey_no = #{jerseyNo}</if>
             <if test="teamId != null "> and team_id = #{teamId}</if>
+            <if test="competitionMembersId!=null"> and competition_members_id = #{competitionMembersId} </if>
+            <if test="competitionOfTeamId!=null"> and competition_of_team_id = #{competitionOfTeamId} </if>
         </where>
     </select>
 
@@ -65,6 +69,8 @@
             <if test="teamId != null "> and t.team_id = #{teamId}</if>
             <if test="teamName != null  and teamName != ''"> and team.TEAM_NAME like concat('%', #{teamName}, '%')</if>
             <if test="userName != null  and userName != ''"> and u.USER_NAME like concat('%', #{userName}, '%')</if>
+            <if test="competitionMembersId!=null"> and t.competition_members_id = #{competitionMembersId} </if>
+            <if test="competitionOfTeamId!=null"> and t.competition_of_team_id = #{competitionOfTeamId} </if>
         </where>
     </select>
 
@@ -85,6 +91,8 @@
             <if test="useDesc != null and useDesc != ''">use_desc,</if>
             <if test="jerseyNo != null">jersey_no,</if>
             <if test="teamId != null">team_id,</if>
+            <if test="competitionMembersId!=null">competition_members_id,</if>
+            <if test="competitionOfTeamId!=null">competition_of_team_id,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="isDeleted != null">#{isDeleted},</if>
@@ -101,6 +109,8 @@
             <if test="useDesc != null and useDesc != ''">#{useDesc},</if>
             <if test="jerseyNo != null">#{jerseyNo},</if>
             <if test="teamId != null">#{teamId},</if>
+            <if test="competitionMembersId!=null"> #{competitionMembersId},</if>
+            <if test="competitionOfTeamId!=null"> #{competitionOfTeamId},</if>
         </trim>
     </insert>
 
@@ -121,6 +131,8 @@
             <if test="useDesc != null and useDesc != ''">use_desc = #{useDesc},</if>
             <if test="jerseyNo != null">jersey_no = #{jerseyNo},</if>
             <if test="teamId != null">team_id = #{teamId},</if>
+            <if test="competitionMembersId!=null">competition_members_id = #{competitionMembersId},</if>
+            <if test="competitionOfTeamId!=null">competition_of_team_id = #{competitionOfTeamId},</if>
         </trim>
         where ID = #{id}
     </update>
