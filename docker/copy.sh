@@ -11,6 +11,9 @@ usage() {
 echo "begin copy sql "
 cp ../sql/ry_20230223.sql ./mysql/db
 cp ../sql/ry_config_20220929.sql ./mysql/db
+## 修改地址否则启动容器无法连接mysql和redis，导致需要手动登录nacos手动修改地址
+sed -i "s/host: localhost/host: ruoyi-redis/g" ./mysql/db/ry_config_*.sql
+sed -i "s/localhost:3306\/ry-cloud/ruoyi-mysql:3306\/ry-cloud/g" ./mysql/db/ry_config_*.sql
 
 # copy html
 echo "begin copy html "
