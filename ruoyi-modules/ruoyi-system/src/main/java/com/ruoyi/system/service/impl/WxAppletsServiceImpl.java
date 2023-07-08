@@ -36,10 +36,7 @@ import sun.misc.BASE64Encoder;
 import javax.annotation.Resource;
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -248,8 +245,9 @@ public class WxAppletsServiceImpl implements WxAppletsService {
                         + file.getName());
             }
             fis.close();
-            BASE64Encoder encoder = new BASE64Encoder();
-            imgStr = encoder.encode(buffer);
+            Base64.Encoder encoder = Base64.getMimeEncoder();
+            imgStr = encoder.encodeToString(buffer);
+           // imgStr = encoder.encode(buffer);
         } catch (Exception e) {
             e.printStackTrace();
         }
