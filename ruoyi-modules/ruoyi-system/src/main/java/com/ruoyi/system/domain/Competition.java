@@ -1,7 +1,10 @@
 package com.ruoyi.system.domain;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
@@ -13,6 +16,12 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
  * @author ruoyi
  * @date 2022-11-02
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class Competition extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -27,10 +36,14 @@ public class Competition extends BaseEntity
     /** 主队名 */
     @Excel(name = "主队名")
     private String mainTeamName;
+    @ApiModelProperty(value = "主队logo", required = false)
+    private String mainTeamLogo;
 
     /** 客队ID */
     @Excel(name = "客队ID")
     private Long guestTeamId;
+    @ApiModelProperty(value = "客队logo", required = false)
+    private String guestTeamLogo;
 
     /** 客队名 */
     @Excel(name = "客队名")
@@ -109,15 +122,15 @@ public class Competition extends BaseEntity
 
     /** 是否删除 */
     @Excel(name = "是否删除")
-    private Long isDeleted;
+    private Integer isDeleted;
 
     /** 经度 */
     @Excel(name = "经度")
-    private Long longitude;
+    private BigDecimal longitude;
 
     /** 纬度 */
     @Excel(name = "纬度")
-    private Long latitude;
+    private BigDecimal latitude;
 
     /** 比赛性质（0=约战；1=赛事） */
     @Excel(name = "比赛性质", readConverterExp = "0==约战；1=赛事")
@@ -183,411 +196,4 @@ public class Competition extends BaseEntity
     @Excel(name = "赞助商")
     private String sponsor;
 
-    public void setId(Long id) 
-    {
-        this.id = id;
-    }
-
-    public Long getId() 
-    {
-        return id;
-    }
-    public void setMainTeamId(Long mainTeamId) 
-    {
-        this.mainTeamId = mainTeamId;
-    }
-
-    public Long getMainTeamId() 
-    {
-        return mainTeamId;
-    }
-    public void setMainTeamName(String mainTeamName) 
-    {
-        this.mainTeamName = mainTeamName;
-    }
-
-    public String getMainTeamName() 
-    {
-        return mainTeamName;
-    }
-    public void setGuestTeamId(Long guestTeamId) 
-    {
-        this.guestTeamId = guestTeamId;
-    }
-
-    public Long getGuestTeamId() 
-    {
-        return guestTeamId;
-    }
-    public void setGuestTeamName(String guestTeamName) 
-    {
-        this.guestTeamName = guestTeamName;
-    }
-
-    public String getGuestTeamName() 
-    {
-        return guestTeamName;
-    }
-    public void setCompetitionCode(String competitionCode) 
-    {
-        this.competitionCode = competitionCode;
-    }
-
-    public String getCompetitionCode() 
-    {
-        return competitionCode;
-    }
-    public void setCompetitionName(String competitionName) 
-    {
-        this.competitionName = competitionName;
-    }
-
-    public String getCompetitionName() 
-    {
-        return competitionName;
-    }
-    public void setDesignated(Integer designated) 
-    {
-        this.designated = designated;
-    }
-
-    public Integer getDesignated() 
-    {
-        return designated;
-    }
-    public void setCompetitionType(Long competitionType) 
-    {
-        this.competitionType = competitionType;
-    }
-
-    public Long getCompetitionType() 
-    {
-        return competitionType;
-    }
-    public void setCompetitionTime(Date competitionTime) 
-    {
-        this.competitionTime = competitionTime;
-    }
-
-    public Date getCompetitionTime() 
-    {
-        return competitionTime;
-    }
-    public void setBuildingId(Long buildingId) 
-    {
-        this.buildingId = buildingId;
-    }
-
-    public Long getBuildingId() 
-    {
-        return buildingId;
-    }
-    public void setBuildingName(String buildingName) 
-    {
-        this.buildingName = buildingName;
-    }
-
-    public String getBuildingName() 
-    {
-        return buildingName;
-    }
-    public void setCompetitionAddress(String competitionAddress) 
-    {
-        this.competitionAddress = competitionAddress;
-    }
-
-    public String getCompetitionAddress() 
-    {
-        return competitionAddress;
-    }
-    public void setFounder(Long founder) 
-    {
-        this.founder = founder;
-    }
-
-    public Long getFounder() 
-    {
-        return founder;
-    }
-    public void setStatus(Integer status) 
-    {
-        this.status = status;
-    }
-
-    public Integer getStatus() 
-    {
-        return status;
-    }
-    public void setCityCode(String cityCode) 
-    {
-        this.cityCode = cityCode;
-    }
-
-    public String getCityCode() 
-    {
-        return cityCode;
-    }
-    public void setCityName(String cityName) 
-    {
-        this.cityName = cityName;
-    }
-
-    public String getCityName() 
-    {
-        return cityName;
-    }
-    public void setMaxPlayer(Long maxPlayer) 
-    {
-        this.maxPlayer = maxPlayer;
-    }
-
-    public Long getMaxPlayer() 
-    {
-        return maxPlayer;
-    }
-    public void setCreatedTime(Date createdTime) 
-    {
-        this.createdTime = createdTime;
-    }
-
-    public Date getCreatedTime() 
-    {
-        return createdTime;
-    }
-    public void setLastUpdatedTime(Date lastUpdatedTime) 
-    {
-        this.lastUpdatedTime = lastUpdatedTime;
-    }
-
-    public Date getLastUpdatedTime() 
-    {
-        return lastUpdatedTime;
-    }
-    public void setCreatedBy(String createdBy) 
-    {
-        this.createdBy = createdBy;
-    }
-
-    public String getCreatedBy() 
-    {
-        return createdBy;
-    }
-    public void setModifiedBy(String modifiedBy) 
-    {
-        this.modifiedBy = modifiedBy;
-    }
-
-    public String getModifiedBy() 
-    {
-        return modifiedBy;
-    }
-    public void setIsDeleted(Long isDeleted) 
-    {
-        this.isDeleted = isDeleted;
-    }
-
-    public Long getIsDeleted() 
-    {
-        return isDeleted;
-    }
-    public void setLongitude(Long longitude) 
-    {
-        this.longitude = longitude;
-    }
-
-    public Long getLongitude() 
-    {
-        return longitude;
-    }
-    public void setLatitude(Long latitude) 
-    {
-        this.latitude = latitude;
-    }
-
-    public Long getLatitude() 
-    {
-        return latitude;
-    }
-    public void setCompetitionNature(Integer competitionNature) 
-    {
-        this.competitionNature = competitionNature;
-    }
-
-    public Integer getCompetitionNature() 
-    {
-        return competitionNature;
-    }
-    public void setEnrollBeginTime(Date enrollBeginTime) 
-    {
-        this.enrollBeginTime = enrollBeginTime;
-    }
-
-    public Date getEnrollBeginTime() 
-    {
-        return enrollBeginTime;
-    }
-    public void setEnrollEndTime(Date enrollEndTime) 
-    {
-        this.enrollEndTime = enrollEndTime;
-    }
-
-    public Date getEnrollEndTime() 
-    {
-        return enrollEndTime;
-    }
-    public void setContacts(String contacts) 
-    {
-        this.contacts = contacts;
-    }
-
-    public String getContacts() 
-    {
-        return contacts;
-    }
-    public void setContactsAreaCode(String contactsAreaCode) 
-    {
-        this.contactsAreaCode = contactsAreaCode;
-    }
-
-    public String getContactsAreaCode() 
-    {
-        return contactsAreaCode;
-    }
-    public void setContactsTel(String contactsTel) 
-    {
-        this.contactsTel = contactsTel;
-    }
-
-    public String getContactsTel() 
-    {
-        return contactsTel;
-    }
-    public void setCompetitionBeginTime(Date competitionBeginTime) 
-    {
-        this.competitionBeginTime = competitionBeginTime;
-    }
-
-    public Date getCompetitionBeginTime() 
-    {
-        return competitionBeginTime;
-    }
-    public void setCompetitionEndTime(Date competitionEndTime) 
-    {
-        this.competitionEndTime = competitionEndTime;
-    }
-
-    public Date getCompetitionEndTime() 
-    {
-        return competitionEndTime;
-    }
-    public void setOrganizer(String organizer) 
-    {
-        this.organizer = organizer;
-    }
-
-    public String getOrganizer() 
-    {
-        return organizer;
-    }
-    public void setUndertake(String undertake) 
-    {
-        this.undertake = undertake;
-    }
-
-    public String getUndertake() 
-    {
-        return undertake;
-    }
-    public void setCompetitionBackImg(String competitionBackImg) 
-    {
-        this.competitionBackImg = competitionBackImg;
-    }
-
-    public String getCompetitionBackImg() 
-    {
-        return competitionBackImg;
-    }
-    public void setCreatedId(Long createdId) 
-    {
-        this.createdId = createdId;
-    }
-
-    public Long getCreatedId() 
-    {
-        return createdId;
-    }
-    public void setAuditStatus(Long auditStatus) 
-    {
-        this.auditStatus = auditStatus;
-    }
-
-    public Long getAuditStatus() 
-    {
-        return auditStatus;
-    }
-    public void setHeightHide(Integer heightHide) 
-    {
-        this.heightHide = heightHide;
-    }
-
-    public Integer getHeightHide() 
-    {
-        return heightHide;
-    }
-    public void setSponsor(String sponsor) 
-    {
-        this.sponsor = sponsor;
-    }
-
-    public String getSponsor() 
-    {
-        return sponsor;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("mainTeamId", getMainTeamId())
-            .append("mainTeamName", getMainTeamName())
-            .append("guestTeamId", getGuestTeamId())
-            .append("guestTeamName", getGuestTeamName())
-            .append("competitionCode", getCompetitionCode())
-            .append("competitionName", getCompetitionName())
-            .append("designated", getDesignated())
-            .append("competitionType", getCompetitionType())
-            .append("competitionTime", getCompetitionTime())
-            .append("buildingId", getBuildingId())
-            .append("buildingName", getBuildingName())
-            .append("competitionAddress", getCompetitionAddress())
-            .append("founder", getFounder())
-            .append("status", getStatus())
-            .append("cityCode", getCityCode())
-            .append("cityName", getCityName())
-            .append("maxPlayer", getMaxPlayer())
-            .append("createdTime", getCreatedTime())
-            .append("lastUpdatedTime", getLastUpdatedTime())
-            .append("createdBy", getCreatedBy())
-            .append("modifiedBy", getModifiedBy())
-            .append("isDeleted", getIsDeleted())
-            .append("longitude", getLongitude())
-            .append("latitude", getLatitude())
-            .append("remark", getRemark())
-            .append("competitionNature", getCompetitionNature())
-            .append("enrollBeginTime", getEnrollBeginTime())
-            .append("enrollEndTime", getEnrollEndTime())
-            .append("contacts", getContacts())
-            .append("contactsAreaCode", getContactsAreaCode())
-            .append("contactsTel", getContactsTel())
-            .append("competitionBeginTime", getCompetitionBeginTime())
-            .append("competitionEndTime", getCompetitionEndTime())
-            .append("organizer", getOrganizer())
-            .append("undertake", getUndertake())
-            .append("competitionBackImg", getCompetitionBackImg())
-            .append("createdId", getCreatedId())
-            .append("auditStatus", getAuditStatus())
-            .append("heightHide", getHeightHide())
-            .append("sponsor", getSponsor())
-            .toString();
-    }
 }

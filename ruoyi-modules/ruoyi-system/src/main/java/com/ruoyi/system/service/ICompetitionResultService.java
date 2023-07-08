@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.CompetitionResult;
+import com.ruoyi.system.domain.vo.CompetitionResultVo;
 import com.ruoyi.system.domain.vo.CompetitionVsRecordVo;
 
 /**
@@ -63,4 +64,10 @@ public interface ICompetitionResultService
     public int batchUpdateCompetitionResult(List<CompetitionResult> list);
 
     int editData(CompetitionVsRecordVo obj);
+
+    List<CompetitionResultVo> findByCompetitionVsId(Long competitionId, Long id);
+
+    Boolean add(CompetitionResult competitionResult);
+
+    Boolean edit(CompetitionResult competitionResult);
 }

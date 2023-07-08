@@ -2,7 +2,9 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.domain.CompetitionTeamVsTeam;
+import com.ruoyi.system.domain.vo.CompetitionTeamIntegralVo;
 import com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 赛会中-球队VS球队关系Mapper接口
@@ -68,4 +70,10 @@ public interface CompetitionTeamVsTeamMapper
     public int updateCompetitionTeamVsTeamByCondition(CompetitionTeamVsTeam teamVsTeam);
 
     public CompetitionTeamVsTeamVo getCompetitionById(Long id);
+
+    List<CompetitionTeamVsTeamVo> getCompetitionSchedule(CompetitionTeamVsTeam entity);
+
+    List<CompetitionTeamVsTeamVo> getLatelySchedule(CompetitionTeamVsTeam competitionTeamVsTeam);
+
+    List<CompetitionTeamIntegralVo> getCompetitionTeamIntegralListById(@Param("id") Long id);
 }

@@ -6,16 +6,30 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
+import com.ruoyi.common.swagger.apiConstants.ApiTerminal;
 import com.ruoyi.system.api.domain.vo.WxAppletsCodeVo;
 import com.ruoyi.system.domain.UserWxAqrCode;
 import com.ruoyi.system.domain.vo.UserWxAqrCodeVo;
 import com.ruoyi.system.service.IWxUserService;
 import com.ruoyi.system.service.WxApplesCodeService;
+import io.seata.core.model.Result;
+import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import sun.misc.BASE64Encoder;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author 吴一博

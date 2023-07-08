@@ -3,6 +3,7 @@ package com.ruoyi.system.mapper;
 import java.util.List;
 import com.ruoyi.system.domain.CompetitionMembersScore;
 import com.ruoyi.system.domain.vo.CompetitionMembersScoreVo;
+import com.ruoyi.system.domain.vo.PersonalCareerVo;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -62,4 +63,8 @@ public interface CompetitionMembersScoreMapper
     public int deleteCompetitionMembersScoreByIds(Long[] ids);
 
     public List<CompetitionMembersScoreVo> findMembersScoreByCompetitionVsId(@Param("competitionId") Long competitionId, @Param("competitionVsId") Long competitionVsId);
+
+    PersonalCareerVo getUserScoreByUserId(@Param(value = "teamUserId") Long teamUserId);
+
+    List<CompetitionMembersScore> getHonorList(@Param("competitionId") Long competitionId,@Param("userId") Long userId);
 }

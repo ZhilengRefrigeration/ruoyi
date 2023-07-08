@@ -1,8 +1,12 @@
 package com.ruoyi.system.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
+import com.ruoyi.common.security.utils.SecurityUtils;
+import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.domain.vo.CompetitionOfTeamVo;
+import com.ruoyi.system.utils.LoginUserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CompetitionOfTeamMapper;
@@ -110,5 +114,34 @@ public class CompetitionOfTeamServiceImpl implements ICompetitionOfTeamService
     @Override
     public int intoTeamGroup(String competitionGroup, List<Long> ids) {
         return competitionOfTeamMapper.intoTeamGroup(competitionGroup,ids);
+    }
+
+    @Override
+    public List<CompetitionOfTeamVo> getJoinCompetitionTeam(CompetitionOfTeam entity) {
+        return competitionOfTeamMapper.getJoinCompetitionTeam(entity);
+    }
+
+    @Override
+    public List<CompetitionOfTeamVo> findCompetitionTeamGroupList(CompetitionOfTeamVo entity) {
+        return competitionOfTeamMapper.findCompetitionTeamGroupList(entity);
+    }
+
+    @Override
+    public CompetitionOfTeam selectOneByTeamName(String teamName) {
+        return competitionOfTeamMapper.selectOneByTeamName(teamName);
+    }
+
+    @Override
+    public Boolean edit(CompetitionOfTeam entity) {
+        LoginUser user = SecurityUtils.getLoginUser();
+        entity.setModifiedBy(String.valueOf(user.getUserid()));
+        entity.setLastUpdatedTime(new Date());
+        competitionOfTeamMapper.updateCompetitionOfTeam(entity);
+        return true;
+    }
+
+    @Override
+    public List<CompetitionOfTeamVo> getJoinCompetitionGroupTeam(CompetitionOfTeam ofTeam) {
+        return competitionOfTeamMapper.getJoinCompetitionGroupTeam(ofTeam);
     }
 }

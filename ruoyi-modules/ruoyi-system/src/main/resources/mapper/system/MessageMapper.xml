@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.MessageMapper">
+    
+    <resultMap type="Message" id="MessageResult">
+        <result property="id"    column="ID"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="modifiedBy"    column="MODIFIED_BY"    />
+        <result property="lastUpdatedTime"    column="LAST_UPDATED_TIME"    />
+        <result property="isDeleted"    column="IS_DELETED"    />
+        <result property="messageTitle"    column="MESSAGE_TITLE"    />
+        <result property="messageType"    column="MESSAGE_TYPE"    />
+        <result property="flowType"    column="FLOW_TYPE"    />
+        <result property="auditor"    column="AUDITOR"    />
+        <result property="auditDate"    column="AUDIT_DATE"    />
+        <result property="sourceId"    column="SOURCE_ID"    />
+        <result property="agreeFlag"    column="AGREE_FLAG"    />
+        <result property="flowEntity"    column="FLOW_ENTITY"    />
+    </resultMap>
+
+    <sql id="selectMessageVo">
+        select ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, LAST_UPDATED_TIME, IS_DELETED, MESSAGE_TITLE, MESSAGE_TYPE, FLOW_TYPE, AUDITOR, AUDIT_DATE, SOURCE_ID, AGREE_FLAG, FLOW_ENTITY from message
+    </sql>
+
+    <select id="selectMessageList" parameterType="Message" resultMap="MessageResult">
+        <include refid="selectMessageVo"/>
+        <where>  
+            <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="modifiedBy != null  and modifiedBy != ''"> and MODIFIED_BY = #{modifiedBy}</if>
+            <if test="lastUpdatedTime != null "> and LAST_UPDATED_TIME = #{lastUpdatedTime}</if>
+            <if test="isDeleted != null "> and IS_DELETED = #{isDeleted}</if>
+            <if test="messageTitle != null  and messageTitle != ''"> and MESSAGE_TITLE = #{messageTitle}</if>
+            <if test="messageType != null  and messageType != ''"> and MESSAGE_TYPE = #{messageType}</if>
+            <if test="flowType != null  and flowType != ''"> and FLOW_TYPE = #{flowType}</if>
+            <if test="auditor != null "> and AUDITOR = #{auditor}</if>
+            <if test="auditDate != null "> and AUDIT_DATE = #{auditDate}</if>
+            <if test="sourceId != null "> and SOURCE_ID = #{sourceId}</if>
+            <if test="agreeFlag != null "> and AGREE_FLAG = #{agreeFlag}</if>
+            <if test="flowEntity != null  and flowEntity != ''"> and FLOW_ENTITY = #{flowEntity}</if>
+        </where>
+    </select>
+    
+    <select id="selectMessageById" parameterType="Long" resultMap="MessageResult">
+        <include refid="selectMessageVo"/>
+        where ID = #{id}
+    </select>
+        
+    <insert id="insertMessage" parameterType="Message" useGeneratedKeys="true" keyProperty="id">
+        insert into message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="modifiedBy != null">MODIFIED_BY,</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME,</if>
+            <if test="isDeleted != null">IS_DELETED,</if>
+            <if test="messageTitle != null">MESSAGE_TITLE,</if>
+            <if test="messageType != null">MESSAGE_TYPE,</if>
+            <if test="flowType != null">FLOW_TYPE,</if>
+            <if test="auditor != null">AUDITOR,</if>
+            <if test="auditDate != null">AUDIT_DATE,</if>
+            <if test="sourceId != null">SOURCE_ID,</if>
+            <if test="agreeFlag != null">AGREE_FLAG,</if>
+            <if test="flowEntity != null">FLOW_ENTITY,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="modifiedBy != null">#{modifiedBy},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="messageTitle != null">#{messageTitle},</if>
+            <if test="messageType != null">#{messageType},</if>
+            <if test="flowType != null">#{flowType},</if>
+            <if test="auditor != null">#{auditor},</if>
+            <if test="auditDate != null">#{auditDate},</if>
+            <if test="sourceId != null">#{sourceId},</if>
+            <if test="agreeFlag != null">#{agreeFlag},</if>
+            <if test="flowEntity != null">#{flowEntity},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMessage" parameterType="Message">
+        update message
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="modifiedBy != null">MODIFIED_BY = #{modifiedBy},</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME = #{lastUpdatedTime},</if>
+            <if test="isDeleted != null">IS_DELETED = #{isDeleted},</if>
+            <if test="messageTitle != null">MESSAGE_TITLE = #{messageTitle},</if>
+            <if test="messageType != null">MESSAGE_TYPE = #{messageType},</if>
+            <if test="flowType != null">FLOW_TYPE = #{flowType},</if>
+            <if test="auditor != null">AUDITOR = #{auditor},</if>
+            <if test="auditDate != null">AUDIT_DATE = #{auditDate},</if>
+            <if test="sourceId != null">SOURCE_ID = #{sourceId},</if>
+            <if test="agreeFlag != null">AGREE_FLAG = #{agreeFlag},</if>
+            <if test="flowEntity != null">FLOW_ENTITY = #{flowEntity},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteMessageById" parameterType="Long">
+        delete from message where ID = #{id}
+    </delete>
+
+    <delete id="deleteMessageByIds" parameterType="String">
+        delete from message where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

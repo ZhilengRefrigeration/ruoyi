@@ -70,4 +70,14 @@ public interface ICompetitionOfTeamService
     int removeTeamGroup(Long[] ids);
 
     int intoTeamGroup(String competitionGroup,List<Long> ids);
+
+    List<CompetitionOfTeamVo> getJoinCompetitionTeam(CompetitionOfTeam entity);
+
+    List<CompetitionOfTeamVo> findCompetitionTeamGroupList(CompetitionOfTeamVo entity);
+
+    CompetitionOfTeam selectOneByTeamName(String teamName);
+
+    Boolean edit(CompetitionOfTeam entity);
+
+    List<CompetitionOfTeamVo> getJoinCompetitionGroupTeam(CompetitionOfTeam ofTeam);
 }

@@ -40,7 +40,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectWxBasketballTeamVo"/>
         where ID = #{id}
     </select>
+    <select id="getMyBasketBallTeam" resultType="com.ruoyi.system.domain.WxBasketballTeam">
         
+    </select>
+
     <insert id="insertWxBasketballTeam" parameterType="WxBasketballTeam" useGeneratedKeys="true" keyProperty="id">
         insert into basketball_team
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -108,4 +111,54 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+
+    <select id="findBasketballTeamInfo" parameterType="com.ruoyi.system.domain.vo.BasketballTeamRequest"  resultType="com.ruoyi.system.domain.vo.BasketballTeamResponse">
+        SELECT
+        b.id as buildId,
+        t.DEFAULT_PICTURE as defaultPicture,
+        b.BUILDING_NAME as buildingName,
+        b.LONGITUDE  as latitude,
+        b.LATITUDE as longitude,
+        b.address as address,
+        b.created_id as createdId,
+        t.ID,
+        t.team_name as teamName,
+        t.team_des as teamDes,
+        t.contact_tel as contactTel,
+        t.team_logo as teamLogo,
+        t.remark
+        FROM
+        `basketball_team`  t LEFT JOIN  `building_info`  b
+        ON t.build_Id=b.id
+        where b.city_code=#{request.cityCode}
+        <if test="request.teamName != null and request.teamName != ''">
+            AND  t.team_name  like  CONCAT('%',#{request.teamName},'%')  OR t.team_des like CONCAT('%',#{request.teamName},'%')
+        </if>
+    </select>
+    <select id="getBasketBallTeamByCondition" parameterType="com.ruoyi.system.domain.WxBasketballTeam" resultType="com.ruoyi.system.domain.WxBasketballTeam">
+        select * from basketball_team t where t.is_deleted=0
+        <if test="createdId != null ">
+            AND  t.created_id=#{createdId}
+        </if>
+        <if test="teamName != null and teamName != ''">
+            AND  t.team_name like  CONCAT('%',#{teamName},'%')
+        </if>
+        <if test="teamDes != null and teamDes != ''">
+            AND  t.team_des like  CONCAT('%',#{teamDes},'%')
+        </if>
+        <if test="buildId != null ">
+            AND  t.build_id=#{buildId}
+        </if>
+        <if test="id != null ">
+            AND  t.id=#{id}
+        </if>
+        order by t.created_time desc
+    </select>
+    <select id="selectBatchIds" resultType="com.ruoyi.system.domain.WxBasketballTeam">
+        select * from basketball_team t where t.id in
+        <foreach collection="teamIds" item="id" open=" (" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
 </mapper>

@@ -1,11 +1,22 @@
 package com.ruoyi.system.controller;
 
+import java.security.InvalidParameterException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.io.IOException;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.core.exception.CheckedException;
+import com.ruoyi.common.swagger.apiConstants.ApiTerminal;
+import com.ruoyi.system.domain.CompetitionResult;
+import com.ruoyi.system.domain.vo.CompetitionTeamIntegralVo;
+import com.ruoyi.system.domain.vo.CompetitionTeamVsTeamRequest;
 import com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo;
 import com.ruoyi.system.domain.vo.CompetitionUnifiedRecordVo;
+import com.ruoyi.system.utils.UtilTool;
 import io.seata.core.model.Result;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,5 +123,55 @@ public class CompetitionTeamVsTeamController extends BaseController
     @GetMapping("/getCompetitionVsRecordById/{id}")
     public AjaxResult getCompetitionVsRecordById(@PathVariable("id") Long id) {
         return AjaxResult.success(competitionTeamVsTeamService.getCompetitionVsRecordById(id));
+    }
+
+    @PostMapping("/getCompetitionSchedule")
+    @ResponseBody
+    @ApiOperation(ApiTerminal.wxMiniProgram+"分页获取赛事-赛程列表")
+    public TableDataInfo getCompetitionSchedule(@RequestBody CompetitionTeamVsTeam entity) throws ParseException {
+        startPage();
+        //关键字word包含：球队名称、地点名称、球馆名称，支持模糊搜索；
+        List<CompetitionTeamVsTeamRequest> listMap = new ArrayList<>();
+        entity.setIsDeleted(0);
+        Map<String, List<CompetitionTeamVsTeamVo>> map = competitionTeamVsTeamService.getCompetitionSchedule(entity);
+        for(Map.Entry<String, List<CompetitionTeamVsTeamVo>> entry:map.entrySet()){
+            CompetitionTeamVsTeamRequest request =new CompetitionTeamVsTeamRequest();
+            request.setCompetitionDate(entry.getKey());
+            request.setWeekDay(UtilTool.dateToWeek(entry.getKey()));
+            request.setTeamVsTeamList(entry.getValue());
+            request.setCompetitionId(entity.getCompetitionId());
+            request.setIsDisabled(UtilTool.compareToDate(entry.getKey(),new Date()));
+            listMap.add(request);
+        }
+        return getDataTable(listMap);
+    }
+    @ApiOperation(ApiTerminal.wxMiniProgram+"根据赛会ID获取所有球队的积分列表")
+    @GetMapping("/competitionTeamIntegralList/{id}")
+    @ResponseBody
+    public TableDataInfo competitionTeamIntegralList(@PathVariable("id") Long id) throws Exception {
+        List<CompetitionTeamIntegralVo> list = competitionTeamVsTeamService.getCompetitionTeamIntegralListById(id);
+        return getDataTable(list);
+    }
+
+
+    @PostMapping("/competitionScheduleSubmit")
+    @ResponseBody
+    @ApiOperation(value = "赛事-比赛赛程提交")
+    public AjaxResult competitionScheduleSubmit(@RequestBody List<CompetitionTeamVsTeamRequest> vsTeamRequestList){
+        return AjaxResult.success(competitionTeamVsTeamService.competitionScheduleSubmit(vsTeamRequestList));
+    }
+    /**
+     * 赛事队伍积分提交
+     * @param request
+     * @return
+     */
+    @PostMapping("/competitionScoreSubmit")
+    @ResponseBody
+    @ApiOperation(value = "赛事队伍积分提交")
+    public AjaxResult competitionScoreSubmit(@RequestBody List<CompetitionResult> request){
+        if(UtilTool.isNull(request)){
+            throw new CheckedException("参数不能为空");
+        }
+        return AjaxResult.success(competitionTeamVsTeamService.competitionScoreSubmit(request));
     }
 }

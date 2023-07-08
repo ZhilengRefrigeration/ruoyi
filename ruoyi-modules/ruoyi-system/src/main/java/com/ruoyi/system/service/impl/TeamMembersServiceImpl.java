@@ -2,6 +2,7 @@ package com.ruoyi.system.service.impl;
 
 import java.util.List;
 
+import com.ruoyi.system.domain.vo.TeamMembersResponse;
 import com.ruoyi.system.domain.vo.TeamMembersVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -91,5 +92,15 @@ public class TeamMembersServiceImpl implements ITeamMembersService
     public int deleteTeamMembersById(Long id)
     {
         return teamMembersMapper.deleteTeamMembersById(id);
+    }
+
+    @Override
+    public List<TeamMembersResponse> getTeamMembersByTeamId(Long teamId) {
+        return teamMembersMapper.getTeamMembersByTeamId(teamId);
+    }
+
+    @Override
+    public TeamMembers getOneByTeamIdAndRoleCode(Long guestTeamId, String code) {
+        return teamMembersMapper.getOneByTeamIdAndRoleCode(guestTeamId,code);
     }
 }

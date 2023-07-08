@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.TeamMembers;
+import com.ruoyi.system.domain.vo.TeamMembersResponse;
 import com.ruoyi.system.domain.vo.TeamMembersVo;
 
 /**
@@ -59,4 +60,8 @@ public interface ITeamMembersService
      * @return 结果
      */
     public int deleteTeamMembersById(Long id);
+
+    List<TeamMembersResponse> getTeamMembersByTeamId(Long teamId);
+
+    TeamMembers getOneByTeamIdAndRoleCode(Long teamId, String roleCode);
 }

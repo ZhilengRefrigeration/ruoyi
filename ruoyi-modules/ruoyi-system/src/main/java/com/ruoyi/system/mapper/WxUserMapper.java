@@ -2,6 +2,7 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.domain.WxUser;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 微信用户Mapper接口
@@ -58,4 +59,8 @@ public interface WxUserMapper
      * @return 结果
      */
     public int deleteWxUserByIds(Long[] ids);
+
+    WxUser selectByOpenId(String openId);
+
+    List<WxUser> listByIds(@Param("userIds") List<Long> userIds);
 }

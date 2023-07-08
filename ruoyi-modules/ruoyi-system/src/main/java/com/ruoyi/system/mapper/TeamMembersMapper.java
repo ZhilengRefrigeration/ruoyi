@@ -2,7 +2,9 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.domain.TeamMembers;
+import com.ruoyi.system.domain.vo.TeamMembersResponse;
 import com.ruoyi.system.domain.vo.TeamMembersVo;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 球队人员Mapper接口
@@ -59,4 +61,8 @@ public interface TeamMembersMapper
      * @return 结果
      */
     public int deleteTeamMembersByIds(Long[] ids);
+
+    List<TeamMembersResponse> getTeamMembersByTeamId(Long teamId);
+
+    TeamMembers getOneByTeamIdAndRoleCode(@Param("teamId") Long teamId,@Param("roleCode")  String roleCode);
 }

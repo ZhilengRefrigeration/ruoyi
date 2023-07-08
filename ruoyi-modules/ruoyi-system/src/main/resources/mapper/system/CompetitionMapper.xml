@@ -101,7 +101,115 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectCompetitionVo"/>
         where id = #{id}
     </select>
-        
+    <select id="getCompetitionByCondition" resultType="com.ruoyi.system.domain.Competition">
+        select * from competition t where 1=1
+        <if test="status != null ">
+            AND  t.status =#{status}
+        </if>
+        <if test="founder != null ">
+            AND  t.founder =#{founder}
+        </if>
+        <if test="competitionNature != null ">
+            AND  t.competition_nature =#{competitionNature}
+        </if>
+        <if test="cityCode != null  and cityCode != ''">
+            AND  t.city_code like  CONCAT('%',#{cityCode},'%')
+        </if>
+        <if test="cityName != null  and cityName != ''">
+            AND  t.city_name like  CONCAT('%',#{cityName},'%')
+        </if>
+        <if test="mainTeamName != null and mainTeamName != ''">
+            AND  t.main_team_name like  CONCAT('%',#{mainTeamName},'%')
+        </if>
+        <if test="guestTeamName != null and guestTeamName != ''">
+            AND  t.guest_team_name like  CONCAT('%',#{guestTeamName},'%')
+        </if>
+        <if test="designated != null ">
+            AND  t.designated=#{designated}
+        </if>
+        <if test="competitionAddress != null and competitionAddress != '' ">
+            AND  t.competition_address like  CONCAT('%',#{competitionAddress},'%')
+        </if>
+        <if test="buildingName != null and buildingName != '' ">
+            AND  t.building_name like  CONCAT('%',#{buildingName},'%')
+        </if>
+        <if test="id != null ">
+            AND  t.id=#{id}
+        </if>
+        <if test="auditStatus != null ">
+            AND  t.audit_status = #{auditStatus}
+        </if>
+        <if test="isDeleted != null ">
+            AND  t.is_deleted = #{isDeleted}
+        </if>
+
+        <if test="word != null and word != ''">
+            AND (t.main_team_name like CONCAT('%',#{word},'%')
+            or t.guest_team_name like CONCAT('%',#{word},'%')
+            or t.building_name like CONCAT('%',#{word},'%')
+            or t.competition_address like CONCAT('%',#{word},'%')
+            or t.competition_name like CONCAT('%',#{word},'%')
+            )
+        </if>
+        order by t.created_time desc
+    </select>
+    <select id="getTeamEnrollExcleImpData" resultType="com.ruoyi.system.domain.vo.CompetitionExcleVo">
+
+    </select>
+    <select id="getMyJoinCompetition" resultType="com.ruoyi.system.domain.Competition">
+        select * from competition t where 1=1
+        <if test="status != null ">
+            AND  t.status =#{status}
+        </if>
+        <if test="founder != null ">
+            AND  t.founder =#{founder}
+        </if>
+        <if test="competitionNature != null ">
+            AND  t.competition_nature =#{competitionNature}
+        </if>
+        <if test="cityCode != null  and cityCode != ''">
+            AND  t.city_code like  CONCAT('%',#{cityCode},'%')
+        </if>
+        <if test="cityName != null  and cityName != ''">
+            AND  t.city_name like  CONCAT('%',#{cityName},'%')
+        </if>
+        <if test="mainTeamName != null and mainTeamName != ''">
+            AND  t.main_team_name like  CONCAT('%',#{mainTeamName},'%')
+        </if>
+        <if test="guestTeamName != null and guestTeamName != ''">
+            AND  t.guest_team_name like  CONCAT('%',#{guestTeamName},'%')
+        </if>
+        <if test="designated != null ">
+            AND  t.designated=#{designated}
+        </if>
+        <if test="competitionAddress != null and competitionAddress != '' ">
+            AND  t.competition_address like  CONCAT('%',#{competitionAddress},'%')
+        </if>
+        <if test="buildingName != null and buildingName != '' ">
+            AND  t.building_name like  CONCAT('%',#{buildingName},'%')
+        </if>
+        <if test="id != null ">
+            AND  t.id=#{id}
+        </if>
+        <if test="auditStatus != null ">
+            AND  t.audit_status = #{auditStatus}
+        </if>
+        <if test="isDeleted != null ">
+            AND  t.is_deleted = #{isDeleted}
+        </if>
+        <if test="word != null and word != ''">
+            AND (t.main_team_name like CONCAT('%',#{word},'%')
+            or t.guest_team_name like CONCAT('%',#{word},'%')
+            or t.building_name like CONCAT('%',#{word},'%')
+            or t.competition_address like CONCAT('%',#{word},'%')
+            )
+        </if>
+        <if test="userId != null ">
+            AND EXISTS (select 1 from competition_members c WHERE c.user_id=#{userId} and t.id=c.competition_id)
+        </if>
+        order by t.competition_time desc
+    </select>
+
     <insert id="insertCompetition" parameterType="Competition" useGeneratedKeys="true" keyProperty="id">
         insert into competition
         <trim prefix="(" suffix=")" suffixOverrides=",">

@@ -1,17 +1,16 @@
 package com.ruoyi.system.controller;
 
 import java.util.List;
-import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.security.utils.SecurityUtils;
+import com.ruoyi.common.swagger.apiConstants.ApiTerminal;
+import com.ruoyi.system.api.model.LoginUser;
+import com.ruoyi.system.api.model.WxLoginUser;
+import com.ruoyi.system.utils.LoginUserUtil;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
@@ -101,5 +100,14 @@ public class WxBasketballTeamController extends BaseController
     public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(wxBasketballTeamService.deleteWxBasketballTeamByIds(ids));
+    }
+    @PostMapping("/getMyBasketBallTeam")
+    @ResponseBody
+    @ApiOperation(value = ApiTerminal.wxMiniProgram+"分页获取我的球队列表")
+    public TableDataInfo getMyBasketBallTeam(@RequestBody WxBasketballTeam entity){
+        LoginUser user = SecurityUtils.getLoginUser();
+        entity.setCreatedId(user.getUserid());
+        List<WxBasketballTeam> list =wxBasketballTeamService.getMyBasketBallTeam(entity);
+        return getDataTable(list);
     }
 }

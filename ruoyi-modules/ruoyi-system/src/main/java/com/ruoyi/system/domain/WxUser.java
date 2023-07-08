@@ -65,7 +65,7 @@ public class WxUser extends BaseEntity
 
     /** 性别 */
     @Excel(name = "性别")
-    private String gender;
+    private Integer gender;
 
     /** 用户名称 */
     @Excel(name = "用户名称")
@@ -98,7 +98,7 @@ public class WxUser extends BaseEntity
 
     /** 状态 */
     @Excel(name = "状态")
-    private String enabled;
+    private Integer enabled;
 
     /** 微信多平台唯一ID */
     @Excel(name = "微信多平台唯一ID")
@@ -211,12 +211,12 @@ public class WxUser extends BaseEntity
     {
         return avatar;
     }
-    public void setGender(String gender) 
+    public void setGender(Integer gender)
     {
         this.gender = gender;
     }
 
-    public String getGender() 
+    public Integer getGender()
     {
         return gender;
     }
@@ -283,12 +283,12 @@ public class WxUser extends BaseEntity
     {
         return tag;
     }
-    public void setEnabled(String enabled) 
+    public void setEnabled(Integer enabled)
     {
         this.enabled = enabled;
     }
 
-    public String getEnabled() 
+    public Integer getEnabled()
     {
         return enabled;
     }

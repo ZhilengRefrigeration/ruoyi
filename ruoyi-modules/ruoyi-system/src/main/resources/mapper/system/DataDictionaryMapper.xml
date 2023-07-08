@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.DataDictionaryMapper">
+    
+    <resultMap type="DataDictionary" id="DataDictionaryResult">
+        <result property="id"    column="ID"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="modifiedBy"    column="MODIFIED_BY"    />
+        <result property="lastUpdatedTime"    column="LAST_UPDATED_TIME"    />
+        <result property="isDeleted"    column="IS_DELETED"    />
+        <result property="key"    column="KEY"    />
+        <result property="name"    column="NAME"    />
+        <result property="enabled"    column="ENABLED"    />
+        <result property="parentId"    column="PARENT_ID"    />
+        <result property="sortNumber"    column="SORT_NUMBER"    />
+    </resultMap>
+
+    <sql id="selectDataDictionaryVo">
+        select ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, LAST_UPDATED_TIME, IS_DELETED, KEY, NAME, ENABLED, PARENT_ID, SORT_NUMBER from data_dictionary
+    </sql>
+
+    <select id="selectDataDictionaryList" parameterType="DataDictionary" resultMap="DataDictionaryResult">
+        <include refid="selectDataDictionaryVo"/>
+        <where>  
+            <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="modifiedBy != null  and modifiedBy != ''"> and MODIFIED_BY = #{modifiedBy}</if>
+            <if test="lastUpdatedTime != null "> and LAST_UPDATED_TIME = #{lastUpdatedTime}</if>
+            <if test="isDeleted != null "> and IS_DELETED = #{isDeleted}</if>
+            <if test="key != null  and key != ''"> and KEY = #{key}</if>
+            <if test="name != null  and name != ''"> and NAME like concat('%', #{name}, '%')</if>
+            <if test="enabled != null "> and ENABLED = #{enabled}</if>
+            <if test="parentId != null "> and PARENT_ID = #{parentId}</if>
+            <if test="sortNumber != null "> and SORT_NUMBER = #{sortNumber}</if>
+        </where>
+    </select>
+    
+    <select id="selectDataDictionaryById" parameterType="Long" resultMap="DataDictionaryResult">
+        <include refid="selectDataDictionaryVo"/>
+        where ID = #{id}
+    </select>
+
+    <insert id="insertDataDictionary" parameterType="DataDictionary" useGeneratedKeys="true" keyProperty="id">
+        insert into data_dictionary
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="modifiedBy != null">MODIFIED_BY,</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME,</if>
+            <if test="isDeleted != null">IS_DELETED,</if>
+            <if test="key != null">KEY,</if>
+            <if test="name != null">NAME,</if>
+            <if test="enabled != null">ENABLED,</if>
+            <if test="parentId != null">PARENT_ID,</if>
+            <if test="sortNumber != null">SORT_NUMBER,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="modifiedBy != null">#{modifiedBy},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="key != null">#{key},</if>
+            <if test="name != null">#{name},</if>
+            <if test="enabled != null">#{enabled},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="sortNumber != null">#{sortNumber},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDataDictionary" parameterType="DataDictionary">
+        update data_dictionary
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="modifiedBy != null">MODIFIED_BY = #{modifiedBy},</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME = #{lastUpdatedTime},</if>
+            <if test="isDeleted != null">IS_DELETED = #{isDeleted},</if>
+            <if test="key != null">KEY = #{key},</if>
+            <if test="name != null">NAME = #{name},</if>
+            <if test="enabled != null">ENABLED = #{enabled},</if>
+            <if test="parentId != null">PARENT_ID = #{parentId},</if>
+            <if test="sortNumber != null">SORT_NUMBER = #{sortNumber},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteDataDictionaryById" parameterType="Long">
+        delete from data_dictionary where ID = #{id}
+    </delete>
+
+    <delete id="deleteDataDictionaryByIds" parameterType="String">
+        delete from data_dictionary where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

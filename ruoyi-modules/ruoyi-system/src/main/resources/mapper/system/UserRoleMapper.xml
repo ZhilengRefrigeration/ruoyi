@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.UserRoleMapper">
+    
+    <resultMap type="UserRole" id="UserRoleResult">
+        <result property="id"    column="ID"    />
+        <result property="userId"    column="USER_ID"    />
+        <result property="roleCode"    column="ROLE_CODE"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+        <result property="modifiedBy"    column="MODIFIED_BY"    />
+        <result property="isDeleted"    column="IS_DELETED"    />
+        <result property="lastUpdatedTime"    column="LAST_UPDATED_TIME"    />
+        <result property="roleId"    column="ROLE_ID"    />
+    </resultMap>
+
+    <sql id="selectUserRoleVo">
+        select ID, USER_ID, ROLE_CODE, CREATED_TIME, CREATED_BY, MODIFIED_BY, IS_DELETED, LAST_UPDATED_TIME, ROLE_ID from user_role
+    </sql>
+
+    <select id="selectUserRoleList" parameterType="UserRole" resultMap="UserRoleResult">
+        <include refid="selectUserRoleVo"/>
+        <where>  
+            <if test="userId != null "> and USER_ID = #{userId}</if>
+            <if test="roleCode != null  and roleCode != ''"> and ROLE_CODE = #{roleCode}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
+            <if test="modifiedBy != null  and modifiedBy != ''"> and MODIFIED_BY = #{modifiedBy}</if>
+            <if test="isDeleted != null "> and IS_DELETED = #{isDeleted}</if>
+            <if test="lastUpdatedTime != null "> and LAST_UPDATED_TIME = #{lastUpdatedTime}</if>
+            <if test="roleId != null "> and ROLE_ID = #{roleId}</if>
+        </where>
+    </select>
+    
+    <select id="selectUserRoleById" parameterType="Long" resultMap="UserRoleResult">
+        <include refid="selectUserRoleVo"/>
+        where ID = #{id}
+    </select>
+    <select id="selectByCode" resultType="com.ruoyi.system.domain.UserRole">
+        select * from user_role where role_code = #{roleCode} limit 1
+    </select>
+
+    <insert id="insertUserRole" parameterType="UserRole" useGeneratedKeys="true" keyProperty="id">
+        insert into user_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">USER_ID,</if>
+            <if test="roleCode != null">ROLE_CODE,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="modifiedBy != null">MODIFIED_BY,</if>
+            <if test="isDeleted != null">IS_DELETED,</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME,</if>
+            <if test="roleId != null">ROLE_ID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="roleCode != null">#{roleCode},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="modifiedBy != null">#{modifiedBy},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+            <if test="roleId != null">#{roleId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUserRole" parameterType="UserRole">
+        update user_role
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">USER_ID = #{userId},</if>
+            <if test="roleCode != null">ROLE_CODE = #{roleCode},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="modifiedBy != null">MODIFIED_BY = #{modifiedBy},</if>
+            <if test="isDeleted != null">IS_DELETED = #{isDeleted},</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME = #{lastUpdatedTime},</if>
+            <if test="roleId != null">ROLE_ID = #{roleId},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteUserRoleById" parameterType="Long">
+        delete from user_role where ID = #{id}
+    </delete>
+
+    <delete id="deleteUserRoleByIds" parameterType="String">
+        delete from user_role where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -2,6 +2,7 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.domain.WxBasketballTeam;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 球队管理Mapper接口
@@ -58,4 +59,8 @@ public interface WxBasketballTeamMapper
      * @return 结果
      */
     public int deleteWxBasketballTeamByIds(Long[] ids);
+
+    List<WxBasketballTeam> getMyBasketBallTeam(WxBasketballTeam entity);
+
+    List<WxBasketballTeam> selectBatchIds(@Param("teamIds")  List<Long> teamIds);
 }

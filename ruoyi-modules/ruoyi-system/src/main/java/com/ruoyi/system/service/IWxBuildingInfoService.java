@@ -2,6 +2,8 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.WxBuildingInfo;
+import com.ruoyi.system.domain.vo.BuildingInfoRequest;
+import com.ruoyi.system.domain.vo.BuildingInfoResponse;
 
 /**
  * 球场管理Service接口
@@ -58,4 +60,14 @@ public interface IWxBuildingInfoService
      * @return 结果
      */
     public int deleteWxBuildingInfoById(Long id);
+
+    List<WxBuildingInfo> findNearbyBuilding(WxBuildingInfo entity);
+
+    List<WxBuildingInfo> getBuildingByCity(WxBuildingInfo entity);
+
+    BuildingInfoResponse findAllInfoById(Long id);
+
+    List<BuildingInfoResponse> getAllBuildingByCondition(BuildingInfoRequest entity);
+
+    List<WxBuildingInfo> getAuditPage(WxBuildingInfo buildingInfo);
 }

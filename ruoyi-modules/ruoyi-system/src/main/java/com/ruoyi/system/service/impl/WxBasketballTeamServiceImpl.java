@@ -90,4 +90,9 @@ public class WxBasketballTeamServiceImpl implements IWxBasketballTeamService
     {
         return wxBasketballTeamMapper.deleteWxBasketballTeamById(id);
     }
+
+    @Override
+    public List<WxBasketballTeam> getMyBasketBallTeam(WxBasketballTeam entity) {
+        return wxBasketballTeamMapper.getMyBasketBallTeam(entity);
+    }
 }

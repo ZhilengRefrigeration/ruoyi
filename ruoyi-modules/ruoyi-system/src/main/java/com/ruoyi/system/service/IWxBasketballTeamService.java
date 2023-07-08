@@ -58,4 +58,6 @@ public interface IWxBasketballTeamService
      * @return 结果
      */
     public int deleteWxBasketballTeamById(Long id);
+
+    List<WxBasketballTeam> getMyBasketBallTeam(WxBasketballTeam entity);
 }

@@ -2,6 +2,8 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.domain.CompetitionMembers;
+import com.ruoyi.system.domain.vo.CompetitionMembersVo;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 比赛参与人员Mapper接口
@@ -58,4 +60,12 @@ public interface CompetitionMembersMapper
      * @return 结果
      */
     public int deleteCompetitionMembersByIds(Long[] ids);
+
+    List<CompetitionMembersVo> getJoinCompetitionMembersPage(CompetitionMembersVo entity);
+
+    void deleteByMembers(Long competitionId, Long teamOfId);
+
+    List<CompetitionMembersVo> getCompetitionMembersByCompetitionId(Long competitionId);
+
+    void bindCompetitionMembersByTel(@Param(value = "userId") Long userId,@Param(value = "telephone")  String telephone);
 }

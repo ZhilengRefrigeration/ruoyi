@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.CompetitionMembers;
+import com.ruoyi.system.domain.vo.CompetitionMembersVo;
 
 /**
  * 比赛参与人员Service接口
@@ -58,4 +59,10 @@ public interface ICompetitionMembersService
      * @return 结果
      */
     public int deleteCompetitionMembersById(Long id);
+
+    List<CompetitionMembersVo> getJoinCompetitionMembersPage(CompetitionMembersVo entity);
+
+    void deleteByMembers(Long competitionId, Long teamOfId);
+
+    void bindCompetitionMembersByTel(Long userId, String telephone);
 }

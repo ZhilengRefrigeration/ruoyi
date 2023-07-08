@@ -3,6 +3,7 @@ package com.ruoyi.system.service;
 import java.util.List;
 
 import com.ruoyi.system.domain.CompetitionTeamGroup;
+import com.ruoyi.system.domain.vo.TeamGroupRequest;
 
 /**
  * 赛会中-分组Service接口
@@ -61,4 +62,12 @@ public interface ICompetitionTeamGroupService
     public int deleteCompetitionTeamGroupById(Long id);
    //赛会中-一键编排分组内的球队的单组循环赛赛程
    public Boolean arrangeTeamGroupSchedule(CompetitionTeamGroup competitionTeamGroup);
+
+    List<CompetitionTeamGroup> getTeamGroupByCondition(CompetitionTeamGroup entity);
+
+    Boolean batchEditTeamGroup(TeamGroupRequest entity);
+
+    Boolean randomTeamGroup(List<TeamGroupRequest> list, Long competitionId);
+
+    Boolean add(CompetitionTeamGroup entity);
 }

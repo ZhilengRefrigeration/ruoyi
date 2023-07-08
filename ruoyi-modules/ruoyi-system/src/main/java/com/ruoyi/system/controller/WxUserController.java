@@ -1,17 +1,29 @@
 package com.ruoyi.system.controller;
 
+import java.security.InvalidParameterException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
+import java.util.Map;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
+
+import com.github.pagehelper.util.StringUtil;
+import com.ruoyi.common.swagger.apiConstants.ApiTerminal;
+import com.ruoyi.system.domain.UserRole;
+import com.ruoyi.system.domain.vo.PersonalCareerVo;
+import com.ruoyi.system.domain.vo.UserInfoResponse;
+import com.ruoyi.system.service.ICompetitionMembersScoreService;
+import com.ruoyi.system.service.IDataDictionaryService;
+import com.ruoyi.system.service.IUserRoleService;
+import com.ruoyi.system.utils.AgeUtils;
+import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
@@ -34,7 +46,12 @@ public class WxUserController extends BaseController
 {
     @Autowired
     private IWxUserService wxUserService;
-
+    @Autowired
+    private IDataDictionaryService dataDictionaryService;
+    @Autowired
+    private IUserRoleService userRoleService;
+    @Autowired
+    private ICompetitionMembersScoreService competitionMembersScoreService;
     /**
      * 查询微信用户列表
      */
@@ -101,5 +118,68 @@ public class WxUserController extends BaseController
     public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(wxUserService.deleteWxUserByIds(ids));
+    }
+
+    @ApiOperation(ApiTerminal.wxMiniProgram+"根据用户id查询个人中心详情")
+    @PostMapping("/detail/{userId}")
+    @ResponseBody
+    public AjaxResult detail(@PathVariable("userId") Long userId){
+        UserInfoResponse userInfoResponse = new UserInfoResponse();
+        //查询用户基本信息
+        WxUser userInfo = wxUserService.selectWxUserById(userId);
+        if(userInfo==null){
+            throw new InvalidParameterException("根据传入的userId【"+userId+"】未查询到用户信息");
+        }
+        //赋值
+        BeanUtils.copyProperties(userInfo,userInfoResponse);
+
+        if(ObjectUtils.isNotEmpty(userInfo.getBirthday())){
+            //根据日期计算年龄
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            String birthTimeString = format.format(userInfo.getBirthday());
+            userInfoResponse.setAge(AgeUtils.getAgeFromBirthTime(birthTimeString));
+        }
+
+        //球队位置组装
+        if(userInfo.getTeamPosition()!=null){
+            Map<String, String> teamPositionMap = dataDictionaryService.getChildByParentKey("teamPosition");
+            String[] teamPositionArgs = userInfo.getTeamPosition().split(",");
+            if(teamPositionArgs!=null&&teamPositionArgs.length>0){
+                List<String> teamPositionName = new ArrayList<>();
+                for(String teamPosition : teamPositionArgs){
+                    teamPositionName.add(teamPositionMap.get(teamPosition));
+                }
+                userInfoResponse.setTeamPositionName(teamPositionName);
+            }
+        }
+
+        //标签数据组装
+        if(userInfo.getTag()!=null){
+            Map<String, String>  tagMap = dataDictionaryService.getChildByParentKey("tag");
+            String[] tagArgs = userInfo.getTag().split(",");
+            if(tagArgs!=null&&tagArgs.length>0){
+                List<String> tagName = new ArrayList<>();
+                for(String tag : tagArgs){
+                    tagName.add(tagMap.get(tag));
+                }
+                userInfoResponse.setTagName(tagName);
+            }
+        }
+
+        //查询此用户的角色有哪些
+        UserRole userRole=new UserRole();
+        userRole.setUserId(userId);
+        List<UserRole> userRoles=userRoleService.selectUserRoleList(userRole);
+        if(!StringUtils.isEmpty(userRoles)&&userRoles.size()>0){
+            userInfoResponse.setRoleCodes(userRoles.stream().map(UserRole::getRoleCode).collect(Collectors.toList()));
+        }
+
+        //个人生涯
+        PersonalCareerVo personalCareerVo = competitionMembersScoreService.getUserScoreByUserId(userId);
+        if(personalCareerVo==null){
+            personalCareerVo = new PersonalCareerVo();
+        }
+        userInfoResponse.setPersonalCareerVo(personalCareerVo);
+        return AjaxResult.success(userInfoResponse);
     }
 }

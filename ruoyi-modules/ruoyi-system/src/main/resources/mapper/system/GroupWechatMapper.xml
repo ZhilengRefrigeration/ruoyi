@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.GroupWechatMapper">
+    
+    <resultMap type="GroupWechat" id="GroupWechatResult">
+        <result property="id"    column="ID"    />
+        <result property="buildingId"    column="BUILDING_ID"    />
+        <result property="groupName"    column="GROUP_NAME"    />
+        <result property="headerPicture"    column="HEADER_PICTURE"    />
+        <result property="groupCode"    column="GROUP_CODE"    />
+        <result property="scanNum"    column="SCAN_NUM"    />
+        <result property="serviceUser"    column="SERVICE_USER"    />
+        <result property="serviceUserQrcode"    column="SERVICE_USER_QRCODE"    />
+        <result property="remarks"    column="REMARKS"    />
+        <result property="isDeleted"    column="IS_DELETED"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+        <result property="modifiedBy"    column="MODIFIED_BY"    />
+        <result property="lastUpdatedTime"    column="LAST_UPDATED_TIME"    />
+    </resultMap>
+
+    <sql id="selectGroupWechatVo">
+        select ID, BUILDING_ID, GROUP_NAME, HEADER_PICTURE, GROUP_CODE, SCAN_NUM, SERVICE_USER, SERVICE_USER_QRCODE, REMARKS, IS_DELETED, CREATED_TIME, CREATED_BY, MODIFIED_BY, LAST_UPDATED_TIME from group_wechat
+    </sql>
+
+    <select id="selectGroupWechatList" parameterType="GroupWechat" resultMap="GroupWechatResult">
+        <include refid="selectGroupWechatVo"/>
+        <where>  
+            <if test="buildingId != null "> and BUILDING_ID = #{buildingId}</if>
+            <if test="groupName != null  and groupName != ''"> and GROUP_NAME like concat('%', #{groupName}, '%')</if>
+            <if test="headerPicture != null  and headerPicture != ''"> and HEADER_PICTURE = #{headerPicture}</if>
+            <if test="groupCode != null  and groupCode != ''"> and GROUP_CODE = #{groupCode}</if>
+            <if test="scanNum != null  and scanNum != ''"> and SCAN_NUM = #{scanNum}</if>
+            <if test="serviceUser != null  and serviceUser != ''"> and SERVICE_USER = #{serviceUser}</if>
+            <if test="serviceUserQrcode != null  and serviceUserQrcode != ''"> and SERVICE_USER_QRCODE = #{serviceUserQrcode}</if>
+            <if test="remarks != null  and remarks != ''"> and REMARKS = #{remarks}</if>
+            <if test="isDeleted != null "> and IS_DELETED = #{isDeleted}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
+            <if test="modifiedBy != null  and modifiedBy != ''"> and MODIFIED_BY = #{modifiedBy}</if>
+            <if test="lastUpdatedTime != null "> and LAST_UPDATED_TIME = #{lastUpdatedTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectGroupWechatById" parameterType="Long" resultMap="GroupWechatResult">
+        <include refid="selectGroupWechatVo"/>
+        where ID = #{id}
+    </select>
+        
+    <insert id="insertGroupWechat" parameterType="GroupWechat" useGeneratedKeys="true" keyProperty="id">
+        insert into group_wechat
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="buildingId != null">BUILDING_ID,</if>
+            <if test="groupName != null">GROUP_NAME,</if>
+            <if test="headerPicture != null">HEADER_PICTURE,</if>
+            <if test="groupCode != null">GROUP_CODE,</if>
+            <if test="scanNum != null">SCAN_NUM,</if>
+            <if test="serviceUser != null">SERVICE_USER,</if>
+            <if test="serviceUserQrcode != null">SERVICE_USER_QRCODE,</if>
+            <if test="remarks != null">REMARKS,</if>
+            <if test="isDeleted != null">IS_DELETED,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="modifiedBy != null">MODIFIED_BY,</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="buildingId != null">#{buildingId},</if>
+            <if test="groupName != null">#{groupName},</if>
+            <if test="headerPicture != null">#{headerPicture},</if>
+            <if test="groupCode != null">#{groupCode},</if>
+            <if test="scanNum != null">#{scanNum},</if>
+            <if test="serviceUser != null">#{serviceUser},</if>
+            <if test="serviceUserQrcode != null">#{serviceUserQrcode},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="modifiedBy != null">#{modifiedBy},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGroupWechat" parameterType="GroupWechat">
+        update group_wechat
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="buildingId != null">BUILDING_ID = #{buildingId},</if>
+            <if test="groupName != null">GROUP_NAME = #{groupName},</if>
+            <if test="headerPicture != null">HEADER_PICTURE = #{headerPicture},</if>
+            <if test="groupCode != null">GROUP_CODE = #{groupCode},</if>
+            <if test="scanNum != null">SCAN_NUM = #{scanNum},</if>
+            <if test="serviceUser != null">SERVICE_USER = #{serviceUser},</if>
+            <if test="serviceUserQrcode != null">SERVICE_USER_QRCODE = #{serviceUserQrcode},</if>
+            <if test="remarks != null">REMARKS = #{remarks},</if>
+            <if test="isDeleted != null">IS_DELETED = #{isDeleted},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="modifiedBy != null">MODIFIED_BY = #{modifiedBy},</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME = #{lastUpdatedTime},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteGroupWechatById" parameterType="Long">
+        delete from group_wechat where ID = #{id}
+    </delete>
+
+    <delete id="deleteGroupWechatByIds" parameterType="String">
+        delete from group_wechat where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

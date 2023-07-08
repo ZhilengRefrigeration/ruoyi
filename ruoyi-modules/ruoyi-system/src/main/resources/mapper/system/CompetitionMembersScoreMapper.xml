@@ -115,6 +115,59 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </if>
         ORDER BY sco.is_first_launch desc
     </select>
+    <select id="getUserScoreByUserId" resultType="com.ruoyi.system.domain.vo.PersonalCareerVo">
+        SELECT
+            t.competition_vs_id as competitionVsId,
+            count(1) as sessions,
+            sum(t.total_score ) /count(1) AS totalScore,
+            sum(t.two_points) /count(1)	as twoPoints,
+            sum(t.three_points)/count(1) as threePoints,
+            sum(t.penalty)/count(1) as penalty,
+            sum(t.backboard)/count(1) as backboard,
+            sum(t.front_plate)/count(1) as frontPlate,
+            sum(t.back_plate)/count(1) as backPlate,
+            sum(t.assists)/count(1) as assists,
+            sum(t.snatch)/count(1) as snatch,
+            sum(t.block)/count(1) as block,
+            sum(t.fault)/count(1) as fault,
+            sum(t.breaks)/count(1) as breaks
+        FROM
+            competition_members_score t
+        WHERE
+            t.team_user_id = #{teamUserId}
+        GROUP BY
+            t.competition_vs_id
+    </select>
+    <select id="getHonorList" resultType="com.ruoyi.system.domain.CompetitionMembersScore">
+        SELECT
+        any_value(member.real_name) as realName,
+        any_value(score.team_id) as teamId,
+        any_value(team.TEAM_NAME) as teamName,
+        IFNULL(sum(score.total_score),0) AS totalScore,
+        IFNULL(sum(score.two_points),0) AS twoPoints,
+        IFNULL(sum(score.penalty),0) AS penalty,
+        IFNULL(sum(score.backboard),0) AS backboard,
+        IFNULL(sum(score.front_plate),0) AS frontPlate,
+        IFNULL(sum(score.back_plate),0) AS backPlate,
+        IFNULL(sum(score.three_Points),0) AS threePoints,
+        IFNULL(sum(score.assists),0) AS assists,
+        IFNULL(sum(score.snatch),0) AS snatch,
+        IFNULL(sum(score.block),0) AS block,
+        IFNULL(sum(score.fault),0) AS fault,
+        IFNULL(sum(score.breaks),0) AS breaks
+        FROM competition_members_score score
+        LEFT JOIN competition_members member on score.competition_members_id = member.id and member.is_deleted=0
+        LEFT JOIN competition_of_team team on score.team_id = team.id and team.IS_DELETED=0
+        WHERE score.is_deleted = 0
+        <if test="competitionId != null ">
+            AND score.competition_id = #{competitionId}
+        </if>
+        <if test="userId != null ">
+            AND  score.team_user_id = #{userId}
+        </if>
+        GROUP BY
+        score.competition_members_id
+    </select>
     <insert id="insertCompetitionMembersScore" parameterType="CompetitionMembersScore" useGeneratedKeys="true" keyProperty="id">
         insert into competition_members_score
         <trim prefix="(" suffix=")" suffixOverrides=",">

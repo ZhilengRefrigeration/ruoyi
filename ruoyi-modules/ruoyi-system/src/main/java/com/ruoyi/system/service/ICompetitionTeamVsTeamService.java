@@ -1,10 +1,11 @@
 package com.ruoyi.system.service;
 
 import java.util.List;
+import java.util.Map;
+
+import com.ruoyi.system.domain.CompetitionResult;
 import com.ruoyi.system.domain.CompetitionTeamVsTeam;
-import com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo;
-import com.ruoyi.system.domain.vo.CompetitionUnifiedRecordVo;
-import com.ruoyi.system.domain.vo.CompetitionVsRecordVo;
+import com.ruoyi.system.domain.vo.*;
 
 /**
  * 赛会中-球队VS球队关系Service接口
@@ -65,4 +66,12 @@ public interface ICompetitionTeamVsTeamService
     public CompetitionUnifiedRecordVo getCompetitionUnifiedRecordById(Long id);
 
     public CompetitionVsRecordVo getCompetitionVsRecordById(Long id);
+
+    Map<String, List<CompetitionTeamVsTeamVo>> getCompetitionSchedule(CompetitionTeamVsTeam entity);
+
+    List<CompetitionTeamIntegralVo> getCompetitionTeamIntegralListById(Long id);
+
+    Boolean competitionScheduleSubmit(List<CompetitionTeamVsTeamRequest> vsTeamRequestList);
+
+    Boolean competitionScoreSubmit(List<CompetitionResult> request);
 }

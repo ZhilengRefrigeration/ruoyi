@@ -80,7 +80,80 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectCompetitionMembersVo"/>
         where id = #{id}
     </select>
-        
+    <select id="getJoinCompetitionMembersPage" resultType="com.ruoyi.system.domain.vo.CompetitionMembersVo">
+        SELECT
+        t.*,
+        u.AVATAR,
+        u.USER_NAME as userName,
+        u.GENDER,
+        u.TELEPHONE,
+        u.LOGIN_NAME as loginName,
+        u.height,
+        u.weight,
+        u.TEAM_POSITION as teamPosition,
+        u.ROLE
+        FROM competition_members t
+        LEFT JOIN user_info u ON t.user_id = u.id
+        WHERE 1=1 AND t.is_deleted = 0
+        <if test="status != null ">
+            AND  t.status =#{status}
+        </if>
+        <if test="userId != null ">
+            AND  t.user_id = #{userId}
+        </if>
+        <if test="competitionId != null ">
+            AND  t.competition_id = #{competitionId}
+        </if>
+        <if test="competitionTeamId != null ">
+            AND  t.competition_team_id = #{competitionTeamId}
+        </if>
+        <if test="competitionOfTeamId != null ">
+            AND  t.competition_of_team_id = #{competitionOfTeamId}
+        </if>
+        <if test="roleCode != null and roleCode != ''">
+            AND  t.role_code = #{roleCode}
+        </if>
+        <if test="userType != null ">
+            AND  t.user_type=#{userType}
+        </if>
+        <if test="contacts != null and contacts != '' ">
+            AND  t.contacts like  CONCAT('%',#{contacts},'%')
+        </if>
+        <if test="contactsTel != null and contactsTel != '' ">
+            AND  t.contacts_tel like  CONCAT('%',#{contactsTel},'%')
+        </if>
+        <if test="id != null ">
+            AND  t.id=#{id}
+        </if>
+        <if test="jerseyNumber != null and jerseyNumber != '' ">
+            AND  t.jersey_number like  CONCAT('%',#{jerseyNumber},'%')
+        </if>
+        <if test="realName != null and realName != '' ">
+            AND  t.real_name like  CONCAT('%',#{real_name},'%')
+        </if>
+        <if test="isDeleted != null ">
+            AND  t.is_deleted = #{isDeleted}
+        </if>
+        order by t.created_time desc
+    </select>
+    <select id="getCompetitionMembersByCompetitionId"
+            resultType="com.ruoyi.system.domain.vo.CompetitionMembersVo">
+        SELECT
+            c.*,
+            u.AVATAR,
+            u.USER_NAME as userName,
+            u.GENDER,
+            u.TELEPHONE,
+            u.LOGIN_NAME as loginName,
+            u.height,
+            u.weight,
+            u.TEAM_POSITION as teamPosition,
+            u.ROLE
+        FROM competition_members c
+        LEFT JOIN user_info u ON c.user_id = u.id
+        where c.competition_id = #{competitionId} AND  c.is_deleted = 0
+    </select>
+
     <insert id="insertCompetitionMembers" parameterType="CompetitionMembers" useGeneratedKeys="true" keyProperty="id">
         insert into competition_members
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -182,6 +255,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         where id = #{id}
     </update>
+    <update id="bindCompetitionMembersByTel">
+        update competition_members set user_id = #{userId} where contacts_tel = #{contactsTel}
+    </update>
 
     <delete id="deleteCompetitionMembersById" parameterType="Long">
         delete from competition_members where id = #{id}
@@ -192,5 +268,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
+    </delete>
+    <delete id="deleteByMembers">
+        delete from competition_members where competition_of_team_id = #{teamOfId} and competition_id = #{competitionId}
     </delete>
 </mapper>

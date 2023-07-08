@@ -126,6 +126,130 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
           AND  t.is_deleted = 0
             LIMIT 1
     </select>
+    <select id="getCompetitionSchedule" resultType="com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo">
+        select
+        t.id as id,
+        t.competition_id as competitionId,
+        t.main_team_id as mainTeamId,
+        b1.TEAM_NAME as mainTeamName,
+        b1.team_logo as mainTeamLogo,
+        t.guest_team_id as guestTeamId,
+        b2.TEAM_NAME as guestTeamName,
+        b2.team_logo as guestTeamLogo,
+        t.competition_time as competitionTime,
+        t.building_id as buildingId,
+        t.building_name as buildingName,
+        t.competition_address as competitionAddress,
+        t.competition_group as competitionGroup,
+        t.status,
+        t.vs_type as vsType,
+        t.created_time as createdTime,
+        t.last_updated_time as lastUpdatedTime,
+        t.created_by as createdBy,
+        t.modified_by as modifiedBy,
+        t.main_team_score as mainTeamScore,
+        t.guest_team_score as guestTeamScore,
+        t.is_deleted as isDeleted,
+        DATE_FORMAT(t.competition_time,'%Y-%m-%d') as competitionDate,
+        CASE dayofweek(t.competition_time)
+        WHEN 1 THEN
+        '星期日'
+        WHEN 2 THEN
+        '星期一'
+        WHEN 3 THEN
+        '星期二'
+        WHEN 4 THEN
+        '星期三'
+        WHEN 5 THEN
+        '星期四'
+        WHEN 6 THEN
+        '星期五'
+        WHEN 7 THEN
+        '星期六'
+        END as weekDayName,
+        CASE t.status
+        WHEN -1 THEN
+        '已取消'
+        WHEN 0 THEN
+        '报名中'
+        WHEN 1 THEN
+        '比赛中'
+        WHEN 2 THEN
+        '已结束'
+        END as statusName,
+        DATE_FORMAT(t.competition_time,'%H:%i') AS theTime,
+        t.remark as remark
+        from competition_team_vs_team t
+        LEFT JOIN competition_of_team b1 ON b1.id = t.main_team_id
+        left join competition_of_team b2 on t.guest_team_id=b2.id
+        where 1=1
+        <if test="id != null ">
+            AND  t.id=#{id}
+        </if>
+        <if test="status != null ">
+            AND  t.status =#{status}
+        </if>
+        <if test="isDeleted != null ">
+            AND  t.is_deleted =#{isDeleted}
+        </if>
+        <if test="competitionId != null ">
+            AND  t.competition_id=#{competitionId}
+        </if>
+        <if test="buildingName != null  and buildingName != ''">
+            AND  t.building_name like  CONCAT('%',#{buildingName},'%')
+        </if>
+        <if test="competitionGroup != null ">
+            AND  t.competition_group = #{competitionGroup}
+        </if>
+        <if test="mainTeamName != null and mainTeamName != ''">
+            AND  t.main_team_name like  CONCAT('%',#{mainTeamName},'%')
+        </if>
+        <if test="guestTeamName != null and guestTeamName != ''">
+            AND  t.guest_team_name like  CONCAT('%',#{guestTeamName},'%')
+        </if>
+        <if test="competitionAddress != null and competitionAddress != '' ">
+            AND  t.competition_address like  CONCAT('%',#{competitionAddress},'%')
+        </if>
+        <if test="buildingName != null and buildingName != '' ">
+            AND  t.building_name like  CONCAT('%',#{buildingName},'%')
+        </if>
+        order by t.competition_time asc
+    </select>
+    <select id="getLatelySchedule" resultType="com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo">
+        select
+        cpt.competition_begin_time as theTime,
+        team1.team_logo as mainTeamLogo,
+        team2.team_logo as guestTeamLogo,
+        t.*
+        from competition cpt
+        INNER JOIN competition_team_vs_team t on t.competition_id = cpt.id and t.is_deleted=0
+        LEFT JOIN basketball_team team1 on t.main_team_id = team1.ID and team1.IS_DELETED=0
+        LEFT JOIN basketball_team team2 on t.main_team_id = team2.ID and team2.IS_DELETED=0
+        where cpt.is_deleted=0
+        <if test="mainTeamId != null ">
+            AND  t.main_team_id=#{mainTeamId}
+        </if>
+        <if test="guestTeamId != null ">
+            AND  t.guest_team_id =#{guestTeamId}
+        </if>
+        order by t.competition_time desc
+        limit 0,3
+    </select>
+    <select id="getCompetitionTeamIntegralListById"
+            resultType="com.ruoyi.system.domain.vo.CompetitionTeamIntegralVo">
+        SELECT
+            ANY_VALUE ( t.team_name ) as teamName,
+            any_value (team.team_logo) as teamLogo,
+            t.competition_of_team_id,
+            sum(IF( t.vs_result = 'win', 1, 0 )) AS win,
+            sum(IF( t.vs_result = 'fail', 1, 0 )) AS fail,
+            sum(IFNULL( t.one_node_score, 0 )+ IFNULL( t.two_node_score, 0 )+ IFNULL( t.three_node_score, 0 )+ IFNULL( t.four_node_score, 0 )+ IFNULL( t.five_node_score, 0 )+ IFNULL( t.six_node_score, 0 )) AS totalScore,
+            sum(t.integral) AS integral
+        FROM competition_result t left join competition_of_team team on team.id = t.competition_of_team_id
+        WHERE t.is_deleted = 0 AND t.competition_id = #{id}
+        GROUP BY t.competition_of_team_id
+        ORDER BY sum(t.integral) desc
+    </select>
 
     <insert id="insertCompetitionTeamVsTeam" parameterType="CompetitionTeamVsTeam" useGeneratedKeys="true" keyProperty="id">
         insert into competition_team_vs_team

@@ -9,6 +9,7 @@ import com.ruoyi.system.domain.WxUser;
 import com.ruoyi.system.domain.vo.UserWxAqrCodeVo;
 import com.ruoyi.system.service.IWxBasketballTeamService;
 import com.ruoyi.system.service.IWxUserService;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

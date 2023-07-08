@@ -1,6 +1,8 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.system.domain.vo.CompetitionMembersVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CompetitionMembersMapper;
@@ -89,5 +91,20 @@ public class CompetitionMembersServiceImpl implements ICompetitionMembersService
     public int deleteCompetitionMembersById(Long id)
     {
         return competitionMembersMapper.deleteCompetitionMembersById(id);
+    }
+
+    @Override
+    public List<CompetitionMembersVo> getJoinCompetitionMembersPage(CompetitionMembersVo entity) {
+        return competitionMembersMapper.getJoinCompetitionMembersPage(entity);
+    }
+
+    @Override
+    public void deleteByMembers(Long competitionId, Long teamOfId) {
+        competitionMembersMapper.deleteByMembers(competitionId,teamOfId);
+    }
+
+    @Override
+    public void bindCompetitionMembersByTel(Long userId, String telephone) {
+        competitionMembersMapper.bindCompetitionMembersByTel(userId,telephone);
     }
 }

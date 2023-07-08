@@ -1,5 +1,6 @@
 package com.ruoyi.system.api;
 
+import com.ruoyi.system.api.model.WxLoginUser;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,9 @@ public interface RemoteUserService
      */
     @GetMapping("/user/info/{username}")
     public R<LoginUser> getUserInfo(@PathVariable("username") String username, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+
+    @PostMapping("/wxLogin/getWxUserInfo")
+    public R<LoginUser> getWxUserInfo(@RequestBody LoginUser wxLoginBody, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     /**
      * 注册用户信息

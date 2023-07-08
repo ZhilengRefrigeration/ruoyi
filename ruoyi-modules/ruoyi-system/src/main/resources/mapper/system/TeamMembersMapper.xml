@@ -46,6 +46,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="userName != null "> and t.user_name like concat('%', #{userName}, '%')</if>
         </where>
     </select>
+    <select id="getTeamMembersByTeamId" resultType="com.ruoyi.system.domain.vo.TeamMembersResponse">
+        SELECT
+            b.*,
+            u.AVATAR,
+            u.LOGIN_NAME,
+            u.ROLE,
+            u.GENDER,
+            u.USER_NAME,
+            u.TELEPHONE
+        FROM team_members b
+                 LEFT JOIN user_info u ON b.user_id = u.ID
+        WHERE b.team_id=#{teamId} and b.is_deleted=0
+    </select>
+    <select id="getOneByTeamIdAndRoleCode" resultType="com.ruoyi.system.domain.TeamMembers">
+        select * from team_members where teamId = #{teamId} and roleCode = #{roleCode} limit 1
+    </select>
     <insert id="insertTeamMembers" parameterType="TeamMembers" useGeneratedKeys="true" keyProperty="id">
         insert into team_members
         <trim prefix="(" suffix=")" suffixOverrides=",">

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
+
+import com.ruoyi.system.api.model.WxLoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.constant.CacheConstants;
@@ -44,8 +46,8 @@ public class TokenService
     public Map<String, Object> createToken(LoginUser loginUser)
     {
         String token = IdUtils.fastUUID();
-        Long userId = loginUser.getSysUser().getUserId();
-        String userName = loginUser.getSysUser().getUserName();
+        Long userId = loginUser.getUserid();
+        String userName = loginUser.getUsername();
         loginUser.setToken(token);
         loginUser.setUserid(userId);
         loginUser.setUsername(userName);
@@ -62,9 +64,9 @@ public class TokenService
         Map<String, Object> rspMap = new HashMap<String, Object>();
         rspMap.put("access_token", JwtUtils.createToken(claimsMap));
         rspMap.put("expires_in", expireTime);
+        rspMap.put("user",loginUser);
         return rspMap;
     }
-
     /**
      * 获取用户身份信息
      *

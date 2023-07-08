@@ -3,6 +3,7 @@ package com.ruoyi.system.mapper;
 import java.util.List;
 import com.ruoyi.system.domain.CompetitionOfTeam;
 import com.ruoyi.system.domain.vo.CompetitionOfTeamVo;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 赛会中-参赛队伍Mapper接口
@@ -63,4 +64,14 @@ public interface CompetitionOfTeamMapper
     int removeTeamGroup(Long[] ids);
 
     int intoTeamGroup(String competitionGroup, List<Long> ids);
+
+    List<CompetitionOfTeamVo> getJoinCompetitionTeam(CompetitionOfTeam entity);
+
+    List<CompetitionOfTeamVo> findCompetitionTeamGroupList(CompetitionOfTeamVo entity);
+
+    CompetitionOfTeam selectOneByTeamName(String teamName);
+
+    CompetitionOfTeam selectOneByUserId(@Param("competitionId") Long competitionId,@Param("userId") String userId);
+
+    List<CompetitionOfTeamVo> getJoinCompetitionGroupTeam(CompetitionOfTeam ofTeam);
 }

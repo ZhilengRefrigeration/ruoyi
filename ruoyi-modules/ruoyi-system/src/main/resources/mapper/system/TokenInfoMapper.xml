@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TokenInfoMapper">
+    
+    <resultMap type="TokenInfo" id="TokenInfoResult">
+        <result property="id"    column="ID"    />
+        <result property="isDeleted"    column="IS_DELETED"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+        <result property="modifiedBy"    column="MODIFIED_BY"    />
+        <result property="lastUpdatedTime"    column="LAST_UPDATED_TIME"    />
+        <result property="mainToken"    column="MAIN_TOKEN"    />
+        <result property="kikToken"    column="KIK_TOKEN"    />
+    </resultMap>
+
+    <sql id="selectTokenInfoVo">
+        select ID, IS_DELETED, CREATED_TIME, CREATED_BY, MODIFIED_BY, LAST_UPDATED_TIME, MAIN_TOKEN, KIK_TOKEN from token_info
+    </sql>
+
+    <select id="selectTokenInfoList" parameterType="TokenInfo" resultMap="TokenInfoResult">
+        <include refid="selectTokenInfoVo"/>
+        <where>  
+            <if test="isDeleted != null "> and IS_DELETED = #{isDeleted}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
+            <if test="modifiedBy != null  and modifiedBy != ''"> and MODIFIED_BY = #{modifiedBy}</if>
+            <if test="lastUpdatedTime != null "> and LAST_UPDATED_TIME = #{lastUpdatedTime}</if>
+            <if test="mainToken != null  and mainToken != ''"> and MAIN_TOKEN = #{mainToken}</if>
+            <if test="kikToken != null  and kikToken != ''"> and KIK_TOKEN = #{kikToken}</if>
+        </where>
+    </select>
+    
+    <select id="selectTokenInfoById" parameterType="Long" resultMap="TokenInfoResult">
+        <include refid="selectTokenInfoVo"/>
+        where ID = #{id}
+    </select>
+        
+    <insert id="insertTokenInfo" parameterType="TokenInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into token_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="isDeleted != null">IS_DELETED,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="modifiedBy != null">MODIFIED_BY,</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME,</if>
+            <if test="mainToken != null">MAIN_TOKEN,</if>
+            <if test="kikToken != null">KIK_TOKEN,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="modifiedBy != null">#{modifiedBy},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+            <if test="mainToken != null">#{mainToken},</if>
+            <if test="kikToken != null">#{kikToken},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTokenInfo" parameterType="TokenInfo">
+        update token_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="isDeleted != null">IS_DELETED = #{isDeleted},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="modifiedBy != null">MODIFIED_BY = #{modifiedBy},</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME = #{lastUpdatedTime},</if>
+            <if test="mainToken != null">MAIN_TOKEN = #{mainToken},</if>
+            <if test="kikToken != null">KIK_TOKEN = #{kikToken},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteTokenInfoById" parameterType="Long">
+        delete from token_info where ID = #{id}
+    </delete>
+
+    <delete id="deleteTokenInfoByIds" parameterType="String">
+        delete from token_info where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

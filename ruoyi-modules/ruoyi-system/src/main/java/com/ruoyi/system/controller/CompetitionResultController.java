@@ -1,19 +1,26 @@
 package com.ruoyi.system.controller;
 
+import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.core.exception.ServiceException;
+import com.ruoyi.common.security.utils.SecurityUtils;
+import com.ruoyi.common.swagger.apiConstants.ApiTerminal;
+import com.ruoyi.system.domain.CompetitionMembersScore;
 import com.ruoyi.system.domain.vo.CompetitionVsRecordVo;
+import com.ruoyi.system.domain.vo.PersonalHonorResponse;
+import com.ruoyi.system.service.ICompetitionMembersScoreService;
+import com.ruoyi.system.utils.UtilTool;
+import io.seata.core.model.Result;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
@@ -36,6 +43,8 @@ public class CompetitionResultController extends BaseController
 {
     @Autowired
     private ICompetitionResultService competitionResultService;
+    @Autowired
+    private ICompetitionMembersScoreService competitionMembersScoreService;
 
     /**
      * 查询赛会中-赛程结果记录列表
@@ -117,5 +126,78 @@ public class CompetitionResultController extends BaseController
     public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(competitionResultService.deleteCompetitionResultByIds(ids));
+    }
+    @ApiOperation(ApiTerminal.wxMiniProgram+"球员数据-新增、编辑")
+    @PostMapping("/insertOrUpdateMemberScore")
+    @ResponseBody
+    public AjaxResult insertOrUpdateMemberScore(@RequestBody CompetitionMembersScore request) throws Exception {
+        if(UtilTool.isNull(request)){
+            throw new ServiceException("参数不能为空1");
+        }
+
+        //新增
+        if(request.getId()==null){
+            request.setCreatedBy(String.valueOf(SecurityUtils.getLoginUser().getUserid()));
+            request.setCreatedTime(new Date());
+            competitionMembersScoreService.insertCompetitionMembersScore(request);
+        } else {//编辑、
+            if(StringUtils.isEmpty(request.getId())){
+                throw new ServiceException("id为空");
+            }
+            request.setLastUpdatedTime(new Date());
+            request.setModifiedBy(String.valueOf(SecurityUtils.getLoginUser().getUserid()));
+            competitionMembersScoreService.updateCompetitionMembersScore(request);
+        }
+        return AjaxResult.success();
+    }
+    @ApiOperation(ApiTerminal.wxMiniProgram+"赛会个人荣誉榜")
+    @GetMapping("/getHonorList/{competitionId}")
+    @ResponseBody
+    public TableDataInfo getHonorList(@PathVariable("competitionId") Long competitionId) throws Exception {
+        if(UtilTool.isNull(competitionId)){
+            throw new InvalidParameterException("赛会id不能为");
+        }
+        List<PersonalHonorResponse> honorResponseList = null;
+
+        //查询赛会得分数据
+        List<CompetitionMembersScore> membersScoreList = competitionMembersScoreService.getHonorList(competitionId,null);
+        if(UtilTool.isNotNull(membersScoreList)){
+            honorResponseList = new ArrayList<>();
+
+            CompetitionMembersScore membersScore = null;
+            //3分王
+            membersScore = membersScoreList.stream().max(Comparator.comparing(CompetitionMembersScore::getThreePoints)).get();
+            setHonorData(honorResponseList,membersScore,"3分王");
+            //篮板王
+            membersScore = membersScoreList.stream().max(Comparator.comparing(CompetitionMembersScore::getBackboard)).get();
+            setHonorData(honorResponseList,membersScore,"篮板王");
+            //效率王
+//                membersScore = membersScoreList.stream().max(Comparator.comparing(CompetitionMembersScore::getThreePoints)).get();
+//                setHonorData(membersScore,"效率王");
+            //助攻王
+            membersScore = membersScoreList.stream().max(Comparator.comparing(CompetitionMembersScore::getAssists)).get();
+            setHonorData(honorResponseList,membersScore,"助攻王");
+            //得分王
+            membersScore = membersScoreList.stream().max(Comparator.comparing(CompetitionMembersScore::getTotalScore)).get();
+            setHonorData(honorResponseList,membersScore,"得分王");
+            //盖帽王
+            membersScore = membersScoreList.stream().max(Comparator.comparing(CompetitionMembersScore::getBlock)).get();
+            setHonorData(honorResponseList,membersScore,"盖帽王");
+            //抢断王
+            membersScore = membersScoreList.stream().max(Comparator.comparing(CompetitionMembersScore::getSnatch)).get();
+            setHonorData(honorResponseList,membersScore,"抢断王");
+
+        }
+        return getDataTable(honorResponseList);
+    }
+
+    private void setHonorData(List<PersonalHonorResponse> honorResponseList,CompetitionMembersScore membersScore,String honorName) {
+        if(UtilTool.isNotNull(membersScore)){
+            PersonalHonorResponse honorResponse = new PersonalHonorResponse();
+            honorResponse.setHonorName(honorName);
+            honorResponse.setHonoraryPersonnel(membersScore.getRealName());
+            honorResponse.setTeamName(membersScore.getTeamName());
+            honorResponseList.add(honorResponse);
+        }
     }
 }

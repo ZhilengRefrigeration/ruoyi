@@ -6,21 +6,26 @@ import java.util.concurrent.TimeUnit;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.redis.service.RedisService;
+import com.ruoyi.common.security.utils.SecurityUtils;
+import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.domain.Competition;
 import com.ruoyi.system.domain.CompetitionOfTeam;
 import com.ruoyi.system.domain.CompetitionTeamVsTeam;
 import com.ruoyi.system.domain.vo.BegerArrangementVo;
 import com.ruoyi.system.domain.vo.CompetitionOfTeamVo;
 import com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo;
+import com.ruoyi.system.domain.vo.TeamGroupRequest;
 import com.ruoyi.system.mapper.CompetitionMapper;
 import com.ruoyi.system.mapper.CompetitionOfTeamMapper;
 import com.ruoyi.system.mapper.CompetitionTeamVsTeamMapper;
 import com.ruoyi.system.utils.BegerSingleCycleUtil;
+import com.ruoyi.system.utils.LoginUserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CompetitionTeamGroupMapper;
 import com.ruoyi.system.domain.CompetitionTeamGroup;
 import com.ruoyi.system.service.ICompetitionTeamGroupService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -168,13 +173,70 @@ public class CompetitionTeamGroupServiceImpl implements ICompetitionTeamGroupSer
                 }
                 CompetitionTeamGroup teamGroup2 = new CompetitionTeamGroup();
                 teamGroup2.setId(teamGroup.getId());
-                teamGroup2.setIsCycle(1L);
+                teamGroup2.setIsCycle(1);
                 competitionTeamGroupMapper.updateCompetitionTeamGroup(teamGroup2);
             }else {
                 throw new ServiceException("当前分组中暂无球队数据");
             }
             redisService.setCacheObject(CacheConstants.ARRANGE_TEAM_GROUP_SCHEDULE+competitionTeamGroup.getId(),true,10L, TimeUnit.SECONDS);
         }
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public List<CompetitionTeamGroup> getTeamGroupByCondition(CompetitionTeamGroup entity) {
+        return competitionTeamGroupMapper.getTeamGroupByCondition(entity);
+    }
+    @Transactional
+    @Override
+    public Boolean batchEditTeamGroup(TeamGroupRequest teamGroupRequest) {
+        List<CompetitionOfTeam> list = new ArrayList<>();
+        for (Long id:teamGroupRequest.getOfTeamIds()) {
+            CompetitionOfTeam c = new CompetitionOfTeam();
+            c.setId(id);
+            c.setCompetitionGroup(teamGroupRequest.getGroup());
+            c.setCompetitionId(teamGroupRequest.getCompetitionId());
+            competitionOfTeamMapper.updateCompetitionOfTeam(c);
+        }
+        return Boolean.TRUE;
+    }
+
+    @Transactional
+    @Override
+    public Boolean randomTeamGroup(List<TeamGroupRequest> list, Long competitionId) {
+        LoginUser user = SecurityUtils.getLoginUser();
+        List<CompetitionTeamGroup> groupList=new ArrayList<>();
+        for (TeamGroupRequest groupRequest:list) {
+            CompetitionTeamGroup group = new CompetitionTeamGroup();
+            group.setCompetitionId(competitionId);
+            group.setRemark("主办方使用随机分组");
+            group.setCompetitionGroup(groupRequest.getGroup());
+            group.setCreatedBy(String.valueOf(user.getUserid()));
+            group.setCreatedTime(new Date());
+            competitionTeamGroupMapper.insertCompetitionTeamGroup(group);
+            //获取oftema 的ids
+            if(groupRequest.getOfTeamIds().size()>0){
+                List<CompetitionOfTeam> updateList = new ArrayList<>();
+                for (Long id:groupRequest.getOfTeamIds()){
+                    CompetitionOfTeam c = new CompetitionOfTeam();
+                    c.setId(id);
+                    c.setCompetitionGroup(groupRequest.getGroup());
+                    c.setCompetitionId(competitionId);
+                    c.setCreatedBy(String.valueOf(user.getUserid()));
+                    c.setCreatedTime(new Date());
+                    competitionOfTeamMapper.updateCompetitionOfTeam(c);
+                }
+            }
+        }
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public Boolean add(CompetitionTeamGroup entity) {
+        LoginUser user = SecurityUtils.getLoginUser();
+        entity.setCreatedBy(String.valueOf(user.getUserid()));
+        entity.setCreatedTime(new Date());
+        competitionTeamGroupMapper.insertCompetitionTeamGroup(entity);
         return Boolean.TRUE;
     }
 }

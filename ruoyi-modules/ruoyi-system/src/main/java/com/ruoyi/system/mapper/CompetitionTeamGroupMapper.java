@@ -58,4 +58,6 @@ public interface CompetitionTeamGroupMapper
      * @return 结果
      */
     public int deleteCompetitionTeamGroupByIds(Long[] ids);
+
+    List<CompetitionTeamGroup> getTeamGroupByCondition(CompetitionTeamGroup entity);
 }

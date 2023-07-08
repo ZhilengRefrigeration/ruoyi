@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TrainingInfoMapper">
+    
+    <resultMap type="TrainingInfo" id="TrainingInfoResult">
+        <result property="id"    column="ID"    />
+        <result property="isDeleted"    column="IS_DELETED"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+        <result property="modifiedBy"    column="MODIFIED_BY"    />
+        <result property="lastUpdatedTime"    column="LAST_UPDATED_TIME"    />
+        <result property="trainName"    column="TRAIN_NAME"    />
+        <result property="phone"    column="PHONE"    />
+        <result property="linkman"    column="LINKMAN"    />
+        <result property="trainDesc"    column="TRAIN_DESC"    />
+        <result property="buildId"    column="BUILD_ID"    />
+        <result property="defaultPicture"    column="DEFAULT_PICTURE"    />
+        <result property="price"    column="PRICE"    />
+    </resultMap>
+
+    <sql id="selectTrainingInfoVo">
+        select ID, IS_DELETED, CREATED_TIME, CREATED_BY, MODIFIED_BY, LAST_UPDATED_TIME, TRAIN_NAME, PHONE, LINKMAN, TRAIN_DESC, BUILD_ID, DEFAULT_PICTURE, PRICE from training_info
+    </sql>
+
+    <select id="selectTrainingInfoList" parameterType="TrainingInfo" resultMap="TrainingInfoResult">
+        <include refid="selectTrainingInfoVo"/>
+        <where>  
+            <if test="isDeleted != null "> and IS_DELETED = #{isDeleted}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
+            <if test="modifiedBy != null  and modifiedBy != ''"> and MODIFIED_BY = #{modifiedBy}</if>
+            <if test="lastUpdatedTime != null "> and LAST_UPDATED_TIME = #{lastUpdatedTime}</if>
+            <if test="trainName != null  and trainName != ''"> and TRAIN_NAME like concat('%', #{trainName}, '%')</if>
+            <if test="phone != null  and phone != ''"> and PHONE = #{phone}</if>
+            <if test="linkman != null  and linkman != ''"> and LINKMAN = #{linkman}</if>
+            <if test="trainDesc != null  and trainDesc != ''"> and TRAIN_DESC = #{trainDesc}</if>
+            <if test="buildId != null "> and BUILD_ID = #{buildId}</if>
+            <if test="defaultPicture != null  and defaultPicture != ''"> and DEFAULT_PICTURE = #{defaultPicture}</if>
+            <if test="price != null  and price != ''"> and PRICE = #{price}</if>
+        </where>
+    </select>
+    
+    <select id="selectTrainingInfoById" parameterType="Long" resultMap="TrainingInfoResult">
+        <include refid="selectTrainingInfoVo"/>
+        where ID = #{id}
+    </select>
+        
+    <insert id="insertTrainingInfo" parameterType="TrainingInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into training_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="isDeleted != null">IS_DELETED,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="modifiedBy != null">MODIFIED_BY,</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME,</if>
+            <if test="trainName != null">TRAIN_NAME,</if>
+            <if test="phone != null">PHONE,</if>
+            <if test="linkman != null">LINKMAN,</if>
+            <if test="trainDesc != null">TRAIN_DESC,</if>
+            <if test="buildId != null">BUILD_ID,</if>
+            <if test="defaultPicture != null">DEFAULT_PICTURE,</if>
+            <if test="price != null">PRICE,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="modifiedBy != null">#{modifiedBy},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+            <if test="trainName != null">#{trainName},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="linkman != null">#{linkman},</if>
+            <if test="trainDesc != null">#{trainDesc},</if>
+            <if test="buildId != null">#{buildId},</if>
+            <if test="defaultPicture != null">#{defaultPicture},</if>
+            <if test="price != null">#{price},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTrainingInfo" parameterType="TrainingInfo">
+        update training_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="isDeleted != null">IS_DELETED = #{isDeleted},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="modifiedBy != null">MODIFIED_BY = #{modifiedBy},</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME = #{lastUpdatedTime},</if>
+            <if test="trainName != null">TRAIN_NAME = #{trainName},</if>
+            <if test="phone != null">PHONE = #{phone},</if>
+            <if test="linkman != null">LINKMAN = #{linkman},</if>
+            <if test="trainDesc != null">TRAIN_DESC = #{trainDesc},</if>
+            <if test="buildId != null">BUILD_ID = #{buildId},</if>
+            <if test="defaultPicture != null">DEFAULT_PICTURE = #{defaultPicture},</if>
+            <if test="price != null">PRICE = #{price},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteTrainingInfoById" parameterType="Long">
+        delete from training_info where ID = #{id}
+    </delete>
+
+    <delete id="deleteTrainingInfoByIds" parameterType="String">
+        delete from training_info where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

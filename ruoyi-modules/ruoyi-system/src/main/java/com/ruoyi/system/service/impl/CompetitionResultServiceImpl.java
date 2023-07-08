@@ -1,10 +1,18 @@
 package com.ruoyi.system.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
+import com.ruoyi.common.security.utils.SecurityUtils;
+import com.ruoyi.system.api.model.LoginUser;
+import com.ruoyi.system.api.model.WxLoginUser;
+import com.ruoyi.system.domain.CompetitionTeamVsTeam;
+import com.ruoyi.system.domain.enums.VsResultEnums;
 import com.ruoyi.system.domain.vo.CompetitionResultVo;
 import com.ruoyi.system.domain.vo.CompetitionVsRecordVo;
 import com.ruoyi.system.mapper.CompetitionTeamVsTeamMapper;
+import com.ruoyi.system.utils.LoginUserUtil;
+import com.ruoyi.system.utils.UtilTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CompetitionResultMapper;
@@ -138,5 +146,139 @@ public class CompetitionResultServiceImpl implements ICompetitionResultService
             competitionResultMapper.updateCompetitionResult(obj.getGuestTeam());
         }
         return 1;
+    }
+
+    @Override
+    public List<CompetitionResultVo> findByCompetitionVsId(Long competitionId, Long id) {
+        return competitionResultMapper.findByCompetitionVsId(competitionId,id);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean add(CompetitionResult entity) {
+        LoginUser user = SecurityUtils.getLoginUser();
+//      entity.fillOperationInfo(user.getUserId().toString());
+        entity.setCreatedBy(String.valueOf(user.getUserid()));
+        entity.setCreatedTime(new Date());
+        competitionResultMapper.insertCompetitionResult(entity);
+        this.calculateScore(entity,user);
+        return true;
+    }
+
+    /**
+     * 计算更新分数和积分
+     * @param entity
+     */
+    private void calculateScore(CompetitionResult entity,LoginUser user) {
+
+        //得分
+        int mainScore = 0;
+        int gustScore = 0;
+
+        //主队
+        Boolean flag = true;
+
+        //得分
+        Long mainId = null;
+        Long gustId = null;
+
+        /**
+         * 更新积分和总分
+         */
+        CompetitionTeamVsTeam teamVsTeam = competitionTeamVsTeamMapper.selectCompetitionTeamVsTeamById(entity.getCompetitionVsId());
+        //查询比赛数据
+        CompetitionResult result = new CompetitionResult();
+        result.setCompetitionVsId(teamVsTeam.getId());
+        List<CompetitionResult> competitionResultList = competitionResultMapper.selectCompetitionResultList(result);
+
+        if(UtilTool.isNotNull(competitionResultList)){
+            for(CompetitionResult competitionResult : competitionResultList ){
+                //小节分数可能为空
+                int oneNodeScore = competitionResult.getOneNodeScore()==null?0:competitionResult.getOneNodeScore();
+                int twoNodeScore = competitionResult.getTwoNodeScore()==null?0:competitionResult.getTwoNodeScore();
+                int threeNodeScore = competitionResult.getThreeNodeScore()==null?0:competitionResult.getThreeNodeScore();
+                int fourNodeScore = competitionResult.getFourNodeScore()==null?0:competitionResult.getFourNodeScore();
+                int fiveNodeScore = competitionResult.getFiveNodeScore()==null?0:competitionResult.getFiveNodeScore();
+                int sixNodeScore = competitionResult.getSixNodeScore()==null?0:competitionResult.getSixNodeScore();
+
+                //合计总分
+                int score = oneNodeScore+twoNodeScore+threeNodeScore+fourNodeScore+fiveNodeScore+sixNodeScore;
+                //主队
+                if(teamVsTeam.getMainTeamId().equals(competitionResult.getTeamId())){
+                    mainId = competitionResult.getId();
+                    mainScore = score;
+                    teamVsTeam.setMainTeamScore(score);
+                } else {//客队
+                    gustId = competitionResult.getId();
+                    gustScore = score;
+                    teamVsTeam.setGuestTeamScore(score);
+                    //客队标识
+                    if(entity.getTeamId()==competitionResult.getTeamId()){
+                        flag = false;
+                    }
+                }
+
+                //设置更新人
+                teamVsTeam.setModifiedBy(String.valueOf(user.getUserid()));
+                teamVsTeam.setLastUpdatedTime(new Date());
+                competitionTeamVsTeamMapper.updateCompetitionTeamVsTeam(teamVsTeam);
+            }
+        }
+
+        //积分统计 默认1分
+        entity.setIntegral(1);
+        CompetitionResult competitionResult = new CompetitionResult();
+        if(flag){
+            if(mainScore>gustScore){
+                entity.setIntegral(2);
+                entity.setVsResult(VsResultEnums.win.code());
+                if(gustId!=null){
+                    competitionResult.setId(gustId);
+                    competitionResult.setIntegral(1);
+                    competitionResult.setVsResult(VsResultEnums.fail.code());
+                    competitionResultMapper.updateCompetitionResult(competitionResult);
+                }
+            } else {
+                if(gustId!=null){
+                    competitionResult.setId(gustId);
+                    competitionResult.setIntegral(2);
+                    competitionResult.setVsResult(VsResultEnums.win.code());
+                    competitionResultMapper.updateCompetitionResult(competitionResult);
+                }
+            }
+
+        } else {
+            if(gustScore>mainScore){
+                entity.setIntegral(2);
+                entity.setVsResult(VsResultEnums.win.code());
+                if(mainId!=null){
+                    competitionResult.setId(mainId);
+                    competitionResult.setIntegral(1);
+                    competitionResult.setVsResult(VsResultEnums.fail.code());
+                    competitionResultMapper.updateCompetitionResult(competitionResult);
+                }
+            } else {
+                if(mainId!=null){
+                    competitionResult.setId(mainId);
+                    competitionResult.setIntegral(2);
+                    competitionResult.setVsResult(VsResultEnums.win.code());
+                    competitionResultMapper.updateCompetitionResult(competitionResult);
+                }
+            }
+        }
+        entity.setModifiedBy(String.valueOf(user.getUserid()));
+        entity.setLastUpdatedTime(new Date());
+        competitionResultMapper.updateCompetitionResult(entity);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean edit(CompetitionResult entity) {
+        LoginUser user = SecurityUtils.getLoginUser();
+        entity.setModifiedBy(String.valueOf(user.getUserid()));
+        entity.setLastUpdatedTime(new Date());
+        competitionResultMapper.updateCompetitionResult(entity);
+        this.calculateScore(entity,user);
+        return true;
     }
 }

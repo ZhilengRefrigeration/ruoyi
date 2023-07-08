@@ -41,7 +41,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectCompetitionTeamGroupVo"/>
         where id = #{id}
     </select>
-        
+    <select id="getTeamGroupByCondition" resultType="com.ruoyi.system.domain.CompetitionTeamGroup">
+        select  * from competition_team_group t where  1=1 and  t.is_deleted = 0
+        <if test="id != null ">
+            AND  t.id=#{id}
+        </if>
+        <if test="isDeleted != null ">
+            AND  t.is_deleted = #{isDeleted}
+        </if>
+        <if test="competitionId != null ">
+            AND  t.competition_id=#{competitionId}
+        </if>
+        <if test="status != null ">
+            AND  t.status =#{status}
+        </if>
+        <if test="competitionGroup != null ">
+            AND  t.competition_group =#{competitionGroup}
+        </if>
+        order by t.created_time desc
+    </select>
+
     <insert id="insertCompetitionTeamGroup" parameterType="CompetitionTeamGroup" useGeneratedKeys="true" keyProperty="id">
         insert into competition_team_group
         <trim prefix="(" suffix=")" suffixOverrides=",">

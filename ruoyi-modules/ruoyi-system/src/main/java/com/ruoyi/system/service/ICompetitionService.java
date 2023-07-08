@@ -4,6 +4,10 @@ import java.util.List;
 
 import com.ruoyi.system.api.domain.vo.WxAppletsCodeVo;
 import com.ruoyi.system.domain.Competition;
+import com.ruoyi.system.domain.vo.CompetitionExcleVo;
+import com.ruoyi.system.domain.vo.CompetitionResponse;
+import com.ruoyi.system.domain.vo.CompetitionVo;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 比赛信息Service接口
@@ -62,4 +66,20 @@ public interface ICompetitionService
     public int deleteCompetitionById(Long id);
 
     WxAppletsCodeVo genCompetitionCommonAqrSpread(WxAppletsCodeVo wxAppletsCodeVo);
+
+    List<Competition> getCompetitionByCondition(CompetitionVo competition);
+
+    CompetitionExcleVo getTeamEnrollExcleImpData(Long competitionId, Long userId);
+
+    CompetitionResponse getCompetitionById(Long id);
+
+    Boolean establishCompetition(CompetitionVo entity);
+
+    Boolean challengeConfirm(Competition entity);
+
+    List<Competition> getMyJoinCompetition(CompetitionVo entity);
+
+    Boolean add(Competition entity);
+
+    Boolean edit(Competition entity);
 }

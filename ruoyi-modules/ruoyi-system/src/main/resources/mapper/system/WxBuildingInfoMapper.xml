@@ -61,7 +61,59 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectWxBuildingInfoVo"/>
         where ID = #{id}
     </select>
-        
+    <select id="findNearbyBuilding" resultType="com.ruoyi.system.domain.WxBuildingInfo">
+        SELECT id,
+               DEFAULT_PICTURE,
+               BUILDING_NAME,
+               LONGITUDE,
+               LATITUDE,
+               address,
+               is_supportlive,
+               mittelkurs,
+               (POWER(MOD(ABS(LONGITUDE - #{longitude}), 360), 2) + POWER(ABS(LATITUDE - #{latitude}), 2)) AS distance
+        FROM building_info
+        where status = 2
+          and IS_DELETED = 0
+        ORDER BY distance LIMIT 20
+    </select>
+    <select id="getBuildingByCity" resultType="com.ruoyi.system.domain.WxBuildingInfo">
+
+
+    </select>
+    <select id="getAllBuildingByCondition" resultType="com.ruoyi.system.domain.vo.BuildingInfoResponse">
+        select info.* from building_info info where info.is_deleted=0
+        <if test="status != null and status != ''">
+            AND  info.status=#{status}
+        </if>
+        <if test="buildingName != null and buildingName != ''">
+            AND  info.building_name like  CONCAT('%',#{buildingName},'%')
+        </if>
+        <if test="cityCode != null and cityCode != ''">
+            AND  info.city_code=#{cityCode}
+        </if>
+        <if test="isSupportlive != null and isSupportlive != ''">
+            AND  info.is_supportlive=#{isSupportlive}
+        </if>
+        <if test="createdId != null">
+            AND  created_id=#{createdId}
+        </if>
+    </select>
+    <select id="getAuditPage" resultType="com.ruoyi.system.domain.WxBuildingInfo">
+        SELECT * FROM `building_info` where 1=1
+        <if test="status != null and status != ''">
+            AND  status=#{status}
+        </if>
+        <if test="buildingName != null and buildingName != ''">
+            AND  building_name like  CONCAT('%',#{buildingName},'%')
+        </if>
+        <if test="createdBy != null and createdBy != ''">
+            AND  created_by=#{createdBy}
+        </if>
+        <if test="createdId != null">
+            AND  created_id=#{createdId}
+        </if>
+    </select>
+
     <insert id="insertWxBuildingInfo" parameterType="WxBuildingInfo" useGeneratedKeys="true" keyProperty="id">
         insert into building_info
         <trim prefix="(" suffix=")" suffixOverrides=",">

@@ -23,9 +23,8 @@ public class CompetitionTeamVsTeamVo extends CompetitionTeamVsTeam {
 
     @ApiModelProperty(value = "中文状态", required = false)
     private String statusName;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Excel(name = "比赛时间", width = 30, dateFormat = "yyyy-MM-dd")
-    private Date competitionDate;
+    @ApiModelProperty(value = "比赛日期", required = false)
+    private String competitionDate;
     private String weekDayName;
     private String theTime;
 }

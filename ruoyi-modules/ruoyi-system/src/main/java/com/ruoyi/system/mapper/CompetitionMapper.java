@@ -2,6 +2,8 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.domain.Competition;
+import com.ruoyi.system.domain.vo.CompetitionExcleVo;
+import com.ruoyi.system.domain.vo.CompetitionVo;
 
 /**
  * 比赛信息Mapper接口
@@ -58,4 +60,10 @@ public interface CompetitionMapper
      * @return 结果
      */
     public int deleteCompetitionByIds(Long[] ids);
+
+    List<Competition> getCompetitionByCondition(CompetitionVo competition);
+
+    CompetitionExcleVo getTeamEnrollExcleImpData(Long competitionId, Long userId);
+
+    List<Competition> getMyJoinCompetition(CompetitionVo competition);
 }

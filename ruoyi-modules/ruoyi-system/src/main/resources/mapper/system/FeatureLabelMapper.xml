@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.FeatureLabelMapper">
+    
+    <resultMap type="FeatureLabel" id="FeatureLabelResult">
+        <result property="id"    column="ID"    />
+        <result property="isDeleted"    column="IS_DELETED"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+        <result property="modifiedBy"    column="MODIFIED_BY"    />
+        <result property="lastUpdatedTime"    column="LAST_UPDATED_TIME"    />
+        <result property="description"    column="DESCRIPTION"    />
+        <result property="remark"    column="REMARK"    />
+        <result property="buildingId"    column="BUILDING_ID"    />
+    </resultMap>
+
+    <sql id="selectFeatureLabelVo">
+        select ID, IS_DELETED, CREATED_TIME, CREATED_BY, MODIFIED_BY, LAST_UPDATED_TIME, DESCRIPTION, REMARK, BUILDING_ID from feature_label
+    </sql>
+
+    <select id="selectFeatureLabelList" parameterType="FeatureLabel" resultMap="FeatureLabelResult">
+        <include refid="selectFeatureLabelVo"/>
+        <where>  
+            <if test="isDeleted != null "> and IS_DELETED = #{isDeleted}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
+            <if test="modifiedBy != null  and modifiedBy != ''"> and MODIFIED_BY = #{modifiedBy}</if>
+            <if test="lastUpdatedTime != null "> and LAST_UPDATED_TIME = #{lastUpdatedTime}</if>
+            <if test="description != null  and description != ''"> and DESCRIPTION = #{description}</if>
+            <if test="remark != null  and remark != ''"> and REMARK = #{remark}</if>
+            <if test="buildingId != null "> and BUILDING_ID = #{buildingId}</if>
+        </where>
+    </select>
+    
+    <select id="selectFeatureLabelById" parameterType="Long" resultMap="FeatureLabelResult">
+        <include refid="selectFeatureLabelVo"/>
+        where ID = #{id}
+    </select>
+        
+    <insert id="insertFeatureLabel" parameterType="FeatureLabel" useGeneratedKeys="true" keyProperty="id">
+        insert into feature_label
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="isDeleted != null">IS_DELETED,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="modifiedBy != null">MODIFIED_BY,</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME,</if>
+            <if test="description != null">DESCRIPTION,</if>
+            <if test="remark != null">REMARK,</if>
+            <if test="buildingId != null">BUILDING_ID,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="modifiedBy != null">#{modifiedBy},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+            <if test="description != null">#{description},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="buildingId != null">#{buildingId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFeatureLabel" parameterType="FeatureLabel">
+        update feature_label
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="isDeleted != null">IS_DELETED = #{isDeleted},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="modifiedBy != null">MODIFIED_BY = #{modifiedBy},</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME = #{lastUpdatedTime},</if>
+            <if test="description != null">DESCRIPTION = #{description},</if>
+            <if test="remark != null">REMARK = #{remark},</if>
+            <if test="buildingId != null">BUILDING_ID = #{buildingId},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteFeatureLabelById" parameterType="Long">
+        delete from feature_label where ID = #{id}
+    </delete>
+
+    <delete id="deleteFeatureLabelByIds" parameterType="String">
+        delete from feature_label where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

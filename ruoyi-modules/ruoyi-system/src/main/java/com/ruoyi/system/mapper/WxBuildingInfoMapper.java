@@ -2,6 +2,8 @@ package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.domain.WxBuildingInfo;
+import com.ruoyi.system.domain.vo.BuildingInfoRequest;
+import com.ruoyi.system.domain.vo.BuildingInfoResponse;
 
 /**
  * 球场管理Mapper接口
@@ -58,4 +60,12 @@ public interface WxBuildingInfoMapper
      * @return 结果
      */
     public int deleteWxBuildingInfoByIds(Long[] ids);
+
+    List<WxBuildingInfo> findNearbyBuilding(WxBuildingInfo entity);
+
+    List<WxBuildingInfo> getBuildingByCity(WxBuildingInfo entity);
+
+    List<BuildingInfoResponse> getAllBuildingByCondition(BuildingInfoRequest entity);
+
+    List<WxBuildingInfo> getAuditPage(WxBuildingInfo buildingInfo);
 }

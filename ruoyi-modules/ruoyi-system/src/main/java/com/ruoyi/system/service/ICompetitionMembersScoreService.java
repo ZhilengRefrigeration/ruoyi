@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.CompetitionMembersScore;
+import com.ruoyi.system.domain.vo.PersonalCareerVo;
 
 /**
  * 赛会中-赛程-人员得分Service接口
@@ -58,4 +59,8 @@ public interface ICompetitionMembersScoreService
      * @return 结果
      */
     public int deleteCompetitionMembersScoreById(Long id);
+
+    PersonalCareerVo getUserScoreByUserId(Long userId);
+
+    List<CompetitionMembersScore> getHonorList(Long competitionId, Long userId);
 }

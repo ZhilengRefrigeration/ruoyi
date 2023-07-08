@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CameraInfoMapper">
+    
+    <resultMap type="CameraInfo" id="CameraInfoResult">
+        <result property="id"    column="ID"    />
+        <result property="isDeleted"    column="IS_DELETED"    />
+        <result property="createdTime"    column="CREATED_TIME"    />
+        <result property="createdBy"    column="CREATED_BY"    />
+        <result property="modifiedBy"    column="MODIFIED_BY"    />
+        <result property="lastUpdatedTime"    column="LAST_UPDATED_TIME"    />
+        <result property="status"    column="STATUS"    />
+        <result property="cityCode"    column="CITY_CODE"    />
+        <result property="type"    column="TYPE"    />
+        <result property="name"    column="NAME"    />
+        <result property="sn"    column="SN"    />
+        <result property="buildingId"    column="BUILDING_ID"    />
+        <result property="remark"    column="REMARK"    />
+        <result property="url"    column="URL"    />
+    </resultMap>
+
+    <sql id="selectCameraInfoVo">
+        select ID, IS_DELETED, CREATED_TIME, CREATED_BY, MODIFIED_BY, LAST_UPDATED_TIME, STATUS, CITY_CODE, TYPE, NAME, SN, BUILDING_ID, REMARK, URL from camera_info
+    </sql>
+
+    <select id="selectCameraInfoList" parameterType="CameraInfo" resultMap="CameraInfoResult">
+        <include refid="selectCameraInfoVo"/>
+        <where>  
+            <if test="isDeleted != null "> and IS_DELETED = #{isDeleted}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
+            <if test="modifiedBy != null  and modifiedBy != ''"> and MODIFIED_BY = #{modifiedBy}</if>
+            <if test="lastUpdatedTime != null "> and LAST_UPDATED_TIME = #{lastUpdatedTime}</if>
+            <if test="status != null  and status != ''"> and STATUS = #{status}</if>
+            <if test="cityCode != null  and cityCode != ''"> and CITY_CODE = #{cityCode}</if>
+            <if test="type != null  and type != ''"> and TYPE = #{type}</if>
+            <if test="name != null  and name != ''"> and NAME like concat('%', #{name}, '%')</if>
+            <if test="sn != null  and sn != ''"> and SN = #{sn}</if>
+            <if test="buildingId != null "> and BUILDING_ID = #{buildingId}</if>
+            <if test="remark != null  and remark != ''"> and REMARK = #{remark}</if>
+            <if test="url != null  and url != ''"> and URL = #{url}</if>
+        </where>
+    </select>
+    
+    <select id="selectCameraInfoById" parameterType="Long" resultMap="CameraInfoResult">
+        <include refid="selectCameraInfoVo"/>
+        where ID = #{id}
+    </select>
+        
+    <insert id="insertCameraInfo" parameterType="CameraInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into camera_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="isDeleted != null">IS_DELETED,</if>
+            <if test="createdTime != null">CREATED_TIME,</if>
+            <if test="createdBy != null">CREATED_BY,</if>
+            <if test="modifiedBy != null">MODIFIED_BY,</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME,</if>
+            <if test="status != null">STATUS,</if>
+            <if test="cityCode != null">CITY_CODE,</if>
+            <if test="type != null">TYPE,</if>
+            <if test="name != null">NAME,</if>
+            <if test="sn != null">SN,</if>
+            <if test="buildingId != null">BUILDING_ID,</if>
+            <if test="remark != null">REMARK,</if>
+            <if test="url != null">URL,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="isDeleted != null">#{isDeleted},</if>
+            <if test="createdTime != null">#{createdTime},</if>
+            <if test="createdBy != null">#{createdBy},</if>
+            <if test="modifiedBy != null">#{modifiedBy},</if>
+            <if test="lastUpdatedTime != null">#{lastUpdatedTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="cityCode != null">#{cityCode},</if>
+            <if test="type != null">#{type},</if>
+            <if test="name != null">#{name},</if>
+            <if test="sn != null">#{sn},</if>
+            <if test="buildingId != null">#{buildingId},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="url != null">#{url},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCameraInfo" parameterType="CameraInfo">
+        update camera_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="isDeleted != null">IS_DELETED = #{isDeleted},</if>
+            <if test="createdTime != null">CREATED_TIME = #{createdTime},</if>
+            <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
+            <if test="modifiedBy != null">MODIFIED_BY = #{modifiedBy},</if>
+            <if test="lastUpdatedTime != null">LAST_UPDATED_TIME = #{lastUpdatedTime},</if>
+            <if test="status != null">STATUS = #{status},</if>
+            <if test="cityCode != null">CITY_CODE = #{cityCode},</if>
+            <if test="type != null">TYPE = #{type},</if>
+            <if test="name != null">NAME = #{name},</if>
+            <if test="sn != null">SN = #{sn},</if>
+            <if test="buildingId != null">BUILDING_ID = #{buildingId},</if>
+            <if test="remark != null">REMARK = #{remark},</if>
+            <if test="url != null">URL = #{url},</if>
+        </trim>
+        where ID = #{id}
+    </update>
+
+    <delete id="deleteCameraInfoById" parameterType="Long">
+        delete from camera_info where ID = #{id}
+    </delete>
+
+    <delete id="deleteCameraInfoByIds" parameterType="String">
+        delete from camera_info where ID in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

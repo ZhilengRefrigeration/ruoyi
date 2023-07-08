@@ -49,6 +49,118 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="serialNumber != null "> and t.serial_number = #{serialNumber}</if>
         </where>
     </select>
+    <select id="getJoinCompetitionTeam" resultType="com.ruoyi.system.domain.vo.CompetitionOfTeamVo">
+        select t.*,"" as teamImg,t.created_by as teamManagerUserId
+        from competition_of_team t where 1=1 and t.is_deleted=0
+        <if test="id != null ">
+            AND  t.id=#{id}
+        </if>
+        <if test="isDeleted != null ">
+            AND  t.is_deleted = #{isDeleted}
+        </if>
+        <if test="competitionId != null ">
+            AND  t.competition_id=#{competitionId}
+        </if>
+        <if test="status != null ">
+            AND  t.status =#{status}
+        </if>
+        <if test="teamId != null ">
+            AND  t.team_id =#{teamId}
+        </if>
+        <if test="competitionGroup != null ">
+            AND  t.competition_group =#{competitionGroup}
+        </if>
+        <if test="teamName != null  and teamName != ''">
+            AND  t.team_name like  CONCAT('%',#{teamName},'%')
+        </if>
+        <if test="contacts != null  and contacts != ''">
+            AND  t.contacts like  CONCAT('%',#{contacts},'%')
+        </if>
+        <if test="contactsTel != null and contactsTel != ''">
+            AND  t.contacts_tel like  CONCAT('%',#{contactsTel},'%')
+        </if>
+        <if test="contactsAreaCode != null and contactsAreaCode != ''">
+            AND  t.contacts_area_code like  CONCAT('%',#{contactsAreaCode},'%')
+        </if>
+        order by t.created_time desc
+    </select>
+    <select id="findCompetitionTeamGroupList" resultType="com.ruoyi.system.domain.vo.CompetitionOfTeamVo">
+        select t.*,"" as teamImg,t.created_by as teamManagerUserId
+        from competition_of_team t where 1=1 and t.is_deleted=0
+        <if test="id != null ">
+            AND  t.id=#{id}
+        </if>
+        <if test="isDeleted != null ">
+            AND  t.is_deleted = #{isDeleted}
+        </if>
+        <if test="competitionId != null ">
+            AND  t.competition_id=#{competitionId}
+        </if>
+        <if test="status != null ">
+            AND  t.status =#{status}
+        </if>
+        <if test="teamId != null ">
+            AND  t.team_id =#{teamId}
+        </if>
+        <if test="competitionGroup != null ">
+            AND  t.competition_group =#{competitionGroup}
+        </if>
+        <if test="teamName != null  and teamName != ''">
+            AND  t.team_name like  CONCAT('%',#{teamName},'%')
+        </if>
+        <if test="contacts != null  and contacts != ''">
+            AND  t.contacts like  CONCAT('%',#{contacts},'%')
+        </if>
+        <if test="contactsTel != null and contactsTel != ''">
+            AND  t.contacts_tel like  CONCAT('%',#{contactsTel},'%')
+        </if>
+        <if test="contactsAreaCode != null and contactsAreaCode != ''">
+            AND  t.contacts_area_code like  CONCAT('%',#{contactsAreaCode},'%')
+        </if>
+        order by t.created_time desc
+
+    </select>
+    <select id="selectOneByTeamName" resultType="com.ruoyi.system.domain.CompetitionOfTeam">
+        select * from competition_of_team where team_name = #{teamName} limit 1
+    </select>
+    <select id="selectOneByUserId" resultType="com.ruoyi.system.domain.CompetitionOfTeam">
+        select * from competition_of_team where created_by = #{userId} and competition_id = #{competitionId} limit 1
+    </select>
+    <select id="getJoinCompetitionGroupTeam" resultType="com.ruoyi.system.domain.vo.CompetitionOfTeamVo">
+        select t.*,"" as teamImg,t.created_by as teamManagerUserId
+        from competition_of_team t where 1=1 and t.is_deleted=0
+        <if test="id != null ">
+            AND  t.id=#{id}
+        </if>
+        <if test="isDeleted != null ">
+            AND  t.is_deleted = #{isDeleted}
+        </if>
+        <if test="competitionId != null ">
+            AND  t.competition_id=#{competitionId}
+        </if>
+        <if test="status != null ">
+            AND  t.status =#{status}
+        </if>
+        <if test="teamId != null ">
+            AND  t.team_id =#{teamId}
+        </if>
+        <if test="competitionGroup != null ">
+            AND  t.competition_group =#{competitionGroup}
+        </if>
+        <if test="teamName != null  and teamName != ''">
+            AND  t.team_name like  CONCAT('%',#{teamName},'%')
+        </if>
+        <if test="contacts != null  and contacts != ''">
+            AND  t.contacts like  CONCAT('%',#{contacts},'%')
+        </if>
+        <if test="contactsTel != null and contactsTel != ''">
+            AND  t.contacts_tel like  CONCAT('%',#{contactsTel},'%')
+        </if>
+        <if test="contactsAreaCode != null and contactsAreaCode != ''">
+            AND  t.contacts_area_code like  CONCAT('%',#{contactsAreaCode},'%')
+        </if>
+        order by t.created_time desc
+    </select>
 
     <insert id="insertCompetitionOfTeam" parameterType="CompetitionOfTeam" useGeneratedKeys="true" keyProperty="id">
         insert into competition_of_team

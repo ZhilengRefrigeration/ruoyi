@@ -23,7 +23,7 @@ public class WxBuildingInfo extends BaseEntity
 
     /** 删除 */
     @Excel(name = "删除")
-    private Long isDeleted;
+    private Integer isDeleted;
 
     /** 创建时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -85,7 +85,7 @@ public class WxBuildingInfo extends BaseEntity
 
     /** 球馆状态 */
     @Excel(name = "球馆状态")
-    private Long status;
+    private Integer status;
 
     /** 拒绝原因 */
     @Excel(name = "拒绝原因")
@@ -120,12 +120,12 @@ public class WxBuildingInfo extends BaseEntity
     {
         return id;
     }
-    public void setIsDeleted(Long isDeleted) 
+    public void setIsDeleted(Integer isDeleted)
     {
         this.isDeleted = isDeleted;
     }
 
-    public Long getIsDeleted() 
+    public Integer getIsDeleted()
     {
         return isDeleted;
     }
@@ -255,12 +255,12 @@ public class WxBuildingInfo extends BaseEntity
     {
         return isSupportlive;
     }
-    public void setStatus(Long status) 
+    public void setStatus(Integer status)
     {
         this.status = status;
     }
 
-    public Long getStatus() 
+    public Integer getStatus()
     {
         return status;
     }
