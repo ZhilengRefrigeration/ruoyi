@@ -15,14 +15,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import sun.misc.BASE64Encoder;
-
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author 吴一博
@@ -143,8 +138,8 @@ public class WxAppletsController {
                         + file.getName());
             }
             fis.close();
-            BASE64Encoder encoder = new BASE64Encoder();
-            imgStr = encoder.encode(buffer);
+            Base64.Encoder encoder = Base64.getMimeEncoder();
+            imgStr = encoder.encodeToString(buffer);
         } catch (Exception e) {
             e.printStackTrace();
         }
