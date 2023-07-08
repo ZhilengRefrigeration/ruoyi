@@ -63,7 +63,7 @@ public interface CompetitionMembersMapper
 
     List<CompetitionMembersVo> getJoinCompetitionMembersPage(CompetitionMembersVo entity);
 
-    void deleteByMembers(Long competitionId, Long teamOfId);
+    void deleteByMembers(@Param(value = "competitionId")Long competitionId,@Param(value = "teamOfId") Long teamOfId);
 
     List<CompetitionMembersVo> getCompetitionMembersByCompetitionId(Long competitionId);
 

@@ -2,7 +2,11 @@
 server:
   port: 8080
 # Spring
-spring: 
+spring:
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 100MB
   application:
     # 应用名称
     name: ruoyi-gateway

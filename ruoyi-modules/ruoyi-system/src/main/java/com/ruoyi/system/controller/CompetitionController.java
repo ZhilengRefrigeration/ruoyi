@@ -20,6 +20,7 @@ import com.alibaba.fastjson.JSON;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.exception.CheckedException;
 import com.ruoyi.common.core.exception.ServiceException;
+import com.ruoyi.common.core.exception.UtilException;
 import com.ruoyi.common.core.utils.uuid.IdUtils;
 import com.ruoyi.common.redis.service.RedisService;
 import com.ruoyi.common.security.utils.SecurityUtils;
@@ -305,7 +306,7 @@ public class CompetitionController extends BaseController
         return AjaxResult.success(smsResponse);
     }
 
-    @PostMapping("/teamEnrollExcleImport")
+    @PostMapping(value = "/teamEnrollExcleImport",produces = "application/json;charset=utf-8")
     @ResponseBody
     @ApiOperation(value = ApiTerminal.wxMiniProgram+"导入球队报名excel(包含图片)")
     public AjaxResult teamEnrollExcleImport(
@@ -347,7 +348,7 @@ public class CompetitionController extends BaseController
         //读图片--结束
         // printImg(maplist);
         //获得数据的总行数
-        int totalRowNum = sheet.getLastRowNum();
+        int totalRowNum = sheet.getPhysicalNumberOfRows();
         //todo 获取赛事编码
         Row row1 = sheet.getRow(1);
         Cell cell1 = row1.getCell(5);
@@ -434,7 +435,7 @@ public class CompetitionController extends BaseController
         //保存图片
         PictureData pictureData = maplist.get("5_0");
         if (pictureData == null) {
-            throw new CheckedException("球队logo不能为空");
+            throw new UtilException("球队logo不能为空");
         }
         byte[] data = pictureData.getData();
         //得到保存的file
