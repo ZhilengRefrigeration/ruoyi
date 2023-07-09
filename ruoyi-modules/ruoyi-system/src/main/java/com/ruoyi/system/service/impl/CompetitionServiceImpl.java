@@ -1,5 +1,7 @@
 package com.ruoyi.system.service.impl;
 
+import java.io.File;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -12,7 +14,9 @@ import cn.hutool.crypto.digest.DigestUtil;
 import com.alibaba.fastjson.JSON;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.constant.Constants;
+import com.ruoyi.common.core.exception.CheckedException;
 import com.ruoyi.common.core.exception.ServiceException;
+import com.ruoyi.common.core.exception.UtilException;
 import com.ruoyi.common.redis.service.RedisService;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.vo.WxAppletsCodeVo;
@@ -25,7 +29,11 @@ import com.ruoyi.system.service.*;
 import com.ruoyi.system.utils.UtilTool;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -67,6 +75,15 @@ public class CompetitionServiceImpl implements ICompetitionService
     private IMessageService messageService;
     @Resource
     private RedisService redisService;
+    @Resource
+    private SmsService smsService;
+
+    @Value("${image.location.linux}")
+    private String linuxLocation;
+    @Value("${image.location.windows}")
+    private String winLocation;
+    @Value("${image.domainName}")
+    private String domainName;
     /**
      * 查询比赛信息
      * 
@@ -437,5 +454,237 @@ public class CompetitionServiceImpl implements ICompetitionService
         entity.setModifiedBy(String.valueOf(user.getUserid()));
         competitionMapper.updateCompetition(entity);
         return true;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public CompetitionExcleVo importExcleData(Long competitionId,Map<String, PictureData> maplist, Sheet sheet) {
+        CompetitionExcleVo excleVo = new CompetitionExcleVo();
+        String time = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        //System.out.println("获取到精确到日的时间格式为"+time);
+        String[] str = time.split("-");//根据‘-’进行拆分字符串 拆分出来的日期有，年，日，月，根据年日月创建文件夹
+        String datePath = "/" + str[0] + "/" + str[1] + "/" + str[2] + "/";
+        //读图片--结束
+        // printImg(maplist);
+        //获得数据的总行数
+        int totalRowNum = sheet.getPhysicalNumberOfRows();
+        //todo 获取赛事编码
+        Row row1 = sheet.getRow(1);
+        Cell cell1 = row1.getCell(5);
+        if (cell1 == null) {
+            throw new CheckedException("赛事编码不能为空");
+        }
+        cell1.setCellType(CellType.STRING);
+        String competitionCode = cell1.getStringCellValue().toString();
+        if (StringUtils.isEmpty(competitionCode)) {
+            throw new CheckedException("赛事编码不能为空");
+        }
+        System.out.println("赛事编码" + competitionCode);
+        Row row5 = sheet.getRow(5);
+        Cell cell5_1 = row5.getCell(0);
+        if (cell5_1 == null) {
+            throw new CheckedException("球队logo不能为空");
+        }
+        cell5_1.setCellType(CellType.STRING);
+        //todo 获取赛事信息
+        Competition competition = competitionMapper.selectCompetitionById(competitionId);
+        //校验比赛编码是否是本
+        BeanUtil.copyProperties(competition, excleVo);
+        if (UtilTool.isNull(competition)) {
+            throw new CheckedException("赛会信息不存在;");
+        }
+        if (!competition.getCompetitionCode().equals(competitionCode)) {
+            throw new CheckedException("导入的文件中的赛事编码错误");
+        }
+        Cell cell5_2 = row5.getCell(1);
+        if (cell5_2 == null) {
+            throw new CheckedException("球队名称不能为空");
+        }
+        cell5_2.setCellType(CellType.STRING);
+        String teamName = cell5_2.getStringCellValue().trim();
+        if (StringUtils.isEmpty(teamName)) {
+            throw new CheckedException("球队名称不能为空");
+        }
+        //球队队长
+        Cell cell5_2_1 = row5.getCell(4);
+        String captain = "";
+        if (cell5_2_1 != null) {
+            captain = cell5_2_1.getStringCellValue();
+        }
+        Cell cell5_3 = row5.getCell(5);
+        if (cell5_3 == null) {
+            throw new CheckedException("球队领队不能为空");
+        }
+        cell5_3.setCellType(CellType.STRING);
+        String teamLeader = cell5_3.getStringCellValue();
+        if (StringUtils.isEmpty(teamLeader)) {
+            throw new CheckedException("球队领队不能为空");
+        }
+        Cell cell5_4 = row5.getCell(6);
+        if (cell5_4 == null) {
+            throw new CheckedException("球队领队手机号码不能为空");
+        }
+        cell5_4.setCellType(CellType.STRING);
+        String teamLeaderTel = cell5_4.getStringCellValue().toString();
+        if (StringUtils.isEmpty(teamLeaderTel)) {
+            throw new CheckedException("球队队长手机号码不能为空");
+        }
+        Cell cell5_5 = row5.getCell(7);
+        if (cell5_5 == null) {
+            throw new CheckedException("球队人数不能为空");
+        }
+        cell5_5.setCellType(CellType.STRING);
+        String teamUserNum = cell5_5.getStringCellValue();
+        if (StringUtils.isEmpty(teamUserNum)) {
+            throw new CheckedException("球队人数不能为空");
+        }
+        //todo 获取到数据后，开始保存数据
+        LoginUser user = SecurityUtils.getLoginUser();
+        String userId = null;
+        if(ObjectUtil.isNotNull(user)&&ObjectUtil.isNotNull(user.getUserid())){
+            userId = String.valueOf(user.getUserid());
+        }
+        CompetitionOfTeamVo team = new CompetitionOfTeamVo();
+        team.setTeamName(teamName);
+        team.setRemark("导入方式报名");
+        team.setContactsTel(teamLeaderTel);
+        team.setContacts(teamLeader);
+        team.setCaptain(captain);
+        team.setCreatedTime(new Date());
+        team.setCreatedBy(userId);
+        team.setCreatedTime(new Date());
+        team.setSerialNumber(Integer.parseInt(teamUserNum));
+        team.setCompetitionId(competition.getId());
+        //保存图片
+        PictureData pictureData = maplist.get("5_0");
+        if (pictureData == null) {
+            throw new UtilException("球队logo不能为空");
+        }
+        byte[] data = pictureData.getData();
+        //得到保存的file
+        String osPath = linuxLocation;
+        String os = System.getProperty("os.name");
+        if (os.toLowerCase().startsWith("win")) {
+            osPath = winLocation;
+        }
+        String newFileName = UUID.randomUUID() + "_5.jpg";
+        String uploadpath = UtilTool.getFileUploadPath(osPath);
+        File file2 = UtilTool.bytesToFile(data, uploadpath, newFileName);
+        team.setTeamLogo(domainName + datePath + newFileName);
+        team.setStatus(0);
+        System.out.println(JSON.toJSONString(team));
+        //todo 保存球队数据;
+        CompetitionOfTeam competitionOfTeam = competitionOfTeamMapper.selectOneByTeamName(teamName);
+        if (UtilTool.isNotNull(competitionOfTeam)) {
+            team.setId(competitionOfTeam.getId());
+            competitionOfTeamMapper.updateCompetitionOfTeam(team);
+        }else {
+            competitionOfTeamMapper.insertCompetitionOfTeam(team);
+        }
+        excleVo.setOfTeam(team);
+        //todo 清空球员数据
+        competitionMembersMapper.deleteByMembers(competition.getId(), team.getId());
+        //要获得属性
+        List<CompetitionMembers> membersVos = new ArrayList<>();
+        for (int i = 8; i < totalRowNum; i++) {
+            CompetitionMembers membersVo = new CompetitionMembers();
+            membersVo.setCompetitionId(competition.getId());
+            //membersVo.setCompetitionTeamId(team.getId());
+            membersVo.setCompetitionOfTeamId(team.getId());
+            membersVo.setCompetitionNature(1);
+            membersVo.setCreatedBy(userId);
+            membersVo.setCreatedTime(new Date());
+            //获得第i行对象
+            Row row = sheet.getRow(i);
+            //真实姓名
+            Cell cell = row.getCell(1);
+            if (cell != null) {
+                cell.setCellType(CellType.STRING);
+            }
+            membersVo.setRealName(cell.getStringCellValue());
+            if (StringUtils.isEmpty(membersVo.getRealName())) {
+                break;
+            }
+            //球衣号码
+            cell = row.getCell(2);
+            if (cell != null) {
+                cell.setCellType(CellType.STRING);
+                membersVo.setJerseyNumber(cell.getStringCellValue());
+            }
+            //位置
+            cell = row.getCell(3);
+            if (cell != null) {
+                cell.setCellType(CellType.STRING);
+                membersVo.setTeamPosition(cell.getStringCellValue());
+            }
+            //身高
+            cell = row.getCell(4);
+            if (cell != null) {
+                cell.setCellType(CellType.STRING);
+                membersVo.setHeight(new BigDecimal(cell.getStringCellValue()));
+            }
+            //体重
+            cell = row.getCell(5);
+            if (cell != null) {
+                cell.setCellType(CellType.STRING);
+                membersVo.setWeight(new BigDecimal(cell.getStringCellValue()));
+            }
+            //证件号码
+            cell = row.getCell(6);
+            if (cell != null) {
+                membersVo.setIdType("身份证");
+                membersVo.setIdCardNo(cell.getStringCellValue());
+            }
+            //电话
+            cell = row.getCell(7);
+            if (cell != null) {
+                membersVo.setContactsAreaCode("86");
+                membersVo.setContactsTel(String.valueOf(((XSSFCell) cell).getRawValue()));
+            }
+            //电话
+            cell = row.getCell(8);
+            if (cell != null) {
+                membersVo.setIdCardNo(String.valueOf(((XSSFCell) cell).getRawValue()));
+            }
+            //membersVo.setAvatar(domainName+datePath+newFileName);
+            //保存图片
+            PictureData pictureData2 = maplist.get(i + "_0");
+            if (pictureData2 == null) {
+
+            }
+            byte[] data2 = pictureData2.getData();
+            String newFileName2 = UUID.randomUUID() + "_0.jpg";
+            String uploadpath2 = UtilTool.getFileUploadPath(osPath);
+            File file3 = UtilTool.bytesToFile(data2, uploadpath2, newFileName2);
+            membersVo.setPersonalPhoto(domainName + datePath + newFileName2);
+            membersVo.setCreatedTime(new Date());
+            //默认球员是已确认状态
+            membersVo.setStatus(1);
+            System.out.println(JSON.toJSONString((membersVo)));
+            membersVo.setCreatedBy(userId);
+            membersVos.add(membersVo);
+            competitionMembersMapper.insertCompetitionMembers(membersVo);
+        }
+
+        excleVo.setTeamMemberList(membersVos);
+        //todo 发个短信通知管理员
+        Sms sms = new Sms();
+        StringBuffer msg = new StringBuffer(Constants.SMS_PAOPAO_SIGN);
+        msg.append("赛会[");
+        msg.append(competition.getCompetitionName());
+        msg.append("]");
+        msg.append("已有球队[");
+        msg.append(teamName);
+        msg.append("]申请出战,请尽快审批处理！");
+        sms.setMs(msg.toString());
+        WxUser userInfo = wxUserMapper.selectWxUserById(12L);
+        sms.setMobile(userInfo.getTelephone());
+        sms.setMb(userInfo.getTelephone());
+        SmsResponse smsResponse = smsService.sendSms(sms);
+        if (smsResponse.getStatus() == 0) {
+            //保存到缓存
+            // redisUtil.set(Constant.ESTABLISH_COMPETITION_SMS_CAPTCHA+sms.getMb(), randomNums,Constant.SMS_PAOPAO_EXPIRES);
+        }
+        return excleVo;
     }
 }

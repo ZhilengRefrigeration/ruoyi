@@ -1,12 +1,15 @@
 package com.ruoyi.system.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ruoyi.system.api.domain.vo.WxAppletsCodeVo;
 import com.ruoyi.system.domain.Competition;
 import com.ruoyi.system.domain.vo.CompetitionExcleVo;
 import com.ruoyi.system.domain.vo.CompetitionResponse;
 import com.ruoyi.system.domain.vo.CompetitionVo;
+import org.apache.poi.ss.usermodel.PictureData;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -82,4 +85,6 @@ public interface ICompetitionService
     Boolean add(Competition entity);
 
     Boolean edit(Competition entity);
+
+    CompetitionExcleVo importExcleData(Long competitionId,Map<String, PictureData> maplist, Sheet sheet);
 }
