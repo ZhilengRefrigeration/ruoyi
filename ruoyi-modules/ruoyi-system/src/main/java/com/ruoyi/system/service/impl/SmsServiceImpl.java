@@ -1,15 +1,19 @@
 package com.ruoyi.system.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.system.domain.Sms;
 import com.ruoyi.system.domain.vo.SmsResponse;
+import com.ruoyi.system.service.ISysConfigService;
 import com.ruoyi.system.service.SmsService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +27,10 @@ import java.util.Map;
 public class SmsServiceImpl implements SmsService {
     @Autowired
     private RestTemplate restTemplate;
+    @Value("${spring.profiles.active}")
+    private String springProfilesActive;
+    @Resource
+    private ISysConfigService configService;
     @Override
     public SmsResponse sendSms(Sms sms) {
         sms.setAccount(Constants.SMS_PAOPAO_ACCOUNT);
@@ -40,7 +48,12 @@ public class SmsServiceImpl implements SmsService {
         Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("account", sms.getAccount());
         uriVariables.put("password",sms.getPassword());
-        uriVariables.put("mobile",sms.getMobile());
+        if(StrUtil.isNotEmpty(springProfilesActive) && springProfilesActive.equals("prod")) {
+            uriVariables.put("mobile",sms.getMobile());
+        }else {
+            String adminTelephone = configService.selectConfigByKey("sys.admin.telephone");
+            uriVariables.put("mobile",adminTelephone);
+        }
         uriVariables.put("content",sms.getContent());
         uriVariables.put("extno",sms.getExtno());
         String responseEntity = restTemplate.getForObject(url, String.class, uriVariables);

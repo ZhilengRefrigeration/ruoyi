@@ -75,8 +75,6 @@ public class CompetitionServiceImpl implements ICompetitionService
     @Resource
     private IMessageService messageService;
     @Resource
-    private ISysConfigService configService;
-    @Resource
     private RedisService redisService;
     @Resource
     private SmsService smsService;
@@ -681,15 +679,12 @@ public class CompetitionServiceImpl implements ICompetitionService
         msg.append(teamName);
         msg.append("]申请出战,请尽快审批处理！");
         sms.setMs(msg.toString());
-        String adminTelephone = configService.selectConfigByKey("sys.admin.telephone");
-        sms.setMobile(adminTelephone);
-        sms.setMb(adminTelephone);
-        if(ObjectUtil.isNotNull(adminTelephone)) {
-            SmsResponse smsResponse = smsService.sendSms(sms);
-            if (smsResponse.getStatus() == 0) {
-                //保存到缓存
-                // redisUtil.set(Constant.ESTABLISH_COMPETITION_SMS_CAPTCHA+sms.getMb(), randomNums,Constant.SMS_PAOPAO_EXPIRES);
-            }
+        sms.setMobile(competition.getContactsTel());
+        sms.setMb(competition.getContactsTel());
+        SmsResponse smsResponse = smsService.sendSms(sms);
+        if (smsResponse.getStatus() == 0) {
+            //保存到缓存
+            // redisUtil.set(Constant.ESTABLISH_COMPETITION_SMS_CAPTCHA+sms.getMb(), randomNums,Constant.SMS_PAOPAO_EXPIRES);
         }
         return excleVo;
     }
