@@ -81,7 +81,7 @@ public class BuildingInfoResponse extends BuildingInfoDetail {
      * 球馆状态
      */
     @ApiModelProperty(value="球馆状态",required=false)
-    private Long status;
+    private Integer status;
     /**
      * 拒绝原因
      */

@@ -64,4 +64,6 @@ public interface ITeamMembersService
     List<TeamMembersResponse> getTeamMembersByTeamId(Long teamId);
 
     TeamMembers getOneByTeamIdAndRoleCode(Long teamId, String roleCode);
+
+    Boolean addToTeamMember(TeamMembers entity);
 }

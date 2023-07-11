@@ -157,7 +157,7 @@ public class CompetitionResultController extends BaseController
         if(UtilTool.isNull(competitionId)){
             throw new InvalidParameterException("赛会id不能为");
         }
-        List<PersonalHonorResponse> honorResponseList = null;
+        List<PersonalHonorResponse> honorResponseList = new ArrayList<>();
 
         //查询赛会得分数据
         List<CompetitionMembersScore> membersScoreList = competitionMembersScoreService.getHonorList(competitionId,null);

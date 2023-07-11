@@ -58,7 +58,7 @@ public class TeamMembers extends BaseEntity
 
     /** 删除1 */
     @Excel(name = "删除1")
-    private Long isDeleted;
+    private Integer isDeleted;
 
     /** 最后更新时间 */
     @JsonFormat(pattern = "yyyy-MM-dd")

@@ -27,12 +27,12 @@ import com.ruoyi.system.domain.vo.*;
 import com.ruoyi.system.mapper.*;
 import com.ruoyi.system.service.*;
 import com.ruoyi.system.utils.UtilTool;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +46,7 @@ import javax.annotation.Resource;
  * @author ruoyi
  * @date 2022-11-02
  */
+@Log4j2
 @Service
 public class CompetitionServiceImpl implements ICompetitionService 
 {
@@ -73,6 +74,8 @@ public class CompetitionServiceImpl implements ICompetitionService
     private ITeamMembersService teamMembersService;
     @Resource
     private IMessageService messageService;
+    @Resource
+    private ISysConfigService configService;
     @Resource
     private RedisService redisService;
     @Resource
@@ -649,8 +652,9 @@ public class CompetitionServiceImpl implements ICompetitionService
             //membersVo.setAvatar(domainName+datePath+newFileName);
             //保存图片
             PictureData pictureData2 = maplist.get(i + "_0");
+            log.info(membersVo.getRealName()+" 开始导入，图片位置"+i + "_0");
             if (pictureData2 == null) {
-
+                throw new CheckedException(membersVo.getRealName()+" 的头像插入方式错误,请先选中单元格然后插入图片");
             }
             byte[] data2 = pictureData2.getData();
             String newFileName2 = UUID.randomUUID() + "_0.jpg";
@@ -677,13 +681,15 @@ public class CompetitionServiceImpl implements ICompetitionService
         msg.append(teamName);
         msg.append("]申请出战,请尽快审批处理！");
         sms.setMs(msg.toString());
-        WxUser userInfo = wxUserMapper.selectWxUserById(12L);
-        sms.setMobile(userInfo.getTelephone());
-        sms.setMb(userInfo.getTelephone());
-        SmsResponse smsResponse = smsService.sendSms(sms);
-        if (smsResponse.getStatus() == 0) {
-            //保存到缓存
-            // redisUtil.set(Constant.ESTABLISH_COMPETITION_SMS_CAPTCHA+sms.getMb(), randomNums,Constant.SMS_PAOPAO_EXPIRES);
+        String adminTelephone = configService.selectConfigByKey("sys.admin.telephone");
+        sms.setMobile(adminTelephone);
+        sms.setMb(adminTelephone);
+        if(ObjectUtil.isNotNull(adminTelephone)) {
+            SmsResponse smsResponse = smsService.sendSms(sms);
+            if (smsResponse.getStatus() == 0) {
+                //保存到缓存
+                // redisUtil.set(Constant.ESTABLISH_COMPETITION_SMS_CAPTCHA+sms.getMb(), randomNums,Constant.SMS_PAOPAO_EXPIRES);
+            }
         }
         return excleVo;
     }

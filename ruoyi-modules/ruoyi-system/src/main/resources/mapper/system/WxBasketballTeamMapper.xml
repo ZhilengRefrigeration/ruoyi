@@ -41,7 +41,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where ID = #{id}
     </select>
     <select id="getMyBasketBallTeam" resultType="com.ruoyi.system.domain.WxBasketballTeam">
-        
+        select * from basketball_team t where t.is_deleted=0
+        <if test="createdId != null ">
+            AND  t.created_id=#{createdId}
+        </if>
+        <if test="teamName != null and teamName != ''">
+            AND  t.team_name like  CONCAT('%',#{teamName},'%')
+        </if>
+        <if test="teamDes != null and teamDes != ''">
+            AND  t.team_des like  CONCAT('%',#{teamDes},'%')
+        </if>
+        <if test="buildId != null ">
+            AND  t.build_id=#{buildId}
+        </if>
+        <if test="id != null ">
+            AND  t.id=#{id}
+        </if>
+        order by t.created_time desc
     </select>
 
     <insert id="insertWxBasketballTeam" parameterType="WxBasketballTeam" useGeneratedKeys="true" keyProperty="id">

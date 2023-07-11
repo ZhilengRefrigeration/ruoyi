@@ -105,9 +105,16 @@ public class WxBasketballTeamController extends BaseController
     @ResponseBody
     @ApiOperation(value = ApiTerminal.wxMiniProgram+"分页获取我的球队列表")
     public TableDataInfo getMyBasketBallTeam(@RequestBody WxBasketballTeam entity){
+        startPage();
         LoginUser user = SecurityUtils.getLoginUser();
         entity.setCreatedId(user.getUserid());
         List<WxBasketballTeam> list =wxBasketballTeamService.getMyBasketBallTeam(entity);
         return getDataTable(list);
+    }
+    @ApiOperation(value = ApiTerminal.wxMiniProgram+"我的球队详情")
+    @GetMapping(value = "/detail/{id}")
+    public AjaxResult getDetail(@PathVariable("id") Long id)
+    {
+        return AjaxResult.success(wxBasketballTeamService.selectWxBasketballTeamById(id));
     }
 }

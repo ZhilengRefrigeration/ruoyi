@@ -1,15 +1,18 @@
 package com.ruoyi.system.controller;
 
+import java.security.InvalidParameterException;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.core.exception.CheckedException;
 import com.ruoyi.common.swagger.apiConstants.ApiTerminal;
 import com.ruoyi.system.domain.vo.TeamMembersResponse;
 import com.ruoyi.system.domain.vo.TeamMembersVo;
 import io.seata.core.model.Result;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
@@ -107,5 +110,33 @@ public class TeamMembersController extends BaseController
     public TableDataInfo getTeamMembersByTeamId(@RequestParam("teamId") Long teamId) throws Exception {
         List<TeamMembersResponse> list = teamMembersService.getTeamMembersByTeamId(teamId);
         return getDataTable(list);
+    }
+
+    /**
+     * 删除球队人员
+     */
+    @ApiOperation(ApiTerminal.wxMiniProgram+"移除球队中的人员")
+    @Log(title = "移除球队人员", businessType = BusinessType.DELETE)
+    @DeleteMapping("/removeTeamMember/{id}")
+    public AjaxResult removeTeamMember(@PathVariable Long id)
+    {
+        return toAjax(teamMembersService.deleteTeamMembersById(id));
+    }
+    @ApiOperation(ApiTerminal.wxMiniProgram+"新增球队人员")
+    @Log(title = "新增球队人员", businessType = BusinessType.INSERT)
+    @PostMapping("/addTeamMember")
+    @ResponseBody
+    public AjaxResult addTeamMember(@RequestBody TeamMembers entity) throws Exception {
+        if (StringUtils.isEmpty(entity)) {
+            throw new CheckedException("参数异常，非法操作！");
+        }
+        if (StringUtils.isEmpty(entity.getTeamId())) {
+            throw new CheckedException("teamId不能为空！");
+        }
+        if (StringUtils.isEmpty(entity.getUserId())) {
+            throw new CheckedException("userId不能为空！");
+        }
+        entity.setStatus(0);
+        return AjaxResult.success(teamMembersService.addToTeamMember(entity));
     }
 }

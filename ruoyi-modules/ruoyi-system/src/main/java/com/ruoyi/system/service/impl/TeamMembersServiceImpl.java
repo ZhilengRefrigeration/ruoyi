@@ -2,8 +2,12 @@ package com.ruoyi.system.service.impl;
 
 import java.util.List;
 
+import cn.hutool.core.util.ObjectUtil;
+import com.ruoyi.common.security.utils.SecurityUtils;
+import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.domain.vo.TeamMembersResponse;
 import com.ruoyi.system.domain.vo.TeamMembersVo;
+import com.ruoyi.system.utils.LoginUserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.TeamMembersMapper;
@@ -102,5 +106,21 @@ public class TeamMembersServiceImpl implements ITeamMembersService
     @Override
     public TeamMembers getOneByTeamIdAndRoleCode(Long guestTeamId, String code) {
         return teamMembersMapper.getOneByTeamIdAndRoleCode(guestTeamId,code);
+    }
+
+    @Override
+    public Boolean addToTeamMember(TeamMembers entity) {
+        //判断是否存在，已存在就直接不执行
+        TeamMembersVo vo = new TeamMembersVo();
+        vo.setTeamId(entity.getTeamId());
+        vo.setUserId(entity.getUserId());
+        vo.setIsDeleted(0);
+        List<TeamMembersVo> existList = teamMembersMapper.selectTeamMembersList(vo);
+        if(existList.size()==0){
+            LoginUser user = SecurityUtils.getLoginUser();
+            entity.setCreatedBy( ObjectUtil.isNotNull(user.getUserid()) ? String.valueOf(user.getUserid()):"1");
+            teamMembersMapper.insertTeamMembers(entity);
+        }
+        return Boolean.TRUE;
     }
 }

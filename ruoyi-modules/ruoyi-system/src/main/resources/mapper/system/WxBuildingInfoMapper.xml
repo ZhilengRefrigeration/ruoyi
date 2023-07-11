@@ -98,8 +98,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             AND  created_id=#{createdId}
         </if>
     </select>
-    <select id="getAuditPage" resultType="com.ruoyi.system.domain.WxBuildingInfo">
-        SELECT * FROM `building_info` where 1=1
+    <select id="getAuditPage" parameterType="WxBuildingInfo" resultMap="WxBuildingInfoResult">
+        SELECT * FROM building_info where 1=1
         <if test="status != null and status != ''">
             AND  status=#{status}
         </if>

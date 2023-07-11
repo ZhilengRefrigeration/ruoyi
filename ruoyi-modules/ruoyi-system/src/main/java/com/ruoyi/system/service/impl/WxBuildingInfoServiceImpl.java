@@ -129,6 +129,7 @@ public class WxBuildingInfoServiceImpl implements IWxBuildingInfoService
         //查询场馆信息
         WxBuildingInfo info=wxBuildingInfoMapper.selectWxBuildingInfoById(id);
         BeanUtils.copyProperties(info,response);
+        response.setStatus(info.getStatus());
         //查询场馆详情
         BuildingInfoDetail detail=buildingInfoDetailMapper.selectOneByBuildingId(id);
         if(!ObjectUtils.isEmpty(detail)){

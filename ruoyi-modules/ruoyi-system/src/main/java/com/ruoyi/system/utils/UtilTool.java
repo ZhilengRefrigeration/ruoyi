@@ -1531,7 +1531,7 @@ public class UtilTool {
     public static String getFileUploadPath(String linuxLocation){
         Date date = new Date();
         String time =  new SimpleDateFormat("yyyy-MM-dd").format(date);
-        System.out.println("获取到精确到日的时间格式为"+time);
+        //System.out.println("获取到精确到日的时间格式为"+time);
         String[] str = time.split("-");//根据‘-’进行拆分字符串 拆分出来的日期有，年，日，月，根据年日月创建文件夹
         String datePath="/"+str[0]+"/"+str[1]+"/"+str[2]+"/";
         return linuxLocation+datePath;
