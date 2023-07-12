@@ -299,6 +299,8 @@ export default {
         createdId: null,
         auditStatus: null,
         heightHide: null,
+        orderByColumn:"id",
+        isAsc:"desc",
         sponsor: null
       },
       // 表单参数

@@ -80,7 +80,7 @@
 
     <el-table v-loading="loading" :data="wxUserList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="主键ID" align="center" prop="id" />
+      <el-table-column label="主键ID" align="center" prop="id"  />
       <el-table-column label="头像" align="center" prop="avatar" >
         <template slot-scope="scope">
           <el-avatar :src="scope.row.avatar"></el-avatar>
@@ -261,6 +261,8 @@ export default {
         pageSize: 10,
         loginName: null,
         userName: null,
+        orderByColumn:"id",
+        isAsc:"desc"
       },
       // 表单参数
       form: {},
@@ -367,6 +369,12 @@ export default {
           }
         }
       });
+    },
+    /** 排序触发事件 */
+    handleSortChange(column, prop, order) {
+      this.queryParams.orderByColumn = column.prop;
+      this.queryParams.isAsc = column.order;
+      this.getList();
     },
     /** 删除按钮操作 */
     handleDelete(row) {

@@ -389,7 +389,9 @@ export default {
         createdId: null,
         auditStatus: null,
         heightHide: null,
-        sponsor: null
+        sponsor: null,
+        orderByColumn:"id",
+        isAsc:"desc",
       },
       // 表单参数
       form: {},

@@ -238,7 +238,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -369,7 +369,9 @@ export default {
         fourNodeScore: null,
         fiveNodeScore: null,
         sixNodeScore: null,
-        integral: null
+        integral: null,
+        orderByColumn:"id",
+        isAsc:"desc",
       },
       // 表单参数
       form: {},

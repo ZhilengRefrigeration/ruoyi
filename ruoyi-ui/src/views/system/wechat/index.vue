@@ -200,7 +200,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -311,7 +311,9 @@ export default {
         createdTime: null,
         createdBy: null,
         modifiedBy: null,
-        lastUpdatedTime: null
+        lastUpdatedTime: null,
+        orderByColumn:"id",
+        isAsc:"desc",
       },
       // 表单参数
       form: {},
