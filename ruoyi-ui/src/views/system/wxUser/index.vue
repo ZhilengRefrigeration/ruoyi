@@ -9,6 +9,14 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+      <el-form-item label="真实姓名" prop="realName">
+        <el-input
+          v-model="queryParams.realName"
+          placeholder="请输入真实姓名"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="用户名称" prop="userName">
         <el-input
           v-model="queryParams.userName"
@@ -24,7 +32,7 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
+<!--      <el-col :span="1.5">
         <el-button
           type="primary"
           plain
@@ -34,6 +42,18 @@
           v-hasPermi="['system:wxUser:add']"
         >新增</el-button>
       </el-col>
+       <el-col :span="1.5">
+        <el-button
+          type="danger"
+          plain
+          icon="el-icon-delete"
+          size="mini"
+          :disabled="multiple"
+          @click="handleDelete"
+          v-hasPermi="['system:wxUser:remove']"
+        >删除</el-button>
+      </el-col>
+      -->
       <el-col :span="1.5">
         <el-button
           type="success"
@@ -44,17 +64,6 @@
           @click="handleUpdate"
           v-hasPermi="['system:wxUser:edit']"
         >修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['system:wxUser:remove']"
-        >删除</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
@@ -87,8 +96,9 @@
         </template>
       </el-table-column>
       <el-table-column label="用户名称" align="center" prop="userName" />
-      <el-table-column label="手机号" align="center" prop="telephone" />
-      <el-table-column label="生日" align="center" prop="birthday" width="180">
+      <el-table-column label="真实姓名" align="center" prop="realName" />
+      <el-table-column label="手机号" align="center" prop="telephone" width="180"/>
+      <el-table-column label="生日" align="center" prop="birthday" width="150">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.birthday, '{y}-{m}-{d}') }}</span>
         </template>
@@ -118,13 +128,13 @@
             @click="handleUpdate(scope.row)"
             v-hasPermi="['system:wxUser:edit']"
           >修改</el-button>
-          <el-button
+<!--          <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['system:wxUser:remove']"
-          >删除</el-button>
+          >删除</el-button>-->
         </template>
       </el-table-column>
     </el-table>
@@ -138,9 +148,9 @@
     />
 
     <!-- 添加或修改微信用户对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="删除表示" prop="isDeleted">
+    <el-dialog :title="title" :visible.sync="open" width="800px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+<!--        <el-form-item label="删除表示" prop="isDeleted">
           <el-input v-model="form.isDeleted" placeholder="请输入删除表示" />
         </el-form-item>
         <el-form-item label="创建时间" prop="createdTime">
@@ -153,18 +163,7 @@
         </el-form-item>
         <el-form-item label="创建人" prop="createdBy">
           <el-input v-model="form.createdBy" placeholder="请输入创建人" />
-        </el-form-item>
-        <el-form-item label="修改人" prop="modifiedBy">
-          <el-input v-model="form.modifiedBy" placeholder="请输入修改人" />
-        </el-form-item>
-        <el-form-item label="最新更新时间" prop="lastUpdatedTime">
-          <el-date-picker clearable
-                          v-model="form.lastUpdatedTime"
-                          type="date"
-                          value-format="yyyy-MM-dd"
-                          placeholder="请选择最新更新时间">
-          </el-date-picker>
-        </el-form-item>
+        </el-form-item>-->
         <el-form-item label="登录名称" prop="loginName">
           <el-input v-model="form.loginName" placeholder="请输入登录名称" />
         </el-form-item>
@@ -183,6 +182,9 @@
         <el-form-item label="用户名称" prop="userName">
           <el-input v-model="form.userName" placeholder="请输入用户名称" />
         </el-form-item>
+        <el-form-item label="真实姓名" prop="realName">
+          <el-input v-model="form.realName" placeholder="请输入真实姓名" />
+        </el-form-item>
         <el-form-item label="手机号" prop="telephone">
           <el-input v-model="form.telephone" placeholder="请输入手机号" />
         </el-form-item>
@@ -200,11 +202,11 @@
         <el-form-item label="体重" prop="weight">
           <el-input v-model="form.weight" placeholder="请输入体重" />
         </el-form-item>
-        <el-form-item label="球队位置【字典】" prop="teamPosition">
-          <el-input v-model="form.teamPosition" placeholder="请输入球队位置【字典】" />
+        <el-form-item label="球队位置" prop="teamPosition">
+          <el-input v-model="form.teamPosition" placeholder="请输入球队位置" />
         </el-form-item>
-        <el-form-item label="标签【字典】" prop="tag">
-          <el-input v-model="form.tag" placeholder="请输入标签【字典】" />
+        <el-form-item label="标签" prop="tag">
+          <el-input v-model="form.tag" placeholder="请输入标签" />
         </el-form-item>
         <el-form-item label="状态" prop="enabled">
           <el-input v-model="form.enabled" placeholder="请输入状态" />

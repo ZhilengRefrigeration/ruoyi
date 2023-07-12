@@ -196,13 +196,13 @@
             @click="handleUpdate(scope.row)"
             v-hasPermi="['system:competition:edit']"
           >修改</el-button>
-          <el-button
+<!--          <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['system:competition:remove']"
-          >删除</el-button>
+          >删除</el-button>-->
           <el-button
             size="mini"
             type="text"
@@ -226,7 +226,7 @@
     <el-dialog :title="title" :visible.sync="open" width="650px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-form-item label="比赛名称" prop="competitionName" >
-          <el-input v-model="form.competitionName" disabled />
+          <el-input v-model="form.competitionName" />
         </el-form-item>
         <el-form-item label="比赛球场" prop="buildingName">
           <el-select v-model="form.buildingName" filterable @change="changeBuildName" remote reserve-keyword
