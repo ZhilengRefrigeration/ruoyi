@@ -127,7 +127,8 @@ public class CompetitionResultController extends BaseController
     {
         return toAjax(competitionResultService.deleteCompetitionResultByIds(ids));
     }
-    @ApiOperation(ApiTerminal.wxMiniProgram+"球员数据-新增、编辑")
+    @ApiOperation(ApiTerminal.wxMiniProgram+"球员数据-新增,编辑")
+    @Log(title = "赛会中球员比赛得分记录", businessType = BusinessType.UPDATE)
     @PostMapping("/insertOrUpdateMemberScore")
     @ResponseBody
     public AjaxResult insertOrUpdateMemberScore(@RequestBody CompetitionMembersScore request) throws Exception {

@@ -32,10 +32,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="isDeleted"    column="is_deleted"    />
         <result property="remark"    column="remark"    />
         <result property="isFirstLaunch"    column="is_first_launch"    />
+        <result property="competitionMembersId" column="competition_members_id"/>
+        <result property="competitionOfTeamId" column="competition_of_team_id"/>
     </resultMap>
 
     <sql id="selectCompetitionMembersScoreVo">
-        select id, competition_id, competition_vs_id, team_id, team_name, node_num, team_user_id, jersey_number, total_score, two_points, three_points, penalty, backboard, front_plate, back_plate, assists, snatch, block, fault, breaks, created_time, last_updated_time, created_by, modified_by, is_deleted, remark, is_first_launch from competition_members_score
+        select id, competition_id, competition_vs_id, team_id, team_name, node_num, team_user_id, jersey_number, total_score, two_points, three_points, penalty, backboard, front_plate, back_plate, assists, snatch, block, fault, breaks, created_time, last_updated_time, created_by, modified_by, is_deleted, remark, is_first_launch,competition_of_team_id,competition_members_id from competition_members_score
     </sql>
 
     <select id="selectCompetitionMembersScoreList" parameterType="CompetitionMembersScore" resultMap="CompetitionMembersScoreResult">
@@ -66,6 +68,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="modifiedBy != null  and modifiedBy != ''"> and modified_by = #{modifiedBy}</if>
             <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
             <if test="isFirstLaunch != null "> and is_first_launch = #{isFirstLaunch}</if>
+            <if test="competitionMembersId != null "> and competition_members_id = #{competitionMembersId}</if>
+            <if test="competitionOfTeamId != null "> and competition_of_team_id = #{competitionOfTeamId}</if>
         </where>
     </select>
     
@@ -77,35 +81,42 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             resultType="com.ruoyi.system.domain.vo.CompetitionMembersScoreVo">
         SELECT
         sco.id,
-        vs.competition_id as competitionId,
-        vs.id as competitionVsId,
-        vs.competition_group as competitionGroup,
+        vs.competition_id AS competitionId,
+        vs.id AS competitionVsId,
+        vs.competition_group AS competitionGroup,
         team.id AS teamId,
-        member.user_id as teamUserId,
-        cm.real_name as realName,
-        team.team_name as teamName,
-        sco.node_num as nodeNum,
-        member.jersey_number as jerseyNumber,
-        sco.total_score as totalScore,
-        sco.two_points as twoPoints,
-        sco.three_points as threePoints,
+        member.user_id AS teamUserId,
+        member.id as competitionMembersId,
+        member.real_name AS realName,
+        team.team_name AS teamName,
+        team.id as competitionOfTeamId,
+        sco.node_num AS nodeNum,
+        member.jersey_number AS jerseyNumber,
+        sco.total_score AS totalScore,
+        sco.two_points AS twoPoints,
+        sco.three_points AS threePoints,
         sco.penalty,
         sco.backboard,
-        sco.front_plate as frontPlate,
-        sco.back_plate as backPlate,
+        sco.front_plate AS frontPlate,
+        sco.back_plate AS backPlate,
         sco.assists,
         sco.snatch,
         sco.block,
         sco.fault,
         sco.breaks,
-        IFNULL(sco.is_first_launch,0) AS isFirstLaunch
+        IFNULL( sco.is_first_launch, 0 ) AS isFirstLaunch
         FROM
         competition_team_vs_team vs
-        inner join basketball_team team on (vs.main_team_id=team.id or vs.guest_team_id=team.id) and team.IS_DELETED=0
-        left join competition_members member on team.id = member.competition_team_id and member.IS_DELETED=0
-        left join competition_members_score sco on (vs.id=sco.competition_vs_id and member.user_id = sco.team_user_id) and sco.is_deleted=0
-        left join user_info userInfo on member.user_id = userInfo.id and userInfo.is_deleted=0
-        left join competition_members cm on cm.user_id=userInfo.id and cm.is_deleted=0
+        INNER JOIN competition_of_team team ON ( vs.main_team_id = team.id OR vs.guest_team_id = team.id )
+        AND team.IS_DELETED = 0
+        LEFT JOIN competition_members member ON team.id = member.competition_of_team_id
+        AND member.IS_DELETED = 0
+        LEFT JOIN competition_members_score sco ON ( vs.id = sco.competition_vs_id AND member.id = sco.competition_members_id )
+        AND sco.is_deleted = 0
+        LEFT JOIN user_info userInfo ON member.user_id = userInfo.id
+        AND userInfo.is_deleted = 0
+        LEFT JOIN competition_members cm ON cm.user_id = userInfo.id
+        AND cm.is_deleted = 0
         WHERE 1 = 1  AND vs.is_deleted = 0
         <if test="competitionId != null ">
             AND  vs.competition_Id = #{competitionId}
@@ -197,6 +208,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isDeleted != null">is_deleted,</if>
             <if test="remark != null">remark,</if>
             <if test="isFirstLaunch != null">is_first_launch,</if>
+            <if test="competitionMembersId != null">competition_members_id,</if>
+            <if test="competitionOfTeamId != null">competition_of_team_id,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="competitionId != null">#{competitionId},</if>
@@ -225,6 +238,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isDeleted != null">#{isDeleted},</if>
             <if test="remark != null">#{remark},</if>
             <if test="isFirstLaunch != null">#{isFirstLaunch},</if>
+            <if test="competitionMembersId != null">#{competitionMembersId},</if>
+            <if test="competitionOfTeamId != null">#{competitionOfTeamId},</if>
+
          </trim>
     </insert>
 
@@ -257,6 +273,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
             <if test="remark != null">remark = #{remark},</if>
             <if test="isFirstLaunch != null">is_first_launch = #{isFirstLaunch},</if>
+            <if test="competitionMembersId != null">competition_members_id =#{competitionMembersId},</if>
+            <if test="competitionOfTeamId != null">competition_of_team_id=#{competitionOfTeamId},</if>
         </trim>
         where id = #{id}
     </update>

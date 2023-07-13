@@ -79,7 +79,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             t.competition_time as competitionTime,
             t.building_id as buildingId,
             t.building_name as buildingName,
-            t.competition_address as competitionAddress,
+            IFNULL(t.competition_address,b.ADDRESS) as competitionAddress,
             t.competition_group as competitionGroup,
             t.status,
             t.vs_type as vsType,
@@ -120,11 +120,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             DATE_FORMAT(t.competition_time,'%H:%i') AS theTime,
             t.remark as remark
         from competition_team_vs_team t
-                 LEFT JOIN basketball_team b1 ON b1.id = t.main_team_id
-                 left join basketball_team b2 on t.guest_team_id=b2.id
+                 LEFT JOIN competition_of_team b1 ON b1.id = t.main_team_id
+                 left join competition_of_team b2 on t.guest_team_id=b2.id
+                 left join building_info b on b.id = t.building_id
         where 1=1 AND  t.id=#{id}
           AND  t.is_deleted = 0
-            LIMIT 1
+            LIMIT 1;
     </select>
     <select id="getCompetitionSchedule" resultType="com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo">
         select

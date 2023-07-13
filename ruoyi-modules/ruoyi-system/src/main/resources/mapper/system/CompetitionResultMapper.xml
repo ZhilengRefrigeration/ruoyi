@@ -74,7 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         rs.six_node_score as sixNodeScore,
         rs.integral
         from competition_team_vs_team vs
-        inner join basketball_team team on (vs.main_team_id=team.id or vs.guest_team_id=team.id) and team.IS_DELETED=0
+        inner join competition_of_team team on (vs.main_team_id=team.id or vs.guest_team_id=team.id) and team.IS_DELETED=0
         left join competition_Result rs on (rs.competition_vs_id=vs.id and team.id = rs.team_id) and rs.is_deleted=0
         where 1=1 and vs.is_deleted=0
         <if test="competitionId != null ">
