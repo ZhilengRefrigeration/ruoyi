@@ -162,6 +162,7 @@ public class WxBuildingInfoController extends BaseController
     @ApiOperation(ApiTerminal.wxMiniProgram+"获取球场列表")
     @ResponseBody
     public TableDataInfo getBuildingByCity(@RequestBody WxBuildingInfo entity){
+        startPage();
         List<WxBuildingInfo> list = wxBuildingInfoService.getBuildingByCity(entity);
         return getDataTable(list);
 
@@ -191,6 +192,7 @@ public class WxBuildingInfoController extends BaseController
     @ResponseBody
     @ApiOperation(value = ApiTerminal.wxMiniProgram+"分页获取球场列表")
     public TableDataInfo getAllBuildingByCondition(@RequestBody BuildingInfoRequest entity){
+        startPage();
         List<BuildingInfoResponse> list =wxBuildingInfoService.getAllBuildingByCondition(entity);
         for(BuildingInfoResponse response:list){
             if(1==response.getStatus()){

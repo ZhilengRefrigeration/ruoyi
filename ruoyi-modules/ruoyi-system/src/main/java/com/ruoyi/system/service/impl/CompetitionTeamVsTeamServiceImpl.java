@@ -292,4 +292,11 @@ public class CompetitionTeamVsTeamServiceImpl implements ICompetitionTeamVsTeamS
         }
         return true;
     }
+
+    @Override
+    public Boolean deleteBatchByIds(Ids ids) {
+        Long[]  idList = ids.getIdList().stream().toArray(Long[]::new);
+        competitionTeamVsTeamMapper.deleteCompetitionTeamVsTeamByIds(idList);
+        return Boolean.TRUE;
+    }
 }

@@ -9,17 +9,16 @@ import java.io.IOException;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.exception.CheckedException;
 import com.ruoyi.common.swagger.apiConstants.ApiTerminal;
 import com.ruoyi.system.domain.CompetitionResult;
-import com.ruoyi.system.domain.vo.CompetitionTeamIntegralVo;
-import com.ruoyi.system.domain.vo.CompetitionTeamVsTeamRequest;
-import com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo;
-import com.ruoyi.system.domain.vo.CompetitionUnifiedRecordVo;
+import com.ruoyi.system.domain.vo.*;
 import com.ruoyi.system.utils.UtilTool;
 import io.seata.core.model.Result;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
@@ -111,6 +110,18 @@ public class CompetitionTeamVsTeamController extends BaseController
     {
         return toAjax(competitionTeamVsTeamService.deleteCompetitionTeamVsTeamByIds(ids));
     }
+    @ApiOperation(ApiTerminal.wxMiniProgram+"根据IDS批量删除")
+    @DeleteMapping("/batchDeleteByIds")
+    @ResponseBody
+    public AjaxResult batchDeleteByIds(@RequestBody Ids ids) throws Exception {
+        if(ObjectUtil.isNull(ids)){
+            throw new InvalidParameterException("参数异常，非法操作！");
+        }
+        if(StringUtils.isEmpty(ids.getIdList())||ids.getIdList().size()==0){
+            throw new InvalidParameterException("ids不能为空！");
+        }
+        return AjaxResult.success(competitionTeamVsTeamService.deleteBatchByIds(ids));
+    }
     @Log(title = "赛会中球队VS球队比赛结果数据", businessType = BusinessType.OTHER)
     @ApiOperation("根据ID获取当前比赛赛程的所有统分结果")
     @GetMapping("/competitionUnifiedRecord/{id}")
@@ -119,7 +130,7 @@ public class CompetitionTeamVsTeamController extends BaseController
     }
 
     @Log(title = "赛会中球队VS球队比赛结果数据2", businessType = BusinessType.OTHER)
-    @ApiOperation("根据ID获取当前比赛赛程的所有统分结果2")
+    @ApiOperation(ApiTerminal.wxMiniProgram+"根据ID获取当前比赛赛程的所有统分结果2")
     @GetMapping("/getCompetitionVsRecordById/{id}")
     public AjaxResult getCompetitionVsRecordById(@PathVariable("id") Long id) {
         return AjaxResult.success(competitionTeamVsTeamService.getCompetitionVsRecordById(id));
