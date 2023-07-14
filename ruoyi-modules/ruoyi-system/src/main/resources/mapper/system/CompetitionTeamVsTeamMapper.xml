@@ -251,6 +251,100 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         GROUP BY t.competition_of_team_id
         ORDER BY sum(t.integral) desc
     </select>
+    <select id="getTodaySchedule" resultType="com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo">
+        select
+        t.id as id,
+        t.competition_id as competitionId,
+        t.main_team_id as mainTeamId,
+        b1.TEAM_NAME as mainTeamName,
+        b1.team_logo as mainTeamLogo,
+        t.guest_team_id as guestTeamId,
+        b2.TEAM_NAME as guestTeamName,
+        b2.team_logo as guestTeamLogo,
+        t.competition_time as competitionTime,
+        t.building_id as buildingId,
+        t.building_name as buildingName,
+        t.competition_address as competitionAddress,
+        t.competition_group as competitionGroup,
+        t.status,
+        t.vs_type as vsType,
+        t.created_time as createdTime,
+        t.last_updated_time as lastUpdatedTime,
+        t.created_by as createdBy,
+        t.modified_by as modifiedBy,
+        t.main_team_score as mainTeamScore,
+        t.guest_team_score as guestTeamScore,
+        t.is_deleted as isDeleted,
+        DATE_FORMAT(t.competition_time,'%Y年%m月%d日') as competitionDate,
+        CASE dayofweek(t.competition_time)
+        WHEN 1 THEN
+        '星期日'
+        WHEN 2 THEN
+        '星期一'
+        WHEN 3 THEN
+        '星期二'
+        WHEN 4 THEN
+        '星期三'
+        WHEN 5 THEN
+        '星期四'
+        WHEN 6 THEN
+        '星期五'
+        WHEN 7 THEN
+        '星期六'
+        END as weekDayName,
+        CASE t.status
+        WHEN -1 THEN
+        '已取消'
+        WHEN 0 THEN
+        '报名中'
+        WHEN 1 THEN
+        '比赛中'
+        WHEN 2 THEN
+        '已结束'
+        END as statusName,
+        DATE_FORMAT(t.competition_time,'%H:%i') AS theTime,
+        t.remark as remark,
+        u1.OPENID as guestTeamOpenId,
+        u2.OPENID as mainTeamOpenId
+        from competition_team_vs_team t
+        LEFT JOIN competition_of_team b1 ON b1.id = t.main_team_id
+        left join user_info u1 on u1.id=b1.created_by
+        left join competition_of_team b2 on t.guest_team_id=b2.id
+        left join user_info u2 on u2.id=b2.created_by
+        where 1=1
+        <![CDATA[ and to_days(competition_time) <= to_days(now()) ]]>
+        <if test="comp.id != null ">
+            AND  t.id=#{comp.id}
+        </if>
+        <if test="comp.status != null ">
+            AND  t.status =#{comp.status}
+        </if>
+        <if test="comp.isDeleted != null ">
+            AND  t.is_deleted =#{comp.isDeleted}
+        </if>
+        <if test="comp.competitionId != null ">
+            AND  t.competition_id=#{comp.competitionId}
+        </if>
+        <if test="comp.buildingName != null  and comp.buildingName != ''">
+            AND  t.building_name like  CONCAT('%',#{comp.buildingName},'%')
+        </if>
+        <if test="comp.competitionGroup != null ">
+            AND  t.competition_group = #{comp.competitionGroup}
+        </if>
+        <if test="comp.mainTeamName != null and comp.mainTeamName != ''">
+            AND  t.main_team_name like  CONCAT('%',#{comp.mainTeamName},'%')
+        </if>
+        <if test="comp.guestTeamName != null and comp.guestTeamName != ''">
+            AND  t.guest_team_name like  CONCAT('%',#{comp.guestTeamName},'%')
+        </if>
+        <if test="comp.competitionAddress != null and comp.competitionAddress != '' ">
+            AND  t.competition_address like  CONCAT('%',#{comp.competitionAddress},'%')
+        </if>
+        <if test="comp.buildingName != null and comp.buildingName != '' ">
+            AND  t.building_name like  CONCAT('%',#{comp.buildingName},'%')
+        </if>
+        order by t.competition_time asc
+    </select>
 
     <insert id="insertCompetitionTeamVsTeam" parameterType="CompetitionTeamVsTeam" useGeneratedKeys="true" keyProperty="id">
         insert into competition_team_vs_team
@@ -347,6 +441,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="vsType != null  and vsType != ''"> and vs_type = #{vsType}</if>
             <if test="batchNumber != null  and batchNumber != ''"> and batch_number = #{batchNumber}</if>
         </where>
+    </update>
+    <update id="competitionVsTeamStatusUpdate">
+        update competition_team_vs_team set status = 2 where status &lt;&gt; 2 and competition_time <![CDATA[ <= ]]> now()
     </update>
 
     <delete id="deleteCompetitionTeamVsTeamById" parameterType="Long">

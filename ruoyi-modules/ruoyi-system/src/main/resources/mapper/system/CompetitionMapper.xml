@@ -344,6 +344,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
         where id = #{id}
     </update>
+    <update id="updateCompetitionFinish">
+        update competition set status = 2 where status &lt;&gt; 2 and competition_end_time <![CDATA[ <= ]]> now()
+    </update>
 
     <delete id="deleteCompetitionById" parameterType="Long">
         delete from competition where id = #{id}

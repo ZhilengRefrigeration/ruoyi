@@ -76,4 +76,8 @@ public interface ICompetitionTeamVsTeamService
     Boolean competitionScoreSubmit(List<CompetitionResult> request);
 
     Boolean deleteBatchByIds(Ids ids);
+
+    int competitionVsTeamStatusUpdate(CompetitionTeamVsTeam competitionTeamVsTeam);
+
+    List<CompetitionTeamVsTeamVo> getTodaySchedule(CompetitionTeamVsTeam competitionTeamVsTeam);
 }

@@ -20,7 +20,11 @@ public class CompetitionTeamVsTeamVo extends CompetitionTeamVsTeam {
 
     @ApiModelProperty(value = "客队logo", required = false)
     private String guestTeamLogo;
+    @ApiModelProperty(value = "客队队长openid", required = false)
+    private String guestTeamOpenId;
 
+    @ApiModelProperty(value = "主队队长openid", required = false)
+    private String mainTeamOpenId;
     @ApiModelProperty(value = "中文状态", required = false)
     private String statusName;
     @ApiModelProperty(value = "比赛日期", required = false)

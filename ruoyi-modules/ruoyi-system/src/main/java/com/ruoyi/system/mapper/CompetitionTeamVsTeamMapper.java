@@ -4,6 +4,7 @@ import java.util.List;
 import com.ruoyi.system.domain.CompetitionTeamVsTeam;
 import com.ruoyi.system.domain.vo.CompetitionTeamIntegralVo;
 import com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo;
+import com.ruoyi.system.service.ICompetitionResultService;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -76,4 +77,8 @@ public interface CompetitionTeamVsTeamMapper
     List<CompetitionTeamVsTeamVo> getLatelySchedule(CompetitionTeamVsTeam competitionTeamVsTeam);
 
     List<CompetitionTeamIntegralVo> getCompetitionTeamIntegralListById(@Param("id") Long id);
+
+    int competitionVsTeamStatusUpdate(CompetitionTeamVsTeam competitionTeamVsTeam);
+
+    List<CompetitionTeamVsTeamVo> getTodaySchedule(ICompetitionResultService competitionResultService);
 }

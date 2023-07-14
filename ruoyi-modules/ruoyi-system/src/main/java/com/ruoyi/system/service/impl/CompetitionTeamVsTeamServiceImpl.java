@@ -299,4 +299,14 @@ public class CompetitionTeamVsTeamServiceImpl implements ICompetitionTeamVsTeamS
         competitionTeamVsTeamMapper.deleteCompetitionTeamVsTeamByIds(idList);
         return Boolean.TRUE;
     }
+
+    @Override
+    public int competitionVsTeamStatusUpdate(CompetitionTeamVsTeam competitionTeamVsTeam) {
+        return competitionTeamVsTeamMapper.competitionVsTeamStatusUpdate(competitionTeamVsTeam);
+    }
+
+    @Override
+    public List<CompetitionTeamVsTeamVo> getTodaySchedule(CompetitionTeamVsTeam competitionTeamVsTeam) {
+        return competitionTeamVsTeamMapper.getTodaySchedule(competitionResultService);
+    }
 }

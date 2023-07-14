@@ -66,4 +66,6 @@ public interface CompetitionMapper
     CompetitionExcleVo getTeamEnrollExcleImpData(Long competitionId, Long userId);
 
     List<Competition> getMyJoinCompetition(CompetitionVo competition);
+
+    int updateCompetitionFinish();
 }

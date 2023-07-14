@@ -120,6 +120,14 @@ public class WxUserController extends BaseController
         return toAjax(wxUserService.deleteWxUserByIds(ids));
     }
 
+    @ApiOperation(ApiTerminal.wxMiniProgram+"根据用户id修改个人数据")
+    @PostMapping(value = "/edit")
+    @ResponseBody
+    public AjaxResult editInfo(@RequestBody WxUser wxUser)
+    {
+        return AjaxResult.success(wxUserService.updateWxUser(wxUser));
+    }
+
     @ApiOperation(ApiTerminal.wxMiniProgram+"根据用户id查询个人中心详情")
     @PostMapping("/detail/{userId}")
     @ResponseBody

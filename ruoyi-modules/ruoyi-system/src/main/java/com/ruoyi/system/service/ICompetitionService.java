@@ -87,4 +87,6 @@ public interface ICompetitionService
     Boolean edit(Competition entity);
 
     CompetitionExcleVo importExcleData(Long competitionId,Map<String, PictureData> maplist, Sheet sheet);
+    //根据当前时间修改已经完成的赛会数据
+    int updateCompetitionFinish();
 }

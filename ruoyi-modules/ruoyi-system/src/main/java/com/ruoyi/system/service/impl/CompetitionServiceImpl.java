@@ -688,4 +688,9 @@ public class CompetitionServiceImpl implements ICompetitionService
         }
         return excleVo;
     }
+
+    @Override
+    public int updateCompetitionFinish() {
+        return competitionMapper.updateCompetitionFinish();
+    }
 }
