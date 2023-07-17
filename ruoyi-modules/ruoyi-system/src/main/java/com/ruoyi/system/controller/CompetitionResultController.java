@@ -138,7 +138,7 @@ public class CompetitionResultController extends BaseController
 
         //新增
         if(request.getId()==null){
-            request.setCreatedBy(String.valueOf(SecurityUtils.getLoginUser().getUserid()));
+            //request.setCreatedBy(String.valueOf(SecurityUtils.getLoginUser().getUserid()));
             request.setCreatedTime(new Date());
             competitionMembersScoreService.insertCompetitionMembersScore(request);
         } else {//编辑、
@@ -146,7 +146,7 @@ public class CompetitionResultController extends BaseController
                 throw new ServiceException("id为空");
             }
             request.setLastUpdatedTime(new Date());
-            request.setModifiedBy(String.valueOf(SecurityUtils.getLoginUser().getUserid()));
+            //request.setModifiedBy(String.valueOf(SecurityUtils.getLoginUser().getUserid()));
             competitionMembersScoreService.updateCompetitionMembersScore(request);
         }
         return AjaxResult.success();
