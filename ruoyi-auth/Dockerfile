@@ -8,7 +8,7 @@ ENV PARAMS="--server.port=8080 --spring.profiles.active=prod --spring.cloud.naco
 # 基础镜像已经修改完时区，这里注释掉
 # RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone
 
-COPY ruoyi-gateway/target/*.jar /app.jar
+COPY ruoyi-auth/target/*.jar /app.jar
 EXPOSE 8080
 
 #
