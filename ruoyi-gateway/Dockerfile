@@ -1,5 +1,5 @@
-FROM openjdk:8-jdk
-LABEL maintainer=leifengyang
+FROM hub.iot.chinamobile.com/oneos/oneos_jdk:1.8.0_271
+LABEL maintainer=tangang
 
 
 #启动自行加载   服务名-prod.yml配置
