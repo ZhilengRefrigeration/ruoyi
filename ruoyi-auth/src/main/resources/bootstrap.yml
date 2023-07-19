@@ -15,9 +15,13 @@ spring:
       discovery:
         # 服务注册地址
         server-addr: his-nacos.oneos-tg:8848
+        username: nacos
+        password: nacos
       config:
         # 配置中心地址
         server-addr: his-nacos.oneos-tg:8848
+        username: nacos
+        password: nacos
         # 配置文件格式
         file-extension: yml
         # 共享配置
