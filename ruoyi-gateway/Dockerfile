@@ -4,7 +4,9 @@ LABEL maintainer=tangang
 
 #启动自行加载   服务名-prod.yml配置
 ENV PARAMS="--server.port=8080 --spring.profiles.active=dev --spring.cloud.nacos.server-addr=his-nacos.his:8848 --spring.cloud.nacos.config.file-extension=yml"
-RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone
+
+# 基础镜像已经修改完时区，这里注释掉
+# RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone
 
 COPY ruoyi-gateway/target/*.jar /app.jar
 EXPOSE 8080
