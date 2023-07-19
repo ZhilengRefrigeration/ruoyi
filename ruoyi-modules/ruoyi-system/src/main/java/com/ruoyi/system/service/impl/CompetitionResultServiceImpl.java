@@ -204,7 +204,7 @@ public class CompetitionResultServiceImpl implements ICompetitionResultService
                 //合计总分
                 int score = oneNodeScore+twoNodeScore+threeNodeScore+fourNodeScore+fiveNodeScore+sixNodeScore;
                 //主队
-                if(teamVsTeam.getMainTeamId().equals(competitionResult.getTeamId())){
+                if(teamVsTeam.getMainTeamId().equals(competitionResult.getCompetitionOfTeamId())){
                     mainId = competitionResult.getId();
                     mainScore = score;
                     teamVsTeam.setMainTeamScore(score);
@@ -213,7 +213,7 @@ public class CompetitionResultServiceImpl implements ICompetitionResultService
                     gustScore = score;
                     teamVsTeam.setGuestTeamScore(score);
                     //客队标识
-                    if(entity.getTeamId()==competitionResult.getTeamId()){
+                    if(entity.getCompetitionOfTeamId()==competitionResult.getCompetitionOfTeamId()){
                         flag = false;
                     }
                 }

@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.io.IOException;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.common.core.exception.ServiceException;
@@ -159,34 +160,61 @@ public class CompetitionResultController extends BaseController
             throw new InvalidParameterException("赛会id不能为");
         }
         List<PersonalHonorResponse> honorResponseList = new ArrayList<>();
-
         //查询赛会得分数据
         List<CompetitionMembersScore> membersScoreList = competitionMembersScoreService.getHonorList(competitionId,null);
-        if(UtilTool.isNotNull(membersScoreList)){
-            honorResponseList = new ArrayList<>();
-
-            CompetitionMembersScore membersScore = null;
+        if(membersScoreList.size()>0){
             //3分王
-            membersScore = membersScoreList.stream().max(Comparator.comparing(CompetitionMembersScore::getThreePoints)).get();
-            setHonorData(honorResponseList,membersScore,"3分王");
+            List<CompetitionMembersScore> threePointList = membersScoreList.stream().filter(a -> a.getThreePoints().longValue() > 0).collect(Collectors.toList());
+            if(threePointList.size()>0) {
+                CompetitionMembersScore threePoint = threePointList.stream().max(Comparator.comparing(CompetitionMembersScore::getThreePoints)).get();
+                setHonorData(honorResponseList, threePoint, "3分王");
+            }else {
+                setHonorData(honorResponseList, new CompetitionMembersScore(), "3分王");
+            }
             //篮板王
-            membersScore = membersScoreList.stream().max(Comparator.comparing(CompetitionMembersScore::getBackboard)).get();
-            setHonorData(honorResponseList,membersScore,"篮板王");
+            List<CompetitionMembersScore> backboardList = membersScoreList.stream().filter(a -> a.getBackboard().longValue() > 0).collect(Collectors.toList());
+            if(backboardList.size()>0){
+                CompetitionMembersScore backboardMax = backboardList.stream().max(Comparator.comparing(CompetitionMembersScore::getBackboard)).get();
+                setHonorData(honorResponseList,backboardMax,"篮板王");
+            }else {
+                setHonorData(honorResponseList,new CompetitionMembersScore(),"篮板王");
+            }
+
             //效率王
 //                membersScore = membersScoreList.stream().max(Comparator.comparing(CompetitionMembersScore::getThreePoints)).get();
 //                setHonorData(membersScore,"效率王");
             //助攻王
-            membersScore = membersScoreList.stream().max(Comparator.comparing(CompetitionMembersScore::getAssists)).get();
-            setHonorData(honorResponseList,membersScore,"助攻王");
+            List<CompetitionMembersScore> assistsList = membersScoreList.stream().filter(a -> a.getAssists().longValue() > 0).collect(Collectors.toList());
+            if(assistsList.size()>0){
+                CompetitionMembersScore assists = assistsList.stream().max(Comparator.comparing(CompetitionMembersScore::getAssists)).get();
+                setHonorData(honorResponseList,assists,"助攻王");
+            }else {
+                setHonorData(honorResponseList,new CompetitionMembersScore(),"助攻王");
+            }
             //得分王
-            membersScore = membersScoreList.stream().max(Comparator.comparing(CompetitionMembersScore::getTotalScore)).get();
-            setHonorData(honorResponseList,membersScore,"得分王");
+            List<CompetitionMembersScore> totalScoreList = membersScoreList.stream().filter(a -> a.getTotalScore().longValue() > 0).collect(Collectors.toList());
+            if(totalScoreList.size()>0){
+                CompetitionMembersScore totalScore = totalScoreList.stream().max(Comparator.comparing(CompetitionMembersScore::getTotalScore)).get();
+                setHonorData(honorResponseList,totalScore,"得分王");
+            }else {
+                setHonorData(honorResponseList,new CompetitionMembersScore(),"得分王");
+            }
             //盖帽王
-            membersScore = membersScoreList.stream().max(Comparator.comparing(CompetitionMembersScore::getBlock)).get();
-            setHonorData(honorResponseList,membersScore,"盖帽王");
+            List<CompetitionMembersScore> blockList = membersScoreList.stream().filter(a -> a.getBlock().longValue() > 0).collect(Collectors.toList());
+            if(blockList.size()>0){
+                CompetitionMembersScore block = blockList.stream().max(Comparator.comparing(CompetitionMembersScore::getBlock)).get();
+                setHonorData(honorResponseList,block,"盖帽王");
+            }else {
+                setHonorData(honorResponseList,new CompetitionMembersScore(),"盖帽王");
+            }
             //抢断王
-            membersScore = membersScoreList.stream().max(Comparator.comparing(CompetitionMembersScore::getSnatch)).get();
-            setHonorData(honorResponseList,membersScore,"抢断王");
+            List<CompetitionMembersScore> snatchList = membersScoreList.stream().filter(a -> a.getSnatch().longValue() > 0).collect(Collectors.toList());
+            if(snatchList.size()>0){
+                CompetitionMembersScore snatch = snatchList.stream().max(Comparator.comparing(CompetitionMembersScore::getSnatch)).get();
+                setHonorData(honorResponseList,snatch,"抢断王");
+            }else {
+                setHonorData(honorResponseList,new CompetitionMembersScore(),"抢断王");
+            }
 
         }
         return getDataTable(honorResponseList);

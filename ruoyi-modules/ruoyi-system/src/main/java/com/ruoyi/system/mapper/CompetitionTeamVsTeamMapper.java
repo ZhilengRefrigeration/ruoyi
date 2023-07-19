@@ -76,7 +76,7 @@ public interface CompetitionTeamVsTeamMapper
 
     List<CompetitionTeamVsTeamVo> getLatelySchedule(CompetitionTeamVsTeam competitionTeamVsTeam);
 
-    List<CompetitionTeamIntegralVo> getCompetitionTeamIntegralListById(@Param("id") Long id);
+    List<CompetitionTeamIntegralVo> getCompetitionTeamIntegralListById(CompetitionTeamIntegralVo vo);
 
     int competitionVsTeamStatusUpdate(CompetitionTeamVsTeam competitionTeamVsTeam);
 

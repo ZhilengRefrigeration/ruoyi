@@ -4,6 +4,7 @@ import org.springframework.util.StringUtils;
 
 public enum VsResultEnums {
     win("win", "胜"),
+    flat("flat","平"),
     fail("fail", "负");
 
     private String code;

@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="id"    column="id"    />
         <result property="competitionId"    column="competition_id"    />
         <result property="competitionVsId"    column="competition_vs_id"    />
+        <result property="competitionOfTeamId" column="competition_of_team_id"/>
         <result property="teamId"    column="team_id"    />
         <result property="teamName"    column="team_name"    />
         <result property="oneNodeScore"    column="one_node_score"    />
@@ -24,11 +25,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="fourNodeScore"    column="four_node_score"    />
         <result property="fiveNodeScore"    column="five_node_score"    />
         <result property="sixNodeScore"    column="six_node_score"    />
+        <result property="vsResult" column="vs_result"/>
+        <result property="vsType" column="vs_type"/>
         <result property="integral"    column="integral"    />
     </resultMap>
 
     <sql id="selectCompetitionResultVo">
-        select id, competition_id, competition_vs_id, team_id, team_name, one_node_score, two_node_score, competition_group, status, created_time, last_updated_time, created_by, modified_by, is_deleted, remark, three_node_score, four_node_score, five_node_score, six_node_score, integral from competition_result
+        select id, competition_id, competition_vs_id, team_id, team_name, one_node_score, two_node_score, competition_group, status, created_time, last_updated_time, created_by, modified_by, is_deleted, remark, three_node_score, four_node_score, five_node_score, six_node_score, integral,vs_result,competition_of_team_id,vs_result from competition_result
     </sql>
 
     <select id="selectCompetitionResultList" parameterType="CompetitionResult" resultMap="CompetitionResultResult">
@@ -52,6 +55,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="fiveNodeScore != null "> and five_node_score = #{fiveNodeScore}</if>
             <if test="sixNodeScore != null "> and six_node_score = #{sixNodeScore}</if>
             <if test="integral != null "> and integral = #{integral}</if>
+            <if test="vsResult != null "> and vs_result = #{vsResult}</if>
+            <if test="vsType != null "> and vs_type = #{vsType}</if>
+            <if test="competitionOfTeamId != null "> and competition_of_team_id = #{competitionOfTeamId}</if>
         </where>
     </select>
     
@@ -63,8 +69,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select rs.id,
         vs.competition_id as competitionId,
         vs.id as competitionVsId,
+        team.id as competitionOfTeamId,
         vs.competition_group as competitionGroup,
-        team.id as teamId,
+        team.team_id as teamId,
         team.team_name as teamName,
         rs.one_node_score as oneNodeScore,
         rs.two_node_score as twoNodeScore,
@@ -72,10 +79,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         rs.four_node_score as fourNodeScore,
         rs.five_node_score as fiveNodeScore,
         rs.six_node_score as sixNodeScore,
+        rs.vs_result,
+        vs.vs_type,
         rs.integral
         from competition_team_vs_team vs
         inner join competition_of_team team on (vs.main_team_id=team.id or vs.guest_team_id=team.id) and team.IS_DELETED=0
-        left join competition_Result rs on (rs.competition_vs_id=vs.id and team.id = rs.team_id) and rs.is_deleted=0
+        left join competition_Result rs on (rs.competition_vs_id=vs.id and team.id = rs.competition_of_team_id) and rs.is_deleted=0
         where 1=1 and vs.is_deleted=0
         <if test="competitionId != null ">
             AND  vs.competition_Id = #{competitionId}
@@ -107,6 +116,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="fiveNodeScore != null">five_node_score,</if>
             <if test="sixNodeScore != null">six_node_score,</if>
             <if test="integral != null">integral,</if>
+            <if test="vsResult != null ">vs_result,</if>
+            <if test="vsType != null ">vs_type,</if>
+            <if test="competitionOfTeamId != null ">competition_of_team_id,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="competitionId != null">#{competitionId},</if>
@@ -128,6 +140,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="fiveNodeScore != null">#{fiveNodeScore},</if>
             <if test="sixNodeScore != null">#{sixNodeScore},</if>
             <if test="integral != null">#{integral},</if>
+            <if test="vsResult != null ">#{vsResult},</if>
+            <if test="vsType != null "> #{vsType},</if>
+            <if test="competitionOfTeamId != null "> #{competitionOfTeamId},</if>
          </trim>
     </insert>
 
@@ -153,6 +168,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="fiveNodeScore != null">five_node_score = #{fiveNodeScore},</if>
             <if test="sixNodeScore != null">six_node_score = #{sixNodeScore},</if>
             <if test="integral != null">integral = #{integral},</if>
+            <if test="vsResult != null ">vs_result = #{vsResult},</if>
+            <if test="vsType != null "> vs_type = #{vsType},</if>
+            <if test="competitionOfTeamId != null "> competition_of_team_id = #{competitionOfTeamId},</if>
         </trim>
         where id = #{id}
     </update>

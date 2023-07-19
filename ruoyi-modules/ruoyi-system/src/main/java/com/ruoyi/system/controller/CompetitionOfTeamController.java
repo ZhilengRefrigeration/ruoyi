@@ -222,23 +222,8 @@ public class CompetitionOfTeamController extends BaseController
     }
     @PostMapping("/getJoinCompetitionGroupTeam")
     @ResponseBody
-    @ApiOperation(value = ApiTerminal.wxMiniProgram+"获取赛事中参与的球队的分组数据")
+    @ApiOperation(value = ApiTerminal.wxMiniProgram+"获取赛事中参与的球队的分组的积分情况")
     public AjaxResult getJoinCompetitionGroupTeam(@RequestBody CompetitionOfTeamVo entity){
-        //关键字word包含：球队名称、地点名称、球馆名称，支持模糊搜索；
-//        List<CompetitionOfTeamVo> competitionOfTeamVos = competitionOfTeamFeign.getJoinCompetitionGroupTeam(entity);
-//        List<CompetitionOfTeamVo> isNotGroupList = list.stream().filter(a -> StringUtils.isEmpty(a.getCompetitionGroup())).collect(Collectors.toList());
-//        List<CompetitionOfTeamVo> list1 = list.stream().filter(a -> !StringUtils.isEmpty(a.getCompetitionGroup())).collect(Collectors.toList());
-//        //1.根据字符串类型日期分组，并按照日期升序排序，返回TreeMap<String,List>，map的key为字符串日期，value为list
-//        TreeMap<String,List<CompetitionOfTeamVo>> dataGroupMap =  list1.stream().collect(Collectors.groupingBy(a->a.getCompetitionGroup(), TreeMap::new,Collectors.toList()));
-//        List<Map> listMap = new ArrayList<>();
-//        for(Map.Entry<String, List<CompetitionOfTeamVo>> entry:dataGroupMap.entrySet()){
-//            Map resMap =new HashMap();
-//            resMap.put("competitionGroup",entry.getKey());
-//            resMap.put("competitionOfTeamList",entry.getValue());
-//            listMap.add(resMap);
-//        }
-//        maps.put("isGroup",listMap);
-//        maps.put("isNotGroup",isNotGroupList);
         Map hashMap = new HashMap();
         List<CompetitionOfTeamGroupVo> competitionOfTeamGroupVoList = null;
         List<CompetitionOfTeamVo> competitionOfTeamVos = competitionOfTeamService.findCompetitionTeamGroupList(entity);

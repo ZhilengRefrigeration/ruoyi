@@ -2,11 +2,9 @@ package com.ruoyi.system.controller;
 
 import java.security.InvalidParameterException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.io.IOException;
-import java.util.Map;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.hutool.core.util.ObjectUtil;
@@ -160,10 +158,47 @@ public class CompetitionTeamVsTeamController extends BaseController
     @GetMapping("/competitionTeamIntegralList/{id}")
     @ResponseBody
     public TableDataInfo competitionTeamIntegralList(@PathVariable("id") Long id) throws Exception {
-        List<CompetitionTeamIntegralVo> list = competitionTeamVsTeamService.getCompetitionTeamIntegralListById(id);
+        CompetitionTeamIntegralVo vo = new CompetitionTeamIntegralVo();
+        vo.setCompetitionId(id);
+        List<CompetitionTeamIntegralVo> list = competitionTeamVsTeamService.getCompetitionTeamIntegralListById(vo);
         return getDataTable(list);
     }
-
+    @ApiOperation(ApiTerminal.wxMiniProgram+"根据赛会ID获取所有球队的积分排位")
+    @PostMapping("/competitionTeamIntegralRanking")
+    @ResponseBody
+    public TableDataInfo competitionTeamIntegralRanking(@RequestBody CompetitionTeamIntegralVo vo) throws Exception {
+        List<competitionTeamIntegralRankingVo> rankingVoList = new ArrayList<>();
+        List<CompetitionTeamIntegralVo> list = competitionTeamVsTeamService.getCompetitionTeamIntegralListById(vo);
+        Map<String, List<CompetitionTeamIntegralVo>> map = new HashMap<>();
+        if(list.size()>0) {
+            List<CompetitionTeamIntegralVo> notGroup = list.stream().filter(a -> ObjectUtil.isNull(a.getCompetitionGroup())).collect(Collectors.toList());
+            List<CompetitionTeamIntegralVo> yesGroup = list.stream().filter(a -> ObjectUtil.isNotNull(a.getCompetitionGroup())).collect(Collectors.toList());
+            if(yesGroup.size()>0) {
+                map = yesGroup.stream().collect(
+                        Collectors.groupingBy(CompetitionTeamIntegralVo::getCompetitionGroup, HashMap::new,
+                                Collectors.collectingAndThen(Collectors.toList(),
+                                        //正序
+                                        //list1 -> list1.stream().sorted(Comparator.comparing(CompetitionTeamIntegralVo::getIntegral))
+                                                //倒序
+                                                list1 -> list1.stream().sorted(Comparator.comparing(CompetitionTeamIntegralVo::getIntegral).reversed())
+                                                .collect(Collectors.toList())
+                                )));
+                for (String key:map.keySet()){
+                    competitionTeamIntegralRankingVo rankingVo = new competitionTeamIntegralRankingVo();
+                    rankingVo.setCompetitionGroup(key);
+                    rankingVo.setIntegralList(map.get(key));
+                    rankingVoList.add(rankingVo);
+                }
+            }
+            if(notGroup.size()>0){
+                competitionTeamIntegralRankingVo rankingVo = new competitionTeamIntegralRankingVo();
+                rankingVo.setCompetitionGroup("未分");
+                rankingVo.setIntegralList(notGroup.stream().sorted(Comparator.comparing(CompetitionTeamIntegralVo::getIntegral).reversed()).collect(Collectors.toList()));
+                rankingVoList.add(rankingVo);
+            }
+        }
+        return getDataTable(rankingVoList);
+    }
 
     @PostMapping("/competitionScheduleSubmit")
     @ResponseBody

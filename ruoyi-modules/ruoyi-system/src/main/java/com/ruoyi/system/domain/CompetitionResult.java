@@ -31,6 +31,8 @@ public class CompetitionResult extends BaseEntity
     @Excel(name = "赛程id(competition_team_vs_team的ID)")
     private Long competitionVsId;
 
+    @ApiModelProperty(value = "competition_of_team表的主键ID", required = false)
+    private Long competitionOfTeamId;
     /** 球队ID */
     @Excel(name = "球队ID")
     private Long teamId;
@@ -98,7 +100,9 @@ public class CompetitionResult extends BaseEntity
     private Integer integral;
     @ApiModelProperty(value = "比赛结果", required = false)
     private String vsResult;
-
+    @ApiModelProperty(value = "比赛类型：0=循环赛，1=淘汰赛", required = false)
+    private String vsType;
     @ApiModelProperty(value = "比赛总分", required = false)
     private Integer totalScore;
+
 }

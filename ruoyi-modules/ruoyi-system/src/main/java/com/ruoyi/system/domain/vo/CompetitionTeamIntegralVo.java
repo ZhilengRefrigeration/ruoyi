@@ -11,10 +11,13 @@ import java.io.Serializable;
  */
 @Data
 public class CompetitionTeamIntegralVo implements Serializable {
+    private Long competitionId;
     private String teamName;
     private String teamLogo;
     private Integer win;
     private Integer fail;
     private Integer totalScore;
     private Integer integral;
+    private String vsType;
+    private String competitionGroup;
 }

@@ -138,7 +138,7 @@ public class CompetitionTeamVsTeamServiceImpl implements ICompetitionTeamVsTeamS
         //组装队伍球员数据并排序
         if(competitionResultList!=null&&competitionResultList.size()>0){
             //组装主队数据
-            List<CompetitionMembersScore> mainMembersScoreList =  membersScoreList.stream().filter(CompetitionMembersScore -> CompetitionMembersScore.getTeamId()==competitionResultList.get(0).getTeamId()).collect(Collectors.toList());
+            List<CompetitionMembersScore> mainMembersScoreList =  membersScoreList.stream().filter(CompetitionMembersScore -> CompetitionMembersScore.getCompetitionOfTeamId()==competitionResultList.get(0).getCompetitionOfTeamId()).collect(Collectors.toList());
             //过滤首发球员
             List<CompetitionMembersScore> firstList = mainMembersScoreList.stream().filter(a -> a.getIsFirstLaunch() == 1).collect(Collectors.toList());
             firstList.sort((o1, o2) -> o2.getTotalScore().compareTo(o1.getTotalScore()));
@@ -150,7 +150,7 @@ public class CompetitionTeamVsTeamServiceImpl implements ICompetitionTeamVsTeamS
             competitionMembersScoreList.addAll(mainMembersScoreList);
 
             //组装客队数据
-            List<CompetitionMembersScore> gustMembersScoreList =  membersScoreList.stream().filter(CompetitionMembersScore -> CompetitionMembersScore.getTeamId()==competitionResultList.get(1).getTeamId()).collect(Collectors.toList());
+            List<CompetitionMembersScore> gustMembersScoreList =  membersScoreList.stream().filter(CompetitionMembersScore -> CompetitionMembersScore.getCompetitionOfTeamId()==competitionResultList.get(1).getCompetitionOfTeamId()).collect(Collectors.toList());
             //过滤首发球员
             List<CompetitionMembersScore> gustFirstList = gustMembersScoreList.stream().filter(a -> a.getIsFirstLaunch() == 1).collect(Collectors.toList());
             gustFirstList.sort((o1, o2) -> o2.getTotalScore().compareTo(o1.getTotalScore()));
@@ -208,8 +208,8 @@ public class CompetitionTeamVsTeamServiceImpl implements ICompetitionTeamVsTeamS
     }
 
     @Override
-    public List<CompetitionTeamIntegralVo> getCompetitionTeamIntegralListById(Long id) {
-        return competitionTeamVsTeamMapper.getCompetitionTeamIntegralListById(id);
+    public List<CompetitionTeamIntegralVo> getCompetitionTeamIntegralListById(CompetitionTeamIntegralVo vo) {
+        return competitionTeamVsTeamMapper.getCompetitionTeamIntegralListById(vo);
     }
     @Transactional
     @Override

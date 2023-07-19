@@ -241,13 +241,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT
             ANY_VALUE ( t.team_name ) as teamName,
             any_value (team.team_logo) as teamLogo,
+            any_value (team.competition_group) as competition_group,
             t.competition_of_team_id,
             sum(IF( t.vs_result = 'win', 1, 0 )) AS win,
             sum(IF( t.vs_result = 'fail', 1, 0 )) AS fail,
             sum(IFNULL( t.one_node_score, 0 )+ IFNULL( t.two_node_score, 0 )+ IFNULL( t.three_node_score, 0 )+ IFNULL( t.four_node_score, 0 )+ IFNULL( t.five_node_score, 0 )+ IFNULL( t.six_node_score, 0 )) AS totalScore,
             sum(t.integral) AS integral
         FROM competition_result t left join competition_of_team team on team.id = t.competition_of_team_id
-        WHERE t.is_deleted = 0 AND t.competition_id = #{id}
+        WHERE t.is_deleted = 0 AND t.competition_id = #{competitionId}
+        <if test="vsType != null ">
+            AND t.vs_type =#{vsType}
+        </if>
+        <if test="competitionGroup != null ">
+            AND t.competition_group =#{competitionGroup}
+        </if>
         GROUP BY t.competition_of_team_id
         ORDER BY sum(t.integral) desc
     </select>
