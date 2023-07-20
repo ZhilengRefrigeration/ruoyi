@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.alibaba.fastjson.JSON;
@@ -480,7 +481,7 @@ public class CompetitionServiceImpl implements ICompetitionService
         if (StringUtils.isEmpty(competitionCode)) {
             throw new CheckedException("赛事编码不能为空");
         }
-        System.out.println("赛事编码" + competitionCode);
+        log.info("开始导入-->赛事编码:" + competitionCode);
         Row row5 = sheet.getRow(5);
         Cell cell5_1 = row5.getCell(0);
         if (cell5_1 == null) {
@@ -538,6 +539,10 @@ public class CompetitionServiceImpl implements ICompetitionService
         String teamUserNum = cell5_5.getStringCellValue();
         if (StringUtils.isEmpty(teamUserNum)) {
             throw new CheckedException("球队人数不能为空");
+        }
+        //todo 校验是否是整数
+        if(!NumberUtil.isInteger(teamUserNum)){
+            throw new CheckedException("球队人数必须是正整数");
         }
         //todo 获取到数据后，开始保存数据
         LoginUser user = SecurityUtils.getLoginUser();
@@ -622,12 +627,20 @@ public class CompetitionServiceImpl implements ICompetitionService
             cell = row.getCell(4);
             if (cell != null) {
                 cell.setCellType(CellType.STRING);
+                //todo 校验是否是整数
+                if(!NumberUtil.isInteger(cell.getStringCellValue())){
+                    throw new CheckedException(membersVo.getRealName()+" 的身高必须是正整数");
+                }
                 membersVo.setHeight(new BigDecimal(cell.getStringCellValue()));
             }
             //体重
             cell = row.getCell(5);
             if (cell != null) {
                 cell.setCellType(CellType.STRING);
+                //todo 校验是否是整数
+                if(!NumberUtil.isInteger(cell.getStringCellValue())){
+                    throw new CheckedException(membersVo.getRealName()+" 的体重必须是正整数");
+                }
                 membersVo.setWeight(new BigDecimal(cell.getStringCellValue()));
             }
             //证件号码
