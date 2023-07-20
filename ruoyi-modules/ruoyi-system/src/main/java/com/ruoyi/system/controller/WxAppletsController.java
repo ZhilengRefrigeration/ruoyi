@@ -3,7 +3,9 @@ package com.ruoyi.system.controller;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.swagger.apiConstants.ApiTerminal;
 import com.ruoyi.system.api.domain.vo.WxAppletsCodeVo;
+import com.ruoyi.system.domain.vo.PhoneRequest;
 import com.ruoyi.system.service.WxAppletsService;
+import io.seata.core.model.Result;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,33 @@ public class WxAppletsController {
     @Value("${image.domainName}")
     private String domainName;
 
+    @PostMapping("/getPhoneNumber")
+    @ApiOperation(ApiTerminal.wxMiniProgram+"微信小程序-获取用户手机号码")
+    @ResponseBody
+    public AjaxResult getPhoneNumber(@RequestBody PhoneRequest request) throws Exception {
+        String tel="";
+        // 授权成功
+        if (request.getErrMsg().equals("getPhoneNumber:ok")) {
+            tel = wxAppletsService.getPhoneNumber(request);
+        }else{
+            System.out.println("用户拒绝授权获取手机号码 userid="+request.getUserId());
+        }
+        return AjaxResult.success(tel);
+    }
+
+    @PostMapping("/updatePhoneNumber")
+    @ApiOperation(ApiTerminal.wxMiniProgram+"更新获取用户手机号码")
+    @ResponseBody
+    public AjaxResult updatePhoneNumber(@RequestBody PhoneRequest request) throws Exception {
+        String tel="";
+        // 授权成功
+        if (request.getErrMsg().equals("getPhoneNumber:ok")) {
+            tel = wxAppletsService.updatePhoneNumber(request);
+        }else{
+            System.out.println("用户拒绝授权获取手机号码 userid="+request.getUserId());
+        }
+        return AjaxResult.success(tel);
+    }
     @PostMapping("/getWxacodeunlimit")
     @ApiOperation(ApiTerminal.wxMiniProgram +"微信小程序-获取小程序码")
     @ResponseBody

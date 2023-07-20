@@ -74,12 +74,12 @@ public class WxAppletsServiceImpl implements WxAppletsService {
             JSONObject myJson = JSONObject.parseObject(json);
             log.info("获取AccessToken={}", JSON.toJSONString(myJson));
             //保存到缓存
-            accessToken = myJson.get("access_token").toString();
+            accessToken = String.valueOf(myJson.get("access_token"));
             Long expires_in=myJson.getLong("expires_in");
             redisService.setCacheObject(Constants.WX_APPLETS_REDIS_ACCESS_TOKEN_KEY,accessToken,expires_in-100, TimeUnit.SECONDS);
             return accessToken;
         }else {
-            return (String) redisService.getCacheObject(Constants.WX_APPLETS_REDIS_ACCESS_TOKEN_KEY);
+            return redisService.getCacheObject(Constants.WX_APPLETS_REDIS_ACCESS_TOKEN_KEY);
         }
     }
     @Override

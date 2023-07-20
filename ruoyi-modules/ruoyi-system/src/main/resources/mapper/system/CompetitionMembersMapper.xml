@@ -269,7 +269,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
     <update id="bindCompetitionMembersByTel">
-        update competition_members set user_id = #{userId} where contacts_tel = #{contactsTel}
+        update competition_members set user_id = #{userId} where contacts_tel = #{telephone}
     </update>
 
     <delete id="deleteCompetitionMembersById" parameterType="Long">
