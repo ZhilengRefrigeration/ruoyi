@@ -129,7 +129,7 @@ public class CompetitionResultServiceImpl implements ICompetitionResultService
             CompetitionResultVo team = obj.getMainTeam();
             team.setCompetitionId(obj.getTeamVsTeamVo().getCompetitionId());
             team.setCompetitionVsId(obj.getTeamVsTeamVo().getId());
-            team.setTeamId(obj.getTeamVsTeamVo().getMainTeamId());
+            team.setCompetitionOfTeamId(obj.getTeamVsTeamVo().getMainTeamId());
             team.setTeamName(obj.getTeamVsTeamVo().getMainTeamName());
             competitionResultMapper.insertCompetitionResult(team);
         }else {
@@ -139,7 +139,7 @@ public class CompetitionResultServiceImpl implements ICompetitionResultService
             CompetitionResultVo team = obj.getGuestTeam();
             team.setCompetitionId(obj.getTeamVsTeamVo().getCompetitionId());
             team.setCompetitionVsId(obj.getTeamVsTeamVo().getId());
-            team.setTeamId(obj.getTeamVsTeamVo().getGuestTeamId());
+            team.setCompetitionOfTeamId(obj.getTeamVsTeamVo().getGuestTeamId());
             team.setTeamName(obj.getTeamVsTeamVo().getGuestTeamName());
             competitionResultMapper.insertCompetitionResult(team);
         }else {
