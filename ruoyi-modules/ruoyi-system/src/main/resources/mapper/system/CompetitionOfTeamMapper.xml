@@ -21,10 +21,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="contactsTel"    column="contacts_tel"    />
         <result property="contactsAreaCode"    column="contacts_area_code"    />
         <result property="serialNumber"    column="serial_number"    />
+        <result property="teamLogo" column="team_logo"/>
+        <result property="captain" column="captain"/>
     </resultMap>
 
     <sql id="selectCompetitionOfTeamVo">
-        select id, competition_id, team_id, team_name, competition_group, created_time, status, last_updated_time, created_by, modified_by, is_deleted, remark, contacts, contacts_tel, contacts_area_code, serial_number from competition_of_team
+        select id, competition_id, team_id, team_name, competition_group, created_time, status, last_updated_time, created_by, modified_by, is_deleted, remark, contacts, contacts_tel, contacts_area_code, serial_number,team_logo,captain from competition_of_team
     </sql>
     <select id="selectCompetitionOfTeamById" parameterType="Long" resultMap="CompetitionOfTeamResult">
         <include refid="selectCompetitionOfTeamVo"/>
@@ -43,10 +45,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createdBy != null  and createdBy != ''"> and t.created_by = #{createdBy}</if>
             <if test="modifiedBy != null  and modifiedBy != ''"> and t.modified_by = #{modifiedBy}</if>
             <if test="isDeleted != null "> and t.is_deleted = #{isDeleted}</if>
-            <if test="contacts != null  and contacts != ''"> and t.contacts = #{contacts}</if>
+            <if test="contacts != null  and contacts != ''"> and t.contacts like  concat('%',#{contacts}, '%')</if>
             <if test="contactsTel != null  and contactsTel != ''"> and t.contacts_tel = #{contactsTel}</if>
             <if test="contactsAreaCode != null  and contactsAreaCode != ''"> and t.contacts_area_code = #{contactsAreaCode}</if>
             <if test="serialNumber != null "> and t.serial_number = #{serialNumber}</if>
+            <if test="captain != null  and captain != ''"> and t.captain like  concat('%',#{captain}, '%')</if>
         </where>
     </select>
     <select id="getJoinCompetitionTeam" resultType="com.ruoyi.system.domain.vo.CompetitionOfTeamVo">
@@ -82,6 +85,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="contactsAreaCode != null and contactsAreaCode != ''">
             AND  t.contacts_area_code like  CONCAT('%',#{contactsAreaCode},'%')
         </if>
+        <if test="captain != null  and captain != ''">
+            and t.captain like  concat('%',#{captain}, '%')
+        </if>
         order by t.created_time desc
     </select>
     <select id="findCompetitionTeamGroupList" resultType="com.ruoyi.system.domain.vo.CompetitionOfTeamVo">
@@ -116,6 +122,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </if>
         <if test="contactsAreaCode != null and contactsAreaCode != ''">
             AND  t.contacts_area_code like  CONCAT('%',#{contactsAreaCode},'%')
+        </if>
+        <if test="captain != null  and captain != ''">
+            and t.captain like  concat('%',#{captain}, '%')
         </if>
         order by t.created_time desc
 
@@ -159,6 +168,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="contactsAreaCode != null and contactsAreaCode != ''">
             AND  t.contacts_area_code like  CONCAT('%',#{contactsAreaCode},'%')
         </if>
+        <if test="captain != null  and captain != ''">
+            and t.captain like  concat('%',#{captain}, '%')
+        </if>
         order by t.created_time desc
     </select>
 
@@ -180,6 +192,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contactsTel != null">contacts_tel,</if>
             <if test="contactsAreaCode != null">contacts_area_code,</if>
             <if test="serialNumber != null">serial_number,</if>
+            <if test="teamLogo != null">team_logo,</if>
+            <if test="captain != null">captain,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="competitionId != null">#{competitionId},</if>
@@ -197,6 +211,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contactsTel != null">#{contactsTel},</if>
             <if test="contactsAreaCode != null">#{contactsAreaCode},</if>
             <if test="serialNumber != null">#{serialNumber},</if>
+            <if test="teamLogo != null">#{teamLogo},</if>
+            <if test="captain != null">#{captain},</if>
          </trim>
     </insert>
 
@@ -218,6 +234,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="contactsTel != null">contacts_tel = #{contactsTel},</if>
             <if test="contactsAreaCode != null">contacts_area_code = #{contactsAreaCode},</if>
             <if test="serialNumber != null">serial_number = #{serialNumber},</if>
+            <if test="teamLogo != null"> team_logo = #{teamLogo},</if>
+            <if test="captain != null"> captain = #{captain},</if>
         </trim>
         where id = #{id}
     </update>
