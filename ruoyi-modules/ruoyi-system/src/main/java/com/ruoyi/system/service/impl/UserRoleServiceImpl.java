@@ -55,6 +55,11 @@ public class UserRoleServiceImpl implements IUserRoleService
         return userRoleMapper.insertUserRole(userRole);
     }
 
+    @Override
+    public List<UserRole> selectRoleByUserId(Long userid) {
+        return userRoleMapper.selectRoleByUserId(userid);
+    }
+
     /**
      * 修改【请填写功能名称】
      * 

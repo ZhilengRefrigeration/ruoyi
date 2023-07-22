@@ -144,4 +144,12 @@ public class CompetitionOfTeamServiceImpl implements ICompetitionOfTeamService
     public List<CompetitionOfTeamVo> getJoinCompetitionGroupTeam(CompetitionOfTeam ofTeam) {
         return competitionOfTeamMapper.getJoinCompetitionGroupTeam(ofTeam);
     }
+
+    @Override
+    public List<CompetitionOfTeamVo> getMyJoinCompetitionTeam(CompetitionOfTeamVo entity) {
+        LoginUser user = SecurityUtils.getLoginUser();
+        entity.setUserId(user.getUserid());
+        List<CompetitionOfTeamVo> list=competitionOfTeamMapper.getMyJoinCompetitionTeam(entity);
+        return list;
+    }
 }

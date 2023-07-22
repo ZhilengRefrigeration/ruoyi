@@ -60,4 +60,6 @@ public interface UserRoleMapper
     public int deleteUserRoleByIds(Long[] ids);
 
     UserRole selectByCode(String roleCode);
+
+    List<UserRole> selectRoleByUserId(Long userid);
 }

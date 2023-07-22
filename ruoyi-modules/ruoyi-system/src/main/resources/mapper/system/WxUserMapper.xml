@@ -75,6 +75,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </select>
+    <select id="getUserInfoBy" resultType="com.ruoyi.system.domain.WxUser">
+        <include refid="selectWxUserVo"/>
+        <where>
+            <if test="isDeleted != null "> and IS_DELETED = #{isDeleted}</if>
+            <if test="createdTime != null "> and CREATED_TIME = #{createdTime}</if>
+            <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
+            <if test="modifiedBy != null  and modifiedBy != ''"> and MODIFIED_BY = #{modifiedBy}</if>
+            <if test="lastUpdatedTime != null "> and LAST_UPDATED_TIME = #{lastUpdatedTime}</if>
+            <if test="loginName != null  and loginName != ''"> and LOGIN_NAME like concat('%', #{loginName}, '%')</if>
+            <if test="passWord != null  and passWord != ''"> and PASS_WORD = #{passWord}</if>
+            <if test="role != null  and role != ''"> and ROLE = #{role}</if>
+            <if test="openid != null  and openid != ''"> and OPENID = #{openid}</if>
+            <if test="avatar != null  and avatar != ''"> and AVATAR = #{avatar}</if>
+            <if test="gender != null  and gender != ''"> and GENDER = #{gender}</if>
+            <if test="userName != null  and userName != ''"> and USER_NAME like concat('%', #{userName}, '%')</if>
+            <if test="telephone != null  and telephone != ''"> and TELEPHONE = #{telephone}</if>
+            <if test="birthday != null "> and BIRTHDAY = #{birthday}</if>
+            <if test="height != null "> and HEIGHT = #{height}</if>
+            <if test="weight != null "> and WEIGHT = #{weight}</if>
+            <if test="teamPosition != null  and teamPosition != ''"> and TEAM_POSITION = #{teamPosition}</if>
+            <if test="tag != null  and tag != ''"> and TAG = #{tag}</if>
+            <if test="enabled != null  and enabled != ''"> and ENABLED = #{enabled}</if>
+            <if test="unionid != null  and unionid != ''"> and UNIONID = #{unionid}</if>
+            <if test="officialAccountOpenid != null  and officialAccountOpenid != ''"> and OFFICIAL_ACCOUNT_OPENID = #{officialAccountOpenid}</if>
+            <if test="realName != null  and realName != ''"> and real_name like concat('%', #{realName}, '%')</if>
+        </where>
+        limit 1
+    </select>
 
     <insert id="insertWxUser" parameterType="WxUser" useGeneratedKeys="true" keyProperty="id">
         insert into user_info

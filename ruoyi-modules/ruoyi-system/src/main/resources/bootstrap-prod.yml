@@ -5,11 +5,11 @@ spring:
     nacos:
       discovery:
         # 服务注册地址
-        server-addr: 10.0.1.91:30005
+        server-addr: 182.43.49.98:30005
         namespace: prod
       config:
         # 配置中心地址
-        server-addr: 10.0.1.91:30005
+        server-addr: 182.43.49.98:30005
         # 配置文件格式
         file-extension: yml
         namespace: prod

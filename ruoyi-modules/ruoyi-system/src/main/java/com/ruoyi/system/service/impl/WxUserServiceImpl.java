@@ -90,4 +90,9 @@ public class WxUserServiceImpl implements IWxUserService
     {
         return wxUserMapper.deleteWxUserById(id);
     }
+
+    @Override
+    public WxUser getUserInfoBy(WxUser wxUser) {
+        return wxUserMapper.getUserInfoBy(wxUser);
+    }
 }

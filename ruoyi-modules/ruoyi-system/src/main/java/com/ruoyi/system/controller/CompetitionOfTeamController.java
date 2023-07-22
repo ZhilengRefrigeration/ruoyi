@@ -155,7 +155,14 @@ public class CompetitionOfTeamController extends BaseController
     {
         return toAjax(competitionOfTeamService.deleteCompetitionOfTeamByIds(ids));
     }
-
+    @PostMapping("/getMyJoinCompetitionTeam")
+    @ResponseBody
+    @ApiOperation(value = ApiTerminal.wxMiniProgram+"分页获取【我】参与比赛的球队列表")
+    public TableDataInfo getMyJoinCompetitionTeam(@RequestBody CompetitionOfTeamVo entity){
+        startPage();
+        List<CompetitionOfTeamVo> list =competitionOfTeamService.getMyJoinCompetitionTeam(entity);
+        return getDataTable(list);
+    }
     @ApiOperation(ApiTerminal.wxMiniProgram+"新增")
     @PostMapping("/add")
     @ResponseBody

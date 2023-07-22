@@ -2,6 +2,9 @@ package com.ruoyi.system.domain.vo;
 import com.ruoyi.system.domain.Competition;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,4 +19,6 @@ public class CompetitionVo extends Competition {
 
     @ApiModelProperty(value = "短信验证码", required = false)
     private String captcha;
+    @ApiModelProperty(value = "赛会ID集合", required = false)
+    private List<Long> competitionIds;
 }

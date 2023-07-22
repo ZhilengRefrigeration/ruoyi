@@ -344,17 +344,6 @@ public class CompetitionServiceImpl implements ICompetitionService
 
     @Override
     public List<Competition> getMyJoinCompetition(CompetitionVo competition) {
-        LoginUser user = SecurityUtils.getLoginUser();
-        //查询登录用户的系统角色
-        List<UserRole> userRoles = userRoleMapper.selectUserRoleList(UserRole.builder().roleCode(UserRoles.ADMIN.code()).build());
-        if(!StringUtils.isEmpty(userRoles) && userRoles.size()>0) {
-            List<Long> userIds = userRoles.stream().map(UserRole::getUserId).collect(Collectors.toList());
-            //如果是管理员就直接可以查看所有的赛事
-            if (userIds.contains(user.getUserid())) {
-                competition.setUserId(null);
-                competition.setFounder(null);
-            }
-        }
         List<Competition> list=competitionMapper.getMyJoinCompetition(competition);
         for (Competition comp:list){
             if(competition.getCompetitionNature()==0){

@@ -58,4 +58,6 @@ public interface IWxUserService
      * @return 结果
      */
     public int deleteWxUserById(Long id);
+
+    WxUser getUserInfoBy(WxUser wxUser);
 }

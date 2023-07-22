@@ -41,6 +41,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectByCode" resultType="com.ruoyi.system.domain.UserRole">
         select * from user_role where role_code = #{roleCode} limit 1
     </select>
+    <select id="selectRoleByUserId" resultType="com.ruoyi.system.domain.UserRole">
+        select * from user_role where USER_ID = #{userId}
+    </select>
 
     <insert id="insertUserRole" parameterType="UserRole" useGeneratedKeys="true" keyProperty="id">
         insert into user_role

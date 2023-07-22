@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -69,9 +70,9 @@ public class CompetitionController extends BaseController
     @Autowired
     private ICompetitionService competitionService;
     @Autowired
-    private ICompetitionOfTeamService competitionOfTeamService;
+    private IUserRoleService userRoleService;
     @Autowired
-    private ICompetitionMembersService competitionMembersService;
+    private ICompetitionSharePermissionsService competitionSharePermissionsService;
     @Autowired
     private IWxUserService wxUserService;
 
@@ -132,9 +133,30 @@ public class CompetitionController extends BaseController
     @ResponseBody
     @ApiOperation(value = ApiTerminal.wxMiniProgram+"分页获取我参与过的比赛列表")
     public TableDataInfo getMyJoinCompetition(@RequestBody CompetitionVo entity) {
-        startPage();
         //关键字word包含：球队名称、地点名称、球馆名称，支持模糊搜索；
         entity.setIsDeleted(0);
+        LoginUser user = SecurityUtils.getLoginUser();
+        List<UserRole> userRoleList = userRoleService.selectRoleByUserId(user.getUserid());
+        //查询登录用户的系统角色
+        if(ObjectUtil.isNotNull(userRoleList) && userRoleList.size()>0) {
+            List<String> roles = userRoleList.stream().map(UserRole::getRoleCode).collect(Collectors.toList());
+            //如果是管理员就直接可以查看所有的赛事
+            if (roles.contains("admin")) {
+                entity.setUserId(null);
+                entity.setFounder(null);
+            }else {
+                //todo 查询是否有分享的控制权赛会
+                CompetitionSharePermissions permissions = new CompetitionSharePermissions();
+                permissions.setUserId(user.getUserid());
+                permissions.setIsDeleted(0);
+               List<CompetitionSharePermissions> permissionsList = competitionSharePermissionsService.selectCompetitionSharePermissionsList(permissions);
+               if(ObjectUtil.isNotNull(permissionsList)&&permissionsList.size()>0){
+                   List<Long> competitionIds = permissionsList.stream().map(CompetitionSharePermissions::getCompetitionId).collect(Collectors.toList());
+                   entity.setCompetitionIds(competitionIds);
+               }
+            }
+        }
+        startPage();
         List<Competition> list = competitionService.getMyJoinCompetition(entity);
         return getDataTable(list);
     }

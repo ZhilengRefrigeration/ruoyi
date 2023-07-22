@@ -128,6 +128,15 @@ public class WxUserController extends BaseController
         return AjaxResult.success(wxUserService.updateWxUser(wxUser));
     }
 
+    @ApiOperation(ApiTerminal.wxMiniProgram+"根据用户手机号查询个人数据")
+    @PostMapping(value = "/getUserInfoBy")
+    @ResponseBody
+    public AjaxResult getUserInfoBy(@RequestBody WxUser wxUser)
+    {
+        return AjaxResult.success(wxUserService.getUserInfoBy(wxUser));
+    }
+
+
     @ApiOperation(ApiTerminal.wxMiniProgram+"根据用户id查询个人中心详情")
     @PostMapping("/detail/{userId}")
     @ResponseBody

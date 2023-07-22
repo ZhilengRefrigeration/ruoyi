@@ -173,6 +173,43 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </if>
         order by t.created_time desc
     </select>
+    <select id="getMyJoinCompetitionTeam" resultType="com.ruoyi.system.domain.vo.CompetitionOfTeamVo">
+        select t.* from competition_of_team t  where t.is_deleted = 0
+        <if test="id != null ">
+            AND  t.id=#{id}
+        </if>
+        <if test="competitionId != null ">
+            AND  t.competition_id=#{competitionId}
+        </if>
+        <if test="status != null ">
+            AND  t.status =#{status}
+        </if>
+        <if test="teamId != null ">
+            AND  t.team_id =#{teamId}
+        </if>
+        <if test="competitionGroup != null ">
+            AND  t.competition_group =#{competitionGroup}
+        </if>
+        <if test="teamName != null  and teamName != ''">
+            AND  t.team_name like  CONCAT('%',#{teamName},'%')
+        </if>
+        <if test="contacts != null  and contacts != ''">
+            AND  t.contacts like  CONCAT('%',#{contacts},'%')
+        </if>
+        <if test="contactsTel != null and contactsTel != ''">
+            AND  t.contacts_tel like  CONCAT('%',#{contactsTel},'%')
+        </if>
+        <if test="contactsAreaCode != null and contactsAreaCode != ''">
+            AND  t.contacts_area_code like  CONCAT('%',#{contactsAreaCode},'%')
+        </if>
+        <if test="isDeleted != null ">
+            AND  t.is_deleted = #{isDeleted}
+        </if>
+        <if test="userId != null ">
+            AND EXISTS (select 1 from competition_members c WHERE c.user_id=#{userId} and t.competition_id = c.competition_id and t.id=c.competition_of_team_id)
+        </if>
+        order by t.created_time desc
+    </select>
 
     <insert id="insertCompetitionOfTeam" parameterType="CompetitionOfTeam" useGeneratedKeys="true" keyProperty="id">
         insert into competition_of_team
