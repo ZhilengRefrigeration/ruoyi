@@ -69,9 +69,15 @@ public interface ICompetitionTeamVsTeamService
 
     Map<String, List<CompetitionTeamVsTeamVo>> getCompetitionSchedule(CompetitionTeamVsTeam entity);
 
-    List<CompetitionTeamIntegralVo> getCompetitionTeamIntegralListById(Long id);
+    List<CompetitionTeamIntegralVo> getCompetitionTeamIntegralListById(CompetitionTeamIntegralVo vo);
 
     Boolean competitionScheduleSubmit(List<CompetitionTeamVsTeamRequest> vsTeamRequestList);
 
     Boolean competitionScoreSubmit(List<CompetitionResult> request);
+
+    Boolean deleteBatchByIds(Ids ids);
+
+    int competitionVsTeamStatusUpdate(CompetitionTeamVsTeam competitionTeamVsTeam);
+
+    List<CompetitionTeamVsTeamVo> getTodaySchedule(CompetitionTeamVsTeam competitionTeamVsTeam);
 }

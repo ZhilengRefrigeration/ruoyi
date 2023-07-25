@@ -2,6 +2,7 @@ package com.ruoyi.system.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.alibaba.fastjson.JSON;
@@ -161,12 +162,11 @@ public class WxBuildingInfoServiceImpl implements IWxBuildingInfoService
     @Override
     public List<WxBuildingInfo> getAuditPage(WxBuildingInfo buildingInfo) {
         LoginUser user = SecurityUtils.getLoginUser();
-        System.out.println("user="+ JSON.toJSONString(user));
+       // System.out.println("user="+ JSON.toJSONString(user));
         // 查询当前登录的用户的系统角色
-        List<UserRole> userRoles = userRoleMapper.selectUserRoleList(UserRole.builder().userId(user.getUserid()).build());
+        Set<String> userRoles = user.getRoles();//userRoleMapper.selectUserRoleList(UserRole.builder().userId(user.getUserid()).build());
         if(!StringUtils.isEmpty(userRoles)&&userRoles.size()>0){
-            List<String> roleCodes = userRoles.stream().map(UserRole::getRoleCode).collect(Collectors.toList());
-            if(roleCodes.contains("admin")){
+            if(userRoles.contains("admin")){
                 //查询所有
                 buildingInfo.setCreatedId(null);
             }else {

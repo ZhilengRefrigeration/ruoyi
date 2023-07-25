@@ -575,6 +575,8 @@ export default {
         status: null,
         isOpen: null,
         createdId: null,
+        orderByColumn:"id",
+        isAsc:"desc"
       },
       // 表单参数
       form: {},

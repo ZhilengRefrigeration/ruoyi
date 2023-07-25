@@ -74,4 +74,6 @@ public interface CompetitionOfTeamMapper
     CompetitionOfTeam selectOneByUserId(@Param("competitionId") Long competitionId,@Param("userId") String userId);
 
     List<CompetitionOfTeamVo> getJoinCompetitionGroupTeam(CompetitionOfTeam ofTeam);
+
+    List<CompetitionOfTeamVo> getMyJoinCompetitionTeam(CompetitionOfTeamVo entity);
 }

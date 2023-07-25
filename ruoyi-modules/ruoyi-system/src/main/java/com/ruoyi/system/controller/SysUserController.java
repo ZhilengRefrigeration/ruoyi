@@ -127,6 +127,8 @@ public class SysUserController extends BaseController
         LoginUser sysUserVo = new LoginUser();
         sysUserVo.setSysUser(sysUser);
         sysUserVo.setRoles(roles);
+        sysUserVo.setUserid(sysUser.getUserId());
+        sysUserVo.setUsername(sysUser.getUserName());
         sysUserVo.setPermissions(permissions);
         return R.ok(sysUserVo);
     }

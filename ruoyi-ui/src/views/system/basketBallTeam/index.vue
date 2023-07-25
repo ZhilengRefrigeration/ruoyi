@@ -255,6 +255,8 @@ export default {
         teamDes: null,
         buildId: null,
         createdId: null,
+        orderByColumn:"id",
+        isAsc:"desc",
       },
       // 表单参数
       form: {},

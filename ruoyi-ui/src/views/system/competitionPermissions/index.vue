@@ -9,58 +9,44 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="球队所属的组" prop="competitionGroup">
+      <el-form-item label="用户ID" prop="userId">
         <el-input
-          v-model="queryParams.competitionGroup"
-          placeholder="请输入球队所属的组"
+          v-model="queryParams.userId"
+          placeholder="请输入用户ID"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="创建时间" prop="createdTime">
-        <el-date-picker clearable
-          v-model="queryParams.createdTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择创建时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="最后修改时间" prop="lastUpdatedTime">
-        <el-date-picker clearable
-          v-model="queryParams.lastUpdatedTime"
-          type="date"
-          value-format="yyyy-MM-dd"
-          placeholder="请选择最后修改时间">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="创建人" prop="createdBy">
+      <el-form-item label="用户手机号" prop="userTel">
         <el-input
-          v-model="queryParams.createdBy"
-          placeholder="请输入创建人"
+          v-model="queryParams.userTel"
+          placeholder="请输入用户手机号"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="最后修改人" prop="modifiedBy">
+      <el-form-item label="用户姓名" prop="userName">
         <el-input
-          v-model="queryParams.modifiedBy"
-          placeholder="请输入最后修改人"
+          v-model="queryParams.userName"
+          placeholder="请输入用户姓名"
           clearable
           @keyup.enter.native="handleQuery"
         />
+      </el-form-item>
+      <el-form-item label="状态(sys_data_status)" prop="status">
+        <el-select v-model="queryParams.status" placeholder="请选择状态(sys_data_status)" clearable>
+          <el-option
+            v-for="dict in dict.type.sys_data_status"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="是否删除" prop="isDeleted">
         <el-input
           v-model="queryParams.isDeleted"
           placeholder="请输入是否删除"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="循环赛编排状态 0=未编排，1=已编排" prop="isCycle">
-        <el-input
-          v-model="queryParams.isCycle"
-          placeholder="请输入循环赛编排状态 0=未编排，1=已编排"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -79,7 +65,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['system:competitionTeamGroup:add']"
+          v-hasPermi="['system:competitionPermissions:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -90,7 +76,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['system:competitionTeamGroup:edit']"
+          v-hasPermi="['system:competitionPermissions:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -101,7 +87,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['system:competitionTeamGroup:remove']"
+          v-hasPermi="['system:competitionPermissions:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -111,33 +97,27 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['system:competitionTeamGroup:export']"
+          v-hasPermi="['system:competitionPermissions:export']"
         >导出</el-button>
       </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" :columns="columns"  :pageName="$options.name" ></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="competitionTeamGroupList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="competitionPermissionsList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="id" align="center" prop="id" />
-      <el-table-column label="赛事id(competition的ID)" align="center" prop="competitionId" />
-      <el-table-column label="球队所属的组" align="center" prop="competitionGroup" />
-      <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
+      <el-table-column label="id" align="center" prop="id"  v-if="columns[0].visible" show-overflow-tooltip />
+      <el-table-column label="赛事id(competition的ID)" align="center" prop="competitionId" v-if="columns[2].visible" show-overflow-tooltip />
+      <el-table-column label="用户ID" align="center" prop="userId" v-if="columns[3].visible" show-overflow-tooltip />
+      <el-table-column label="用户手机号" align="center" prop="userTel" v-if="columns[4].visible" show-overflow-tooltip />
+      <el-table-column label="用户姓名" align="center" prop="userName" v-if="columns[5].visible" show-overflow-tooltip />
+      <el-table-column label="状态(sys_data_status)" align="center" prop="status" v-if="columns[6].visible" show-overflow-tooltip >
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
+          <dict-tag :options="dict.type.sys_data_status" :value="scope.row.status"/>
         </template>
       </el-table-column>
-      <el-table-column label="状态 0=申请，1=同意；-1=驳回" align="center" prop="status" />
-      <el-table-column label="最后修改时间" align="center" prop="lastUpdatedTime" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.lastUpdatedTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="创建人" align="center" prop="createdBy" />
-      <el-table-column label="最后修改人" align="center" prop="modifiedBy" />
-      <el-table-column label="是否删除" align="center" prop="isDeleted" />
-      <el-table-column label="备注说明" align="center" prop="remark" />
-      <el-table-column label="循环赛编排状态 0=未编排，1=已编排" align="center" prop="isCycle" />
+      <el-table-column label="是否删除" align="center" prop="isDeleted" v-if="columns[10].visible" show-overflow-tooltip />
+      <el-table-column label="备注说明" align="center" prop="remark" v-if="columns[11].visible" show-overflow-tooltip />
+      <el-table-column label="能操作的功能" align="center" prop="canSetType" v-if="columns[12].visible" show-overflow-tooltip />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -145,14 +125,14 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:competitionTeamGroup:edit']"
+            v-hasPermi="['system:competitionPermissions:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['system:competitionTeamGroup:remove']"
+            v-hasPermi="['system:competitionPermissions:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -166,45 +146,36 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改赛会中-分组对话框 -->
+    <!-- 添加或修改赛会-权限分享对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="赛事id(competition的ID)" prop="competitionId">
           <el-input v-model="form.competitionId" placeholder="请输入赛事id(competition的ID)" />
         </el-form-item>
-        <el-form-item label="球队所属的组" prop="competitionGroup">
-          <el-input v-model="form.competitionGroup" placeholder="请输入球队所属的组" />
+        <el-form-item label="用户ID" prop="userId">
+          <el-input v-model="form.userId" placeholder="请输入用户ID" />
         </el-form-item>
-        <el-form-item label="创建时间" prop="createdTime">
-          <el-date-picker clearable
-            v-model="form.createdTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择创建时间">
-          </el-date-picker>
+        <el-form-item label="用户手机号" prop="userTel">
+          <el-input v-model="form.userTel" placeholder="请输入用户手机号" />
         </el-form-item>
-        <el-form-item label="最后修改时间" prop="lastUpdatedTime">
-          <el-date-picker clearable
-            v-model="form.lastUpdatedTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="请选择最后修改时间">
-          </el-date-picker>
+        <el-form-item label="用户姓名" prop="userName">
+          <el-input v-model="form.userName" placeholder="请输入用户姓名" />
         </el-form-item>
-        <el-form-item label="创建人" prop="createdBy">
-          <el-input v-model="form.createdBy" placeholder="请输入创建人" />
-        </el-form-item>
-        <el-form-item label="最后修改人" prop="modifiedBy">
-          <el-input v-model="form.modifiedBy" placeholder="请输入最后修改人" />
+        <el-form-item label="状态(sys_data_status)" prop="status">
+          <el-select v-model="form.status" placeholder="请选择状态(sys_data_status)">
+            <el-option
+              v-for="dict in dict.type.sys_data_status"
+              :key="dict.value"
+              :label="dict.label"
+              :value="parseInt(dict.value)"
+            ></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="是否删除" prop="isDeleted">
           <el-input v-model="form.isDeleted" placeholder="请输入是否删除" />
         </el-form-item>
         <el-form-item label="备注说明" prop="remark">
           <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="循环赛编排状态 0=未编排，1=已编排" prop="isCycle">
-          <el-input v-model="form.isCycle" placeholder="请输入循环赛编排状态 0=未编排，1=已编排" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -216,10 +187,11 @@
 </template>
 
 <script>
-import { listCompetitionTeamGroup, getCompetitionTeamGroup, delCompetitionTeamGroup, addCompetitionTeamGroup, updateCompetitionTeamGroup } from "@/api/system/competitionTeamGroup";
+import { listCompetitionPermissions, getCompetitionPermissions, delCompetitionPermissions, addCompetitionPermissions, updateCompetitionPermissions } from "@/api/system/competitionPermissions";
 
 export default {
-  name: "CompetitionTeamGroup",
+  name: "CompetitionPermissions",
+  dicts: ['sys_data_status'],
   data() {
     return {
       // 遮罩层
@@ -234,8 +206,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 赛会中-分组表格数据
-      competitionTeamGroupList: [],
+      // 赛会-权限分享表格数据
+      competitionPermissionsList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -245,33 +217,62 @@ export default {
         pageNum: 1,
         pageSize: 10,
         competitionId: null,
-        competitionGroup: null,
-        createdTime: null,
+        userId: null,
+        userTel: null,
+        userName: null,
         status: null,
-        lastUpdatedTime: null,
-        createdBy: null,
-        modifiedBy: null,
         isDeleted: null,
-        isCycle: null,
-        orderByColumn:"id",
-        isAsc:"desc",
+        canSetType: null
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-      }
+        competitionId: [
+          { required: true, message: "赛事id(competition的ID)不能为空", trigger: "blur" }
+        ],
+        userTel: [
+          { required: true, message: "用户手机号不能为空", trigger: "blur" }
+        ],
+        userName: [
+          { required: true, message: "用户姓名不能为空", trigger: "blur" }
+        ],
+        status: [
+          { required: true, message: "状态(sys_data_status)不能为空", trigger: "change" }
+        ],
+      },
+      // 列表的列的显示隐藏设置
+      columns:[
+        { key: 0, label: `id`, visible: true },
+        { key: 1, label: `创建时间`, visible: true },
+        { key: 2, label: `赛事id(competition的ID)`, visible: true },
+        { key: 3, label: `用户ID`, visible: true },
+        { key: 4, label: `用户手机号`, visible: true },
+        { key: 5, label: `用户姓名`, visible: true },
+        { key: 6, label: `状态(sys_data_status)`, visible: true },
+        { key: 7, label: `最后修改时间`, visible: true },
+        { key: 8, label: `创建人`, visible: true },
+        { key: 9, label: `最后修改人`, visible: true },
+        { key: 10, label: `是否删除`, visible: true },
+        { key: 11, label: `备注说明`, visible: true },
+        { key: 12, label: `能操作的功能`, visible: true },
+      ],
     };
   },
   created() {
     this.getList();
+    //列表分页列的动态显示配置
+    var columns = JSON.parse(localStorage.getItem(this.$options.name));
+    if(columns){
+      this.columns = columns;
+    }
   },
   methods: {
-    /** 查询赛会中-分组列表 */
+    /** 查询赛会-权限分享列表 */
     getList() {
       this.loading = true;
-      listCompetitionTeamGroup(this.queryParams).then(response => {
-        this.competitionTeamGroupList = response.rows;
+      listCompetitionPermissions(this.queryParams).then(response => {
+        this.competitionPermissionsList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -285,16 +286,18 @@ export default {
     reset() {
       this.form = {
         id: null,
+        createTime: null,
         competitionId: null,
-        competitionGroup: null,
-        createdTime: null,
-        status: 0,
-        lastUpdatedTime: null,
-        createdBy: null,
-        modifiedBy: null,
+        userId: null,
+        userTel: null,
+        userName: null,
+        status: null,
+        updateTime: null,
+        createBy: null,
+        updateBy: null,
         isDeleted: null,
         remark: null,
-        isCycle: null
+        canSetType: null
       };
       this.resetForm("form");
     },
@@ -318,16 +321,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加赛会中-分组";
+      this.title = "添加赛会-权限分享";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getCompetitionTeamGroup(id).then(response => {
+      getCompetitionPermissions(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改赛会中-分组";
+        this.title = "修改赛会-权限分享";
       });
     },
     /** 提交按钮 */
@@ -335,13 +338,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            updateCompetitionTeamGroup(this.form).then(response => {
+            updateCompetitionPermissions(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addCompetitionTeamGroup(this.form).then(response => {
+            addCompetitionPermissions(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -353,8 +356,8 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除赛会中-分组编号为"' + ids + '"的数据项？').then(function() {
-        return delCompetitionTeamGroup(ids);
+      this.$modal.confirm('是否确认删除赛会-权限分享编号为"' + ids + '"的数据项？').then(function() {
+        return delCompetitionPermissions(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -362,9 +365,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('system/competitionTeamGroup/export', {
+      this.download('system/competitionPermissions/export', {
         ...this.queryParams
-      }, `competitionTeamGroup_${new Date().getTime()}.xlsx`)
+      }, `competitionPermissions_${new Date().getTime()}.xlsx`)
     }
   }
 };

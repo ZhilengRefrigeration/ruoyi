@@ -853,7 +853,7 @@ export default {
         this.competitionObj = response.data;
         this.loading = false;
       });
-      listCompetitionOfTeam({"pageNum": 1, "pageSize": 1000,"competitionId":id}).then(response => {
+      listCompetitionOfTeam({"orderByColumn":"t.id","isAsc":"desc","pageNum": 1, "pageSize": 1000,"competitionId":id}).then(response => {
         this.competitionOfTeamList = response.rows;
       });
     }
@@ -987,7 +987,7 @@ export default {
     bindConfirm(id,tage){
       updateCompetitionOfTeam({"id":id,"status":tage}).then(response => {
         this.$modal.msgSuccess("球队审核成功");
-        listCompetitionOfTeam({"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+        listCompetitionOfTeam({"orderByColumn":"t.id","isAsc":"desc","pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
           this.competitionOfTeamList = response.rows;
         });
       });
@@ -1058,7 +1058,7 @@ export default {
     handleTagClick(tab, event){
       console.info(tab.name)
       if(tab.name=='competitionTeamApprove'){
-        listCompetitionOfTeam({"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+        listCompetitionOfTeam({"orderByColumn":"t.id","isAsc":"desc","pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
           this.competitionOfTeamList = response.rows;
         });
       }else if(tab.name=='competitionTeamGroup'){
@@ -1067,7 +1067,7 @@ export default {
           this.competitionTeamGroupList.push({"competitionGroup":"未分","id":null})
         });
       }else if(tab.name=='competitionVsSet'){
-        listCompetitionTeamVsTeam({"orderByColumn":"competition_time","isDeleted":0,"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+        listCompetitionTeamVsTeam({"orderByColumn":"competition_time","isAsc":"desc","isDeleted":0,"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
           this.competitionTeamVsTeamList = response.rows;
         });
       }else if(tab.name=='competitionSpread'){
@@ -1124,7 +1124,7 @@ export default {
         arrangeTeamGroupSchedule(param).then(response => {
           this.$modal.msgSuccess("赛程智能设置成功");
           this.mindVisible = false;
-          listCompetitionTeamVsTeam({"orderByColumn":"competition_time","isDeleted":0,"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+          listCompetitionTeamVsTeam({"orderByColumn":"competition_time","isAsc":"desc","isDeleted":0,"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
             this.competitionTeamVsTeamList = response.rows;
           });
         });
@@ -1190,7 +1190,7 @@ export default {
       this.$modal.confirm('是否确认删除赛会中的赛程数据？').then(function() {
         return delCompetitionTeamVsTeam(ids);
       }).then(() => {
-        listCompetitionTeamVsTeam({"orderByColumn":"competition_time","isDeleted":0,"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+        listCompetitionTeamVsTeam({"orderByColumn":"competition_time","isAsc":"desc","isDeleted":0,"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
           this.competitionTeamVsTeamList = response.rows;
         });
         this.$modal.msgSuccess("删除赛程成功");
@@ -1200,7 +1200,7 @@ export default {
       editDataCompetitionResult(this.competitionRecord).then(response => {
         this.$modal.msgSuccess("比赛结果记录成功");
         this.vsRecordOpen = false;
-        listCompetitionTeamVsTeam({"orderByColumn":"competition_time","isDeleted":0,"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+        listCompetitionTeamVsTeam({"orderByColumn":"competition_time","isAsc":"desc","isDeleted":0,"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
           this.competitionTeamVsTeamList = response.rows;
         });
       });
@@ -1214,7 +1214,7 @@ export default {
             updateCompetitionTeamVsTeam(this.vsform).then(response => {
               this.$modal.msgSuccess("编辑赛程成功");
               this.vsOpen = false;
-              listCompetitionTeamVsTeam({"orderByColumn":"competition_time","isDeleted":0,"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+              listCompetitionTeamVsTeam({"orderByColumn":"competition_time","isAsc":"desc","isDeleted":0,"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
                 this.competitionTeamVsTeamList = response.rows;
               });
             });
@@ -1223,7 +1223,7 @@ export default {
             addCompetitionTeamVsTeam(this.vsform).then(response => {
               this.$modal.msgSuccess("新增赛程成功");
               this.vsOpen = false;
-              listCompetitionTeamVsTeam({"orderByColumn":"competition_time","isDeleted":0,"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+              listCompetitionTeamVsTeam({"orderByColumn":"competition_time","isAsc":"desc","isDeleted":0,"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
                 this.competitionTeamVsTeamList = response.rows;
               });
             });

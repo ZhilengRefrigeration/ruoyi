@@ -252,7 +252,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -393,7 +393,9 @@ export default {
         mainTeamScore: null,
         guestTeamScore: null,
         vsType: null,
-        batchNumber: null
+        batchNumber: null,
+        orderByColumn:"id",
+        isAsc:"desc",
       },
       // 表单参数
       form: {},

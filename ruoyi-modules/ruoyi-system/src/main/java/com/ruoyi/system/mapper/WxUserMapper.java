@@ -63,4 +63,6 @@ public interface WxUserMapper
     WxUser selectByOpenId(String openId);
 
     List<WxUser> listByIds(@Param("userIds") List<Long> userIds);
+
+    WxUser getUserInfoBy(WxUser wxUser);
 }

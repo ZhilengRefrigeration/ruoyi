@@ -35,6 +35,8 @@ public interface IUserRoleService
      */
     public int insertUserRole(UserRole userRole);
 
+    List<UserRole> selectRoleByUserId(Long userid);
+
     /**
      * 修改【请填写功能名称】
      * 

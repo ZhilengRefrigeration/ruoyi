@@ -65,11 +65,11 @@ public class CompetitionOfTeam extends BaseEntity
     private Long isDeleted;
 
     /** 联系人 */
-    @Excel(name = "联系人")
+    @Excel(name = "领队人")
     private String contacts;
 
     /** 联系人电话 */
-    @Excel(name = "联系人电话")
+    @Excel(name = "领队人电话")
     private String contactsTel;
 
     /** 联系人电话区号 */
@@ -79,5 +79,9 @@ public class CompetitionOfTeam extends BaseEntity
     /** 组内的序号 */
     @Excel(name = "组内的序号")
     private Integer serialNumber;
+    @Excel(name = "球队logo")
+    private String teamLogo;
+    @Excel(name = "球队队长")
+    private String captain;
 
 }

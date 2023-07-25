@@ -2,24 +2,21 @@ package com.ruoyi.system.controller;
 
 import java.security.InvalidParameterException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.io.IOException;
-import java.util.Map;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.exception.CheckedException;
 import com.ruoyi.common.swagger.apiConstants.ApiTerminal;
 import com.ruoyi.system.domain.CompetitionResult;
-import com.ruoyi.system.domain.vo.CompetitionTeamIntegralVo;
-import com.ruoyi.system.domain.vo.CompetitionTeamVsTeamRequest;
-import com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo;
-import com.ruoyi.system.domain.vo.CompetitionUnifiedRecordVo;
+import com.ruoyi.system.domain.vo.*;
 import com.ruoyi.system.utils.UtilTool;
 import io.seata.core.model.Result;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
@@ -111,6 +108,18 @@ public class CompetitionTeamVsTeamController extends BaseController
     {
         return toAjax(competitionTeamVsTeamService.deleteCompetitionTeamVsTeamByIds(ids));
     }
+    @ApiOperation(ApiTerminal.wxMiniProgram+"根据IDS批量删除")
+    @DeleteMapping("/batchDeleteByIds")
+    @ResponseBody
+    public AjaxResult batchDeleteByIds(@RequestBody Ids ids) throws Exception {
+        if(ObjectUtil.isNull(ids)){
+            throw new InvalidParameterException("参数异常，非法操作！");
+        }
+        if(StringUtils.isEmpty(ids.getIdList())||ids.getIdList().size()==0){
+            throw new InvalidParameterException("ids不能为空！");
+        }
+        return AjaxResult.success(competitionTeamVsTeamService.deleteBatchByIds(ids));
+    }
     @Log(title = "赛会中球队VS球队比赛结果数据", businessType = BusinessType.OTHER)
     @ApiOperation("根据ID获取当前比赛赛程的所有统分结果")
     @GetMapping("/competitionUnifiedRecord/{id}")
@@ -119,7 +128,7 @@ public class CompetitionTeamVsTeamController extends BaseController
     }
 
     @Log(title = "赛会中球队VS球队比赛结果数据2", businessType = BusinessType.OTHER)
-    @ApiOperation("根据ID获取当前比赛赛程的所有统分结果2")
+    @ApiOperation(ApiTerminal.wxMiniProgram+"根据ID获取当前比赛赛程的所有统分结果2")
     @GetMapping("/getCompetitionVsRecordById/{id}")
     public AjaxResult getCompetitionVsRecordById(@PathVariable("id") Long id) {
         return AjaxResult.success(competitionTeamVsTeamService.getCompetitionVsRecordById(id));
@@ -149,10 +158,47 @@ public class CompetitionTeamVsTeamController extends BaseController
     @GetMapping("/competitionTeamIntegralList/{id}")
     @ResponseBody
     public TableDataInfo competitionTeamIntegralList(@PathVariable("id") Long id) throws Exception {
-        List<CompetitionTeamIntegralVo> list = competitionTeamVsTeamService.getCompetitionTeamIntegralListById(id);
+        CompetitionTeamIntegralVo vo = new CompetitionTeamIntegralVo();
+        vo.setCompetitionId(id);
+        List<CompetitionTeamIntegralVo> list = competitionTeamVsTeamService.getCompetitionTeamIntegralListById(vo);
         return getDataTable(list);
     }
-
+    @ApiOperation(ApiTerminal.wxMiniProgram+"根据赛会ID获取所有球队的积分排位")
+    @PostMapping("/competitionTeamIntegralRanking")
+    @ResponseBody
+    public TableDataInfo competitionTeamIntegralRanking(@RequestBody CompetitionTeamIntegralVo vo) throws Exception {
+        List<competitionTeamIntegralRankingVo> rankingVoList = new ArrayList<>();
+        List<CompetitionTeamIntegralVo> list = competitionTeamVsTeamService.getCompetitionTeamIntegralListById(vo);
+        Map<String, List<CompetitionTeamIntegralVo>> map = new HashMap<>();
+        if(list.size()>0) {
+            List<CompetitionTeamIntegralVo> notGroup = list.stream().filter(a -> ObjectUtil.isNull(a.getCompetitionGroup())).collect(Collectors.toList());
+            List<CompetitionTeamIntegralVo> yesGroup = list.stream().filter(a -> ObjectUtil.isNotNull(a.getCompetitionGroup())).collect(Collectors.toList());
+            if(yesGroup.size()>0) {
+                map = yesGroup.stream().collect(
+                        Collectors.groupingBy(CompetitionTeamIntegralVo::getCompetitionGroup, HashMap::new,
+                                Collectors.collectingAndThen(Collectors.toList(),
+                                        //正序
+                                        //list1 -> list1.stream().sorted(Comparator.comparing(CompetitionTeamIntegralVo::getIntegral))
+                                                //倒序
+                                                list1 -> list1.stream().sorted(Comparator.comparing(CompetitionTeamIntegralVo::getIntegral).reversed())
+                                                .collect(Collectors.toList())
+                                )));
+                for (String key:map.keySet()){
+                    competitionTeamIntegralRankingVo rankingVo = new competitionTeamIntegralRankingVo();
+                    rankingVo.setCompetitionGroup(key);
+                    rankingVo.setIntegralList(map.get(key));
+                    rankingVoList.add(rankingVo);
+                }
+            }
+            if(notGroup.size()>0){
+                competitionTeamIntegralRankingVo rankingVo = new competitionTeamIntegralRankingVo();
+                rankingVo.setCompetitionGroup("未分");
+                rankingVo.setIntegralList(notGroup.stream().sorted(Comparator.comparing(CompetitionTeamIntegralVo::getIntegral).reversed()).collect(Collectors.toList()));
+                rankingVoList.add(rankingVo);
+            }
+        }
+        return getDataTable(rankingVoList);
+    }
 
     @PostMapping("/competitionScheduleSubmit")
     @ResponseBody

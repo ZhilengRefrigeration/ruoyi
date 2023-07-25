@@ -12,7 +12,7 @@ export function listCompetition(query) {
 // 查询比赛信息详细
 export function getCompetition(id) {
   return request({
-    url: '/system/competition/' + id,
+    url: '/system/competition/getInfo/' + id,
     method: 'get'
   })
 }

@@ -320,7 +320,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -486,7 +486,9 @@ export default {
         contacts: null,
         contactsAreaCode: null,
         personalPhoto: null,
-        isFirstLaunch: null
+        isFirstLaunch: null,
+        orderByColumn:"id",
+        isAsc:"desc",
       },
       // 表单参数
       form: {},

@@ -31,6 +31,16 @@ public class CompetitionMembersScore extends BaseEntity
     @Excel(name = "赛程id(competition_team_vs_team的ID)")
     private Long competitionVsId;
 
+
+    @ApiModelProperty(value = "参赛人员记录id(competition_members的ID)", required = false)
+    @Excel(name = "competition_members_id")
+    private Long competitionMembersId;
+
+
+    @ApiModelProperty(value = "competition_of_team_id(competition_of_team的主键ID)", required = false)
+    @Excel(name = "competition_of_team_id")
+    private Long competitionOfTeamId;
+
     /** 球队ID */
     @Excel(name = "球队ID")
     private Long teamId;

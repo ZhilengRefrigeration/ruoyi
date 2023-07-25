@@ -129,7 +129,7 @@ public class CompetitionResultServiceImpl implements ICompetitionResultService
             CompetitionResultVo team = obj.getMainTeam();
             team.setCompetitionId(obj.getTeamVsTeamVo().getCompetitionId());
             team.setCompetitionVsId(obj.getTeamVsTeamVo().getId());
-            team.setTeamId(obj.getTeamVsTeamVo().getMainTeamId());
+            team.setCompetitionOfTeamId(obj.getTeamVsTeamVo().getMainTeamId());
             team.setTeamName(obj.getTeamVsTeamVo().getMainTeamName());
             competitionResultMapper.insertCompetitionResult(team);
         }else {
@@ -139,7 +139,7 @@ public class CompetitionResultServiceImpl implements ICompetitionResultService
             CompetitionResultVo team = obj.getGuestTeam();
             team.setCompetitionId(obj.getTeamVsTeamVo().getCompetitionId());
             team.setCompetitionVsId(obj.getTeamVsTeamVo().getId());
-            team.setTeamId(obj.getTeamVsTeamVo().getGuestTeamId());
+            team.setCompetitionOfTeamId(obj.getTeamVsTeamVo().getGuestTeamId());
             team.setTeamName(obj.getTeamVsTeamVo().getGuestTeamName());
             competitionResultMapper.insertCompetitionResult(team);
         }else {
@@ -156,9 +156,9 @@ public class CompetitionResultServiceImpl implements ICompetitionResultService
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean add(CompetitionResult entity) {
-        LoginUser user = SecurityUtils.getLoginUser();
+        LoginUser user = new LoginUser();//SecurityUtils.getLoginUser();
 //      entity.fillOperationInfo(user.getUserId().toString());
-        entity.setCreatedBy(String.valueOf(user.getUserid()));
+       // entity.setCreatedBy(String.valueOf(user.getUserid()));
         entity.setCreatedTime(new Date());
         competitionResultMapper.insertCompetitionResult(entity);
         this.calculateScore(entity,user);
@@ -204,7 +204,7 @@ public class CompetitionResultServiceImpl implements ICompetitionResultService
                 //合计总分
                 int score = oneNodeScore+twoNodeScore+threeNodeScore+fourNodeScore+fiveNodeScore+sixNodeScore;
                 //主队
-                if(teamVsTeam.getMainTeamId().equals(competitionResult.getTeamId())){
+                if(teamVsTeam.getMainTeamId().equals(competitionResult.getCompetitionOfTeamId())){
                     mainId = competitionResult.getId();
                     mainScore = score;
                     teamVsTeam.setMainTeamScore(score);
@@ -213,13 +213,13 @@ public class CompetitionResultServiceImpl implements ICompetitionResultService
                     gustScore = score;
                     teamVsTeam.setGuestTeamScore(score);
                     //客队标识
-                    if(entity.getTeamId()==competitionResult.getTeamId()){
+                    if(entity.getCompetitionOfTeamId()==competitionResult.getCompetitionOfTeamId()){
                         flag = false;
                     }
                 }
 
                 //设置更新人
-                teamVsTeam.setModifiedBy(String.valueOf(user.getUserid()));
+                //teamVsTeam.setModifiedBy(String.valueOf(user.getUserid()));
                 teamVsTeam.setLastUpdatedTime(new Date());
                 competitionTeamVsTeamMapper.updateCompetitionTeamVsTeam(teamVsTeam);
             }
@@ -266,7 +266,7 @@ public class CompetitionResultServiceImpl implements ICompetitionResultService
                 }
             }
         }
-        entity.setModifiedBy(String.valueOf(user.getUserid()));
+        //entity.setModifiedBy(String.valueOf(user.getUserid()));
         entity.setLastUpdatedTime(new Date());
         competitionResultMapper.updateCompetitionResult(entity);
     }
@@ -274,8 +274,8 @@ public class CompetitionResultServiceImpl implements ICompetitionResultService
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean edit(CompetitionResult entity) {
-        LoginUser user = SecurityUtils.getLoginUser();
-        entity.setModifiedBy(String.valueOf(user.getUserid()));
+        LoginUser user = new LoginUser();
+       // entity.setModifiedBy(String.valueOf(user.getUserid()));
         entity.setLastUpdatedTime(new Date());
         competitionResultMapper.updateCompetitionResult(entity);
         this.calculateScore(entity,user);

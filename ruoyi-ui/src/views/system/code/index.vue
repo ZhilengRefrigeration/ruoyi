@@ -296,7 +296,9 @@ export default {
         busType: null,
         page: null,
         width: null,
-        useDesc: null
+        useDesc: null,
+        orderByColumn:"id",
+        isAsc:"desc",
       },
       // 表单参数
       form: {},

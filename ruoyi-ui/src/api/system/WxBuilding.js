@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询球场管理列表
 export function listWxBuilding(query) {
   return request({
-    url: '/system/WxBuilding/list',
+    url: '/system/wxBuildingInfo/list',
     method: 'get',
     params: query
   })
@@ -12,7 +12,7 @@ export function listWxBuilding(query) {
 // 查询球场管理详细
 export function getWxBuilding(id) {
   return request({
-    url: '/system/WxBuilding/' + id,
+    url: '/system/wxBuildingInfo/' + id,
     method: 'get'
   })
 }
@@ -20,7 +20,7 @@ export function getWxBuilding(id) {
 // 新增球场管理
 export function addWxBuilding(data) {
   return request({
-    url: '/system/WxBuilding',
+    url: '/system/wxBuildingInfo',
     method: 'post',
     data: data
   })
@@ -36,7 +36,7 @@ export function batchUploadFiles(data,url) {
 // 修改球场管理
 export function updateWxBuilding(data) {
   return request({
-    url: '/system/WxBuilding',
+    url: '/system/wxBuildingInfo',
     method: 'put',
     data: data
   })

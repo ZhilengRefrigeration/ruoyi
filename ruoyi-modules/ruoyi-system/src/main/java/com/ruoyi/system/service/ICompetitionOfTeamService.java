@@ -80,4 +80,6 @@ public interface ICompetitionOfTeamService
     Boolean edit(CompetitionOfTeam entity);
 
     List<CompetitionOfTeamVo> getJoinCompetitionGroupTeam(CompetitionOfTeam ofTeam);
+
+    List<CompetitionOfTeamVo> getMyJoinCompetitionTeam(CompetitionOfTeamVo entity);
 }
