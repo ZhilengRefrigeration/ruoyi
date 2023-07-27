@@ -9,16 +9,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="客户状态" prop="status">
-        <el-select v-model="queryParams.status" placeholder="请选择客户状态" clearable>
-          <el-option
-            v-for="dict in dict.type.customer_status"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
+
       <el-form-item label="客户级别" prop="userType">
         <el-select v-model="queryParams.userType" placeholder="请选择客户级别" clearable>
           <el-option
@@ -154,11 +145,6 @@
     <el-table v-loading="loading" :data="customerList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="客户姓名" align="center" prop="userName" width="120" v-if="columns[1].visible" show-overflow-tooltip />
-      <el-table-column label="客户状态" align="center" prop="status" width="120" show-overflow-tooltip >
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.customer_status" :value="scope.row.status"/>
-        </template>
-      </el-table-column>
       <el-table-column label="客户级别" align="center" prop="userType"  v-if="columns[3].visible" show-overflow-tooltip >
         <template slot-scope="scope">
           <dict-tag :options="dict.type.customer_level" :value="scope.row.userType"/>
@@ -477,7 +463,7 @@ import {
 import Data from "@/views/system/dict/data";
 
 export default {
-  name: "Customer",
+  name: "orderCustomer",
   dicts: ['to_store_status', 'customer_source','customer_status', 'sys_user_sex', 'customer_level', 'clue_channels','follow_result','follow_up_method'],
   data() {
     return {
@@ -625,6 +611,7 @@ export default {
     /** 查询客户信息列表 */
     getList() {
       this.loading = true;
+      this.queryParams.status = 'order';
       listCustomer(this.queryParams).then(response => {
         this.customerList = response.rows;
         this.total = response.total;

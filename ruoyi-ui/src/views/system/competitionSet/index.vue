@@ -56,7 +56,7 @@
       <el-table
         max-height="800"
         v-loading="loading" :data="competitionOfTeamList" @selection-change="handleSelectionChange">
-        <el-table-column label="球队ID" align="center" prop="teamId" />
+        <el-table-column label="球队ID" align="center" prop="teamId" width="80"/>
         <el-table-column label="球队logo" align="center" prop="avatar" >
           <template slot-scope="scope">
             <el-avatar :src="scope.row.teamLogo"></el-avatar>
@@ -76,8 +76,9 @@
             <el-tag v-if="scope.row.status===-1"  style="color: #bfc2c5">已驳回</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="联系人" align="center" prop="contacts" />
-        <el-table-column label="联系人电话" align="center" prop="contactsTel" />
+        <el-table-column label="队长" align="center" prop="captain" />
+        <el-table-column label="领队人" align="center" prop="contacts" />
+        <el-table-column label="领队人电话" align="center" prop="contactsTel" />
         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
           <template slot-scope="scope">
             <el-popconfirm  v-if="competitionObj.status===0" @confirm="bindConfirm(scope.row.id,1)"
@@ -203,26 +204,42 @@
         border
         max-height="800"
         style=" margin-top: 20px">
-        <el-table-column label="比赛日期" align="center" prop="competitionDate" width="180"/>
-        <el-table-column label="比赛时间" align="center" prop="competitionTime" width="180">
+        <el-table-column label="比赛日期" align="center" prop="competitionDate" width="180">
+          <template slot-scope="scope">
+            <el-tag type="danger" style="font-weight: bold;font-size: larger" >{{ scope.row.competitionDate }}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="比赛时间" align="center" prop="competitionTime" width="100">
           <template slot-scope="scope">
             <el-tag type="danger" style="font-weight: bold;font-size: larger" >{{ parseTime(scope.row.competitionTime, '{h}:{i}') }}</el-tag>
           </template>
         </el-table-column>
+        <el-table-column label="比赛类型" align="center" prop="vsType" width="100">
+          <template slot-scope="scope">
+            <el-tag type="success" v-if="scope.row.vsType == 0" style="font-weight: bold;font-size: smaller" >循环赛</el-tag>
+            <el-tag type="success" v-if="scope.row.vsType == 1" style="font-weight: bold;font-size: smaller" >淘汰赛</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="比赛状态"  align="center" prop="status" width="100">
+          <template slot-scope="scope">
+            <el-tag>
+              <dict-tag :options="dict.type.vs_status" :value="scope.row.status"/>
+            </el-tag>
+          </template>
+        </el-table-column>
         <el-table-column label="主队名" align="center" prop="mainTeamName" />
-        <el-table-column label="主队得分" align="center" prop="mainTeamScore" >
+        <el-table-column label="主队得分" align="center" prop="mainTeamScore" width="100">
           <template slot-scope="scope">
             <el-tag type="success" style="font-weight: bold;font-size: larger" >{{ scope.row.mainTeamScore }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="客队得分" align="center" prop="guestTeamScore" >
+        <el-table-column label="客队得分" align="center" prop="guestTeamScore" width="100">
           <template slot-scope="scope">
             <el-tag type="success" style="font-weight: bold;font-size: larger" >{{ scope.row.guestTeamScore }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="客队名" align="center" prop="guestTeamName" />
-        <el-table-column label="球场名称" align="center" prop="buildingName" />
-        <el-table-column label="比赛类型" align="center" prop="vsType" />
+        <el-table-column label="球场名称" align="center" prop="buildingName" width="250"/>
         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
           <template slot-scope="scope">
             <el-button
@@ -233,7 +250,6 @@
               v-hasPermi="['system:competitionOfTeam:edit']"
             >比赛记录</el-button>
             <el-button
-              v-if="new Date(scope.row.competitionDate).getTime() > new Date().getTime()"
               size="mini"
               type="text"
               icon="el-icon-edit"
@@ -349,7 +365,7 @@
         <el-table-column label="真实姓名" align="center" prop="realName" />
         <el-table-column label="球衣号" align="center" prop="jerseyNumber" />
         <el-table-column label="证件类型" align="center" prop="idType" />
-        <el-table-column label="证件号码" align="center" prop="idCardNo" />
+        <el-table-column label="证件号码" align="center" prop="idCardNo" width="180"/>
         <el-table-column label="联系电话" align="center" prop="contactsTel" />
 <!--        <el-table-column label="申请时间" align="center" prop="createdTime" width="180">
           <template slot-scope="scope">
@@ -438,10 +454,20 @@
                           placeholder="请选择比赛时间">
           </el-date-picker>
         </el-form-item>
+        <el-form-item label="比赛状态" prop="status">
+          <el-select v-model="vsform.status" placeholder="请选择">
+            <el-option
+              v-for="item in vsStatus"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="比赛类型" prop="vsType">
           <el-radio-group v-model="vsform.vsType">
-            <el-radio label="循环赛"></el-radio>
-            <el-radio label="淘汰赛"></el-radio>
+            <el-radio label="0">循环赛</el-radio>
+            <el-radio label="1">淘汰赛</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="主队名" prop="mainTeamName">
@@ -635,7 +661,7 @@
          </el-table>
        </div>
       </el-skeleton>
-      <el-dialog :close-on-click-modal="false" width="25%" title="球员得分记录" :visible.sync="innerMemberVisible" append-to-body>
+      <el-dialog :close-on-click-modal="false" width="35%" title="球员得分记录" :visible.sync="innerMemberVisible" append-to-body>
         <el-form ref="scoreform" :model="scoreform" :rules="scoreformRules" size="mini" label-width="80px">
           <el-form-item label="球队名" prop="teamName">
             <el-input v-model="scoreform.teamName"  :disabled="true" />
@@ -711,7 +737,7 @@ import {getWxApplesAccessToken, genWxApplesAqrCode} from "@/api/system/wxApplesC
 
 export default {
   name: "CompetitionSet",
-  dicts: ['competition_status'],
+  dicts: ['competition_status','vs_status'],
   data() {
     return {
       spreadImgurl:null,
@@ -773,6 +799,13 @@ export default {
       // 是否显示弹出层
       open: false,
       groupNumbers:[],
+      //赛程状态：-1=已取消； 0=报名中，1=比赛中；2=已结束
+      vsStatus:[
+        {label:"已取消",value:-1},
+        {label:"报名中",value:0},
+        {label:"比赛中",value:1},
+        {label:"已结束",value:2}
+      ],
       addGroupCode:"",
       addGroupDialogVisible:false,
       addTeamDialogVisible:false,
@@ -781,6 +814,9 @@ export default {
       vsform:{},
       vsTitle:"",
       vsRules: {
+        status: [
+          { required: true, message: "比赛状态不能为空", trigger: "blur" }
+        ],
         competitionTime: [
           { required: true, message: "比赛时间不能为空", trigger: "blur" }
         ],
@@ -859,6 +895,14 @@ export default {
     }
   },
   methods: {
+    // methods中
+    getFormatterName(row) {
+      for (let i in this.vsStatus) {
+        if (this.vsStatus[i].value == row.status) {
+          return this.vsStatus[i].label;
+        }
+      }
+    },
     //点击新增分组按钮
     handleAddGroup(){
       //循环获取0-25的组的数据值
@@ -994,7 +1038,7 @@ export default {
     },
     handleTeamUser(row){
       this.drawer = true
-      listCompetitionMembers({"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id,"competitionTeamId":row.teamId}).then(response => {
+      listCompetitionMembers({"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id,"competitionOfTeamId":row.id}).then(response => {
          this.competitionMembersList =  response.rows;
       });
     },

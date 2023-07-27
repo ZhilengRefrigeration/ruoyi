@@ -17,6 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="dataSource"    column="data_source"    />
         <result property="liveAddress"    column="live_address"    />
         <result property="status"    column="status"    />
+        <result property="storeStatus" column="store_status"/>
         <result property="delFlag"    column="del_flag"    />
         <result property="loginIp"    column="login_ip"    />
         <result property="loginDate"    column="login_date"    />
@@ -60,7 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectCustomerVo">
-        select id, user_name, nick_name, user_type, email, phonenumber, sex, avatar, clue_channel, data_source, live_address, status, del_flag, login_ip, login_date, create_by, create_time, update_by, update_time, remark, wechat, buy_car_type, exist_models, is_assessment, intention_car_models, contrast_car_models, is_test_drive, is_offer, is_finance, un_booking_car_reason, pre_to_store_date, last_to_store_date, store_name, order_date from f_customer
+        select id, user_name, nick_name, user_type, email,store_status, phonenumber, sex, avatar, clue_channel, data_source, live_address, status, del_flag, login_ip, login_date, create_by, create_time, update_by, update_time, remark, wechat, buy_car_type, exist_models, is_assessment, intention_car_models, contrast_car_models, is_test_drive, is_offer, is_finance, un_booking_car_reason, pre_to_store_date, last_to_store_date, store_name, order_date from f_customer
     </sql>
 
     <select id="selectCustomerList" resultType="com.ruoyi.system.domain.vo.CustomerVo">
@@ -112,6 +113,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="dataSource != null  and dataSource != ''"> and t.data_source = #{dataSource}</if>
             <if test="liveAddress != null  and liveAddress != ''"> and t.live_address = #{liveAddress}</if>
             <if test="status != null  and status != ''"> and t.status = #{status}</if>
+            <if test="storeStatus != null  and storeStatus != ''"> and t.store_status = #{storeStatus}</if>
             <if test="loginDate != null "> and t.login_date = #{loginDate}</if>
             <if test="wechat != null  and wechat != ''"> and t.wechat = #{wechat}</if>
             <if test="buyCarType != null  and buyCarType != ''"> and t.buy_car_type = #{buyCarType}</if>
@@ -135,7 +137,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <select id="selectCustomerById" parameterType="Long" resultMap="CustomerFollowUpResult">
-        select a.id, a.user_name, a.nick_name, a.user_type, a.email, a.phonenumber, a.sex, a.avatar, a.clue_channel, a.data_source, a.live_address, a.status, a.del_flag, a.login_ip, a.login_date, a.create_by, a.create_time, a.update_by, a.update_time, a.remark, a.wechat, a.buy_car_type, a.exist_models, a.is_assessment, a.intention_car_models, a.contrast_car_models, a.is_test_drive, a.is_offer, a.is_finance, a.un_booking_car_reason, a.pre_to_store_date, a.last_to_store_date, a.store_name, a.order_date,
+        select a.id, a.user_name,a.store_status, a.nick_name, a.user_type, a.email, a.phonenumber, a.sex, a.avatar, a.clue_channel, a.data_source, a.live_address, a.status, a.del_flag, a.login_ip, a.login_date, a.create_by, a.create_time, a.update_by, a.update_time, a.remark, a.wechat, a.buy_car_type, a.exist_models, a.is_assessment, a.intention_car_models, a.contrast_car_models, a.is_test_drive, a.is_offer, a.is_finance, a.un_booking_car_reason, a.pre_to_store_date, a.last_to_store_date, a.store_name, a.order_date,
  b.id as sub_id, b.customer_id as sub_customer_id, b.follow_up_date as sub_follow_up_date, b.follow_up_record as sub_follow_up_record, b.pre_to_store_date as sub_pre_to_store_date, b.create_by as sub_create_by, b.create_time as sub_create_time, b.update_by as sub_update_by, b.update_time as sub_update_time, b.remark as sub_remark, b.follow_level as sub_follow_level
         from f_customer a
         left join f_follow_up b on b.customer_id = a.id
@@ -156,6 +158,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="dataSource != null">data_source,</if>
             <if test="liveAddress != null">live_address,</if>
             <if test="status != null">status,</if>
+            <if test="storeStatus != null">store_status,</if>
             <if test="delFlag != null">del_flag,</if>
             <if test="loginIp != null">login_ip,</if>
             <if test="loginDate != null">login_date,</if>
@@ -191,6 +194,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="dataSource != null">#{dataSource},</if>
             <if test="liveAddress != null">#{liveAddress},</if>
             <if test="status != null">#{status},</if>
+            <if test="storeStatus != null">#{storeStatus},</if>
             <if test="delFlag != null">#{delFlag},</if>
             <if test="loginIp != null">#{loginIp},</if>
             <if test="loginDate != null">#{loginDate},</if>
@@ -230,6 +234,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="dataSource != null">data_source = #{dataSource},</if>
             <if test="liveAddress != null">live_address = #{liveAddress},</if>
             <if test="status != null">status = #{status},</if>
+            <if test="storeStatus != null">store_status = #{storeStatus},</if>
             <if test="delFlag != null">del_flag = #{delFlag},</if>
             <if test="loginIp != null">login_ip = #{loginIp},</if>
             <if test="loginDate != null">login_date = #{loginDate},</if>
@@ -279,9 +284,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <insert id="batchFollowUp">
-        insert into f_follow_up( id, customer_id, follow_up_date, follow_up_record, pre_to_store_date, create_by, create_time, update_by, update_time, remark, follow_level) values
+        insert into f_follow_up( id, customer_id, follow_up_date, follow_up_record, pre_to_store_date, create_by, create_time, update_by, update_time, remark, follow_level,follow_result,follow_up_method) values
 		<foreach item="item" index="index" collection="list" separator=",">
-            ( #{item.id}, #{item.customerId}, #{item.followUpDate}, #{item.followUpRecord}, #{item.preToStoreDate}, #{item.createBy}, #{item.createTime}, #{item.updateBy}, #{item.updateTime}, #{item.remark}, #{item.followLevel})
+            ( #{item.id}, #{item.customerId}, #{item.followUpDate}, #{item.followUpRecord}, #{item.preToStoreDate}, #{item.createBy}, #{item.createTime}, #{item.updateBy}, #{item.updateTime}, #{item.remark}, #{item.followLevel},#{item.followResult},#{item.followUpMethod})
         </foreach>
     </insert>
 </mapper>
