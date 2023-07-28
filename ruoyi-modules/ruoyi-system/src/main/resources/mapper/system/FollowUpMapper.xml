@@ -16,16 +16,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
         <result property="remark"    column="remark"    />
         <result property="followLevel"    column="follow_level"    />
+        <result property="followResult"    column="follow_result"    />
+        <result property="followUpMethod"    column="follow_up_method"    />
     </resultMap>
 
     <sql id="selectFollowUpVo">
-        select id, customer_id, follow_up_date, follow_up_record, pre_to_store_date, create_by, create_time, update_by, update_time, remark, follow_level from f_follow_up
+        select id, customer_id, follow_up_date, follow_up_record, pre_to_store_date, create_by, create_time, update_by, update_time, remark, follow_level,follow_result,follow_up_method from f_follow_up
     </sql>
 
     <select id="selectFollowUpList" parameterType="FollowUp" resultMap="FollowUpResult">
         <include refid="selectFollowUpVo"/>
         <where>  
             <if test="customerId != null  and customerId != ''"> and customer_id = #{customerId}</if>
+            <if test="followResult != null  and followResult != ''"> and follow_result = #{followResult}</if>
+            <if test="followUpMethod != null  and followUpMethod != ''"> and follow_up_method = #{followUpMethod}</if>
             <if test="followUpDate != null "> and follow_up_date = #{followUpDate}</if>
             <if test="followUpRecord != null  and followUpRecord != ''"> and follow_up_record = #{followUpRecord}</if>
             <if test="preToStoreDate != null "> and pre_to_store_date = #{preToStoreDate}</if>
@@ -51,6 +55,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">update_time,</if>
             <if test="remark != null">remark,</if>
             <if test="followLevel != null">follow_level,</if>
+            <if test="followResult != null ">follow_result ,</if>
+            <if test="followUpMethod != null">follow_up_method ,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="customerId != null">#{customerId},</if>
@@ -63,6 +69,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">#{updateTime},</if>
             <if test="remark != null">#{remark},</if>
             <if test="followLevel != null">#{followLevel},</if>
+            <if test="followResult != null ">#{followResult},</if>
+            <if test="followUpMethod != null">#{followUpMethod},</if>
          </trim>
     </insert>
 
@@ -79,6 +87,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="remark != null">remark = #{remark},</if>
             <if test="followLevel != null">follow_level = #{followLevel},</if>
+            <if test="followResult != null ">  follow_result = #{followResult},</if>
+            <if test="followUpMethod != null  ">  follow_up_method = #{followUpMethod},</if>
         </trim>
         where id = #{id}
     </update>

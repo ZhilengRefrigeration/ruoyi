@@ -1,6 +1,8 @@
 package com.ruoyi.system.mapper;
 
 import java.util.List;
+
+import com.mybatisflex.core.BaseMapper;
 import com.ruoyi.system.domain.FollowUp;
 
 /**
@@ -9,7 +11,7 @@ import com.ruoyi.system.domain.FollowUp;
  * @author ruoyi
  * @date 2023-05-07
  */
-public interface FollowUpMapper 
+public interface FollowUpMapper extends BaseMapper<FollowUp>
 {
     /**
      * 查询跟进模块-客户跟进记录

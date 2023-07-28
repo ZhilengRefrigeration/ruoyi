@@ -1,7 +1,11 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.ruoyi.common.core.utils.DateUtils;
+import com.ruoyi.system.domain.Customer;
+import com.ruoyi.system.mapper.CustomerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.FollowUpMapper;
@@ -15,10 +19,12 @@ import com.ruoyi.system.service.IFollowUpService;
  * @date 2023-05-07
  */
 @Service
-public class FollowUpServiceImpl implements IFollowUpService 
+public class FollowUpServiceImpl extends ServiceImpl<FollowUpMapper, FollowUp> implements IFollowUpService
 {
     @Autowired
     private FollowUpMapper followUpMapper;
+    @Autowired
+    private CustomerMapper customerMapper;
 
     /**
      * 查询跟进模块-客户跟进记录
@@ -54,6 +60,16 @@ public class FollowUpServiceImpl implements IFollowUpService
     public int insertFollowUp(FollowUp followUp)
     {
         followUp.setCreateTime(DateUtils.getNowDate());
+        Customer customer = new Customer();
+        customer.setId(followUp.getCustomerId());
+        //如果跟进记录的跟进级别选择
+        if("战败".equals(followUp.getFollowLevel())){
+            customer.setStatus("defeat");
+            customerMapper.updateCustomer(customer);
+        }else if("订车".equals(followUp.getFollowLevel())||"成交".equals(followUp.getFollowLevel())){
+            customer.setStatus("order");
+            customerMapper.updateCustomer(customer);
+        }
         return followUpMapper.insertFollowUp(followUp);
     }
 

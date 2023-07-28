@@ -76,8 +76,8 @@ public class CustomerServiceImpl implements ICustomerService
     public int updateCustomer(Customer customer)
     {
         customer.setUpdateTime(DateUtils.getNowDate());
-        customerMapper.deleteFollowUpByCustomerId(customer.getId());
-        insertFollowUp(customer);
+     /*   customerMapper.deleteFollowUpByCustomerId(customer.getId());
+        insertFollowUp(customer);*/
         return customerMapper.updateCustomer(customer);
     }
 

@@ -78,7 +78,7 @@ public class FollowUpController extends BaseController
     @PostMapping
     public AjaxResult add(@RequestBody FollowUp followUp)
     {
-        return toAjax(followUpService.insertFollowUp(followUp));
+        return toAjax(followUpService.save(followUp));
     }
 
     /**

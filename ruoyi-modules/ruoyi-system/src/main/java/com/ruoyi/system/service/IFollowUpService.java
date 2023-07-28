@@ -1,6 +1,8 @@
 package com.ruoyi.system.service;
 
 import java.util.List;
+
+import com.mybatisflex.core.service.IService;
 import com.ruoyi.system.domain.FollowUp;
 
 /**
@@ -9,7 +11,7 @@ import com.ruoyi.system.domain.FollowUp;
  * @author ruoyi
  * @date 2023-05-07
  */
-public interface IFollowUpService 
+public interface IFollowUpService extends IService<FollowUp>
 {
     /**
      * 查询跟进模块-客户跟进记录
