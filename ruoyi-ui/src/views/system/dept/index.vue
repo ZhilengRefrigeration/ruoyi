@@ -100,7 +100,7 @@
     <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
-          <el-col :span="24" v-if="form.parentId !== 0">
+          <el-col :span="24" v-if="form.deptId !== userDeptId">
             <el-form-item label="上级部门" prop="parentId">
               <treeselect v-model="form.parentId" :options="deptOptions" :normalizer="normalizer" placeholder="选择上级部门" />
             </el-form-item>
@@ -159,6 +159,7 @@
 
 <script>
 import { listDept, getDept, delDept, addDept, updateDept, listDeptExcludeChild } from "@/api/system/dept";
+import { getUserProfile } from "@/api/system/user";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
@@ -178,6 +179,8 @@ export default {
       deptOptions: [],
       // 弹出层标题
       title: "",
+      // 用户部门id
+      userDeptId: undefined,
       // 是否显示弹出层
       open: false,
       // 是否展开，默认全部展开
@@ -273,6 +276,9 @@ export default {
     /** 新增按钮操作 */
     handleAdd(row) {
       this.reset();
+      getUserProfile().then(response => {
+        this.userDeptId = response.data.deptId;
+      });
       if (row != undefined) {
         this.form.parentId = row.deptId;
       }
@@ -293,6 +299,9 @@ export default {
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
+      getUserProfile().then(response => {
+        this.userDeptId = response.data.deptId;
+      });
       getDept(row.deptId).then(response => {
         this.form = response.data;
         this.open = true;
