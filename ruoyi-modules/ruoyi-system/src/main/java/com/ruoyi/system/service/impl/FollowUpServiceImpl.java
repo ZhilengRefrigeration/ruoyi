@@ -1,6 +1,8 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.List;
+
+import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.system.domain.Customer;
 import com.ruoyi.system.mapper.CustomerMapper;
@@ -17,7 +19,7 @@ import com.ruoyi.system.service.IFollowUpService;
  * @date 2023-05-07
  */
 @Service
-public class FollowUpServiceImpl implements IFollowUpService 
+public class FollowUpServiceImpl extends ServiceImpl<FollowUpMapper, FollowUp> implements IFollowUpService
 {
     @Autowired
     private FollowUpMapper followUpMapper;

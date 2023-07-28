@@ -59,7 +59,11 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-datasource</artifactId>
         </dependency>
-        
+        <!-- mybatis-flex -->
+        <dependency>
+            <groupId>com.mybatis-flex</groupId>
+            <artifactId>mybatis-flex-spring-boot-starter</artifactId>
+        </dependency>
         <!-- RuoYi Common DataScope -->
         <dependency>
             <groupId>com.ruoyi</groupId>
