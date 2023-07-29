@@ -9,6 +9,7 @@ import com.ruoyi.common.core.utils.DateUtils;
 #end
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
 #if($table.sub)
 import java.util.ArrayList;
 import com.ruoyi.common.core.utils.StringUtils;
@@ -26,7 +27,7 @@ import ${packageName}.service.I${ClassName}Service;
  * @date ${datetime}
  */
 @Service
-public class ${ClassName}ServiceImpl implements I${ClassName}Service 
+public class ${ClassName}ServiceImpl extends ServiceImpl<${ClassName}Mapper, ${ClassName}> implements I${ClassName}Service
 {
     @Autowired
     private ${ClassName}Mapper ${className}Mapper;
