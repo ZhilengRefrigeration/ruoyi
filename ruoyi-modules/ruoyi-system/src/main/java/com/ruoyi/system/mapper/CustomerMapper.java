@@ -85,4 +85,6 @@ public interface CustomerMapper
      * @return 结果
      */
     public int deleteFollowUpByCustomerId(Long id);
+    //预约记录列表
+    List<CustomerVo> selectCustomerMakerList(CustomerVo customer);
 }

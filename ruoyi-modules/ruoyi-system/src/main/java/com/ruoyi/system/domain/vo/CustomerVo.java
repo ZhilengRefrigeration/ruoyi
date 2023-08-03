@@ -27,4 +27,18 @@ public class CustomerVo extends Customer {
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "跟进超期", width = 30, dateFormat = "yyyy-MM-dd")
     private String followUpOverdueDate;
+    /** 意向级别 */
+    @Excel(name = "意向级别")
+    private String intentionLevel;
+    @Excel(name = "跟进方式")
+    private String followUpMethod;
+    /** 预约时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Excel(name = "预约时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
+    private Date appointmentTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Excel(name = "到店时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
+    private Date arrivalTime;
+    @Excel(name = "预约状态")
+    private String makerStatus;
 }

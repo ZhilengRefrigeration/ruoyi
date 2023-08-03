@@ -109,6 +109,11 @@ public class CustomerServiceImpl implements ICustomerService
         return customerMapper.deleteCustomerById(id);
     }
 
+    @Override
+    public List<CustomerVo> selectCustomerMakerList(CustomerVo customer) {
+        return customerMapper.selectCustomerMakerList(customer);
+    }
+
     /**
      * 新增跟进模块-客户跟进记录信息
      * 

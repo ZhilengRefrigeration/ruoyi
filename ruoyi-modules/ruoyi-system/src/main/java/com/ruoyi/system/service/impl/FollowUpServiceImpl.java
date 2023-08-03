@@ -63,11 +63,8 @@ public class FollowUpServiceImpl extends ServiceImpl<FollowUpMapper, FollowUp> i
         Customer customer = new Customer();
         customer.setId(followUp.getCustomerId());
         //如果跟进记录的跟进级别选择
-        if("战败".equals(followUp.getFollowLevel())){
+        if("fail".equals(followUp.getFollowResult())){
             customer.setStatus("defeat");
-            customerMapper.updateCustomer(customer);
-        }else if("订车".equals(followUp.getFollowLevel())||"成交".equals(followUp.getFollowLevel())){
-            customer.setStatus("order");
             customerMapper.updateCustomer(customer);
         }
         return followUpMapper.insertFollowUp(followUp);

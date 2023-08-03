@@ -8,6 +8,14 @@ export function listCustomer(query) {
     params: query
   })
 }
+// 查询客户预约信息列表
+export function listCustomerMaker(query) {
+  return request({
+    url: '/system/customer/makerList',
+    method: 'get',
+    params: query
+  })
+}
 // 查询客户信息列表
 export function listCustomerFollow(query) {
   return request({
@@ -49,8 +57,22 @@ export function addCustomerFollowRecerd(data) {
     data: data
   })
 }
-
+export function  addCustomerOrderRecerd(data){
+  return request({
+    url: '/system/customerOrder',
+    method: 'post',
+    data: data
+  })
+}
 export function updateCustomerFollowRecerd(data) {
+  return request({
+    url: '/system/up',
+    method: 'put',
+    data: data
+  })
+}
+//确认到店
+export function confirmToStore(data) {
   return request({
     url: '/system/up',
     method: 'put',

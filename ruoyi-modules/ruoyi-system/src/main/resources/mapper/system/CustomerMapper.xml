@@ -65,34 +65,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <select id="selectCustomerList" resultType="com.ruoyi.system.domain.vo.CustomerVo">
-        SELECT t.*,f.follow_up_date as followUpLastDate,f.follow_level as followUpLastLevel,
-        (CASE f.follow_level
-            WHEN 'H' THEN
-            date_add(f.follow_up_date,interval 1 day)
-            WHEN 'A' THEN
-            date_add(f.follow_up_date,interval 3 day)
-            WHEN 'B' THEN
-            date_add(f.follow_up_date,interval 7 day)
-            WHEN 'C' THEN
-            date_add(f.follow_up_date,interval 13 day)
-            ELSE
-              IF(ISNULL(f.follow_level),f.follow_level,'暂不回访')
-            END
+        SELECT t.*,f.follow_up_date as followUpLastDate,f.intention_level as followUpLastLevel,
+        (CASE f.intention_level
+        WHEN 'H' THEN
+        date_add(f.follow_up_date,interval 1 day)
+        WHEN 'A' THEN
+        date_add(f.follow_up_date,interval 3 day)
+        WHEN 'B' THEN
+        date_add(f.follow_up_date,interval 7 day)
+        WHEN 'C' THEN
+        date_add(f.follow_up_date,interval 13 day)
+        ELSE
+        IF(ISNULL(f.intention_level),f.intention_level,'暂不回访')
+        END
         ) as followUpOverdueDate,
-        (case f.follow_level
-            WHEN 'H' THEN '24小时内回访'
-            WHEN 'A' THEN
-            date_add(f.follow_up_date,interval 3 day)
-            WHEN 'B' THEN
-            date_add(f.follow_up_date,interval 5 day)
-            WHEN 'C' THEN
-            date_add(f.follow_up_date,interval 7 day)
-            when '成交' then  '成交'
-            when '战败' then  '战败'
-            when '休眠' then  '休眠'
-            when '订车' then  '订车'
-            ELSE ''
-            end
+        (case f.intention_level
+        WHEN 'H' THEN '24小时内回访'
+        WHEN 'A' THEN
+        date_add(f.follow_up_date,interval 3 day)
+        WHEN 'B' THEN
+        date_add(f.follow_up_date,interval 5 day)
+        WHEN 'C' THEN
+        date_add(f.follow_up_date,interval 7 day)
+        ELSE ''
+        end
         ) as  proposalNextFollowDate,f1.followUpTimes FROM f_customer t
         LEFT JOIN (
         SELECT a.* FROM f_follow_up AS a
@@ -130,20 +126,63 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="storeName != null  and storeName != ''"> and t.store_name like concat('%', #{storeName}, '%')</if>
             <if test="orderDate != null "> and t.order_date = #{orderDate}</if>
             <if test="followUpLastDate != null "> and f.follow_up_date = #{followUpLastDate}</if>
-            <if test="followUpLastLevel != null "> and f.follow_level = #{followUpLastLevel}</if>
-            <if test="proposalNextFollowDate != null "> and f.pre_to_store_date = #{proposalNextFollowDate}</if>
+            <if test="followUpLastLevel != null "> and f.intention_level = #{followUpLastLevel}</if>
+            <if test="proposalNextFollowDate != null "> and f.next_follow_up_time = #{proposalNextFollowDate}</if>
 
         </where>
     </select>
     
     <select id="selectCustomerById" parameterType="Long" resultMap="CustomerFollowUpResult">
-        select a.id, a.user_name,a.store_status, a.nick_name, a.user_type, a.email, a.phonenumber, a.sex, a.avatar, a.clue_channel, a.data_source, a.live_address, a.status, a.del_flag, a.login_ip, a.login_date, a.create_by, a.create_time, a.update_by, a.update_time, a.remark, a.wechat, a.buy_car_type, a.exist_models, a.is_assessment, a.intention_car_models, a.contrast_car_models, a.is_test_drive, a.is_offer, a.is_finance, a.un_booking_car_reason, a.pre_to_store_date, a.last_to_store_date, a.store_name, a.order_date,
- b.id as sub_id, b.customer_id as sub_customer_id, b.follow_up_date as sub_follow_up_date, b.follow_up_record as sub_follow_up_record, b.pre_to_store_date as sub_pre_to_store_date, b.create_by as sub_create_by, b.create_time as sub_create_time, b.update_by as sub_update_by, b.update_time as sub_update_time, b.remark as sub_remark, b.follow_level as sub_follow_level
-        from f_customer a
-        left join f_follow_up b on b.customer_id = a.id
+        SELECT
+            a.id,
+            a.user_name,
+            a.store_status,
+            a.nick_name,
+            a.user_type,
+            a.email,
+            a.phonenumber,
+            a.sex,
+            a.avatar,
+            a.clue_channel,
+            a.data_source,
+            a.live_address,
+            a.STATUS,
+            a.del_flag,
+            a.login_ip,
+            a.login_date,
+            a.create_by,
+            a.create_time,
+            a.update_by,
+            a.update_time,
+            a.remark,
+            a.wechat,
+            a.buy_car_type,
+            a.exist_models,
+            a.is_assessment,
+            a.intention_car_models,
+            a.contrast_car_models,
+            a.is_test_drive,
+            a.is_offer,
+            a.is_finance,
+            a.un_booking_car_reason,
+            a.pre_to_store_date,
+            a.last_to_store_date,
+            a.store_name,
+            a.order_date,
+            b.id as sub_id, b.customer_id as sub_customer_id, b.follow_up_date as sub_follow_up_date, b.follow_up_record, b.appointment_time, b.create_by as sub_create_by, b.create_time as sub_create_time, b.update_by as sub_update_by, b.update_time as sub_update_time, b.remark as sub_remark, b.intention_level
+        from f_customer a left join f_follow_up b on b.customer_id = a.id
         where a.id = #{id}
     </select>
-        
+    <select id="selectCustomerMakerList" resultType="com.ruoyi.system.domain.vo.CustomerVo">
+        SELECT * from f_follow_up t LEFT JOIN f_customer c on c.id = t.customer_id
+        where t.follow_result = 'maker' and c.status = 'potential'
+        <if test="phoneNumber != null  and phoneNumber != ''"> and c.phone_number like concat('%', #{phoneNumber}, '%')</if>
+        <if test="userName != null  and userName != ''"> and c.user_name like concat('%', #{userName}, '%')</if>
+        <if test="makerStatus != null  and makerStatus != ''"> and t.maker_status =#{makerStatus}</if>
+        <if test="intentionLevel != null  and intentionLevel != ''"> and t.intention_level =#{intentionLevel}</if>
+
+    </select>
+
     <insert id="insertCustomer" parameterType="Customer" useGeneratedKeys="true" keyProperty="id">
         insert into f_customer
         <trim prefix="(" suffix=")" suffixOverrides=",">

@@ -3,102 +3,134 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.FollowUpMapper">
-    
+
     <resultMap type="FollowUp" id="FollowUpResult">
         <result property="id"    column="id"    />
         <result property="customerId"    column="customer_id"    />
         <result property="followUpDate"    column="follow_up_date"    />
+        <result property="followUpMethod"    column="follow_up_method"    />
+        <result property="followResult"    column="follow_result"    />
+        <result property="intentionLevel"    column="intention_level"    />
         <result property="followUpRecord"    column="follow_up_record"    />
-        <result property="preToStoreDate"    column="pre_to_store_date"    />
+        <result property="nextFollowUpRecord"    column="next_follow_up_record"    />
+        <result property="nextFollowUpTime"    column="next_follow_up_time"    />
+        <result property="appointmentTime"    column="appointment_time"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
         <result property="remark"    column="remark"    />
-        <result property="followLevel"    column="follow_level"    />
-        <result property="followResult"    column="follow_result"    />
-        <result property="followUpMethod"    column="follow_up_method"    />
+        <result property="defeatReasons"    column="defeat_reasons"    />
+        <result property="arrivalTime" column="arrival_time"/>
+        <result column="maker_status" property="makerStatus"/>
+        <result column="follow_type" property="followType"/>
+        <result column="objective" property="objective"/>
     </resultMap>
 
     <sql id="selectFollowUpVo">
-        select id, customer_id, follow_up_date, follow_up_record, pre_to_store_date, create_by, create_time, update_by, update_time, remark, follow_level,follow_result,follow_up_method from f_follow_up
+        select id, customer_id,objective,follow_type,maker_status,arrival_time, follow_up_date, follow_up_method, follow_result, intention_level, follow_up_record, next_follow_up_record, next_follow_up_time, appointment_time, create_by, create_time, update_by, update_time, remark, defeat_reasons from f_follow_up
     </sql>
 
     <select id="selectFollowUpList" parameterType="FollowUp" resultMap="FollowUpResult">
         <include refid="selectFollowUpVo"/>
-        <where>  
-            <if test="customerId != null  and customerId != ''"> and customer_id = #{customerId}</if>
-            <if test="followResult != null  and followResult != ''"> and follow_result = #{followResult}</if>
-            <if test="followUpMethod != null  and followUpMethod != ''"> and follow_up_method = #{followUpMethod}</if>
+        <where>
+            <if test="customerId != null "> and customer_id = #{customerId}</if>
             <if test="followUpDate != null "> and follow_up_date = #{followUpDate}</if>
+            <if test="followType != null "> and follow_type = #{followType}</if>
+            <if test="followUpMethod != null  and followUpMethod != ''"> and follow_up_method = #{followUpMethod}</if>
+            <if test="followResult != null  and followResult != ''"> and follow_result = #{followResult}</if>
+            <if test="intentionLevel != null  and intentionLevel != ''"> and intention_level = #{intentionLevel}</if>
             <if test="followUpRecord != null  and followUpRecord != ''"> and follow_up_record = #{followUpRecord}</if>
-            <if test="preToStoreDate != null "> and pre_to_store_date = #{preToStoreDate}</if>
-            <if test="followLevel != null  and followLevel != ''"> and follow_level = #{followLevel}</if>
+            <if test="nextFollowUpRecord != null  and nextFollowUpRecord != ''"> and next_follow_up_record = #{nextFollowUpRecord}</if>
+            <if test="nextFollowUpTime != null "> and next_follow_up_time = #{nextFollowUpTime}</if>
+            <if test="appointmentTime != null "> and appointment_time = #{appointmentTime}</if>
+            <if test="defeatReasons != null  and defeatReasons != ''"> and defeat_reasons = #{defeatReasons}</if>
         </where>
     </select>
-    
-    <select id="selectFollowUpById" parameterType="Integer" resultMap="FollowUpResult">
+
+    <select id="selectFollowUpById" parameterType="Long" resultMap="FollowUpResult">
         <include refid="selectFollowUpVo"/>
         where id = #{id}
     </select>
-        
+
     <insert id="insertFollowUp" parameterType="FollowUp" useGeneratedKeys="true" keyProperty="id">
         insert into f_follow_up
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="customerId != null">customer_id,</if>
+            <if test="makerStatus != null">maker_status,</if>
+            <if test="followType != null">follow_type,</if>
+            <if test="arrivalTime != null">arrival_time,</if>
             <if test="followUpDate != null">follow_up_date,</if>
+            <if test="followUpMethod != null">follow_up_method,</if>
+            <if test="followResult != null">follow_result,</if>
+            <if test="intentionLevel != null">intention_level,</if>
             <if test="followUpRecord != null">follow_up_record,</if>
-            <if test="preToStoreDate != null">pre_to_store_date,</if>
+            <if test="nextFollowUpRecord != null">next_follow_up_record,</if>
+            <if test="nextFollowUpTime != null">next_follow_up_time,</if>
+            <if test="appointmentTime != null">appointment_time,</if>
             <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
             <if test="remark != null">remark,</if>
-            <if test="followLevel != null">follow_level,</if>
-            <if test="followResult != null ">follow_result ,</if>
-            <if test="followUpMethod != null">follow_up_method ,</if>
-         </trim>
+            <if test="defeatReasons != null">defeat_reasons,</if>
+            <if test="objective != null">objective,</if>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="customerId != null">#{customerId},</if>
+            <if test="makerStatus != null">#{makerStatus},</if>
+            <if test="followType != null">#{followType},</if>
+            <if test="arrivalTime != null">#{arrivalTime},</if>
             <if test="followUpDate != null">#{followUpDate},</if>
+            <if test="followUpMethod != null">#{followUpMethod},</if>
+            <if test="followResult != null">#{followResult},</if>
+            <if test="intentionLevel != null">#{intentionLevel},</if>
             <if test="followUpRecord != null">#{followUpRecord},</if>
-            <if test="preToStoreDate != null">#{preToStoreDate},</if>
+            <if test="nextFollowUpRecord != null">#{nextFollowUpRecord},</if>
+            <if test="nextFollowUpTime != null">#{nextFollowUpTime},</if>
+            <if test="appointmentTime != null">#{appointmentTime},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
             <if test="remark != null">#{remark},</if>
-            <if test="followLevel != null">#{followLevel},</if>
-            <if test="followResult != null ">#{followResult},</if>
-            <if test="followUpMethod != null">#{followUpMethod},</if>
-         </trim>
+            <if test="defeatReasons != null">#{defeatReasons},</if>
+            <if test="objective != null">#{objective},</if>
+        </trim>
     </insert>
 
     <update id="updateFollowUp" parameterType="FollowUp">
         update f_follow_up
         <trim prefix="SET" suffixOverrides=",">
             <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="makerStatus != null">maker_status = #{makerStatus},</if>
+            <if test="followType != null">follow_type = #{followType},</if>
+            <if test="arrivalTime != null">arrival_time = #{arrivalTime},</if>
             <if test="followUpDate != null">follow_up_date = #{followUpDate},</if>
+            <if test="followUpMethod != null">follow_up_method = #{followUpMethod},</if>
+            <if test="followResult != null">follow_result = #{followResult},</if>
+            <if test="intentionLevel != null">intention_level = #{intentionLevel},</if>
             <if test="followUpRecord != null">follow_up_record = #{followUpRecord},</if>
-            <if test="preToStoreDate != null">pre_to_store_date = #{preToStoreDate},</if>
+            <if test="nextFollowUpRecord != null">next_follow_up_record = #{nextFollowUpRecord},</if>
+            <if test="nextFollowUpTime != null">next_follow_up_time = #{nextFollowUpTime},</if>
+            <if test="appointmentTime != null">appointment_time = #{appointmentTime},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
             <if test="remark != null">remark = #{remark},</if>
-            <if test="followLevel != null">follow_level = #{followLevel},</if>
-            <if test="followResult != null ">  follow_result = #{followResult},</if>
-            <if test="followUpMethod != null  ">  follow_up_method = #{followUpMethod},</if>
+            <if test="defeatReasons != null">defeat_reasons = #{defeatReasons},</if>
+            <if test="objective != null">objective = #{objective},</if>
         </trim>
         where id = #{id}
     </update>
 
-    <delete id="deleteFollowUpById" parameterType="Integer">
+    <delete id="deleteFollowUpById" parameterType="Long">
         delete from f_follow_up where id = #{id}
     </delete>
 
     <delete id="deleteFollowUpByIds" parameterType="String">
-        delete from f_follow_up where id in 
+        delete from f_follow_up where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
