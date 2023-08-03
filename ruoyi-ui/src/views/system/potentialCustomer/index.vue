@@ -78,7 +78,7 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
+<!--      <el-col :span="1.5">
         <el-button
           type="primary"
           plain
@@ -109,7 +109,7 @@
           @click="handleDelete"
           v-hasPermi="['system:customer:remove']"
         >删除</el-button>
-      </el-col>
+      </el-col>-->
       <el-col :span="1.5">
         <el-button
           type="warning"
@@ -123,7 +123,7 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" :columns="columns" :pageName="$options.name" ></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="customerList" @selection-change="handleSelectionChange">
+    <el-table :row-class-name="tableRowClassName" v-loading="loading" :data="customerList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="客户姓名" align="center" prop="userName" width="120" v-if="columns[1].visible" show-overflow-tooltip />
       <el-table-column label="客户性别" align="center" prop="sex"  show-overflow-tooltip >
@@ -156,26 +156,17 @@
       </el-table-column>
       <!--      <el-table-column label="是否评估" align="center" prop="isAssessment" />-->
       <el-table-column label="意向车型" align="center" prop="intentionCarModels" width="120" v-if="columns[24].visible" show-overflow-tooltip />
-      <!--      <el-table-column label="对比车型" align="center" prop="contrastCarModels" />
-            <el-table-column label="是否试驾" align="center" prop="isTestDrive" />
-            <el-table-column label="是否报价" align="center" prop="isOffer" />
-            <el-table-column label="是否金融" align="center" prop="isFinance" />-->
-      <!--      <el-table-column label="最后到店" align="center" prop="lastToStoreDate" width="120">
-              <template slot-scope="scope">
-                <span>{{ parseTime(scope.row.lastToStoreDate, '{y}-{m}-{d}') }}</span>
-              </template>
-            </el-table-column>-->
       <el-table-column label="已有车辆" align="center" prop="existModels"  v-if="columns[22].visible" show-overflow-tooltip />
-      <el-table-column label="预计到店" class-name="specialColor" align="center" prop="appointmentTime" width="120"  v-if="columns[30].visible" show-overflow-tooltip >
+      <el-table-column label="预计到店"  align="center" prop="appointmentTime" width="120"  v-if="columns[30].visible" show-overflow-tooltip >
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.appointmentTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="跟进次数" class-name="specialColor" align="center" prop="followUpTimes" v-if="columns[34].visible" show-overflow-tooltip />
-      <el-table-column label="最新跟进日" class-name="specialColor" align="center" prop="followUpLastDate" width="100" v-if="columns[35].visible" show-overflow-tooltip />
-      <el-table-column label="最新跟进级别" class-name="specialColor" align="center" prop="followUpLastLevel" width="100" v-if="columns[36].visible" show-overflow-tooltip />
-      <el-table-column label="建议下次跟进日" class-name="specialColor" align="center" prop="proposalNextFollowDate" width="120" v-if="columns[37].visible" show-overflow-tooltip />
-      <el-table-column label="跟进超期" class-name="specialColor" align="center" prop="followUpOverdueDate" width="120" v-if="columns[38].visible" show-overflow-tooltip />
+      <el-table-column label="跟进次数"  align="center" prop="followUpTimes" v-if="columns[34].visible" show-overflow-tooltip />
+      <el-table-column label="最新跟进日"  align="center" prop="followUpLastDate" width="100" v-if="columns[35].visible" show-overflow-tooltip />
+      <el-table-column label="最新跟进级别"  align="center" prop="followUpLastLevel" width="100" v-if="columns[36].visible" show-overflow-tooltip />
+      <el-table-column label="建议下次跟进日"  align="center" prop="proposalNextFollowDate" width="120" v-if="columns[37].visible" show-overflow-tooltip />
+      <el-table-column label="跟进超期"  align="center" prop="followUpOverdueDate" width="120" v-if="columns[38].visible" show-overflow-tooltip />
       <el-table-column label="未订车原因" align="center" prop="unBookingCarReason" width="110" show-overflow-tooltip v-if="columns[29].visible" show-overflow-tooltip />
       <el-table-column label="备注" align="center" prop="remark" show-overflow-tooltip v-if="columns[19].visible" />
 
@@ -694,6 +685,16 @@ export default {
         this.loading = false;
       });
     },
+    tableRowClassName({row, rowIndex}) {
+      if (row.proposalNextFollowDate === '24小时内回访') {
+        return 'warning-row';
+      } else if (this.getDateYYYYMMdd() > row.proposalNextFollowDate) {
+         return 'danger-row';
+      }else {
+       // return 'success-row';
+      }
+      return '';
+    },
     /** 查询客户跟进信息列表 */
     getFollowList(customerId) {
       let that = this;
@@ -856,6 +857,12 @@ export default {
       const starMinutes = date.getMinutes().toString().padStart(2, '0');
       const starSeconds = date.getSeconds().toString().padStart(2, '0');
       return `${date.getFullYear()}-${month}-${strDate} ${starHours}:${starMinutes}:${starSeconds}`;
+    },
+    getDateYYYYMMdd(){
+      const date = new Date();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const strDate = date.getDate().toString().padStart(2, '0');
+      return `${date.getFullYear()}-${month}-${strDate}`;
     },
     /** 提交按钮 */
     submitForm() {
@@ -1035,5 +1042,16 @@ export default {
 }
 .login-code-img {
   height: 38px;
+}
+.el-table .warning-row {
+  background: #E6A23C;
+}
+
+.el-table .success-row {
+  background: #67C23A;
+}
+
+.el-table .danger-row {
+  background: #F56C6C;
 }
 </style>

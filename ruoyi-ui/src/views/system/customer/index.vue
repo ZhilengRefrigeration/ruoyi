@@ -153,15 +153,20 @@
 
     <el-table v-loading="loading" :data="customerList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="客户姓名" align="center" prop="userName" width="120" v-if="columns[1].visible" show-overflow-tooltip />
-      <el-table-column label="客户性别" align="center" prop="sex"  show-overflow-tooltip >
+      <el-table-column label="线索日期" align="center" prop="createTime" width="120"  show-overflow-tooltip >
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_user_sex" :value="scope.row.sex"/>
+          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="客户状态" align="center" prop="status" width="120" show-overflow-tooltip >
         <template slot-scope="scope">
           <dict-tag :options="dict.type.customer_status" :value="scope.row.status"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="客户姓名" align="center" prop="userName" width="120" v-if="columns[1].visible" show-overflow-tooltip />
+      <el-table-column label="客户性别" align="center" prop="sex"  show-overflow-tooltip >
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.sys_user_sex" :value="scope.row.sex"/>
         </template>
       </el-table-column>
       <el-table-column label="客户级别" align="center" prop="userType"  v-if="columns[3].visible" show-overflow-tooltip >
@@ -187,28 +192,8 @@
         </template>
       </el-table-column>
       <el-table-column label="微信号" align="center" prop="wechat" width="110"  v-if="columns[20].visible" show-overflow-tooltip />
-      <el-table-column label="下单日期" align="center" prop="orderDate" width="120" v-if="columns[33].visible" show-overflow-tooltip >
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.orderDate, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-<!--      <el-table-column label="是否评估" align="center" prop="isAssessment" />-->
       <el-table-column label="意向车型" align="center" prop="intentionCarModels" width="120" v-if="columns[24].visible" show-overflow-tooltip />
-<!--      <el-table-column label="对比车型" align="center" prop="contrastCarModels" />
-      <el-table-column label="是否试驾" align="center" prop="isTestDrive" />
-      <el-table-column label="是否报价" align="center" prop="isOffer" />
-      <el-table-column label="是否金融" align="center" prop="isFinance" />-->
-<!--      <el-table-column label="最后到店" align="center" prop="lastToStoreDate" width="120">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.lastToStoreDate, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>-->
       <el-table-column label="已有车辆" align="center" prop="existModels"  v-if="columns[22].visible" show-overflow-tooltip />
-<!--      <el-table-column label="预计到店" class-name="specialColor" align="center" prop="appointmentTime" width="120"  v-if="columns[30].visible" show-overflow-tooltip >
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.appointmentTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>-->
       <el-table-column label="跟进次数" class-name="specialColor" align="center" prop="followUpTimes" v-if="columns[34].visible" show-overflow-tooltip />
       <el-table-column label="最新跟进日" class-name="specialColor" align="center" prop="followUpLastDate" width="100" v-if="columns[35].visible" show-overflow-tooltip />
       <el-table-column label="最新跟进级别" class-name="specialColor" align="center" prop="followUpLastLevel" width="100" v-if="columns[36].visible" show-overflow-tooltip />

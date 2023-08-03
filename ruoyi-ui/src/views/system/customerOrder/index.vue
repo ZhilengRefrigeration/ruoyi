@@ -129,18 +129,7 @@
           <span>{{ parseTime(scope.row.outDate, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-<!--      <el-table-column label="创建者" align="center" prop="createBy" />
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="更新者" align="center" prop="updateBy" />
-      <el-table-column label="更新时间" align="center" prop="updateTime" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.updateTime, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>-->
+
       <el-table-column label="备注" align="center" prop="remark" show-overflow-tooltip/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -187,7 +176,7 @@
           <el-input v-model="form.carVin" placeholder="请输入车辆VIN" />
         </el-form-item>
         <el-form-item label="车辆状态" prop="carStatus">
-          <el-select v-model="form.carStatus" placeholder="请选择车辆状态">
+          <el-select v-model="form.carStatus" disabled placeholder="请选择车辆状态">
             <el-option
               v-for="dict in dict.type.car_status"
               :key="dict.value"

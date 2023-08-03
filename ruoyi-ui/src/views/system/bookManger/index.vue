@@ -43,8 +43,8 @@
       </el-form-item>
     </el-form>
 
-<!--    <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
+    <el-row :gutter="10" class="mb8">
+<!--      <el-col :span="1.5">
         <el-button
           type="primary"
           plain
@@ -75,7 +75,7 @@
           @click="handleDelete"
           v-hasPermi="['system:customer:remove']"
         >删除</el-button>
-      </el-col>
+      </el-col>-->
       <el-col :span="1.5">
         <el-button
           type="warning"
@@ -87,36 +87,20 @@
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" :columns="columns" :pageName="$options.name" ></right-toolbar>
-    </el-row>-->
+    </el-row>
 
     <el-table v-loading="loading" :data="customerList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="客户姓名" align="center" prop="userName" width="120" v-if="columns[1].visible" show-overflow-tooltip />
-      <el-table-column label="手机号码" align="center" prop="phoneNumber" width="110"  v-if="columns[5].visible" show-overflow-tooltip />
       <el-table-column label="客户性别" align="center" prop="sex"  show-overflow-tooltip >
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_user_sex" :value="scope.row.sex"/>
         </template>
       </el-table-column>
-      <el-table-column label="线索渠道" align="center" prop="clueChannel"  v-if="columns[8].visible" show-overflow-tooltip >
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.clue_channels" :value="scope.row.clueChannel"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="信息来源" align="center" prop="dataSource" v-if="columns[9].visible" show-overflow-tooltip >
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.customer_source" :value="scope.row.dataSource"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="客户居住" align="center" prop="liveAddress"  width="100" v-if="columns[10].visible" show-overflow-tooltip />
+      <el-table-column label="手机号码" align="center" prop="phoneNumber" width="110"  v-if="columns[5].visible" show-overflow-tooltip />
       <el-table-column label="意向级别" align="center" prop="intentionLevel"   show-overflow-tooltip >
         <template slot-scope="scope">
           <dict-tag :options="dict.type.customer_level" :value="scope.row.intentionLevel"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="预约状态" align="center" prop="status" width="100" v-if="columns[11].visible" show-overflow-tooltip >
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.maker_status" :value="scope.row.makerStatus"/>
         </template>
       </el-table-column>
       <el-table-column label="预约时间" class-name="specialColor" align="center" prop="appointmentTime" width="180"  v-if="columns[30].visible" show-overflow-tooltip >
@@ -129,7 +113,12 @@
           <span>{{ parseTime(scope.row.arrivalTime, '{y}-{m}-{d} {h}:{i}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="备注" align="center" prop="remark" show-overflow-tooltip v-if="columns[19].visible" />
+      <el-table-column label="预约状态" align="center" prop="status" width="100" v-if="columns[11].visible" show-overflow-tooltip >
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.maker_status" :value="scope.row.makerStatus"/>
+        </template>
+      </el-table-column>
+<!--      <el-table-column label="备注" align="center" prop="remark" show-overflow-tooltip v-if="columns[19].visible" />-->
       <el-table-column label="操作" width="160" align="center" fixed="right" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-popconfirm title="是否确认到店？"  @confirm="popConfirm(scope.row)"  @cancel="popCancel" >

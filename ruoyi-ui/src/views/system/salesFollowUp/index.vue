@@ -150,6 +150,11 @@
           <dict-tag :options="dict.type.follow_up_method" :value="scope.row.followUpMethod"/>
         </template>
       </el-table-column>
+      <el-table-column label="是否逾期" align="center" prop="followUpMethod" >
+        <template slot-scope="scope">
+          {{scope.row.actualFollowUpDate > scope.row.planFollowUpDate?'是':'否'}}
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="160" align="center" fixed="right" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
