@@ -443,6 +443,9 @@
           <el-form-item v-show="followFormShow.defeatReasonsShow" label="战败原因" prop="defeatReasons" :rules="followForm.followResult!='fail' ? followForm.defeatReasons : [{ required:true, message: '战败原因不能为空', trigger: 'blur'}]">
             <el-input v-model="followForm.defeatReasons" type="textarea" placeholder="请输入内容" />
           </el-form-item>
+          <el-form-item label="备注" prop="remark">
+            <el-input v-model="followForm.remark" type="textarea" placeholder="请输入内容" />
+          </el-form-item>
         </el-form>
         <div style="text-align: center">
           <el-button type="primary" @click="submitFollowForm">确 定</el-button>
@@ -841,9 +844,18 @@ export default {
     handleDrawerAddFollowUp(){
       this.innerDrawer = true;
       this.followForm = {};
-      this.followForm.followUpDate = new Date();
+      this.followForm.followUpDate = this.getDateYYYYMMddHHMMSS();
       this.followForm.customerId = this.customerId;
       this.followForm.followType = this.customerStatus;
+    },
+    getDateYYYYMMddHHMMSS(){
+      const date = new Date();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const strDate = date.getDate().toString().padStart(2, '0');
+      const starHours = date.getHours().toString().padStart(2, '0');
+      const starMinutes = date.getMinutes().toString().padStart(2, '0');
+      const starSeconds = date.getSeconds().toString().padStart(2, '0');
+      return `${date.getFullYear()}-${month}-${strDate} ${starHours}:${starMinutes}:${starSeconds}`;
     },
     /** 提交按钮 */
     submitForm() {
