@@ -107,11 +107,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         IFNULL( sco.is_first_launch, 0 ) AS isFirstLaunch
         FROM
         competition_team_vs_team vs
-        INNER JOIN competition_of_team team ON ( vs.main_team_id = team.id OR vs.guest_team_id = team.id )
+        INNER JOIN competition_of_team team ON ( vs.main_team_id = team.id OR vs.guest_team_id = team.id ) and team.competition_id = vs.competition_id
         AND team.IS_DELETED = 0
-        LEFT JOIN competition_members member ON team.id = member.competition_of_team_id
+        LEFT JOIN competition_members member ON team.id = member.competition_of_team_id  and team.competition_id = member.competition_id
         AND member.IS_DELETED = 0
-        LEFT JOIN competition_members_score sco ON ( vs.id = sco.competition_vs_id AND member.id = sco.competition_members_id )
+        LEFT JOIN competition_members_score sco ON ( vs.id = sco.competition_vs_id AND member.id = sco.competition_members_id ) and sco.competition_id = vs.competition_id
         AND sco.is_deleted = 0
         WHERE 1 = 1  AND vs.is_deleted = 0
         <if test="competitionId != null ">
