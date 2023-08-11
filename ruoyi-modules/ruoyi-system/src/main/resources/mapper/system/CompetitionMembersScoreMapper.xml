@@ -113,10 +113,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         AND member.IS_DELETED = 0
         LEFT JOIN competition_members_score sco ON ( vs.id = sco.competition_vs_id AND member.id = sco.competition_members_id )
         AND sco.is_deleted = 0
-        LEFT JOIN user_info userInfo ON member.user_id = userInfo.id
-        AND userInfo.is_deleted = 0
-        LEFT JOIN competition_members cm ON cm.user_id = userInfo.id
-        AND cm.is_deleted = 0
         WHERE 1 = 1  AND vs.is_deleted = 0
         <if test="competitionId != null ">
             AND  vs.competition_Id = #{competitionId}
