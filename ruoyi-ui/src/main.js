@@ -13,6 +13,8 @@ import router from './router'
 import directive from './directive' // directive
 import plugins from './plugins' // plugins
 import { download } from '@/utils/request'
+import * as echarts from 'echarts'
+Vue.prototype.$echarts = echarts;
 
 import './assets/icons' // icon
 import './permission' // permission control
