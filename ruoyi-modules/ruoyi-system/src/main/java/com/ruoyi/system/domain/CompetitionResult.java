@@ -104,5 +104,7 @@ public class CompetitionResult extends BaseEntity
     private String vsType;
     @ApiModelProperty(value = "比赛总分", required = false)
     private Integer totalScore;
+    @ApiModelProperty(value = "净胜分", required = false)
+    private Integer netWinPoint;
 
 }

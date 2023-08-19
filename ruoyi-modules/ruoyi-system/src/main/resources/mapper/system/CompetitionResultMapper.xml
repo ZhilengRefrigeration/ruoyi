@@ -28,10 +28,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="vsResult" column="vs_result"/>
         <result property="vsType" column="vs_type"/>
         <result property="integral"    column="integral"    />
+        <result property="netWinPoint" column="net_win_point"/>
     </resultMap>
 
     <sql id="selectCompetitionResultVo">
-        select id, competition_id, competition_vs_id, team_id, team_name, one_node_score, two_node_score, competition_group, status, created_time, last_updated_time, created_by, modified_by, is_deleted, remark, three_node_score, four_node_score, five_node_score, six_node_score, integral,vs_result,competition_of_team_id,vs_result from competition_result
+        select id, competition_id, competition_vs_id,net_win_point, team_id, team_name, one_node_score, two_node_score, competition_group, status, created_time, last_updated_time, created_by, modified_by, is_deleted, remark, three_node_score, four_node_score, five_node_score, six_node_score, integral,vs_result,competition_of_team_id,vs_result from competition_result
     </sql>
 
     <select id="selectCompetitionResultList" parameterType="CompetitionResult" resultMap="CompetitionResultResult">
@@ -81,7 +82,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         rs.six_node_score as sixNodeScore,
         rs.vs_result,
         vs.vs_type,
-        rs.integral
+        rs.integral,
+        rs.net_win_point
         from competition_team_vs_team vs
         inner join competition_of_team team on (vs.main_team_id=team.id or vs.guest_team_id=team.id) and team.IS_DELETED=0
         left join competition_Result rs on (rs.competition_vs_id=vs.id and team.id = rs.competition_of_team_id) and rs.is_deleted=0
@@ -119,6 +121,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="vsResult != null ">vs_result,</if>
             <if test="vsType != null ">vs_type,</if>
             <if test="competitionOfTeamId != null ">competition_of_team_id,</if>
+            <if test="netWinPoint != null ">net_win_point,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="competitionId != null">#{competitionId},</if>
@@ -143,6 +146,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="vsResult != null ">#{vsResult},</if>
             <if test="vsType != null "> #{vsType},</if>
             <if test="competitionOfTeamId != null "> #{competitionOfTeamId},</if>
+            <if test="netWinPoint != null "> #{netWinPoint},</if>
          </trim>
     </insert>
 
@@ -171,6 +175,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="vsResult != null ">vs_result = #{vsResult},</if>
             <if test="vsType != null "> vs_type = #{vsType},</if>
             <if test="competitionOfTeamId != null "> competition_of_team_id = #{competitionOfTeamId},</if>
+            <if test="netWinPoint != null "> net_win_point = #{netWinPoint},</if>
         </trim>
         where id = #{id}
     </update>
