@@ -161,7 +161,7 @@ public class CompetitionResultServiceImpl implements ICompetitionResultService
        // entity.setCreatedBy(String.valueOf(user.getUserid()));
         entity.setCreatedTime(new Date());
         competitionResultMapper.insertCompetitionResult(entity);
-        this.calculateScore(entity,user);
+        //this.calculateScore(entity,user);
         return true;
     }
 
@@ -278,7 +278,7 @@ public class CompetitionResultServiceImpl implements ICompetitionResultService
        // entity.setModifiedBy(String.valueOf(user.getUserid()));
         entity.setLastUpdatedTime(new Date());
         competitionResultMapper.updateCompetitionResult(entity);
-        this.calculateScore(entity,user);
+        //this.calculateScore(entity,user);
         return true;
     }
 }

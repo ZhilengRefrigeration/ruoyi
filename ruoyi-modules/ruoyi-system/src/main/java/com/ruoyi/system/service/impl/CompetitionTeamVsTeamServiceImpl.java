@@ -261,7 +261,14 @@ public class CompetitionTeamVsTeamServiceImpl implements ICompetitionTeamVsTeamS
 
     @Override
     public Boolean competitionScoreSubmit(List<CompetitionResult> request) {
-
+        CompetitionTeamVsTeamVo teamVsTeam = new CompetitionTeamVsTeamVo();
+        Optional<CompetitionResult> opt = request.stream().findFirst();
+        if(opt.isPresent()){
+            CompetitionResult result = opt.get();
+            teamVsTeam = competitionTeamVsTeamMapper.selectCompetitionTeamVsTeamById(result.getCompetitionVsId());
+        }
+        Integer mainTeamScore = 0;
+        Integer guestTeamScore = 0;
         for(CompetitionResult competitionResult : request){
             //小节分数可能为空
             int oneNodeScore = competitionResult.getOneNodeScore()==null?0:competitionResult.getOneNodeScore();
@@ -270,16 +277,20 @@ public class CompetitionTeamVsTeamServiceImpl implements ICompetitionTeamVsTeamS
             int fourNodeScore = competitionResult.getFourNodeScore()==null?0:competitionResult.getFourNodeScore();
             int fiveNodeScore = competitionResult.getFiveNodeScore()==null?0:competitionResult.getFiveNodeScore();
             int sixNodeScore = competitionResult.getSixNodeScore()==null?0:competitionResult.getSixNodeScore();
-
             int score = oneNodeScore+twoNodeScore+threeNodeScore+fourNodeScore+fiveNodeScore+sixNodeScore;
             if(score>0&&competitionResult.getTotalScore()!=null){
                 if(score!=competitionResult.getTotalScore()){
                     throw new InvalidParameterException("总分和小节分之和 不等 请检查！");
                 }
             } else if(score==0&&competitionResult.getTotalScore()!=null){
-                competitionResult.setOneNodeScore(competitionResult.getTotalScore());
+                competitionResult.setOneNodeScore(score);
             }
-
+            //主队
+            if(teamVsTeam.getMainTeamId().equals(competitionResult.getCompetitionOfTeamId())){
+                mainTeamScore = score;
+            } else {//客队
+                guestTeamScore = score;
+            }
             //新增
             if(competitionResult.getId()==null){
                 competitionResultService.add(competitionResult);
@@ -290,6 +301,13 @@ public class CompetitionTeamVsTeamServiceImpl implements ICompetitionTeamVsTeamS
                 competitionResultService.edit(competitionResult);
             }
         }
+        //todo 更新赛程数据的比分
+        CompetitionTeamVsTeam teamVs = new CompetitionTeamVsTeam();
+        teamVs.setId(teamVsTeam.getId());
+        teamVs.setMainTeamScore(mainTeamScore);
+        teamVs.setGuestTeamScore(guestTeamScore);
+        teamVs.setLastUpdatedTime(new Date());
+        competitionTeamVsTeamMapper.updateCompetitionTeamVsTeam(teamVs);
         return true;
     }
 

@@ -195,5 +195,7 @@ public class Competition extends BaseEntity
     /** 赞助商 */
     @Excel(name = "赞助商")
     private String sponsor;
+    @Excel(name = "图片库id")
+    private String orderId;
 
 }
