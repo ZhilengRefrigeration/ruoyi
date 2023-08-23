@@ -2,7 +2,12 @@ package com.ruoyi.system.service.impl;
 
 import java.util.List;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ObjectUtil;
+import com.ruoyi.system.domain.vo.CompetitionMembersScoreVo;
 import com.ruoyi.system.domain.vo.CompetitionMembersVo;
+import com.ruoyi.system.domain.vo.PersonalCareerVo;
+import com.ruoyi.system.service.ICompetitionMembersScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CompetitionMembersMapper;
@@ -20,6 +25,8 @@ public class CompetitionMembersServiceImpl implements ICompetitionMembersService
 {
     @Autowired
     private CompetitionMembersMapper competitionMembersMapper;
+    @Autowired
+    private ICompetitionMembersScoreService competitionMembersScoreService;
 
     /**
      * 查询比赛参与人员
@@ -106,5 +113,22 @@ public class CompetitionMembersServiceImpl implements ICompetitionMembersService
     @Override
     public void bindCompetitionMembersByTel(Long userId, String telephone) {
         competitionMembersMapper.bindCompetitionMembersByTel(userId,telephone);
+    }
+
+    @Override
+    public CompetitionMembersVo getCompetitionUserScoreInfo(Long id) {
+        CompetitionMembersVo membersVo = new CompetitionMembersVo();
+        CompetitionMembers member = competitionMembersMapper.selectCompetitionMembersById(id);
+        BeanUtil.copyProperties(member,membersVo);
+        //获取本赛会的个人得分情况
+        CompetitionMembersScoreVo membersScoreVo = competitionMembersScoreService.getThisCompetitionScore(member.getCompetitionId(),member.getId());
+        membersVo.setCompetitionMemberScore(membersScoreVo);
+        //如果没有登录我们的系统的人员就无法统计职业生涯
+        if(ObjectUtil.isNotEmpty(member.getUserId())){
+            //个人生涯
+            PersonalCareerVo personalCareerVo = competitionMembersScoreService.getUserScoreByUserId(member.getUserId());
+            membersVo.setPersonalCareerVo(personalCareerVo);
+        }
+        return membersVo;
     }
 }

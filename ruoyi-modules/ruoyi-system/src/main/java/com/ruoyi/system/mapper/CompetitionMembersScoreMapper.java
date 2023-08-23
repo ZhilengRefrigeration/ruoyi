@@ -67,4 +67,6 @@ public interface CompetitionMembersScoreMapper
     PersonalCareerVo getUserScoreByUserId(@Param(value = "teamUserId") Long teamUserId);
 
     List<CompetitionMembersScore> getHonorList(@Param("competitionId") Long competitionId,@Param("userId") Long userId);
+
+    CompetitionMembersScoreVo getThisCompetitionScore(@Param("competitionId") Long competitionId,@Param("competitionMembersId") Long competitionMembersId);
 }

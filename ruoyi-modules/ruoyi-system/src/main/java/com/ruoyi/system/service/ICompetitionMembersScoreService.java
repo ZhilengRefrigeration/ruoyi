@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 import com.ruoyi.system.domain.CompetitionMembersScore;
+import com.ruoyi.system.domain.vo.CompetitionMembersScoreVo;
 import com.ruoyi.system.domain.vo.PersonalCareerVo;
 
 /**
@@ -63,4 +64,6 @@ public interface ICompetitionMembersScoreService
     PersonalCareerVo getUserScoreByUserId(Long userId);
 
     List<CompetitionMembersScore> getHonorList(Long competitionId, Long userId);
+
+    CompetitionMembersScoreVo getThisCompetitionScore(Long competitionId, Long competitionMembersId);
 }

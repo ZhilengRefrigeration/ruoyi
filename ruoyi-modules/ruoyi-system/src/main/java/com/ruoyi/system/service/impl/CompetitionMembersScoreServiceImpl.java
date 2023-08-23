@@ -2,6 +2,7 @@ package com.ruoyi.system.service.impl;
 
 import java.util.List;
 
+import com.ruoyi.system.domain.vo.CompetitionMembersScoreVo;
 import com.ruoyi.system.domain.vo.PersonalCareerVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -101,5 +102,10 @@ public class CompetitionMembersScoreServiceImpl implements ICompetitionMembersSc
     @Override
     public List<CompetitionMembersScore> getHonorList(Long competitionId, Long userId) {
         return competitionMembersScoreMapper.getHonorList(competitionId,userId);
+    }
+
+    @Override
+    public CompetitionMembersScoreVo getThisCompetitionScore(Long competitionId, Long competitionMembersId) {
+        return competitionMembersScoreMapper.getThisCompetitionScore(competitionId,competitionMembersId);
     }
 }

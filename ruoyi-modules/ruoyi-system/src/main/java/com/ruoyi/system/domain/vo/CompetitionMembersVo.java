@@ -57,16 +57,8 @@ public class CompetitionMembersVo extends CompetitionMembers {
     @ApiModelProperty(value = "短信验证码", required = false)
     private String captcha;
 
-    @ApiModelProperty(value="身高",required=false)
-    private java.math.BigDecimal height;
-
-
-    @ApiModelProperty(value="体重",required=false)
-    private java.math.BigDecimal weight;
-
-    /**
-     *球队位置【字典】
-     */
-    @ApiModelProperty(value="球队位置【字典】",required=false)
-    private String teamPosition;
+    @ApiModelProperty(value="个人生涯",required=false)
+    private PersonalCareerVo personalCareerVo;
+    @ApiModelProperty(value="赛会个人得分",required=false)
+    private CompetitionMembersScoreVo competitionMemberScore;
 }

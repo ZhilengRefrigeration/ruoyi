@@ -65,4 +65,6 @@ public interface ICompetitionMembersService
     void deleteByMembers(Long competitionId, Long teamOfId);
 
     void bindCompetitionMembersByTel(Long userId, String telephone);
+
+    CompetitionMembersVo getCompetitionUserScoreInfo(Long id);
 }
