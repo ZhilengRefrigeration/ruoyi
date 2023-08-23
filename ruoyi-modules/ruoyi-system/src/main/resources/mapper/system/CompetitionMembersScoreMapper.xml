@@ -124,7 +124,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     <select id="getUserScoreByUserId" resultType="com.ruoyi.system.domain.vo.PersonalCareerVo">
         SELECT
-            t.competition_vs_id as competitionVsId,
             count(1) as sessions,
             sum(t.total_score ) /count(1) AS totalScore,
             sum(t.two_points) /count(1)	as twoPoints,
@@ -143,7 +142,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE
             t.team_user_id = #{teamUserId}
         GROUP BY
-            t.competition_vs_id
+            t.team_user_id
     </select>
     <select id="getHonorList" resultType="com.ruoyi.system.domain.CompetitionMembersScore">
         SELECT
