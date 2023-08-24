@@ -52,6 +52,7 @@ public interface ICompetitionMembersService
      */
     public int deleteCompetitionMembersByIds(Long[] ids);
 
+    public CompetitionMembersVo getCompetitionUserScoreInfo(CompetitionMembersVo vo);
     /**
      * 删除比赛参与人员信息
      * 
@@ -65,6 +66,4 @@ public interface ICompetitionMembersService
     void deleteByMembers(Long competitionId, Long teamOfId);
 
     void bindCompetitionMembersByTel(Long userId, String telephone);
-
-    CompetitionMembersVo getCompetitionUserScoreInfo(Long id);
 }

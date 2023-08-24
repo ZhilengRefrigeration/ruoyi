@@ -2,6 +2,7 @@ package com.ruoyi.system.domain.vo;
 import com.ruoyi.system.domain.CompetitionMembers;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,8 +18,7 @@ import lombok.Setter;
  * @date : 2020年08月07日
  */
 @ApiModel(value = "比赛参与人员Vo")
-@Setter
-@Getter
+@Data
 public class CompetitionMembersVo extends CompetitionMembers {
 
     private static final long serialVersionUID = 1L;
@@ -56,9 +56,13 @@ public class CompetitionMembersVo extends CompetitionMembers {
 
     @ApiModelProperty(value = "短信验证码", required = false)
     private String captcha;
+    @ApiModelProperty(value = "赛会名称", required = false)
+    private String competitionName;
+    @ApiModelProperty(value = "球队名称", required = false)
+    private String teamName;
 
     @ApiModelProperty(value="个人生涯",required=false)
-    private PersonalCareerVo personalCareerVo;
+    private CompetitionMembersScoreVo personalCareerVo;
     @ApiModelProperty(value="赛会个人得分",required=false)
     private CompetitionMembersScoreVo competitionMemberScore;
 }

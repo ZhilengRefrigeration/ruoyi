@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.github.pagehelper.util.StringUtil;
 import com.ruoyi.common.swagger.apiConstants.ApiTerminal;
 import com.ruoyi.system.domain.UserRole;
+import com.ruoyi.system.domain.vo.CompetitionMembersScoreVo;
 import com.ruoyi.system.domain.vo.PersonalCareerVo;
 import com.ruoyi.system.domain.vo.UserInfoResponse;
 import com.ruoyi.system.service.ICompetitionMembersScoreService;
@@ -192,9 +193,9 @@ public class WxUserController extends BaseController
         }
 
         //个人生涯
-        PersonalCareerVo personalCareerVo = competitionMembersScoreService.getUserScoreByUserId(userId);
+        CompetitionMembersScoreVo personalCareerVo = competitionMembersScoreService.getUserScoreByUserId(userId);
         if(personalCareerVo==null){
-            personalCareerVo = new PersonalCareerVo();
+            personalCareerVo = new CompetitionMembersScoreVo();
         }
         userInfoResponse.setPersonalCareerVo(personalCareerVo);
         return AjaxResult.success(userInfoResponse);

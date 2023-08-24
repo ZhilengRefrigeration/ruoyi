@@ -122,10 +122,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </if>
         ORDER BY sco.is_first_launch desc
     </select>
-    <select id="getUserScoreByUserId" resultType="com.ruoyi.system.domain.vo.PersonalCareerVo">
+    <select id="getUserScoreByUserId" resultType="com.ruoyi.system.domain.vo.CompetitionMembersScoreVo">
         SELECT
-            count(1) as sessions,
-            sum(t.total_score ) /count(1) AS totalScore,
+            count(1) as totalCount,
+            sum(t.total_score ) /count(1) AS avgCountScore,
+            sum(t.total_score ) AS totalScore,
             sum(t.two_points) /count(1)	as twoPoints,
             sum(t.three_points)/count(1) as threePoints,
             sum(t.penalty)/count(1) as penalty,
@@ -179,6 +180,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         any_value(member.real_name) as realName,
         any_value(score.team_id) as teamId,
         any_value(team.TEAM_NAME) as teamName,
+        count(1) as totalCount,
+        IFNULL(sum(score.total_score),0) /count(1) AS avgCountScore,
         IFNULL(sum(score.total_score),0) AS totalScore,
         IFNULL(sum(score.two_points),0) AS twoPoints,
         IFNULL(sum(score.penalty),0) AS penalty,

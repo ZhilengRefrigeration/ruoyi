@@ -67,7 +67,12 @@ public class CompetitionMembersController extends BaseController
     {
         return AjaxResult.success(competitionMembersService.selectCompetitionMembersById(id));
     }
-
+    @ApiOperation("获取赛会中个人得分数据")
+    @PostMapping( "/getCompetitionUserScoreInfo")
+    @ResponseBody
+    public AjaxResult getCompetitionUserScoreInfo(@RequestBody CompetitionMembersVo entity){
+        return AjaxResult.success(competitionMembersService.getCompetitionUserScoreInfo(entity));
+    }
     /**
      * 新增比赛参与人员
      */
@@ -107,11 +112,5 @@ public class CompetitionMembersController extends BaseController
         startPage();
         List<CompetitionMembersVo> list = competitionMembersService.getJoinCompetitionMembersPage(entity);
         return getDataTable(list);
-    }
-    @RequiresPermissions("system:competitionMembers:query")
-    @GetMapping(value = "/getCompetitionUserScoreInfo/{id}")
-    @ApiOperation("获取赛会中个人得分数据")
-    private AjaxResult getCompetitionUserScoreInfo(@PathVariable("id") Long id){
-        return AjaxResult.success(competitionMembersService.getCompetitionUserScoreInfo(id));
     }
 }

@@ -61,7 +61,7 @@ public interface ICompetitionMembersScoreService
      */
     public int deleteCompetitionMembersScoreById(Long id);
 
-    PersonalCareerVo getUserScoreByUserId(Long userId);
+    CompetitionMembersScoreVo getUserScoreByUserId(Long userId);
 
     List<CompetitionMembersScore> getHonorList(Long competitionId, Long userId);
 

@@ -95,7 +95,7 @@ public class CompetitionMembersScoreServiceImpl implements ICompetitionMembersSc
     }
 
     @Override
-    public PersonalCareerVo getUserScoreByUserId(Long userId) {
+    public CompetitionMembersScoreVo getUserScoreByUserId(Long userId) {
         return competitionMembersScoreMapper.getUserScoreByUserId(userId);
     }
 

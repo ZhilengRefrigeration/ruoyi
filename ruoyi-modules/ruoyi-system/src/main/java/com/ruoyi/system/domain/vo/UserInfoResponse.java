@@ -56,6 +56,6 @@ public class UserInfoResponse extends WxUser {
     @Setter
     @Getter
     @ApiModelProperty(value="个人生涯",required=false)
-    private PersonalCareerVo personalCareerVo;
+    private CompetitionMembersScoreVo personalCareerVo;
 
 }

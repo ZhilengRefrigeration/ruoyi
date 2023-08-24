@@ -1,6 +1,7 @@
 package com.ruoyi.system.domain.vo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,12 +11,12 @@ import java.math.BigDecimal;
  *
  */
 @ApiModel(value = "个人生涯Vo")
-@Setter
-@Getter
+@Data
 public class PersonalCareerVo {
 
     private static final long serialVersionUID = 1L;
-
+    @ApiModelProperty(value="总场次",required=false)
+    private Long totalCount;
     /**
      *场均得分
      */
