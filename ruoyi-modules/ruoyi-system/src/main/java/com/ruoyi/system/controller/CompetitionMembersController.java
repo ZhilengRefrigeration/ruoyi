@@ -113,4 +113,11 @@ public class CompetitionMembersController extends BaseController
         List<CompetitionMembersVo> list = competitionMembersService.getJoinCompetitionMembersPage(entity);
         return getDataTable(list);
     }
+    @Log(title = "修改人员信息", businessType = BusinessType.UPDATE)
+    @ApiOperation(value = ApiTerminal.wxMiniProgram+"修改人员信息")
+    @PostMapping("/updateTeamUser")
+    public AjaxResult updateTeamUser(@RequestBody CompetitionMembers competitionMembers)
+    {
+        return toAjax(competitionMembersService.updateCompetitionMembers(competitionMembers));
+    }
 }
