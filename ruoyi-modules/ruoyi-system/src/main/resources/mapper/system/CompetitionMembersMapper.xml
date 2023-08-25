@@ -38,10 +38,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="teamPosition" column="team_position"/>
         <result property="height" column="height"/>
         <result property="weight" column="weight"/>
+        <result property="isHideAvatar" column="is_hide_avatar"/>
     </resultMap>
 
     <sql id="selectCompetitionMembersVo">
-        select id, user_id, role_code, competition_id, competition_team_id, score, penalty, two_points, three_points, breaks, rebound, block, is_deleted, created_by, modified_by, created_time, last_updated_time, status, user_type, competition_of_team_id, competition_nature, real_name, jersey_number, id_type, id_card_no, contacts_tel, contacts, contacts_area_code, personal_photo, is_first_launch,team_position,height,weight from competition_members
+        select id, user_id, role_code,is_hide_avatar, competition_id, competition_team_id, score, penalty, two_points, three_points, breaks, rebound, block, is_deleted, created_by, modified_by, created_time, last_updated_time, status, user_type, competition_of_team_id, competition_nature, real_name, jersey_number, id_type, id_card_no, contacts_tel, contacts, contacts_area_code, personal_photo, is_first_launch,team_position,height,weight from competition_members
     </sql>
 
     <select id="selectCompetitionMembersList" parameterType="CompetitionMembers" resultMap="CompetitionMembersResult">
@@ -77,6 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="personalPhoto != null  and personalPhoto != ''"> and personal_photo = #{personalPhoto}</if>
             <if test="isFirstLaunch != null "> and is_first_launch = #{isFirstLaunch}</if>
             <if test="teamPosition != null"> and team_position = #{teamPosition}</if>
+            <if test="isHideAvatar != null"> and is_hide_avatar = #{isHideAvatar}</if>
         </where>
     </select>
     
@@ -193,6 +195,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="teamPosition != null">team_position,</if>
             <if test="height != null">height,</if>
             <if test="weight != null">weight,</if>
+            <if test="isHideAvatar != null">is_hide_avatar,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null">#{userId},</if>
@@ -227,6 +230,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="teamPosition != null">#{teamPosition},</if>
             <if test="height != null">#{height},</if>
             <if test="weight != null">#{weight},</if>
+            <if test="isHideAvatar != null">#{isHideAvatar},</if>
          </trim>
     </insert>
 
@@ -265,6 +269,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="teamPosition != null">team_position = #{teamPosition},</if>
             <if test="height != null">height = #{height},</if>
             <if test="weight != null">weight = #{weight},</if>
+            <if test="isHideAvatar != null">is_hide_avatar = #{isHideAvatar},</if>
         </trim>
         where id = #{id}
     </update>

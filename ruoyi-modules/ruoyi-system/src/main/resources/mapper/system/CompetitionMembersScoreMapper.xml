@@ -104,7 +104,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         sco.block,
         sco.fault,
         sco.breaks,
-        IFNULL( sco.is_first_launch, 0 ) AS isFirstLaunch
+        IFNULL( sco.is_first_launch, 0 ) AS isFirstLaunch,
+        if(team.is_hide_avatar,team.is_hide_avatar,member.is_hide_avatar) as isHideAvatar
         FROM
         competition_team_vs_team vs
         INNER JOIN competition_of_team team ON ( vs.main_team_id = team.id OR vs.guest_team_id = team.id ) and team.competition_id = vs.competition_id

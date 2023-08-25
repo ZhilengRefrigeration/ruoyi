@@ -67,7 +67,8 @@ public class CompetitionOfTeam extends BaseEntity
     /** 联系人 */
     @Excel(name = "领队人")
     private String contacts;
-
+    @Excel(name = "是否隐藏头像")
+    private Boolean isHideAvatar;
     /** 联系人电话 */
     @Excel(name = "领队人电话")
     private String contactsTel;

@@ -23,10 +23,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="serialNumber"    column="serial_number"    />
         <result property="teamLogo" column="team_logo"/>
         <result property="captain" column="captain"/>
+        <result property="isHideAvatar" column="is_hide_avatar"/>
     </resultMap>
 
     <sql id="selectCompetitionOfTeamVo">
-        select id, competition_id, team_id, team_name, competition_group, created_time, status, last_updated_time, created_by, modified_by, is_deleted, remark, contacts, contacts_tel, contacts_area_code, serial_number,team_logo,captain from competition_of_team
+        select id, competition_id, team_id,is_hide_avatar, team_name, competition_group, created_time, status, last_updated_time, created_by, modified_by, is_deleted, remark, contacts, contacts_tel, contacts_area_code, serial_number,team_logo,captain from competition_of_team
     </sql>
     <select id="selectCompetitionOfTeamById" parameterType="Long" resultMap="CompetitionOfTeamResult">
         <include refid="selectCompetitionOfTeamVo"/>
@@ -231,6 +232,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="serialNumber != null">serial_number,</if>
             <if test="teamLogo != null">team_logo,</if>
             <if test="captain != null">captain,</if>
+            <if test="isHideAvatar != null">is_hide_avatar,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="competitionId != null">#{competitionId},</if>
@@ -250,6 +252,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="serialNumber != null">#{serialNumber},</if>
             <if test="teamLogo != null">#{teamLogo},</if>
             <if test="captain != null">#{captain},</if>
+            <if test="isHideAvatar != null">#{isHideAvatar},</if>
          </trim>
     </insert>
 
@@ -273,6 +276,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="serialNumber != null">serial_number = #{serialNumber},</if>
             <if test="teamLogo != null"> team_logo = #{teamLogo},</if>
             <if test="captain != null"> captain = #{captain},</if>
+            <if test="isHideAvatar != null">is_hide_avatar = #{isHideAvatar},</if>
         </trim>
         where id = #{id}
     </update>

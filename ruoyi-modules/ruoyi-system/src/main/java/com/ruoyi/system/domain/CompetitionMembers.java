@@ -136,6 +136,8 @@ public class CompetitionMembers extends BaseEntity
     /** 个人照片（最新） */
     @Excel(name = "个人照片", readConverterExp = "最=新")
     private String personalPhoto;
+    @Excel(name = "是否隐藏头像")
+    private Boolean isHideAvatar;
 
     /** $column.columnComment */
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
