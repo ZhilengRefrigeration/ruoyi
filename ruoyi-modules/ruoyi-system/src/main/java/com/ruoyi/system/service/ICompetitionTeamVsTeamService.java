@@ -1,11 +1,12 @@
 package com.ruoyi.system.service;
 
-import java.util.List;
-import java.util.Map;
-
+import com.mybatisflex.core.service.IService;
 import com.ruoyi.system.domain.CompetitionResult;
 import com.ruoyi.system.domain.CompetitionTeamVsTeam;
 import com.ruoyi.system.domain.vo.*;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 赛会中-球队VS球队关系Service接口
@@ -13,7 +14,7 @@ import com.ruoyi.system.domain.vo.*;
  * @author ruoyi
  * @date 2022-11-03
  */
-public interface ICompetitionTeamVsTeamService 
+public interface ICompetitionTeamVsTeamService extends IService<CompetitionTeamVsTeam>
 {
     /**
      * 查询赛会中-球队VS球队关系

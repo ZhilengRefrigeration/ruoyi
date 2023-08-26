@@ -1,12 +1,11 @@
 package com.ruoyi.system.domain;
 
-import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import com.mybatisflex.annotation.Table;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import lombok.*;
+
+import java.util.Date;
 
 /**
  * 【请填写功能名称】对象 user_role
@@ -20,6 +19,7 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
 @Builder
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
+@Table("user_role")
 public class UserRole extends BaseEntity
 {
     private static final long serialVersionUID = 1L;

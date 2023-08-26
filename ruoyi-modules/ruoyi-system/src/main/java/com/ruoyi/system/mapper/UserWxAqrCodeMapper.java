@@ -1,8 +1,10 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
+import com.mybatisflex.core.BaseMapper;
 import com.ruoyi.system.domain.UserWxAqrCode;
 import com.ruoyi.system.domain.vo.UserWxAqrCodeVo;
+
+import java.util.List;
 
 /**
  * 微信用户小程序二维码Mapper接口
@@ -10,7 +12,7 @@ import com.ruoyi.system.domain.vo.UserWxAqrCodeVo;
  * @author ruoyi
  * @date 2022-10-18
  */
-public interface UserWxAqrCodeMapper 
+public interface UserWxAqrCodeMapper  extends BaseMapper<UserWxAqrCode>
 {
     /**
      * 查询微信用户小程序二维码

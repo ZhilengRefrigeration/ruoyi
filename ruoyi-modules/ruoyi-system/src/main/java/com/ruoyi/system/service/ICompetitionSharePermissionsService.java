@@ -1,8 +1,9 @@
 package com.ruoyi.system.service;
 
-import java.util.List;
+import com.mybatisflex.core.service.IService;
 import com.ruoyi.system.domain.CompetitionSharePermissions;
-import com.ruoyi.system.domain.vo.CompetitionSharePermissionsVo;
+
+import java.util.List;
 
 /**
  * 赛会-权限分享Service接口
@@ -10,7 +11,7 @@ import com.ruoyi.system.domain.vo.CompetitionSharePermissionsVo;
  * @author ruoyi
  * @date 2023-07-20
  */
-public interface ICompetitionSharePermissionsService 
+public interface ICompetitionSharePermissionsService extends IService<CompetitionSharePermissions>
 {
     /**
      * 查询赛会-权限分享

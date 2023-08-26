@@ -1,7 +1,9 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
+import com.mybatisflex.core.BaseMapper;
 import com.ruoyi.system.domain.CompetitionSharePermissions;
+
+import java.util.List;
 
 /**
  * 赛会-权限分享Mapper接口
@@ -9,7 +11,7 @@ import com.ruoyi.system.domain.CompetitionSharePermissions;
  * @author ruoyi
  * @date 2023-07-20
  */
-public interface CompetitionSharePermissionsMapper 
+public interface CompetitionSharePermissionsMapper extends BaseMapper<CompetitionSharePermissions>
 {
     /**
      * 查询赛会-权限分享

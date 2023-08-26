@@ -1,8 +1,10 @@
 package com.ruoyi.system.service;
 
-import java.util.List;
+import com.mybatisflex.core.service.IService;
 import com.ruoyi.system.domain.CompetitionMembers;
 import com.ruoyi.system.domain.vo.CompetitionMembersVo;
+
+import java.util.List;
 
 /**
  * 比赛参与人员Service接口
@@ -10,7 +12,7 @@ import com.ruoyi.system.domain.vo.CompetitionMembersVo;
  * @author ruoyi
  * @date 2022-11-03
  */
-public interface ICompetitionMembersService 
+public interface ICompetitionMembersService extends IService<CompetitionMembers>
 {
     /**
      * 查询比赛参与人员

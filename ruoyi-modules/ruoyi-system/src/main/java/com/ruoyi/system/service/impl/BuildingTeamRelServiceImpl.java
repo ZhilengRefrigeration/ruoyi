@@ -1,11 +1,13 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
+import com.ruoyi.system.domain.BuildingTeamRel;
+import com.ruoyi.system.mapper.BuildingTeamRelMapper;
+import com.ruoyi.system.service.IBuildingTeamRelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.BuildingTeamRelMapper;
-import com.ruoyi.system.domain.BuildingTeamRel;
-import com.ruoyi.system.service.IBuildingTeamRelService;
+
+import java.util.List;
 
 /**
  * 【请填写功能名称】Service业务层处理
@@ -14,7 +16,7 @@ import com.ruoyi.system.service.IBuildingTeamRelService;
  * @date 2023-07-04
  */
 @Service
-public class BuildingTeamRelServiceImpl implements IBuildingTeamRelService 
+public class BuildingTeamRelServiceImpl extends ServiceImpl<BuildingTeamRelMapper, BuildingTeamRel> implements IBuildingTeamRelService
 {
     @Autowired
     private BuildingTeamRelMapper buildingTeamRelMapper;

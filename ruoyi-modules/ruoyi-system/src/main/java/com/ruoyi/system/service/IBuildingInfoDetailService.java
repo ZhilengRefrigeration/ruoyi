@@ -1,7 +1,9 @@
 package com.ruoyi.system.service;
 
-import java.util.List;
+import com.mybatisflex.core.service.IService;
 import com.ruoyi.system.domain.BuildingInfoDetail;
+
+import java.util.List;
 
 /**
  * 【请填写功能名称】Service接口
@@ -9,7 +11,7 @@ import com.ruoyi.system.domain.BuildingInfoDetail;
  * @author ruoyi
  * @date 2023-07-06
  */
-public interface IBuildingInfoDetailService 
+public interface IBuildingInfoDetailService extends IService<BuildingInfoDetail>
 {
     /**
      * 查询【请填写功能名称】

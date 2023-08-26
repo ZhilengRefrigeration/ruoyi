@@ -1,8 +1,10 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
+import com.mybatisflex.core.BaseMapper;
 import com.ruoyi.system.domain.WxBasketballTeam;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 球队管理Mapper接口
@@ -10,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
  * @author ruoyi
  * @date 2022-08-30
  */
-public interface WxBasketballTeamMapper 
+public interface WxBasketballTeamMapper extends BaseMapper<WxBasketballTeam>
 {
     /**
      * 查询球队管理

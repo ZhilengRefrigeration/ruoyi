@@ -1,11 +1,11 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
+import com.mybatisflex.core.BaseMapper;
 import com.ruoyi.system.domain.CompetitionTeamVsTeam;
 import com.ruoyi.system.domain.vo.CompetitionTeamIntegralVo;
 import com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo;
-import com.ruoyi.system.service.ICompetitionResultService;
-import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 赛会中-球队VS球队关系Mapper接口
@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
  * @author ruoyi
  * @date 2022-11-03
  */
-public interface CompetitionTeamVsTeamMapper 
+public interface CompetitionTeamVsTeamMapper extends BaseMapper<CompetitionTeamVsTeam>
 {
     /**
      * 查询赛会中-球队VS球队关系
@@ -80,5 +80,5 @@ public interface CompetitionTeamVsTeamMapper
 
     int competitionVsTeamStatusUpdate(CompetitionTeamVsTeam competitionTeamVsTeam);
 
-    List<CompetitionTeamVsTeamVo> getTodaySchedule(ICompetitionResultService competitionResultService);
+    List<CompetitionTeamVsTeamVo> getTodaySchedule(CompetitionTeamVsTeam teamVsTeam);
 }

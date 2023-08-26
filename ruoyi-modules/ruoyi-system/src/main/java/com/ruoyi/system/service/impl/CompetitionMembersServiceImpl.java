@@ -1,22 +1,22 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
-
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.ruoyi.system.domain.Competition;
+import com.ruoyi.system.domain.CompetitionMembers;
 import com.ruoyi.system.domain.CompetitionOfTeam;
 import com.ruoyi.system.domain.vo.CompetitionMembersScoreVo;
 import com.ruoyi.system.domain.vo.CompetitionMembersVo;
-import com.ruoyi.system.domain.vo.PersonalCareerVo;
 import com.ruoyi.system.mapper.CompetitionMapper;
+import com.ruoyi.system.mapper.CompetitionMembersMapper;
 import com.ruoyi.system.mapper.CompetitionOfTeamMapper;
 import com.ruoyi.system.service.ICompetitionMembersScoreService;
+import com.ruoyi.system.service.ICompetitionMembersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.CompetitionMembersMapper;
-import com.ruoyi.system.domain.CompetitionMembers;
-import com.ruoyi.system.service.ICompetitionMembersService;
+
+import java.util.List;
 
 /**
  * 比赛参与人员Service业务层处理
@@ -25,7 +25,7 @@ import com.ruoyi.system.service.ICompetitionMembersService;
  * @date 2022-11-03
  */
 @Service
-public class CompetitionMembersServiceImpl implements ICompetitionMembersService 
+public class CompetitionMembersServiceImpl extends ServiceImpl<CompetitionMembersMapper, CompetitionMembers> implements ICompetitionMembersService
 {
     @Autowired
     private CompetitionMembersMapper competitionMembersMapper;

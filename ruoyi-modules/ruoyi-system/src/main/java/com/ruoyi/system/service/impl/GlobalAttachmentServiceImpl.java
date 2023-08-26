@@ -1,11 +1,13 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
+import com.ruoyi.system.domain.GlobalAttachment;
+import com.ruoyi.system.mapper.GlobalAttachmentMapper;
+import com.ruoyi.system.service.IGlobalAttachmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.GlobalAttachmentMapper;
-import com.ruoyi.system.domain.GlobalAttachment;
-import com.ruoyi.system.service.IGlobalAttachmentService;
+
+import java.util.List;
 
 /**
  * 【请填写功能名称】Service业务层处理
@@ -14,7 +16,7 @@ import com.ruoyi.system.service.IGlobalAttachmentService;
  * @date 2023-07-04
  */
 @Service
-public class GlobalAttachmentServiceImpl implements IGlobalAttachmentService 
+public class GlobalAttachmentServiceImpl extends ServiceImpl<GlobalAttachmentMapper, GlobalAttachment> implements IGlobalAttachmentService
 {
     @Autowired
     private GlobalAttachmentMapper globalAttachmentMapper;

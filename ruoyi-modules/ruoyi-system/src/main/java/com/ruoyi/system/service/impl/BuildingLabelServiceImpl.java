@@ -1,11 +1,13 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
+import com.ruoyi.system.domain.BuildingLabel;
+import com.ruoyi.system.mapper.BuildingLabelMapper;
+import com.ruoyi.system.service.IBuildingLabelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.BuildingLabelMapper;
-import com.ruoyi.system.domain.BuildingLabel;
-import com.ruoyi.system.service.IBuildingLabelService;
+
+import java.util.List;
 
 /**
  * 【请填写功能名称】Service业务层处理
@@ -14,7 +16,7 @@ import com.ruoyi.system.service.IBuildingLabelService;
  * @date 2023-07-04
  */
 @Service
-public class BuildingLabelServiceImpl implements IBuildingLabelService 
+public class BuildingLabelServiceImpl extends ServiceImpl<BuildingLabelMapper, BuildingLabel> implements IBuildingLabelService
 {
     @Autowired
     private BuildingLabelMapper buildingLabelMapper;

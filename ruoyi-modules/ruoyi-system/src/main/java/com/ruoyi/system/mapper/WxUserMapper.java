@@ -1,8 +1,10 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
+import com.mybatisflex.core.BaseMapper;
 import com.ruoyi.system.domain.WxUser;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 微信用户Mapper接口
@@ -10,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
  * @author 吴一博
  * @date 2022-08-30
  */
-public interface WxUserMapper 
+public interface WxUserMapper extends BaseMapper<WxUser>
 {
     /**
      * 查询微信用户

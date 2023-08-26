@@ -1,7 +1,9 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
+import com.mybatisflex.core.BaseMapper;
 import com.ruoyi.system.domain.Message;
+
+import java.util.List;
 
 /**
  * 【请填写功能名称】Mapper接口
@@ -9,7 +11,7 @@ import com.ruoyi.system.domain.Message;
  * @author ruoyi
  * @date 2023-07-04
  */
-public interface MessageMapper 
+public interface MessageMapper extends BaseMapper<Message>
 {
     /**
      * 查询【请填写功能名称】

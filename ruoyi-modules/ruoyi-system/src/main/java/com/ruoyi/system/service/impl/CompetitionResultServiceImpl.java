@@ -1,26 +1,22 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.Date;
-import java.util.List;
-
-import com.ruoyi.common.security.utils.SecurityUtils;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.ruoyi.system.api.model.LoginUser;
-import com.ruoyi.system.api.model.WxLoginUser;
+import com.ruoyi.system.domain.CompetitionResult;
 import com.ruoyi.system.domain.CompetitionTeamVsTeam;
 import com.ruoyi.system.domain.enums.VsResultEnums;
 import com.ruoyi.system.domain.vo.CompetitionResultVo;
 import com.ruoyi.system.domain.vo.CompetitionVsRecordVo;
-import com.ruoyi.system.mapper.CompetitionTeamVsTeamMapper;
-import com.ruoyi.system.utils.LoginUserUtil;
-import com.ruoyi.system.utils.UtilTool;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CompetitionResultMapper;
-import com.ruoyi.system.domain.CompetitionResult;
+import com.ruoyi.system.mapper.CompetitionTeamVsTeamMapper;
 import com.ruoyi.system.service.ICompetitionResultService;
+import com.ruoyi.system.utils.UtilTool;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 赛会中-赛程结果记录Service业务层处理
@@ -29,7 +25,7 @@ import javax.annotation.Resource;
  * @date 2022-11-03
  */
 @Service
-public class CompetitionResultServiceImpl implements ICompetitionResultService 
+public class CompetitionResultServiceImpl extends ServiceImpl<CompetitionResultMapper, CompetitionResult> implements ICompetitionResultService
 {
     @Resource
     private CompetitionResultMapper competitionResultMapper;

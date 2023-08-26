@@ -1,9 +1,11 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
+import com.mybatisflex.core.BaseMapper;
 import com.ruoyi.system.domain.WxBuildingInfo;
 import com.ruoyi.system.domain.vo.BuildingInfoRequest;
 import com.ruoyi.system.domain.vo.BuildingInfoResponse;
+
+import java.util.List;
 
 /**
  * 球场管理Mapper接口
@@ -11,7 +13,7 @@ import com.ruoyi.system.domain.vo.BuildingInfoResponse;
  * @author ruoyi
  * @date 2022-08-30
  */
-public interface WxBuildingInfoMapper 
+public interface WxBuildingInfoMapper extends BaseMapper<WxBuildingInfo>
 {
     /**
      * 查询球场管理

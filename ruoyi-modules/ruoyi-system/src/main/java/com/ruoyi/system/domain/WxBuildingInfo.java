@@ -1,12 +1,13 @@
 package com.ruoyi.system.domain;
 
-import java.math.BigDecimal;
-import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import com.mybatisflex.annotation.Table;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import lombok.Data;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 球场管理对象 building_info
@@ -14,6 +15,8 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
  * @author ruoyi
  * @date 2022-08-30
  */
+@Data
+@Table("building_info")
 public class WxBuildingInfo extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -111,241 +114,4 @@ public class WxBuildingInfo extends BaseEntity
     @Excel(name = "描述")
     private String desc;
 
-    public void setId(Long id) 
-    {
-        this.id = id;
-    }
-
-    public Long getId() 
-    {
-        return id;
-    }
-    public void setIsDeleted(Integer isDeleted)
-    {
-        this.isDeleted = isDeleted;
-    }
-
-    public Integer getIsDeleted()
-    {
-        return isDeleted;
-    }
-    public void setCreatedTime(Date createdTime) 
-    {
-        this.createdTime = createdTime;
-    }
-
-    public Date getCreatedTime() 
-    {
-        return createdTime;
-    }
-    public void setCreatedBy(String createdBy) 
-    {
-        this.createdBy = createdBy;
-    }
-
-    public String getCreatedBy() 
-    {
-        return createdBy;
-    }
-    public void setModifiedBy(String modifiedBy) 
-    {
-        this.modifiedBy = modifiedBy;
-    }
-
-    public String getModifiedBy() 
-    {
-        return modifiedBy;
-    }
-    public void setLastUpdatedTime(Date lastUpdatedTime) 
-    {
-        this.lastUpdatedTime = lastUpdatedTime;
-    }
-
-    public Date getLastUpdatedTime() 
-    {
-        return lastUpdatedTime;
-    }
-    public void setBuildingName(String buildingName) 
-    {
-        this.buildingName = buildingName;
-    }
-
-    public String getBuildingName() 
-    {
-        return buildingName;
-    }
-    public void setAddress(String address) 
-    {
-        this.address = address;
-    }
-
-    public String getAddress() 
-    {
-        return address;
-    }
-    public void setLongitude(BigDecimal longitude) 
-    {
-        this.longitude = longitude;
-    }
-
-    public BigDecimal getLongitude() 
-    {
-        return longitude;
-    }
-    public void setLatitude(BigDecimal latitude) 
-    {
-        this.latitude = latitude;
-    }
-
-    public BigDecimal getLatitude() 
-    {
-        return latitude;
-    }
-    public void setProvinceCode(String provinceCode) 
-    {
-        this.provinceCode = provinceCode;
-    }
-
-    public String getProvinceCode() 
-    {
-        return provinceCode;
-    }
-    public void setCityCode(String cityCode) 
-    {
-        this.cityCode = cityCode;
-    }
-
-    public String getCityCode() 
-    {
-        return cityCode;
-    }
-    public void setCountyCode(String countyCode) 
-    {
-        this.countyCode = countyCode;
-    }
-
-    public String getCountyCode() 
-    {
-        return countyCode;
-    }
-    public void setCityName(String cityName) 
-    {
-        this.cityName = cityName;
-    }
-
-    public String getCityName() 
-    {
-        return cityName;
-    }
-    public void setDefaultPicture(String defaultPicture) 
-    {
-        this.defaultPicture = defaultPicture;
-    }
-
-    public String getDefaultPicture() 
-    {
-        return defaultPicture;
-    }
-    public void setIsSupportlive(Boolean isSupportlive)
-    {
-        this.isSupportlive = isSupportlive;
-    }
-
-    public Boolean getIsSupportlive()
-    {
-        return isSupportlive;
-    }
-    public void setStatus(Integer status)
-    {
-        this.status = status;
-    }
-
-    public Integer getStatus()
-    {
-        return status;
-    }
-    public void setRejectReason(String rejectReason) 
-    {
-        this.rejectReason = rejectReason;
-    }
-
-    public String getRejectReason() 
-    {
-        return rejectReason;
-    }
-    public void setIsOpen(Boolean isOpen)
-    {
-        this.isOpen = isOpen;
-    }
-
-    public Boolean getIsOpen()
-    {
-        return isOpen;
-    }
-    public void setMittelkurs(String mittelkurs) 
-    {
-        this.mittelkurs = mittelkurs;
-    }
-
-    public String getMittelkurs() 
-    {
-        return mittelkurs;
-    }
-    public void setChatGroupUrl(String chatGroupUrl) 
-    {
-        this.chatGroupUrl = chatGroupUrl;
-    }
-
-    public String getChatGroupUrl() 
-    {
-        return chatGroupUrl;
-    }
-    public void setCreatedId(Long createdId) 
-    {
-        this.createdId = createdId;
-    }
-
-    public Long getCreatedId() 
-    {
-        return createdId;
-    }
-    public void setDesc(String desc) 
-    {
-        this.desc = desc;
-    }
-
-    public String getDesc() 
-    {
-        return desc;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("isDeleted", getIsDeleted())
-            .append("createdTime", getCreatedTime())
-            .append("createdBy", getCreatedBy())
-            .append("modifiedBy", getModifiedBy())
-            .append("lastUpdatedTime", getLastUpdatedTime())
-            .append("buildingName", getBuildingName())
-            .append("address", getAddress())
-            .append("longitude", getLongitude())
-            .append("latitude", getLatitude())
-            .append("provinceCode", getProvinceCode())
-            .append("cityCode", getCityCode())
-            .append("countyCode", getCountyCode())
-            .append("remark", getRemark())
-            .append("cityName", getCityName())
-            .append("defaultPicture", getDefaultPicture())
-            .append("isSupportlive", getIsSupportlive())
-            .append("status", getStatus())
-            .append("rejectReason", getRejectReason())
-            .append("isOpen", getIsOpen())
-            .append("mittelkurs", getMittelkurs())
-            .append("chatGroupUrl", getChatGroupUrl())
-            .append("createdId", getCreatedId())
-            .append("desc", getDesc())
-            .toString();
-    }
 }

@@ -1,11 +1,13 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
+import com.ruoyi.system.domain.TrainingInfo;
+import com.ruoyi.system.mapper.TrainingInfoMapper;
+import com.ruoyi.system.service.ITrainingInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.TrainingInfoMapper;
-import com.ruoyi.system.domain.TrainingInfo;
-import com.ruoyi.system.service.ITrainingInfoService;
+
+import java.util.List;
 
 /**
  * 【请填写功能名称】Service业务层处理
@@ -14,7 +16,7 @@ import com.ruoyi.system.service.ITrainingInfoService;
  * @date 2023-07-04
  */
 @Service
-public class TrainingInfoServiceImpl implements ITrainingInfoService 
+public class TrainingInfoServiceImpl extends ServiceImpl<TrainingInfoMapper, TrainingInfo> implements ITrainingInfoService
 {
     @Autowired
     private TrainingInfoMapper trainingInfoMapper;

@@ -1,10 +1,11 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
+import com.mybatisflex.core.BaseMapper;
 import com.ruoyi.system.domain.CompetitionMembersScore;
 import com.ruoyi.system.domain.vo.CompetitionMembersScoreVo;
-import com.ruoyi.system.domain.vo.PersonalCareerVo;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 赛会中-赛程-人员得分Mapper接口
@@ -12,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
  * @author ruoyi
  * @date 2022-11-03
  */
-public interface CompetitionMembersScoreMapper 
+public interface CompetitionMembersScoreMapper extends BaseMapper<CompetitionMembersScore>
 {
     /**
      * 查询赛会中-赛程-人员得分

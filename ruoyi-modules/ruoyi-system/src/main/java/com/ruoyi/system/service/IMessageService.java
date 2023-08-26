@@ -1,7 +1,9 @@
 package com.ruoyi.system.service;
 
-import java.util.List;
+import com.mybatisflex.core.service.IService;
 import com.ruoyi.system.domain.Message;
+
+import java.util.List;
 
 /**
  * 【请填写功能名称】Service接口
@@ -9,7 +11,7 @@ import com.ruoyi.system.domain.Message;
  * @author ruoyi
  * @date 2023-07-04
  */
-public interface IMessageService 
+public interface IMessageService extends IService<Message>
 {
     /**
      * 查询【请填写功能名称】

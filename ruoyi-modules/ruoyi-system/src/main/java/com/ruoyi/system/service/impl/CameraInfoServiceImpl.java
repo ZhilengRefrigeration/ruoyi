@@ -1,11 +1,13 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
+import com.ruoyi.system.domain.CameraInfo;
+import com.ruoyi.system.mapper.CameraInfoMapper;
+import com.ruoyi.system.service.ICameraInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.CameraInfoMapper;
-import com.ruoyi.system.domain.CameraInfo;
-import com.ruoyi.system.service.ICameraInfoService;
+
+import java.util.List;
 
 /**
  * 【请填写功能名称】Service业务层处理
@@ -14,7 +16,7 @@ import com.ruoyi.system.service.ICameraInfoService;
  * @date 2023-07-04
  */
 @Service
-public class CameraInfoServiceImpl implements ICameraInfoService 
+public class CameraInfoServiceImpl extends ServiceImpl<CameraInfoMapper, CameraInfo> implements ICameraInfoService
 {
     @Autowired
     private CameraInfoMapper cameraInfoMapper;

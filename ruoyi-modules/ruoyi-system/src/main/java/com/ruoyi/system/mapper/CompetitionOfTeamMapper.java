@@ -1,9 +1,11 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
+import com.mybatisflex.core.BaseMapper;
 import com.ruoyi.system.domain.CompetitionOfTeam;
 import com.ruoyi.system.domain.vo.CompetitionOfTeamVo;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 赛会中-参赛队伍Mapper接口
@@ -11,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
  * @author ruoyi
  * @date 2022-11-03
  */
-public interface CompetitionOfTeamMapper 
+public interface CompetitionOfTeamMapper extends BaseMapper<CompetitionOfTeam>
 {
     /**
      * 查询赛会中-参赛队伍

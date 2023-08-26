@@ -1,14 +1,14 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
-
+import com.mybatisflex.spring.service.impl.ServiceImpl;
+import com.ruoyi.system.domain.CompetitionMembersScore;
 import com.ruoyi.system.domain.vo.CompetitionMembersScoreVo;
-import com.ruoyi.system.domain.vo.PersonalCareerVo;
+import com.ruoyi.system.mapper.CompetitionMembersScoreMapper;
+import com.ruoyi.system.service.ICompetitionMembersScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.CompetitionMembersScoreMapper;
-import com.ruoyi.system.domain.CompetitionMembersScore;
-import com.ruoyi.system.service.ICompetitionMembersScoreService;
+
+import java.util.List;
 
 /**
  * 赛会中-赛程-人员得分Service业务层处理
@@ -17,7 +17,7 @@ import com.ruoyi.system.service.ICompetitionMembersScoreService;
  * @date 2022-11-03
  */
 @Service
-public class CompetitionMembersScoreServiceImpl implements ICompetitionMembersScoreService 
+public class CompetitionMembersScoreServiceImpl extends ServiceImpl<CompetitionMembersScoreMapper, CompetitionMembersScore> implements ICompetitionMembersScoreService
 {
     @Autowired
     private CompetitionMembersScoreMapper competitionMembersScoreMapper;

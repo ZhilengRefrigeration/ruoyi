@@ -1,7 +1,9 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
+import com.mybatisflex.core.BaseMapper;
 import com.ruoyi.system.domain.UserBuildingRel;
+
+import java.util.List;
 
 /**
  * 【请填写功能名称】Mapper接口
@@ -9,7 +11,7 @@ import com.ruoyi.system.domain.UserBuildingRel;
  * @author ruoyi
  * @date 2023-07-04
  */
-public interface UserBuildingRelMapper 
+public interface UserBuildingRelMapper extends BaseMapper<UserBuildingRel>
 {
     /**
      * 查询【请填写功能名称】

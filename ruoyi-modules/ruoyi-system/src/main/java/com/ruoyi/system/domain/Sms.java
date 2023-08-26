@@ -1,15 +1,13 @@
 package com.ruoyi.system.domain;
 
 import com.ruoyi.common.core.constant.Constants;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * 
  * 此类的描述：短信的封装类型。
  */
-@Getter
-@Setter
+@Data
 public class Sms {
 	/**
      * 发送内容，如果含有空格，百分数等特殊内容，请用utf8方式进行编码，最多500个文字（1个英文或数字也算1个文字）

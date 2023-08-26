@@ -1,11 +1,13 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
+import com.ruoyi.system.domain.UserBuildingRel;
+import com.ruoyi.system.mapper.UserBuildingRelMapper;
+import com.ruoyi.system.service.IUserBuildingRelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.UserBuildingRelMapper;
-import com.ruoyi.system.domain.UserBuildingRel;
-import com.ruoyi.system.service.IUserBuildingRelService;
+
+import java.util.List;
 
 /**
  * 【请填写功能名称】Service业务层处理
@@ -14,7 +16,7 @@ import com.ruoyi.system.service.IUserBuildingRelService;
  * @date 2023-07-04
  */
 @Service
-public class UserBuildingRelServiceImpl implements IUserBuildingRelService 
+public class UserBuildingRelServiceImpl extends ServiceImpl<UserBuildingRelMapper, UserBuildingRel> implements IUserBuildingRelService
 {
     @Autowired
     private UserBuildingRelMapper userBuildingRelMapper;

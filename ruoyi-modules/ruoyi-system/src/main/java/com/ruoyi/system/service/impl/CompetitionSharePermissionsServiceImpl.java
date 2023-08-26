@@ -1,17 +1,16 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.Arrays;
-import java.util.List;
-
 import cn.hutool.core.util.ObjectUtil;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
 import com.ruoyi.common.core.exception.CheckedException;
-import com.ruoyi.system.domain.vo.CompetitionSharePermissionsVo;
+import com.ruoyi.system.domain.CompetitionSharePermissions;
+import com.ruoyi.system.mapper.CompetitionSharePermissionsMapper;
+import com.ruoyi.system.service.ICompetitionSharePermissionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.CompetitionSharePermissionsMapper;
-import com.ruoyi.system.domain.CompetitionSharePermissions;
-import com.ruoyi.system.service.ICompetitionSharePermissionsService;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * 赛会-权限分享Service业务层处理
@@ -20,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @date 2023-07-20
  */
 @Service
-public class CompetitionSharePermissionsServiceImpl implements ICompetitionSharePermissionsService 
+public class CompetitionSharePermissionsServiceImpl extends ServiceImpl<CompetitionSharePermissionsMapper, CompetitionSharePermissions> implements ICompetitionSharePermissionsService
 {
     @Autowired
     private CompetitionSharePermissionsMapper competitionSharePermissionsMapper;

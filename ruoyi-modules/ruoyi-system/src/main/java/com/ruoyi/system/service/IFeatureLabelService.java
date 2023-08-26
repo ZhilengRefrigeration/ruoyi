@@ -1,7 +1,9 @@
 package com.ruoyi.system.service;
 
-import java.util.List;
+import com.mybatisflex.core.service.IService;
 import com.ruoyi.system.domain.FeatureLabel;
+
+import java.util.List;
 
 /**
  * 球馆特征Service接口
@@ -9,7 +11,7 @@ import com.ruoyi.system.domain.FeatureLabel;
  * @author ruoyi
  * @date 2023-07-06
  */
-public interface IFeatureLabelService 
+public interface IFeatureLabelService  extends IService<FeatureLabel>
 {
     /**
      * 查询球馆特征

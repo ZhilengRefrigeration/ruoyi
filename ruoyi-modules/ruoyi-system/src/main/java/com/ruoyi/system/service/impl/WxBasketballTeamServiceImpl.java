@@ -1,11 +1,13 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
+import com.ruoyi.system.domain.WxBasketballTeam;
+import com.ruoyi.system.mapper.WxBasketballTeamMapper;
+import com.ruoyi.system.service.IWxBasketballTeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.WxBasketballTeamMapper;
-import com.ruoyi.system.domain.WxBasketballTeam;
-import com.ruoyi.system.service.IWxBasketballTeamService;
+
+import java.util.List;
 
 /**
  * 球队管理Service业务层处理
@@ -14,7 +16,7 @@ import com.ruoyi.system.service.IWxBasketballTeamService;
  * @date 2022-08-30
  */
 @Service
-public class WxBasketballTeamServiceImpl implements IWxBasketballTeamService 
+public class WxBasketballTeamServiceImpl extends ServiceImpl<WxBasketballTeamMapper, WxBasketballTeam> implements IWxBasketballTeamService
 {
     @Autowired
     private WxBasketballTeamMapper wxBasketballTeamMapper;
