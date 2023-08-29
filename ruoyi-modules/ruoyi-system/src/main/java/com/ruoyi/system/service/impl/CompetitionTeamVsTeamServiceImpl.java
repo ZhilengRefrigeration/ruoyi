@@ -322,6 +322,13 @@ public class CompetitionTeamVsTeamServiceImpl extends ServiceImpl<CompetitionTea
     @Override
     public Boolean deleteBatchByIds(Ids ids) {
         Long[]  idList = ids.getIdList().stream().toArray(Long[]::new);
+        //删除赛程的时候同时删除比赛结果
+        QueryWrapper queryWrapper = QueryWrapper.create();
+        queryWrapper.where(COMPETITION_RESULT.COMPETITION_VS_ID.in(idList));
+        competitionResultMapper.deleteByQuery(queryWrapper);
+        QueryWrapper queryWrapper1 = QueryWrapper.create();
+        queryWrapper1.where(COMPETITION_MEMBERS_SCORE.COMPETITION_VS_ID.in(idList));
+        competitionMembersScoreMapper.deleteByQuery(queryWrapper1);
         competitionTeamVsTeamMapper.deleteCompetitionTeamVsTeamByIds(idList);
         return Boolean.TRUE;
     }
