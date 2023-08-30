@@ -56,7 +56,7 @@
       <el-table
         max-height="800"
         v-loading="loading" :data="competitionOfTeamList" @selection-change="handleSelectionChange">
-        <el-table-column label="球队ID" align="center" prop="teamId" width="80"/>
+<!--        <el-table-column label="球队ID" align="center" prop="teamId" width="80"/>-->
         <el-table-column label="球队logo" align="center" prop="avatar" >
           <template slot-scope="scope">
             <el-avatar :src="scope.row.teamLogo"></el-avatar>
@@ -64,6 +64,14 @@
         </el-table-column>
         <el-table-column label="球队名" align="center" prop="teamName" />
         <el-table-column label="球队所属的组" align="center" prop="competitionGroup" />
+        <el-table-column label="隐藏球员头像" align="center" prop="isHideAvatar">
+          <template slot-scope="scope">
+            <el-switch
+              v-model="scope.row.isHideAvatar"
+              @change="changeSwitch($event,scope.row)"
+            ></el-switch>
+          </template>
+        </el-table-column>
         <el-table-column label="创建时间" align="center" prop="createdTime" width="180">
           <template slot-scope="scope">
             <span>{{ parseTime(scope.row.createdTime, '{y}-{m}-{d}') }}</span>
@@ -362,6 +370,14 @@
               fit="contain"></el-image>
           </template>
         </el-table-column>
+        <el-table-column label="隐藏头像" align="center" prop="isHideAvatar">
+          <template slot-scope="scope">
+            <el-switch
+              v-model="scope.row.isHideAvatar"
+              @change="changeUserSwitch($event,scope.row)"
+            ></el-switch>
+          </template>
+        </el-table-column>
         <el-table-column label="真实姓名" align="center" prop="realName" />
         <el-table-column label="球衣号" align="center" prop="jerseyNumber" />
         <el-table-column label="证件类型" align="center" prop="idType" />
@@ -474,8 +490,8 @@
           <el-select v-model="vsform.mainTeamName" filterable clearable @change="changeMainTeamName" placeholder="请选择主队名">
             <el-option
               v-for="item in competitionOfTeamList"
-              :value="item.teamId"
-              :key="item.teamId"
+              :value="item.id"
+              :key="item.id"
               :label="item.teamName">
             </el-option>
           </el-select>
@@ -484,8 +500,8 @@
           <el-select v-model="vsform.guestTeamName" filterable clearable  @change="changeGuestTeamName" placeholder="请选择客队名">
             <el-option
               v-for="item in competitionOfTeamList"
-              :value="item.teamId"
-              :key="item.teamId"
+              :value="item.id"
+              :key="item.id"
               :label="item.teamName">
             </el-option>
           </el-select>
@@ -1028,6 +1044,23 @@ export default {
       this.open = false;
       this.reset();
     },
+    //隐藏球队队员的头像
+    changeSwitch(e,row){
+      updateCompetitionOfTeam({"id":row.id,"isHideAvatar":row.isHideAvatar}).then(response => {
+        this.$modal.msgSuccess("操作成功");
+     /*   listCompetitionOfTeam({"orderByColumn":"t.id","isAsc":"desc","pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+          this.competitionOfTeamList = response.rows;
+        });*/
+      });
+    },
+    changeUserSwitch(e,row){
+      updateCompetitionMembers({"id":row.id,"isHideAvatar":row.isHideAvatar}).then(response => {
+        this.$modal.msgSuccess("操作成功");
+        /*listCompetitionMembers({"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id,"competitionOfTeamId":row.competitionOfTeamId}).then(response => {
+          this.competitionMembersList =  response.rows;
+        });*/
+      });
+    },
     bindConfirm(id,tage){
       updateCompetitionOfTeam({"id":id,"status":tage}).then(response => {
         this.$modal.msgSuccess("球队审核成功");
@@ -1174,10 +1207,12 @@ export default {
         });
     },
     changeMainTeamName(val){
+      console.info(val)
       let obj={}
       obj = this.competitionOfTeamList.find(function(i){
-        return i.teamId ===val
+        return i.id ===val
       });
+
       this.vsform.mainTeamName = obj.teamName;
       this.vsform.mainTeamId = val;
       //在change中获取到整条对象数据
@@ -1186,10 +1221,11 @@ export default {
     changeGuestTeamName(val){
       let obj={}
       obj = this.competitionOfTeamList.find(function(i){
-        return i.teamId ===val
+        return i.id ===val
       });
       this.vsform.guestTeamName = obj.teamName;
       this.vsform.guestTeamId = val;
+
       console.info(this.vsform)
     },
     changeBuildName(val){
@@ -1241,6 +1277,32 @@ export default {
       }).catch(() => {});
     },
     handleTeamVsTeamRecordSave(){
+      let mainTeamTotalScore = this.competitionRecord.teamVsTeamVo.mainTeamScore;
+      let guestTeamTotalScore = this.competitionRecord.teamVsTeamVo.guestTeamScore;
+      //平局
+      if(Number(mainTeamTotalScore)==Number(guestTeamTotalScore)){
+        this.competitionRecord.mainTeam.vsResult = 'flat';
+        this.competitionRecord.mainTeam.integral = 1;
+        this.competitionRecord.mainTeam.netWinPoint = 0;
+        this.competitionRecord.guestTeam.vsResult = 'flat';
+        this.competitionRecord.guestTeam.integral = 1;
+        this.competitionRecord.guestTeam.netWinPoint = 0;
+      }else {
+        if (Number(mainTeamTotalScore) > Number(guestTeamTotalScore)) {
+          this.competitionRecord.mainTeam.vsResult = 'win';
+          this.competitionRecord.mainTeam.integral = 2;
+          this.competitionRecord.guestTeam.vsResult = 'fail';
+          this.competitionRecord.guestTeam.integral = 1;
+        } else {
+          this.competitionRecord.mainTeam.vsResult = 'fail';
+          this.competitionRecord.mainTeam.integral = 1;
+          this.competitionRecord.guestTeam.vsResult = 'win';
+          this.competitionRecord.guestTeam.integral = 2;
+        }
+      }
+      //净胜分
+      this.competitionRecord.mainTeam.netWinPoint = Number(mainTeamTotalScore) - Number(guestTeamTotalScore);
+      this.competitionRecord.guestTeam.netWinPoint = Number(guestTeamTotalScore) - Number(mainTeamTotalScore);
       editDataCompetitionResult(this.competitionRecord).then(response => {
         this.$modal.msgSuccess("比赛结果记录成功");
         this.vsRecordOpen = false;

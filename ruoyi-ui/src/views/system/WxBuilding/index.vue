@@ -454,11 +454,11 @@ export default {
       geoCoder: null,
       // 搜索提示
       AutoComplete: null,
-      center: [104.065861, 30.657401],
-      zoom: 12,
+      center: [104.065837, 30.657349],
+      zoom: 10,
       markers: [
         {
-          position: [104.032651, 30.612437]
+          position: [104.065837, 30.657349]
         },
       ],
       events: {
@@ -675,6 +675,8 @@ export default {
       this.fileList = [];
       getWxBuilding(id).then(response => {
         this.form = response.data;
+        this.markers[0].position = [response.data.longitude, response.data.latitude]
+        this.center=[response.data.longitude, response.data.latitude];
         this.open = true;
         this.imageUrl = this.form.chatGroupUrl;
         var defaultPictureKeys = Object.keys(response.data.defaultPicture);
@@ -686,8 +688,7 @@ export default {
             this.fileList.push(imgItem);
           });
         }
-
-        this.title = "修改球场管理";
+        this.title = "修改球场信息";
       });
     },
     //限制上传文件的个数提示
