@@ -6,7 +6,7 @@ import ${import};
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
-import com.mybatisflex.annotation.Table;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 #if($table.crud || $table.sub)
 import com.ruoyi.common.core.web.domain.BaseEntity;
@@ -26,7 +26,7 @@ import com.ruoyi.common.core.web.domain.TreeEntity;
 #set($Entity="TreeEntity")
 #end
 @Data
-@Table("${tableName}")
+@TableName("${tableName}")
 public class ${ClassName} extends ${Entity}
 {
     private static final long serialVersionUID = 1L;

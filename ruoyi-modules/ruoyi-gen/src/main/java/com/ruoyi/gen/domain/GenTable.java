@@ -1,18 +1,21 @@
 package com.ruoyi.gen.domain;
 
-import java.util.List;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import org.apache.commons.lang3.ArrayUtils;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.core.constant.GenConstants;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import org.apache.commons.lang3.ArrayUtils;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 /**
  * 业务表 gen_table
  * 
  * @author ruoyi
  */
+@TableName("gen_table")
 public class GenTable extends BaseEntity
 {
     private static final long serialVersionUID = 1L;

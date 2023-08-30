@@ -1,8 +1,7 @@
 package com.ruoyi.system.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.mybatisflex.core.query.QueryWrapper;
-import com.mybatisflex.spring.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.model.LoginUser;
@@ -13,6 +12,8 @@ import com.ruoyi.system.domain.vo.*;
 import com.ruoyi.system.mapper.CompetitionMembersScoreMapper;
 import com.ruoyi.system.mapper.CompetitionResultMapper;
 import com.ruoyi.system.mapper.CompetitionTeamVsTeamMapper;
+import com.ruoyi.system.service.ICompetitionMembersScoreService;
+import com.ruoyi.system.service.ICompetitionResultService;
 import com.ruoyi.system.service.ICompetitionTeamVsTeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,6 @@ import javax.annotation.Resource;
 import java.security.InvalidParameterException;
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static com.ruoyi.system.domain.table.CompetitionMembersScoreTableDef.COMPETITION_MEMBERS_SCORE;
-import static com.ruoyi.system.domain.table.CompetitionResultTableDef.COMPETITION_RESULT;
 
 /**
  * 赛会中-球队VS球队关系Service业务层处理
@@ -42,8 +40,11 @@ public class CompetitionTeamVsTeamServiceImpl extends ServiceImpl<CompetitionTea
     @Resource
     private CompetitionResultMapper competitionResultMapper;
     @Resource
+    private ICompetitionResultService competitionResultService;
+    @Resource
     private CompetitionMembersScoreMapper competitionMembersScoreMapper;
-
+    @Resource
+    private ICompetitionMembersScoreService competitionMembersScoreService;
     /**
      * 查询赛会中-球队VS球队关系
      * 
@@ -103,12 +104,8 @@ public class CompetitionTeamVsTeamServiceImpl extends ServiceImpl<CompetitionTea
     public int deleteCompetitionTeamVsTeamByIds(Long[] ids)
     {
         //删除赛程的时候同时删除比赛结果
-        QueryWrapper queryWrapper = QueryWrapper.create();
-        queryWrapper.where(COMPETITION_RESULT.COMPETITION_VS_ID.in(ids));
-        competitionResultMapper.deleteByQuery(queryWrapper);
-        QueryWrapper queryWrapper1 = QueryWrapper.create();
-        queryWrapper1.where(COMPETITION_MEMBERS_SCORE.COMPETITION_VS_ID.in(ids));
-        competitionMembersScoreMapper.deleteByQuery(queryWrapper1);
+        competitionResultService.lambdaUpdate().in(CompetitionResult::getCompetitionVsId,ids).remove();
+        competitionMembersScoreService.lambdaUpdate().in(CompetitionMembersScore::getCompetitionVsId,ids).remove();
         return competitionTeamVsTeamMapper.deleteCompetitionTeamVsTeamByIds(ids);
     }
 
@@ -323,12 +320,8 @@ public class CompetitionTeamVsTeamServiceImpl extends ServiceImpl<CompetitionTea
     public Boolean deleteBatchByIds(Ids ids) {
         Long[]  idList = ids.getIdList().stream().toArray(Long[]::new);
         //删除赛程的时候同时删除比赛结果
-        QueryWrapper queryWrapper = QueryWrapper.create();
-        queryWrapper.where(COMPETITION_RESULT.COMPETITION_VS_ID.in(idList));
-        competitionResultMapper.deleteByQuery(queryWrapper);
-        QueryWrapper queryWrapper1 = QueryWrapper.create();
-        queryWrapper1.where(COMPETITION_MEMBERS_SCORE.COMPETITION_VS_ID.in(idList));
-        competitionMembersScoreMapper.deleteByQuery(queryWrapper1);
+        competitionResultService.lambdaUpdate().in(CompetitionResult::getCompetitionVsId,ids).remove();
+        competitionMembersScoreService.lambdaUpdate().in(CompetitionMembersScore::getCompetitionVsId,ids).remove();
         competitionTeamVsTeamMapper.deleteCompetitionTeamVsTeamByIds(idList);
         return Boolean.TRUE;
     }

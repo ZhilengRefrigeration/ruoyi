@@ -1,15 +1,14 @@
 package com.ruoyi.system.domain;
 
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.mybatisflex.annotation.Id;
-import com.mybatisflex.annotation.KeyType;
-import com.mybatisflex.annotation.Table;
-import lombok.Data;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import lombok.Data;
+
+import java.util.Date;
 
 /**
  * 跟进模块-客户跟进记录对象 f_follow_up
@@ -18,13 +17,13 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
  * @date 2023-05-07
  */
 @Data
-@Table("f_follow_up")
+@TableName("f_follow_up")
 public class FollowUp extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** id */
-    @Id(keyType = KeyType.Auto)
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     /** 客户id */

@@ -1,6 +1,6 @@
 package com.ruoyi.system.service;
 
-import com.mybatisflex.core.service.IService;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.system.domain.Message;
 
 import java.util.List;

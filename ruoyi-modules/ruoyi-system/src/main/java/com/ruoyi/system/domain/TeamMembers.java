@@ -1,7 +1,9 @@
 package com.ruoyi.system.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.mybatisflex.annotation.Table;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 import lombok.*;
@@ -20,12 +22,12 @@ import java.util.Date;
 @Builder
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@Table("team_members")
+@TableName("team_members")
 public class TeamMembers extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** ID */
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /** 球队ID */

@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.CompetitionTeamGroupMapper">
     
-    <resultMap type="CompetitionTeamGroup" id="CompetitionTeamGroupResult">
+    <resultMap type="com.ruoyi.system.domain.CompetitionTeamGroup" id="CompetitionTeamGroupResult">
         <result property="id"    column="id"    />
         <result property="competitionId"    column="competition_id"    />
         <result property="competitionGroup"    column="competition_group"    />
@@ -22,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, competition_id, competition_group, created_time, status, last_updated_time, created_by, modified_by, is_deleted, remark, is_cycle from competition_team_group
     </sql>
 
-    <select id="selectCompetitionTeamGroupList" parameterType="CompetitionTeamGroup" resultMap="CompetitionTeamGroupResult">
+    <select id="selectCompetitionTeamGroupList" parameterType="com.ruoyi.system.domain.CompetitionTeamGroup" resultMap="CompetitionTeamGroupResult">
         <include refid="selectCompetitionTeamGroupVo"/>
         <where>  
             <if test="competitionId != null "> and competition_id = #{competitionId}</if>
@@ -61,7 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by t.created_time desc
     </select>
 
-    <insert id="insertCompetitionTeamGroup" parameterType="CompetitionTeamGroup" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertCompetitionTeamGroup" parameterType="com.ruoyi.system.domain.CompetitionTeamGroup" useGeneratedKeys="true" keyProperty="id">
         insert into competition_team_group
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="competitionId != null">competition_id,</if>
@@ -89,7 +89,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateCompetitionTeamGroup" parameterType="CompetitionTeamGroup">
+    <update id="updateCompetitionTeamGroup" parameterType="com.ruoyi.system.domain.CompetitionTeamGroup">
         update competition_team_group
         <trim prefix="SET" suffixOverrides=",">
             <if test="competitionId != null">competition_id = #{competitionId},</if>

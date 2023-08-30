@@ -1,6 +1,8 @@
 package com.ruoyi.system.domain;
 
-import com.mybatisflex.annotation.Table;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 import lombok.*;
@@ -19,12 +21,12 @@ import java.util.Date;
 @Builder
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@Table("user_role")
+@TableName("user_role")
 public class UserRole extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** $column.columnComment */
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /** 用户id */

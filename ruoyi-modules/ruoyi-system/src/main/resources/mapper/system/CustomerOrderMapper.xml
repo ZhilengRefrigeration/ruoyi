@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.CustomerOrderMapper">
     
-    <resultMap type="CustomerOrder" id="CustomerOrderResult">
+    <resultMap type="com.ruoyi.system.domain.CustomerOrder" id="CustomerOrderResult">
         <result property="id"    column="id"    />
         <result property="customerId"    column="customer_id"    />
         <result property="orderDate"    column="order_date"    />
@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, customer_id, order_date, car_info, car_vin,out_date, car_status, create_by, create_time, update_by, update_time, remark from f_customer_order
     </sql>
 
-    <select id="selectCustomerOrderList" parameterType="CustomerOrder" resultMap="CustomerOrderResult">
+    <select id="selectCustomerOrderList" parameterType="com.ruoyi.system.domain.CustomerOrder" resultMap="CustomerOrderResult">
         <include refid="selectCustomerOrderVo"/>
         <where>  
             <if test="customerId != null "> and customer_id = #{customerId}</if>
@@ -62,7 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
 
-    <insert id="insertCustomerOrder" parameterType="CustomerOrder" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertCustomerOrder" parameterType="com.ruoyi.system.domain.CustomerOrder" useGeneratedKeys="true" keyProperty="id">
         insert into f_customer_order
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="customerId != null">customer_id,</if>
@@ -92,7 +92,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateCustomerOrder" parameterType="CustomerOrder">
+    <update id="updateCustomerOrder" parameterType="com.ruoyi.system.domain.CustomerOrder">
         update f_customer_order
         <trim prefix="SET" suffixOverrides=",">
             <if test="customerId != null">customer_id = #{customerId},</if>

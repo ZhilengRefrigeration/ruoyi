@@ -2,7 +2,7 @@ package com.ruoyi.system.service.impl;
 
 import java.util.List;
 
-import com.mybatisflex.spring.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.system.domain.vo.CustomerOrderVo;
 import org.springframework.beans.factory.annotation.Autowired;

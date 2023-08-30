@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.CompetitionMembersScoreMapper">
     
-    <resultMap type="CompetitionMembersScore" id="CompetitionMembersScoreResult">
+    <resultMap type="com.ruoyi.system.domain.CompetitionMembersScore" id="CompetitionMembersScoreResult">
         <result property="id"    column="id"    />
         <result property="competitionId"    column="competition_id"    />
         <result property="competitionVsId"    column="competition_vs_id"    />
@@ -40,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, competition_id, competition_vs_id, team_id, team_name, node_num, team_user_id, jersey_number, total_score, two_points, three_points, penalty, backboard, front_plate, back_plate, assists, snatch, block, fault, breaks, created_time, last_updated_time, created_by, modified_by, is_deleted, remark, is_first_launch,competition_of_team_id,competition_members_id from competition_members_score
     </sql>
 
-    <select id="selectCompetitionMembersScoreList" parameterType="CompetitionMembersScore" resultMap="CompetitionMembersScoreResult">
+    <select id="selectCompetitionMembersScoreList" parameterType="com.ruoyi.system.domain.CompetitionMembersScore" resultMap="CompetitionMembersScoreResult">
         <include refid="selectCompetitionMembersScoreVo"/>
         <where>  
             <if test="competitionId != null "> and competition_id = #{competitionId}</if>
@@ -206,7 +206,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             AND  score.competition_members_id = #{competitionMembersId}
         </if>
     </select>
-    <insert id="insertCompetitionMembersScore" parameterType="CompetitionMembersScore" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertCompetitionMembersScore" parameterType="com.ruoyi.system.domain.CompetitionMembersScore" useGeneratedKeys="true" keyProperty="id">
         insert into competition_members_score
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="competitionId != null">competition_id,</if>
@@ -271,7 +271,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateCompetitionMembersScore" parameterType="CompetitionMembersScore">
+    <update id="updateCompetitionMembersScore" parameterType="com.ruoyi.system.domain.CompetitionMembersScore">
         update competition_members_score
         <trim prefix="SET" suffixOverrides=",">
             <if test="competitionId != null">competition_id = #{competitionId},</if>

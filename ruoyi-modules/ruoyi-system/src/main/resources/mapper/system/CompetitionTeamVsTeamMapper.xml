@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.CompetitionTeamVsTeamMapper">
     
-    <resultMap type="CompetitionTeamVsTeam" id="CompetitionTeamVsTeamResult">
+    <resultMap type="com.ruoyi.system.domain.CompetitionTeamVsTeam" id="CompetitionTeamVsTeamResult">
         <result property="id"    column="id"    />
         <result property="competitionId"    column="competition_id"    />
         <result property="mainTeamId"    column="main_team_id"    />
@@ -354,7 +354,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by t.competition_time asc
     </select>
 
-    <insert id="insertCompetitionTeamVsTeam" parameterType="CompetitionTeamVsTeam" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertCompetitionTeamVsTeam" parameterType="com.ruoyi.system.domain.CompetitionTeamVsTeam" useGeneratedKeys="true" keyProperty="id">
         insert into competition_team_vs_team
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="competitionId != null">competition_id,</if>
@@ -404,7 +404,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateCompetitionTeamVsTeam" parameterType="CompetitionTeamVsTeam">
+    <update id="updateCompetitionTeamVsTeam" parameterType="com.ruoyi.system.domain.CompetitionTeamVsTeam">
         update competition_team_vs_team
         <trim prefix="SET" suffixOverrides=",">
             <if test="competitionId != null">competition_id = #{competitionId},</if>

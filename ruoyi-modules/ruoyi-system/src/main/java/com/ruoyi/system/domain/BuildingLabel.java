@@ -1,6 +1,8 @@
 package com.ruoyi.system.domain;
 
-import com.mybatisflex.annotation.Table;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 import lombok.Data;
@@ -14,12 +16,12 @@ import java.util.Date;
  * @date 2023-07-04
  */
 @Data
-@Table("building_label")
+@TableName("building_label")
 public class BuildingLabel extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** $column.columnComment */
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /** $column.columnComment */

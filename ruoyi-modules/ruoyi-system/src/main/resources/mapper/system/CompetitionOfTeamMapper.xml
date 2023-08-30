@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.CompetitionOfTeamMapper">
     
-    <resultMap type="CompetitionOfTeam" id="CompetitionOfTeamResult">
+    <resultMap type="com.ruoyi.system.domain.CompetitionOfTeam" id="CompetitionOfTeamResult">
         <result property="id"    column="id"    />
         <result property="competitionId"    column="competition_id"    />
         <result property="teamId"    column="team_id"    />
@@ -212,7 +212,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by t.created_time desc
     </select>
 
-    <insert id="insertCompetitionOfTeam" parameterType="CompetitionOfTeam" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertCompetitionOfTeam" parameterType="com.ruoyi.system.domain.CompetitionOfTeam" useGeneratedKeys="true" keyProperty="id">
         insert into competition_of_team
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="competitionId != null">competition_id,</if>
@@ -256,7 +256,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateCompetitionOfTeam" parameterType="CompetitionOfTeam">
+    <update id="updateCompetitionOfTeam" parameterType="com.ruoyi.system.domain.CompetitionOfTeam">
         update competition_of_team
         <trim prefix="SET" suffixOverrides=",">
             <if test="competitionId != null">competition_id = #{competitionId},</if>

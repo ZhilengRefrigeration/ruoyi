@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.TeamMembersMapper">
     
-    <resultMap type="TeamMembers" id="TeamMembersResult">
+    <resultMap type="com.ruoyi.system.domain.TeamMembers" id="TeamMembersResult">
         <result property="id"    column="id"    />
         <result property="teamId"    column="team_id"    />
         <result property="userId"    column="user_id"    />
@@ -62,7 +62,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="getOneByTeamIdAndRoleCode" resultType="com.ruoyi.system.domain.TeamMembers">
         select * from team_members where teamId = #{teamId} and roleCode = #{roleCode} limit 1
     </select>
-    <insert id="insertTeamMembers" parameterType="TeamMembers" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertTeamMembers" parameterType="com.ruoyi.system.domain.TeamMembers" useGeneratedKeys="true" keyProperty="id">
         insert into team_members
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="teamId != null">team_id,</if>
@@ -94,7 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateTeamMembers" parameterType="TeamMembers">
+    <update id="updateTeamMembers" parameterType="com.ruoyi.system.domain.TeamMembers">
         update team_members
         <trim prefix="SET" suffixOverrides=",">
             <if test="teamId != null">team_id = #{teamId},</if>

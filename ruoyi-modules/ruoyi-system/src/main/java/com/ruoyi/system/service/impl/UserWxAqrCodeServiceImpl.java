@@ -1,6 +1,7 @@
 package com.ruoyi.system.service.impl;
 
-import com.mybatisflex.spring.service.impl.ServiceImpl;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.vo.WxAppletsCodeVo;

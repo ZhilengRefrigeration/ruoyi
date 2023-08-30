@@ -1,15 +1,18 @@
 package com.ruoyi.gen.domain;
 
-import javax.validation.constraints.NotBlank;
-
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * 代码生成业务字段表 gen_table_column
  * 
  * @author ruoyi
  */
+@TableName("gen_table_column")
 public class GenTableColumn extends BaseEntity
 {
     private static final long serialVersionUID = 1L;

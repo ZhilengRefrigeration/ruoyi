@@ -1,6 +1,6 @@
 package com.ruoyi.system.service;
 
-import com.mybatisflex.core.service.IService;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.system.domain.CompetitionResult;
 import com.ruoyi.system.domain.vo.CompetitionResultVo;
 import com.ruoyi.system.domain.vo.CompetitionVsRecordVo;

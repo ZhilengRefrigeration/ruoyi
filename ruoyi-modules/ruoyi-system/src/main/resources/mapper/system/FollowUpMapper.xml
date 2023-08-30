@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.FollowUpMapper">
 
-    <resultMap type="FollowUp" id="FollowUpResult">
+    <resultMap type="com.ruoyi.system.domain.FollowUp" id="FollowUpResult">
         <result property="id"    column="id"    />
         <result property="customerId"    column="customer_id"    />
         <result property="followUpDate"    column="follow_up_date"    />
@@ -31,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, customer_id,objective,follow_type,maker_status,arrival_time, follow_up_date, follow_up_method, follow_result, intention_level, follow_up_record, next_follow_up_record, next_follow_up_time, appointment_time, create_by, create_time, update_by, update_time, remark, defeat_reasons from f_follow_up
     </sql>
 
-    <select id="selectFollowUpList" parameterType="FollowUp" resultMap="FollowUpResult">
+    <select id="selectFollowUpList" parameterType="com.ruoyi.system.domain.FollowUp" resultMap="FollowUpResult">
         <include refid="selectFollowUpVo"/>
         <where>
             <if test="customerId != null "> and customer_id = #{customerId}</if>
@@ -53,7 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
 
-    <insert id="insertFollowUp" parameterType="FollowUp" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertFollowUp" parameterType="com.ruoyi.system.domain.FollowUp" useGeneratedKeys="true" keyProperty="id">
         insert into f_follow_up
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="customerId != null">customer_id,</if>
@@ -99,7 +99,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
     </insert>
 
-    <update id="updateFollowUp" parameterType="FollowUp">
+    <update id="updateFollowUp" parameterType="com.ruoyi.system.domain.FollowUp">
         update f_follow_up
         <trim prefix="SET" suffixOverrides=",">
             <if test="customerId != null">customer_id = #{customerId},</if>

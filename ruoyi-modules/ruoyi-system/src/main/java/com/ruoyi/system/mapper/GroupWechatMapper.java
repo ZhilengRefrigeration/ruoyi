@@ -1,6 +1,6 @@
 package com.ruoyi.system.mapper;
 
-import com.mybatisflex.core.BaseMapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ruoyi.system.domain.GroupWechat;
 
 import java.util.List;

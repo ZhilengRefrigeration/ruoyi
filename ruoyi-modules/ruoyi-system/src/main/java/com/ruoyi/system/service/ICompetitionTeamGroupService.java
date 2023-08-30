@@ -2,7 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 
-import com.mybatisflex.core.service.IService;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.system.domain.CompetitionSharePermissions;
 import com.ruoyi.system.domain.CompetitionTeamGroup;
 import com.ruoyi.system.domain.vo.TeamGroupRequest;

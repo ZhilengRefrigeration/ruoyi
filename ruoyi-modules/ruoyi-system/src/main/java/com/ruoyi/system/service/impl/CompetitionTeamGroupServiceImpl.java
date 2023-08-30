@@ -1,6 +1,6 @@
 package com.ruoyi.system.service.impl;
 
-import com.mybatisflex.spring.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.redis.service.RedisService;

@@ -1,6 +1,6 @@
 package com.ruoyi.system.service.impl;
 
-import com.mybatisflex.spring.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.system.domain.TrainingInfo;
 import com.ruoyi.system.mapper.TrainingInfoMapper;
 import com.ruoyi.system.service.ITrainingInfoService;

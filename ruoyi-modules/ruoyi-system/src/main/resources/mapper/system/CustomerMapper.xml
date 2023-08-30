@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.CustomerMapper">
     
-    <resultMap type="Customer" id="CustomerResult">
+    <resultMap type="com.ruoyi.system.domain.Customer" id="CustomerResult">
         <result property="id"    column="id"    />
         <result property="userName"    column="user_name"    />
         <result property="nickName"    column="nick_name"    />
@@ -42,22 +42,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="orderDate"    column="order_date"    />
     </resultMap>
 
-    <resultMap id="CustomerFollowUpResult" type="Customer" extends="CustomerResult">
+    <resultMap id="CustomerFollowUpResult" type="com.ruoyi.system.domain.Customer" extends="CustomerResult">
         <collection property="followUpList" notNullColumn="sub_id" javaType="java.util.List" resultMap="FollowUpResult" />
     </resultMap>
 
-    <resultMap type="FollowUp" id="FollowUpResult">
+    <resultMap type="com.ruoyi.system.domain.FollowUp" id="FollowUpResult">
         <result property="id"    column="sub_id"    />
         <result property="customerId"    column="sub_customer_id"    />
         <result property="followUpDate"    column="sub_follow_up_date"    />
         <result property="followUpRecord"    column="sub_follow_up_record"    />
-        <result property="preToStoreDate"    column="sub_pre_to_store_date"    />
         <result property="createBy"    column="sub_create_by"    />
         <result property="createTime"    column="sub_create_time"    />
         <result property="updateBy"    column="sub_update_by"    />
         <result property="updateTime"    column="sub_update_time"    />
         <result property="remark"    column="sub_remark"    />
-        <result property="followLevel"    column="sub_follow_level"    />
     </resultMap>
 
     <sql id="selectCustomerVo">
@@ -183,7 +181,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     </select>
 
-    <insert id="insertCustomer" parameterType="Customer" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertCustomer" parameterType="com.ruoyi.system.domain.Customer" useGeneratedKeys="true" keyProperty="id">
         insert into f_customer
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userName != null and userName != ''">user_name,</if>
@@ -259,7 +257,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateCustomer" parameterType="Customer">
+    <update id="updateCustomer" parameterType="com.ruoyi.system.domain.Customer">
         update f_customer
         <trim prefix="SET" suffixOverrides=",">
             <if test="userName != null and userName != ''">user_name = #{userName},</if>

@@ -1,6 +1,6 @@
 package com.ruoyi.system.mapper;
 
-import com.mybatisflex.core.BaseMapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ruoyi.system.domain.CompetitionTeamVsTeam;
 import com.ruoyi.system.domain.vo.CompetitionTeamIntegralVo;
 import com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo;

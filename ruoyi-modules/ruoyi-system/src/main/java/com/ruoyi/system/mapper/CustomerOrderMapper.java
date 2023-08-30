@@ -1,10 +1,10 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
-
-import com.mybatisflex.core.BaseMapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ruoyi.system.domain.CustomerOrder;
 import com.ruoyi.system.domain.vo.CustomerOrderVo;
+
+import java.util.List;
 
 /**
  * 客户-订车Mapper接口

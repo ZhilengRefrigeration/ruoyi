@@ -2,7 +2,7 @@ package com.ruoyi.system.service;
 
 import java.util.List;
 
-import com.mybatisflex.core.service.IService;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.system.domain.FollowUp;
 
 /**

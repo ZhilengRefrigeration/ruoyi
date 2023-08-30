@@ -1,6 +1,6 @@
 package com.ruoyi.system.service.impl;
 
-import com.mybatisflex.spring.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.system.domain.BuildingInfoDetail;
 import com.ruoyi.system.mapper.BuildingInfoDetailMapper;
 import com.ruoyi.system.service.IBuildingInfoDetailService;
@@ -16,7 +16,7 @@ import java.util.List;
  * @date 2023-07-06
  */
 @Service
-public class BuildingInfoDetailServiceImpl extends ServiceImpl<BuildingInfoDetailMapper, BuildingInfoDetail>  implements IBuildingInfoDetailService
+public class BuildingInfoDetailServiceImpl extends ServiceImpl<BuildingInfoDetailMapper, BuildingInfoDetail> implements IBuildingInfoDetailService
 {
     @Autowired
     private BuildingInfoDetailMapper buildingInfoDetailMapper;

@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.DataDictionaryMapper">
     
-    <resultMap type="DataDictionary" id="DataDictionaryResult">
+    <resultMap type="com.ruoyi.system.domain.DataDictionary" id="DataDictionaryResult">
         <result property="id"    column="ID"    />
         <result property="createdBy"    column="CREATED_BY"    />
         <result property="createdTime"    column="CREATED_TIME"    />
@@ -22,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, LAST_UPDATED_TIME, IS_DELETED, KEY, NAME, ENABLED, PARENT_ID, SORT_NUMBER from data_dictionary
     </sql>
 
-    <select id="selectDataDictionaryList" parameterType="DataDictionary" resultMap="DataDictionaryResult">
+    <select id="selectDataDictionaryList" parameterType="com.ruoyi.system.domain.DataDictionary" resultMap="DataDictionaryResult">
         <include refid="selectDataDictionaryVo"/>
         <where>  
             <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
@@ -43,7 +43,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where ID = #{id}
     </select>
 
-    <insert id="insertDataDictionary" parameterType="DataDictionary" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertDataDictionary" parameterType="com.ruoyi.system.domain.DataDictionary" useGeneratedKeys="true" keyProperty="id">
         insert into data_dictionary
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="createdBy != null">CREATED_BY,</if>
@@ -71,7 +71,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateDataDictionary" parameterType="DataDictionary">
+    <update id="updateDataDictionary" parameterType="com.ruoyi.system.domain.DataDictionary">
         update data_dictionary
         <trim prefix="SET" suffixOverrides=",">
             <if test="createdBy != null">CREATED_BY = #{createdBy},</if>
