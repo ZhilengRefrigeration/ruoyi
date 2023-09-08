@@ -293,7 +293,7 @@
           <el-upload
             multiple
             class="avatar-uploader"
-            action="https://mall.lzsport.cn/lqwx/file/uploadMore"
+            action="https://mall.lzsport.cn/prod-api/system/file/uploadMore"
             :show-file-list="false"
             name="files"
             :on-success="handleAvatarSuccess"

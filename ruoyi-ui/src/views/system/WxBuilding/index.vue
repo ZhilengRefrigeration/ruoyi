@@ -291,7 +291,7 @@
         <el-form-item label="管理员二维码" prop="chatGroupUrl">
           <el-upload
             class="avatar-uploader"
-            action="https://mall.lzsport.cn/lqwx/file/uploadMore"
+            action="https://mall.lzsport.cn/prod-api/system/file/uploadMore"
             :show-file-list="false"
             name="files"
             :on-success="handleAvatarSuccess"
@@ -402,7 +402,7 @@
         <el-form-item label="管理员二维码" prop="chatGroupUrl">
           <el-upload
             class="avatar-uploader"
-            action="https://mall.lzsport.cn/lqwx/file/uploadMore"
+            action="https://mall.lzsport.cn/prod-api/system/file/uploadMore"
             :show-file-list="false"
             name="files"
             :on-success="handleAvatarSuccess"
@@ -518,7 +518,7 @@ export default {
         }
       ],
       imageUrl:null,
-      uploadUrl : "https://mall.lzsport.cn/lqwx/file/uploadMoreFiles",
+      uploadUrl : "https://mall.lzsport.cn/prod-api/system/file/uploadMoreFiles",
       fileList:[],
       booleanOptions:[{
         value: true,
