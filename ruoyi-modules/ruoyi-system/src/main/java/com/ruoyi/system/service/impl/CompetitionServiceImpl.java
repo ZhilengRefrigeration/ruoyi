@@ -5,7 +5,6 @@ import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.constant.Constants;
@@ -794,12 +793,7 @@ public class CompetitionServiceImpl extends ServiceImpl<CompetitionMapper, Compe
         if (ObjectUtil.isNotNull(user) && ObjectUtil.isNotNull(user.getUserid())) {
             userId = String.valueOf(user.getUserid());
         }
-        QueryWrapper<CompetitionOfTeam> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(CompetitionOfTeam::getTeamName,teamName)
-                .eq(CompetitionOfTeam::getIsDeleted,0)
-                .eq(CompetitionOfTeam::getCompetitionId,competitionId)
-                .last("limit 1");
-        CompetitionOfTeam team =  competitionOfTeamMapper.selectOne(wrapper);
+        CompetitionOfTeam team = competitionOfTeamMapper.selectOneByTeamName(teamName);
         if(ObjectUtil.isNull(team)){
             team = new CompetitionOfTeam();
         }
@@ -838,12 +832,11 @@ public class CompetitionServiceImpl extends ServiceImpl<CompetitionMapper, Compe
             competitionOfTeamMapper.insertCompetitionOfTeam(team);
         }
         excleVo.setOfTeam(team);
-        //todo 清空球员数据
-        QueryWrapper<CompetitionMembers> wrapper1 = new QueryWrapper<>();
-        wrapper1.lambda().eq(CompetitionMembers::getCompetitionOfTeamId,team.getId())
-                .eq(CompetitionMembers::getIsDeleted,0)
-                .eq(CompetitionMembers::getCompetitionId,competitionId);
-        List<CompetitionMembers> dbMembersList = competitionMembersMapper.selectList(wrapper1);
+        //查询已经存在的球员
+        CompetitionMembers param = new CompetitionMembers();
+        param.setCompetitionOfTeamId(team.getId());
+        param.setCompetitionId(competitionId);
+        List<CompetitionMembers> dbMembersList = competitionMembersMapper.selectCompetitionMembersList(param);
         //要获得属性
         List<CompetitionMembers> membersVos = new ArrayList<>();
 
@@ -865,11 +858,14 @@ public class CompetitionServiceImpl extends ServiceImpl<CompetitionMapper, Compe
             if (StringUtils.isEmpty(membersVo.getRealName())) {
                 break;
             }
+            //通过查询到的球员数据赋值Id
             Optional<CompetitionMembers> opt = dbMembersList.stream().filter(a -> a.getCompetitionId().equals(competition.getId())
                     && a.getRealName().equals(membersVo.getRealName())
                     && a.getCompetitionOfTeamId().equals(membersVo.getCompetitionOfTeamId())).findFirst();
             if(opt.isPresent()){
                 membersVo.setId(opt.get().getId());
+            }else {
+                continue;
             }
             //球衣号码
             cell = row.getCell(2);
