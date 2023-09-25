@@ -6,7 +6,10 @@
   >
     <template v-for="(item, index) in topMenus">
       <el-menu-item :style="{'--theme': theme}" :index="item.path" :key="index" v-if="index < visibleNumber"
-        ><svg-icon :icon-class="item.meta.icon" />
+        ><svg-icon
+          v-if="item.meta && item.meta.icon && item.meta.icon !== '#'"
+          :icon-class="item.meta.icon"
+        />
         {{ item.meta.title }}</el-menu-item
       >
     </template>
@@ -127,7 +130,13 @@ export default {
         window.open(key, "_blank");
       } else if (!route || !route.children) {
         // 没有子路由路径内部打开
-        this.$router.push({ path: key });
+        const routeMenu = this.childrenMenus.find(item => item.path === key);
+        if (routeMenu && routeMenu.query) {
+          let query = JSON.parse(routeMenu.query);
+          this.$router.push({ path: key, query: query });
+        } else {
+          this.$router.push({ path: key });
+        }
         this.$store.dispatch('app/toggleSideBarHide', true);
       } else {
         // 显示左侧联动菜单
