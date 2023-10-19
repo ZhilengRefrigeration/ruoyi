@@ -192,7 +192,8 @@ public class CompetitionTeamVsTeamController extends BaseController
             if(notGroup.size()>0){
                 competitionTeamIntegralRankingVo rankingVo = new competitionTeamIntegralRankingVo();
                 rankingVo.setCompetitionGroup("未分");
-                rankingVo.setIntegralList(notGroup.stream().sorted(Comparator.comparing(CompetitionTeamIntegralVo::getIntegral).reversed()).collect(Collectors.toList()));
+                rankingVo.setIntegralList(notGroup.stream().sorted(Comparator.comparing(CompetitionTeamIntegralVo::getIntegral).reversed()
+                .thenComparing(CompetitionTeamIntegralVo::getNetWinPoint,Comparator.reverseOrder())).collect(Collectors.toList()));
                 rankingVoList.add(rankingVo);
             }
         }
