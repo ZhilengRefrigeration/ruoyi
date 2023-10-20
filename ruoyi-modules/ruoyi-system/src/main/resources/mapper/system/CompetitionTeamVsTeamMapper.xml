@@ -257,7 +257,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             AND t.competition_group =#{competitionGroup}
         </if>
         GROUP BY t.competition_of_team_id
-        ORDER BY sum(t.integral) desc
+        ORDER BY sum(t.integral) desc,sum(IFNULL(t.net_win_point,0)) desc
     </select>
     <select id="getTodaySchedule" resultType="com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo">
         select
