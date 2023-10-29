@@ -30,6 +30,18 @@ public class SysPost extends BaseEntity
     @Excel(name = "岗位名称")
     private String postName;
 
+    /** 岗位职级Id */
+    @Excel(name = "岗位职级Id")
+    private Long dutyId;
+
+    /** 岗位职级编码 */
+    @Excel(name = "岗位职级编码")
+    private String dutyCode;
+
+    /** 岗位职级名称 */
+    @Excel(name = "岗位职级名称")
+    private String dutyName;
+
     /** 岗位排序 */
     @Excel(name = "岗位排序")
     private Integer postSort;
@@ -84,6 +96,30 @@ public class SysPost extends BaseEntity
     public void setPostSort(Integer postSort)
     {
         this.postSort = postSort;
+    }
+
+    public Long getDutyId() {
+        return dutyId;
+    }
+
+    public void setDutyId(Long dutyId) {
+        this.dutyId = dutyId;
+    }
+
+    public String getDutyCode() {
+        return dutyCode;
+    }
+
+    public void setDutyCode(String dutyCode) {
+        this.dutyCode = dutyCode;
+    }
+
+    public String getDutyName() {
+        return dutyName;
+    }
+
+    public void setDutyName(String dutyName) {
+        this.dutyName = dutyName;
     }
 
     public String getStatus()

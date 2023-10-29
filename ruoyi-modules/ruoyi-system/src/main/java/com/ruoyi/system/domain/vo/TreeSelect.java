@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ruoyi.system.api.domain.SysDept;
+import com.ruoyi.system.domain.SysDuty;
 import com.ruoyi.system.domain.SysMenu;
 
 /**
@@ -43,6 +44,13 @@ public class TreeSelect implements Serializable
         this.id = menu.getMenuId();
         this.label = menu.getMenuName();
         this.children = menu.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
+    }
+
+    public TreeSelect(SysDuty duty)
+    {
+        this.id = duty.getId();
+        this.label = duty.getName();
+        this.children = duty.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
     }
 
     public Long getId()
