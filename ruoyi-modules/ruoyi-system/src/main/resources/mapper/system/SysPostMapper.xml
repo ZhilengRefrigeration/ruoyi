@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="postCode"      column="post_code"     />
 		<result property="postName"      column="post_name"     />
 		<result property="postSort"      column="post_sort"     />
+		<result property="dutyId"        column="duty_id"      />
 		<result property="status"        column="status"        />
 		<result property="createBy"      column="create_by"     />
 		<result property="createTime"    column="create_time"   />
@@ -18,32 +19,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	<sql id="selectPostVo">
-        select post_id, post_code, post_name, post_sort, status, create_by, create_time, remark 
-		from sys_post
+        select a.post_id as postId, a.post_code as postCode, a.post_name as postName, a.post_sort as postSort, a.duty_id as dutyId, b.code as dutyCode, b.name as dutyName, a.status, a.create_by as createBy, a.create_time as createTime, a.remark
+		from sys_post a left join sys_duty b on a.duty_id = b.id
     </sql>
 	
-	<select id="selectPostList" parameterType="SysPost" resultMap="SysPostResult">
+	<select id="selectPostList" parameterType="SysPost" resultType="SysPost">
 	    <include refid="selectPostVo"/>
 		<where>
 			<if test="postCode != null and postCode != ''">
-				AND post_code like concat('%', #{postCode}, '%')
+				AND a.post_code like concat('%', #{postCode}, '%')
 			</if>
 			<if test="status != null and status != ''">
-				AND status = #{status}
+				AND a.status = #{status}
 			</if>
 			<if test="postName != null and postName != ''">
-				AND post_name like concat('%', #{postName}, '%')
+				AND a.post_name like concat('%', #{postName}, '%')
 			</if>
 		</where>
 	</select>
 	
-	<select id="selectPostAll" resultMap="SysPostResult">
+	<select id="selectPostAll" resultType="SysPost">
 		<include refid="selectPostVo"/>
 	</select>
 	
-	<select id="selectPostById" parameterType="Long" resultMap="SysPostResult">
+	<select id="selectPostById" parameterType="Long" resultType="SysPost">
 		<include refid="selectPostVo"/>
-		where post_id = #{postId}
+		where a.post_id = #{postId}
 	</select>
 	
 	<select id="selectPostListByUserId" parameterType="Long" resultType="Long">
@@ -63,13 +64,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="checkPostNameUnique" parameterType="String" resultMap="SysPostResult">
-		<include refid="selectPostVo"/>
-		 where post_name=#{postName} limit 1
+		select a.post_id, a.post_code, a.post_name, a.post_sort, a.duty_id, a.status, a.create_by, a.create_time, a.remark
+		from sys_post a
+		where a.post_name=#{postName} limit 1
 	</select>
 	
 	<select id="checkPostCodeUnique" parameterType="String" resultMap="SysPostResult">
-		<include refid="selectPostVo"/>
-		 where post_code=#{postCode} limit 1
+		select a.post_id, a.post_code, a.post_name, a.post_sort, a.duty_id, a.status, a.create_by, a.create_time, a.remark
+		from sys_post a
+		where a.post_code=#{postCode} limit 1
 	</select>
 	
 	<update id="updatePost" parameterType="SysPost">
@@ -78,6 +81,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="postCode != null and postCode != ''">post_code = #{postCode},</if>
  			<if test="postName != null and postName != ''">post_name = #{postName},</if>
  			<if test="postSort != null">post_sort = #{postSort},</if>
+			<if test="dutyId != null">duty_id = #{dutyId},</if>
  			<if test="status != null and status != ''">status = #{status},</if>
  			<if test="remark != null">remark = #{remark},</if>
  			<if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
@@ -92,6 +96,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="postCode != null and postCode != ''">post_code,</if>
  			<if test="postName != null and postName != ''">post_name,</if>
  			<if test="postSort != null">post_sort,</if>
+		    <if test="dutyId != null and dutyId != ''">duty_id,</if>
  			<if test="status != null and status != ''">status,</if>
  			<if test="remark != null and remark != ''">remark,</if>
  			<if test="createBy != null and createBy != ''">create_by,</if>
@@ -101,6 +106,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="postCode != null and postCode != ''">#{postCode},</if>
  			<if test="postName != null and postName != ''">#{postName},</if>
  			<if test="postSort != null">#{postSort},</if>
+		    <if test="dutyId != null and dutyId != ''">#{dutyId},</if>
  			<if test="status != null and status != ''">#{status},</if>
  			<if test="remark != null and remark != ''">#{remark},</if>
  			<if test="createBy != null and createBy != ''">#{createBy},</if>
