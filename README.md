@@ -1,3 +1,17 @@
+
+# 源码更新技巧
+## 1、切换同步源码地址 （保持与官方同步），然后更新本地代码
+
+```bash
+git remote set-url  origin  https://gitee.com/czq1ac/RuoYi-Cloud_2023.git
+```
+## 2、更新本地代码成功后，切换会原先的仓库地址，push更新
+
+```bash
+git remote set-url  origin  https://gitee.com/czq1ac/RuoYi-Cloud.git
+```
+
+
 <p align="center">
 	<img alt="logo" src="https://oscimg.oschina.net/oscnet/up-b99b286755aef70355a7084753f89cdb7c9.png">
 </p>
