@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.CompetitionSharePermissionsMapper">
 
-    <resultMap type="CompetitionSharePermissions" id="CompetitionSharePermissionsResult">
+    <resultMap type="com.ruoyi.system.domain.CompetitionSharePermissions" id="CompetitionSharePermissionsResult">
         <result property="id"    column="id"    />
         <result property="createTime"    column="create_time"    />
         <result property="competitionId"    column="competition_id"    />
@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, create_time, competition_id, user_id, user_tel, user_name, status, update_time, create_by, update_by, is_deleted, remark, can_set_type from competition_share_permissions
     </sql>
 
-    <select id="selectCompetitionSharePermissionsList" parameterType="CompetitionSharePermissions" resultMap="CompetitionSharePermissionsResult">
+    <select id="selectCompetitionSharePermissionsList" parameterType="com.ruoyi.system.domain.CompetitionSharePermissions" resultMap="CompetitionSharePermissionsResult">
         <include refid="selectCompetitionSharePermissionsVo"/>
         <where>
             <if test="competitionId != null "> and competition_id = #{competitionId}</if>
@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
 
-    <insert id="insertCompetitionSharePermissions" parameterType="CompetitionSharePermissions" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertCompetitionSharePermissions" parameterType="com.ruoyi.system.domain.CompetitionSharePermissions" useGeneratedKeys="true" keyProperty="id">
         insert into competition_share_permissions
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="createTime != null">create_time,</if>
@@ -74,7 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </trim>
     </insert>
 
-    <update id="updateCompetitionSharePermissions" parameterType="CompetitionSharePermissions">
+    <update id="updateCompetitionSharePermissions" parameterType="com.ruoyi.system.domain.CompetitionSharePermissions">
         update competition_share_permissions
         <trim prefix="SET" suffixOverrides=",">
             <if test="createTime != null">create_time = #{createTime},</if>

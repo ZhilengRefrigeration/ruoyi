@@ -1,13 +1,15 @@
 package com.ruoyi.system.domain;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import lombok.Data;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 比赛参与人员对象 competition_members
@@ -16,11 +18,12 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
  * @date 2022-11-03
  */
 @Data
+@TableName("competition_members")
 public class CompetitionMembers extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** ID */
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /** 用户ID */
@@ -136,6 +139,8 @@ public class CompetitionMembers extends BaseEntity
     /** 个人照片（最新） */
     @Excel(name = "个人照片", readConverterExp = "最=新")
     private String personalPhoto;
+    @Excel(name = "是否隐藏头像")
+    private Boolean isHideAvatar;
 
     /** $column.columnComment */
     @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")

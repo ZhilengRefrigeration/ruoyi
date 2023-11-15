@@ -1,8 +1,10 @@
 package com.ruoyi.system.service;
 
-import java.util.List;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.system.domain.CompetitionOfTeam;
 import com.ruoyi.system.domain.vo.CompetitionOfTeamVo;
+
+import java.util.List;
 
 /**
  * 赛会中-参赛队伍Service接口
@@ -10,7 +12,7 @@ import com.ruoyi.system.domain.vo.CompetitionOfTeamVo;
  * @author ruoyi
  * @date 2022-11-03
  */
-public interface ICompetitionOfTeamService 
+public interface ICompetitionOfTeamService extends IService<CompetitionOfTeam>
 {
     /**
      * 查询赛会中-参赛队伍

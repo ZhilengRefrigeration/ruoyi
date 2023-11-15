@@ -1,32 +1,29 @@
 package com.ruoyi.system.service.impl;
 
-import java.security.InvalidParameterException;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.model.LoginUser;
-import com.ruoyi.system.api.model.WxLoginUser;
 import com.ruoyi.system.domain.CompetitionMembersScore;
 import com.ruoyi.system.domain.CompetitionResult;
+import com.ruoyi.system.domain.CompetitionTeamVsTeam;
 import com.ruoyi.system.domain.vo.*;
 import com.ruoyi.system.mapper.CompetitionMembersScoreMapper;
 import com.ruoyi.system.mapper.CompetitionResultMapper;
+import com.ruoyi.system.mapper.CompetitionTeamVsTeamMapper;
+import com.ruoyi.system.service.ICompetitionMembersScoreService;
 import com.ruoyi.system.service.ICompetitionResultService;
-import com.ruoyi.system.utils.LoginUserUtil;
+import com.ruoyi.system.service.ICompetitionTeamVsTeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.CompetitionTeamVsTeamMapper;
-import com.ruoyi.system.domain.CompetitionTeamVsTeam;
-import com.ruoyi.system.service.ICompetitionTeamVsTeamService;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.security.InvalidParameterException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 赛会中-球队VS球队关系Service业务层处理
@@ -35,16 +32,19 @@ import javax.annotation.Resource;
  * @date 2022-11-03
  */
 @Service
-public class CompetitionTeamVsTeamServiceImpl implements ICompetitionTeamVsTeamService 
+public class CompetitionTeamVsTeamServiceImpl extends ServiceImpl<CompetitionTeamVsTeamMapper, CompetitionTeamVsTeam> implements ICompetitionTeamVsTeamService
 {
     @Autowired
     private CompetitionTeamVsTeamMapper competitionTeamVsTeamMapper;
 
     @Resource
+    private CompetitionResultMapper competitionResultMapper;
+    @Resource
     private ICompetitionResultService competitionResultService;
     @Resource
     private CompetitionMembersScoreMapper competitionMembersScoreMapper;
-
+    @Resource
+    private ICompetitionMembersScoreService competitionMembersScoreService;
     /**
      * 查询赛会中-球队VS球队关系
      * 
@@ -100,8 +100,12 @@ public class CompetitionTeamVsTeamServiceImpl implements ICompetitionTeamVsTeamS
      * @return 结果
      */
     @Override
+    @Transactional
     public int deleteCompetitionTeamVsTeamByIds(Long[] ids)
     {
+        //删除赛程的时候同时删除比赛结果
+        competitionResultService.lambdaUpdate().in(CompetitionResult::getCompetitionVsId,ids).remove();
+        competitionMembersScoreService.lambdaUpdate().in(CompetitionMembersScore::getCompetitionVsId,ids).remove();
         return competitionTeamVsTeamMapper.deleteCompetitionTeamVsTeamByIds(ids);
     }
 
@@ -127,7 +131,7 @@ public class CompetitionTeamVsTeamServiceImpl implements ICompetitionTeamVsTeamS
         unifiedRecordVo.setTeamVsTeamVo(competitionTeamVsTeamVo);
 
         //查询队伍数据
-        List<CompetitionResultVo> competitionResultList = competitionResultService.findByCompetitionVsId(competitionTeamVsTeamVo.getCompetitionId(),competitionTeamVsTeamVo.getId());
+        List<CompetitionResultVo> competitionResultList = competitionResultMapper.findByCompetitionVsId(competitionTeamVsTeamVo.getCompetitionId(),competitionTeamVsTeamVo.getId());
         unifiedRecordVo.setCompetitionResultList(competitionResultList);
 
         //查询赛程中个人成绩
@@ -138,7 +142,7 @@ public class CompetitionTeamVsTeamServiceImpl implements ICompetitionTeamVsTeamS
         //组装队伍球员数据并排序
         if(competitionResultList!=null&&competitionResultList.size()>0){
             //组装主队数据
-            List<CompetitionMembersScore> mainMembersScoreList =  membersScoreList.stream().filter(CompetitionMembersScore -> CompetitionMembersScore.getCompetitionOfTeamId()==competitionResultList.get(0).getCompetitionOfTeamId()).collect(Collectors.toList());
+            List<CompetitionMembersScore> mainMembersScoreList =  membersScoreList.stream().filter(CompetitionMembersScore -> CompetitionMembersScore.getCompetitionOfTeamId().equals(competitionResultList.get(0).getCompetitionOfTeamId())).collect(Collectors.toList());
             //过滤首发球员
             List<CompetitionMembersScore> firstList = mainMembersScoreList.stream().filter(a -> a.getIsFirstLaunch() == 1).collect(Collectors.toList());
             firstList.sort((o1, o2) -> o2.getTotalScore().compareTo(o1.getTotalScore()));
@@ -150,7 +154,7 @@ public class CompetitionTeamVsTeamServiceImpl implements ICompetitionTeamVsTeamS
             competitionMembersScoreList.addAll(mainMembersScoreList);
 
             //组装客队数据
-            List<CompetitionMembersScore> gustMembersScoreList =  membersScoreList.stream().filter(CompetitionMembersScore -> CompetitionMembersScore.getCompetitionOfTeamId()==competitionResultList.get(1).getCompetitionOfTeamId()).collect(Collectors.toList());
+            List<CompetitionMembersScore> gustMembersScoreList =  membersScoreList.stream().filter(CompetitionMembersScore -> CompetitionMembersScore.getCompetitionOfTeamId().equals(competitionResultList.get(1).getCompetitionOfTeamId())).collect(Collectors.toList());
             //过滤首发球员
             List<CompetitionMembersScore> gustFirstList = gustMembersScoreList.stream().filter(a -> a.getIsFirstLaunch() == 1).collect(Collectors.toList());
             gustFirstList.sort((o1, o2) -> o2.getTotalScore().compareTo(o1.getTotalScore()));
@@ -173,7 +177,7 @@ public class CompetitionTeamVsTeamServiceImpl implements ICompetitionTeamVsTeamS
             throw new ServiceException("赛程不存在");
         }
         //获取主队每节数据
-        List<CompetitionResultVo> competitionResultList = competitionResultService.findByCompetitionVsId(competitionTeamVsTeamVo.getCompetitionId(),competitionTeamVsTeamVo.getId());
+        List<CompetitionResultVo> competitionResultList = competitionResultMapper.findByCompetitionVsId(competitionTeamVsTeamVo.getCompetitionId(),competitionTeamVsTeamVo.getId());
         Optional<CompetitionResultVo> main = competitionResultList.stream().filter(a -> a.getCompetitionOfTeamId().equals(competitionTeamVsTeamVo.getMainTeamId())).findFirst();
         Optional<CompetitionResultVo> guest = competitionResultList.stream().filter(a -> a.getCompetitionOfTeamId().equals(competitionTeamVsTeamVo.getGuestTeamId())).findFirst();
         List<CompetitionMembersScoreVo> membersScoreList = competitionMembersScoreMapper.findMembersScoreByCompetitionVsId(competitionTeamVsTeamVo.getCompetitionId(),competitionTeamVsTeamVo.getId());
@@ -259,9 +263,17 @@ public class CompetitionTeamVsTeamServiceImpl implements ICompetitionTeamVsTeamS
         return Boolean.TRUE;
     }
 
+    @Transactional
     @Override
     public Boolean competitionScoreSubmit(List<CompetitionResult> request) {
-
+        CompetitionTeamVsTeamVo teamVsTeam = new CompetitionTeamVsTeamVo();
+        Optional<CompetitionResult> opt = request.stream().findFirst();
+        if(opt.isPresent()){
+            CompetitionResult result = opt.get();
+            teamVsTeam = competitionTeamVsTeamMapper.selectCompetitionTeamVsTeamById(result.getCompetitionVsId());
+        }
+        Integer mainTeamScore = 0;
+        Integer guestTeamScore = 0;
         for(CompetitionResult competitionResult : request){
             //小节分数可能为空
             int oneNodeScore = competitionResult.getOneNodeScore()==null?0:competitionResult.getOneNodeScore();
@@ -270,32 +282,46 @@ public class CompetitionTeamVsTeamServiceImpl implements ICompetitionTeamVsTeamS
             int fourNodeScore = competitionResult.getFourNodeScore()==null?0:competitionResult.getFourNodeScore();
             int fiveNodeScore = competitionResult.getFiveNodeScore()==null?0:competitionResult.getFiveNodeScore();
             int sixNodeScore = competitionResult.getSixNodeScore()==null?0:competitionResult.getSixNodeScore();
-
             int score = oneNodeScore+twoNodeScore+threeNodeScore+fourNodeScore+fiveNodeScore+sixNodeScore;
             if(score>0&&competitionResult.getTotalScore()!=null){
                 if(score!=competitionResult.getTotalScore()){
                     throw new InvalidParameterException("总分和小节分之和 不等 请检查！");
                 }
             } else if(score==0&&competitionResult.getTotalScore()!=null){
-                competitionResult.setOneNodeScore(competitionResult.getTotalScore());
+                competitionResult.setOneNodeScore(score);
             }
-
+            //主队
+            if(teamVsTeam.getMainTeamId().equals(competitionResult.getCompetitionOfTeamId())){
+                mainTeamScore = score;
+            } else {//客队
+                guestTeamScore = score;
+            }
             //新增
             if(competitionResult.getId()==null){
-                competitionResultService.add(competitionResult);
+                competitionResultMapper.insertCompetitionResult(competitionResult);
             } else {//编辑
                 if(StringUtils.isEmpty(competitionResult.getId())){
                     throw new InvalidParameterException("id为空");
                 }
-                competitionResultService.edit(competitionResult);
+                competitionResultMapper.updateCompetitionResult(competitionResult);
             }
         }
+        //todo 更新赛程数据的比分
+        CompetitionTeamVsTeam teamVs = new CompetitionTeamVsTeam();
+        teamVs.setId(teamVsTeam.getId());
+        teamVs.setMainTeamScore(mainTeamScore);
+        teamVs.setGuestTeamScore(guestTeamScore);
+        teamVs.setLastUpdatedTime(new Date());
+        competitionTeamVsTeamMapper.updateCompetitionTeamVsTeam(teamVs);
         return true;
     }
 
     @Override
     public Boolean deleteBatchByIds(Ids ids) {
         Long[]  idList = ids.getIdList().stream().toArray(Long[]::new);
+        //删除赛程的时候同时删除比赛结果
+        competitionResultService.lambdaUpdate().in(CompetitionResult::getCompetitionVsId,idList).remove();
+        competitionMembersScoreService.lambdaUpdate().in(CompetitionMembersScore::getCompetitionVsId,idList).remove();
         competitionTeamVsTeamMapper.deleteCompetitionTeamVsTeamByIds(idList);
         return Boolean.TRUE;
     }
@@ -307,6 +333,6 @@ public class CompetitionTeamVsTeamServiceImpl implements ICompetitionTeamVsTeamS
 
     @Override
     public List<CompetitionTeamVsTeamVo> getTodaySchedule(CompetitionTeamVsTeam competitionTeamVsTeam) {
-        return competitionTeamVsTeamMapper.getTodaySchedule(competitionResultService);
+        return competitionTeamVsTeamMapper.getTodaySchedule(competitionTeamVsTeam);
     }
 }

@@ -1,61 +1,62 @@
 package com.ruoyi.system.controller;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.security.InvalidParameterException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletResponse;
-
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.system.UserInfo;
-import com.alibaba.csp.sentinel.util.IdUtil;
-import com.alibaba.fastjson.JSON;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.exception.CheckedException;
 import com.ruoyi.common.core.exception.ServiceException;
-import com.ruoyi.common.core.exception.UtilException;
+import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.utils.uuid.IdUtils;
+import com.ruoyi.common.core.web.controller.BaseController;
+import com.ruoyi.common.core.web.domain.AjaxResult;
+import com.ruoyi.common.core.web.page.TableDataInfo;
+import com.ruoyi.common.log.annotation.Log;
+import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.redis.service.RedisService;
+import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.common.swagger.apiConstants.ApiTerminal;
 import com.ruoyi.system.api.domain.vo.WxAppletsCodeVo;
 import com.ruoyi.system.api.model.LoginUser;
-import com.ruoyi.system.api.model.WxLoginUser;
-import com.ruoyi.system.domain.*;
-import com.ruoyi.system.domain.vo.*;
+import com.ruoyi.system.domain.Competition;
+import com.ruoyi.system.domain.CompetitionSharePermissions;
+import com.ruoyi.system.domain.Sms;
+import com.ruoyi.system.domain.UserRole;
+import com.ruoyi.system.domain.vo.CompetitionExcleVo;
+import com.ruoyi.system.domain.vo.CompetitionResponse;
+import com.ruoyi.system.domain.vo.CompetitionVo;
+import com.ruoyi.system.domain.vo.SmsResponse;
 import com.ruoyi.system.service.*;
-import com.ruoyi.system.utils.LoginUserUtil;
 import com.ruoyi.system.utils.UtilTool;
-import io.seata.core.model.Result;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ooxml.POIXMLDocumentPart;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.PictureData;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.*;
-import org.aspectj.weaver.loadtime.Aj;
 import org.openxmlformats.schemas.drawingml.x2006.spreadsheetDrawing.CTMarker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import com.ruoyi.common.log.annotation.Log;
-import com.ruoyi.common.log.enums.BusinessType;
-import com.ruoyi.common.security.annotation.RequiresPermissions;
-import com.ruoyi.common.core.web.controller.BaseController;
-import com.ruoyi.common.core.web.domain.AjaxResult;
-import com.ruoyi.common.core.utils.poi.ExcelUtil;
-import com.ruoyi.common.core.web.page.TableDataInfo;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.InvalidParameterException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * 比赛信息Controller
@@ -372,6 +373,48 @@ public class CompetitionController extends BaseController
         return AjaxResult.success(excleVo);
     }
 
+    @PostMapping(value = "/teamEnrollExcleImportUserPhone",produces = "application/json;charset=utf-8")
+    @ResponseBody
+    @ApiOperation(value = ApiTerminal.wxMiniProgram+"导入球队报名excel(包含图片)补充队员头像")
+    public AjaxResult teamEnrollExcleImportUserPhone(
+            @RequestParam(value = "competitionId", required = true) Long competitionId,
+            @RequestParam("file") MultipartFile file) throws Exception {
+        CompetitionExcleVo excleVo = new CompetitionExcleVo();
+        String fileName = file.getOriginalFilename();
+        // 上传文件为空
+        if (StringUtils.isEmpty(fileName)) {
+            throw new CheckedException("没有导入文件");
+        }
+        // 上传文件名格式不正确
+        if (fileName.lastIndexOf(".") != -1 && !".xlsx".equals(fileName.substring(fileName.lastIndexOf(".")))) {
+            throw new CheckedException("文件名格式不正确, 请使用后缀名为.xlsx的文件");
+        }
+        String filePath = getFilePath(file);
+        Sheet sheet = null;
+        Workbook wb = null;
+        //读图片--开始
+        Map<String, PictureData> maplist = null;
+        BufferedInputStream inputStream = new BufferedInputStream(file.getInputStream());
+        // 判断用07还是03的方法获取图片
+        if (filePath.endsWith("xls")) {
+            wb = new HSSFWorkbook(inputStream);
+            sheet = wb.getSheetAt(0);
+            maplist = getPictures03((HSSFSheet) sheet);
+        } else if (filePath.endsWith("xlsx")) {
+            wb = new XSSFWorkbook(inputStream);
+            sheet = wb.getSheetAt(0);
+            maplist = getPictures07((XSSFSheet) sheet);
+        } else {
+            throw new CheckedException("Excel文件格式不支持");
+        }
+        excleVo = competitionService.importExcleDataUserAvatar(competitionId,maplist,sheet);
+        //使用完成关闭
+        wb.close();
+        if (inputStream != null) {
+            inputStream.close();
+        }
+        return AjaxResult.success(excleVo);
+    }
     /**
      * 获取03图片和位置 (xls) clerk
      *

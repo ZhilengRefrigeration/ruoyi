@@ -1,8 +1,9 @@
 package com.ruoyi.system.api.model;
 
+import com.ruoyi.system.api.domain.SysUser;
+
 import java.io.Serializable;
 import java.util.Set;
-import com.ruoyi.system.api.domain.SysUser;
 
 /**
  * 用户信息
@@ -27,6 +28,10 @@ public class LoginUser implements Serializable
      * 用户名
      */
     private String username;
+    /**
+     * 微信用户名
+     */
+    private String nickname;
 
     /**
      * 登录时间
@@ -52,6 +57,14 @@ public class LoginUser implements Serializable
      * 角色列表
      */
     private Set<String> roles;
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
     /**
      * 用户信息

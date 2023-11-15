@@ -1,7 +1,9 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ruoyi.system.domain.CompetitionTeamGroup;
+
+import java.util.List;
 
 /**
  * 赛会中-分组Mapper接口
@@ -9,7 +11,7 @@ import com.ruoyi.system.domain.CompetitionTeamGroup;
  * @author ruoyi
  * @date 2022-11-03
  */
-public interface CompetitionTeamGroupMapper 
+public interface CompetitionTeamGroupMapper extends BaseMapper<CompetitionTeamGroup>
 {
     /**
      * 查询赛会中-分组

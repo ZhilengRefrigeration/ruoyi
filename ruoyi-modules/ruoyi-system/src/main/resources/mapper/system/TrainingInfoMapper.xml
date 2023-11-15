@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.TrainingInfoMapper">
     
-    <resultMap type="TrainingInfo" id="TrainingInfoResult">
+    <resultMap type="com.ruoyi.system.domain.TrainingInfo" id="TrainingInfoResult">
         <result property="id"    column="ID"    />
         <result property="isDeleted"    column="IS_DELETED"    />
         <result property="createdTime"    column="CREATED_TIME"    />
@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select ID, IS_DELETED, CREATED_TIME, CREATED_BY, MODIFIED_BY, LAST_UPDATED_TIME, TRAIN_NAME, PHONE, LINKMAN, TRAIN_DESC, BUILD_ID, DEFAULT_PICTURE, PRICE from training_info
     </sql>
 
-    <select id="selectTrainingInfoList" parameterType="TrainingInfo" resultMap="TrainingInfoResult">
+    <select id="selectTrainingInfoList" parameterType="com.ruoyi.system.domain.TrainingInfo" resultMap="TrainingInfoResult">
         <include refid="selectTrainingInfoVo"/>
         <where>  
             <if test="isDeleted != null "> and IS_DELETED = #{isDeleted}</if>
@@ -47,7 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where ID = #{id}
     </select>
         
-    <insert id="insertTrainingInfo" parameterType="TrainingInfo" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertTrainingInfo" parameterType="com.ruoyi.system.domain.TrainingInfo" useGeneratedKeys="true" keyProperty="id">
         insert into training_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="isDeleted != null">IS_DELETED,</if>
@@ -79,7 +79,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateTrainingInfo" parameterType="TrainingInfo">
+    <update id="updateTrainingInfo" parameterType="com.ruoyi.system.domain.TrainingInfo">
         update training_info
         <trim prefix="SET" suffixOverrides=",">
             <if test="isDeleted != null">IS_DELETED = #{isDeleted},</if>

@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.WxBasketballTeamMapper">
     
-    <resultMap type="WxBasketballTeam" id="WxBasketballTeamResult">
+    <resultMap type="com.ruoyi.system.domain.WxBasketballTeam" id="WxBasketballTeamResult">
         <result property="id"    column="ID"    />
         <result property="isDeleted"    column="IS_DELETED"    />
         <result property="createdTime"    column="CREATED_TIME"    />
@@ -26,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select ID, IS_DELETED, CREATED_TIME, CREATED_BY, MODIFIED_BY, LAST_UPDATED_TIME, TEAM_NAME, TEAM_DES, REMARK, BUILD_ID, DEFAULT_PICTURE, BUILDING_NAME, CREATED_ID, CONTACT_TEL, team_logo from basketball_team
     </sql>
 
-    <select id="selectWxBasketballTeamList" parameterType="WxBasketballTeam" resultMap="WxBasketballTeamResult">
+    <select id="selectWxBasketballTeamList" parameterType="com.ruoyi.system.domain.WxBasketballTeam" resultMap="WxBasketballTeamResult">
         <include refid="selectWxBasketballTeamVo"/>
         <where>  
             <if test="teamName != null  and teamName != ''"> and TEAM_NAME like concat('%', #{teamName}, '%')</if>
@@ -60,7 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by t.created_time desc
     </select>
 
-    <insert id="insertWxBasketballTeam" parameterType="WxBasketballTeam" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertWxBasketballTeam" parameterType="com.ruoyi.system.domain.WxBasketballTeam" useGeneratedKeys="true" keyProperty="id">
         insert into basketball_team
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="isDeleted != null">IS_DELETED,</if>
@@ -96,7 +96,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateWxBasketballTeam" parameterType="WxBasketballTeam">
+    <update id="updateWxBasketballTeam" parameterType="com.ruoyi.system.domain.WxBasketballTeam">
         update basketball_team
         <trim prefix="SET" suffixOverrides=",">
             <if test="isDeleted != null">IS_DELETED = #{isDeleted},</if>

@@ -1,8 +1,6 @@
 package com.ruoyi.system.service;
 
-import java.util.List;
-import java.util.Map;
-
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.system.api.domain.vo.WxAppletsCodeVo;
 import com.ruoyi.system.domain.Competition;
 import com.ruoyi.system.domain.vo.CompetitionExcleVo;
@@ -10,7 +8,9 @@ import com.ruoyi.system.domain.vo.CompetitionResponse;
 import com.ruoyi.system.domain.vo.CompetitionVo;
 import org.apache.poi.ss.usermodel.PictureData;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 比赛信息Service接口
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author ruoyi
  * @date 2022-11-02
  */
-public interface ICompetitionService 
+public interface ICompetitionService extends IService<Competition>
 {
     /**
      * 查询比赛信息
@@ -87,6 +87,8 @@ public interface ICompetitionService
     Boolean edit(Competition entity);
 
     CompetitionExcleVo importExcleData(Long competitionId,Map<String, PictureData> maplist, Sheet sheet);
+
+    CompetitionExcleVo importExcleDataUserAvatar(Long competitionId,Map<String, PictureData> maplist, Sheet sheet);
     //根据当前时间修改已经完成的赛会数据
     int updateCompetitionFinish();
 }

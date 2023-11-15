@@ -1,7 +1,9 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ruoyi.system.domain.FeatureLabel;
+
+import java.util.List;
 
 /**
  * 球馆特征Mapper接口
@@ -9,7 +11,7 @@ import com.ruoyi.system.domain.FeatureLabel;
  * @author ruoyi
  * @date 2023-07-06
  */
-public interface FeatureLabelMapper 
+public interface FeatureLabelMapper extends BaseMapper<FeatureLabel>
 {
     /**
      * 查询球馆特征

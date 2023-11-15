@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.CompetitionTeamVsTeamMapper">
     
-    <resultMap type="CompetitionTeamVsTeam" id="CompetitionTeamVsTeamResult">
+    <resultMap type="com.ruoyi.system.domain.CompetitionTeamVsTeam" id="CompetitionTeamVsTeamResult">
         <result property="id"    column="id"    />
         <result property="competitionId"    column="competition_id"    />
         <result property="mainTeamId"    column="main_team_id"    />
@@ -246,7 +246,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             sum(IF( t.vs_result = 'win', 1, 0 )) AS win,
             sum(IF( t.vs_result = 'fail', 1, 0 )) AS fail,
             sum(IFNULL( t.one_node_score, 0 )+ IFNULL( t.two_node_score, 0 )+ IFNULL( t.three_node_score, 0 )+ IFNULL( t.four_node_score, 0 )+ IFNULL( t.five_node_score, 0 )+ IFNULL( t.six_node_score, 0 )) AS totalScore,
-            sum(t.integral) AS integral
+            sum(ifnull(t.integral,0)) AS integral ,
+            sum(IFNULL(t.net_win_point,0)) as netWinPoint
         FROM competition_result t left join competition_of_team team on team.id = t.competition_of_team_id
         WHERE t.is_deleted = 0 AND t.competition_id = #{competitionId}
         <if test="vsType != null ">
@@ -256,7 +257,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             AND t.competition_group =#{competitionGroup}
         </if>
         GROUP BY t.competition_of_team_id
-        ORDER BY sum(t.integral) desc
+        ORDER BY sum(t.integral) desc,sum(IFNULL(t.net_win_point,0)) desc
     </select>
     <select id="getTodaySchedule" resultType="com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo">
         select
@@ -353,7 +354,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         order by t.competition_time asc
     </select>
 
-    <insert id="insertCompetitionTeamVsTeam" parameterType="CompetitionTeamVsTeam" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertCompetitionTeamVsTeam" parameterType="com.ruoyi.system.domain.CompetitionTeamVsTeam" useGeneratedKeys="true" keyProperty="id">
         insert into competition_team_vs_team
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="competitionId != null">competition_id,</if>
@@ -403,7 +404,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateCompetitionTeamVsTeam" parameterType="CompetitionTeamVsTeam">
+    <update id="updateCompetitionTeamVsTeam" parameterType="com.ruoyi.system.domain.CompetitionTeamVsTeam">
         update competition_team_vs_team
         <trim prefix="SET" suffixOverrides=",">
             <if test="competitionId != null">competition_id = #{competitionId},</if>

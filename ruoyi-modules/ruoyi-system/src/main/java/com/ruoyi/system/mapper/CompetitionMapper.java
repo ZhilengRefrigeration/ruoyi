@@ -1,9 +1,11 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ruoyi.system.domain.Competition;
 import com.ruoyi.system.domain.vo.CompetitionExcleVo;
 import com.ruoyi.system.domain.vo.CompetitionVo;
+
+import java.util.List;
 
 /**
  * 比赛信息Mapper接口
@@ -11,7 +13,7 @@ import com.ruoyi.system.domain.vo.CompetitionVo;
  * @author ruoyi
  * @date 2022-11-02
  */
-public interface CompetitionMapper 
+public interface CompetitionMapper  extends BaseMapper<Competition>
 {
     /**
      * 查询比赛信息

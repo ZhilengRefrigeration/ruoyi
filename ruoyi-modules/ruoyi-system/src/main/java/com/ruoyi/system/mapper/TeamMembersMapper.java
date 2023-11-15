@@ -1,10 +1,12 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ruoyi.system.domain.TeamMembers;
 import com.ruoyi.system.domain.vo.TeamMembersResponse;
 import com.ruoyi.system.domain.vo.TeamMembersVo;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 球队人员Mapper接口
@@ -12,7 +14,7 @@ import org.apache.ibatis.annotations.Param;
  * @author ruoyi
  * @date 2022-11-03
  */
-public interface TeamMembersMapper 
+public interface TeamMembersMapper  extends BaseMapper<TeamMembers>
 {
     /**
      * 查询球队人员

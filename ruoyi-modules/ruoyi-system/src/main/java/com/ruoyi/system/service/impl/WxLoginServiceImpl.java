@@ -289,7 +289,8 @@ public class WxLoginServiceImpl  implements WxLoginService {
         //如果为空，则表示是新用户登录，将该用户写入信息
         if(login==null){
             login=new WxUser();
-            login.setUserName(entity.getUsername());
+            login.setUserName(entity.getNickname());
+            login.setLoginName(entity.getUsername());
 /*            if(StringUtils.isEmpty(entity.getTelephone())){
                 login.setLoginName(entity.getLoginName());
             }else {

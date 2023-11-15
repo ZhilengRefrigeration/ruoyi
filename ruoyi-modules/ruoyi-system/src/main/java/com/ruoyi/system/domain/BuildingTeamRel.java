@@ -1,13 +1,12 @@
 package com.ruoyi.system.domain;
 
-import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.mybatisflex.annotation.Table;
-import lombok.Data;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import lombok.Data;
+import java.util.Date;
 
 /**
  * 【请填写功能名称】对象 building_team_rel
@@ -16,12 +15,12 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
  * @date 2023-07-04
  */
 @Data
-@Table("building_team_rel")
+@TableName("building_team_rel")
 public class BuildingTeamRel extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** $column.columnComment */
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /** $column.columnComment */

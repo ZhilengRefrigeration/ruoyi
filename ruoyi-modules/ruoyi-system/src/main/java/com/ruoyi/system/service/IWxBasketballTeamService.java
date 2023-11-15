@@ -1,7 +1,9 @@
 package com.ruoyi.system.service;
 
-import java.util.List;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.system.domain.WxBasketballTeam;
+
+import java.util.List;
 
 /**
  * 球队管理Service接口
@@ -9,7 +11,7 @@ import com.ruoyi.system.domain.WxBasketballTeam;
  * @author ruoyi
  * @date 2022-08-30
  */
-public interface IWxBasketballTeamService 
+public interface IWxBasketballTeamService extends IService<WxBasketballTeam>
 {
     /**
      * 查询球队管理

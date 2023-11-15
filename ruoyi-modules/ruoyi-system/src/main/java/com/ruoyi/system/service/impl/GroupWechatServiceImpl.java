@@ -1,11 +1,13 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ruoyi.system.domain.GroupWechat;
+import com.ruoyi.system.mapper.GroupWechatMapper;
+import com.ruoyi.system.service.IGroupWechatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.GroupWechatMapper;
-import com.ruoyi.system.domain.GroupWechat;
-import com.ruoyi.system.service.IGroupWechatService;
+
+import java.util.List;
 
 /**
  * 【请填写功能名称】Service业务层处理
@@ -14,7 +16,7 @@ import com.ruoyi.system.service.IGroupWechatService;
  * @date 2023-07-04
  */
 @Service
-public class GroupWechatServiceImpl implements IGroupWechatService 
+public class GroupWechatServiceImpl extends ServiceImpl<GroupWechatMapper, GroupWechat> implements IGroupWechatService
 {
     @Autowired
     private GroupWechatMapper groupWechatMapper;

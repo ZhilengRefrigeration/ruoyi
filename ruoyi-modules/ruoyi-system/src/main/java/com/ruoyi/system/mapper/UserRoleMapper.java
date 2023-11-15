@@ -1,7 +1,9 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ruoyi.system.domain.UserRole;
+
+import java.util.List;
 
 /**
  * 【请填写功能名称】Mapper接口
@@ -9,7 +11,7 @@ import com.ruoyi.system.domain.UserRole;
  * @author ruoyi
  * @date 2023-07-04
  */
-public interface UserRoleMapper 
+public interface UserRoleMapper  extends BaseMapper<UserRole>
 {
     /**
      * 查询【请填写功能名称】

@@ -1,9 +1,11 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ruoyi.system.domain.CompetitionResult;
 import com.ruoyi.system.domain.vo.CompetitionResultVo;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 赛会中-赛程结果记录Mapper接口
@@ -11,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
  * @author ruoyi
  * @date 2022-11-03
  */
-public interface CompetitionResultMapper 
+public interface CompetitionResultMapper extends BaseMapper<CompetitionResult>
 {
     /**
      * 查询赛会中-赛程结果记录

@@ -1,9 +1,11 @@
 package com.ruoyi.system.service;
 
-import java.util.List;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.system.domain.TeamMembers;
 import com.ruoyi.system.domain.vo.TeamMembersResponse;
 import com.ruoyi.system.domain.vo.TeamMembersVo;
+
+import java.util.List;
 
 /**
  * 球队人员Service接口
@@ -11,7 +13,7 @@ import com.ruoyi.system.domain.vo.TeamMembersVo;
  * @author ruoyi
  * @date 2022-11-03
  */
-public interface ITeamMembersService 
+public interface ITeamMembersService extends IService<TeamMembers>
 {
     /**
      * 查询球队人员

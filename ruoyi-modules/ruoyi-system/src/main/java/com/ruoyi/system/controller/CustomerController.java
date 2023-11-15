@@ -50,6 +50,18 @@ public class CustomerController extends BaseController
     }
 
     /**
+     * 查询客户信息列表
+     */
+    @RequiresPermissions("system:customer:makerList")
+    @GetMapping("/makerList")
+    public TableDataInfo makerList(CustomerVo customer)
+    {
+        startPage();
+        List<CustomerVo> list = customerService.selectCustomerMakerList(customer);
+        return getDataTable(list);
+    }
+
+    /**
      * 导出客户信息列表
      */
     @RequiresPermissions("system:customer:export")

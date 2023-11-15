@@ -11,4 +11,7 @@ import lombok.Data;
 @Data
 public class CompetitionMembersScoreVo extends CompetitionMembersScore {
     private String realName;
+    private Long totalCount;
+    private Long avgCountScore;
+    private Boolean isHideAvatar;
 }

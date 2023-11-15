@@ -1,13 +1,22 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
-
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ruoyi.system.domain.Competition;
+import com.ruoyi.system.domain.CompetitionMembers;
+import com.ruoyi.system.domain.CompetitionOfTeam;
+import com.ruoyi.system.domain.vo.CompetitionMembersScoreVo;
 import com.ruoyi.system.domain.vo.CompetitionMembersVo;
+import com.ruoyi.system.mapper.CompetitionMapper;
+import com.ruoyi.system.mapper.CompetitionMembersMapper;
+import com.ruoyi.system.mapper.CompetitionOfTeamMapper;
+import com.ruoyi.system.service.ICompetitionMembersScoreService;
+import com.ruoyi.system.service.ICompetitionMembersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.CompetitionMembersMapper;
-import com.ruoyi.system.domain.CompetitionMembers;
-import com.ruoyi.system.service.ICompetitionMembersService;
+
+import java.util.List;
 
 /**
  * 比赛参与人员Service业务层处理
@@ -16,10 +25,16 @@ import com.ruoyi.system.service.ICompetitionMembersService;
  * @date 2022-11-03
  */
 @Service
-public class CompetitionMembersServiceImpl implements ICompetitionMembersService 
+public class CompetitionMembersServiceImpl extends ServiceImpl<CompetitionMembersMapper, CompetitionMembers> implements ICompetitionMembersService
 {
     @Autowired
     private CompetitionMembersMapper competitionMembersMapper;
+    @Autowired
+    private CompetitionOfTeamMapper competitionOfTeamMapper;
+    @Autowired
+    private ICompetitionMembersScoreService competitionMembersScoreService;
+    @Autowired
+    private CompetitionMapper competitionMapper;
 
     /**
      * 查询比赛参与人员
@@ -106,5 +121,26 @@ public class CompetitionMembersServiceImpl implements ICompetitionMembersService
     @Override
     public void bindCompetitionMembersByTel(Long userId, String telephone) {
         competitionMembersMapper.bindCompetitionMembersByTel(userId,telephone);
+    }
+
+    @Override
+    public CompetitionMembersVo getCompetitionUserScoreInfo(CompetitionMembersVo vo) {
+        CompetitionMembersVo membersVo = new CompetitionMembersVo();
+        CompetitionMembers member = competitionMembersMapper.selectCompetitionMembersById(vo.getId());
+        BeanUtil.copyProperties(member,membersVo);
+        Competition competition = competitionMapper.selectCompetitionById(member.getCompetitionId());
+        membersVo.setCompetitionName(competition.getCompetitionName());
+        CompetitionOfTeam team = competitionOfTeamMapper.selectCompetitionOfTeamById(member.getCompetitionOfTeamId());
+        membersVo.setTeamName(team.getTeamName());
+        //获取本赛会的个人得分情况
+        CompetitionMembersScoreVo membersScoreVo = competitionMembersScoreService.getThisCompetitionScore(member.getCompetitionId(),member.getId());
+        membersVo.setCompetitionMemberScore(membersScoreVo);
+        //如果没有登录我们的系统的人员就无法统计职业生涯
+        if(ObjectUtil.isNotEmpty(member.getUserId())){
+            //个人生涯
+            CompetitionMembersScoreVo personalCareerVo = competitionMembersScoreService.getUserScoreByUserId(member.getUserId());
+            membersVo.setPersonalCareerVo(personalCareerVo);
+        }
+        return membersVo;
     }
 }

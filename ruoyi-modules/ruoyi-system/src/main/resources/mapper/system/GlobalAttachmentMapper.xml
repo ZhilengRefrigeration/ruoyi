@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.GlobalAttachmentMapper">
     
-    <resultMap type="GlobalAttachment" id="GlobalAttachmentResult">
+    <resultMap type="com.ruoyi.system.domain.GlobalAttachment" id="GlobalAttachmentResult">
         <result property="id"    column="ID"    />
         <result property="bizType"    column="BIZ_TYPE"    />
         <result property="bizId"    column="BIZ_ID"    />
@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select ID, BIZ_TYPE, BIZ_ID, ATTACHMENT_NAME, ATTACHMENT_TYPE, ATTACHMENT_URL, VERSION, IS_DELETED, CREATED_TIME, CREATED_BY, MODIFIED_BY, LAST_UPDATED_TIME, consult_type from global_attachment
     </sql>
 
-    <select id="selectGlobalAttachmentList" parameterType="GlobalAttachment" resultMap="GlobalAttachmentResult">
+    <select id="selectGlobalAttachmentList" parameterType="com.ruoyi.system.domain.GlobalAttachment" resultMap="GlobalAttachmentResult">
         <include refid="selectGlobalAttachmentVo"/>
         <where>  
             <if test="bizType != null  and bizType != ''"> and BIZ_TYPE = #{bizType}</if>
@@ -47,7 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where ID = #{id}
     </select>
         
-    <insert id="insertGlobalAttachment" parameterType="GlobalAttachment" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertGlobalAttachment" parameterType="com.ruoyi.system.domain.GlobalAttachment" useGeneratedKeys="true" keyProperty="id">
         insert into global_attachment
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="bizType != null">BIZ_TYPE,</if>
@@ -79,7 +79,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateGlobalAttachment" parameterType="GlobalAttachment">
+    <update id="updateGlobalAttachment" parameterType="com.ruoyi.system.domain.GlobalAttachment">
         update global_attachment
         <trim prefix="SET" suffixOverrides=",">
             <if test="bizType != null">BIZ_TYPE = #{bizType},</if>

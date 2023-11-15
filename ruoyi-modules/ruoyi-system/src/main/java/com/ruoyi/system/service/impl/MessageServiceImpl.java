@@ -1,11 +1,13 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ruoyi.system.domain.Message;
+import com.ruoyi.system.mapper.MessageMapper;
+import com.ruoyi.system.service.IMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.MessageMapper;
-import com.ruoyi.system.domain.Message;
-import com.ruoyi.system.service.IMessageService;
+
+import java.util.List;
 
 /**
  * 【请填写功能名称】Service业务层处理
@@ -14,7 +16,7 @@ import com.ruoyi.system.service.IMessageService;
  * @date 2023-07-04
  */
 @Service
-public class MessageServiceImpl implements IMessageService 
+public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> implements IMessageService
 {
     @Autowired
     private MessageMapper messageMapper;

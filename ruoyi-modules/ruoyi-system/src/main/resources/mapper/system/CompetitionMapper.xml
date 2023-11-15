@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.CompetitionMapper">
     
-    <resultMap type="Competition" id="CompetitionResult">
+    <resultMap type="com.ruoyi.system.domain.Competition" id="CompetitionResult">
         <result property="id"    column="id"    />
         <result property="mainTeamId"    column="main_team_id"    />
         <result property="mainTeamName"    column="main_team_name"    />
@@ -46,13 +46,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="auditStatus"    column="audit_status"    />
         <result property="heightHide"    column="height_hide"    />
         <result property="sponsor"    column="sponsor"    />
+        <result property="orderId" column="order_id"/>
     </resultMap>
 
     <sql id="selectCompetitionVo">
-        select id, main_team_id, main_team_name, guest_team_id, guest_team_name, competition_code, competition_name, designated, competition_type, competition_time, building_id, building_name, competition_address, founder, status, city_code, city_name, max_player, created_time, last_updated_time, created_by, modified_by, is_deleted, longitude, latitude, remark, competition_nature, enroll_begin_time, enroll_end_time, contacts, contacts_area_code, contacts_tel, competition_begin_time, competition_end_time, organizer, undertake, competition_back_img, created_id, audit_status, height_hide, sponsor from competition
+        select id, main_team_id, main_team_name,order_id, guest_team_id, guest_team_name, competition_code, competition_name, designated, competition_type, competition_time, building_id, building_name, competition_address, founder, status, city_code, city_name, max_player, created_time, last_updated_time, created_by, modified_by, is_deleted, longitude, latitude, remark, competition_nature, enroll_begin_time, enroll_end_time, contacts, contacts_area_code, contacts_tel, competition_begin_time, competition_end_time, organizer, undertake, competition_back_img, created_id, audit_status, height_hide, sponsor from competition
     </sql>
 
-    <select id="selectCompetitionList" parameterType="Competition" resultMap="CompetitionResult">
+    <select id="selectCompetitionList" parameterType="com.ruoyi.system.domain.Competition" resultMap="CompetitionResult">
         <include refid="selectCompetitionVo"/>
         <where>  
             <if test="mainTeamId != null "> and main_team_id = #{mainTeamId}</if>
@@ -265,7 +266,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </if>
     </select>
 
-    <insert id="insertCompetition" parameterType="Competition" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertCompetition" parameterType="com.ruoyi.system.domain.Competition" useGeneratedKeys="true" keyProperty="id">
         insert into competition
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="mainTeamId != null">main_team_id,</if>
@@ -308,6 +309,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="auditStatus != null">audit_status,</if>
             <if test="heightHide != null">height_hide,</if>
             <if test="sponsor != null">sponsor,</if>
+            <if test="orderId != null">order_id,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="mainTeamId != null">#{mainTeamId},</if>
@@ -350,10 +352,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="auditStatus != null">#{auditStatus},</if>
             <if test="heightHide != null">#{heightHide},</if>
             <if test="sponsor != null">#{sponsor},</if>
+            <if test="orderId != null">#{orderId},</if>
          </trim>
     </insert>
 
-    <update id="updateCompetition" parameterType="Competition">
+    <update id="updateCompetition" parameterType="com.ruoyi.system.domain.Competition">
         update competition
         <trim prefix="SET" suffixOverrides=",">
             <if test="mainTeamId != null">main_team_id = #{mainTeamId},</if>
@@ -396,6 +399,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="auditStatus != null">audit_status = #{auditStatus},</if>
             <if test="heightHide != null">height_hide = #{heightHide},</if>
             <if test="sponsor != null">sponsor = #{sponsor},</if>
+            <if test="orderId != null">order_id = #{orderId},</if>
         </trim>
         where id = #{id}
     </update>

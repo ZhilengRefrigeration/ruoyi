@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.MessageMapper">
     
-    <resultMap type="Message" id="MessageResult">
+    <resultMap type="com.ruoyi.system.domain.Message" id="MessageResult">
         <result property="id"    column="ID"    />
         <result property="createdBy"    column="CREATED_BY"    />
         <result property="createdTime"    column="CREATED_TIME"    />
@@ -25,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select ID, CREATED_BY, CREATED_TIME, MODIFIED_BY, LAST_UPDATED_TIME, IS_DELETED, MESSAGE_TITLE, MESSAGE_TYPE, FLOW_TYPE, AUDITOR, AUDIT_DATE, SOURCE_ID, AGREE_FLAG, FLOW_ENTITY from message
     </sql>
 
-    <select id="selectMessageList" parameterType="Message" resultMap="MessageResult">
+    <select id="selectMessageList" parameterType="com.ruoyi.system.domain.Message" resultMap="MessageResult">
         <include refid="selectMessageVo"/>
         <where>  
             <if test="createdBy != null  and createdBy != ''"> and CREATED_BY = #{createdBy}</if>
@@ -49,7 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where ID = #{id}
     </select>
         
-    <insert id="insertMessage" parameterType="Message" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertMessage" parameterType="com.ruoyi.system.domain.Message" useGeneratedKeys="true" keyProperty="id">
         insert into message
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="createdBy != null">CREATED_BY,</if>
@@ -83,7 +83,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateMessage" parameterType="Message">
+    <update id="updateMessage" parameterType="com.ruoyi.system.domain.Message">
         update message
         <trim prefix="SET" suffixOverrides=",">
             <if test="createdBy != null">CREATED_BY = #{createdBy},</if>

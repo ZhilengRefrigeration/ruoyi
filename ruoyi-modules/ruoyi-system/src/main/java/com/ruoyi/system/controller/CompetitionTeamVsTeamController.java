@@ -1,32 +1,30 @@
 package com.ruoyi.system.controller;
 
-import java.security.InvalidParameterException;
-import java.text.ParseException;
-import java.util.*;
-import java.io.IOException;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletResponse;
-
 import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.exception.CheckedException;
+import com.ruoyi.common.core.utils.poi.ExcelUtil;
+import com.ruoyi.common.core.web.controller.BaseController;
+import com.ruoyi.common.core.web.domain.AjaxResult;
+import com.ruoyi.common.core.web.page.TableDataInfo;
+import com.ruoyi.common.log.annotation.Log;
+import com.ruoyi.common.log.enums.BusinessType;
+import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.common.swagger.apiConstants.ApiTerminal;
 import com.ruoyi.system.domain.CompetitionResult;
+import com.ruoyi.system.domain.CompetitionTeamVsTeam;
 import com.ruoyi.system.domain.vo.*;
+import com.ruoyi.system.service.ICompetitionTeamVsTeamService;
 import com.ruoyi.system.utils.UtilTool;
-import io.seata.core.model.Result;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import com.ruoyi.common.log.annotation.Log;
-import com.ruoyi.common.log.enums.BusinessType;
-import com.ruoyi.common.security.annotation.RequiresPermissions;
-import com.ruoyi.system.domain.CompetitionTeamVsTeam;
-import com.ruoyi.system.service.ICompetitionTeamVsTeamService;
-import com.ruoyi.common.core.web.controller.BaseController;
-import com.ruoyi.common.core.web.domain.AjaxResult;
-import com.ruoyi.common.core.utils.poi.ExcelUtil;
-import com.ruoyi.common.core.web.page.TableDataInfo;
+
+import javax.servlet.http.HttpServletResponse;
+import java.security.InvalidParameterException;
+import java.text.ParseException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 赛会中-球队VS球队关系Controller
@@ -180,7 +178,8 @@ public class CompetitionTeamVsTeamController extends BaseController
                                         //正序
                                         //list1 -> list1.stream().sorted(Comparator.comparing(CompetitionTeamIntegralVo::getIntegral))
                                                 //倒序
-                                                list1 -> list1.stream().sorted(Comparator.comparing(CompetitionTeamIntegralVo::getIntegral).reversed())
+                                                list1 -> list1.stream().sorted(Comparator.comparing(CompetitionTeamIntegralVo::getIntegral).reversed()
+                                                                .thenComparing(CompetitionTeamIntegralVo::getNetWinPoint,Comparator.reverseOrder()))
                                                 .collect(Collectors.toList())
                                 )));
                 for (String key:map.keySet()){
@@ -193,7 +192,8 @@ public class CompetitionTeamVsTeamController extends BaseController
             if(notGroup.size()>0){
                 competitionTeamIntegralRankingVo rankingVo = new competitionTeamIntegralRankingVo();
                 rankingVo.setCompetitionGroup("未分");
-                rankingVo.setIntegralList(notGroup.stream().sorted(Comparator.comparing(CompetitionTeamIntegralVo::getIntegral).reversed()).collect(Collectors.toList()));
+                rankingVo.setIntegralList(notGroup.stream().sorted(Comparator.comparing(CompetitionTeamIntegralVo::getIntegral).reversed()
+                .thenComparing(CompetitionTeamIntegralVo::getNetWinPoint,Comparator.reverseOrder())).collect(Collectors.toList()));
                 rankingVoList.add(rankingVo);
             }
         }

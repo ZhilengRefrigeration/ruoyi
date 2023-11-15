@@ -1,9 +1,11 @@
 package com.ruoyi.system.service;
 
-import java.util.List;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.system.domain.CompetitionResult;
 import com.ruoyi.system.domain.vo.CompetitionResultVo;
 import com.ruoyi.system.domain.vo.CompetitionVsRecordVo;
+
+import java.util.List;
 
 /**
  * 赛会中-赛程结果记录Service接口
@@ -11,7 +13,7 @@ import com.ruoyi.system.domain.vo.CompetitionVsRecordVo;
  * @author ruoyi
  * @date 2022-11-03
  */
-public interface ICompetitionResultService 
+public interface ICompetitionResultService  extends IService<CompetitionResult>
 {
     /**
      * 查询赛会中-赛程结果记录

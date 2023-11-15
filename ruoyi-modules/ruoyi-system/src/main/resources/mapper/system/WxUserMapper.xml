@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.WxUserMapper">
     
-    <resultMap type="WxUser" id="WxUserResult">
+    <resultMap type="com.ruoyi.system.domain.WxUser" id="WxUserResult">
         <result property="id"    column="ID"    />
         <result property="isDeleted"    column="IS_DELETED"    />
         <result property="createdTime"    column="CREATED_TIME"    />
@@ -34,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select ID, IS_DELETED, CREATED_TIME, CREATED_BY, MODIFIED_BY, LAST_UPDATED_TIME, LOGIN_NAME, PASS_WORD, ROLE, OPENID, AVATAR, GENDER, USER_NAME, TELEPHONE, BIRTHDAY, HEIGHT, WEIGHT, TEAM_POSITION, TAG, ENABLED, UNIONID, OFFICIAL_ACCOUNT_OPENID,REAL_NAME from user_info
     </sql>
 
-    <select id="selectWxUserList" parameterType="WxUser" resultMap="WxUserResult">
+    <select id="selectWxUserList" parameterType="com.ruoyi.system.domain.WxUser" resultMap="WxUserResult">
         <include refid="selectWxUserVo"/>
         <where>  
             <if test="isDeleted != null "> and IS_DELETED = #{isDeleted}</if>
@@ -104,7 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         limit 1
     </select>
 
-    <insert id="insertWxUser" parameterType="WxUser" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertWxUser" parameterType="com.ruoyi.system.domain.WxUser" useGeneratedKeys="true" keyProperty="id">
         insert into user_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="isDeleted != null">IS_DELETED,</if>
@@ -156,7 +156,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateWxUser" parameterType="WxUser">
+    <update id="updateWxUser" parameterType="com.ruoyi.system.domain.WxUser">
         update user_info
         <trim prefix="SET" suffixOverrides=",">
             <if test="isDeleted != null">IS_DELETED = #{isDeleted},</if>

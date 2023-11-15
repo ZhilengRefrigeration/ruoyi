@@ -27,67 +27,15 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="线索渠道" prop="clueChannel">
-        <el-select v-model="queryParams.clueChannel" placeholder="请选择线索渠道" clearable>
+      <el-form-item label="预约状态" prop="status">
+        <el-select v-model="queryParams.makerStatus" placeholder="请选择到店状态" clearable>
           <el-option
-            v-for="dict in dict.type.clue_channels"
+            v-for="dict in dict.type.maker_status"
             :key="dict.value"
             :label="dict.label"
             :value="dict.value"
           />
         </el-select>
-      </el-form-item>
-      <el-form-item label="信息来源" prop="dataSource">
-        <el-select v-model="queryParams.dataSource" placeholder="请选择信息来源" clearable>
-          <el-option
-            v-for="dict in dict.type.customer_source"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="到店状态" prop="status">
-        <el-select v-model="queryParams.storeStatus" placeholder="请选择到店状态" clearable>
-          <el-option
-            v-for="dict in dict.type.to_store_status"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="微信号" prop="wechat">
-        <el-input
-          v-model="queryParams.wechat"
-          placeholder="请输入微信号"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="意向车型" prop="intentionCarModels">
-        <el-input
-          v-model="queryParams.intentionCarModels"
-          placeholder="请输入意向车型"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="预计到店" prop="preToStoreDate">
-        <el-date-picker clearable
-                        v-model="queryParams.preToStoreDate"
-                        type="date"
-                        value-format="yyyy-MM-dd"
-                        placeholder="请选择预计到店">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="下单日期" prop="orderDate">
-        <el-date-picker clearable
-                        v-model="queryParams.orderDate"
-                        type="date"
-                        value-format="yyyy-MM-dd"
-                        placeholder="请选择下单日期">
-        </el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -96,7 +44,7 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
+<!--      <el-col :span="1.5">
         <el-button
           type="primary"
           plain
@@ -127,7 +75,7 @@
           @click="handleDelete"
           v-hasPermi="['system:customer:remove']"
         >删除</el-button>
-      </el-col>
+      </el-col>-->
       <el-col :span="1.5">
         <el-button
           type="warning"
@@ -144,74 +92,39 @@
     <el-table v-loading="loading" :data="customerList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="客户姓名" align="center" prop="userName" width="120" v-if="columns[1].visible" show-overflow-tooltip />
-      <el-table-column label="客户状态" align="center" prop="status" width="120" show-overflow-tooltip >
+      <el-table-column label="客户性别" align="center" prop="sex"  show-overflow-tooltip >
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.customer_status" :value="scope.row.status"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="客户级别" align="center" prop="userType"  v-if="columns[3].visible" show-overflow-tooltip >
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.customer_level" :value="scope.row.userType"/>
+          <dict-tag :options="dict.type.sys_user_sex" :value="scope.row.sex"/>
         </template>
       </el-table-column>
       <el-table-column label="手机号码" align="center" prop="phoneNumber" width="110"  v-if="columns[5].visible" show-overflow-tooltip />
-      <el-table-column label="线索渠道" align="center" prop="clueChannel"  v-if="columns[8].visible" show-overflow-tooltip >
+      <el-table-column label="意向级别" align="center" prop="intentionLevel"   show-overflow-tooltip >
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.clue_channels" :value="scope.row.clueChannel"/>
+          <dict-tag :options="dict.type.customer_level" :value="scope.row.intentionLevel"/>
         </template>
       </el-table-column>
-      <el-table-column label="信息来源" align="center" prop="dataSource" v-if="columns[9].visible" show-overflow-tooltip >
+      <el-table-column label="预约时间" class-name="specialColor" align="center" prop="appointmentTime" width="180"  v-if="columns[30].visible" show-overflow-tooltip >
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.customer_source" :value="scope.row.dataSource"/>
+          <span>{{ parseTime(scope.row.appointmentTime, '{y}-{m}-{d} {h}:{i}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="客户居住" align="center" prop="liveAddress"  width="100" v-if="columns[10].visible" show-overflow-tooltip />
-      <el-table-column label="到店状态" align="center" prop="status" width="100" v-if="columns[11].visible" show-overflow-tooltip >
+      <el-table-column label="到店时间" class-name="specialColor" align="center" prop="arrivalTime" show-overflow-tooltip width="180">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.to_store_status" :value="scope.row.storeStatus"/>
+          <span>{{ parseTime(scope.row.arrivalTime, '{y}-{m}-{d} {h}:{i}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="微信号" align="center" prop="wechat" width="110"  v-if="columns[20].visible" show-overflow-tooltip />
-      <el-table-column label="下单日期" align="center" prop="orderDate" width="120" v-if="columns[33].visible" show-overflow-tooltip >
+      <el-table-column label="预约状态" align="center" prop="status" width="100" v-if="columns[11].visible" show-overflow-tooltip >
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.orderDate, '{y}-{m}-{d}') }}</span>
+          <dict-tag :options="dict.type.maker_status" :value="scope.row.makerStatus"/>
         </template>
       </el-table-column>
-<!--      <el-table-column label="是否评估" align="center" prop="isAssessment" />-->
-      <el-table-column label="意向车型" align="center" prop="intentionCarModels" width="120" v-if="columns[24].visible" show-overflow-tooltip />
-<!--      <el-table-column label="对比车型" align="center" prop="contrastCarModels" />
-      <el-table-column label="是否试驾" align="center" prop="isTestDrive" />
-      <el-table-column label="是否报价" align="center" prop="isOffer" />
-      <el-table-column label="是否金融" align="center" prop="isFinance" />-->
-<!--      <el-table-column label="最后到店" align="center" prop="lastToStoreDate" width="120">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.lastToStoreDate, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>-->
-      <el-table-column label="已有车辆" align="center" prop="existModels"  v-if="columns[22].visible" show-overflow-tooltip />
-      <el-table-column label="预计到店" class-name="specialColor" align="center" prop="preToStoreDate" width="120"  v-if="columns[30].visible" show-overflow-tooltip >
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.preToStoreDate, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="跟进次数" class-name="specialColor" align="center" prop="followUpTimes" v-if="columns[34].visible" show-overflow-tooltip />
-      <el-table-column label="最新跟进日" class-name="specialColor" align="center" prop="followUpLastDate" width="100" v-if="columns[35].visible" show-overflow-tooltip />
-      <el-table-column label="最新跟进级别" class-name="specialColor" align="center" prop="followUpLastLevel" width="100" v-if="columns[36].visible" show-overflow-tooltip />
-      <el-table-column label="建议下次跟进日" class-name="specialColor" align="center" prop="proposalNextFollowDate" width="120" v-if="columns[37].visible" show-overflow-tooltip />
-      <el-table-column label="跟进超期" class-name="specialColor" align="center" prop="followUpOverdueDate" width="120" v-if="columns[38].visible" show-overflow-tooltip />
-      <el-table-column label="未订车原因" align="center" prop="unBookingCarReason" width="110" show-overflow-tooltip v-if="columns[29].visible" show-overflow-tooltip />
-      <el-table-column label="备注" align="center" prop="remark" show-overflow-tooltip v-if="columns[19].visible" />
-
+<!--      <el-table-column label="备注" align="center" prop="remark" show-overflow-tooltip v-if="columns[19].visible" />-->
       <el-table-column label="操作" width="160" align="center" fixed="right" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleFollow(scope.row)"
-            v-hasPermi="['system:customer:edit']"
-          >跟进</el-button>
-          <el-button
+          <el-popconfirm title="是否确认到店？"  @confirm="popConfirm(scope.row)"  @cancel="popCancel" >
+            <el-button v-if="scope.row.makerStatus =='waitStore'" size="mini" type="text" icon="el-icon-edit" slot="reference">确认到店</el-button>
+          </el-popconfirm>
+<!--          <el-button
             size="mini"
             type="text"
             icon="el-icon-edit"
@@ -224,7 +137,7 @@
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
             v-hasPermi="['system:customer:remove']"
-          >删除</el-button>
+          >取消</el-button>-->
         </template>
       </el-table-column>
     </el-table>
@@ -348,14 +261,6 @@
                           placeholder="请选择预计到店">
           </el-date-picker>
         </el-form-item>
-<!--        <el-form-item label="最后到店" prop="lastToStoreDate">
-          <el-date-picker clearable
-                          v-model="form.lastToStoreDate"
-                          type="date"
-                          value-format="yyyy-MM-dd"
-                          placeholder="请选择最后到店">
-          </el-date-picker>
-        </el-form-item>-->
         <el-form-item label="4S店" prop="storeName">
           <el-input v-model="form.storeName" placeholder="请输入4S店" />
         </el-form-item>
@@ -457,9 +362,10 @@
 
 <script>
 import {
-  listCustomer,
+  listCustomerMaker,
   getCustomer,
   delCustomer,
+  confirmToStore,
   addCustomer,
   updateCustomer,
   addCustomerFollowRecerd, updateCustomerFollowRecerd, listCustomerFollow
@@ -468,7 +374,7 @@ import Data from "@/views/system/dict/data";
 
 export default {
   name: "bookManagerCustomer",
-  dicts: ['to_store_status', 'customer_source','customer_status', 'sys_user_sex', 'customer_level', 'clue_channels','follow_result','follow_up_method'],
+  dicts: ['maker_status', 'customer_source','customer_status', 'sys_user_sex', 'customer_level', 'clue_channels','follow_result','follow_up_method'],
   data() {
     return {
       drawer:false,
@@ -512,7 +418,9 @@ export default {
         wechat: null,
         intentionCarModels: null,
         preToStoreDate: null,
-        orderDate: null
+        orderDate: null,
+        orderByColumn:'appointment_time',
+        isAsc:'desc'
       },
       // 表单参数
       form: {
@@ -616,7 +524,7 @@ export default {
     getList() {
       this.loading = true;
       this.queryParams.status = 'potential';
-      listCustomer(this.queryParams).then(response => {
+      listCustomerMaker(this.queryParams).then(response => {
         this.customerList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -705,6 +613,30 @@ export default {
       this.open = true;
       this.title = "添加客户信息";
     },
+    popConfirm(row){
+      let param = {
+          id : row.id,
+          makerStatus:'alreadyStore',
+          arrivalTime:this.getDateYYYYMMddHHMMSS()
+      }
+      confirmToStore(param).then(response => {
+        this.$modal.msgSuccess("操作成功");
+        this.open = false;
+        this.getList();
+      });
+    },
+    popCancel(){
+      console.log('取消')
+    },
+  getDateYYYYMMddHHMMSS(){
+    const date = new Date();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const strDate = date.getDate().toString().padStart(2, '0');
+    const starHours = date.getHours().toString().padStart(2, '0');
+    const starMinutes = date.getMinutes().toString().padStart(2, '0');
+    const starSeconds = date.getSeconds().toString().padStart(2, '0');
+    return `${date.getFullYear()}-${month}-${strDate} ${starHours}:${starMinutes}:${starSeconds}`;
+  },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();

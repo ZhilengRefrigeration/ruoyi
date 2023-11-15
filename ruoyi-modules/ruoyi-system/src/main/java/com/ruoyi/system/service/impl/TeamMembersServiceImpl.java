@@ -1,18 +1,18 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
-
 import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.model.LoginUser;
+import com.ruoyi.system.domain.TeamMembers;
 import com.ruoyi.system.domain.vo.TeamMembersResponse;
 import com.ruoyi.system.domain.vo.TeamMembersVo;
-import com.ruoyi.system.utils.LoginUserUtil;
+import com.ruoyi.system.mapper.TeamMembersMapper;
+import com.ruoyi.system.service.ITeamMembersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.TeamMembersMapper;
-import com.ruoyi.system.domain.TeamMembers;
-import com.ruoyi.system.service.ITeamMembersService;
+
+import java.util.List;
 
 /**
  * 球队人员Service业务层处理
@@ -21,7 +21,7 @@ import com.ruoyi.system.service.ITeamMembersService;
  * @date 2022-11-03
  */
 @Service
-public class TeamMembersServiceImpl implements ITeamMembersService 
+public class TeamMembersServiceImpl extends ServiceImpl<TeamMembersMapper, TeamMembers> implements ITeamMembersService
 {
     @Autowired
     private TeamMembersMapper teamMembersMapper;

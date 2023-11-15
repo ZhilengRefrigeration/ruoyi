@@ -1,7 +1,9 @@
 package com.ruoyi.system.service;
 
-import java.util.List;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.system.domain.WxUser;
+
+import java.util.List;
 
 /**
  * 微信用户Service接口
@@ -9,7 +11,7 @@ import com.ruoyi.system.domain.WxUser;
  * @author 吴一博
  * @date 2022-08-30
  */
-public interface IWxUserService 
+public interface IWxUserService extends IService<WxUser>
 {
     /**
      * 查询微信用户

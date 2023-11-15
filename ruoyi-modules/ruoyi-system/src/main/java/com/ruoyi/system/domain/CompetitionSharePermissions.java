@@ -1,12 +1,11 @@
 package com.ruoyi.system.domain;
 
-import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import lombok.Data;
 
 /**
  * 赛会-权限分享对象 competition_share_permissions
@@ -15,11 +14,13 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
  * @date 2023-07-20
  */
 @Data
+@TableName("competition_share_permissions")
 public class CompetitionSharePermissions extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
     /** id */
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /** 赛事id(competition的ID) */

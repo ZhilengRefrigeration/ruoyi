@@ -1,14 +1,15 @@
 package com.ruoyi.system.domain;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.*;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 比赛信息对象 competition
@@ -22,11 +23,12 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
 @Builder
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
+@TableName("competition")
 public class Competition extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** id */
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /** 主队ID */
@@ -195,5 +197,7 @@ public class Competition extends BaseEntity
     /** 赞助商 */
     @Excel(name = "赞助商")
     private String sponsor;
+    @Excel(name = "图片库id")
+    private String orderId;
 
 }

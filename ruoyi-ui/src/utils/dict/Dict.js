@@ -6,7 +6,16 @@ import DictData from './DictData'
 const DEFAULT_DICT_OPTIONS = {
   types: [],
 }
-
+//字典翻译
+export function translateDict(list, e){
+  var value = ''
+  list.map(i =>{
+    if (i.code ==e) {
+      value =i.value
+    }
+  })
+  return value
+}
 /**
  * @classdesc 字典
  * @property {Object} label 标签对象，内部属性名为字典类型名称

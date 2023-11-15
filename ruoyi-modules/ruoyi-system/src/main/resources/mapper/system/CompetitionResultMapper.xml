@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.CompetitionResultMapper">
     
-    <resultMap type="CompetitionResult" id="CompetitionResultResult">
+    <resultMap type="com.ruoyi.system.domain.CompetitionResult" id="CompetitionResultResult">
         <result property="id"    column="id"    />
         <result property="competitionId"    column="competition_id"    />
         <result property="competitionVsId"    column="competition_vs_id"    />
@@ -28,13 +28,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="vsResult" column="vs_result"/>
         <result property="vsType" column="vs_type"/>
         <result property="integral"    column="integral"    />
+        <result property="netWinPoint" column="net_win_point"/>
     </resultMap>
 
     <sql id="selectCompetitionResultVo">
-        select id, competition_id, competition_vs_id, team_id, team_name, one_node_score, two_node_score, competition_group, status, created_time, last_updated_time, created_by, modified_by, is_deleted, remark, three_node_score, four_node_score, five_node_score, six_node_score, integral,vs_result,competition_of_team_id,vs_result from competition_result
+        select id, competition_id, competition_vs_id,net_win_point, team_id, team_name, one_node_score, two_node_score, competition_group, status, created_time, last_updated_time, created_by, modified_by, is_deleted, remark, three_node_score, four_node_score, five_node_score, six_node_score, integral,vs_result,competition_of_team_id,vs_result from competition_result
     </sql>
 
-    <select id="selectCompetitionResultList" parameterType="CompetitionResult" resultMap="CompetitionResultResult">
+    <select id="selectCompetitionResultList" parameterType="com.ruoyi.system.domain.CompetitionResult" resultMap="CompetitionResultResult">
         <include refid="selectCompetitionResultVo"/>
         <where>  
             <if test="competitionId != null "> and competition_id = #{competitionId}</if>
@@ -81,7 +82,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         rs.six_node_score as sixNodeScore,
         rs.vs_result,
         vs.vs_type,
-        rs.integral
+        rs.integral,
+        rs.net_win_point
         from competition_team_vs_team vs
         inner join competition_of_team team on (vs.main_team_id=team.id or vs.guest_team_id=team.id) and team.IS_DELETED=0
         left join competition_Result rs on (rs.competition_vs_id=vs.id and team.id = rs.competition_of_team_id) and rs.is_deleted=0
@@ -94,7 +96,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </if>
     </select>
 
-    <insert id="insertCompetitionResult" parameterType="CompetitionResult" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertCompetitionResult" parameterType="com.ruoyi.system.domain.CompetitionResult" useGeneratedKeys="true" keyProperty="id">
         insert into competition_result
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="competitionId != null">competition_id,</if>
@@ -119,6 +121,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="vsResult != null ">vs_result,</if>
             <if test="vsType != null ">vs_type,</if>
             <if test="competitionOfTeamId != null ">competition_of_team_id,</if>
+            <if test="netWinPoint != null ">net_win_point,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="competitionId != null">#{competitionId},</if>
@@ -143,10 +146,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="vsResult != null ">#{vsResult},</if>
             <if test="vsType != null "> #{vsType},</if>
             <if test="competitionOfTeamId != null "> #{competitionOfTeamId},</if>
+            <if test="netWinPoint != null "> #{netWinPoint},</if>
          </trim>
     </insert>
 
-    <update id="updateCompetitionResult" parameterType="CompetitionResult">
+    <update id="updateCompetitionResult" parameterType="com.ruoyi.system.domain.CompetitionResult">
         update competition_result
         <trim prefix="SET" suffixOverrides=",">
             <if test="competitionId != null">competition_id = #{competitionId},</if>
@@ -171,6 +175,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="vsResult != null ">vs_result = #{vsResult},</if>
             <if test="vsType != null "> vs_type = #{vsType},</if>
             <if test="competitionOfTeamId != null "> competition_of_team_id = #{competitionOfTeamId},</if>
+            <if test="netWinPoint != null "> net_win_point = #{netWinPoint},</if>
         </trim>
         where id = #{id}
     </update>

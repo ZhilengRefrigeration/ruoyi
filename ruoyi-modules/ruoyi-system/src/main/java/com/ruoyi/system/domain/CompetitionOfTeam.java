@@ -1,12 +1,14 @@
 package com.ruoyi.system.domain;
 
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import lombok.Data;
+
+import java.util.Date;
 
 /**
  * 赛会中-参赛队伍对象 competition_of_team
@@ -15,11 +17,12 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
  * @date 2022-11-03
  */
 @Data
+@TableName("competition_of_team")
 public class CompetitionOfTeam extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** id */
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /** 赛事id(competition的ID) */
@@ -67,7 +70,8 @@ public class CompetitionOfTeam extends BaseEntity
     /** 联系人 */
     @Excel(name = "领队人")
     private String contacts;
-
+    @Excel(name = "是否隐藏头像")
+    private Boolean isHideAvatar;
     /** 联系人电话 */
     @Excel(name = "领队人电话")
     private String contactsTel;

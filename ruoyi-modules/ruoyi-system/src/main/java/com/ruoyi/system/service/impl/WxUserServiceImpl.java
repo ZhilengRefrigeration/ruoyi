@@ -1,11 +1,13 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ruoyi.system.domain.WxUser;
+import com.ruoyi.system.mapper.WxUserMapper;
+import com.ruoyi.system.service.IWxUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.WxUserMapper;
-import com.ruoyi.system.domain.WxUser;
-import com.ruoyi.system.service.IWxUserService;
+
+import java.util.List;
 
 /**
  * 微信用户Service业务层处理
@@ -14,7 +16,7 @@ import com.ruoyi.system.service.IWxUserService;
  * @date 2022-08-30
  */
 @Service
-public class WxUserServiceImpl implements IWxUserService 
+public class WxUserServiceImpl extends ServiceImpl<WxUserMapper, WxUser> implements IWxUserService
 {
     @Autowired
     private WxUserMapper wxUserMapper;

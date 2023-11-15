@@ -1,8 +1,10 @@
 package com.ruoyi.system.service;
 
-import java.util.List;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.system.domain.CompetitionMembersScore;
-import com.ruoyi.system.domain.vo.PersonalCareerVo;
+import com.ruoyi.system.domain.vo.CompetitionMembersScoreVo;
+
+import java.util.List;
 
 /**
  * 赛会中-赛程-人员得分Service接口
@@ -10,7 +12,7 @@ import com.ruoyi.system.domain.vo.PersonalCareerVo;
  * @author ruoyi
  * @date 2022-11-03
  */
-public interface ICompetitionMembersScoreService 
+public interface ICompetitionMembersScoreService extends IService<CompetitionMembersScore>
 {
     /**
      * 查询赛会中-赛程-人员得分
@@ -60,7 +62,9 @@ public interface ICompetitionMembersScoreService
      */
     public int deleteCompetitionMembersScoreById(Long id);
 
-    PersonalCareerVo getUserScoreByUserId(Long userId);
+    CompetitionMembersScoreVo getUserScoreByUserId(Long userId);
 
     List<CompetitionMembersScore> getHonorList(Long competitionId, Long userId);
+
+    CompetitionMembersScoreVo getThisCompetitionScore(Long competitionId, Long competitionMembersId);
 }

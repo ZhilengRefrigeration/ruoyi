@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.CustomerOrderMapper">
+    
+    <resultMap type="com.ruoyi.system.domain.CustomerOrder" id="CustomerOrderResult">
+        <result property="id"    column="id"    />
+        <result property="customerId"    column="customer_id"    />
+        <result property="orderDate"    column="order_date"    />
+        <result property="carInfo"    column="car_info"    />
+        <result property="carVin"    column="car_vin"    />
+        <result property="carStatus"    column="car_status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="outDate" column="out_date"/>
+        <result property="carStatus" column="car_status"/>
+    </resultMap>
+
+    <sql id="selectCustomerOrderVo">
+        select id, customer_id, order_date, car_info, car_vin,out_date, car_status, create_by, create_time, update_by, update_time, remark from f_customer_order
+    </sql>
+
+    <select id="selectCustomerOrderList" parameterType="com.ruoyi.system.domain.CustomerOrder" resultMap="CustomerOrderResult">
+        <include refid="selectCustomerOrderVo"/>
+        <where>  
+            <if test="customerId != null "> and customer_id = #{customerId}</if>
+            <if test="outDate != null "> and out_date = #{outDate}</if>
+            <if test="orderDate != null "> and order_date = #{orderDate}</if>
+            <if test="carInfo != null  and carInfo != ''"> and car_info = #{carInfo}</if>
+            <if test="carVin != null  and carVin != ''"> and car_vin = #{carVin}</if>
+            <if test="carStatus != null  and carStatus != ''"> and car_status = #{carStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectCustomerOrderById" parameterType="Long" resultMap="CustomerOrderResult">
+        <include refid="selectCustomerOrderVo"/>
+        where id = #{id}
+    </select>
+    <select id="getCustomerOrderPage" resultType="com.ruoyi.system.domain.vo.CustomerOrderVo">
+        SELECT *,DATE_ADD(t.order_date, INTERVAL 7 DAY) as planFollowUpDate,f.create_time as actualFollowUpDate FROM f_customer_order t
+        LEFT JOIN f_customer c ON c.id = t.customer_id
+        LEFT JOIN (
+            SELECT a.* FROM f_follow_up AS a
+            LEFT JOIN (
+                SELECT MAX(create_time) AS create_time, customer_id FROM f_follow_up GROUP BY customer_id
+            ) AS b ON a.customer_id = b.customer_id where a.create_time = b.create_time
+        ) f on f.customer_id = c.id
+        <where>
+            <if test="phoneNumber != null  and phoneNumber != ''"> and c.phone_number like concat('%', #{phoneNumber}, '%')</if>
+            <if test="userName != null  and userName != ''"> and c.user_name like concat('%', #{userName}, '%')</if>
+            <if test="status != null "> and c.status = #{status}</if>
+            <if test="customerId != null "> and t.customer_id = #{customerId}</if>
+            <if test="orderDate != null "> and t.order_date = #{orderDate}</if>
+            <if test="outDate != null "> and t.out_date = #{outDate}</if>
+            <if test="carInfo != null  and carInfo != ''"> and t.car_info like concat('%', #{carInfo}, '%')</if>
+            <if test="carVin != null  and carVin != ''"> and t.car_vin like concat('%', #{carVin}, '%')</if>
+            <if test="carStatus != null  and carStatus != ''"> and t.car_status like concat('%', #{carStatus}, '%') </if>
+        </where>
+    </select>
+
+    <insert id="insertCustomerOrder" parameterType="com.ruoyi.system.domain.CustomerOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into f_customer_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">customer_id,</if>
+            <if test="orderDate != null">order_date,</if>
+            <if test="outDate != null">out_date,</if>
+            <if test="carInfo != null">car_info,</if>
+            <if test="carVin != null">car_vin,</if>
+            <if test="carStatus != null">car_status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="customerId != null">#{customerId},</if>
+            <if test="orderDate != null">#{orderDate},</if>
+            <if test="outDate != null">#{outDate},</if>
+            <if test="carInfo != null">#{carInfo},</if>
+            <if test="carVin != null">#{carVin},</if>
+            <if test="carStatus != null">#{carStatus},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCustomerOrder" parameterType="com.ruoyi.system.domain.CustomerOrder">
+        update f_customer_order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="customerId != null">customer_id = #{customerId},</if>
+            <if test="orderDate != null">order_date = #{orderDate},</if>
+            <if test="outDate != null">out_date = #{outDate},</if>
+            <if test="carInfo != null">car_info = #{carInfo},</if>
+            <if test="carVin != null">car_vin = #{carVin},</if>
+            <if test="carStatus != null">car_status = #{carStatus},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCustomerOrderById" parameterType="Long">
+        delete from f_customer_order where id = #{id}
+    </delete>
+
+    <delete id="deleteCustomerOrderByIds" parameterType="String">
+        delete from f_customer_order where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

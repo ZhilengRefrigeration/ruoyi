@@ -1,9 +1,11 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ruoyi.system.domain.CompetitionMembers;
 import com.ruoyi.system.domain.vo.CompetitionMembersVo;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 比赛参与人员Mapper接口
@@ -11,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
  * @author ruoyi
  * @date 2022-11-03
  */
-public interface CompetitionMembersMapper 
+public interface CompetitionMembersMapper extends BaseMapper<CompetitionMembers>
 {
     /**
      * 查询比赛参与人员

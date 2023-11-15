@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.UserWxAqrCodeMapper">
 
-    <resultMap type="UserWxAqrCode" id="UserWxAqrCodeResult">
+    <resultMap type="com.ruoyi.system.domain.UserWxAqrCode" id="UserWxAqrCodeResult">
         <result property="id"    column="ID"    />
         <result property="isDeleted"    column="IS_DELETED"    />
         <result property="createdTime"    column="CREATED_TIME"    />
@@ -28,7 +28,7 @@
         select ID, IS_DELETED, CREATED_TIME, CREATED_BY, MODIFIED_BY, LAST_UPDATED_TIME, scene, code_img_url, user_id, bus_type, page, width, use_desc, jersey_no, team_id,competition_of_team_id,competition_members_id from user_wx_aqr_code
     </sql>
 
-    <select id="selectUserWxAqrCodeList1" parameterType="UserWxAqrCode" resultMap="UserWxAqrCodeResult">
+    <select id="selectUserWxAqrCodeList1" parameterType="com.ruoyi.system.domain.UserWxAqrCode" resultMap="UserWxAqrCodeResult">
         <include refid="selectUserWxAqrCodeVo"/>
         <where>
             <if test="createdBy != null  and createdBy != ''"> and CREATED_BY like concat('%', #{createdBy}, '%')</if>
@@ -74,7 +74,7 @@
         </where>
     </select>
 
-    <insert id="insertUserWxAqrCode" parameterType="UserWxAqrCode" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertUserWxAqrCode" parameterType="com.ruoyi.system.domain.UserWxAqrCode" useGeneratedKeys="true" keyProperty="id">
         insert into user_wx_aqr_code
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="isDeleted != null">IS_DELETED,</if>
@@ -114,7 +114,7 @@
         </trim>
     </insert>
 
-    <update id="updateUserWxAqrCode" parameterType="UserWxAqrCode">
+    <update id="updateUserWxAqrCode" parameterType="com.ruoyi.system.domain.UserWxAqrCode">
         update user_wx_aqr_code
         <trim prefix="SET" suffixOverrides=",">
             <if test="isDeleted != null">IS_DELETED = #{isDeleted},</if>

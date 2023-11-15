@@ -1,8 +1,6 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.redis.service.RedisService;
@@ -10,25 +8,24 @@ import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.domain.Competition;
 import com.ruoyi.system.domain.CompetitionOfTeam;
+import com.ruoyi.system.domain.CompetitionTeamGroup;
 import com.ruoyi.system.domain.CompetitionTeamVsTeam;
 import com.ruoyi.system.domain.vo.BegerArrangementVo;
 import com.ruoyi.system.domain.vo.CompetitionOfTeamVo;
-import com.ruoyi.system.domain.vo.CompetitionTeamVsTeamVo;
 import com.ruoyi.system.domain.vo.TeamGroupRequest;
 import com.ruoyi.system.mapper.CompetitionMapper;
 import com.ruoyi.system.mapper.CompetitionOfTeamMapper;
-import com.ruoyi.system.mapper.CompetitionTeamVsTeamMapper;
-import com.ruoyi.system.utils.BegerSingleCycleUtil;
-import com.ruoyi.system.utils.LoginUserUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.ruoyi.system.mapper.CompetitionTeamGroupMapper;
-import com.ruoyi.system.domain.CompetitionTeamGroup;
+import com.ruoyi.system.mapper.CompetitionTeamVsTeamMapper;
 import com.ruoyi.system.service.ICompetitionTeamGroupService;
+import com.ruoyi.system.utils.BegerSingleCycleUtil;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 赛会中-分组Service业务层处理
@@ -37,7 +34,7 @@ import javax.annotation.Resource;
  * @date 2022-11-03
  */
 @Service
-public class CompetitionTeamGroupServiceImpl implements ICompetitionTeamGroupService 
+public class CompetitionTeamGroupServiceImpl extends ServiceImpl<CompetitionTeamGroupMapper, CompetitionTeamGroup> implements ICompetitionTeamGroupService
 {
     @Resource
     private CompetitionTeamGroupMapper competitionTeamGroupMapper;

@@ -1,22 +1,22 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.vo.WxAppletsCodeVo;
 import com.ruoyi.system.api.feign.WxAppletsFeign;
+import com.ruoyi.system.domain.UserWxAqrCode;
 import com.ruoyi.system.domain.vo.UserWxAqrCodeVo;
+import com.ruoyi.system.mapper.UserWxAqrCodeMapper;
+import com.ruoyi.system.service.IUserWxAqrCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.UserWxAqrCodeMapper;
-import com.ruoyi.system.domain.UserWxAqrCode;
-import com.ruoyi.system.service.IUserWxAqrCodeService;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 微信用户小程序二维码Service业务层处理
@@ -25,7 +25,7 @@ import javax.annotation.Resource;
  * @date 2022-10-18
  */
 @Service
-public class UserWxAqrCodeServiceImpl implements IUserWxAqrCodeService 
+public class UserWxAqrCodeServiceImpl extends ServiceImpl<UserWxAqrCodeMapper, UserWxAqrCode> implements IUserWxAqrCodeService
 {
     @Autowired
     private UserWxAqrCodeMapper userWxAqrCodeMapper;

@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.ShAreaMapper">
     
-    <resultMap type="ShArea" id="ShAreaResult">
+    <resultMap type="com.ruoyi.system.domain.ShArea" id="ShAreaResult">
         <result property="id"    column="id"    />
         <result property="pid"    column="pid"    />
         <result property="shortname"    column="shortname"    />
@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, pid, shortname, cityName, merger_name, level, pinyin, code, zip_code, first, longitude, latitude, IS_DELETED, CREATED_TIME, CREATED_BY, MODIFIED_BY, LAST_UPDATED_TIME from sh_area
     </sql>
 
-    <select id="selectShAreaList" parameterType="ShArea" resultMap="ShAreaResult">
+    <select id="selectShAreaList" parameterType="com.ruoyi.system.domain.ShArea" resultMap="ShAreaResult">
         <include refid="selectShAreaVo"/>
         <where>  
             <if test="pid != null "> and pid = #{pid}</if>
@@ -68,7 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ORDER BY distance LIMIT 1
     </select>
 
-    <insert id="insertShArea" parameterType="ShArea" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertShArea" parameterType="com.ruoyi.system.domain.ShArea" useGeneratedKeys="true" keyProperty="id">
         insert into sh_area
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="pid != null">pid,</if>
@@ -108,7 +108,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateShArea" parameterType="ShArea">
+    <update id="updateShArea" parameterType="com.ruoyi.system.domain.ShArea">
         update sh_area
         <trim prefix="SET" suffixOverrides=",">
             <if test="pid != null">pid = #{pid},</if>

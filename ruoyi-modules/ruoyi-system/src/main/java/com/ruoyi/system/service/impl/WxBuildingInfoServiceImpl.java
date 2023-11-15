@@ -1,25 +1,25 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.model.LoginUser;
-import com.ruoyi.system.api.model.WxLoginUser;
-import com.ruoyi.system.domain.*;
+import com.ruoyi.system.domain.BuildingInfoDetail;
+import com.ruoyi.system.domain.BuildingLabel;
+import com.ruoyi.system.domain.FeatureLabel;
+import com.ruoyi.system.domain.WxBuildingInfo;
 import com.ruoyi.system.domain.vo.BuildingInfoRequest;
 import com.ruoyi.system.domain.vo.BuildingInfoResponse;
 import com.ruoyi.system.mapper.*;
-import com.ruoyi.system.utils.LoginUserUtil;
+import com.ruoyi.system.service.IWxBuildingInfoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.service.IWxBuildingInfoService;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 球场管理Service业务层处理
@@ -28,7 +28,7 @@ import org.springframework.util.StringUtils;
  * @date 2022-08-30
  */
 @Service
-public class WxBuildingInfoServiceImpl implements IWxBuildingInfoService 
+public class WxBuildingInfoServiceImpl extends ServiceImpl<WxBuildingInfoMapper, WxBuildingInfo> implements IWxBuildingInfoService
 {
     @Autowired
     private WxBuildingInfoMapper wxBuildingInfoMapper;

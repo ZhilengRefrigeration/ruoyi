@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.GroupWechatMapper">
     
-    <resultMap type="GroupWechat" id="GroupWechatResult">
+    <resultMap type="com.ruoyi.system.domain.GroupWechat" id="GroupWechatResult">
         <result property="id"    column="ID"    />
         <result property="buildingId"    column="BUILDING_ID"    />
         <result property="groupName"    column="GROUP_NAME"    />
@@ -25,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select ID, BUILDING_ID, GROUP_NAME, HEADER_PICTURE, GROUP_CODE, SCAN_NUM, SERVICE_USER, SERVICE_USER_QRCODE, REMARKS, IS_DELETED, CREATED_TIME, CREATED_BY, MODIFIED_BY, LAST_UPDATED_TIME from group_wechat
     </sql>
 
-    <select id="selectGroupWechatList" parameterType="GroupWechat" resultMap="GroupWechatResult">
+    <select id="selectGroupWechatList" parameterType="com.ruoyi.system.domain.GroupWechat" resultMap="GroupWechatResult">
         <include refid="selectGroupWechatVo"/>
         <where>  
             <if test="buildingId != null "> and BUILDING_ID = #{buildingId}</if>
@@ -49,7 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where ID = #{id}
     </select>
         
-    <insert id="insertGroupWechat" parameterType="GroupWechat" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertGroupWechat" parameterType="com.ruoyi.system.domain.GroupWechat" useGeneratedKeys="true" keyProperty="id">
         insert into group_wechat
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="buildingId != null">BUILDING_ID,</if>
@@ -83,7 +83,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateGroupWechat" parameterType="GroupWechat">
+    <update id="updateGroupWechat" parameterType="com.ruoyi.system.domain.GroupWechat">
         update group_wechat
         <trim prefix="SET" suffixOverrides=",">
             <if test="buildingId != null">BUILDING_ID = #{buildingId},</if>

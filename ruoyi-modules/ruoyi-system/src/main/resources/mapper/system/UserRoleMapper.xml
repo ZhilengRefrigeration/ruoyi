@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.UserRoleMapper">
     
-    <resultMap type="UserRole" id="UserRoleResult">
+    <resultMap type="com.ruoyi.system.domain.UserRole" id="UserRoleResult">
         <result property="id"    column="ID"    />
         <result property="userId"    column="USER_ID"    />
         <result property="roleCode"    column="ROLE_CODE"    />
@@ -20,7 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select ID, USER_ID, ROLE_CODE, CREATED_TIME, CREATED_BY, MODIFIED_BY, IS_DELETED, LAST_UPDATED_TIME, ROLE_ID from user_role
     </sql>
 
-    <select id="selectUserRoleList" parameterType="UserRole" resultMap="UserRoleResult">
+    <select id="selectUserRoleList" parameterType="com.ruoyi.system.domain.UserRole" resultMap="UserRoleResult">
         <include refid="selectUserRoleVo"/>
         <where>  
             <if test="userId != null "> and USER_ID = #{userId}</if>
@@ -45,7 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select * from user_role where USER_ID = #{userId}
     </select>
 
-    <insert id="insertUserRole" parameterType="UserRole" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertUserRole" parameterType="com.ruoyi.system.domain.UserRole" useGeneratedKeys="true" keyProperty="id">
         insert into user_role
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userId != null">USER_ID,</if>
@@ -69,7 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateUserRole" parameterType="UserRole">
+    <update id="updateUserRole" parameterType="com.ruoyi.system.domain.UserRole">
         update user_role
         <trim prefix="SET" suffixOverrides=",">
             <if test="userId != null">USER_ID = #{userId},</if>

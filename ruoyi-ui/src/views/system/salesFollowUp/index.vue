@@ -1,94 +1,45 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="客户名" prop="userName">
+      <el-form-item label="客户" prop="userName">
         <el-input
           v-model="queryParams.userName"
-          placeholder="请输入客户名"
+          placeholder="请输入客户"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-
-      <el-form-item label="客户级别" prop="userType">
-        <el-select v-model="queryParams.userType" placeholder="请选择客户级别" clearable>
-          <el-option
-            v-for="dict in dict.type.customer_level"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="手机号码" prop="phoneNumber">
+      <el-form-item label="客户手机" prop="phoneNumber">
         <el-input
           v-model="queryParams.phoneNumber"
-          placeholder="请输入手机号码"
+          placeholder="请输入客户手机号"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="线索渠道" prop="clueChannel">
-        <el-select v-model="queryParams.clueChannel" placeholder="请选择线索渠道" clearable>
-          <el-option
-            v-for="dict in dict.type.clue_channels"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="信息来源" prop="dataSource">
-        <el-select v-model="queryParams.dataSource" placeholder="请选择信息来源" clearable>
-          <el-option
-            v-for="dict in dict.type.customer_source"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="到店状态" prop="status">
-        <el-select v-model="queryParams.storeStatus" placeholder="请选择到店状态" clearable>
-          <el-option
-            v-for="dict in dict.type.to_store_status"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="微信号" prop="wechat">
-        <el-input
-          v-model="queryParams.wechat"
-          placeholder="请输入微信号"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="意向车型" prop="intentionCarModels">
-        <el-input
-          v-model="queryParams.intentionCarModels"
-          placeholder="请输入意向车型"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="预计到店" prop="preToStoreDate">
-        <el-date-picker clearable
-                        v-model="queryParams.preToStoreDate"
-                        type="date"
-                        value-format="yyyy-MM-dd"
-                        placeholder="请选择预计到店">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="下单日期" prop="orderDate">
+      <el-form-item label="订车时间" prop="orderDate">
         <el-date-picker clearable
                         v-model="queryParams.orderDate"
                         type="date"
                         value-format="yyyy-MM-dd"
-                        placeholder="请选择下单日期">
+                        placeholder="请选择订车时间">
         </el-date-picker>
+      </el-form-item>
+      <el-form-item label="车辆详细" prop="carInfo">
+        <el-input
+          v-model="queryParams.carInfo"
+          placeholder="请输入车辆详细"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="车辆VIN" prop="carVin">
+        <el-input
+          v-model="queryParams.carVin"
+          placeholder="请输入车辆VIN"
+          clearable
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -97,7 +48,7 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <el-col :span="1.5">
+<!--      <el-col :span="1.5">
         <el-button
           type="primary"
           plain
@@ -128,7 +79,7 @@
           @click="handleDelete"
           v-hasPermi="['system:customer:remove']"
         >删除</el-button>
-      </el-col>
+      </el-col>-->
       <el-col :span="1.5">
         <el-button
           type="warning"
@@ -145,6 +96,11 @@
     <el-table v-loading="loading" :data="customerList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="客户姓名" align="center" prop="userName" width="120" v-if="columns[1].visible" show-overflow-tooltip />
+      <el-table-column label="客户性别" align="center" prop="sex"  show-overflow-tooltip >
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.sys_user_sex" :value="scope.row.sex"/>
+        </template>
+      </el-table-column>
       <el-table-column label="客户级别" align="center" prop="userType"  v-if="columns[3].visible" show-overflow-tooltip >
         <template slot-scope="scope">
           <dict-tag :options="dict.type.customer_level" :value="scope.row.userType"/>
@@ -161,43 +117,44 @@
           <dict-tag :options="dict.type.customer_source" :value="scope.row.dataSource"/>
         </template>
       </el-table-column>
-      <el-table-column label="客户居住" align="center" prop="liveAddress"  width="100" v-if="columns[10].visible" show-overflow-tooltip />
-      <el-table-column label="到店状态" align="center" prop="status" width="100" v-if="columns[11].visible" show-overflow-tooltip >
-        <template slot-scope="scope">
-          <dict-tag :options="dict.type.to_store_status" :value="scope.row.storeStatus"/>
-        </template>
-      </el-table-column>
-      <el-table-column label="微信号" align="center" prop="wechat" width="110"  v-if="columns[20].visible" show-overflow-tooltip />
-      <el-table-column label="下单日期" align="center" prop="orderDate" width="120" v-if="columns[33].visible" show-overflow-tooltip >
+      <el-table-column label="订单日期" align="center" prop="orderDate" width="120" v-if="columns[33].visible" show-overflow-tooltip >
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.orderDate, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-<!--      <el-table-column label="是否评估" align="center" prop="isAssessment" />-->
-      <el-table-column label="意向车型" align="center" prop="intentionCarModels" width="120" v-if="columns[24].visible" show-overflow-tooltip />
-<!--      <el-table-column label="对比车型" align="center" prop="contrastCarModels" />
-      <el-table-column label="是否试驾" align="center" prop="isTestDrive" />
-      <el-table-column label="是否报价" align="center" prop="isOffer" />
-      <el-table-column label="是否金融" align="center" prop="isFinance" />-->
-<!--      <el-table-column label="最后到店" align="center" prop="lastToStoreDate" width="120">
+      <el-table-column label="车辆详细" align="center" prop="carInfo" width="280"/>
+      <el-table-column label="车辆VIN" align="center" prop="carVin" width="220" />
+      <el-table-column label="车辆状态" align="center" prop="carStatus" >
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.lastToStoreDate, '{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>-->
-      <el-table-column label="已有车辆" align="center" prop="existModels"  v-if="columns[22].visible" show-overflow-tooltip />
-      <el-table-column label="预计到店" class-name="specialColor" align="center" prop="preToStoreDate" width="120"  v-if="columns[30].visible" show-overflow-tooltip >
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.preToStoreDate, '{y}-{m}-{d}') }}</span>
+          <dict-tag :options="dict.type.car_status" :value="scope.row.carStatus"/>
         </template>
       </el-table-column>
-      <el-table-column label="跟进次数" class-name="specialColor" align="center" prop="followUpTimes" v-if="columns[34].visible" show-overflow-tooltip />
-      <el-table-column label="最新跟进日" class-name="specialColor" align="center" prop="followUpLastDate" width="100" v-if="columns[35].visible" show-overflow-tooltip />
-      <el-table-column label="最新跟进级别" class-name="specialColor" align="center" prop="followUpLastLevel" width="100" v-if="columns[36].visible" show-overflow-tooltip />
-      <el-table-column label="建议下次跟进日" class-name="specialColor" align="center" prop="proposalNextFollowDate" width="120" v-if="columns[37].visible" show-overflow-tooltip />
-      <el-table-column label="跟进超期" class-name="specialColor" align="center" prop="followUpOverdueDate" width="120" v-if="columns[38].visible" show-overflow-tooltip />
-      <el-table-column label="未订车原因" align="center" prop="unBookingCarReason" width="110" show-overflow-tooltip v-if="columns[29].visible" show-overflow-tooltip />
-      <el-table-column label="备注" align="center" prop="remark" show-overflow-tooltip v-if="columns[19].visible" />
-
+      <el-table-column label="出库日期" align="center" prop="outDate" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.outDate, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="跟进备注" align="center" prop="remark" width="120" />
+      <el-table-column label="计划跟进日期" align="center" prop="planFollowUpDate" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.planFollowUpDate, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="实际跟进日期" align="center" prop="actualFollowUpDate" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.actualFollowUpDate, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="跟进方式" align="center" prop="followUpMethod" >
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.follow_up_method" :value="scope.row.followUpMethod"/>
+        </template>
+      </el-table-column>
+      <el-table-column label="是否逾期" align="center" prop="followUpMethod" >
+        <template slot-scope="scope">
+          {{scope.row.actualFollowUpDate > scope.row.planFollowUpDate?'是':'否'}}
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="160" align="center" fixed="right" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -206,21 +163,21 @@
             icon="el-icon-edit"
             @click="handleFollow(scope.row)"
             v-hasPermi="['system:customer:edit']"
-          >跟进</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['system:customer:edit']"
-          >修改</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['system:customer:remove']"
-          >删除</el-button>
+          >回访</el-button>
+          <!--   <el-button
+              size="mini"
+              type="text"
+              icon="el-icon-edit"
+              @click="handleUpdate(scope.row)"
+              v-hasPermi="['system:customer:edit']"
+            >修改</el-button>
+           <el-button
+              size="mini"
+              type="text"
+              icon="el-icon-delete"
+              @click="handleDelete(scope.row)"
+              v-hasPermi="['system:customer:remove']"
+            >删除</el-button>-->
         </template>
       </el-table-column>
     </el-table>
@@ -297,7 +254,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="信息来源" prop="dataSource">
+<!--        <el-form-item label="信息来源" prop="dataSource">
           <el-select v-model="form.dataSource" placeholder="请选择信息来源">
             <el-option
               v-for="dict in dict.type.customer_source"
@@ -309,8 +266,8 @@
         </el-form-item>
         <el-form-item label="客户居住" prop="liveAddress">
           <el-input v-model="form.liveAddress" placeholder="请输入客户居住" />
-        </el-form-item>
-        <el-form-item label="到店状态" prop="status">
+        </el-form-item>-->
+<!--        <el-form-item label="到店状态" prop="status">
           <el-select v-model="form.storeStatus" placeholder="请选择到店状态">
             <el-option
               v-for="dict in dict.type.to_store_status"
@@ -319,7 +276,7 @@
               :value="dict.value"
             ></el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item>-->
         <el-form-item label="已有车型" prop="existModels">
           <el-input v-model="form.existModels" placeholder="请输入已有车型" />
         </el-form-item>
@@ -379,32 +336,42 @@
       <el-timeline :reverse="reverse">
         <el-timeline-item placement="top"   v-for="(follow, index) in followUpList" :key="index" :timestamp="follow.followUpDate">
           <el-card shadow="hover">
-            <p><el-tag>跟进方式：</el-tag>
-              <el-select v-model="follow.followUpMethod" disabled>
-                <el-option
-                  v-for="dict in dict.type.follow_up_method"
-                  :key="dict.value"
-                  :label="dict.label"
-                  :value="dict.value"
-                />
-              </el-select>
-            </p>
-            <p><el-tag>级别：</el-tag> {{follow.followLevel}} </p>
-            <h4><el-tag>记录：</el-tag> {{follow.followUpRecord}}</h4>
-            <p> <el-tag>再次预约到店日期：</el-tag> {{follow.preToStoreDate}} </p>
+            <p><el-tag>跟进方式:</el-tag> {{follow.followUpMethod}} </p>
+            <p> <el-tag>跟进目的:</el-tag> {{follow.objective}} </p>
+            <p><el-tag>跟进记录:</el-tag> {{follow.followUpRecord}}</p>
             <p>提交于 {{follow.createTime}}</p>
           </el-card>
         </el-timeline-item>
       </el-timeline>
       <el-drawer title="新增跟进日志" :append-to-body="true" :visible.sync="innerDrawer">
         <el-form ref="followForm" :model="followForm" :rules="followRules" label-width="140px">
-          <el-form-item label="跟进日期" prop="followUpDate">
-            <el-date-picker clearable
+          <el-form-item label="计划跟进日期" prop="followUpDate">
+            <el-date-picker clearable disabled
                             v-model="followForm.followUpDate"
                             type="date"
                             value-format="yyyy-MM-dd"
                             placeholder="请选择跟进日期">
             </el-date-picker>
+          </el-form-item>
+          <el-form-item label="跟进备注" prop="followUpRecord">
+            <el-input v-model="followForm.remark" disabled placeholder="请输入内容" />
+          </el-form-item>
+          <el-divider content-position="left">订单车型</el-divider>
+            <el-descriptions direction="vertical" :column="6" border size="mini">
+<!--              <el-descriptions-item label="状态">正常</el-descriptions-item>-->
+              <el-descriptions-item label="VIN" show-overflow-tooltip>{{followForm.carVin}}</el-descriptions-item>
+              <el-descriptions-item label="车辆信息" show-overflow-tooltip>{{followForm.carInfo}}</el-descriptions-item>
+            </el-descriptions>
+          <el-divider></el-divider>
+          <el-form-item label="跟进目的" prop="objectiveList">
+            <el-select v-model="followForm.objectiveList" multiple placeholder="请选择">
+              <el-option
+                v-for="item in objectiveList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="跟进方式" prop="followUpMethod">
             <el-select v-model="followForm.followUpMethod" placeholder="请选择跟进方式" clearable>
@@ -419,27 +386,6 @@
           <el-form-item label="跟进记录" prop="followUpRecord">
             <el-input v-model="followForm.followUpRecord" type="textarea" placeholder="请输入内容" />
           </el-form-item>
-          <el-form-item label="级别" prop="followLevel">
-            <el-select v-model="followForm.followLevel" placeholder="请选择级别" clearable>
-              <el-option
-                v-for="dict in dict.type.customer_level"
-                :key="dict.value"
-                :label="dict.label"
-                :value="dict.value"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="再次预约到店日期" prop="preToStoreDate">
-            <el-date-picker clearable
-                            v-model="followForm.preToStoreDate"
-                            type="date"
-                            value-format="yyyy-MM-dd"
-                            placeholder="请选择再次预约到店日期">
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item label="备注" prop="remark">
-            <el-input v-model="followForm.remark" type="textarea" placeholder="请输入内容" />
-          </el-form-item>
         </el-form>
         <div style="text-align: center">
           <el-button type="primary" @click="submitFollowForm">确 定</el-button>
@@ -452,19 +398,17 @@
 </template>
 
 <script>
+import { getCustomerOrderPage, getCustomerOrder, delCustomerOrder, addCustomerOrder, updateCustomerOrder } from "@/api/system/customerOrder";
 import {
-  listCustomer,
   getCustomer,
   delCustomer,
   addCustomer,
   updateCustomer,
   addCustomerFollowRecerd, updateCustomerFollowRecerd, listCustomerFollow
 } from "@/api/system/customer";
-import Data from "@/views/system/dict/data";
-
 export default {
   name: "salesFollowCustomer",
-  dicts: ['to_store_status', 'customer_source','customer_status', 'sys_user_sex', 'customer_level', 'clue_channels','follow_result','follow_up_method'],
+  dicts: ['to_store_status', 'customer_source','customer_status', 'sys_user_sex', 'customer_level', 'clue_channels','follow_result','car_status','follow_up_method'],
   data() {
     return {
       drawer:false,
@@ -472,6 +416,7 @@ export default {
       innerDrawer:false,
       dafaultValue:null,
       customerId:null,
+      customerRow:null,
       // 遮罩层
       loading: true,
       followTitle:null,
@@ -508,15 +453,24 @@ export default {
         wechat: null,
         intentionCarModels: null,
         preToStoreDate: null,
-        orderDate: null
+        orderDate: null,
+        orderByColumn:'out_date',
+        isAsc:'desc'
       },
       // 表单参数
       form: {
 
       },
+      objectiveList:[
+        {label:"三包政策",value:"三包政策"},
+        {label:"操作说明",value:"操作说明"},
+        {label:"7日电访说明",value:"7日电访说明"},
+        {label:"首保关怀提醒",value:"首保关怀提醒"},
+      ],
       followForm:{
         followUpDate:null,
         customerId:null,
+        objectiveList:[]
       },
       // 表单校验
       rules: {
@@ -538,20 +492,11 @@ export default {
       },
       // 跟进表单校验
       followRules: {
-        followUpDate: [
-          { required: true, message: "跟进日期不能为空", trigger: "blur" }
-        ],
-        followUpRecord:[
-          { required: true, message: "跟进记录不能为空", trigger: "blur" }
-        ],
-        followLevel: [
-          { required: true, message: "级别不能为空", trigger: "blur" }
-        ],
         followUpMethod:[
           { required: true, message: "跟进方式不能为空", trigger: "blur" }
         ],
-        followResult:[
-          { required: true, message: "跟进结果不能为空", trigger: "blur" }
+        objectiveList:[
+          { type: 'array', required: true, message: '请至少选择一个跟进目的', trigger: 'change' }
         ]
       },
 // 列表的列的显示隐藏设置
@@ -612,7 +557,7 @@ export default {
     getList() {
       this.loading = true;
       this.queryParams.status = 'order';
-      listCustomer(this.queryParams).then(response => {
+      getCustomerOrderPage(this.queryParams).then(response => {
         this.customerList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -625,12 +570,29 @@ export default {
         customerId:customerId,
         pageNum:1,
         pageSize:1000,
+        followType:'order'
       }
+      let dictType = this.dict.type;
       listCustomerFollow(queryParams).then(response => {
         this.followUpList = response.rows;
+        //赋值
+        for (let follow of this.followUpList) {
+          let followUpMethod = this.getDictLableByVal(dictType.follow_up_method,follow.followUpMethod);
+          follow.followUpMethod = followUpMethod;
+        }
         this.total = response.total;
         this.loading = false;
       });
+    },
+    //跟进字典val获取描述
+    getDictLableByVal(dictData,val){
+      let lable = '';
+      dictData.map(i =>{
+        if (i.value == val) {
+          lable = i.label
+        }
+      })
+      return lable
     },
     // 取消按钮
     cancel() {
@@ -715,6 +677,7 @@ export default {
     /**跟进按钮**/
     handleFollow(row){
       this.drawer = true;
+      this.customerRow = row;
       this.customerId = row.id;
       this.followTitle = row.userName + " 跟进记录";
       this.getFollowList(this.customerId);
@@ -724,6 +687,10 @@ export default {
       this.followForm = {};
       this.followForm.followUpDate = new Date();
       this.followForm.customerId = this.customerId;
+      this.followForm.remark = "回访任务-7日回访";
+      this.followForm.carVin = this.customerRow.carVin;
+      this.followForm.carInfo = this.customerRow.carInfo;
+      this.followForm.planFollowUpDate = this.customerRow.planFollowUpDate;
     },
     /** 提交按钮 */
     submitForm() {
@@ -756,6 +723,9 @@ export default {
               this.getFollowList(this.customerId);
             });
           } else {
+            this.followForm.objective = this.followForm.objectiveList.join(",");
+            this.followForm.followType=this.customerRow.status;
+            this.followForm.customerId=this.customerId;
             addCustomerFollowRecerd(this.followForm).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;

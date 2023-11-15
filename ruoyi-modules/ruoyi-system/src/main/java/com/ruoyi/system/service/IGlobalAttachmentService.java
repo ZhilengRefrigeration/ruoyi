@@ -1,7 +1,9 @@
 package com.ruoyi.system.service;
 
-import java.util.List;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.system.domain.GlobalAttachment;
+
+import java.util.List;
 
 /**
  * 【请填写功能名称】Service接口
@@ -9,7 +11,7 @@ import com.ruoyi.system.domain.GlobalAttachment;
  * @author ruoyi
  * @date 2023-07-04
  */
-public interface IGlobalAttachmentService 
+public interface IGlobalAttachmentService  extends IService<GlobalAttachment>
 {
     /**
      * 查询【请填写功能名称】

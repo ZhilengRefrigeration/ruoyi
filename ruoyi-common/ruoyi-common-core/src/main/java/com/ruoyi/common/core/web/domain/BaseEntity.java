@@ -1,11 +1,12 @@
 package com.ruoyi.common.core.web.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.mybatisflex.annotation.Column;
 
 /**
  * Entity基类
@@ -17,7 +18,7 @@ public class BaseEntity implements Serializable
     private static final long serialVersionUID = 1L;
 
     /** 搜索值 */
-    @Column(ignore = true)
+    @TableField(exist = false)
     private String searchValue;
 
     /** 创建者 */
@@ -25,7 +26,6 @@ public class BaseEntity implements Serializable
 
     /** 创建时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(onInsertValue = "now()")
     private Date createTime;
 
     /** 更新者 */
@@ -33,14 +33,13 @@ public class BaseEntity implements Serializable
 
     /** 更新时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(onUpdateValue = "now()", onInsertValue = "now()")
     private Date updateTime;
 
     /** 备注 */
     private String remark;
 
     /** 请求参数 */
-    @Column(ignore = true)
+    @TableField(exist = false)
     private Map<String, Object> params;
 
     public String getSearchValue()

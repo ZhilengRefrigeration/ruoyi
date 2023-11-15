@@ -1,11 +1,13 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.List;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ruoyi.system.domain.FeatureLabel;
+import com.ruoyi.system.mapper.FeatureLabelMapper;
+import com.ruoyi.system.service.IFeatureLabelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.FeatureLabelMapper;
-import com.ruoyi.system.domain.FeatureLabel;
-import com.ruoyi.system.service.IFeatureLabelService;
+
+import java.util.List;
 
 /**
  * 球馆特征Service业务层处理
@@ -14,7 +16,7 @@ import com.ruoyi.system.service.IFeatureLabelService;
  * @date 2023-07-06
  */
 @Service
-public class FeatureLabelServiceImpl implements IFeatureLabelService 
+public class FeatureLabelServiceImpl extends ServiceImpl<FeatureLabelMapper, FeatureLabel> implements IFeatureLabelService
 {
     @Autowired
     private FeatureLabelMapper featureLabelMapper;

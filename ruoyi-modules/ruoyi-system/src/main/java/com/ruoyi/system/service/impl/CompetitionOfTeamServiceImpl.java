@@ -1,17 +1,17 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.Date;
-import java.util.List;
-
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.model.LoginUser;
+import com.ruoyi.system.domain.CompetitionOfTeam;
 import com.ruoyi.system.domain.vo.CompetitionOfTeamVo;
-import com.ruoyi.system.utils.LoginUserUtil;
+import com.ruoyi.system.mapper.CompetitionOfTeamMapper;
+import com.ruoyi.system.service.ICompetitionOfTeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.system.mapper.CompetitionOfTeamMapper;
-import com.ruoyi.system.domain.CompetitionOfTeam;
-import com.ruoyi.system.service.ICompetitionOfTeamService;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * 赛会中-参赛队伍Service业务层处理
@@ -20,7 +20,7 @@ import com.ruoyi.system.service.ICompetitionOfTeamService;
  * @date 2022-11-03
  */
 @Service
-public class CompetitionOfTeamServiceImpl implements ICompetitionOfTeamService 
+public class CompetitionOfTeamServiceImpl extends ServiceImpl<CompetitionOfTeamMapper, CompetitionOfTeam> implements ICompetitionOfTeamService
 {
     @Autowired
     private CompetitionOfTeamMapper competitionOfTeamMapper;

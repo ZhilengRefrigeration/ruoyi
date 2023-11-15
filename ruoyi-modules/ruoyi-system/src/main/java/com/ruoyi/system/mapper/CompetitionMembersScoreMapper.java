@@ -1,10 +1,11 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ruoyi.system.domain.CompetitionMembersScore;
 import com.ruoyi.system.domain.vo.CompetitionMembersScoreVo;
-import com.ruoyi.system.domain.vo.PersonalCareerVo;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 赛会中-赛程-人员得分Mapper接口
@@ -12,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
  * @author ruoyi
  * @date 2022-11-03
  */
-public interface CompetitionMembersScoreMapper 
+public interface CompetitionMembersScoreMapper extends BaseMapper<CompetitionMembersScore>
 {
     /**
      * 查询赛会中-赛程-人员得分
@@ -64,7 +65,9 @@ public interface CompetitionMembersScoreMapper
 
     public List<CompetitionMembersScoreVo> findMembersScoreByCompetitionVsId(@Param("competitionId") Long competitionId, @Param("competitionVsId") Long competitionVsId);
 
-    PersonalCareerVo getUserScoreByUserId(@Param(value = "teamUserId") Long teamUserId);
+    CompetitionMembersScoreVo getUserScoreByUserId(@Param(value = "teamUserId") Long teamUserId);
 
     List<CompetitionMembersScore> getHonorList(@Param("competitionId") Long competitionId,@Param("userId") Long userId);
+
+    CompetitionMembersScoreVo getThisCompetitionScore(@Param("competitionId") Long competitionId,@Param("competitionMembersId") Long competitionMembersId);
 }

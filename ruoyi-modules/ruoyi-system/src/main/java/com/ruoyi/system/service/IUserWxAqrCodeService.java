@@ -1,8 +1,10 @@
 package com.ruoyi.system.service;
 
-import java.util.List;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.system.domain.UserWxAqrCode;
 import com.ruoyi.system.domain.vo.UserWxAqrCodeVo;
+
+import java.util.List;
 
 /**
  * 微信用户小程序二维码Service接口
@@ -10,7 +12,7 @@ import com.ruoyi.system.domain.vo.UserWxAqrCodeVo;
  * @author ruoyi
  * @date 2022-10-18
  */
-public interface IUserWxAqrCodeService
+public interface IUserWxAqrCodeService extends IService<UserWxAqrCode>
 {
     /**
      * 查询微信用户小程序二维码
