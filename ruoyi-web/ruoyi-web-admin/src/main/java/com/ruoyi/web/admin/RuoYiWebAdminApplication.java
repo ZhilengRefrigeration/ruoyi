@@ -2,6 +2,7 @@ package com.ruoyi.web.admin;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 import com.ruoyi.common.security.annotation.EnableCustomConfig;
 import com.ruoyi.common.security.annotation.EnableRyFeignClients;
@@ -16,6 +17,7 @@ import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
 @EnableCustomSwagger2
 @EnableRyFeignClients
 @SpringBootApplication
+@ComponentScan("com.ruoyi")
 public class RuoYiWebAdminApplication
 {
     public static void main(String[] args)

@@ -48,6 +48,13 @@
             <version>${ruoyi.version}</version>
         </dependency>
 
+        <!--       ruoyi-gateway -->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-gateway</artifactId>
+            <version>${ruoyi.version}</version>
+        </dependency>
+
 
     </dependencies>
 </project>
