@@ -48,13 +48,11 @@
             <version>${ruoyi.version}</version>
         </dependency>
 
-        <!--       ruoyi-gateway -->
+        <!--验证码 -->
         <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-gateway</artifactId>
-            <version>${ruoyi.version}</version>
+            <groupId>pro.fessional</groupId>
+            <artifactId>kaptcha</artifactId>
         </dependency>
-
 
     </dependencies>
 </project>

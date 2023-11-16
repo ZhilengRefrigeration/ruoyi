@@ -151,20 +151,11 @@ mybatis:
   mapperLocations: classpath*:mapper/**/*Mapper.xml
   # 加载全局的配置文件
   #configLocation: classpath:mybatis/mybatis-config.xml
-
 # PageHelper分页插件
 pagehelper:
   helperDialect: mysql
   supportMethodsArguments: true
   params: count=countSql
-
-# Swagger配置
-swagger:
-  # 是否开启swagger
-  enabled: true
-  # 请求前缀
-  pathMapping: /dev-api
-
 # 防止XSS攻击
 xss:
   # 过滤开关
@@ -173,8 +164,54 @@ xss:
   excludes: /system/notice
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
-
-
+##################### 文件模块  ###########################################
+# 本地文件上传
+file:
+  domain: http://127.0.0.1:9300
+  path: ruoyi/uploadPath
+  prefix: /statics
+# FastDFS配置
+fdfs:
+  domain: http://8.129.231.12
+  soTimeout: 3000
+  connectTimeout: 2000
+  trackerList: 8.129.231.12:22122
+# Minio配置
+minio:
+  url: http://8.129.231.12:9000
+  accessKey: minioadmin
+  secretKey: minioadmin
+  bucketName: test
+######################## 文件模块 ########################################
+# feign 配置
+feign:
+  sentinel:
+    enabled: true
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false
+  client:
+    config:
+      default:
+        connectTimeout: 10000
+        readTimeout: 10000
+  compression:
+    request:
+      enabled: true
+    response:
+      enabled: true
+  # 设置feign本地调用地址
+  debug:
+    url:
+      system: http://localhost:${server.port}/system
+      file: http://localhost:${server.port}/file
+# 暴露监控端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
 # 安全配置
 security:
   # 验证码
@@ -194,26 +231,13 @@ security:
       - /auth/register
       - /*/v2/api-docs
       - /csrf
-
-##################### 文件模块  ###########################################
-# 本地文件上传
-file:
-  domain: http://127.0.0.1:9300
-  path: ruoyi/uploadPath
-  prefix: /statics
-
-# FastDFS配置
-fdfs:
-  domain: http://8.129.231.12
-  soTimeout: 3000
-  connectTimeout: 2000
-  trackerList: 8.129.231.12:22122
-
-# Minio配置
-minio:
-  url: http://8.129.231.12:9000
-  accessKey: minioadmin
-  secretKey: minioadmin
-  bucketName: test
-
-######################## 文件模块 ########################################
+      - /code
+# Swagger配置
+swagger:
+  # 是否开启swagger
+  enabled: true
+  # 请求前缀
+  pathMapping: /dev-api
+  title: 系统模块接口文档
+  license: Powered By ruoyi
+  licenseUrl: https://ruoyi.vip
