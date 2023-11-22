@@ -8,6 +8,16 @@ module.exports = {
       // babel-plugin-dynamic-import-node plugin only does one thing by converting all import() to require().
       // This plugin can significantly increase the speed of hot updates, when you have a large number of pages.
       'plugins': ['dynamic-import-node']
+    },
+    'production': {
+      // babel-plugin-dynamic-import-node plugin only does one thing by converting all import() to require().
+      // This plugin can significantly increase the speed of hot updates, when you have a large number of pages.
+      'plugins': ['@babel/plugin-syntax-dynamic-import']
+    },
+    'staging': {
+      // babel-plugin-dynamic-import-node plugin only does one thing by converting all import() to require().
+      // This plugin can significantly increase the speed of hot updates, when you have a large number of pages.
+      'plugins': ['@babel/plugin-syntax-dynamic-import']
     }
   }
 }
