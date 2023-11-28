@@ -58,6 +58,11 @@ export default {
     unmatch() {
       this.unmatchArray = [];
       if (this.value !== null && typeof this.value !== "undefined") {
+        // 字典的值都为字符串类型，当有Boolean类型时会匹配失败，导致展示异常
+        // 当值为true和false时处理为字符以来和字典匹配
+        if (this.value === true || this.value === false) {
+          this.value = String(this.value);
+        }
         // 传入值为非数组
         if (!Array.isArray(this.value)) {
           if (this.options.some((v) => v.value == this.value)) return false;
