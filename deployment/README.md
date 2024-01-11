@@ -5,7 +5,7 @@
 ### 后期考虑功能：
 * HPA自动扩缩容
 * MySQL主从、Redis集群、服务集群
-* Prometheus + Grafana 监控告警， ELK日志收集
+* ELK日志收集
 
 ## 容器分布
 ~~~
@@ -28,7 +28,11 @@ namespace
 │       └── skywalking                                
 │       └── skywalking-ui                             
 ├── minio              
-        └── minio                                    
+│       └── minio
+├── monitor-sa              
+│       └── node-exporter         
+│       └── prometheus-server
+│       └── monitoring-grafana                                  
 ~~~
 
 ## 部署顺序及要点
