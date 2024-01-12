@@ -257,7 +257,7 @@ public class ExcelUtil<T>
 
     /**
      * 对excel表单默认第一个索引名转换成list
-     * 
+     *
      * @param is 输入流
      * @return 转换后集合
      */
@@ -282,7 +282,7 @@ public class ExcelUtil<T>
 
     /**
      * 对excel表单默认第一个索引名转换成list
-     * 
+     *
      * @param is 输入流
      * @param titleNum 标题占用行数
      * @return 转换后集合
@@ -294,7 +294,7 @@ public class ExcelUtil<T>
 
     /**
      * 对excel表单指定表格索引名转换成list
-     * 
+     *
      * @param sheetName 表格索引名
      * @param titleNum 标题占用行数
      * @param is 输入流
@@ -503,7 +503,7 @@ public class ExcelUtil<T>
 
     /**
      * 对list数据源将其里面的数据导入到excel表单
-     * 
+     *
      * @return 结果
      */
     public void exportExcel(HttpServletResponse response)
@@ -533,7 +533,8 @@ public class ExcelUtil<T>
         for (int index = 0; index < sheetNo; index++)
         {
             createSheet(sheetNo, index);
-
+            //字段转换列表<列下标,<待转值,转换值>>
+            Map<Integer, Map<String, String>> fieldConversionMap = new HashMap<>();
             // 产生一行
             Row row = sheet.createRow(rownum);
             int column = 0;
@@ -547,17 +548,17 @@ public class ExcelUtil<T>
                     for (Field subField : subFields)
                     {
                         Excel subExcel = subField.getAnnotation(Excel.class);
-                        this.createHeadCell(subExcel, row, column++);
+                        this.createHeadCellAndInitFieldConversion(subExcel, row, column++,fieldConversionMap);
                     }
                 }
                 else
                 {
-                    this.createHeadCell(excel, row, column++);
+                    this.createHeadCellAndInitFieldConversion(excel, row, column++,fieldConversionMap);
                 }
             }
             if (Type.EXPORT.equals(type))
             {
-                fillExcelData(index, row);
+                fillExcelData(index, row, fieldConversionMap);
                 addStatisticsRow();
             }
         }
@@ -565,12 +566,13 @@ public class ExcelUtil<T>
 
     /**
      * 填充excel数据
-     * 
+     *
      * @param index 序号
      * @param row 单元格行
+     * @param fieldConversionMap 字段转换Map
      */
     @SuppressWarnings("unchecked")
-    public void fillExcelData(int index, Row row)
+    public void fillExcelData(int index, Row row, Map<Integer, Map<String, String>> fieldConversionMap)
     {
         int startNo = index * sheetSize;
         int endNo = Math.min(startNo + sheetSize, list.size());
@@ -618,7 +620,7 @@ public class ExcelUtil<T>
                             {
                                 subField.setAccessible(true);
                                 Excel attr = subField.getAnnotation(Excel.class);
-                                this.addCell(attr, row, (T) obj, subField, column + subIndex);
+                                this.addCell(attr, row, (T) obj, subField, column + subIndex, fieldConversionMap);
                             }
                             subIndex++;
                         }
@@ -628,7 +630,7 @@ public class ExcelUtil<T>
                 }
                 else
                 {
-                    this.addCell(excel, row, vo, field, column++);
+                    this.addCell(excel, row, vo, field, column++, fieldConversionMap);
                 }
             }
         }
@@ -636,7 +638,7 @@ public class ExcelUtil<T>
 
     /**
      * 创建表格样式
-     * 
+     *
      * @param wb 工作薄对象
      * @return 样式列表
      */
@@ -689,7 +691,7 @@ public class ExcelUtil<T>
 
     /**
      * 根据Excel注解创建表格头样式
-     * 
+     *
      * @param wb 工作薄对象
      * @return 自定义样式列表
      */
@@ -722,7 +724,7 @@ public class ExcelUtil<T>
 
     /**
      * 根据Excel注解创建表格列样式
-     * 
+     *
      * @param wb 工作薄对象
      * @return 自定义样式列表
      */
@@ -760,9 +762,9 @@ public class ExcelUtil<T>
     }
 
     /**
-     * 创建单元格
+     * 创建首行单元格,并且初始化字段的转换
      */
-    public Cell createHeadCell(Excel attr, Row row, int column)
+    public Cell createHeadCellAndInitFieldConversion(Excel attr, Row row, int column, Map<Integer, Map<String, String>> fieldConversionMap)
     {
         // 创建列
         Cell cell = row.createCell(column);
@@ -770,6 +772,19 @@ public class ExcelUtil<T>
         cell.setCellValue(attr.name());
         setDataValidation(attr, row, column);
         cell.setCellStyle(styles.get(StringUtils.format("header_{}_{}", attr.headerColor(), attr.headerBackgroundColor())));
+        //字段转换初始化(通过readConverterExp字符转换)
+        if (StringUtils.isNotEmpty(attr.readConverterExp()))
+        {
+            HashMap<String, String> conversionMap = new HashMap<>();
+            String allList = attr.readConverterExp();
+            String[] split = allList.split(",");
+            for (String dictTagItem : split)
+            {
+                String[] split1 = dictTagItem.split("=");
+                conversionMap.put(split1[0], split1[1]);
+            }
+            fieldConversionMap.put(column, conversionMap);
+        }
         if (isSubList())
         {
             // 填充默认样式，防止合并单元格样式失效
@@ -784,7 +799,7 @@ public class ExcelUtil<T>
 
     /**
      * 设置单元格信息
-     * 
+     *
      * @param value 单元格值
      * @param attr 注解相关
      * @param cell 单元格信息
@@ -885,8 +900,15 @@ public class ExcelUtil<T>
 
     /**
      * 添加单元格
+     * @param attr               当前单元格表注解
+     * @param row                当前单元格归属行
+     * @param vo                 单元格内容
+     * @param field              单元格字段
+     * @param column             单元格的列号
+     * @param fieldConversionMap 所有单元格的解析值字典
+     * @return 生成后的单元格
      */
-    public Cell addCell(Excel attr, Row row, T vo, Field field, int column)
+    public Cell addCell(Excel attr, Row row, T vo, Field field, int column,Map<Integer, Map<String, String>> fieldConversionMap)
     {
         Cell cell = null;
         try
@@ -914,9 +936,9 @@ public class ExcelUtil<T>
                 {
                     cell.setCellValue(parseDateToStr(dateFormat, value));
                 }
-                else if (StringUtils.isNotEmpty(readConverterExp) && StringUtils.isNotNull(value))
+                else if (fieldConversionMap.get(column)!=null && StringUtils.isNotNull(value))
                 {
-                    cell.setCellValue(convertByExp(Convert.toStr(value), readConverterExp, separator));
+                    cell.setCellValue(convertByExpMap(Convert.toStr(value), separator, fieldConversionMap.get(column)));
                 }
                 else if (value instanceof BigDecimal && -1 != attr.scale())
                 {
@@ -943,7 +965,7 @@ public class ExcelUtil<T>
 
     /**
      * 设置 POI XSSFSheet 单元格提示或选择框
-     * 
+     *
      * @param sheet 表单
      * @param textlist 下拉框显示的内容
      * @param promptContent 提示内容
@@ -980,7 +1002,7 @@ public class ExcelUtil<T>
 
     /**
      * 设置某些列的值只能输入预制的数据,显示下拉框（兼容超出一定数量的下拉框）.
-     * 
+     *
      * @param sheet 要设置的sheet.
      * @param textlist 下拉框显示的内容
      * @param promptContent 提示内容
@@ -1033,43 +1055,38 @@ public class ExcelUtil<T>
     /**
      * 解析导出值 0=男,1=女,2=未知
      *
-     * @param propertyValue 参数值
-     * @param converterExp 翻译注解
-     * @param separator 分隔符
+     * @param propertyValue 解析前的值
+     * @param separator     分隔符
+     * @param conversionMap 解析字典
      * @return 解析后值
      */
-    public static String convertByExp(String propertyValue, String converterExp, String separator)
+    public static String convertByExpMap(String propertyValue,String separator,Map<String,String> conversionMap)
     {
-        StringBuilder propertyString = new StringBuilder();
-        String[] convertSource = converterExp.split(",");
-        for (String item : convertSource)
+        List<String> afterConversionValueList=new ArrayList<>();
+        //如果某个对象值为"1,2,3",则根据转换Map表全都进修转换
+        if (StringUtils.containsAny(propertyValue, separator))
         {
-            String[] itemArray = item.split("=");
-            if (StringUtils.containsAny(propertyValue, separator))
+            for (String value : propertyValue.split(separator))
             {
-                for (String value : propertyValue.split(separator))
+                String conversionValue = conversionMap.get(value);
+                if(StringUtils.isNotEmpty(conversionValue))
                 {
-                    if (itemArray[0].equals(value))
-                    {
-                        propertyString.append(itemArray[1] + separator);
-                        break;
-                    }
+                    afterConversionValueList.add(conversionValue);
                 }
             }
-            else
+        }else
+        {
+            if(StringUtils.isNotEmpty(conversionMap.get(propertyValue)))
             {
-                if (itemArray[0].equals(propertyValue))
-                {
-                    return itemArray[1];
-                }
+                afterConversionValueList.add(conversionMap.get(propertyValue));
             }
         }
-        return StringUtils.stripEnd(propertyString.toString(), separator);
+        return String.join(separator,afterConversionValueList);
     }
 
     /**
      * 反向解析值 男=0,女=1,未知=2
-     * 
+     *
      * @param propertyValue 参数值
      * @param converterExp 翻译注解
      * @param separator 分隔符
@@ -1311,7 +1328,7 @@ public class ExcelUtil<T>
 
     /**
      * 创建工作表
-     * 
+     *
      * @param sheetNo sheet数量
      * @param index 序号
      */
@@ -1328,7 +1345,7 @@ public class ExcelUtil<T>
 
     /**
      * 获取单元格值
-     * 
+     *
      * @param row 获取的行
      * @param column 获取单元格列号
      * @return 单元格值
@@ -1388,7 +1405,7 @@ public class ExcelUtil<T>
 
     /**
      * 判断是否是空行
-     * 
+     *
      * @param row 判断的行
      * @return
      */
@@ -1411,7 +1428,7 @@ public class ExcelUtil<T>
 
     /**
      * 格式化不同类型的日期对象
-     * 
+     *
      * @param dateFormat 日期格式
      * @param val 被格式化的日期对象
      * @return 格式化后的日期字符
@@ -1477,7 +1494,7 @@ public class ExcelUtil<T>
 
     /**
      * 获取对象的子列表方法
-     * 
+     *
      * @param name 名称
      * @param pojoClass 类对象
      * @return 子列表方法
