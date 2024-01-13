@@ -2,6 +2,7 @@ package com.ruoyi.system.api.domain;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import com.ruoyi.system.api.emun.EnableStatusEnum;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
@@ -11,7 +12,7 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
 
 /**
  * 字典数据表 sys_dict_data
- * 
+ *
  * @author ruoyi
  */
 public class SysDictData extends BaseEntity
@@ -48,8 +49,11 @@ public class SysDictData extends BaseEntity
     @Excel(name = "是否默认", readConverterExp = "Y=是,N=否")
     private String isDefault;
 
-    /** 状态（0正常 1停用） */
-    @Excel(name = "状态", readConverterExp = "0=正常,1=停用")
+    /**
+     * 状态（0正常 1停用）
+     * @see EnableStatusEnum
+     **/
+    @Excel(name = "状态", readConverterEnum = EnableStatusEnum.class)
     private String status;
 
     public Long getDictCode()
@@ -153,7 +157,7 @@ public class SysDictData extends BaseEntity
     {
         this.status = status;
     }
-    
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)

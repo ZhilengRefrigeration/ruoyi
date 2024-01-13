@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
+import com.ruoyi.common.core.annotation.DictTag;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -298,12 +299,30 @@ public class ExcelUtil<T>
      */
     public Map<String,String> initValueToFieldConversionMap(Excel attr){
         HashMap<String, String> conversionMap = new HashMap<>();
-        String allList = attr.readConverterExp();
-        String[] split = allList.split(",");
-        for (String dictTagItem : split)
+        //如果存在转换exp,提取转换exp
+        if (StringUtils.isNotEmpty(attr.readConverterExp()))
         {
-            String[] split1 = dictTagItem.split("=");
-            conversionMap.put(split1[1], split1[0]);
+            String allList = attr.readConverterExp();
+            String[] split = allList.split(",");
+            for (String dictTagItem : split)
+            {
+                String[] split1 = dictTagItem.split("=");
+                conversionMap.put(split1[1], split1[0]);
+            }
+        }
+        //字段转换初始化(通过枚举字段转换)
+        if (!attr.readConverterEnum().getName().equals(Enum.class.getName()))
+        {
+            Class<? extends Enum> aClass = attr.readConverterEnum();
+            Object[] enumConstants = aClass.getEnumConstants();
+            for (Object enumItem : enumConstants)
+            {
+                if (enumItem instanceof DictTag)
+                {
+                    DictTag dictTag = (DictTag) enumItem;
+                    conversionMap.put(dictTag.getName(), dictTag.getKey());
+                }
+            }
         }
         return conversionMap;
     }
@@ -361,7 +380,9 @@ public class ExcelUtil<T>
                 {
                     fieldsMap.put(column, objects);
                     //如果存在解析键值映射,则直接初始化
-                    if(StringUtils.isNotEmpty(attr.readConverterExp())){
+                    if(StringUtils.isNotEmpty(attr.readConverterExp())
+                    || !attr.readConverterEnum().getName().equals(Enum.class.getName()))
+                    {
                         Map<String, String> fieldConversionMap = initValueToFieldConversionMap(attr);
                         allFieldConversionMap.put(attr.name(),fieldConversionMap);
                     }
@@ -812,6 +833,22 @@ public class ExcelUtil<T>
             {
                 String[] split1 = dictTagItem.split("=");
                 conversionMap.put(split1[0], split1[1]);
+            }
+            fieldConversionMap.put(column, conversionMap);
+        }
+        //字段转换初始化(通过枚举字段转换)
+        if (!attr.readConverterEnum().getName().equals(Enum.class.getName()))
+        {
+            HashMap<String, String> conversionMap = new HashMap<>();
+            Class<? extends Enum> aClass = attr.readConverterEnum();
+            Object[] enumConstants = aClass.getEnumConstants();
+            for (Object enumItem : enumConstants)
+            {
+                if (enumItem instanceof DictTag)
+                {
+                    DictTag dictTag = (DictTag) enumItem;
+                    conversionMap.put(dictTag.getKey(), dictTag.getName());
+                }
             }
             fieldConversionMap.put(column, conversionMap);
         }

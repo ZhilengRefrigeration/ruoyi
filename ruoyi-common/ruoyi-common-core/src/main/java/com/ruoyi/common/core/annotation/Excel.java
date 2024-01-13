@@ -11,7 +11,7 @@ import com.ruoyi.common.core.utils.poi.ExcelHandlerAdapter;
 
 /**
  * 自定义导出Excel数据注解
- * 
+ *
  * @author ruoyi
  */
 @Retention(RetentionPolicy.RUNTIME)
@@ -37,6 +37,14 @@ public @interface Excel
      * 读取内容转表达式 (如: 0=男,1=女,2=未知)
      */
     public String readConverterExp() default "";
+    /**
+     * 字典转换器的枚举，该枚举需要实现DictTag标签,否则不生效
+     * <p>
+     * 枚举字典有值时,优先取枚举字典
+     *
+     * @return 字典转换枚举
+     */
+    Class<? extends Enum> readConverterEnum() default Enum.class;
 
     /**
      * 分隔符，读取字符串组内容

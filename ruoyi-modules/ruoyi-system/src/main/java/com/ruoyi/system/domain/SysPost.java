@@ -3,6 +3,7 @@ package com.ruoyi.system.domain;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import com.ruoyi.system.api.emun.EnableStatusEnum;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
@@ -11,7 +12,7 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
 
 /**
  * 岗位表 sys_post
- * 
+ *
  * @author ruoyi
  */
 public class SysPost extends BaseEntity
@@ -34,8 +35,11 @@ public class SysPost extends BaseEntity
     @Excel(name = "岗位排序")
     private Integer postSort;
 
-    /** 状态（0正常 1停用） */
-    @Excel(name = "状态", readConverterExp = "0=正常,1=停用")
+    /**
+     * 状态（0正常 1停用）
+     * @see EnableStatusEnum
+     **/
+    @Excel(name = "状态", readConverterEnum = EnableStatusEnum.class)
     private String status;
 
     /** 用户是否存在此岗位标识 默认不存在 */
@@ -105,7 +109,7 @@ public class SysPost extends BaseEntity
     {
         this.flag = flag;
     }
-    
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)

@@ -4,6 +4,7 @@ import java.util.Set;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import com.ruoyi.system.api.emun.EnableStatusEnum;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
@@ -12,7 +13,7 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
 
 /**
  * 角色表 sys_role
- * 
+ *
  * @author ruoyi
  */
 public class SysRole extends BaseEntity
@@ -45,8 +46,11 @@ public class SysRole extends BaseEntity
     /** 部门树选择项是否关联显示（0：父子不互相关联显示 1：父子互相关联显示 ） */
     private boolean deptCheckStrictly;
 
-    /** 角色状态（0正常 1停用） */
-    @Excel(name = "角色状态", readConverterExp = "0=正常,1=停用")
+    /**
+     * 角色状态（0正常 1停用）
+     * @see EnableStatusEnum
+     **/
+    @Excel(name = "角色状态", readConverterEnum = EnableStatusEnum.class)
     private String status;
 
     /** 删除标志（0代表存在 2代表删除） */
