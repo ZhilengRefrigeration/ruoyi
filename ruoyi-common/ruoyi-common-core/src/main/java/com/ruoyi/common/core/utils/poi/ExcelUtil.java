@@ -293,6 +293,21 @@ public class ExcelUtil<T>
     }
 
     /**
+     * 初始excel值转换为字段的转换器
+     * @return 值和字段的映射表
+     */
+    public Map<String,String> initValueToFieldConversionMap(Excel attr){
+        HashMap<String, String> conversionMap = new HashMap<>();
+        String allList = attr.readConverterExp();
+        String[] split = allList.split(",");
+        for (String dictTagItem : split)
+        {
+            String[] split1 = dictTagItem.split("=");
+            conversionMap.put(split1[1], split1[0]);
+        }
+        return conversionMap;
+    }
+    /**
      * 对excel表单指定表格索引名转换成list
      *
      * @param sheetName 表格索引名
@@ -336,6 +351,8 @@ public class ExcelUtil<T>
             // 有数据时才处理 得到类的所有field.
             List<Object[]> fields = this.getFields();
             Map<Integer, Object[]> fieldsMap = new HashMap<Integer, Object[]>();
+            // 定义所有的excel值和java对象的值的转换映射表
+            Map<String,Map<String,String>> allFieldConversionMap=new HashMap<>();
             for (Object[] objects : fields)
             {
                 Excel attr = (Excel) objects[1];
@@ -343,6 +360,11 @@ public class ExcelUtil<T>
                 if (column != null)
                 {
                     fieldsMap.put(column, objects);
+                    //如果存在解析键值映射,则直接初始化
+                    if(StringUtils.isNotEmpty(attr.readConverterExp())){
+                        Map<String, String> fieldConversionMap = initValueToFieldConversionMap(attr);
+                        allFieldConversionMap.put(attr.name(),fieldConversionMap);
+                    }
                 }
             }
             for (int i = titleNum + 1; i <= rows; i++)
@@ -417,6 +439,14 @@ public class ExcelUtil<T>
                             val = DateUtil.getJavaDate((Double) val);
                         }
                     }
+                    else if (LocalDate.class == fieldType)
+                    {
+                        val = DateUtils.parseLocalDate(val);
+                    }
+                    else if (LocalDateTime.class == fieldType)
+                    {
+                        val = DateUtils.parseLocalDateTime(val);
+                    }
                     else if (Boolean.TYPE == fieldType || Boolean.class == fieldType)
                     {
                         val = Convert.toBool(val, false);
@@ -428,9 +458,9 @@ public class ExcelUtil<T>
                         {
                             propertyName = field.getName() + "." + attr.targetAttr();
                         }
-                        if (StringUtils.isNotEmpty(attr.readConverterExp()))
+                        if (allFieldConversionMap.get(attr.name())!=null)
                         {
-                            val = reverseByExp(Convert.toStr(val), attr.readConverterExp(), attr.separator());
+                            val = getConvertValueByExpMap(Convert.toStr(val), attr.separator(), allFieldConversionMap.get(attr.name()));
                         }
                         else if (!attr.handler().equals(ExcelHandlerAdapter.class))
                         {
@@ -930,7 +960,6 @@ public class ExcelUtil<T>
                 // 用于读取对象中的属性
                 Object value = getTargetValue(vo, field, attr);
                 String dateFormat = attr.dateFormat();
-                String readConverterExp = attr.readConverterExp();
                 String separator = attr.separator();
                 if (StringUtils.isNotEmpty(dateFormat) && StringUtils.isNotNull(value))
                 {
@@ -938,7 +967,7 @@ public class ExcelUtil<T>
                 }
                 else if (fieldConversionMap.get(column)!=null && StringUtils.isNotNull(value))
                 {
-                    cell.setCellValue(convertByExpMap(Convert.toStr(value), separator, fieldConversionMap.get(column)));
+                    cell.setCellValue(getConvertValueByExpMap(Convert.toStr(value), separator, fieldConversionMap.get(column)));
                 }
                 else if (value instanceof BigDecimal && -1 != attr.scale())
                 {
@@ -1053,15 +1082,14 @@ public class ExcelUtil<T>
     }
 
     /**
-     * 解析导出值 0=男,1=女,2=未知
+     * 通过解析字典,寻找解析值
      *
      * @param propertyValue 解析前的值
      * @param separator     分隔符
      * @param conversionMap 解析字典
      * @return 解析后值
      */
-    public static String convertByExpMap(String propertyValue,String separator,Map<String,String> conversionMap)
-    {
+    public static String getConvertValueByExpMap(String propertyValue,String separator,Map<String,String> conversionMap){
         List<String> afterConversionValueList=new ArrayList<>();
         //如果某个对象值为"1,2,3",则根据转换Map表全都进修转换
         if (StringUtils.containsAny(propertyValue, separator))
@@ -1082,43 +1110,6 @@ public class ExcelUtil<T>
             }
         }
         return String.join(separator,afterConversionValueList);
-    }
-
-    /**
-     * 反向解析值 男=0,女=1,未知=2
-     *
-     * @param propertyValue 参数值
-     * @param converterExp 翻译注解
-     * @param separator 分隔符
-     * @return 解析后值
-     */
-    public static String reverseByExp(String propertyValue, String converterExp, String separator)
-    {
-        StringBuilder propertyString = new StringBuilder();
-        String[] convertSource = converterExp.split(",");
-        for (String item : convertSource)
-        {
-            String[] itemArray = item.split("=");
-            if (StringUtils.containsAny(propertyValue, separator))
-            {
-                for (String value : propertyValue.split(separator))
-                {
-                    if (itemArray[1].equals(value))
-                    {
-                        propertyString.append(itemArray[0] + separator);
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                if (itemArray[1].equals(propertyValue))
-                {
-                    return itemArray[0];
-                }
-            }
-        }
-        return StringUtils.stripEnd(propertyString.toString(), separator);
     }
 
     /**
