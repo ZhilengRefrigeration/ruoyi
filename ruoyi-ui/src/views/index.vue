@@ -52,15 +52,13 @@
         <p>
           <el-button
             type="primary"
-            size="mini"
-            icon="el-icon-cloudy"
+            icon="Cloudy"
             plain
             @click="goTarget('https://gitee.com/y_project/RuoYi-Cloud')"
             >访问码云</el-button
           >
           <el-button
-            size="mini"
-            icon="el-icon-s-home"
+            icon="HomeFilled"
             plain
             @click="goTarget('http://ruoyi.vip')"
             >访问主页</el-button
@@ -106,9 +104,11 @@
     <el-row :gutter="20">
       <el-col :xs="24" :sm="24" :md="12" :lg="8">
         <el-card class="update-log">
-          <div slot="header" class="clearfix">
-            <span>联系信息</span>
-          </div>
+          <template v-slot:header>
+            <div class="clearfix">
+              <span>联系信息</span>
+            </div>
+          </template>
           <div class="body">
             <p>
               <i class="el-icon-s-promotion"></i> 官网：<el-link
@@ -141,9 +141,11 @@
       </el-col>
       <el-col :xs="24" :sm="24" :md="12" :lg="8">
         <el-card class="update-log">
-          <div slot="header" class="clearfix">
-            <span>更新日志</span>
-          </div>
+          <template v-slot:header>
+            <div class="clearfix">
+              <span>更新日志</span>
+            </div>
+          </template>
           <el-collapse accordion>
             <el-collapse-item title="v3.6.3 - 2023-07-07">
               <ol>
@@ -183,7 +185,7 @@
                 <li>其他细节优化</li>
               </ol>
             </el-collapse-item>
-            <el-collapse-item title="v3.6.2 - 2023-01-16">
+            <el-collapse-item title="v3.6.2 - 2022-01-16">
               <ol>
                 <li>重置时取消部门选中</li>
                 <li>新增返回警告消息提示</li>
@@ -215,7 +217,7 @@
                 <li>升级echarts到最新版本5.4.0</li>
                 <li>升级core-js到最新版本3.25.3</li>
                 <li>升级element-ui到最新版本2.15.12</li>
-                <li>移除commons-collections多余的依赖</li>
+				<li>移除commons-collections多余的依赖</li>
                 <li>优化弹窗内容过多展示不全问题</li>
                 <li>优化导出对象的子列表为空会出现[]问题</li>
                 <li>优化字符未使用下划线不进行驼峰式处理</li>
@@ -357,7 +359,7 @@
                 <li>代码生成新增Java类型Boolean</li>
                 <li>定时任务目标字符串过滤特殊字符</li>
                 <li>定时任务目标字符串验证包名白名单</li>
-                <li>升级nacos到最新版2.0.4</li>
+				<li>升级nacos到最新版2.0.4</li>
                 <li>升级spring-cloud到最新版2021.0.0</li>
                 <li>升级spring-boot到最新版本2.6.3</li>
                 <li>升级spring-boot-admin到最新版2.6.1</li>
@@ -851,14 +853,16 @@
       </el-col>
       <el-col :xs="24" :sm="24" :md="12" :lg="8">
         <el-card class="update-log">
-          <div slot="header" class="clearfix">
-            <span>捐赠支持</span>
-          </div>
+          <template v-slot:header>
+            <div class="clearfix">
+              <span>捐赠支持</span>
+            </div>
+          </template>
           <div class="body">
             <img
               src="@/assets/images/pay.png"
               alt="donate"
-              width="100%"
+              style="width:100%"
             />
             <span style="display: inline-block; height: 30px; line-height: 30px"
               >你可以请作者喝杯咖啡表示鼓励</span
@@ -870,21 +874,12 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "Index",
-  data() {
-    return {
-      // 版本号
-      version: "3.6.3",
-    };
-  },
-  methods: {
-    goTarget(href) {
-      window.open(href, "_blank");
-    },
-  },
-};
+<script setup name="Index">
+const version = ref('3.6.3')
+
+function goTarget(url) {
+  window.open(url, '__blank')
+}
 </script>
 
 <style scoped lang="scss">

@@ -9,14 +9,13 @@
     <version>3.6.3</version>
 
     <name>ruoyi</name>
-    <url>http://www.ruoyi.vip</url>
-    <description>若依微服务系统</description>
 
     <properties>
         <ruoyi.version>3.6.3</ruoyi.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+
         <spring-boot.version>2.7.18</spring-boot.version>
         <spring-cloud.version>2021.0.8</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
