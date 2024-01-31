@@ -44,3 +44,8 @@ nbdist/
 !*/build/*.java
 !*/build/*.html
 !*/build/*.xml
+
+logs/
+ruoyi-ui/node_modules/
+ruoyi-ui/dist/
+ruoyi-ui/package-lock.json
