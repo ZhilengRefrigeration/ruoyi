@@ -17,7 +17,7 @@ import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 全局异常处理器
@@ -124,7 +124,7 @@ public class GlobalExceptionHandler
     public AjaxResult handleBindException(BindException e)
     {
         log.error(e.getMessage(), e);
-        String message = e.getAllErrors().get(0).getDefaultMessage();
+        String message = e.getAllErrors().getFirst().getDefaultMessage();
         return AjaxResult.error(message);
     }
 

@@ -1,11 +1,12 @@
 package com.ruoyi.system.api.domain;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.web.domain.BaseEntity;
@@ -17,6 +18,7 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
  */
 public class SysDept extends BaseEntity
 {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /** 部门ID */
@@ -53,7 +55,7 @@ public class SysDept extends BaseEntity
     private String parentName;
     
     /** 子部门 */
-    private List<SysDept> children = new ArrayList<SysDept>();
+    private List<SysDept> children = new ArrayList<>();
 
     public Long getDeptId()
     {

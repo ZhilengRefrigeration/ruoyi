@@ -14,23 +14,25 @@
         <ruoyi.version>3.6.3</ruoyi.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
+        <java.version>21</java.version>
 
-        <spring-boot.version>2.7.18</spring-boot.version>
-        <spring-cloud.version>2021.0.8</spring-cloud.version>
-        <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
-        <spring-boot-admin.version>2.7.11</spring-boot-admin.version>
+        <spring-boot.version>3.1.8</spring-boot.version>
+        <spring-cloud.version>2022.0.5</spring-cloud.version>
+        <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
+        <spring-boot-admin.version>3.1.8</spring-boot-admin.version>
+        <nacos-client.version>2.3.0</nacos-client.version>
         <swagger.fox.version>3.0.0</swagger.fox.version>
-        <swagger.core.version>1.6.2</swagger.core.version>
+        <swagger.springdoc.version>2.3.0</swagger.springdoc.version>
+        <swagger.core.version>2.2.20</swagger.core.version>
         <tobato.version>1.27.2</tobato.version>
         <kaptcha.version>2.3.3</kaptcha.version>
-        <pagehelper.boot.version>2.0.0</pagehelper.boot.version>
-        <druid.version>1.2.20</druid.version>
-        <dynamic-ds.version>4.2.0</dynamic-ds.version>
-        <commons.io.version>2.13.0</commons.io.version>
+        <pagehelper.boot.version>2.1.0</pagehelper.boot.version>
+        <druid.version>1.2.21</druid.version>
+        <dynamic-ds.version>4.3.0</dynamic-ds.version>
+        <commons.io.version>2.15.1</commons.io.version>
         <velocity.version>2.3</velocity.version>
-        <fastjson.version>2.0.43</fastjson.version>
-        <jjwt.version>0.9.1</jjwt.version>
+        <fastjson.version>2.0.45</fastjson.version>
+        <jjwt.version>0.12.4</jjwt.version>
         <minio.version>8.2.2</minio.version>
         <poi.version>4.1.2</poi.version>
         <transmittable-thread-local.version>2.14.4</transmittable-thread-local.version>
@@ -76,14 +78,14 @@
 
             <!-- Swagger 依赖配置 -->
             <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-models</artifactId>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-annotations</artifactId>
                 <version>${swagger.core.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>${swagger.core.version}</version>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${swagger.springdoc.version}</version>
             </dependency>
 
             <!-- 验证码 -->
@@ -131,7 +133,12 @@
             <!-- JWT -->
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt</artifactId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId>
                 <version>${jjwt.version}</version>
             </dependency>
 
@@ -140,6 +147,13 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>transmittable-thread-local</artifactId>
                 <version>${transmittable-thread-local.version}</version>
+            </dependency>
+
+            <!-- druid强制覆盖 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
             </dependency>
 
             <!-- 核心模块 -->

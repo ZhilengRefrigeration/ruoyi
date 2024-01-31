@@ -1,6 +1,7 @@
 package com.ruoyi.gateway.handler;
 
 import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -19,21 +20,16 @@ import reactor.core.publisher.Mono;
  * @author ruoyi
  */
 @Component
-public class ValidateCodeHandler implements HandlerFunction<ServerResponse>
-{
+public class ValidateCodeHandler implements HandlerFunction<ServerResponse> {
     @Autowired
     private ValidateCodeService validateCodeService;
 
     @Override
-    public Mono<ServerResponse> handle(ServerRequest serverRequest)
-    {
+    public Mono<ServerResponse> handle(ServerRequest serverRequest) {
         AjaxResult ajax;
-        try
-        {
+        try {
             ajax = validateCodeService.createCaptcha();
-        }
-        catch (CaptchaException | IOException e)
-        {
+        } catch (CaptchaException | IOException e) {
             return Mono.error(e);
         }
         return ServerResponse.status(HttpStatus.OK).body(BodyInserters.fromValue(ajax));

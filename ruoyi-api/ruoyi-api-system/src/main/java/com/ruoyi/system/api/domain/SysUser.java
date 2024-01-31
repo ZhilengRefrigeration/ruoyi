@@ -1,8 +1,9 @@
 package com.ruoyi.system.api.domain;
 
+import java.io.Serial;
 import java.util.Date;
 import java.util.List;
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
@@ -19,6 +20,7 @@ import com.ruoyi.common.core.xss.Xss;
  */
 public class SysUser extends BaseEntity
 {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /** 用户ID */

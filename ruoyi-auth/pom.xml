@@ -21,11 +21,17 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
-        
+
         <!-- SpringCloud Alibaba Nacos Config -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <!-- 更新nacos-client到最新 -->
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+            <version>${nacos-client.version}</version>
         </dependency>
         
         <!-- SpringCloud Alibaba Sentinel -->
@@ -33,7 +39,7 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
-		
+
         <!-- SpringBoot Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -45,7 +51,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-		
+
         <!-- RuoYi Common Security-->
         <dependency>
             <groupId>com.ruoyi</groupId>
@@ -53,7 +59,7 @@
         </dependency>
         
     </dependencies>
-	
+
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>

@@ -20,6 +20,6 @@ public class TokenConstants
     /**
      * 令牌秘钥
      */
-    public final static String SECRET = "abcdefghijklmnopqrstuvwxyz";
+    public final static String SECRET = "NpdMXhdDbQM6YzdbLs8NsQqUjGtKBuGIbRWr8js6GLcdjr2GR0WbWS3guDlymBAN";
 
 }
