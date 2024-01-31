@@ -2,6 +2,7 @@ package com.ruoyi.file;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
 
@@ -10,6 +11,7 @@ import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
  * 
  * @author ruoyi
  */
+@ConditionalOnProperty(name = "spring.cloud.nacos.config.group", havingValue = "DEFAULT_GROUP", matchIfMissing = true)
 @EnableCustomSwagger2
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 public class RuoYiFileApplication

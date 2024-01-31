@@ -5,12 +5,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.ruoyi.common.security.annotation.EnableCustomConfig;
 import com.ruoyi.common.security.annotation.EnableRyFeignClients;
 import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 /**
  * 定时任务
  * 
  * @author ruoyi
  */
+@ConditionalOnProperty(name = "spring.cloud.nacos.config.group", havingValue = "DEFAULT_GROUP", matchIfMissing = true)
 @EnableCustomConfig
 @EnableCustomSwagger2
 @EnableRyFeignClients   

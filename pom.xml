@@ -219,6 +219,27 @@
                 <version>${ruoyi.version}</version>
             </dependency>
 
+            <!-- 鉴权模块 -->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-auth</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+
+            <!-- 文件模块 -->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-modules-file</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+
+            <!-- 定时任务模块 -->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-modules-job</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

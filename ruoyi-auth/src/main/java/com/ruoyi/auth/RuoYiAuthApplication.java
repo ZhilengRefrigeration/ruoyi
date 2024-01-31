@@ -2,6 +2,7 @@ package com.ruoyi.auth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import com.ruoyi.common.security.annotation.EnableRyFeignClients;
 
@@ -10,6 +11,7 @@ import com.ruoyi.common.security.annotation.EnableRyFeignClients;
  * 
  * @author ruoyi
  */
+@ConditionalOnProperty(name = "spring.cloud.nacos.config.group", havingValue = "DEFAULT_GROUP", matchIfMissing = true)
 @EnableRyFeignClients
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 public class RuoYiAuthApplication
