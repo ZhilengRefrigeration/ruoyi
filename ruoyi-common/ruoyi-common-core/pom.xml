@@ -47,7 +47,7 @@
             <artifactId>transmittable-thread-local</artifactId>
         </dependency>
 
-        <!-- PageHelper -->
+        <!-- PageHelper (带来了mybatis-spring-boot-starter) -->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
@@ -87,7 +87,6 @@
             <artifactId>jakarta.xml.bind-api</artifactId>
         </dependency>
 
-
         <!-- Apache Lang3 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -116,6 +115,13 @@
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
+        </dependency>
+
+        <!-- Mybatis Dynamic Sql -->
+        <dependency>
+            <groupId>org.mybatis.dynamic-sql</groupId>
+            <artifactId>mybatis-dynamic-sql</artifactId>
+            <version>${mybatis.dynamic.version}</version>
         </dependency>
 
     </dependencies>

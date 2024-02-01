@@ -18,6 +18,7 @@ import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
 @SpringBootApplication(exclude = {DruidDataSourceAutoConfigure.class})
 public class RuoYiSystemApplication {
     public static void main(String[] args) {
+        System.setProperty("pagehelper.banner", "false"); //关闭pagehelper的banner
         SpringApplication.run(RuoYiSystemApplication.class, args);
         System.out.println("(♥◠‿◠)ﾉﾞ  系统模块(常规模式)启动成功   ლ(´ڡ`ლ)ﾞ");
     }

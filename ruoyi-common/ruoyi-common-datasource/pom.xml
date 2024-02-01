@@ -32,5 +32,12 @@
             <version>${dynamic-ds.version}</version>
         </dependency>
 
+        <!-- Mybatis Generator -->
+        <dependency>
+            <groupId>org.mybatis.generator</groupId>
+            <artifactId>mybatis-generator-core</artifactId>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
 </project>

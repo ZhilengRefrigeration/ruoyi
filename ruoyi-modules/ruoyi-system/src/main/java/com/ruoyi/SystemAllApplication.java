@@ -1,11 +1,6 @@
 package com.ruoyi;
 
-import com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceAutoConfigure;
-import com.ruoyi.common.security.annotation.EnableCustomConfig;
-import com.ruoyi.common.security.annotation.EnableRyFeignClients;
-import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * all-in-one架构模式下的启动入口类
@@ -19,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //@SpringBootApplication(exclude = {DruidDataSourceAutoConfigure.class})
 public class SystemAllApplication {
     public static void main(String[] args) {
+        System.setProperty("pagehelper.banner", "false"); //关闭pagehelper的banner
         SpringApplication.run(SystemAllApplication.class, args);
         System.out.println("(♥◠‿◠)ﾉﾞ  系统模块(All-in-one模式)启动成功   ლ(´ڡ`ლ)ﾞ");
     }

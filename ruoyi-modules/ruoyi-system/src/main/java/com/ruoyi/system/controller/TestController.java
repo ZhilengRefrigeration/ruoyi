@@ -16,7 +16,7 @@ public class TestController extends BaseController {
 
     @GetMapping("/showInfo")
     public AjaxResult showInfo() {
-        return success("Hello World!");
+        return success("Hello World! This is system module.");
     }
 
 }

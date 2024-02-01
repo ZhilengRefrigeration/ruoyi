@@ -10,13 +10,13 @@
     <modelVersion>4.0.0</modelVersion>
     
     <artifactId>ruoyi-common-log</artifactId>
-	
+
     <description>
         ruoyi-common-log日志记录
     </description>
 
     <dependencies>
-		
+
         <!-- RuoYi Common Security -->
         <dependency>
             <groupId>com.ruoyi</groupId>
