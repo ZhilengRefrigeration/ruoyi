@@ -1,0 +1,40 @@
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!-- MyBatis3 动态SQL生成 -->
+    <context id="mbg" targetRuntime="MyBatis3DynamicSql">
+
+        <commentGenerator>
+            <property name="suppressAllComments" value="false"/>
+            <property name="suppressDate" value="true"/>
+            <property name="addRemarkComments" value="true"/>
+        </commentGenerator>
+
+        <!-- 数据库连接 -->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/ry-cloud?useUnicode=true%26characterEncoding=utf8%26zeroDateTimeBehavior=convertToNull%26useSSL=true%26serverTimezone=GMT%2B8"
+                        userId="root"
+                        password="password"/>
+
+        <!-- Java 模型 -->
+        <javaModelGenerator targetPackage="com.ruoyi.wms.domain" targetProject="ruoyi-modules/ruoyi-wms/src/main/java">
+            <property name="rootClass" value="com.ruoyi.common.core.web.domain.BaseEntity"/>
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <!-- Mapper.xml (对于MyBatis动态SQL特性来说不再需要) -->
+        <sqlMapGenerator targetPackage="mappers" targetProject="ruoyi-modules/ruoyi-wms/src/main/resources">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <!-- Mapper.java -->
+        <javaClientGenerator targetPackage="com.ruoyi.wms.mapper" targetProject="ruoyi-modules/ruoyi-wms/src/main/java" type="XMLMAPPER">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <!-- 要生成的表 -->
+        <table tableName="sys_common" domainObjectName="SysCommon"/>
+    </context>
+</generatorConfiguration>
