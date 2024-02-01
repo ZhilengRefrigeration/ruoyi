@@ -59,3 +59,7 @@ com.ruoyi
 # 微服务架构模式的切换
 
 详见[微服务架构在不同模式下的切换](./STRUCTURE_MODE.md)
+
+# 前端
+
+运行和打包前端项目请参考[前端运行和发布](./ruoyi-ui/README.md)

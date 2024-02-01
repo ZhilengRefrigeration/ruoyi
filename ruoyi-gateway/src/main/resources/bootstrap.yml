@@ -24,8 +24,8 @@ spring:
         shared-configs:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
         # 指定分组
-#        group: DEFAULT_GROUP #默认微服务组
-        group: GROUP_ALL_IN_1 #多模块集成在system模块里的模式
+        group: DEFAULT_GROUP #默认微服务组
+        #group: GROUP_ALL_IN_1 #多模块集成在system模块里的模式
     sentinel:
       # 取消控制台懒加载
       eager: true

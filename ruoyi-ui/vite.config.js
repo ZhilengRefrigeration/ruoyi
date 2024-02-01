@@ -26,15 +26,16 @@ export default defineConfig(({ mode, command }) => {
     // vite 相关配置
     server: {
       port: 10001,
-      host: true,
-      open: true,
+      host: true, //指定服务器应该监听哪个 IP 地址。 如果将此设置为 0.0.0.0 或者 true 将监听所有地址
+      open: true, //开发服务器启动时，自动在浏览器中打开应用程序
       proxy: {
         // https://cn.vitejs.dev/config/#server-proxy
+        // 对后端接口进行代理，生产环境通过nginx反代不需要在这里配置
         '/dev-api': {
           target: 'http://localhost:8080',
           changeOrigin: true,
           rewrite: (p) => p.replace(/^\/dev-api/, '')
-        }
+        },
       }
     },
     //fix:error:stdin>:7356:1: warning: "@charset" must be the first rule in the file

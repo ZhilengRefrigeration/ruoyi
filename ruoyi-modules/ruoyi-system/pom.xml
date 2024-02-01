@@ -91,20 +91,20 @@
         <!-- =============================================================================== -->
 
         <!-- 可选部署：合并鉴权模块 -->
-        <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-auth</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.ruoyi</groupId>-->
+<!--            <artifactId>ruoyi-auth</artifactId>-->
+<!--        </dependency>-->
         <!-- 可选部署：合并文件模块 -->
-        <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-modules-file</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.ruoyi</groupId>-->
+<!--            <artifactId>ruoyi-modules-file</artifactId>-->
+<!--        </dependency>-->
         <!-- 可选部署：合并定时任务模块 -->
-        <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-modules-job</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.ruoyi</groupId>-->
+<!--            <artifactId>ruoyi-modules-job</artifactId>-->
+<!--        </dependency>-->
 
     </dependencies>
 

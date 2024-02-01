@@ -8,14 +8,14 @@ import com.ruoyi.common.security.annotation.EnableRyFeignClients;
 import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
 
 /**
- * 系统模块
+ * 系统模块（常规模式）
  *
  * @author ruoyi
  */
-//@EnableCustomConfig
-//@EnableCustomSwagger2
-//@EnableRyFeignClients
-//@SpringBootApplication(exclude = {DruidDataSourceAutoConfigure.class})
+@EnableCustomConfig
+@EnableCustomSwagger2
+@EnableRyFeignClients
+@SpringBootApplication(exclude = {DruidDataSourceAutoConfigure.class})
 public class RuoYiSystemApplication {
     public static void main(String[] args) {
         SpringApplication.run(RuoYiSystemApplication.class, args);

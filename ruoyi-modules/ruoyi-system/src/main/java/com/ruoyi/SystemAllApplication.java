@@ -8,15 +8,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * 多合一启动器
+ * all-in-one架构模式下的启动入口类
  *
  * @author Alan Scipio
  * created on 2024/1/31
  */
-@EnableCustomConfig
-@EnableCustomSwagger2
-@EnableRyFeignClients
-@SpringBootApplication(exclude = {DruidDataSourceAutoConfigure.class})
+//@EnableCustomConfig
+//@EnableCustomSwagger2
+//@EnableRyFeignClients
+//@SpringBootApplication(exclude = {DruidDataSourceAutoConfigure.class})
 public class SystemAllApplication {
     public static void main(String[] args) {
         SpringApplication.run(SystemAllApplication.class, args);
