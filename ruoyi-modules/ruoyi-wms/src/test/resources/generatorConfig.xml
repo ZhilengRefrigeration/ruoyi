@@ -19,7 +19,7 @@
 
         <!-- Java 模型 -->
         <javaModelGenerator targetPackage="com.ruoyi.wms.domain" targetProject="ruoyi-modules/ruoyi-wms/src/main/java">
-            <property name="rootClass" value="com.ruoyi.common.core.web.domain.BaseEntity"/>
+            <property name="rootClass" value="com.ruoyi.common.core.web.domain.ExtBaseEntity"/>
             <property name="enableSubPackages" value="true" />
             <property name="trimStrings" value="true" />
         </javaModelGenerator>
@@ -35,6 +35,6 @@
         </javaClientGenerator>
 
         <!-- 要生成的表 -->
-        <table tableName="sys_common" domainObjectName="SysCommon"/>
+        <table tableName="SF_WMS_M_UNIT_INFO" domainObjectName="UnitInfo"/>
     </context>
 </generatorConfiguration>
