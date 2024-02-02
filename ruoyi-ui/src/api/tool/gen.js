@@ -70,7 +70,7 @@ export function genCode(tableName) {
 // 同步数据库
 export function synchDb(tableName) {
   return request({
-    url: '/code/gen/synchDb/' + tableName,
+    url: '/code/gen/syncDb/' + tableName,
     method: 'get'
   })
 }

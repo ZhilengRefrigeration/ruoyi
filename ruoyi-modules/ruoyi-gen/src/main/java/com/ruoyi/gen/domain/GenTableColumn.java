@@ -1,5 +1,6 @@
 package com.ruoyi.gen.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 
 import com.ruoyi.common.core.utils.StringUtils;
@@ -51,6 +52,12 @@ public class GenTableColumn extends BaseEntity {
      */
     @NotBlank(message = "Java属性不能为空")
     private String javaField;
+
+    /**
+     * JAVA字段名（开头大写）
+     */
+    @JsonIgnore
+    private transient String javaFieldUpper;
 
     /**
      * 是否主键（1是）
@@ -106,6 +113,14 @@ public class GenTableColumn extends BaseEntity {
      * 排序
      */
     private Integer sort;
+
+    public String getJavaFieldUpper() {
+        return javaFieldUpper;
+    }
+
+    public void setJavaFieldUpper(String javaFieldUpper) {
+        this.javaFieldUpper = javaFieldUpper;
+    }
 
     public void setColumnId(Long columnId) {
         this.columnId = columnId;

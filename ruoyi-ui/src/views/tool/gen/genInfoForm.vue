@@ -23,6 +23,16 @@
       </el-col>
 
       <el-col :span="12">
+        <el-form-item prop="tplWebType">
+          <template #label>后端类型</template>
+          <el-select v-model="info.tplBackendType">
+            <el-option label="常规模式" value="normal" />
+            <el-option label="MyBatis动态SQL支持" value="mybatis-dynamic" />
+          </el-select>
+        </el-form-item>
+      </el-col>
+
+      <el-col :span="12">
         <el-form-item prop="packageName">
           <template #label>
             生成包路径
@@ -290,6 +300,12 @@ watch(() => props.info.subTableName, val => {
 watch(() => props.info.tplWebType, val => {
   if (val === '') {
     props.info.tplWebType = "element-plus";
+  }
+});
+
+watch(() => props.info.tplBackendType, val => {
+  if (val === '') {
+    props.info.tplBackendType = "normal";
   }
 });
 

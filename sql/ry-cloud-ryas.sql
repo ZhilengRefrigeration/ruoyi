@@ -11,11 +11,40 @@
  Target Server Version : 80200 (8.2.0)
  File Encoding         : 65001
 
- Date: 31/01/2024 15:40:13
+ Date: 02/02/2024 18:45:15
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for SF_WMS_M_UNIT_INFO
+-- ----------------------------
+DROP TABLE IF EXISTS `SF_WMS_M_UNIT_INFO`;
+CREATE TABLE `SF_WMS_M_UNIT_INFO`  (
+  `ORG_CD` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `UNIT` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `UNIT_NAME` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `UNIT_CONV_RATE` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `SRC_CONV_UNIT` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `REMARK_1` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL,
+  `REMARK_2` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL,
+  `REMARK_3` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL,
+  `REMARK_4` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL,
+  `REMARK_5` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL,
+  `UPDATE_COUNT` int NOT NULL DEFAULT 0,
+  `DELETE_FLAG` int NOT NULL DEFAULT 0,
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`ORG_CD`, `UNIT`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of SF_WMS_M_UNIT_INFO
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for gen_table
@@ -30,6 +59,7 @@ CREATE TABLE `gen_table`  (
   `class_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '实体类名称',
   `tpl_category` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT 'crud' COMMENT '使用的模板（crud单表操作 tree树表操作）',
   `tpl_web_type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '前端模板类型（element-ui模版 element-plus模版）',
+  `tpl_backend_type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '后端模板类型（MyBaitsDynamicSQL模板，常规模板）',
   `package_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '生成包路径',
   `module_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '生成模块名',
   `business_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '生成业务名',
@@ -44,12 +74,12 @@ CREATE TABLE `gen_table`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`table_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '代码生成业务表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '代码生成业务表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of gen_table
 -- ----------------------------
-INSERT INTO `gen_table` VALUES (1, 'sys_user', '用户信息表', NULL, NULL, 'SysUser', 'crud', '', 'com.ruoyi.system', 'system', 'user', '用户信息', 'ruoyi', '0', '/', NULL, 'admin', '2024-01-31 07:06:17', '', NULL, NULL);
+INSERT INTO `gen_table` VALUES (5, 'SF_WMS_M_UNIT_INFO', '单位信息', NULL, NULL, 'UnitInfo', 'crud', 'element-plus', 'mybatis-dynamic', 'com.ruoyi.wms', 'wms', 'wms', '单位信息管理', 'ruoyi', '0', '/', '{\"parentMenuId\":2000}', 'admin', '2024-02-02 10:40:41', '', '2024-02-02 10:42:03', NULL);
 
 -- ----------------------------
 -- Table structure for gen_table_column
@@ -79,30 +109,50 @@ CREATE TABLE `gen_table_column`  (
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '更新者',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`column_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '代码生成业务表字段' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 88 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '代码生成业务表字段' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of gen_table_column
 -- ----------------------------
-INSERT INTO `gen_table_column` VALUES (1, 1, 'user_id', '用户ID', 'bigint', 'Long', 'userId', '1', '1', NULL, '1', NULL, NULL, NULL, 'EQ', 'input', '', 1, 'admin', '2024-01-31 07:06:17', '', NULL);
-INSERT INTO `gen_table_column` VALUES (2, 1, 'dept_id', '部门ID', 'bigint', 'Long', 'deptId', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 2, 'admin', '2024-01-31 07:06:17', '', NULL);
-INSERT INTO `gen_table_column` VALUES (3, 1, 'user_name', '用户账号', 'varchar(30)', 'String', 'userName', '0', '0', '1', '1', '1', '1', '1', 'LIKE', 'input', '', 3, 'admin', '2024-01-31 07:06:17', '', NULL);
-INSERT INTO `gen_table_column` VALUES (4, 1, 'nick_name', '用户昵称', 'varchar(30)', 'String', 'nickName', '0', '0', '1', '1', '1', '1', '1', 'LIKE', 'input', '', 4, 'admin', '2024-01-31 07:06:17', '', NULL);
-INSERT INTO `gen_table_column` VALUES (5, 1, 'user_type', '用户类型（00系统用户）', 'varchar(2)', 'String', 'userType', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'select', '', 5, 'admin', '2024-01-31 07:06:17', '', NULL);
-INSERT INTO `gen_table_column` VALUES (6, 1, 'email', '用户邮箱', 'varchar(50)', 'String', 'email', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 6, 'admin', '2024-01-31 07:06:17', '', NULL);
-INSERT INTO `gen_table_column` VALUES (7, 1, 'phonenumber', '手机号码', 'varchar(11)', 'String', 'phonenumber', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 7, 'admin', '2024-01-31 07:06:17', '', NULL);
-INSERT INTO `gen_table_column` VALUES (8, 1, 'sex', '用户性别（0男 1女 2未知）', 'char(1)', 'String', 'sex', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'select', '', 8, 'admin', '2024-01-31 07:06:17', '', NULL);
-INSERT INTO `gen_table_column` VALUES (9, 1, 'avatar', '头像地址', 'varchar(100)', 'String', 'avatar', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 9, 'admin', '2024-01-31 07:06:17', '', NULL);
-INSERT INTO `gen_table_column` VALUES (10, 1, 'password', '密码', 'varchar(100)', 'String', 'password', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 10, 'admin', '2024-01-31 07:06:17', '', NULL);
-INSERT INTO `gen_table_column` VALUES (11, 1, 'status', '帐号状态（0正常 1停用）', 'char(1)', 'String', 'status', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'radio', '', 11, 'admin', '2024-01-31 07:06:17', '', NULL);
-INSERT INTO `gen_table_column` VALUES (12, 1, 'del_flag', '删除标志（0代表存在 2代表删除）', 'char(1)', 'String', 'delFlag', '0', '0', NULL, '1', NULL, NULL, NULL, 'EQ', 'input', '', 12, 'admin', '2024-01-31 07:06:17', '', NULL);
-INSERT INTO `gen_table_column` VALUES (13, 1, 'login_ip', '最后登录IP', 'varchar(128)', 'String', 'loginIp', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 13, 'admin', '2024-01-31 07:06:17', '', NULL);
-INSERT INTO `gen_table_column` VALUES (14, 1, 'login_date', '最后登录时间', 'datetime', 'Date', 'loginDate', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'datetime', '', 14, 'admin', '2024-01-31 07:06:17', '', NULL);
-INSERT INTO `gen_table_column` VALUES (15, 1, 'create_by', '创建者', 'varchar(64)', 'String', 'createBy', '0', '0', NULL, '1', NULL, NULL, NULL, 'EQ', 'input', '', 15, 'admin', '2024-01-31 07:06:17', '', NULL);
-INSERT INTO `gen_table_column` VALUES (16, 1, 'create_time', '创建时间', 'datetime', 'Date', 'createTime', '0', '0', NULL, '1', NULL, NULL, NULL, 'EQ', 'datetime', '', 16, 'admin', '2024-01-31 07:06:17', '', NULL);
-INSERT INTO `gen_table_column` VALUES (17, 1, 'update_by', '更新者', 'varchar(64)', 'String', 'updateBy', '0', '0', NULL, '1', '1', NULL, NULL, 'EQ', 'input', '', 17, 'admin', '2024-01-31 07:06:17', '', NULL);
-INSERT INTO `gen_table_column` VALUES (18, 1, 'update_time', '更新时间', 'datetime', 'Date', 'updateTime', '0', '0', NULL, '1', '1', NULL, NULL, 'EQ', 'datetime', '', 18, 'admin', '2024-01-31 07:06:17', '', NULL);
-INSERT INTO `gen_table_column` VALUES (19, 1, 'remark', '备注', 'varchar(500)', 'String', 'remark', '0', '0', NULL, '1', '1', '1', NULL, 'EQ', 'textarea', '', 19, 'admin', '2024-01-31 07:06:17', '', NULL);
+INSERT INTO `gen_table_column` VALUES (71, 5, 'ORG_CD', NULL, 'varchar(25)', 'String', 'orgCd', '1', '0', NULL, '1', NULL, NULL, NULL, 'EQ', 'input', '', 1, 'admin', '2024-02-02 10:40:42', '', '2024-02-02 10:42:03');
+INSERT INTO `gen_table_column` VALUES (72, 5, 'UNIT', NULL, 'varchar(25)', 'String', 'unit', '1', '0', NULL, '1', NULL, NULL, NULL, 'EQ', 'input', '', 2, 'admin', '2024-02-02 10:40:42', '', '2024-02-02 10:42:04');
+INSERT INTO `gen_table_column` VALUES (73, 5, 'UNIT_NAME', NULL, 'varchar(10)', 'String', 'unitName', '0', '0', '1', '1', '1', '1', '1', 'LIKE', 'input', '', 3, 'admin', '2024-02-02 10:40:42', '', '2024-02-02 10:42:04');
+INSERT INTO `gen_table_column` VALUES (74, 5, 'UNIT_CONV_RATE', NULL, 'varchar(100)', 'String', 'unitConvRate', '0', '0', '1', '1', '1', '1', '1', 'EQ', 'input', '', 4, 'admin', '2024-02-02 10:40:42', '', '2024-02-02 10:42:04');
+INSERT INTO `gen_table_column` VALUES (75, 5, 'SRC_CONV_UNIT', NULL, 'varchar(25)', 'String', 'srcConvUnit', '0', '0', '1', '1', '1', '1', '1', 'EQ', 'input', '', 5, 'admin', '2024-02-02 10:40:42', '', '2024-02-02 10:42:04');
+INSERT INTO `gen_table_column` VALUES (76, 5, 'REMARK_1', NULL, 'varchar(100)', 'String', 'remark1', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 6, 'admin', '2024-02-02 10:40:42', '', '2024-02-02 10:42:04');
+INSERT INTO `gen_table_column` VALUES (77, 5, 'REMARK_2', NULL, 'varchar(100)', 'String', 'remark2', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 7, 'admin', '2024-02-02 10:40:42', '', '2024-02-02 10:42:04');
+INSERT INTO `gen_table_column` VALUES (78, 5, 'REMARK_3', NULL, 'varchar(100)', 'String', 'remark3', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 8, 'admin', '2024-02-02 10:40:42', '', '2024-02-02 10:42:04');
+INSERT INTO `gen_table_column` VALUES (79, 5, 'REMARK_4', NULL, 'varchar(100)', 'String', 'remark4', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 9, 'admin', '2024-02-02 10:40:42', '', '2024-02-02 10:42:04');
+INSERT INTO `gen_table_column` VALUES (80, 5, 'REMARK_5', NULL, 'varchar(100)', 'String', 'remark5', '0', '0', NULL, '1', '1', '1', '1', 'EQ', 'input', '', 10, 'admin', '2024-02-02 10:40:42', '', '2024-02-02 10:42:04');
+INSERT INTO `gen_table_column` VALUES (81, 5, 'UPDATE_COUNT', NULL, 'int', 'Long', 'updateCount', '0', '0', '1', '1', '1', '1', '1', 'EQ', 'input', '', 11, 'admin', '2024-02-02 10:40:42', '', '2024-02-02 10:42:04');
+INSERT INTO `gen_table_column` VALUES (82, 5, 'DELETE_FLAG', NULL, 'int', 'Long', 'deleteFlag', '0', '0', '1', '1', '1', '1', '1', 'EQ', 'input', '', 12, 'admin', '2024-02-02 10:40:42', '', '2024-02-02 10:42:04');
+INSERT INTO `gen_table_column` VALUES (83, 5, 'create_by', '创建者', 'varchar(64)', 'String', 'createBy', '0', '0', NULL, '1', NULL, NULL, NULL, 'EQ', 'input', '', 13, 'admin', '2024-02-02 10:40:42', '', '2024-02-02 10:42:04');
+INSERT INTO `gen_table_column` VALUES (84, 5, 'create_time', '创建时间', 'datetime', 'Date', 'createTime', '0', '0', NULL, '1', NULL, NULL, NULL, 'EQ', 'datetime', '', 14, 'admin', '2024-02-02 10:40:42', '', '2024-02-02 10:42:04');
+INSERT INTO `gen_table_column` VALUES (85, 5, 'update_by', '更新者', 'varchar(64)', 'String', 'updateBy', '0', '0', NULL, '1', '1', NULL, NULL, 'EQ', 'input', '', 15, 'admin', '2024-02-02 10:40:42', '', '2024-02-02 10:42:04');
+INSERT INTO `gen_table_column` VALUES (86, 5, 'update_time', '更新时间', 'datetime', 'Date', 'updateTime', '0', '0', NULL, '1', '1', NULL, NULL, 'EQ', 'datetime', '', 16, 'admin', '2024-02-02 10:40:42', '', '2024-02-02 10:42:04');
+INSERT INTO `gen_table_column` VALUES (87, 5, 'remark', '备注', 'varchar(500)', 'String', 'remark', '0', '0', NULL, '1', '1', '1', NULL, 'EQ', 'textarea', '', 17, 'admin', '2024-02-02 10:40:42', '', '2024-02-02 10:42:04');
+
+-- ----------------------------
+-- Table structure for sys_common
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_common`;
+CREATE TABLE `sys_common`  (
+  `config_id` int NOT NULL AUTO_INCREMENT COMMENT '参数主键',
+  `config_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '参数名称',
+  `config_key` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '参数键名',
+  `config_value` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '参数键值',
+  `config_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT 'N' COMMENT '系统内置（Y是 N否）',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`config_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '参数配置表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_common
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_config
@@ -278,7 +328,7 @@ CREATE TABLE `sys_job`  (
 -- ----------------------------
 -- Records of sys_job
 -- ----------------------------
-INSERT INTO `sys_job` VALUES (1, '系统默认（无参）', 'DEFAULT', 'ryTask.ryNoParams', '0/10 * * * * ?', '3', '1', '1', 'admin', '2024-01-30 05:05:41', '', NULL, '');
+INSERT INTO `sys_job` VALUES (1, '系统默认（无参）', 'DEFAULT', 'ryTask.ryNoParams', '0/10 * * * * ?', '3', '1', '1', 'admin', '2024-01-30 05:05:41', 'admin', '2024-01-31 09:19:48', '');
 INSERT INTO `sys_job` VALUES (2, '系统默认（有参）', 'DEFAULT', 'ryTask.ryParams(\'ry\')', '0/15 * * * * ?', '3', '1', '1', 'admin', '2024-01-30 05:05:41', '', NULL, '');
 INSERT INTO `sys_job` VALUES (3, '系统默认（多参）', 'DEFAULT', 'ryTask.ryMultipleParams(\'ry\', true, 2000L, 316.50D, 100)', '0/20 * * * * ?', '3', '1', '1', 'admin', '2024-01-30 05:05:41', '', NULL, '');
 
@@ -296,7 +346,7 @@ CREATE TABLE `sys_job_log`  (
   `exception_info` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '异常信息',
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`job_log_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '定时任务调度日志表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '定时任务调度日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_job_log
@@ -316,7 +366,7 @@ CREATE TABLE `sys_logininfor`  (
   PRIMARY KEY (`info_id`) USING BTREE,
   INDEX `idx_sys_logininfor_s`(`status` ASC) USING BTREE,
   INDEX `idx_sys_logininfor_lt`(`access_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 105 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 120 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_logininfor
@@ -326,6 +376,21 @@ INSERT INTO `sys_logininfor` VALUES (101, 'admin', '127.0.0.1', '0', '登录成�
 INSERT INTO `sys_logininfor` VALUES (102, 'admin', '127.0.0.1', '0', '登录成功', '2024-01-31 06:02:52');
 INSERT INTO `sys_logininfor` VALUES (103, 'admin', '127.0.0.1', '0', '登录成功', '2024-01-31 06:06:25');
 INSERT INTO `sys_logininfor` VALUES (104, 'admin', '127.0.0.1', '0', '登录成功', '2024-01-31 06:12:41');
+INSERT INTO `sys_logininfor` VALUES (105, 'admin', '127.0.0.1', '0', '退出成功', '2024-01-31 09:18:53');
+INSERT INTO `sys_logininfor` VALUES (106, 'admin', '127.0.0.1', '0', '登录成功', '2024-01-31 09:19:02');
+INSERT INTO `sys_logininfor` VALUES (107, 'admin', '127.0.0.1', '0', '退出成功', '2024-01-31 09:47:21');
+INSERT INTO `sys_logininfor` VALUES (108, 'admin', '127.0.0.1', '0', '登录成功', '2024-01-31 09:47:30');
+INSERT INTO `sys_logininfor` VALUES (109, 'admin', '127.0.0.1', '0', '退出成功', '2024-01-31 09:47:39');
+INSERT INTO `sys_logininfor` VALUES (110, 'admin', '127.0.0.1', '0', '登录成功', '2024-02-01 06:39:26');
+INSERT INTO `sys_logininfor` VALUES (111, 'admin', '127.0.0.1', '0', '退出成功', '2024-02-01 08:07:08');
+INSERT INTO `sys_logininfor` VALUES (112, 'admin', '127.0.0.1', '0', '登录成功', '2024-02-01 08:07:23');
+INSERT INTO `sys_logininfor` VALUES (113, 'admin', '127.0.0.1', '0', '退出成功', '2024-02-01 08:07:29');
+INSERT INTO `sys_logininfor` VALUES (114, 'admin', '127.0.0.1', '0', '登录成功', '2024-02-01 08:07:49');
+INSERT INTO `sys_logininfor` VALUES (115, 'admin', '127.0.0.1', '0', '退出成功', '2024-02-01 08:08:54');
+INSERT INTO `sys_logininfor` VALUES (116, 'admin', '127.0.0.1', '0', '登录成功', '2024-02-01 08:32:24');
+INSERT INTO `sys_logininfor` VALUES (117, 'admin', '127.0.0.1', '0', '登录成功', '2024-02-01 08:39:20');
+INSERT INTO `sys_logininfor` VALUES (118, 'admin', '127.0.0.1', '0', '退出成功', '2024-02-01 08:45:48');
+INSERT INTO `sys_logininfor` VALUES (119, 'admin', '127.0.0.1', '0', '登录成功', '2024-02-02 06:47:11');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -352,14 +417,14 @@ CREATE TABLE `sys_menu`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2000 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2001 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES (1, '系统管理', 0, 1, 'system', NULL, '', 1, 0, 'M', '0', '0', '', 'system', 'admin', '2024-01-30 05:05:40', '', NULL, '系统管理目录');
-INSERT INTO `sys_menu` VALUES (2, '系统监控', 0, 2, 'monitor', NULL, '', 1, 0, 'M', '0', '0', '', 'monitor', 'admin', '2024-01-30 05:05:40', '', NULL, '系统监控目录');
-INSERT INTO `sys_menu` VALUES (3, '系统工具', 0, 3, 'tool', NULL, '', 1, 0, 'M', '0', '0', '', 'tool', 'admin', '2024-01-30 05:05:40', '', NULL, '系统工具目录');
+INSERT INTO `sys_menu` VALUES (1, '系统管理', 0, 100, 'system', NULL, '', 1, 0, 'M', '0', '0', '', 'system', 'admin', '2024-01-30 05:05:40', 'admin', '2024-02-02 09:13:20', '系统管理目录');
+INSERT INTO `sys_menu` VALUES (2, '系统监控', 0, 200, 'monitor', NULL, '', 1, 0, 'M', '0', '0', '', 'monitor', 'admin', '2024-01-30 05:05:40', 'admin', '2024-02-02 09:13:26', '系统监控目录');
+INSERT INTO `sys_menu` VALUES (3, '系统工具', 0, 300, 'tool', NULL, '', 1, 0, 'M', '0', '0', '', 'tool', 'admin', '2024-01-30 05:05:40', 'admin', '2024-02-02 09:13:31', '系统工具目录');
 INSERT INTO `sys_menu` VALUES (100, '用户管理', 1, 1, 'user', 'system/user/index', '', 1, 0, 'C', '0', '0', 'system:user:list', 'user', 'admin', '2024-01-30 05:05:40', '', NULL, '用户管理菜单');
 INSERT INTO `sys_menu` VALUES (101, '角色管理', 1, 2, 'role', 'system/role/index', '', 1, 0, 'C', '0', '0', 'system:role:list', 'peoples', 'admin', '2024-01-30 05:05:40', '', NULL, '角色管理菜单');
 INSERT INTO `sys_menu` VALUES (102, '菜单管理', 1, 3, 'menu', 'system/menu/index', '', 1, 0, 'C', '0', '0', 'system:menu:list', 'tree-table', 'admin', '2024-01-30 05:05:40', '', NULL, '菜单管理菜单');
@@ -440,6 +505,7 @@ INSERT INTO `sys_menu` VALUES (1057, '生成删除', 115, 3, '#', '', '', 1, 0, 
 INSERT INTO `sys_menu` VALUES (1058, '导入代码', 115, 2, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:import', '#', 'admin', '2024-01-30 05:05:40', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (1059, '预览代码', 115, 4, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:preview', '#', 'admin', '2024-01-30 05:05:40', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (1060, '生成代码', 115, 5, '#', '', '', 1, 0, 'F', '0', '0', 'tool:gen:code', '#', 'admin', '2024-01-30 05:05:40', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2000, '基础信息', 0, 20, 'masterData', NULL, NULL, 1, 0, 'M', '0', '0', '', 'dict', 'admin', '2024-02-02 09:13:06', 'admin', '2024-02-02 09:13:43', '');
 
 -- ----------------------------
 -- Table structure for sys_notice
@@ -491,7 +557,7 @@ CREATE TABLE `sys_oper_log`  (
   INDEX `idx_sys_oper_log_bt`(`business_type` ASC) USING BTREE,
   INDEX `idx_sys_oper_log_s`(`status` ASC) USING BTREE,
   INDEX `idx_sys_oper_log_ot`(`oper_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 111 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 142 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_oper_log
@@ -507,6 +573,37 @@ INSERT INTO `sys_oper_log` VALUES (107, '代码生成', 8, 'com.ruoyi.gen.contro
 INSERT INTO `sys_oper_log` VALUES (108, '在线用户', 7, 'com.ruoyi.system.controller.SysUserOnlineController.forceLogout()', 'DELETE', 1, 'admin', NULL, '/online/c4162f46-426e-4a0c-89f7-c22833733e6a', '127.0.0.1', '', '{}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-01-31 07:29:30', 5);
 INSERT INTO `sys_oper_log` VALUES (109, '在线用户', 7, 'com.ruoyi.system.controller.SysUserOnlineController.forceLogout()', 'DELETE', 1, 'admin', NULL, '/online/23d1b863-75c6-4fde-bb75-dbc0c60edb90', '127.0.0.1', '', '{}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-01-31 07:29:33', 1);
 INSERT INTO `sys_oper_log` VALUES (110, '在线用户', 7, 'com.ruoyi.system.controller.SysUserOnlineController.forceLogout()', 'DELETE', 1, 'admin', NULL, '/online/40f17282-b982-4954-825f-bffb9c28edd0', '127.0.0.1', '', '{}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-01-31 07:29:45', 1);
+INSERT INTO `sys_oper_log` VALUES (111, '定时任务', 2, 'com.ruoyi.job.controller.SysJobController.edit()', 'PUT', 1, 'admin', NULL, '/job', '127.0.0.1', '', '{\"concurrent\":\"1\",\"createBy\":\"admin\",\"createTime\":\"2024-01-30 05:05:41\",\"cronExpression\":\"0/10 * * * * ?\",\"invokeTarget\":\"ryTask.ryNoParams\",\"jobGroup\":\"DEFAULT\",\"jobId\":1,\"jobName\":\"系统默认（无参）1\",\"misfirePolicy\":\"3\",\"nextValidTime\":\"2024-01-31 17:19:50\",\"params\":{},\"remark\":\"\",\"status\":\"1\",\"updateBy\":\"admin\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-01-31 09:19:48', 259);
+INSERT INTO `sys_oper_log` VALUES (112, '代码生成', 3, 'com.ruoyi.gen.controller.GenController.remove()', 'DELETE', 1, 'admin', NULL, '/gen/1', '127.0.0.1', '', '{}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-02 06:47:31', 337);
+INSERT INTO `sys_oper_log` VALUES (113, '代码生成', 6, 'com.ruoyi.gen.controller.GenController.importTableSave()', 'POST', 1, 'admin', NULL, '/gen/importTable', '127.0.0.1', '', '{\"tables\":\"SF_WMS_M_UNIT_INFO\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-02 06:49:28', 1660);
+INSERT INTO `sys_oper_log` VALUES (114, '代码生成', 2, 'com.ruoyi.gen.controller.GenController.editSave()', 'PUT', 1, 'admin', NULL, '/gen', '127.0.0.1', '', '{\"businessName\":\"UnitInfo\",\"className\":\"UnitInfo\",\"columns\":[{\"capJavaField\":\"OrgCd\",\"columnId\":20,\"columnName\":\"ORG_CD\",\"columnType\":\"varchar(25)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-02 06:49:26\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isPk\":\"1\",\"javaField\":\"orgCd\",\"javaType\":\"String\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":2,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"UNIT\",\"columnId\":21,\"columnName\":\"UNIT\",\"columnType\":\"varchar(25)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-02 06:49:26\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isPk\":\"1\",\"javaField\":\"UNIT\",\"javaType\":\"String\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":2,\"superColumn\":false,\"tableId\":2,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"UnitName\",\"columnId\":22,\"columnName\":\"UNIT_NAME\",\"columnType\":\"varchar(10)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-02 06:49:26\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"unitName\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"LIKE\",\"required\":true,\"sort\":3,\"superColumn\":false,\"tableId\":2,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"UnitConvRate\",\"columnId\":23,\"columnName\":\"UNIT_CONV_RATE\",\"columnType\":\"varchar(100)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-02 06:49:26\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"unitConvRate\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":true,\"sort\":4,\"superColumn\":fal', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-02 06:51:22', 2374);
+INSERT INTO `sys_oper_log` VALUES (115, '代码生成', 8, 'com.ruoyi.gen.controller.GenController.batchGenCode()', 'GET', 1, 'admin', NULL, '/gen/batchGenCode', '127.0.0.1', '', '{\"tables\":\"SF_WMS_M_UNIT_INFO\"}', NULL, 0, NULL, '2024-02-02 06:51:58', 432);
+INSERT INTO `sys_oper_log` VALUES (116, '代码生成', 2, 'com.ruoyi.gen.controller.GenController.editSave()', 'PUT', 1, 'admin', NULL, '/gen', '127.0.0.1', '', '{\"businessName\":\"UnitInfo\",\"className\":\"UnitInfo\",\"columns\":[{\"capJavaField\":\"OrgCd\",\"columnId\":20,\"columnName\":\"ORG_CD\",\"columnType\":\"varchar(25)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-02 06:49:26\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isPk\":\"1\",\"javaField\":\"orgCd\",\"javaType\":\"String\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":2,\"updateBy\":\"\",\"updateTime\":\"2024-02-02 06:51:20\",\"usableColumn\":false},{\"capJavaField\":\"UNIT\",\"columnId\":21,\"columnName\":\"UNIT\",\"columnType\":\"varchar(25)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-02 06:49:26\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isPk\":\"1\",\"javaField\":\"UNIT\",\"javaType\":\"String\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":2,\"superColumn\":false,\"tableId\":2,\"updateBy\":\"\",\"updateTime\":\"2024-02-02 06:51:20\",\"usableColumn\":false},{\"capJavaField\":\"UnitName\",\"columnId\":22,\"columnName\":\"UNIT_NAME\",\"columnType\":\"varchar(10)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-02 06:49:26\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"unitName\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"LIKE\",\"required\":true,\"sort\":3,\"superColumn\":false,\"tableId\":2,\"updateBy\":\"\",\"updateTime\":\"2024-02-02 06:51:20\",\"usableColumn\":false},{\"capJavaField\":\"UnitConvRate\",\"columnId\":23,\"columnName\":\"UNIT_CONV_RATE\",\"columnType\":\"varchar(100)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-02 06:49:26\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"unitConvRate\",\"javaType\":\"String\",\"l', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-02 08:40:19', 1198);
+INSERT INTO `sys_oper_log` VALUES (117, '代码生成', 8, 'com.ruoyi.gen.controller.GenController.batchGenCode()', 'GET', 1, 'admin', NULL, '/gen/batchGenCode', '127.0.0.1', '', '{\"tables\":\"SF_WMS_M_UNIT_INFO\"}', NULL, 0, NULL, '2024-02-02 08:40:32', 351);
+INSERT INTO `sys_oper_log` VALUES (118, '菜单管理', 1, 'com.ruoyi.system.controller.SysMenuController.add()', 'POST', 1, 'admin', NULL, '/menu', '127.0.0.1', '', '{\"children\":[],\"createBy\":\"admin\",\"icon\":\"dict\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuName\":\"基础信息\",\"menuType\":\"M\",\"orderNum\":100,\"params\":{},\"parentId\":0,\"path\":\"masterData\",\"status\":\"0\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-02 09:13:06', 91);
+INSERT INTO `sys_oper_log` VALUES (119, '菜单管理', 2, 'com.ruoyi.system.controller.SysMenuController.edit()', 'PUT', 1, 'admin', NULL, '/menu', '127.0.0.1', '', '{\"children\":[],\"createTime\":\"2024-01-30 05:05:40\",\"icon\":\"system\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":1,\"menuName\":\"系统管理\",\"menuType\":\"M\",\"orderNum\":100,\"params\":{},\"parentId\":0,\"path\":\"system\",\"perms\":\"\",\"query\":\"\",\"status\":\"0\",\"updateBy\":\"admin\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-02 09:13:20', 94);
+INSERT INTO `sys_oper_log` VALUES (120, '菜单管理', 2, 'com.ruoyi.system.controller.SysMenuController.edit()', 'PUT', 1, 'admin', NULL, '/menu', '127.0.0.1', '', '{\"children\":[],\"createTime\":\"2024-01-30 05:05:40\",\"icon\":\"monitor\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":2,\"menuName\":\"系统监控\",\"menuType\":\"M\",\"orderNum\":200,\"params\":{},\"parentId\":0,\"path\":\"monitor\",\"perms\":\"\",\"query\":\"\",\"status\":\"0\",\"updateBy\":\"admin\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-02 09:13:26', 111);
+INSERT INTO `sys_oper_log` VALUES (121, '菜单管理', 2, 'com.ruoyi.system.controller.SysMenuController.edit()', 'PUT', 1, 'admin', NULL, '/menu', '127.0.0.1', '', '{\"children\":[],\"createTime\":\"2024-01-30 05:05:40\",\"icon\":\"tool\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":3,\"menuName\":\"系统工具\",\"menuType\":\"M\",\"orderNum\":300,\"params\":{},\"parentId\":0,\"path\":\"tool\",\"perms\":\"\",\"query\":\"\",\"status\":\"0\",\"updateBy\":\"admin\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-02 09:13:31', 71);
+INSERT INTO `sys_oper_log` VALUES (122, '菜单管理', 2, 'com.ruoyi.system.controller.SysMenuController.edit()', 'PUT', 1, 'admin', NULL, '/menu', '127.0.0.1', '', '{\"children\":[],\"createTime\":\"2024-02-02 09:13:06\",\"icon\":\"dict\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":2000,\"menuName\":\"基础信息\",\"menuType\":\"M\",\"orderNum\":20,\"params\":{},\"parentId\":0,\"path\":\"masterData\",\"perms\":\"\",\"status\":\"0\",\"updateBy\":\"admin\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-02 09:13:43', 109);
+INSERT INTO `sys_oper_log` VALUES (123, '代码生成', 2, 'com.ruoyi.gen.controller.GenController.editSave()', 'PUT', 1, 'admin', NULL, '/gen', '127.0.0.1', '', '{\"businessName\":\"UnitInfo\",\"className\":\"UnitInfo\",\"columns\":[{\"capJavaField\":\"OrgCd\",\"columnId\":20,\"columnName\":\"ORG_CD\",\"columnType\":\"varchar(25)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-02 06:49:26\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isPk\":\"1\",\"javaField\":\"orgCd\",\"javaType\":\"String\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":2,\"updateBy\":\"\",\"updateTime\":\"2024-02-02 08:40:18\",\"usableColumn\":false},{\"capJavaField\":\"UNIT\",\"columnId\":21,\"columnName\":\"UNIT\",\"columnType\":\"varchar(25)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-02 06:49:26\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isPk\":\"1\",\"javaField\":\"UNIT\",\"javaType\":\"String\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":2,\"superColumn\":false,\"tableId\":2,\"updateBy\":\"\",\"updateTime\":\"2024-02-02 08:40:18\",\"usableColumn\":false},{\"capJavaField\":\"UnitName\",\"columnId\":22,\"columnName\":\"UNIT_NAME\",\"columnType\":\"varchar(10)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-02 06:49:26\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"unitName\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"LIKE\",\"required\":true,\"sort\":3,\"superColumn\":false,\"tableId\":2,\"updateBy\":\"\",\"updateTime\":\"2024-02-02 08:40:18\",\"usableColumn\":false},{\"capJavaField\":\"UnitConvRate\",\"columnId\":23,\"columnName\":\"UNIT_CONV_RATE\",\"columnType\":\"varchar(100)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-02 06:49:26\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"unitConvRate\",\"javaType\":\"String\",\"l', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-02 09:14:12', 1291);
+INSERT INTO `sys_oper_log` VALUES (124, '代码生成', 8, 'com.ruoyi.gen.controller.GenController.batchGenCode()', 'GET', 1, 'admin', NULL, '/gen/batchGenCode', '127.0.0.1', '', '{\"tables\":\"SF_WMS_M_UNIT_INFO\"}', NULL, 0, NULL, '2024-02-02 09:14:17', 252);
+INSERT INTO `sys_oper_log` VALUES (125, '代码生成', 8, 'com.ruoyi.gen.controller.GenController.batchGenCode()', 'GET', 1, 'admin', NULL, '/gen/batchGenCode', '127.0.0.1', '', '{\"tables\":\"SF_WMS_M_UNIT_INFO\"}', NULL, 0, NULL, '2024-02-02 09:14:41', 110);
+INSERT INTO `sys_oper_log` VALUES (126, '代码生成', 8, 'com.ruoyi.gen.controller.GenController.batchGenCode()', 'GET', 1, 'admin', NULL, '/gen/batchGenCode', '127.0.0.1', '', '{\"tables\":\"SF_WMS_M_UNIT_INFO\"}', NULL, 0, NULL, '2024-02-02 09:16:58', 966);
+INSERT INTO `sys_oper_log` VALUES (127, '代码生成', 8, 'com.ruoyi.gen.controller.GenController.batchGenCode()', 'GET', 1, 'admin', NULL, '/gen/batchGenCode', '127.0.0.1', '', '{\"tables\":\"SF_WMS_M_UNIT_INFO\"}', NULL, 0, NULL, '2024-02-02 09:47:06', 68678);
+INSERT INTO `sys_oper_log` VALUES (128, '代码生成', 8, 'com.ruoyi.gen.controller.GenController.batchGenCode()', 'GET', 1, 'admin', NULL, '/gen/batchGenCode', '127.0.0.1', '', '{\"tables\":\"SF_WMS_M_UNIT_INFO\"}', NULL, 0, NULL, '2024-02-02 10:22:38', 1125);
+INSERT INTO `sys_oper_log` VALUES (129, '代码生成', 8, 'com.ruoyi.gen.controller.GenController.batchGenCode()', 'GET', 1, 'admin', NULL, '/gen/batchGenCode', '127.0.0.1', '', '{\"tables\":\"SF_WMS_M_UNIT_INFO\"}', NULL, 0, NULL, '2024-02-02 10:24:13', 13105);
+INSERT INTO `sys_oper_log` VALUES (130, '代码生成', 8, 'com.ruoyi.gen.controller.GenController.batchGenCode()', 'GET', 1, 'admin', NULL, '/gen/batchGenCode', '127.0.0.1', '', '{\"tables\":\"SF_WMS_M_UNIT_INFO\"}', NULL, 0, NULL, '2024-02-02 10:25:48', 368);
+INSERT INTO `sys_oper_log` VALUES (131, '代码生成', 8, 'com.ruoyi.gen.controller.GenController.batchGenCode()', 'GET', 1, 'admin', NULL, '/gen/batchGenCode', '127.0.0.1', '', '{\"tables\":\"SF_WMS_M_UNIT_INFO\"}', NULL, 0, NULL, '2024-02-02 10:28:38', 742);
+INSERT INTO `sys_oper_log` VALUES (132, '代码生成', 8, 'com.ruoyi.gen.controller.GenController.batchGenCode()', 'GET', 1, 'admin', NULL, '/gen/batchGenCode', '127.0.0.1', '', '{\"tables\":\"SF_WMS_M_UNIT_INFO\"}', NULL, 0, NULL, '2024-02-02 10:31:51', 675);
+INSERT INTO `sys_oper_log` VALUES (133, '代码生成', 8, 'com.ruoyi.gen.controller.GenController.batchGenCode()', 'GET', 1, 'admin', NULL, '/gen/batchGenCode', '127.0.0.1', '', '{\"tables\":\"SF_WMS_M_UNIT_INFO\"}', NULL, 0, NULL, '2024-02-02 10:34:29', 104);
+INSERT INTO `sys_oper_log` VALUES (134, '代码生成', 8, 'com.ruoyi.gen.controller.GenController.batchGenCode()', 'GET', 1, 'admin', NULL, '/gen/batchGenCode', '127.0.0.1', '', '{\"tables\":\"SF_WMS_M_UNIT_INFO\"}', NULL, 0, NULL, '2024-02-02 10:35:10', 678);
+INSERT INTO `sys_oper_log` VALUES (135, '代码生成', 8, 'com.ruoyi.gen.controller.GenController.batchGenCode()', 'GET', 1, 'admin', NULL, '/gen/batchGenCode', '127.0.0.1', '', '{\"tables\":\"SF_WMS_M_UNIT_INFO\"}', NULL, 0, NULL, '2024-02-02 10:37:33', 23652);
+INSERT INTO `sys_oper_log` VALUES (136, '代码生成', 3, 'com.ruoyi.gen.controller.GenController.remove()', 'DELETE', 1, 'admin', NULL, '/gen/2', '127.0.0.1', '', '{}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-02 10:38:07', 214);
+INSERT INTO `sys_oper_log` VALUES (137, '代码生成', 6, 'com.ruoyi.gen.controller.GenController.importTableSave()', 'POST', 1, 'admin', NULL, '/gen/importTable', '127.0.0.1', '', '{\"tables\":\"SF_WMS_M_UNIT_INFO\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-02 10:38:50', 30902);
+INSERT INTO `sys_oper_log` VALUES (138, '代码生成', 6, 'com.ruoyi.gen.controller.GenController.importTableSave()', 'POST', 1, 'admin', NULL, '/gen/importTable', '127.0.0.1', '', '{\"tables\":\"SF_WMS_M_UNIT_INFO\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-02 10:39:44', 25132);
+INSERT INTO `sys_oper_log` VALUES (139, '代码生成', 6, 'com.ruoyi.gen.controller.GenController.importTableSave()', 'POST', 1, 'admin', NULL, '/gen/importTable', '127.0.0.1', '', '{\"tables\":\"SF_WMS_M_UNIT_INFO\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-02 10:40:42', 847);
+INSERT INTO `sys_oper_log` VALUES (140, '代码生成', 2, 'com.ruoyi.gen.controller.GenController.editSave()', 'PUT', 1, 'admin', NULL, '/gen', '127.0.0.1', '', '{\"businessName\":\"wms\",\"className\":\"UnitInfo\",\"columns\":[{\"capJavaField\":\"OrgCd\",\"columnId\":71,\"columnName\":\"ORG_CD\",\"columnType\":\"varchar(25)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-02 10:40:42\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isPk\":\"1\",\"javaField\":\"orgCd\",\"javaType\":\"String\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"Unit\",\"columnId\":72,\"columnName\":\"UNIT\",\"columnType\":\"varchar(25)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-02 10:40:42\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isPk\":\"1\",\"javaField\":\"unit\",\"javaType\":\"String\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":2,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"UnitName\",\"columnId\":73,\"columnName\":\"UNIT_NAME\",\"columnType\":\"varchar(10)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-02 10:40:42\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"unitName\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"LIKE\",\"required\":true,\"sort\":3,\"superColumn\":false,\"tableId\":5,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"UnitConvRate\",\"columnId\":74,\"columnName\":\"UNIT_CONV_RATE\",\"columnType\":\"varchar(100)\",\"createBy\":\"admin\",\"createTime\":\"2024-02-02 10:40:42\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"unitConvRate\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":true,\"sort\":4,\"superColumn\":false,\"t', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-02-02 10:42:04', 881);
+INSERT INTO `sys_oper_log` VALUES (141, '代码生成', 8, 'com.ruoyi.gen.controller.GenController.batchGenCode()', 'GET', 1, 'admin', NULL, '/gen/batchGenCode', '127.0.0.1', '', '{\"tables\":\"SF_WMS_M_UNIT_INFO\"}', NULL, 0, NULL, '2024-02-02 10:42:11', 3415);
 
 -- ----------------------------
 -- Table structure for sys_post

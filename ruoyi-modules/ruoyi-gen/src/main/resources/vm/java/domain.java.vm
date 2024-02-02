@@ -16,7 +16,7 @@ import com.ruoyi.common.core.web.domain.TreeEntity;
  * ${functionName}对象 ${tableName}
  * 
  * @author ${author}
- * @date ${datetime}
+ * created on ${datetime}
  */
 #if($table.crud || $table.sub)
 #set($Entity="BaseEntity")

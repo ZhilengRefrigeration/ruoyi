@@ -357,7 +357,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
             return "";
         } else if (!name.contains("_")) {
             // 不含下划线，仅将首字母大写
-            return name.substring(0, 1).toUpperCase() + name.substring(1);
+            return name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
         }
         // 用下划线将原始字符串分割
         String[] camels = name.split("_");
@@ -382,7 +382,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
             return null;
         }
         if (s.indexOf(SEPARATOR) == -1) {
-            return s;
+            return s.toLowerCase();
         }
         s = s.toLowerCase();
         StringBuilder sb = new StringBuilder(s.length());

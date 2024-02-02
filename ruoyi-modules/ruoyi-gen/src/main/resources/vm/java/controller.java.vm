@@ -1,8 +1,7 @@
 package ${packageName}.controller;
 
 import java.util.List;
-import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +28,7 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
  * ${functionName}Controller
  * 
  * @author ${author}
- * @date ${datetime}
+ * created on ${datetime}
  */
 @RestController
 @RequestMapping("/${businessName}")
@@ -67,7 +66,7 @@ public class ${ClassName}Controller extends BaseController
     public void export(HttpServletResponse response, ${ClassName} ${className})
     {
         List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
-        ExcelUtil<${ClassName}> util = new ExcelUtil<${ClassName}>(${ClassName}.class);
+        ExcelUtil<${ClassName}> util = new ExcelUtil<>(${ClassName}.class);
         util.exportExcel(response, list, "${functionName}数据");
     }
 
@@ -108,7 +107,7 @@ public class ${ClassName}Controller extends BaseController
      */
     @RequiresPermissions("${permissionPrefix}:remove")
     @Log(title = "${functionName}", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{${pkColumn.javaField}s}")
+    @DeleteMapping("/{${pkColumn.javaField}s}")
     public AjaxResult remove(@PathVariable ${pkColumn.javaType}[] ${pkColumn.javaField}s)
     {
         return toAjax(${className}Service.delete${ClassName}By${pkColumn.capJavaField}s(${pkColumn.javaField}s));

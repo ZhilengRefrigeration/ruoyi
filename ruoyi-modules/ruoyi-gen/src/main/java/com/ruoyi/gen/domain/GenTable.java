@@ -1,13 +1,14 @@
 package com.ruoyi.gen.domain;
 
-import java.io.Serial;
-import java.util.List;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import org.apache.commons.lang3.ArrayUtils;
 import com.ruoyi.common.core.constant.GenConstants;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.io.Serial;
+import java.util.List;
 
 /**
  * 业务表 gen_table
@@ -45,6 +46,9 @@ public class GenTable extends BaseEntity
 
     /** 前端类型（element-ui模版 element-plus模版） */
     private String tplWebType;
+
+    /** 后端类型（MyBaitsDynamicSQL模板，常规模板） */
+    private String tplBackendType;
 
     /** 生成包路径 */
     @NotBlank(message = "生成包路径不能为空")
@@ -99,6 +103,14 @@ public class GenTable extends BaseEntity
 
     /** 上级菜单名称字段 */
     private String parentMenuName;
+
+    public String getTplBackendType() {
+        return tplBackendType;
+    }
+
+    public void setTplBackendType(String tplBackendType) {
+        this.tplBackendType = tplBackendType;
+    }
 
     public Long getTableId()
     {

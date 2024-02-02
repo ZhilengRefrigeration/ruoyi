@@ -1,0 +1,217 @@
+package ${packageName}.service.impl;
+
+import java.util.List;
+#foreach ($column in $columns)
+#if($column.javaField == 'createTime' || $column.javaField == 'updateTime')
+import com.ruoyi.common.core.utils.DateUtils;
+#break
+#end
+#end
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.mybatis.dynamic.sql.where.condition.IsEqualTo;
+import org.mybatis.dynamic.sql.where.condition.IsIn;
+import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
+import org.mybatis.dynamic.sql.SqlBuilder;
+#if($table.sub)
+import java.util.ArrayList;
+import com.ruoyi.common.core.utils.StringUtils;
+import org.springframework.transaction.annotation.Transactional;
+import ${packageName}.domain.${subClassName};
+#end
+import ${packageName}.mapper.${ClassName}Mapper;
+import ${packageName}.domain.${ClassName};
+import ${packageName}.mapper.${ClassName}DynamicSqlSupport;
+import ${packageName}.service.I${ClassName}Service;
+
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * ${functionName}Service业务层处理
+ * 
+ * @author ${author}
+ * created on ${datetime}
+ */
+@Service
+public class ${ClassName}ServiceImpl implements I${ClassName}Service 
+{
+    @Autowired
+    private ${ClassName}Mapper ${className}Mapper;
+
+    /**
+     * 查询${functionName}
+     * 
+     * @param ${pkColumn.javaField} ${functionName}主键
+     * @return ${functionName}
+     */
+    @Override
+    public ${ClassName} select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField})
+    {
+        Optional<${ClassName}> result = ${className}Mapper.selectOne(dsl -> dsl.where(${ClassName}DynamicSqlSupport.${pkColumn.javaField}, SqlBuilder.isEqualTo(${pkColumn.javaField})));
+        return result.orElse(null);
+    }
+
+    /**
+     * 查询${functionName}列表
+     * 
+     * @param ${className} ${functionName}
+     * @return ${functionName}
+     */
+    @Override
+    public List<${ClassName}> select${ClassName}List(${ClassName} ${className})
+    {
+##        return ${className}Mapper.select(SelectDSLCompleter.allRows()); //查询全部字段
+#set ($whereFuncName = "where")
+#set ($conditionFuncName = "isEqualToWhenPresent")
+        return unitInfoMapper.select(dsl -> dsl
+#foreach ($column in $columns)
+    ## where语句是where还是and开头
+    #if (!$foreach.first)
+        #set ($whereFuncName = "and")
+    #end
+    ## 查询条件
+    #if ($columne.queryType == "EQ")
+        #set ($conditionFuncName = "isEqualToWhenPresent")
+    #elseif ($columne.queryType == "NE")
+        #set ($conditionFuncName = "isNotEqualToWhenPresent")
+    #elseif ($columne.queryType == "GT")
+        #set ($conditionFuncName = "isGreaterThanWhenPresent")
+    #elseif ($columne.queryType == "GTE")
+        #set ($conditionFuncName = "isGreaterThanOrEqualToWhenPresent")
+    #elseif ($columne.queryType == "LT")
+        #set ($conditionFuncName = "isLessThanWhenPresent")
+    #elseif ($columne.queryType == "LTE")
+        #set ($conditionFuncName = "isLessThanOrEqualToWhenPresent")
+    #elseif ($columne.queryType == "LIKE")
+        #set ($conditionFuncName = "isLikeWhenPresent")
+    #elseif ($columne.queryType == "BETWEEN")
+        #set ($conditionFuncName = "isBetweenWhenPresent")
+##            #elseif ($columne.queryType == "IN")
+##                #set ($conditionFuncName = "isIn")
+##            #elseif ($columne.queryType == "NI")
+##                #set ($conditionFuncName = "isNotIn")
+    #end
+    ## 对like条件的特殊处理
+    #if ($columne.queryType == "LIKE")
+        .${whereFuncName}(${ClassName}DynamicSqlSupport.$column.javaField, SqlBuilder.${conditionFuncName}(${className}.get${column.javaFieldUpper}() == null ? null : "%" + ${className}.get${column.javaFieldUpper}() + "%")
+    #else
+        .${whereFuncName}(${ClassName}DynamicSqlSupport.$column.javaField, SqlBuilder.${conditionFuncName}(${className}.get${column.javaFieldUpper}()))
+    #end
+#end
+        );
+    }
+
+    /**
+     * 新增${functionName}
+     * 
+     * @param ${className} ${functionName}
+     * @return 结果
+     */
+#if($table.sub)
+    @Transactional
+#end
+    @Override
+    public int insert${ClassName}(${ClassName} ${className})
+    {
+#foreach ($column in $columns)
+#if($column.javaField == 'createTime')
+        ${className}.setCreateTime(DateUtils.getNowDate());
+#end
+#end
+#if($table.sub)
+        int rows = ${className}Mapper.insertSelective(${className});
+        insert${subClassName}(${className});
+        return rows;
+#else
+        return ${className}Mapper.insertSelective(${className});
+#end
+    }
+
+    /**
+     * 修改${functionName}
+     * 
+     * @param ${className} ${functionName}
+     * @return 结果
+     */
+#if($table.sub)
+    @Transactional
+#end
+    @Override
+    public int update${ClassName}(${ClassName} ${className})
+    {
+#foreach ($column in $columns)
+#if($column.javaField == 'updateTime')
+        ${className}.setUpdateTime(DateUtils.getNowDate());
+#end
+#end
+#if($table.sub)
+        ${className}Mapper.delete${subClassName}By${subTableFkClassName}(${className}.get${pkColumn.capJavaField}());
+        insert${subClassName}(${className});
+#end
+        return ${className}Mapper.updateByPrimaryKeySelective(${className});
+    }
+
+    /**
+     * 批量删除${functionName}
+     * 
+     * @param ${pkColumn.javaField}s 需要删除的${functionName}主键
+     * @return 结果
+     */
+#if($table.sub)
+    @Transactional
+#end
+    @Override
+    public int delete${ClassName}By${pkColumn.capJavaField}s(${pkColumn.javaType}[] ${pkColumn.javaField}s)
+    {
+#if($table.sub)
+        ${className}Mapper.delete${subClassName}By${subTableFkClassName}s(${pkColumn.javaField}s);
+#end
+
+        return ${className}Mapper.delete(dsl -> dsl.where(${ClassName}DynamicSqlSupport.${pkColumn.javaField}, SqlBuilder.isIn(${pkColumn.javaField}s)));
+    }
+
+    /**
+     * 删除${functionName}信息
+     * 
+     * @param ${pkColumn.javaField} ${functionName}主键
+     * @return 结果
+     */
+#if($table.sub)
+    @Transactional
+#end
+    @Override
+    public int delete${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField})
+    {
+#if($table.sub)
+        ${className}Mapper.delete${subClassName}By${subTableFkClassName}(${pkColumn.javaField});
+#end
+        return ${className}Mapper.delete(dsl -> dsl.where(${ClassName}DynamicSqlSupport.${pkColumn.javaField}, SqlBuilder.isEqualTo(${pkColumn.javaField})));
+    }
+#if($table.sub)
+
+    /**
+     * 新增${subTable.functionName}信息
+     * 
+     * @param ${className} ${functionName}对象
+     */
+    public void insert${subClassName}(${ClassName} ${className})
+    {
+        List<${subClassName}> ${subclassName}List = ${className}.get${subClassName}List();
+        ${pkColumn.javaType} ${pkColumn.javaField} = ${className}.get${pkColumn.capJavaField}();
+        if (StringUtils.isNotNull(${subclassName}List))
+        {
+            List<${subClassName}> list = new ArrayList<${subClassName}>();
+            for (${subClassName} ${subclassName} : ${subclassName}List)
+            {
+                ${subclassName}.set${subTableFkClassName}(${pkColumn.javaField});
+                list.add(${subclassName});
+            }
+            if (!list.isEmpty())
+            {
+                ${className}Mapper.batch${subClassName}(list);
+            }
+        }
+    }
+#end
+}
