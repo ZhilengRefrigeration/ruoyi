@@ -126,7 +126,7 @@ public class BaseController
      */
     protected AjaxResult toAjax(int rows)
     {
-        return rows > 0 ? AjaxResult.success() : AjaxResult.error();
+        return rows > 0 ? AjaxResult.success(rows) : AjaxResult.error();
     }
 
     /**
