@@ -11,14 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.mybatis.dynamic.sql.where.condition.IsEqualTo;
 import org.mybatis.dynamic.sql.where.condition.IsIn;
-import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
 import org.mybatis.dynamic.sql.SqlBuilder;
+import org.mybatis.dynamic.sql.render.RenderingStrategies;
+import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
+import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 #if($table.sub)
 import java.util.ArrayList;
 import com.ruoyi.common.core.utils.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
 import ${packageName}.domain.${subClassName};
 #end
+import com.ruoyi.common.core.web.domain.ExtBaseEntity;
 import ${packageName}.mapper.${ClassName}Mapper;
 import ${packageName}.domain.${ClassName};
 import ${packageName}.mapper.${ClassName}DynamicSqlSupport;
@@ -61,45 +64,41 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
     @Override
     public List<${ClassName}> select${ClassName}List(${ClassName} ${className})
     {
-##        return ${className}Mapper.select(SelectDSLCompleter.allRows()); //查询全部字段
-#set ($whereFuncName = "where")
+        SelectStatementProvider provider = SqlBuilder.select(${ClassName}Mapper.selectList)
+                .from(${ClassName}DynamicSqlSupport.${className})
+                .where(${ClassName}DynamicSqlSupport.deleteFlag, SqlBuilder.isEqualTo(ExtBaseEntity.NOT_DELETE))
 #set ($conditionFuncName = "isEqualToWhenPresent")
-        return unitInfoMapper.select(dsl -> dsl
 #foreach ($column in $columns)
-    ## where语句是where还是and开头
-    #if (!$foreach.first)
-        #set ($whereFuncName = "and")
-    #end
-    ## 查询条件
-    #if ($columne.queryType == "EQ")
-        #set ($conditionFuncName = "isEqualToWhenPresent")
-    #elseif ($columne.queryType == "NE")
-        #set ($conditionFuncName = "isNotEqualToWhenPresent")
-    #elseif ($columne.queryType == "GT")
-        #set ($conditionFuncName = "isGreaterThanWhenPresent")
-    #elseif ($columne.queryType == "GTE")
-        #set ($conditionFuncName = "isGreaterThanOrEqualToWhenPresent")
-    #elseif ($columne.queryType == "LT")
-        #set ($conditionFuncName = "isLessThanWhenPresent")
-    #elseif ($columne.queryType == "LTE")
-        #set ($conditionFuncName = "isLessThanOrEqualToWhenPresent")
-    #elseif ($columne.queryType == "LIKE")
-        #set ($conditionFuncName = "isLikeWhenPresent")
-    #elseif ($columne.queryType == "BETWEEN")
-        #set ($conditionFuncName = "isBetweenWhenPresent")
-##            #elseif ($columne.queryType == "IN")
-##                #set ($conditionFuncName = "isIn")
-##            #elseif ($columne.queryType == "NI")
-##                #set ($conditionFuncName = "isNotIn")
-    #end
-    ## 对like条件的特殊处理
-    #if ($columne.queryType == "LIKE")
-        .${whereFuncName}(${ClassName}DynamicSqlSupport.$column.javaField, SqlBuilder.${conditionFuncName}(${className}.get${column.javaFieldUpper}() == null ? null : "%" + ${className}.get${column.javaFieldUpper}() + "%")
-    #else
-        .${whereFuncName}(${ClassName}DynamicSqlSupport.$column.javaField, SqlBuilder.${conditionFuncName}(${className}.get${column.javaFieldUpper}()))
+    #if ($column.isQuery == "1")
+        ## 查询条件
+        #if ($column.queryType == "EQ")
+            #set ($conditionFuncName = "isEqualToWhenPresent")
+        #elseif ($column.queryType == "NE")
+            #set ($conditionFuncName = "isNotEqualToWhenPresent")
+        #elseif ($column.queryType == "GT")
+            #set ($conditionFuncName = "isGreaterThanWhenPresent")
+        #elseif ($column.queryType == "GTE")
+            #set ($conditionFuncName = "isGreaterThanOrEqualToWhenPresent")
+        #elseif ($column.queryType == "LT")
+            #set ($conditionFuncName = "isLessThanWhenPresent")
+        #elseif ($column.queryType == "LTE")
+            #set ($conditionFuncName = "isLessThanOrEqualToWhenPresent")
+        #elseif ($column.queryType == "LIKE")
+            #set ($conditionFuncName = "isLikeWhenPresent")
+        #else
+            #set ($conditionFuncName = "isEqualToWhenPresent")
+        #end
+        ## 对like条件的特殊处理
+        #if ($column.queryType == "LIKE")
+            .and(${ClassName}DynamicSqlSupport.$column.javaField, SqlBuilder.${conditionFuncName}(${className}.get${column.javaFieldUpper}() == null ? null : "%" + ${className}.get${column.javaFieldUpper}() + "%")
+        #else
+            .and(${ClassName}DynamicSqlSupport.$column.javaField, SqlBuilder.${conditionFuncName}(${className}.get${column.javaFieldUpper}()))
+        #end
     #end
 #end
-        );
+                .build()
+                .render(RenderingStrategies.MYBATIS3);
+        return ${className}Mapper.selectMany(provider);
     }
 
     /**
@@ -167,8 +166,14 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
 #if($table.sub)
         ${className}Mapper.delete${subClassName}By${subTableFkClassName}s(${pkColumn.javaField}s);
 #end
-
-        return ${className}Mapper.delete(dsl -> dsl.where(${ClassName}DynamicSqlSupport.${pkColumn.javaField}, SqlBuilder.isIn(${pkColumn.javaField}s)));
+##        return ${className}Mapper.delete(dsl -> dsl.where(${ClassName}DynamicSqlSupport.${pkColumn.javaField}, SqlBuilder.isIn(${pkColumn.javaField}s)));
+        UpdateStatementProvider provider = SqlBuilder.update(UnitInfoDynamicSqlSupport.${className})
+                .set(${ClassName}DynamicSqlSupport.deleteFlag).equalTo(ExtBaseEntity.DELETED)
+                .set(${ClassName}DynamicSqlSupport.updateTime).equalTo(DateUtils.getNowDate())
+                .where(${ClassName}DynamicSqlSupport.unitCode, SqlBuilder.isIn(${pkColumn.javaField}s))
+                .build()
+                .render(RenderingStrategies.MYBATIS3);
+        return ${className}Mapper.update(provider);
     }
 
     /**
@@ -186,7 +191,12 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
 #if($table.sub)
         ${className}Mapper.delete${subClassName}By${subTableFkClassName}(${pkColumn.javaField});
 #end
-        return ${className}Mapper.delete(dsl -> dsl.where(${ClassName}DynamicSqlSupport.${pkColumn.javaField}, SqlBuilder.isEqualTo(${pkColumn.javaField})));
+##        return ${className}Mapper.delete(dsl -> dsl.where(${ClassName}DynamicSqlSupport.${pkColumn.javaField}, SqlBuilder.isEqualTo(${pkColumn.javaField})));
+        ${ClassName} record = new ${ClassName}();
+        record.set${pkColumn.capJavaField}(${pkColumn.javaField});
+        record.setDeleteFlag(ExtBaseEntity.DELETED);
+        record.setUpdateTime(DateUtils.getNowDate());
+        return ${className}Mapper.updateByPrimaryKey(record);
     }
 #if($table.sub)
 

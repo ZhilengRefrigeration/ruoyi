@@ -282,7 +282,7 @@ const { ${dictsNoSymbol} } = proxy.useDict(${dicts});
 const ${businessName}List = ref([]);
 const ${businessName}Options = ref([]);
 const open = ref(false);
-const loading = ref(true);
+const loading = ref(false);
 const showSearch = ref(true);
 const title = ref("");
 const isExpandAll = ref(true);
@@ -470,5 +470,6 @@ function handleDelete(row) {
   }).catch(() => {});
 }
 
-getList();
+//页面打开时查询
+//getList();
 </script>

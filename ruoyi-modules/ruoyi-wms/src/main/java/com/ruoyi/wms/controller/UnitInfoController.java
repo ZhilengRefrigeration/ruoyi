@@ -15,14 +15,13 @@ import java.util.List;
 
 /**
  * 单位信息管理Controller
- * 
- * @author ruoyi
- * created on 2024-02-02
+ *
+ * @author ryas
+ * created on 2024-02-05
  */
 @RestController
 @RequestMapping("/UnitInfo")
-public class UnitInfoController extends BaseController
-{
+public class UnitInfoController extends BaseController {
     @Autowired
     private IUnitInfoService unitInfoService;
 
@@ -31,8 +30,7 @@ public class UnitInfoController extends BaseController
      */
     @RequiresPermissions("wms:UnitInfo:list")
     @GetMapping("/list")
-    public TableDataInfo list(UnitInfo unitInfo)
-    {
+    public TableDataInfo list(UnitInfo unitInfo) {
         startPage();
         List<UnitInfo> list = unitInfoService.selectUnitInfoList(unitInfo);
         return getDataTable(list);
@@ -56,10 +54,9 @@ public class UnitInfoController extends BaseController
      * 获取单位信息管理详细信息
      */
     @RequiresPermissions("wms:UnitInfo:query")
-    @GetMapping(value = "/{orgCd}")
-    public AjaxResult getInfo(@PathVariable("orgCd") String orgCd)
-    {
-        return success(unitInfoService.selectUnitInfoByOrgCd(orgCd));
+    @GetMapping(value = "/{unitCode}")
+    public AjaxResult getInfo(@PathVariable("unitCode") String unitCode) {
+        return success(unitInfoService.selectUnitInfoByUnitCode(unitCode));
     }
 
     /**
@@ -68,8 +65,7 @@ public class UnitInfoController extends BaseController
     @RequiresPermissions("wms:UnitInfo:add")
     @Log(title = "单位信息管理", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody UnitInfo unitInfo)
-    {
+    public AjaxResult add(@RequestBody UnitInfo unitInfo) {
         return toAjax(unitInfoService.insertUnitInfo(unitInfo));
     }
 
@@ -79,8 +75,7 @@ public class UnitInfoController extends BaseController
     @RequiresPermissions("wms:UnitInfo:edit")
     @Log(title = "单位信息管理", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody UnitInfo unitInfo)
-    {
+    public AjaxResult edit(@RequestBody UnitInfo unitInfo) {
         return toAjax(unitInfoService.updateUnitInfo(unitInfo));
     }
 
@@ -89,9 +84,8 @@ public class UnitInfoController extends BaseController
      */
     @RequiresPermissions("wms:UnitInfo:remove")
     @Log(title = "单位信息管理", businessType = BusinessType.DELETE)
-    @DeleteMapping("/{orgCds}")
-    public AjaxResult remove(@PathVariable String[] orgCds)
-    {
-        return toAjax(unitInfoService.deleteUnitInfoByOrgCds(orgCds));
+    @DeleteMapping("/{unitCodes}")
+    public AjaxResult remove(@PathVariable String[] unitCodes) {
+        return toAjax(unitInfoService.deleteUnitInfoByUnitCodes(unitCodes));
     }
 }

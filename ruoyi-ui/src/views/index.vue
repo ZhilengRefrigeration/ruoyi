@@ -7,8 +7,13 @@
          此后台管理系统基于Ruoyi开源基盘（v{{ version }}）
         </p>
         <p>
-          已从Ruoyi原本的Java8，SpringBoot2.7.x，SpringCloud2021.x升级到Java21，SpringBoot3.1.x，SpringCloud2022.X
+          已从原本的Ruoyi全面升级：
         </p>
+        <ul>
+          <li>Java8 -> Java21</li>
+          <li>SpringBoot 2.7 -> SpringBoot 3.1</li>
+          <li>SpringCloud 2020.x -> SpringCloud 2023.0.5</li>
+        </ul>
       </el-col>
 
       <el-col :sm="24" :lg="12" style="padding-left: 50px">

@@ -10,39 +10,66 @@ public final class UnitInfoDynamicSqlSupport {
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source Table: SF_WMS_M_UNIT_INFO")
     public static final UnitInfo unitInfo = new UnitInfo();
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.ORG_CD")
-    public static final SqlColumn<String> orgCd = unitInfo.orgCd;
+    /**
+     * Database Column Remarks:
+     *   单位代码
+     */
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.UNIT_CODE")
+    public static final SqlColumn<String> unitCode = unitInfo.unitCode;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.UNIT")
-    public static final SqlColumn<String> unit = unitInfo.unit;
-
+    /**
+     * Database Column Remarks:
+     *   单位名称
+     */
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.UNIT_NAME")
     public static final SqlColumn<String> unitName = unitInfo.unitName;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.UNIT_CONV_RATE")
-    public static final SqlColumn<String> unitConvRate = unitInfo.unitConvRate;
-
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.SRC_CONV_UNIT")
-    public static final SqlColumn<String> srcConvUnit = unitInfo.srcConvUnit;
-
+    /**
+     * Database Column Remarks:
+     *   备注1
+     */
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.REMARK_1")
     public static final SqlColumn<String> remark1 = unitInfo.remark1;
 
+    /**
+     * Database Column Remarks:
+     *   备注2
+     */
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.REMARK_2")
     public static final SqlColumn<String> remark2 = unitInfo.remark2;
 
+    /**
+     * Database Column Remarks:
+     *   备注3
+     */
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.REMARK_3")
     public static final SqlColumn<String> remark3 = unitInfo.remark3;
 
+    /**
+     * Database Column Remarks:
+     *   备注4
+     */
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.REMARK_4")
     public static final SqlColumn<String> remark4 = unitInfo.remark4;
 
+    /**
+     * Database Column Remarks:
+     *   备注5
+     */
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.REMARK_5")
     public static final SqlColumn<String> remark5 = unitInfo.remark5;
 
+    /**
+     * Database Column Remarks:
+     *   更新次数
+     */
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.UPDATE_COUNT")
     public static final SqlColumn<Integer> updateCount = unitInfo.updateCount;
 
+    /**
+     * Database Column Remarks:
+     *   删除标志
+     */
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.DELETE_FLAG")
     public static final SqlColumn<Integer> deleteFlag = unitInfo.deleteFlag;
 
@@ -83,15 +110,9 @@ public final class UnitInfoDynamicSqlSupport {
 
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source Table: SF_WMS_M_UNIT_INFO")
     public static final class UnitInfo extends AliasableSqlTable<UnitInfo> {
-        public final SqlColumn<String> orgCd = column("ORG_CD", JDBCType.VARCHAR);
-
-        public final SqlColumn<String> unit = column("UNIT", JDBCType.VARCHAR);
+        public final SqlColumn<String> unitCode = column("UNIT_CODE", JDBCType.VARCHAR);
 
         public final SqlColumn<String> unitName = column("UNIT_NAME", JDBCType.VARCHAR);
-
-        public final SqlColumn<String> unitConvRate = column("UNIT_CONV_RATE", JDBCType.VARCHAR);
-
-        public final SqlColumn<String> srcConvUnit = column("SRC_CONV_UNIT", JDBCType.VARCHAR);
 
         public final SqlColumn<String> remark1 = column("REMARK_1", JDBCType.VARCHAR);
 

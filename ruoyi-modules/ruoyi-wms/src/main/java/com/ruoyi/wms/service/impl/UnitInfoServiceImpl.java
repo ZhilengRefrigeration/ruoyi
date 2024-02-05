@@ -1,11 +1,17 @@
 package com.ruoyi.wms.service.impl;
 
 import com.ruoyi.common.core.utils.DateUtils;
+import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.core.utils.uuid.snowflake.SnowFlakeIdGenerator;
+import com.ruoyi.common.core.web.domain.ExtBaseEntity;
 import com.ruoyi.wms.domain.UnitInfo;
 import com.ruoyi.wms.mapper.UnitInfoDynamicSqlSupport;
 import com.ruoyi.wms.mapper.UnitInfoMapper;
 import com.ruoyi.wms.service.IUnitInfoService;
 import org.mybatis.dynamic.sql.SqlBuilder;
+import org.mybatis.dynamic.sql.render.RenderingStrategies;
+import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
+import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +21,8 @@ import java.util.Optional;
 /**
  * 单位信息管理Service业务层处理
  *
- * @author ruoyi
- * created on 2024-02-02
+ * @author ryas
+ * created on 2024-02-05
  */
 @Service
 public class UnitInfoServiceImpl implements IUnitInfoService {
@@ -26,12 +32,12 @@ public class UnitInfoServiceImpl implements IUnitInfoService {
     /**
      * 查询单位信息管理
      *
-     * @param orgCd 单位信息管理主键
+     * @param unitCode 单位信息管理主键
      * @return 单位信息管理
      */
     @Override
-    public UnitInfo selectUnitInfoByOrgCd(String orgCd) {
-        Optional<UnitInfo> result = unitInfoMapper.selectOne(dsl -> dsl.where(UnitInfoDynamicSqlSupport.orgCd, SqlBuilder.isEqualTo(orgCd)));
+    public UnitInfo selectUnitInfoByUnitCode(String unitCode) {
+        Optional<UnitInfo> result = unitInfoMapper.selectOne(dsl -> dsl.where(UnitInfoDynamicSqlSupport.unitCode, SqlBuilder.isEqualTo(unitCode)));
         return result.orElse(null);
     }
 
@@ -43,25 +49,14 @@ public class UnitInfoServiceImpl implements IUnitInfoService {
      */
     @Override
     public List<UnitInfo> selectUnitInfoList(UnitInfo unitInfo) {
-        return unitInfoMapper.select(dsl -> dsl
-                .where(UnitInfoDynamicSqlSupport.orgCd, SqlBuilder.isEqualToWhenPresent(unitInfo.getOrgCd()))
-                .and(UnitInfoDynamicSqlSupport.unit, SqlBuilder.isEqualToWhenPresent(unitInfo.getUnit()))
-                .and(UnitInfoDynamicSqlSupport.unitName, SqlBuilder.isEqualToWhenPresent(unitInfo.getUnitName()))
-                .and(UnitInfoDynamicSqlSupport.unitConvRate, SqlBuilder.isEqualToWhenPresent(unitInfo.getUnitConvRate()))
-                .and(UnitInfoDynamicSqlSupport.srcConvUnit, SqlBuilder.isEqualToWhenPresent(unitInfo.getSrcConvUnit()))
-                .and(UnitInfoDynamicSqlSupport.remark1, SqlBuilder.isEqualToWhenPresent(unitInfo.getRemark1()))
-                .and(UnitInfoDynamicSqlSupport.remark2, SqlBuilder.isEqualToWhenPresent(unitInfo.getRemark2()))
-                .and(UnitInfoDynamicSqlSupport.remark3, SqlBuilder.isEqualToWhenPresent(unitInfo.getRemark3()))
-                .and(UnitInfoDynamicSqlSupport.remark4, SqlBuilder.isEqualToWhenPresent(unitInfo.getRemark4()))
-                .and(UnitInfoDynamicSqlSupport.remark5, SqlBuilder.isEqualToWhenPresent(unitInfo.getRemark5()))
-                .and(UnitInfoDynamicSqlSupport.updateCount, SqlBuilder.isEqualToWhenPresent(unitInfo.getUpdateCount()))
-                .and(UnitInfoDynamicSqlSupport.deleteFlag, SqlBuilder.isEqualToWhenPresent(unitInfo.getDeleteFlag()))
-                .and(UnitInfoDynamicSqlSupport.createBy, SqlBuilder.isEqualToWhenPresent(unitInfo.getCreateBy()))
-                .and(UnitInfoDynamicSqlSupport.createTime, SqlBuilder.isEqualToWhenPresent(unitInfo.getCreateTime()))
-                .and(UnitInfoDynamicSqlSupport.updateBy, SqlBuilder.isEqualToWhenPresent(unitInfo.getUpdateBy()))
-                .and(UnitInfoDynamicSqlSupport.updateTime, SqlBuilder.isEqualToWhenPresent(unitInfo.getUpdateTime()))
-                .and(UnitInfoDynamicSqlSupport.remark, SqlBuilder.isEqualToWhenPresent(unitInfo.getRemark()))
-        );
+        SelectStatementProvider provider = SqlBuilder.select(UnitInfoMapper.selectList)
+                .from(UnitInfoDynamicSqlSupport.unitInfo)
+                .where(UnitInfoDynamicSqlSupport.deleteFlag, SqlBuilder.isEqualTo(ExtBaseEntity.NOT_DELETE))
+                .and(UnitInfoDynamicSqlSupport.unitCode, SqlBuilder.isEqualToWhenPresent(unitInfo.getUnitCode()))
+                .and(UnitInfoDynamicSqlSupport.unitName, SqlBuilder.isLikeWhenPresent(unitInfo.getUnitName()))
+                .build()
+                .render(RenderingStrategies.MYBATIS3);
+        return unitInfoMapper.selectMany(provider);
     }
 
     /**
@@ -72,6 +67,9 @@ public class UnitInfoServiceImpl implements IUnitInfoService {
      */
     @Override
     public int insertUnitInfo(UnitInfo unitInfo) {
+        if (StringUtils.isBlank(unitInfo.getUnitCode())) {
+            unitInfo.setUnitCode(SnowFlakeIdGenerator.nextId());
+        }
         unitInfo.setCreateTime(DateUtils.getNowDate());
         return unitInfoMapper.insertSelective(unitInfo);
     }
@@ -91,23 +89,32 @@ public class UnitInfoServiceImpl implements IUnitInfoService {
     /**
      * 批量删除单位信息管理
      *
-     * @param orgCds 需要删除的单位信息管理主键
+     * @param unitCodes 需要删除的单位信息管理主键
      * @return 结果
      */
     @Override
-    public int deleteUnitInfoByOrgCds(String[] orgCds) {
-
-        return unitInfoMapper.delete(dsl -> dsl.where(UnitInfoDynamicSqlSupport.orgCd, SqlBuilder.isIn(orgCds)));
+    public int deleteUnitInfoByUnitCodes(String[] unitCodes) {
+        UpdateStatementProvider provider = SqlBuilder.update(UnitInfoDynamicSqlSupport.unitInfo)
+                .set(UnitInfoDynamicSqlSupport.deleteFlag).equalTo(ExtBaseEntity.DELETED)
+                .set(UnitInfoDynamicSqlSupport.updateTime).equalTo(DateUtils.getNowDate())
+                .where(UnitInfoDynamicSqlSupport.unitCode, SqlBuilder.isIn(unitCodes))
+                .build()
+                .render(RenderingStrategies.MYBATIS3);
+        return unitInfoMapper.update(provider);
     }
 
     /**
      * 删除单位信息管理信息
      *
-     * @param orgCd 单位信息管理主键
+     * @param unitCode 单位信息管理主键
      * @return 结果
      */
     @Override
-    public int deleteUnitInfoByOrgCd(String orgCd) {
-        return unitInfoMapper.delete(dsl -> dsl.where(UnitInfoDynamicSqlSupport.orgCd, SqlBuilder.isEqualTo(orgCd)));
+    public int deleteUnitInfoByUnitCode(String unitCode) {
+        UnitInfo record = new UnitInfo();
+        record.setUnitCode(unitCode);
+        record.setDeleteFlag(ExtBaseEntity.DELETED);
+        record.setUpdateTime(DateUtils.getNowDate());
+        return unitInfoMapper.updateByPrimaryKey(record);
     }
 }

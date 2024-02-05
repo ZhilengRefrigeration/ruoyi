@@ -356,7 +356,7 @@ const ${businessName}List = ref([]);
 const ${subclassName}List = ref([]);
 #end
 const open = ref(false);
-const loading = ref(true);
+const loading = ref(false);
 const showSearch = ref(true);
 const ids = ref([]);
 #if($table.sub)
@@ -586,5 +586,6 @@ function handleExport() {
   }, `${businessName}_#[[${new Date().getTime()}]]#.xlsx`)
 }
 
-getList();
+//页面打开时查询
+//getList();
 </script>

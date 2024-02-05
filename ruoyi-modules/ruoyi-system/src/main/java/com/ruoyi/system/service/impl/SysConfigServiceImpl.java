@@ -1,11 +1,5 @@
 package com.ruoyi.system.service.impl;
 
-import java.util.Collection;
-import java.util.List;
-
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.exception.ServiceException;
@@ -15,6 +9,12 @@ import com.ruoyi.common.redis.service.RedisService;
 import com.ruoyi.system.domain.SysConfig;
 import com.ruoyi.system.mapper.SysConfigMapper;
 import com.ruoyi.system.service.ISysConfigService;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 参数配置 服务层实现
@@ -172,9 +172,9 @@ public class SysConfigServiceImpl implements ISysConfigService {
      */
     @Override
     public boolean checkConfigKeyUnique(SysConfig config) {
-        Long configId = StringUtils.isNull(config.getConfigId()) ? -1L : config.getConfigId();
+        long configId = StringUtils.isNull(config.getConfigId()) ? -1L : config.getConfigId();
         SysConfig info = configMapper.checkConfigKeyUnique(config.getConfigKey());
-        if (StringUtils.isNotNull(info) && info.getConfigId().longValue() != configId.longValue()) {
+        if (StringUtils.isNotNull(info) && info.getConfigId() != configId) {
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;

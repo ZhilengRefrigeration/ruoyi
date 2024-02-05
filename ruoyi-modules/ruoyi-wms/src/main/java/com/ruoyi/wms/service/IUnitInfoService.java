@@ -7,17 +7,17 @@ import java.util.List;
 /**
  * 单位信息管理Service接口
  *
- * @author ruoyi
- * created on 2024-02-02
+ * @author ryas
+ * created on 2024-02-05
  */
 public interface IUnitInfoService {
     /**
      * 查询单位信息管理
      *
-     * @param orgCd 单位信息管理主键
+     * @param unitCode 单位信息管理主键
      * @return 单位信息管理
      */
-        UnitInfo selectUnitInfoByOrgCd(String orgCd);
+    UnitInfo selectUnitInfoByUnitCode(String unitCode);
 
     /**
      * 查询单位信息管理列表
@@ -46,16 +46,16 @@ public interface IUnitInfoService {
     /**
      * 批量删除单位信息管理
      *
-     * @param orgCds 需要删除的单位信息管理主键集合
+     * @param unitCodes 需要删除的单位信息管理主键集合
      * @return 结果
      */
-    int deleteUnitInfoByOrgCds(String[] orgCds);
+    int deleteUnitInfoByUnitCodes(String[] unitCodes);
 
     /**
      * 删除单位信息管理信息
      *
-     * @param orgCd 单位信息管理主键
+     * @param unitCode 单位信息管理主键
      * @return 结果
      */
-    int deleteUnitInfoByOrgCd(String orgCd);
+    int deleteUnitInfoByUnitCode(String unitCode);
 }

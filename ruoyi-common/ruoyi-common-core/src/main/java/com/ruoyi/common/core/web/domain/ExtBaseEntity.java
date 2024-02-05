@@ -14,6 +14,16 @@ public class ExtBaseEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /**
+     * 逻辑删除标志：未删除
+     */
+    public static final int NOT_DELETE = 0;
+
+    /**
+     * 逻辑删除标志：已删除
+     */
+    public static final int DELETED = 1;
+
+    /**
      * 逻辑删除标志。true：已删除；false：未删除
      */
     private Integer deleteFlag;

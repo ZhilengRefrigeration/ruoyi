@@ -9,54 +9,63 @@ import jakarta.annotation.Generated;
  * This class corresponds to the database table SF_WMS_M_UNIT_INFO
  */
 public class UnitInfo extends ExtBaseEntity {
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.ORG_CD")
-    private String orgCd;
+    /**
+     * Database Column Remarks:
+     *   单位代码
+     */
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.UNIT_CODE")
+    private String unitCode;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.UNIT")
-    private String unit;
-
+    /**
+     * Database Column Remarks:
+     *   单位名称
+     */
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.UNIT_NAME")
     private String unitName;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.UNIT_CONV_RATE")
-    private String unitConvRate;
-
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.SRC_CONV_UNIT")
-    private String srcConvUnit;
-
+    /**
+     * Database Column Remarks:
+     *   备注1
+     */
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.REMARK_1")
     private String remark1;
 
+    /**
+     * Database Column Remarks:
+     *   备注2
+     */
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.REMARK_2")
     private String remark2;
 
+    /**
+     * Database Column Remarks:
+     *   备注3
+     */
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.REMARK_3")
     private String remark3;
 
+    /**
+     * Database Column Remarks:
+     *   备注4
+     */
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.REMARK_4")
     private String remark4;
 
+    /**
+     * Database Column Remarks:
+     *   备注5
+     */
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.REMARK_5")
     private String remark5;
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.ORG_CD")
-    public String getOrgCd() {
-        return orgCd;
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.UNIT_CODE")
+    public String getUnitCode() {
+        return unitCode;
     }
 
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.ORG_CD")
-    public void setOrgCd(String orgCd) {
-        this.orgCd = orgCd == null ? null : orgCd.trim();
-    }
-
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.UNIT")
-    public String getUnit() {
-        return unit;
-    }
-
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.UNIT")
-    public void setUnit(String unit) {
-        this.unit = unit == null ? null : unit.trim();
+    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.UNIT_CODE")
+    public void setUnitCode(String unitCode) {
+        this.unitCode = unitCode == null ? null : unitCode.trim();
     }
 
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.UNIT_NAME")
@@ -67,26 +76,6 @@ public class UnitInfo extends ExtBaseEntity {
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.UNIT_NAME")
     public void setUnitName(String unitName) {
         this.unitName = unitName == null ? null : unitName.trim();
-    }
-
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.UNIT_CONV_RATE")
-    public String getUnitConvRate() {
-        return unitConvRate;
-    }
-
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.UNIT_CONV_RATE")
-    public void setUnitConvRate(String unitConvRate) {
-        this.unitConvRate = unitConvRate == null ? null : unitConvRate.trim();
-    }
-
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.SRC_CONV_UNIT")
-    public String getSrcConvUnit() {
-        return srcConvUnit;
-    }
-
-    @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.SRC_CONV_UNIT")
-    public void setSrcConvUnit(String srcConvUnit) {
-        this.srcConvUnit = srcConvUnit == null ? null : srcConvUnit.trim();
     }
 
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source field: SF_WMS_M_UNIT_INFO.REMARK_1")
