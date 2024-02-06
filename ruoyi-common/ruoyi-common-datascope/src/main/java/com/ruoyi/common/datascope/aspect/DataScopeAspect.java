@@ -1,12 +1,5 @@
 package com.ruoyi.common.datascope.aspect;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.context.SecurityContextHolder;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.core.utils.StringUtils;
@@ -16,6 +9,13 @@ import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.domain.SysRole;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 数据过滤处理
@@ -86,7 +86,7 @@ public class DataScopeAspect {
      */
     public static void dataScopeFilter(JoinPoint joinPoint, SysUser user, String deptAlias, String userAlias, String permission) {
         StringBuilder sqlString = new StringBuilder();
-        List<String> conditions = new ArrayList<String>();
+        List<String> conditions = new ArrayList<>();
 
         for (SysRole role : user.getRoles()) {
             String dataScope = role.getDataScope();

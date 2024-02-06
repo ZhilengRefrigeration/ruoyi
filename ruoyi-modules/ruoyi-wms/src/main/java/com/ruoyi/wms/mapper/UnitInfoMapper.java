@@ -1,18 +1,9 @@
 package com.ruoyi.wms.mapper;
 
-import static com.ruoyi.wms.mapper.UnitInfoDynamicSqlSupport.*;
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
-
+import com.ruoyi.common.security.utils.SecurityUtilsExt;
 import com.ruoyi.wms.domain.UnitInfo;
 import jakarta.annotation.Generated;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.mybatis.dynamic.sql.BasicColumn;
 import org.mybatis.dynamic.sql.delete.DeleteDSLCompleter;
@@ -23,11 +14,14 @@ import org.mybatis.dynamic.sql.update.UpdateDSL;
 import org.mybatis.dynamic.sql.update.UpdateDSLCompleter;
 import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
-import org.mybatis.dynamic.sql.util.mybatis3.CommonCountMapper;
-import org.mybatis.dynamic.sql.util.mybatis3.CommonDeleteMapper;
-import org.mybatis.dynamic.sql.util.mybatis3.CommonInsertMapper;
-import org.mybatis.dynamic.sql.util.mybatis3.CommonUpdateMapper;
-import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
+import org.mybatis.dynamic.sql.util.mybatis3.*;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+
+import static com.ruoyi.wms.mapper.UnitInfoDynamicSqlSupport.*;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 
 @Mapper
 public interface UnitInfoMapper extends CommonCountMapper, CommonDeleteMapper, CommonInsertMapper<UnitInfo>, CommonUpdateMapper {
@@ -78,6 +72,7 @@ public interface UnitInfoMapper extends CommonCountMapper, CommonDeleteMapper, C
 
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source Table: SF_WMS_M_UNIT_INFO")
     default int insert(UnitInfo row) {
+        row.setCommonForInsert(SecurityUtilsExt.getUserIdStr());
         return MyBatis3Utils.insert(this::insert, row, unitInfo, c ->
             c.map(unitCode).toProperty("unitCode")
             .map(unitName).toProperty("unitName")
@@ -98,6 +93,9 @@ public interface UnitInfoMapper extends CommonCountMapper, CommonDeleteMapper, C
 
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source Table: SF_WMS_M_UNIT_INFO")
     default int insertMultiple(Collection<UnitInfo> records) {
+        for (UnitInfo row : records) {
+            row.setCommonForInsert(SecurityUtilsExt.getUserIdStr());
+        }
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, unitInfo, c ->
             c.map(unitCode).toProperty("unitCode")
             .map(unitName).toProperty("unitName")
@@ -118,6 +116,7 @@ public interface UnitInfoMapper extends CommonCountMapper, CommonDeleteMapper, C
 
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source Table: SF_WMS_M_UNIT_INFO")
     default int insertSelective(UnitInfo row) {
+        row.setCommonForInsert(SecurityUtilsExt.getUserIdStr());
         return MyBatis3Utils.insert(this::insert, row, unitInfo, c ->
             c.map(unitCode).toPropertyWhenPresent("unitCode", row::getUnitCode)
             .map(unitName).toPropertyWhenPresent("unitName", row::getUnitName)
@@ -183,6 +182,7 @@ public interface UnitInfoMapper extends CommonCountMapper, CommonDeleteMapper, C
 
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source Table: SF_WMS_M_UNIT_INFO")
     static UpdateDSL<UpdateModel> updateSelectiveColumns(UnitInfo row, UpdateDSL<UpdateModel> dsl) {
+        row.setCommonForUpdate(SecurityUtilsExt.getUserIdStr());
         return dsl.set(unitCode).equalToWhenPresent(row::getUnitCode)
                 .set(unitName).equalToWhenPresent(row::getUnitName)
                 .set(remark1).equalToWhenPresent(row::getRemark1)
@@ -221,6 +221,7 @@ public interface UnitInfoMapper extends CommonCountMapper, CommonDeleteMapper, C
 
     @Generated(value="org.mybatis.generator.api.MyBatisGenerator", comments="Source Table: SF_WMS_M_UNIT_INFO")
     default int updateByPrimaryKeySelective(UnitInfo row) {
+        row.setCommonForUpdate(SecurityUtilsExt.getUserIdStr());
         return update(c ->
             c.set(unitName).equalToWhenPresent(row::getUnitName)
             .set(remark1).equalToWhenPresent(row::getRemark1)

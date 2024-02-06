@@ -58,6 +58,35 @@ public class BaseEntity implements Serializable {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Map<String, Object> params;
 
+    @JsonIgnore
+    public void setCommonForInsert(String createBy, Date createTime) {
+        this.createBy = createBy;
+        this.createTime = createTime;
+        setCommonForUpdate(createBy, createTime);
+    }
+
+    @JsonIgnore
+    public void setCommonForInsert(String createBy) {
+        setCommonForInsert(createBy, new Date());
+    }
+
+    @JsonIgnore
+    public void setCommonForUpdate(String updateBy, Date updateTime) {
+        this.updateBy = updateBy;
+        this.updateTime = updateTime;
+        if (this instanceof ExtBaseEntity ext) {
+            if (ext.getUpdateCount() == null) {
+                ext.setUpdateCount(0);
+            } else {
+                ext.setUpdateCount(ext.getUpdateCount() + 1);
+            }
+        }
+    }
+
+    public void setCommonForUpdate(String updateBy) {
+        setCommonForUpdate(updateBy, new Date());
+    }
+
     public String getSearchValue() {
         return searchValue;
     }

@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ${packageName}.domain.${subClassName};
 #end
 import com.ruoyi.common.core.web.domain.ExtBaseEntity;
+import com.ruoyi.common.security.utils.SecurityUtilsExt
 import ${packageName}.mapper.${ClassName}Mapper;
 import ${packageName}.domain.${ClassName};
 import ${packageName}.mapper.${ClassName}DynamicSqlSupport;
@@ -167,9 +168,11 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
         ${className}Mapper.delete${subClassName}By${subTableFkClassName}s(${pkColumn.javaField}s);
 #end
 ##        return ${className}Mapper.delete(dsl -> dsl.where(${ClassName}DynamicSqlSupport.${pkColumn.javaField}, SqlBuilder.isIn(${pkColumn.javaField}s)));
+        String userId = SecurityUtilsExt.getUserIdStr();
         UpdateStatementProvider provider = SqlBuilder.update(UnitInfoDynamicSqlSupport.${className})
                 .set(${ClassName}DynamicSqlSupport.deleteFlag).equalTo(ExtBaseEntity.DELETED)
                 .set(${ClassName}DynamicSqlSupport.updateTime).equalTo(DateUtils.getNowDate())
+                .set(${ClassName}DynamicSqlSupport.updateBy).equalTo(userId)
                 .where(${ClassName}DynamicSqlSupport.unitCode, SqlBuilder.isIn(${pkColumn.javaField}s))
                 .build()
                 .render(RenderingStrategies.MYBATIS3);

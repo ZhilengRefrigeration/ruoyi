@@ -4,6 +4,7 @@ import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.uuid.snowflake.SnowFlakeIdGenerator;
 import com.ruoyi.common.core.web.domain.ExtBaseEntity;
+import com.ruoyi.common.security.utils.SecurityUtilsExt;
 import com.ruoyi.wms.domain.UnitInfo;
 import com.ruoyi.wms.mapper.UnitInfoDynamicSqlSupport;
 import com.ruoyi.wms.mapper.UnitInfoMapper;
@@ -70,7 +71,6 @@ public class UnitInfoServiceImpl implements IUnitInfoService {
         if (StringUtils.isBlank(unitInfo.getUnitCode())) {
             unitInfo.setUnitCode(SnowFlakeIdGenerator.nextId());
         }
-        unitInfo.setCreateTime(DateUtils.getNowDate());
         return unitInfoMapper.insertSelective(unitInfo);
     }
 
@@ -82,7 +82,6 @@ public class UnitInfoServiceImpl implements IUnitInfoService {
      */
     @Override
     public int updateUnitInfo(UnitInfo unitInfo) {
-        unitInfo.setUpdateTime(DateUtils.getNowDate());
         return unitInfoMapper.updateByPrimaryKeySelective(unitInfo);
     }
 
@@ -94,9 +93,11 @@ public class UnitInfoServiceImpl implements IUnitInfoService {
      */
     @Override
     public int deleteUnitInfoByUnitCodes(String[] unitCodes) {
+        String userId = SecurityUtilsExt.getUserIdStr();
         UpdateStatementProvider provider = SqlBuilder.update(UnitInfoDynamicSqlSupport.unitInfo)
                 .set(UnitInfoDynamicSqlSupport.deleteFlag).equalTo(ExtBaseEntity.DELETED)
                 .set(UnitInfoDynamicSqlSupport.updateTime).equalTo(DateUtils.getNowDate())
+                .set(UnitInfoDynamicSqlSupport.updateBy).equalTo(userId)
                 .where(UnitInfoDynamicSqlSupport.unitCode, SqlBuilder.isIn(unitCodes))
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
@@ -114,7 +115,6 @@ public class UnitInfoServiceImpl implements IUnitInfoService {
         UnitInfo record = new UnitInfo();
         record.setUnitCode(unitCode);
         record.setDeleteFlag(ExtBaseEntity.DELETED);
-        record.setUpdateTime(DateUtils.getNowDate());
         return unitInfoMapper.updateByPrimaryKey(record);
     }
 }

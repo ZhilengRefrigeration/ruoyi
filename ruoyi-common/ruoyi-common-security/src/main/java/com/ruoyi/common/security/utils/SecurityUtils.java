@@ -9,6 +9,8 @@ import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.system.api.model.LoginUser;
 
+import java.util.Objects;
+
 /**
  * 权限获取工具类
  *
@@ -20,6 +22,11 @@ public class SecurityUtils {
      */
     public static Long getUserId() {
         return SecurityContextHolder.getUserId();
+    }
+
+    public static String getUserIdStr() {
+        Long userId = SecurityContextHolder.getUserId();
+        return userId == null ? "UNKNOWN" : String.valueOf(userId);
     }
 
     /**
@@ -47,7 +54,7 @@ public class SecurityUtils {
      * 获取请求token
      */
     public static String getToken() {
-        return getToken(ServletUtils.getRequest());
+        return getToken(Objects.requireNonNull(ServletUtils.getRequest()));
     }
 
     /**

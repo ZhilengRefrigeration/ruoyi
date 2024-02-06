@@ -99,7 +99,6 @@ public class TokenService {
             if (StringUtils.isNotEmpty(token)) {
                 String userKey = JwtUtils.getUserKey(token);
                 user = redisService.getCacheObject(getTokenKey(userKey));
-                return user;
             }
         } catch (Exception e) {
             log.error("获取用户信息异常'{}'", e.getMessage());
