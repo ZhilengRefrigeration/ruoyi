@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ${packageName}.domain.${subClassName};
 #end
 import com.ruoyi.common.core.web.domain.ExtBaseEntity;
-import com.ruoyi.common.security.utils.SecurityUtilsExt
+import com.ruoyi.common.security.utils.SecurityUtilsExt;
 import ${packageName}.mapper.${ClassName}Mapper;
 import ${packageName}.domain.${ClassName};
 import ${packageName}.mapper.${ClassName}DynamicSqlSupport;
@@ -91,7 +91,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
         #end
         ## 对like条件的特殊处理
         #if ($column.queryType == "LIKE")
-            .and(${ClassName}DynamicSqlSupport.$column.javaField, SqlBuilder.${conditionFuncName}(${className}.get${column.javaFieldUpper}() == null ? null : "%" + ${className}.get${column.javaFieldUpper}() + "%")
+            .and(${ClassName}DynamicSqlSupport.$column.javaField, SqlBuilder.${conditionFuncName}(${className}.get${column.javaFieldUpper}() == null ? null : "%" + ${className}.get${column.javaFieldUpper}() + "%"))
         #else
             .and(${ClassName}DynamicSqlSupport.$column.javaField, SqlBuilder.${conditionFuncName}(${className}.get${column.javaFieldUpper}()))
         #end
@@ -114,11 +114,11 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
     @Override
     public int insert${ClassName}(${ClassName} ${className})
     {
-#foreach ($column in $columns)
-#if($column.javaField == 'createTime')
-        ${className}.setCreateTime(DateUtils.getNowDate());
-#end
-#end
+###foreach ($column in $columns)
+###if($column.javaField == 'createTime')
+##        ${className}.setCreateTime(DateUtils.getNowDate());
+###end
+###end
 #if($table.sub)
         int rows = ${className}Mapper.insertSelective(${className});
         insert${subClassName}(${className});
@@ -140,11 +140,11 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
     @Override
     public int update${ClassName}(${ClassName} ${className})
     {
-#foreach ($column in $columns)
-#if($column.javaField == 'updateTime')
-        ${className}.setUpdateTime(DateUtils.getNowDate());
-#end
-#end
+###foreach ($column in $columns)
+###if($column.javaField == 'updateTime')
+##        ${className}.setUpdateTime(DateUtils.getNowDate());
+###end
+###end
 #if($table.sub)
         ${className}Mapper.delete${subClassName}By${subTableFkClassName}(${className}.get${pkColumn.capJavaField}());
         insert${subClassName}(${className});
@@ -169,11 +169,11 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
 #end
 ##        return ${className}Mapper.delete(dsl -> dsl.where(${ClassName}DynamicSqlSupport.${pkColumn.javaField}, SqlBuilder.isIn(${pkColumn.javaField}s)));
         String userId = SecurityUtilsExt.getUserIdStr();
-        UpdateStatementProvider provider = SqlBuilder.update(UnitInfoDynamicSqlSupport.${className})
+        UpdateStatementProvider provider = SqlBuilder.update(${ClassName}DynamicSqlSupport.${className})
                 .set(${ClassName}DynamicSqlSupport.deleteFlag).equalTo(ExtBaseEntity.DELETED)
                 .set(${ClassName}DynamicSqlSupport.updateTime).equalTo(DateUtils.getNowDate())
                 .set(${ClassName}DynamicSqlSupport.updateBy).equalTo(userId)
-                .where(${ClassName}DynamicSqlSupport.unitCode, SqlBuilder.isIn(${pkColumn.javaField}s))
+                .where(${ClassName}DynamicSqlSupport.${pkColumn.javaField}, SqlBuilder.isIn(${pkColumn.javaField}s))
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
         return ${className}Mapper.update(provider);

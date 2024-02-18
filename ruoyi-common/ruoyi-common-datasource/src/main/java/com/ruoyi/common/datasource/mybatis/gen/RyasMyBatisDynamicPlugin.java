@@ -5,6 +5,7 @@ import org.mybatis.generator.api.PluginAdapter;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.Method;
+import org.mybatis.generator.api.dom.java.TopLevelClass;
 import org.mybatis.generator.internal.util.StringUtility;
 
 import java.util.List;
@@ -15,6 +16,8 @@ import java.util.List;
  */
 public class RyasMyBatisDynamicPlugin extends PluginAdapter {
 
+    private String modelClassName;
+
     // 校验插件配置的正确性
     @Override
     public boolean validate(List<String> warnings) {
@@ -23,6 +26,13 @@ public class RyasMyBatisDynamicPlugin extends PluginAdapter {
             warnings.add("Ryas MyBatisDynamic Plugin: " + this.getClass().getTypeName() + "Required targetRuntime must be 'MyBatis3DynamicSql' !");
             return false;
         }
+        return true;
+    }
+
+    @Override
+    public boolean modelBaseRecordClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+        // 获取模型类的完整名称
+        modelClassName = topLevelClass.getType().getShortName();
         return true;
     }
 
@@ -82,7 +92,7 @@ public class RyasMyBatisDynamicPlugin extends PluginAdapter {
         //从头插入，所以需要倒着
         bodyLines.addFirst("}");
         bodyLines.addFirst("row.setCommonForInsert(SecurityUtilsExt.getUserIdStr());");
-        bodyLines.addFirst("for (UnitInfo row : records) {");
+        bodyLines.addFirst("for (" + modelClassName + " row : records) {");
     }
 
     private void setForUpdate(Method method, Interface interfaze) {

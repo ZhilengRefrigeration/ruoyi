@@ -1,18 +1,8 @@
 package com.ruoyi.wms.mapper;
 
-import static com.ruoyi.wms.mapper.UnitInfoDynamicSqlSupport.*;
-import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
-
 import com.ruoyi.common.security.utils.SecurityUtilsExt;
-import com.ruoyi.wms.domain.UnitInfo;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.SelectProvider;
+import com.ruoyi.wms.domain.GoodsType;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.mybatis.dynamic.sql.BasicColumn;
 import org.mybatis.dynamic.sql.delete.DeleteDSLCompleter;
@@ -23,21 +13,24 @@ import org.mybatis.dynamic.sql.update.UpdateDSL;
 import org.mybatis.dynamic.sql.update.UpdateDSLCompleter;
 import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
-import org.mybatis.dynamic.sql.util.mybatis3.CommonCountMapper;
-import org.mybatis.dynamic.sql.util.mybatis3.CommonDeleteMapper;
-import org.mybatis.dynamic.sql.util.mybatis3.CommonInsertMapper;
-import org.mybatis.dynamic.sql.util.mybatis3.CommonUpdateMapper;
-import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
+import org.mybatis.dynamic.sql.util.mybatis3.*;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+
+import static com.ruoyi.wms.mapper.GoodsTypeDynamicSqlSupport.*;
+import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 
 @Mapper
-public interface UnitInfoMapper extends CommonCountMapper, CommonDeleteMapper, CommonInsertMapper<UnitInfo>, CommonUpdateMapper {
-    BasicColumn[] selectList = BasicColumn.columnList(unitCode, deptId, unitName, remark1, remark2, remark3, remark4, remark5, updateCount, deleteFlag, createBy, createTime, updateBy, updateTime, remark);
+public interface GoodsTypeMapper extends CommonCountMapper, CommonDeleteMapper, CommonInsertMapper<GoodsType>, CommonUpdateMapper {
+    BasicColumn[] selectList = BasicColumn.columnList(goodsTypeCd, deptId, goodsTypeName, remark1, remark2, remark3, remark4, remark5, updateCount, deleteFlag, createBy, createTime, updateBy, updateTime, remark);
 
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
-    @Results(id="UnitInfoResult", value = {
-        @Result(column="UNIT_CODE", property="unitCode", jdbcType=JdbcType.VARCHAR, id=true),
+    @Results(id="GoodsTypeResult", value = {
+        @Result(column="GOODS_TYPE_CD", property="goodsTypeCd", jdbcType=JdbcType.VARCHAR, id=true),
         @Result(column="DEPT_ID", property="deptId", jdbcType=JdbcType.INTEGER),
-        @Result(column="UNIT_NAME", property="unitName", jdbcType=JdbcType.VARCHAR),
+        @Result(column="GOODS_TYPE_NAME", property="goodsTypeName", jdbcType=JdbcType.VARCHAR),
         @Result(column="REMARK_1", property="remark1", jdbcType=JdbcType.VARCHAR),
         @Result(column="REMARK_2", property="remark2", jdbcType=JdbcType.VARCHAR),
         @Result(column="REMARK_3", property="remark3", jdbcType=JdbcType.VARCHAR),
@@ -51,32 +44,32 @@ public interface UnitInfoMapper extends CommonCountMapper, CommonDeleteMapper, C
         @Result(column="update_time", property="updateTime", jdbcType=JdbcType.TIMESTAMP),
         @Result(column="remark", property="remark", jdbcType=JdbcType.VARCHAR)
     })
-    List<UnitInfo> selectMany(SelectStatementProvider selectStatement);
+    List<GoodsType> selectMany(SelectStatementProvider selectStatement);
 
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
-    @ResultMap("UnitInfoResult")
-    Optional<UnitInfo> selectOne(SelectStatementProvider selectStatement);
+    @ResultMap("GoodsTypeResult")
+    Optional<GoodsType> selectOne(SelectStatementProvider selectStatement);
 
     default long count(CountDSLCompleter completer) {
-        return MyBatis3Utils.countFrom(this::count, unitInfo, completer);
+        return MyBatis3Utils.countFrom(this::count, goodsType, completer);
     }
 
     default int delete(DeleteDSLCompleter completer) {
-        return MyBatis3Utils.deleteFrom(this::delete, unitInfo, completer);
+        return MyBatis3Utils.deleteFrom(this::delete, goodsType, completer);
     }
 
-    default int deleteByPrimaryKey(String unitCode_) {
+    default int deleteByPrimaryKey(String goodsTypeCd_) {
         return delete(c -> 
-            c.where(unitCode, isEqualTo(unitCode_))
+            c.where(goodsTypeCd, isEqualTo(goodsTypeCd_))
         );
     }
 
-    default int insert(UnitInfo row) {
+    default int insert(GoodsType row) {
         row.setCommonForInsert(SecurityUtilsExt.getUserIdStr());
-        return MyBatis3Utils.insert(this::insert, row, unitInfo, c ->
-            c.map(unitCode).toProperty("unitCode")
+        return MyBatis3Utils.insert(this::insert, row, goodsType, c ->
+            c.map(goodsTypeCd).toProperty("goodsTypeCd")
             .map(deptId).toProperty("deptId")
-            .map(unitName).toProperty("unitName")
+            .map(goodsTypeName).toProperty("goodsTypeName")
             .map(remark1).toProperty("remark1")
             .map(remark2).toProperty("remark2")
             .map(remark3).toProperty("remark3")
@@ -92,14 +85,14 @@ public interface UnitInfoMapper extends CommonCountMapper, CommonDeleteMapper, C
         );
     }
 
-    default int insertMultiple(Collection<UnitInfo> records) {
-        for (UnitInfo row : records) {
+    default int insertMultiple(Collection<GoodsType> records) {
+        for (GoodsType row : records) {
             row.setCommonForInsert(SecurityUtilsExt.getUserIdStr());
         }
-        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, unitInfo, c ->
-            c.map(unitCode).toProperty("unitCode")
+        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, goodsType, c ->
+            c.map(goodsTypeCd).toProperty("goodsTypeCd")
             .map(deptId).toProperty("deptId")
-            .map(unitName).toProperty("unitName")
+            .map(goodsTypeName).toProperty("goodsTypeName")
             .map(remark1).toProperty("remark1")
             .map(remark2).toProperty("remark2")
             .map(remark3).toProperty("remark3")
@@ -115,12 +108,12 @@ public interface UnitInfoMapper extends CommonCountMapper, CommonDeleteMapper, C
         );
     }
 
-    default int insertSelective(UnitInfo row) {
+    default int insertSelective(GoodsType row) {
         row.setCommonForInsert(SecurityUtilsExt.getUserIdStr());
-        return MyBatis3Utils.insert(this::insert, row, unitInfo, c ->
-            c.map(unitCode).toPropertyWhenPresent("unitCode", row::getUnitCode)
+        return MyBatis3Utils.insert(this::insert, row, goodsType, c ->
+            c.map(goodsTypeCd).toPropertyWhenPresent("goodsTypeCd", row::getGoodsTypeCd)
             .map(deptId).toPropertyWhenPresent("deptId", row::getDeptId)
-            .map(unitName).toPropertyWhenPresent("unitName", row::getUnitName)
+            .map(goodsTypeName).toPropertyWhenPresent("goodsTypeName", row::getGoodsTypeName)
             .map(remark1).toPropertyWhenPresent("remark1", row::getRemark1)
             .map(remark2).toPropertyWhenPresent("remark2", row::getRemark2)
             .map(remark3).toPropertyWhenPresent("remark3", row::getRemark3)
@@ -136,32 +129,32 @@ public interface UnitInfoMapper extends CommonCountMapper, CommonDeleteMapper, C
         );
     }
 
-    default Optional<UnitInfo> selectOne(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectOne(this::selectOne, selectList, unitInfo, completer);
+    default Optional<GoodsType> selectOne(SelectDSLCompleter completer) {
+        return MyBatis3Utils.selectOne(this::selectOne, selectList, goodsType, completer);
     }
 
-    default List<UnitInfo> select(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectList(this::selectMany, selectList, unitInfo, completer);
+    default List<GoodsType> select(SelectDSLCompleter completer) {
+        return MyBatis3Utils.selectList(this::selectMany, selectList, goodsType, completer);
     }
 
-    default List<UnitInfo> selectDistinct(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectDistinct(this::selectMany, selectList, unitInfo, completer);
+    default List<GoodsType> selectDistinct(SelectDSLCompleter completer) {
+        return MyBatis3Utils.selectDistinct(this::selectMany, selectList, goodsType, completer);
     }
 
-    default Optional<UnitInfo> selectByPrimaryKey(String unitCode_) {
+    default Optional<GoodsType> selectByPrimaryKey(String goodsTypeCd_) {
         return selectOne(c ->
-            c.where(unitCode, isEqualTo(unitCode_))
+            c.where(goodsTypeCd, isEqualTo(goodsTypeCd_))
         );
     }
 
     default int update(UpdateDSLCompleter completer) {
-        return MyBatis3Utils.update(this::update, unitInfo, completer);
+        return MyBatis3Utils.update(this::update, goodsType, completer);
     }
 
-    static UpdateDSL<UpdateModel> updateAllColumns(UnitInfo row, UpdateDSL<UpdateModel> dsl) {
-        return dsl.set(unitCode).equalTo(row::getUnitCode)
+    static UpdateDSL<UpdateModel> updateAllColumns(GoodsType row, UpdateDSL<UpdateModel> dsl) {
+        return dsl.set(goodsTypeCd).equalTo(row::getGoodsTypeCd)
                 .set(deptId).equalTo(row::getDeptId)
-                .set(unitName).equalTo(row::getUnitName)
+                .set(goodsTypeName).equalTo(row::getGoodsTypeName)
                 .set(remark1).equalTo(row::getRemark1)
                 .set(remark2).equalTo(row::getRemark2)
                 .set(remark3).equalTo(row::getRemark3)
@@ -176,11 +169,11 @@ public interface UnitInfoMapper extends CommonCountMapper, CommonDeleteMapper, C
                 .set(remark).equalTo(row::getRemark);
     }
 
-    static UpdateDSL<UpdateModel> updateSelectiveColumns(UnitInfo row, UpdateDSL<UpdateModel> dsl) {
+    static UpdateDSL<UpdateModel> updateSelectiveColumns(GoodsType row, UpdateDSL<UpdateModel> dsl) {
         row.setCommonForUpdate(SecurityUtilsExt.getUserIdStr());
-        return dsl.set(unitCode).equalToWhenPresent(row::getUnitCode)
+        return dsl.set(goodsTypeCd).equalToWhenPresent(row::getGoodsTypeCd)
                 .set(deptId).equalToWhenPresent(row::getDeptId)
-                .set(unitName).equalToWhenPresent(row::getUnitName)
+                .set(goodsTypeName).equalToWhenPresent(row::getGoodsTypeName)
                 .set(remark1).equalToWhenPresent(row::getRemark1)
                 .set(remark2).equalToWhenPresent(row::getRemark2)
                 .set(remark3).equalToWhenPresent(row::getRemark3)
@@ -195,10 +188,10 @@ public interface UnitInfoMapper extends CommonCountMapper, CommonDeleteMapper, C
                 .set(remark).equalToWhenPresent(row::getRemark);
     }
 
-    default int updateByPrimaryKey(UnitInfo row) {
+    default int updateByPrimaryKey(GoodsType row) {
         return update(c ->
             c.set(deptId).equalTo(row::getDeptId)
-            .set(unitName).equalTo(row::getUnitName)
+            .set(goodsTypeName).equalTo(row::getGoodsTypeName)
             .set(remark1).equalTo(row::getRemark1)
             .set(remark2).equalTo(row::getRemark2)
             .set(remark3).equalTo(row::getRemark3)
@@ -211,15 +204,15 @@ public interface UnitInfoMapper extends CommonCountMapper, CommonDeleteMapper, C
             .set(updateBy).equalTo(row::getUpdateBy)
             .set(updateTime).equalTo(row::getUpdateTime)
             .set(remark).equalTo(row::getRemark)
-            .where(unitCode, isEqualTo(row::getUnitCode))
+            .where(goodsTypeCd, isEqualTo(row::getGoodsTypeCd))
         );
     }
 
-    default int updateByPrimaryKeySelective(UnitInfo row) {
+    default int updateByPrimaryKeySelective(GoodsType row) {
         row.setCommonForUpdate(SecurityUtilsExt.getUserIdStr());
         return update(c ->
             c.set(deptId).equalToWhenPresent(row::getDeptId)
-            .set(unitName).equalToWhenPresent(row::getUnitName)
+            .set(goodsTypeName).equalToWhenPresent(row::getGoodsTypeName)
             .set(remark1).equalToWhenPresent(row::getRemark1)
             .set(remark2).equalToWhenPresent(row::getRemark2)
             .set(remark3).equalToWhenPresent(row::getRemark3)
@@ -232,7 +225,7 @@ public interface UnitInfoMapper extends CommonCountMapper, CommonDeleteMapper, C
             .set(updateBy).equalToWhenPresent(row::getUpdateBy)
             .set(updateTime).equalToWhenPresent(row::getUpdateTime)
             .set(remark).equalToWhenPresent(row::getRemark)
-            .where(unitCode, isEqualTo(row::getUnitCode))
+            .where(goodsTypeCd, isEqualTo(row::getGoodsTypeCd))
         );
     }
 }

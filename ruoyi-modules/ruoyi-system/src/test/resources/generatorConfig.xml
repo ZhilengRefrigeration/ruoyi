@@ -10,9 +10,9 @@
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
         <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
 
-        <commentGenerator>
+        <commentGenerator type="com.ruoyi.common.datasource.mybatis.gen.MyCommentGenerator">
             <property name="suppressAllComments" value="false"/>
-            <property name="suppressDate" value="true"/>
+            <property name="suppressDate" value="false"/>
             <property name="addRemarkComments" value="true"/>
         </commentGenerator>
 

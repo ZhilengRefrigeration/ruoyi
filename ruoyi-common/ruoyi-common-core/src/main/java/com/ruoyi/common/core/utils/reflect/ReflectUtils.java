@@ -1,21 +1,18 @@
 package com.ruoyi.common.core.utils.reflect;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.Date;
-
+import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.core.utils.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.ruoyi.common.core.text.Convert;
-import com.ruoyi.common.core.utils.DateUtils;
+
+import java.lang.reflect.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 反射工具类. 提供调用getter/setter方法, 访问私有变量, 调用私有方法, 获取泛型类型Class, 被AOP过的真实类等工具函数.
@@ -325,5 +322,53 @@ public class ReflectUtils {
             return new RuntimeException(msg, ((InvocationTargetException) e).getTargetException());
         }
         return new RuntimeException(msg, e);
+    }
+
+    /**
+     * 深度寻找字段（不断往父类上去找）
+     *
+     * @param clazz     目标类
+     * @param fieldName 字段名
+     * @return 字段对象
+     * @throws NoSuchFieldException 最终还是找不到
+     */
+    public static Field getFieldDeep(Class<?> clazz, String fieldName) throws NoSuchFieldException {
+        if (clazz == Object.class) {
+            throw new NoSuchFieldException(fieldName);
+        }
+        try {
+            return clazz.getDeclaredField(fieldName);
+        } catch (NoSuchFieldException e0) {
+            Class<?> superClass = clazz.getSuperclass();
+            return getFieldDeep(superClass, fieldName);
+        }
+    }
+
+    /**
+     * 获取所有字段（包括父类的）
+     *
+     * @param clazz    起始类（包含）
+     * @param endClass 终止类（不包含）
+     * @return 所有字段
+     */
+    public static Field[] getFieldsDeep(Class<?> clazz, Class<?> endClass) {
+        List<Field> fieldList = new ArrayList<>();
+        while (clazz != endClass) {
+            Field[] fields = clazz.getDeclaredFields();
+            fieldList.addAll(Arrays.asList(fields));
+            clazz = clazz.getSuperclass();
+        }
+        Field[] f = new Field[fieldList.size()];
+        return fieldList.toArray(f);
+    }
+
+    /**
+     * 获取所有字段（包括父类的，一直查到Object类为止，不包括Object的字段）
+     *
+     * @param clazz 起始类
+     * @return 所有字段
+     */
+    public static Field[] getFieldsDeep(Class<?> clazz) {
+        return getFieldsDeep(clazz, Object.class);
     }
 }

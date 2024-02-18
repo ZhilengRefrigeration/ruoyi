@@ -4,15 +4,15 @@
       <el-col :sm="24" :lg="12" style="padding-left: 20px">
         <h2>RYAS后台管理框架</h2>
         <p>
-         此后台管理系统基于Ruoyi开源基盘（v{{ version }}）
+         此后台管理系统基于开源基盘Ruoyi（v{{ version }}）
         </p>
         <p>
           已从原本的Ruoyi全面升级：
         </p>
         <ul>
-          <li>Java8 -> Java21</li>
-          <li>SpringBoot 2.7 -> SpringBoot 3.1</li>
-          <li>SpringCloud 2020.x -> SpringCloud 2023.0.5</li>
+          <li>Java 8 升级到 Java 21</li>
+          <li>SpringBoot 2.7 升级到 SpringBoot 3.1</li>
+          <li>SpringCloud 2020.x 升级到 SpringCloud 2023.0.5</li>
         </ul>
       </el-col>
 

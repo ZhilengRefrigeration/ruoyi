@@ -1,18 +1,18 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="单位代码" prop="unitCode">
+    <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="100px">
+      <el-form-item label="物品类型编码" prop="goodsTypeCd">
         <el-input
-          v-model="queryParams.unitCode"
-          placeholder="请输入单位代码"
+          v-model="queryParams.goodsTypeCd"
+          placeholder="请输入物品类型编码"
           clearable
           @keyup.enter="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="单位名称" prop="unitName">
+      <el-form-item label="物品类型名称" prop="goodsTypeName">
         <el-input
-          v-model="queryParams.unitName"
-          placeholder="请输入单位名称"
+          v-model="queryParams.goodsTypeName"
+          placeholder="请输入物品类型名称"
           clearable
           @keyup.enter="handleQuery"
         />
@@ -30,7 +30,7 @@
           plain
           icon="Plus"
           @click="handleAdd"
-          v-hasPermi="['wms:UnitInfo:add']"
+          v-hasPermi="['wms:GoodsType:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -40,7 +40,7 @@
           icon="Edit"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['wms:UnitInfo:edit']"
+          v-hasPermi="['wms:GoodsType:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -50,7 +50,7 @@
           icon="Delete"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['wms:UnitInfo:remove']"
+          v-hasPermi="['wms:GoodsType:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -59,21 +59,21 @@
           plain
           icon="Download"
           @click="handleExport"
-          v-hasPermi="['wms:UnitInfo:export']"
+          v-hasPermi="['wms:GoodsType:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="UnitInfoList" @selection-change="handleSelectionChange" show-overflow-tooltip="true">
+    <el-table v-loading="loading" :data="GoodsTypeList" @selection-change="handleSelectionChange" show-overflow-tooltip="true">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="单位代码" align="center" prop="unitCode" />
-      <el-table-column label="单位名称" align="center" prop="unitName" />
+      <el-table-column label="物品类型编码" align="center" prop="goodsTypeCd" />
+      <el-table-column label="物品类型名称" align="center" prop="goodsTypeName" />
       <el-table-column label="备注" align="center" prop="remark1" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
-          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['wms:UnitInfo:edit']">修改</el-button>
-          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['wms:UnitInfo:remove']">删除</el-button>
+          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['wms:GoodsType:edit']">修改</el-button>
+          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['wms:GoodsType:remove']">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -86,14 +86,14 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改单位信息管理对话框 -->
+    <!-- 添加或修改物品类型管理对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
-      <el-form ref="UnitInfoRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="单位名称" prop="unitName">
-          <el-input v-model="form.unitName" placeholder="请输入单位名称" />
+      <el-form ref="GoodsTypeRef" :model="form" :rules="rules" label-width="110px">
+        <el-form-item label="物品类型名称" prop="goodsTypeName">
+          <el-input v-model="form.goodsTypeName" placeholder="请输入物品类型名称" />
         </el-form-item>
         <el-form-item label="备注" prop="remark1">
-          <el-input v-model="form.remark1" type="textarea" placeholder="请输入内容" />
+          <el-input v-model="form.remark1" placeholder="请输入备注" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -106,12 +106,12 @@
   </div>
 </template>
 
-<script setup name="UnitInfo">
-import { listUnitInfo, getUnitInfo, delUnitInfo, addUnitInfo, updateUnitInfo } from "@/api/wms/UnitInfo";
+<script setup name="GoodsType">
+import { listGoodsType, getGoodsType, delGoodsType, addGoodsType, updateGoodsType } from "@/api/wms/GoodsType";
 
 const { proxy } = getCurrentInstance();
 
-const UnitInfoList = ref([]);
+const GoodsTypeList = ref([]);
 const open = ref(false);
 const loading = ref(false);
 const showSearch = ref(true);
@@ -126,23 +126,24 @@ const data = reactive({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
-    unitCode: null,
-    unitName: null,
+    goodsTypeCd: null,
+    goodsTypeName: null,
+    remark1: null,
   },
   rules: {
-    unitName: [
-      { required: true, message: "单位名称不能为空", trigger: "blur" }
+    goodsTypeName: [
+      { required: true, message: "物品类型名称不能为空", trigger: "blur" }
     ],
   }
 });
 
 const { queryParams, form, rules } = toRefs(data);
 
-/** 查询单位信息管理列表 */
+/** 查询物品类型管理列表 */
 function getList() {
   loading.value = true;
-  listUnitInfo(queryParams.value).then(response => {
-    UnitInfoList.value = response.rows;
+  listGoodsType(queryParams.value).then(response => {
+    GoodsTypeList.value = response.rows;
     total.value = response.total;
     loading.value = false;
   });
@@ -157,8 +158,9 @@ function cancel() {
 // 表单重置
 function reset() {
   form.value = {
-    unitCode: null,
-    unitName: null,
+    deptId: null,
+    goodsTypeCd: null,
+    goodsTypeName: null,
     remark1: null,
     remark2: null,
     remark3: null,
@@ -172,7 +174,7 @@ function reset() {
     updateTime: null,
     remark: null
   };
-  proxy.resetForm("UnitInfoRef");
+  proxy.resetForm("GoodsTypeRef");
 }
 
 /** 搜索按钮操作 */
@@ -189,7 +191,7 @@ function resetQuery() {
 
 // 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map(item => item.unitCode);
+  ids.value = selection.map(item => item.goodsTypeCd);
   single.value = selection.length != 1;
   multiple.value = !selection.length;
 }
@@ -198,32 +200,32 @@ function handleSelectionChange(selection) {
 function handleAdd() {
   reset();
   open.value = true;
-  title.value = "添加单位信息管理";
+  title.value = "添加物品类型管理";
 }
 
 /** 修改按钮操作 */
 function handleUpdate(row) {
   reset();
-  const _unitCode = row.unitCode || ids.value
-  getUnitInfo(_unitCode).then(response => {
+  const _goodsTypeCd = row.goodsTypeCd || ids.value
+  getGoodsType(_goodsTypeCd).then(response => {
     form.value = response.data;
     open.value = true;
-    title.value = "修改单位信息管理";
+    title.value = "修改物品类型管理";
   });
 }
 
 /** 提交按钮 */
 function submitForm() {
-  proxy.$refs["UnitInfoRef"].validate(valid => {
+  proxy.$refs["GoodsTypeRef"].validate(valid => {
     if (valid) {
-      if (form.value.unitCode != null) {
-        updateUnitInfo(form.value).then(response => {
+      if (form.value.goodsTypeCd != null) {
+        updateGoodsType(form.value).then(response => {
           proxy.$modal.msgSuccess("修改成功");
           open.value = false;
           getList();
         });
       } else {
-        addUnitInfo(form.value).then(response => {
+        addGoodsType(form.value).then(response => {
           proxy.$modal.msgSuccess("新增成功");
           open.value = false;
           getList();
@@ -235,9 +237,9 @@ function submitForm() {
 
 /** 删除按钮操作 */
 function handleDelete(row) {
-  const _unitCodes = row.unitCode || ids.value;
-  proxy.$modal.confirm('是否确认删除单位信息管理编号为"' + _unitCodes + '"的数据项？').then(function() {
-    return delUnitInfo(_unitCodes);
+  const _goodsTypeCds = row.goodsTypeCd || ids.value;
+  proxy.$modal.confirm('是否确认删除物品类型管理编号为"' + _goodsTypeCds + '"的数据项？').then(function() {
+    return delGoodsType(_goodsTypeCds);
   }).then(() => {
     getList();
     proxy.$modal.msgSuccess("删除成功");
@@ -246,9 +248,9 @@ function handleDelete(row) {
 
 /** 导出按钮操作 */
 function handleExport() {
-  proxy.download('wms/UnitInfo/export', {
+  proxy.download('wms/GoodsType/export', {
     ...queryParams.value
-  }, `UnitInfo_${new Date().getTime()}.xlsx`)
+  }, `GoodsType_${new Date().getTime()}.xlsx`)
 }
 
 //页面打开时查询

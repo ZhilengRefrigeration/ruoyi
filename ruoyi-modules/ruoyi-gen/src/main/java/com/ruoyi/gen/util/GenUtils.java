@@ -2,6 +2,7 @@ package com.ruoyi.gen.util;
 
 import com.ruoyi.common.core.constant.GenConstants;
 import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.gen.config.CommonFieldsSet;
 import com.ruoyi.gen.config.GenConfig;
 import com.ruoyi.gen.domain.GenTable;
 import com.ruoyi.gen.domain.GenTableColumn;
@@ -68,19 +69,21 @@ public class GenUtils {
             }
         }
 
-        // 插入字段（默认所有字段都需要插入）
-        column.setIsInsert(GenConstants.REQUIRE);
+        // 插入字段（默认所有字段都需要插入，除了共通字段）
+        if (!CommonFieldsSet.isCommonField(columnName)) {
+            column.setIsInsert(GenConstants.REQUIRE);
+        }
 
         // 编辑字段
-        if (!arraysContains(GenConstants.COLUMNNAME_NOT_EDIT, columnName) && !column.isPk()) {
+        if (!arraysContains(GenConstants.COLUMNNAME_NOT_EDIT, columnName) && !column.isPk() && !CommonFieldsSet.isCommonField(columnName)) {
             column.setIsEdit(GenConstants.REQUIRE);
         }
         // 列表字段
-        if (!arraysContains(GenConstants.COLUMNNAME_NOT_LIST, columnName) && !column.isPk()) {
+        if (!arraysContains(GenConstants.COLUMNNAME_NOT_LIST, columnName) && !column.isPk() && !CommonFieldsSet.isCommonField(columnName)) {
             column.setIsList(GenConstants.REQUIRE);
         }
         // 查询字段
-        if (!arraysContains(GenConstants.COLUMNNAME_NOT_QUERY, columnName) && !column.isPk()) {
+        if (!arraysContains(GenConstants.COLUMNNAME_NOT_QUERY, columnName) && !column.isPk() && !CommonFieldsSet.isCommonField(columnName)) {
             column.setIsQuery(GenConstants.REQUIRE);
         }
 

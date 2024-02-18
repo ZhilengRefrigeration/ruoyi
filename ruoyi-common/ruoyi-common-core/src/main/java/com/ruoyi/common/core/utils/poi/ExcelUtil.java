@@ -92,7 +92,7 @@ public class ExcelUtil<T> {
     /**
      * 当前行号
      */
-    private int rownum;
+    private int rowNum;
 
     /**
      * 标题
@@ -159,7 +159,7 @@ public class ExcelUtil<T> {
 
     public void init(List<T> list, String sheetName, String title, Type type) {
         if (list == null) {
-            list = new ArrayList<T>();
+            list = new ArrayList<>();
         }
         this.list = list;
         this.sheetName = sheetName;
@@ -182,7 +182,7 @@ public class ExcelUtil<T> {
             if (isSubList()) {
                 titleLastCol = titleLastCol + subFields.size() - 1;
             }
-            Row titleRow = sheet.createRow(rownum == 0 ? rownum++ : 0);
+            Row titleRow = sheet.createRow(rowNum == 0 ? rowNum++ : 0);
             titleRow.setHeightInPoints(30);
             Cell titleCell = titleRow.createCell(0);
             titleCell.setCellStyle(styles.get("title"));
@@ -198,7 +198,7 @@ public class ExcelUtil<T> {
         if (isSubList()) {
             subMergedFirstRowNum++;
             subMergedLastRowNum++;
-            Row subRow = sheet.createRow(rownum);
+            Row subRow = sheet.createRow(rowNum);
             int excelNum = 0;
             for (Object[] objects : fields) {
                 Excel attr = (Excel) objects[1];
@@ -210,9 +210,9 @@ public class ExcelUtil<T> {
             int headFirstRow = excelNum - 1;
             int headLastRow = headFirstRow + subFields.size() - 1;
             if (headLastRow > headFirstRow) {
-                sheet.addMergedRegion(new CellRangeAddress(rownum, rownum, headFirstRow, headLastRow));
+                sheet.addMergedRegion(new CellRangeAddress(rowNum, rowNum, headFirstRow, headLastRow));
             }
-            rownum++;
+            rowNum++;
         }
     }
 
@@ -257,7 +257,7 @@ public class ExcelUtil<T> {
     public List<T> importExcel(String sheetName, InputStream is, int titleNum) throws Exception {
         this.type = Type.IMPORT;
         this.wb = WorkbookFactory.create(is);
-        List<T> list = new ArrayList<T>();
+        List<T> list = new ArrayList<>();
         // 如果指定sheet名,则取指定sheet中的内容 否则默认指向第1个sheet
         Sheet sheet = StringUtils.isNotEmpty(sheetName) ? wb.getSheet(sheetName) : wb.getSheetAt(0);
         if (sheet == null) {
@@ -268,7 +268,7 @@ public class ExcelUtil<T> {
         int rows = sheet.getLastRowNum();
         if (rows > 0) {
             // 定义一个map用于存放excel列的序号和field.
-            Map<String, Integer> cellMap = new HashMap<String, Integer>();
+            Map<String, Integer> cellMap = new HashMap<>();
             // 获取表头
             Row heard = sheet.getRow(titleNum);
             for (int i = 0; i < heard.getPhysicalNumberOfCells(); i++) {
@@ -282,7 +282,7 @@ public class ExcelUtil<T> {
             }
             // 有数据时才处理 得到类的所有field.
             List<Object[]> fields = this.getFields();
-            Map<Integer, Object[]> fieldsMap = new HashMap<Integer, Object[]>();
+            Map<Integer, Object[]> fieldsMap = new HashMap<>();
             for (Object[] objects : fields) {
                 Excel attr = (Excel) objects[1];
                 Integer column = cellMap.get(attr.name());
@@ -428,7 +428,7 @@ public class ExcelUtil<T> {
             createSheet(sheetNo, index);
 
             // 产生一行
-            Row row = sheet.createRow(rownum);
+            Row row = sheet.createRow(rowNum);
             int column = 0;
             // 写入各个字段的列头名称
             for (Object[] os : fields) {
@@ -460,9 +460,9 @@ public class ExcelUtil<T> {
     public void fillExcelData(int index, Row row) {
         int startNo = index * sheetSize;
         int endNo = Math.min(startNo + sheetSize, list.size());
-        int rowNo = (1 + rownum) - startNo;
+        int rowNo = (1 + rowNum) - startNo;
         for (int i = startNo; i < endNo; i++) {
-            rowNo = isSubList() ? (i > 1 ? rowNo + 1 : rowNo + i) : i + 1 + rownum - startNo;
+            rowNo = isSubList() ? (i > 1 ? rowNo + 1 : rowNo + i) : i + 1 + rowNum - startNo;
             row = sheet.createRow(rowNo);
             // 得到导出对象.
             T vo = (T) list.get(i);
@@ -515,7 +515,7 @@ public class ExcelUtil<T> {
      */
     private Map<String, CellStyle> createStyles(Workbook wb) {
         // 写入各条记录,每条记录对应excel表中的一行
-        Map<String, CellStyle> styles = new HashMap<String, CellStyle>();
+        Map<String, CellStyle> styles = new HashMap<>();
         CellStyle style = wb.createCellStyle();
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setVerticalAlignment(VerticalAlignment.CENTER);
@@ -566,7 +566,7 @@ public class ExcelUtil<T> {
      * @return 自定义样式列表
      */
     private Map<String, CellStyle> annotationHeaderStyles(Workbook wb, Map<String, CellStyle> styles) {
-        Map<String, CellStyle> headerStyles = new HashMap<String, CellStyle>();
+        Map<String, CellStyle> headerStyles = new HashMap<>();
         for (Object[] os : fields) {
             Excel excel = (Excel) os[1];
             String key = StringUtils.format("header_{}_{}", excel.headerColor(), excel.headerBackgroundColor());
@@ -596,7 +596,7 @@ public class ExcelUtil<T> {
      * @return 自定义样式列表
      */
     private Map<String, CellStyle> annotationDataStyles(Workbook wb) {
-        Map<String, CellStyle> styles = new HashMap<String, CellStyle>();
+        Map<String, CellStyle> styles = new HashMap<>();
         for (Object[] os : fields) {
             Excel excel = (Excel) os[1];
             String key = StringUtils.format("data_{}_{}_{}", excel.align(), excel.color(), excel.backgroundColor());
@@ -639,7 +639,7 @@ public class ExcelUtil<T> {
             // 填充默认样式，防止合并单元格样式失效
             sheet.setDefaultColumnStyle(column, styles.get(StringUtils.format("data_{}_{}_{}", attr.align(), attr.color(), attr.backgroundColor())));
             if (attr.needMerge()) {
-                sheet.addMergedRegion(new CellRangeAddress(rownum - 1, rownum, column, column));
+                sheet.addMergedRegion(new CellRangeAddress(rowNum - 1, rowNum, column, column));
             }
         }
         return cell;
@@ -1005,7 +1005,7 @@ public class ExcelUtil<T> {
      * 获取字段注解信息
      */
     public List<Object[]> getFields() {
-        List<Object[]> fields = new ArrayList<Object[]>();
+        List<Object[]> fields = new ArrayList<>();
         List<Field> tempFields = new ArrayList<>();
         tempFields.addAll(Arrays.asList(clazz.getSuperclass().getDeclaredFields()));
         tempFields.addAll(Arrays.asList(clazz.getDeclaredFields()));
@@ -1184,7 +1184,7 @@ public class ExcelUtil<T> {
         try {
             value = subMethod.invoke(obj, new Object[]{});
         } catch (Exception e) {
-            return new ArrayList<Object>();
+            return new ArrayList<>();
         }
         return (Collection<?>) value;
     }
