@@ -2,18 +2,19 @@ package com.ruoyi.wms.service.impl;
 
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.common.core.utils.uuid.snowflake.SnowFlakeIdGenerator;
 import com.ruoyi.common.core.web.domain.ExtBaseEntity;
 import com.ruoyi.common.security.utils.SecurityUtilsExt;
+import com.ruoyi.common.services.ISysSequenceService;
+import com.ruoyi.common.services.constants.SeqType;
 import com.ruoyi.wms.domain.UnitInfo;
 import com.ruoyi.wms.mapper.UnitInfoDynamicSqlSupport;
 import com.ruoyi.wms.mapper.UnitInfoMapper;
 import com.ruoyi.wms.service.IUnitInfoService;
+import jakarta.annotation.Resource;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,8 +28,11 @@ import java.util.Optional;
  */
 @Service
 public class UnitInfoServiceImpl implements IUnitInfoService {
-    @Autowired
+
+    @Resource
     private UnitInfoMapper unitInfoMapper;
+    @Resource
+    private ISysSequenceService sequenceService;
 
     /**
      * 查询单位信息管理
@@ -69,7 +73,8 @@ public class UnitInfoServiceImpl implements IUnitInfoService {
     @Override
     public int insertUnitInfo(UnitInfo unitInfo) {
         if (StringUtils.isBlank(unitInfo.getUnitCode())) {
-            unitInfo.setUnitCode(SnowFlakeIdGenerator.nextId());
+            String unitCode = sequenceService.getNextSequence(SeqType.UNIT_CD);
+            unitInfo.setUnitCode(unitCode);
         }
         return unitInfoMapper.insertSelective(unitInfo);
     }

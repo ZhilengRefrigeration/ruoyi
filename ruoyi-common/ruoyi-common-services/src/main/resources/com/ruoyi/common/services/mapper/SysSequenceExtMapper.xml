@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.common.services.mapper.SysSequenceExtMapper">
+
+    <resultMap id="seqResultMap" type="com.ruoyi.common.services.domain.vo.SeqVo">
+        <result property="ruleId" column="rule_id"/>
+        <result property="seqDistCd" column="seq_dist_cd"/>
+        <result property="ruleName" column="rule_name"/>
+        <result property="prefix" column="prefix"/>
+        <result property="separator1" column="separator1"/>
+        <result property="dateFormat" column="date_format"/>
+        <result property="minDigits" column="min_digits"/>
+        <result property="separator2" column="separator2"/>
+        <result property="generatorName" column="generator_name"/>
+        <result property="enableFlag" column="enable_flag"/>
+        <result property="seqId" column="seq_id"/>
+        <result property="dateVal" column="date_val"/>
+        <result property="seqNo" column="seq_no"/>
+    </resultMap>
+
+    <select id="selectMaxSeq" resultMap="seqResultMap">
+        select rule.rule_id,
+               rule.seq_dist_cd,
+               rule.rule_name,
+               rule.prefix,
+               rule.separator1,
+               rule.date_format,
+               rule.min_digits,
+               rule.separator2,
+               rule.generator_name,
+               rule.enable_flag,
+               result.seq_id,
+               result.date_val,
+               result.seq_no
+        from sys_seq_rule rule
+        left join (
+            select seq_id,
+                   seq_dist_cd,
+                   date_val,
+                   seq_no
+            from sys_seq_result
+            where seq_dist_cd = #{seqDistCd}
+            order by date_val desc, seq_no desc
+            limit 1
+        ) result on result.seq_dist_cd = rule.seq_dist_cd
+        where rule.seq_dist_cd = #{seqDistCd}
+    </select>
+
+</mapper>

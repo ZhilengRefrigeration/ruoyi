@@ -1,15 +1,13 @@
 package com.ruoyi.common.security.utils;
 
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.constant.TokenConstants;
 import com.ruoyi.common.core.context.SecurityContextHolder;
 import com.ruoyi.common.core.utils.ServletUtils;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.system.api.model.LoginUser;
-
-import java.util.Objects;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * 权限获取工具类
@@ -54,13 +52,16 @@ public class SecurityUtils {
      * 获取请求token
      */
     public static String getToken() {
-        return getToken(Objects.requireNonNull(ServletUtils.getRequest()));
+        return getToken(ServletUtils.getRequest());
     }
 
     /**
      * 根据request获取请求token
      */
     public static String getToken(HttpServletRequest request) {
+        if (request == null) {
+            return null;
+        }
         // 从header获取token标识
         String token = request.getHeader(TokenConstants.AUTHENTICATION);
         return replaceTokenPrefix(token);

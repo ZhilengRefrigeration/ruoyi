@@ -82,6 +82,12 @@
             <artifactId>ruoyi-common-log</artifactId>
         </dependency>
 
+        <!-- RuoYi Common Services -->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-common-services</artifactId>
+        </dependency>
+
         <!-- RuoYi Common Swagger -->
         <dependency>
             <groupId>com.ruoyi</groupId>

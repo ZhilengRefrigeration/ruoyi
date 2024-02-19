@@ -2,19 +2,21 @@ package com.ruoyi.wms.service.impl;
 
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.common.core.utils.uuid.snowflake.SnowFlakeIdGenerator;
 import com.ruoyi.common.core.web.domain.ExtBaseEntity;
 import com.ruoyi.common.security.utils.SecurityUtilsExt;
+import com.ruoyi.common.services.ISysSequenceService;
+import com.ruoyi.common.services.constants.SeqType;
 import com.ruoyi.wms.domain.GoodsType;
 import com.ruoyi.wms.mapper.GoodsTypeDynamicSqlSupport;
 import com.ruoyi.wms.mapper.GoodsTypeMapper;
 import com.ruoyi.wms.service.IGoodsTypeService;
+import jakarta.annotation.Resource;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,8 +29,11 @@ import java.util.Optional;
  */
 @Service
 public class GoodsTypeServiceImpl implements IGoodsTypeService {
-    @Autowired
+
+    @Resource
     private GoodsTypeMapper goodsTypeMapper;
+    @Resource
+    private ISysSequenceService sequenceService;
 
     /**
      * 查询物品类型管理
@@ -67,10 +72,12 @@ public class GoodsTypeServiceImpl implements IGoodsTypeService {
      * @param goodsType 物品类型管理
      * @return 结果
      */
+    @Transactional
     @Override
     public int insertGoodsType(GoodsType goodsType) {
         if (StringUtils.isBlank(goodsType.getGoodsTypeCd())) {
-            goodsType.setGoodsTypeCd(SnowFlakeIdGenerator.nextId());
+            String goodsTypeCd = sequenceService.getNextSequence(SeqType.GOODE_TYPE_CD);
+            goodsType.setGoodsTypeCd(goodsTypeCd);
         }
         return goodsTypeMapper.insertSelective(goodsType);
     }
@@ -81,6 +88,7 @@ public class GoodsTypeServiceImpl implements IGoodsTypeService {
      * @param goodsType 物品类型管理
      * @return 结果
      */
+    @Transactional
     @Override
     public int updateGoodsType(GoodsType goodsType) {
         return goodsTypeMapper.updateByPrimaryKeySelective(goodsType);
@@ -92,6 +100,7 @@ public class GoodsTypeServiceImpl implements IGoodsTypeService {
      * @param goodsTypeCds 需要删除的物品类型管理主键
      * @return 结果
      */
+    @Transactional
     @Override
     public int deleteGoodsTypeByGoodsTypeCds(String[] goodsTypeCds) {
         String userId = SecurityUtilsExt.getUserIdStr();
@@ -111,6 +120,7 @@ public class GoodsTypeServiceImpl implements IGoodsTypeService {
      * @param goodsTypeCd 物品类型管理主键
      * @return 结果
      */
+    @Transactional
     @Override
     public int deleteGoodsTypeByGoodsTypeCd(String goodsTypeCd) {
         GoodsType record = new GoodsType();

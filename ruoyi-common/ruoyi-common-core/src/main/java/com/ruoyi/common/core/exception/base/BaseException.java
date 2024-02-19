@@ -14,22 +14,22 @@ public class BaseException extends RuntimeException {
     /**
      * 所属模块
      */
-    private final String module;
+    protected final String module;
 
     /**
      * 错误码
      */
-    private final String code;
+    protected final String code;
 
     /**
      * 错误码对应的参数
      */
-    private final Object[] args;
+    protected final Object[] args;
 
     /**
      * 错误消息
      */
-    private final String defaultMessage;
+    protected final String defaultMessage;
 
     public BaseException(String module, String code, Object[] args, String defaultMessage) {
         this.module = module;

@@ -2,18 +2,19 @@ package com.ruoyi.wms.service.impl;
 
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.common.core.utils.StringUtils;
-import com.ruoyi.common.core.utils.uuid.snowflake.SnowFlakeIdGenerator;
 import com.ruoyi.common.core.web.domain.ExtBaseEntity;
 import com.ruoyi.common.security.utils.SecurityUtilsExt;
+import com.ruoyi.common.services.ISysSequenceService;
+import com.ruoyi.common.services.constants.SeqType;
 import com.ruoyi.wms.domain.WarehouseInfo;
 import com.ruoyi.wms.mapper.WarehouseInfoDynamicSqlSupport;
 import com.ruoyi.wms.mapper.WarehouseInfoMapper;
 import com.ruoyi.wms.service.IWarehouseInfoService;
+import jakarta.annotation.Resource;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,8 +28,11 @@ import java.util.Optional;
  */
 @Service
 public class WarehouseInfoServiceImpl implements IWarehouseInfoService {
-    @Autowired
+
+    @Resource
     private WarehouseInfoMapper warehouseInfoMapper;
+    @Resource
+    private ISysSequenceService sequenceService;
 
     /**
      * 查询仓库基础信息
@@ -69,7 +73,8 @@ public class WarehouseInfoServiceImpl implements IWarehouseInfoService {
     @Override
     public int insertWarehouseInfo(WarehouseInfo warehouseInfo) {
         if (StringUtils.isBlank(warehouseInfo.getWhsCd())) {
-            warehouseInfo.setWhsCd(SnowFlakeIdGenerator.nextId());
+            String whsCd = sequenceService.getNextSequence(SeqType.WHS_CD);
+            warehouseInfo.setWhsCd(whsCd);
         }
         return warehouseInfoMapper.insertSelective(warehouseInfo);
     }

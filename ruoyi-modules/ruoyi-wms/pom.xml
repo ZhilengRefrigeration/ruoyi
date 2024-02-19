@@ -76,6 +76,12 @@
             <artifactId>ruoyi-common-log</artifactId>
         </dependency>
 
+        <!-- 共通业务 -->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-common-services</artifactId>
+        </dependency>
+
         <!-- Mybatis Generator -->
         <dependency>
             <groupId>org.mybatis.generator</groupId>

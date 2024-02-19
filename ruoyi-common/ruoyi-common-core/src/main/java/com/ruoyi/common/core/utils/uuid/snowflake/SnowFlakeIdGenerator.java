@@ -23,7 +23,7 @@ public class SnowFlakeIdGenerator {
      */
     private static SequenceBuilder defaultBuilder() {
         return SequenceBuilder.builder()
-                .setTwepoch(1657864986440L) //起始时间戳
+                .setTwepoch(1657864986451L) //起始时间戳
                 .setTimestampBits(40L)      //时间戳的bit位数
                 .setDatacenterIdBits(1L)    //数据中心的bit位数
                 .setWorkerIdBits(2L)        //机器id的bit位数

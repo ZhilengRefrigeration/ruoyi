@@ -222,6 +222,13 @@
                 <version>${ruoyi.version}</version>
             </dependency>
 
+            <!-- 共通业务 -->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-common-services</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+
             <!-- 系统接口 -->
             <dependency>
                 <groupId>com.ruoyi</groupId>

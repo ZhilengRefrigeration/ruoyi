@@ -11,7 +11,7 @@
  Target Server Version : 80200 (8.2.0)
  File Encoding         : 65001
 
- Date: 18/02/2024 16:52:33
+ Date: 19/02/2024 13:45:49
 */
 
 SET NAMES utf8mb4;
@@ -43,8 +43,8 @@ CREATE TABLE `WMS_M_GOODS_TYPE_INFO`  (
 -- ----------------------------
 -- Records of WMS_M_GOODS_TYPE_INFO
 -- ----------------------------
-INSERT INTO `WMS_M_GOODS_TYPE_INFO` VALUES (100, '6448700363265', '重金属原材料', NULL, NULL, NULL, NULL, NULL, 0, 0, '1', '2024-02-18 16:37:38', '1', '2024-02-18 16:37:38', NULL);
-INSERT INTO `WMS_M_GOODS_TYPE_INFO` VALUES (100, '6448704094721', '金属成品', 'qwe', NULL, NULL, NULL, NULL, 3, 0, '1', '2024-02-18 16:38:07', '1', '2024-02-18 16:38:19', NULL);
+INSERT INTO `WMS_M_GOODS_TYPE_INFO` VALUES (100, 'GT00001', '原材料', NULL, NULL, NULL, NULL, NULL, 0, 0, '1', '2024-02-19 13:41:24', '1', '2024-02-19 13:41:24', NULL);
+INSERT INTO `WMS_M_GOODS_TYPE_INFO` VALUES (100, 'GT00002', '产品', NULL, NULL, NULL, NULL, NULL, 0, 0, '1', '2024-02-19 13:41:39', '1', '2024-02-19 13:41:39', NULL);
 
 -- ----------------------------
 -- Table structure for WMS_M_UNIT_INFO
@@ -72,8 +72,15 @@ CREATE TABLE `WMS_M_UNIT_INFO`  (
 -- ----------------------------
 -- Records of WMS_M_UNIT_INFO
 -- ----------------------------
-INSERT INTO `WMS_M_UNIT_INFO` VALUES (100, '6314680921729', '个', 'qwe', NULL, NULL, NULL, NULL, 2, 0, '1', '2024-02-06 13:47:11', '1', '2024-02-18 15:05:16', NULL);
-INSERT INTO `WMS_M_UNIT_INFO` VALUES (100, '6314687617154', '把', NULL, NULL, NULL, NULL, NULL, 0, 0, '1', '2024-02-06 13:48:03', '1', '2024-02-06 14:05:37', NULL);
+INSERT INTO `WMS_M_UNIT_INFO` VALUES (100, 'UNIT00001', '个', NULL, NULL, NULL, NULL, NULL, 0, 0, '1', '2024-02-19 13:37:19', '1', '2024-02-19 13:37:19', NULL);
+INSERT INTO `WMS_M_UNIT_INFO` VALUES (100, 'UNIT00002', '包', NULL, NULL, NULL, NULL, NULL, 0, 0, '1', '2024-02-19 13:37:27', '1', '2024-02-19 13:37:27', NULL);
+INSERT INTO `WMS_M_UNIT_INFO` VALUES (100, 'UNIT00003', '托', NULL, NULL, NULL, NULL, NULL, 0, 0, '1', '2024-02-19 13:37:33', '1', '2024-02-19 13:37:33', NULL);
+INSERT INTO `WMS_M_UNIT_INFO` VALUES (100, 'UNIT00004', '台', NULL, NULL, NULL, NULL, NULL, 0, 0, '1', '2024-02-19 13:37:37', '1', '2024-02-19 13:37:37', NULL);
+INSERT INTO `WMS_M_UNIT_INFO` VALUES (100, 'UNIT00005', '辆', NULL, NULL, NULL, NULL, NULL, 0, 0, '1', '2024-02-19 13:37:43', '1', '2024-02-19 13:37:43', NULL);
+INSERT INTO `WMS_M_UNIT_INFO` VALUES (100, 'UNIT00006', 'PCS', NULL, NULL, NULL, NULL, NULL, 0, 0, '1', '2024-02-19 13:37:48', '1', '2024-02-19 13:37:48', NULL);
+INSERT INTO `WMS_M_UNIT_INFO` VALUES (100, 'UNIT00007', '把', NULL, NULL, NULL, NULL, NULL, 0, 0, '1', '2024-02-19 13:38:11', '1', '2024-02-19 13:38:11', NULL);
+INSERT INTO `WMS_M_UNIT_INFO` VALUES (100, 'UNIT00008', '根', NULL, NULL, NULL, NULL, NULL, 0, 0, '1', '2024-02-19 13:38:30', '1', '2024-02-19 13:38:30', NULL);
+INSERT INTO `WMS_M_UNIT_INFO` VALUES (100, 'UNIT00009', '颗', NULL, NULL, NULL, NULL, NULL, 0, 0, '1', '2024-02-19 13:38:45', '1', '2024-02-19 13:38:45', NULL);
 
 -- ----------------------------
 -- Table structure for WMS_M_WAREHOUSE_INFO
@@ -114,7 +121,7 @@ CREATE TABLE `WMS_M_WAREHOUSE_INFO`  (
 -- ----------------------------
 -- Records of WMS_M_WAREHOUSE_INFO
 -- ----------------------------
-INSERT INTO `WMS_M_WAREHOUSE_INFO` VALUES (100, '6448763241089', '仓库1', 'NORMAL', 'WH1', 'Flat 25, 12/F apartment and floor no. Acacia Building', '', NULL, '08524785441', '200001', '', NULL, '张三', 'Singapore', 17500.000000, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '1', '2024-02-18 16:45:49', '1', '2024-02-18 16:45:49', NULL);
+INSERT INTO `WMS_M_WAREHOUSE_INFO` VALUES (100, 'WH001', '仓库1', 'OWN', 'WH1', 'Flat 25, 12/F apartment and floor no. Acacia Building', '', NULL, '08524785441', '200001', '', NULL, '张三', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '1', '2024-02-19 13:42:34', '1', '2024-02-19 13:42:34', NULL);
 
 -- ----------------------------
 -- Table structure for gen_table
@@ -479,7 +486,7 @@ CREATE TABLE `sys_logininfor`  (
   PRIMARY KEY (`info_id`) USING BTREE,
   INDEX `idx_sys_logininfor_s`(`status` ASC) USING BTREE,
   INDEX `idx_sys_logininfor_lt`(`access_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 133 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 134 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_logininfor
@@ -668,7 +675,7 @@ CREATE TABLE `sys_oper_log`  (
   INDEX `idx_sys_oper_log_bt`(`business_type` ASC) USING BTREE,
   INDEX `idx_sys_oper_log_s`(`status` ASC) USING BTREE,
   INDEX `idx_sys_oper_log_ot`(`oper_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 201 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 215 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_oper_log
@@ -841,6 +848,73 @@ INSERT INTO `sys_role_menu` VALUES (2, 1057);
 INSERT INTO `sys_role_menu` VALUES (2, 1058);
 INSERT INTO `sys_role_menu` VALUES (2, 1059);
 INSERT INTO `sys_role_menu` VALUES (2, 1060);
+
+-- ----------------------------
+-- Table structure for sys_seq_result
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_seq_result`;
+CREATE TABLE `sys_seq_result`  (
+  `seq_id` bigint(20) UNSIGNED ZEROFILL NOT NULL DEFAULT 100 COMMENT '序列号ID',
+  `seq_dist_cd` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '序列号识别码',
+  `prefix` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '前缀',
+  `separator1` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '分隔符1',
+  `date_val` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '日期值',
+  `separator2` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '分隔符2',
+  `seq_no` int NOT NULL COMMENT '当前序列号',
+  `remark_1` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注1',
+  `remark_2` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注2',
+  `remark_3` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注3',
+  `remark_4` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注4',
+  `remark_5` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注5',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`seq_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '序列号生成记录表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_seq_result
+-- ----------------------------
+INSERT INTO `sys_seq_result` VALUES (00000006458374766593, 'UNIT', 'UNIT', NULL, NULL, NULL, 9, NULL, NULL, NULL, NULL, NULL, '1', '2024-02-19 13:37:19', '1', '2024-02-19 13:38:44', NULL);
+INSERT INTO `sys_seq_result` VALUES (00000006458406061570, 'GT', 'GT', NULL, NULL, NULL, 2, NULL, NULL, NULL, NULL, NULL, '1', '2024-02-19 13:41:24', '1', '2024-02-19 13:41:39', NULL);
+INSERT INTO `sys_seq_result` VALUES (00000006458414990338, 'WHS', 'WH', NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, '1', '2024-02-19 13:42:34', '1', '2024-02-19 13:42:34', NULL);
+
+-- ----------------------------
+-- Table structure for sys_seq_rule
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_seq_rule`;
+CREATE TABLE `sys_seq_rule`  (
+  `rule_id` bigint NOT NULL DEFAULT 100 COMMENT '规则ID',
+  `seq_dist_cd` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '序列号识别码',
+  `rule_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '规则名称',
+  `prefix` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '前缀',
+  `separator1` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '分隔符1',
+  `date_format` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '日期格式',
+  `min_digits` int NOT NULL COMMENT '序列号数字部分的最小位数，不足补0',
+  `separator2` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '分隔符2',
+  `generator_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '生成器名称(或类全名)，自定义的生成器可忽略前面的规则自行生成',
+  `enable_flag` int NOT NULL DEFAULT 1 COMMENT '是否启用',
+  `remark_1` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注1',
+  `remark_2` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注2',
+  `remark_3` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注3',
+  `remark_4` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注4',
+  `remark_5` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注5',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`rule_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '序列号生成规则表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_seq_rule
+-- ----------------------------
+INSERT INTO `sys_seq_rule` VALUES (1, 'UNIT', '单位代码生成规则', 'UNIT', NULL, NULL, 5, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, '1', '2024-02-19 11:38:35', '1', '2024-02-19 11:38:37', NULL);
+INSERT INTO `sys_seq_rule` VALUES (2, 'GT', '物品类型代码生成规则', 'GT', NULL, NULL, 5, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, '1', '2024-02-19 13:33:21', '1', '2024-02-19 13:33:24', NULL);
+INSERT INTO `sys_seq_rule` VALUES (3, 'WHS', '仓库代码生成规则', 'WH', NULL, NULL, 3, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, '1', '2024-02-19 13:34:28', '1', '2024-02-19 13:34:30', NULL);
 
 -- ----------------------------
 -- Table structure for sys_user

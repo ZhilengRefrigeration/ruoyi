@@ -2,7 +2,6 @@ package com.ruoyi.common.security.utils;
 
 import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.context.SecurityContextHolder;
-import com.ruoyi.common.core.exception.auth.LoginExpiredException;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.security.auth.AuthUtil;
 import com.ruoyi.system.api.model.LoginUser;
@@ -18,10 +17,7 @@ public class SecurityUtilsExt {
      */
     public static Long getUserIdFromRedis() {
         LoginUser loginUser = getLoginUserFromRedis();
-        if (loginUser == null) {
-            throw new LoginExpiredException("用户登录已过期，请重新登录");
-        }
-        return loginUser.getUserid();
+        return loginUser == null ? null : loginUser.getUserid();
     }
 
     public static String getUserIdStr() {
@@ -34,8 +30,7 @@ public class SecurityUtilsExt {
      */
     public static String getUsernameFromRedis() {
         LoginUser loginUser = getLoginUserFromRedis();
-        assert loginUser != null;
-        return loginUser.getUsername();
+        return loginUser == null ? "UNKNOWN" : loginUser.getUsername();
     }
 
     /**
