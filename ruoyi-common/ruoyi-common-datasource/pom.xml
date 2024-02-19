@@ -24,7 +24,6 @@
             <version>${druid.version}</version>
         </dependency>
 
-
         <!-- Dynamic DataSource -->
         <dependency>
             <groupId>com.baomidou</groupId>

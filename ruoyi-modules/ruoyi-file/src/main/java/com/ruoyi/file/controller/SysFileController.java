@@ -18,6 +18,7 @@ import com.ruoyi.system.api.domain.SysFile;
  */
 @RestController
 public class SysFileController {
+
     private static final Logger log = LoggerFactory.getLogger(SysFileController.class);
 
     @Autowired

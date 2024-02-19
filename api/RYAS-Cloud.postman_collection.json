@@ -98,6 +98,34 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "文件上传",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/E:/图库/AGVCar02.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/file/upload",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"file",
+						"upload"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"auth": {

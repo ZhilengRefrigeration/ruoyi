@@ -16,8 +16,8 @@
     </description>
 
     <dependencies>
-    	
-    	<!-- SpringCloud Alibaba Nacos -->
+
+        <!-- SpringCloud Alibaba Nacos -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
@@ -46,7 +46,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-		
+
         <!-- FastDFS -->
         <dependency>
             <groupId>com.github.tobato</groupId>
@@ -65,11 +65,29 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-api-system</artifactId>
         </dependency>
-        
+
+        <!-- Mysql Connector -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+        </dependency>
+
         <!-- RuoYi Common Swagger -->
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-swagger</artifactId>
+        </dependency>
+
+        <!-- RuoYi Common Services -->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-common-services</artifactId>
+        </dependency>
+
+        <!-- RuoYi Common Datasource-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-common-datasource</artifactId>
         </dependency>
         
     </dependencies>
