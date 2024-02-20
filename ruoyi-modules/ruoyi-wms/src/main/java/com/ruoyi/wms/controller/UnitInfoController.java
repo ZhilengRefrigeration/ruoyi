@@ -46,6 +46,10 @@ public class UnitInfoController extends BaseController {
     @PostMapping("/export")
     public void export(HttpServletResponse response, UnitInfo unitInfo) {
         List<UnitInfo> list = unitInfoService.selectUnitInfoList(unitInfo);
+        if (list.isEmpty()) {
+            responseJsonWarn(response, "没有数据可以导出");
+            return;
+        }
         ExcelUtil<UnitInfo> util = new ExcelUtil<>(UnitInfo.class);
         util.exportExcel(response, list, "单位信息管理数据");
     }

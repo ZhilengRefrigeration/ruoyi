@@ -97,125 +97,257 @@
     />
 
     <!-- 添加或修改物品基础信息对话框 -->
-    <el-dialog :title="title" v-model="open" width="500px" append-to-body>
-      <el-form ref="ItemInfoRef" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="物品名称" prop="itemName">
-          <el-input v-model="form.itemName" placeholder="请输入物品名称" />
-        </el-form-item>
-        <el-form-item label="供应商" prop="supplier">
-          <el-input v-model="form.supplier" placeholder="请输入供应商" />
-        </el-form-item>
-        <el-form-item label="筹备提前期" prop="prepLeadTime">
-          <el-input v-model="form.prepLeadTime" placeholder="请输入筹备提前期" />
-        </el-form-item>
-        <el-form-item label="入库提前期" prop="instockLeadTime">
-          <el-input v-model="form.instockLeadTime" placeholder="请输入入库提前期" />
-        </el-form-item>
-        <el-form-item label="放置期" prop="restingPeriod">
-          <el-input v-model="form.restingPeriod" placeholder="请输入放置期" />
-        </el-form-item>
-        <el-form-item label="出库提前期" prop="outstockLeadTime">
-          <el-input v-model="form.outstockLeadTime" placeholder="请输入出库提前期" />
-        </el-form-item>
-        <el-form-item label="规格1" prop="spec1">
-          <el-input v-model="form.spec1" placeholder="请输入规格1" />
-        </el-form-item>
-        <el-form-item label="规格2" prop="spec2">
-          <el-input v-model="form.spec2" placeholder="请输入规格2" />
-        </el-form-item>
-        <el-form-item label="规格3" prop="spec3">
-          <el-input v-model="form.spec3" placeholder="请输入规格3" />
-        </el-form-item>
-        <el-form-item label="规格4" prop="spec4">
-          <el-input v-model="form.spec4" placeholder="请输入规格4" />
-        </el-form-item>
-        <el-form-item label="规格5" prop="spec5">
-          <el-input v-model="form.spec5" placeholder="请输入规格5" />
-        </el-form-item>
-        <el-form-item label="分类1" prop="cls1">
-          <el-input v-model="form.cls1" placeholder="请输入分类1" />
-        </el-form-item>
-        <el-form-item label="分类2" prop="cls2">
-          <el-input v-model="form.cls2" placeholder="请输入分类2" />
-        </el-form-item>
-        <el-form-item label="分类3" prop="cls3">
-          <el-input v-model="form.cls3" placeholder="请输入分类3" />
-        </el-form-item>
-        <el-form-item label="分类4" prop="cls4">
-          <el-input v-model="form.cls4" placeholder="请输入分类4" />
-        </el-form-item>
-        <el-form-item label="分类5" prop="cls5">
-          <el-input v-model="form.cls5" placeholder="请输入分类5" />
-        </el-form-item>
-        <el-form-item label="供货周期" prop="deliveryPeriod">
-          <el-input v-model="form.deliveryPeriod" placeholder="请输入供货周期" />
-        </el-form-item>
-        <el-form-item label="默认库位号" prop="defaultStgBinCd">
-          <el-input v-model="form.defaultStgBinCd" placeholder="请输入默认库位号" />
-        </el-form-item>
-        <el-form-item label="启用标志" prop="enableFlg">
-          <el-input v-model="form.enableFlg" placeholder="请输入启用标志" />
-        </el-form-item>
-        <el-form-item label="安全库存量" prop="safetyStock">
-          <el-input v-model="form.safetyStock" placeholder="请输入安全库存量" />
-        </el-form-item>
-        <el-form-item label="最大库存量" prop="maxInvQty">
-          <el-input v-model="form.maxInvQty" placeholder="请输入最大库存量" />
-        </el-form-item>
-        <el-form-item label="购买阈值" prop="purchLimitQty">
-          <el-input v-model="form.purchLimitQty" placeholder="请输入购买阈值" />
-        </el-form-item>
-        <el-form-item label="物品区分" prop="goodsCls">
-          <el-input v-model="form.goodsCls" placeholder="请输入物品区分" />
-        </el-form-item>
-        <el-form-item label="批号管理区分(0:不管理, 1:管理)" prop="lotNoMgmtCls">
-          <el-input v-model="form.lotNoMgmtCls" placeholder="请输入批号管理区分(0:不管理, 1:管理)" />
-        </el-form-item>
-        <el-form-item label="物品类型代码" prop="itemTypeCd">
-          <el-input v-model="form.itemTypeCd" placeholder="请输入物品类型代码" />
-        </el-form-item>
-        <el-form-item label="标准单位代码" prop="stdUnitCd">
-          <el-input v-model="form.stdUnitCd" placeholder="请输入标准单位代码" />
-        </el-form-item>
-        <el-form-item label="包装单位代码" prop="pkgUnitCd">
-          <el-input v-model="form.pkgUnitCd" placeholder="请输入包装单位代码" />
-        </el-form-item>
-        <el-form-item label="出库申请最小数量" prop="outstockReqMinQty">
-          <el-input v-model="form.outstockReqMinQty" placeholder="请输入出库申请最小数量" />
-        </el-form-item>
-        <el-form-item label="出库单位区分" prop="outstockUnitCls">
-          <el-input v-model="form.outstockUnitCls" placeholder="请输入出库单位区分" />
-        </el-form-item>
-        <el-form-item label="单位净重" prop="netWeightPerUnit">
-          <el-input v-model="form.netWeightPerUnit" placeholder="请输入单位净重" />
-        </el-form-item>
-        <el-form-item label="自身体积(M3)" prop="ownVolM3">
-          <el-input v-model="form.ownVolM3" placeholder="请输入自身体积(M3)" />
-        </el-form-item>
-        <el-form-item label="尺寸(长)" prop="sizeD">
-          <el-input v-model="form.sizeD" placeholder="请输入尺寸(长)" />
-        </el-form-item>
-        <el-form-item label="尺寸(宽)" prop="sizeW">
-          <el-input v-model="form.sizeW" placeholder="请输入尺寸(宽)" />
-        </el-form-item>
-        <el-form-item label="尺寸(高)" prop="sizeH">
-          <el-input v-model="form.sizeH" placeholder="请输入尺寸(高)" />
-        </el-form-item>
-        <el-form-item label="包装要求描述" prop="pkgRqmtDesc">
-          <el-input v-model="form.pkgRqmtDesc" placeholder="请输入包装要求描述" />
-        </el-form-item>
-        <el-form-item label="码放要求描述" prop="stackingRqmtDesc">
-          <el-input v-model="form.stackingRqmtDesc" placeholder="请输入码放要求描述" />
-        </el-form-item>
-        <el-form-item label="储存要求描述" prop="stgRqmtDesc">
-          <el-input v-model="form.stgRqmtDesc" placeholder="请输入储存要求描述" />
-        </el-form-item>
-        <el-form-item label="生产商" prop="manufacturer">
-          <el-input v-model="form.manufacturer" placeholder="请输入生产商" />
-        </el-form-item>
-        <el-form-item label="图片ID" prop="pictureId">
-          <el-input v-model="form.pictureId" placeholder="请输入图片ID" />
-        </el-form-item>
+    <el-dialog :title="title" v-model="open" width="65%" append-to-body>
+      <el-form ref="ItemInfoRef" :model="form" :rules="rules" label-width="100px">
+        <el-tabs v-model="activeName">
+          <!-- ==================== 基础信息输入 ==================== -->
+          <el-tab-pane label="基础信息" name="basicForm">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="物品代码" prop="itemCd">
+                  <el-input v-model="form.itemCd" placeholder="请输入物品代码" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="物品名称" prop="itemName">
+                  <el-input v-model="form.itemName" placeholder="请输入物品名称" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="启用标志" prop="enableFlg">
+                  <el-input v-model="form.enableFlg" placeholder="请输入启用标志" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="物品类型" prop="itemTypeCd">
+                  <el-input v-model="form.itemTypeCd" placeholder="请输入物品类型代码" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="供应商" prop="supplier">
+                  <el-input v-model="form.supplier" placeholder="请输入供应商" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="生产商" prop="manufacturer">
+                  <el-input v-model="form.manufacturer" placeholder="请输入生产商" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="物品区分" prop="goodsCls">
+                  <el-input v-model="form.goodsCls" placeholder="请输入物品区分" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="批号管理" prop="lotNoMgmtCls">
+                  <el-input v-model="form.lotNoMgmtCls" placeholder="请输入批号管理区分" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="标准单位" prop="stdUnitCd">
+                  <el-input v-model="form.stdUnitCd" placeholder="请输入标准单位代码" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="包装单位" prop="pkgUnitCd">
+                  <el-input v-model="form.pkgUnitCd" placeholder="请输入包装单位代码" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="24">
+                <el-form-item label="物品图片" prop="pictureId">
+                  <el-input v-model="form.pictureId" placeholder="此处需要替换为图片上传的控件" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-tab-pane>
+          <!-- ==================== 库存信息输入 ==================== -->
+          <el-tab-pane label="库存信息" name="stockForm">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="默认库位号" prop="defaultStgBinCd">
+                  <el-input v-model="form.defaultStgBinCd" placeholder="请输入默认库位号" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="供货周期" prop="deliveryPeriod">
+                  <el-input v-model="form.deliveryPeriod" placeholder="请输入供货周期" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="安全库存量" prop="safetyStock">
+                  <el-input-number v-model="form.safetyStock" placeholder="请输入安全库存量" :precision="2" :min="0"/>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="最大库存量" prop="maxInvQty">
+                  <el-input-number v-model="form.maxInvQty" placeholder="请输入最大库存量" :precision="2" :min="0" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="购买阈值" prop="purchLimitQty">
+                  <el-input-number v-model="form.purchLimitQty" placeholder="请输入购买阈值" :precision="2" :min="0" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="最小出库数" prop="outstockReqMinQty">
+                  <el-input-number v-model="form.outstockReqMinQty" placeholder="请输入最小出库数" :precision="2" :min="0"/>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="入库提前期" prop="instockLeadTime">
+                  <el-input-number v-model="form.instockLeadTime" placeholder="请输入入库提前期" :precision="1" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="出库提前期" prop="outstockLeadTime">
+                  <el-input-number v-model="form.outstockLeadTime" placeholder="请输入出库提前期" :precision="1" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="筹备提前期" prop="prepLeadTime">
+                  <el-input-number v-model="form.prepLeadTime" placeholder="请输入筹备提前期" :precision="1" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="放置期" prop="restingPeriod">
+                  <el-input-number v-model="form.restingPeriod" placeholder="请输入放置期" :precision="1" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-tab-pane>
+          <!-- ==================== 规格信息输入 ==================== -->
+          <el-tab-pane label="规格信息" name="specForm">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="单位净重" prop="netWeightPerUnit">
+                  <el-input v-model="form.netWeightPerUnit" placeholder="请输入单位净重" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="自身体积(M3)" prop="ownVolM3">
+                  <el-input v-model="form.ownVolM3" placeholder="请输入自身体积(M3)" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="尺寸(长)" prop="sizeD">
+                  <el-input v-model="form.sizeD" placeholder="请输入尺寸(长)" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="尺寸(宽)" prop="sizeW">
+                  <el-input v-model="form.sizeW" placeholder="请输入尺寸(宽)" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="尺寸(高)" prop="sizeH">
+                  <el-input v-model="form.sizeH" placeholder="请输入尺寸(高)" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="包装要求描述" prop="pkgRqmtDesc">
+                  <el-input v-model="form.pkgRqmtDesc" placeholder="请输入包装要求描述" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="码放要求描述" prop="stackingRqmtDesc">
+                  <el-input v-model="form.stackingRqmtDesc" placeholder="请输入码放要求描述" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="储存要求描述" prop="stgRqmtDesc">
+                  <el-input v-model="form.stgRqmtDesc" placeholder="请输入储存要求描述" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-tab-pane>
+          <!-- ==================== 其他信息输入 ==================== -->
+          <el-tab-pane label="其他信息" name="otherForm">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="规格1" prop="spec1">
+                  <el-input v-model="form.spec1" placeholder="请输入规格1" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="规格2" prop="spec2">
+                  <el-input v-model="form.spec2" placeholder="请输入规格2" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="规格3" prop="spec3">
+                  <el-input v-model="form.spec3" placeholder="请输入规格3" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="规格4" prop="spec4">
+                  <el-input v-model="form.spec4" placeholder="请输入规格4" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="规格5" prop="spec5">
+                  <el-input v-model="form.spec5" placeholder="请输入规格5" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="分类1" prop="cls1">
+                  <el-input v-model="form.cls1" placeholder="请输入分类1" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="分类2" prop="cls2">
+                  <el-input v-model="form.cls2" placeholder="请输入分类2" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="分类3" prop="cls3">
+                  <el-input v-model="form.cls3" placeholder="请输入分类3" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="分类4" prop="cls4">
+                  <el-input v-model="form.cls4" placeholder="请输入分类4" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="分类5" prop="cls5">
+                  <el-input v-model="form.cls5" placeholder="请输入分类5" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-tab-pane>
+        </el-tabs>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -241,6 +373,8 @@ const single = ref(true);
 const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
+
+const activeName = ref('basicForm');
 
 const data = reactive({
   form: {},
@@ -288,10 +422,10 @@ function reset() {
     itemCd: null,
     itemName: null,
     supplier: null,
-    prepLeadTime: null,
-    instockLeadTime: null,
-    restingPeriod: null,
-    outstockLeadTime: null,
+    prepLeadTime: 0,
+    instockLeadTime: 0,
+    restingPeriod: 0,
+    outstockLeadTime: 0,
     spec1: null,
     spec2: null,
     spec3: null,
@@ -317,15 +451,15 @@ function reset() {
     deliveryPeriod: null,
     defaultStgBinCd: null,
     enableFlg: null,
-    safetyStock: null,
-    maxInvQty: null,
-    purchLimitQty: null,
+    safetyStock: 0,
+    maxInvQty: 0,
+    purchLimitQty: 0,
     goodsCls: null,
     lotNoMgmtCls: null,
     itemTypeCd: null,
     stdUnitCd: null,
     pkgUnitCd: null,
-    outstockReqMinQty: null,
+    outstockReqMinQty: 0,
     outstockUnitCls: null,
     netWeightPerUnit: null,
     ownVolM3: null,

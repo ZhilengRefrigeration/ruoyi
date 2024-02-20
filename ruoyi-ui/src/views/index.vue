@@ -12,7 +12,7 @@
         <ul>
           <li>Java 8 升级到 Java 21</li>
           <li>SpringBoot 2.7 升级到 SpringBoot 3.1</li>
-          <li>SpringCloud 2020.x 升级到 SpringCloud 2023.0.5</li>
+          <li>SpringCloud 2021.0.8 升级到 SpringCloud 2023.0.5</li>
         </ul>
       </el-col>
 

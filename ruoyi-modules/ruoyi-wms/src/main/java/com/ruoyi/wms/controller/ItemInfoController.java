@@ -46,6 +46,10 @@ public class ItemInfoController extends BaseController {
     @PostMapping("/export")
     public void export(HttpServletResponse response, ItemInfo itemInfo) {
         List<ItemInfo> list = itemInfoService.selectItemInfoList(itemInfo);
+        if (list.isEmpty()) {
+            responseJsonWarn(response, "没有数据可以导出");
+            return;
+        }
         ExcelUtil<ItemInfo> util = new ExcelUtil<>(ItemInfo.class);
         util.exportExcel(response, list, "物品基础信息数据");
     }

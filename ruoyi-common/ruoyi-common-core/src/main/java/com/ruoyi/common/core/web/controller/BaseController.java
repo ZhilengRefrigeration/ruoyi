@@ -1,17 +1,20 @@
 package com.ruoyi.common.core.web.controller;
 
+import com.alibaba.fastjson2.JSON;
 import com.github.pagehelper.PageInfo;
 import com.ruoyi.common.core.constant.HttpStatus;
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.common.core.utils.PageUtils;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
 import java.beans.PropertyEditorSupport;
+import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
 
@@ -124,5 +127,27 @@ public class BaseController {
      */
     protected AjaxResult toAjax(boolean result) {
         return result ? success() : error();
+    }
+
+    public void responseJson(HttpServletResponse response, Object obj) {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("utf-8");
+        try (PrintWriter writer = response.getWriter()) {
+            writer.write(JSON.toJSONString(obj));
+        } catch (Exception e) {
+            logger.error("Response error", e);
+        }
+    }
+
+    public void responseJsonSuccess(HttpServletResponse response, Object obj) {
+        responseJson(response, AjaxResult.success(obj));
+    }
+
+    public void responseJsonError(HttpServletResponse response, String message) {
+        responseJson(response, AjaxResult.error(message));
+    }
+
+    public void responseJsonWarn(HttpServletResponse response, String message) {
+        responseJson(response, AjaxResult.warn(message));
     }
 }
