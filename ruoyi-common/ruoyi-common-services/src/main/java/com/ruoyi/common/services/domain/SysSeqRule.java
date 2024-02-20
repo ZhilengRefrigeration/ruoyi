@@ -1,5 +1,6 @@
 package com.ruoyi.common.services.domain;
 
+import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 
 import java.io.Serial;
@@ -25,46 +26,55 @@ public class SysSeqRule extends BaseEntity implements Serializable {
     /**
      *   序列号识别码
      */
+    @Excel(name = "序列号识别码")
     private String seqDistCd;
 
     /**
      *   规则名称
      */
+    @Excel(name = "规则名称")
     private String ruleName;
 
     /**
      *   前缀
      */
+    @Excel(name = "前缀")
     private String prefix;
 
     /**
      *   分隔符1
      */
+    @Excel(name = "分隔符1")
     private String separator1;
 
     /**
      *   日期格式
      */
+    @Excel(name = "日期格式")
     private String dateFormat;
 
     /**
      *   序列号数字部分的最小位数，不足补0
      */
+    @Excel(name = "最小位数")
     private Integer minDigits;
 
     /**
      *   分隔符2
      */
+    @Excel(name = "分隔符2")
     private String separator2;
 
     /**
      *   生成器名称(或类全名)，自定义的生成器可忽略前面的规则自行生成
      */
+    @Excel(name = "生成器名")
     private String generatorName;
 
     /**
      *   是否启用
      */
+    @Excel(name = "是否启用")
     private Integer enableFlag;
 
     /**
@@ -94,6 +104,10 @@ public class SysSeqRule extends BaseEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
+
+    public boolean isEnabled() {
+        return enableFlag != null && enableFlag == 1;
+    }
 
     public Long getRuleId() {
         return ruleId;

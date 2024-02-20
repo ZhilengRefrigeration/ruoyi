@@ -1,7 +1,7 @@
-package com.ruoyi.common.services.mapper;
+package com.ruoyi.file.mapper;
 
 import com.ruoyi.common.security.utils.SecurityUtilsExt;
-import com.ruoyi.common.services.domain.SysFile;
+import com.ruoyi.file.domain.SysFile;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.mybatis.dynamic.sql.BasicColumn;
@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import static com.ruoyi.common.services.mapper.SysFileDynamicSqlSupport.*;
+import static com.ruoyi.file.mapper.SysFileDynamicSqlSupport.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 
 @Mapper

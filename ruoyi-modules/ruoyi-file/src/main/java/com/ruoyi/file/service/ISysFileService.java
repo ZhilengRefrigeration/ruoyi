@@ -1,5 +1,6 @@
 package com.ruoyi.file.service;
 
+import com.ruoyi.file.domain.FileSaveResult;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -12,8 +13,8 @@ public interface ISysFileService {
      * 文件上传接口
      *
      * @param file 上传的文件
-     * @return 访问地址
+     * @return 保存结果
      */
-    String uploadFile(MultipartFile file) throws Exception;
+    FileSaveResult uploadFile(MultipartFile file) throws Exception;
 
 }

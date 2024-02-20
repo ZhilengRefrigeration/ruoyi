@@ -1,8 +1,9 @@
 package com.ruoyi.file.service;
 
 import com.alibaba.nacos.common.utils.IoUtils;
-import com.ruoyi.file.config.MinioConfig;
+import com.ruoyi.file.domain.FileSaveResult;
 import com.ruoyi.file.utils.FileUploadUtils;
+import com.ruoyi.file.config.MinioConfig;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.InputStream;
 
 /**
- * TODO 未完成，还需要保存文件记录
+ * TODO 未完成，还需要改造：保存文件记录
  * Minio 文件存储
  *
  * @author ruoyi
@@ -32,7 +33,7 @@ public class MinioSysFileServiceImpl implements ISysFileService {
      * @return 访问地址
      */
     @Override
-    public String uploadFile(MultipartFile file) throws Exception {
+    public FileSaveResult uploadFile(MultipartFile file) throws Exception {
         String fileName = FileUploadUtils.extractFilename(file, null);
         InputStream inputStream = file.getInputStream();
         PutObjectArgs args = PutObjectArgs.builder()
@@ -43,6 +44,7 @@ public class MinioSysFileServiceImpl implements ISysFileService {
                 .build();
         client.putObject(args);
         IoUtils.closeQuietly(inputStream);
-        return minioConfig.getUrl() + "/" + minioConfig.getBucketName() + "/" + fileName;
+        String requestUrl = minioConfig.getUrl() + "/" + minioConfig.getBucketName() + "/" + fileName;
+        return FileSaveResult.success(requestUrl, null);
     }
 }

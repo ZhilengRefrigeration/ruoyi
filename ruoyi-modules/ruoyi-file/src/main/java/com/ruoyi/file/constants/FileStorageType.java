@@ -1,4 +1,4 @@
-package com.ruoyi.common.services.constants;
+package com.ruoyi.file.constants;
 
 import com.ruoyi.common.core.constant.IEnum;
 import lombok.Getter;

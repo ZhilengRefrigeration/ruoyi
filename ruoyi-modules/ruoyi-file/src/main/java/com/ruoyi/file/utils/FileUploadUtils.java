@@ -9,6 +9,7 @@ import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.utils.file.FileTypeUtils;
 import com.ruoyi.common.core.utils.file.MimeTypeUtils;
 import com.ruoyi.common.core.utils.uuid.Seq;
+import com.ruoyi.file.domain.FileUploadResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;

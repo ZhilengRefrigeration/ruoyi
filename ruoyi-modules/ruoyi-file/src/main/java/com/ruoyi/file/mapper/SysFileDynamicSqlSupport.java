@@ -1,4 +1,4 @@
-package com.ruoyi.common.services.mapper;
+package com.ruoyi.file.mapper;
 
 import org.mybatis.dynamic.sql.AliasableSqlTable;
 import org.mybatis.dynamic.sql.SqlColumn;

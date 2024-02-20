@@ -1,5 +1,6 @@
-package com.ruoyi.common.services.domain;
+package com.ruoyi.file.domain;
 
+import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 
 import java.io.Serial;
@@ -18,43 +19,51 @@ import java.io.Serializable;
  */
 public class SysFile extends BaseEntity implements Serializable {
     /**
-     *   文件ID
+     * 文件ID
      */
+    @Excel(name = "文件ID")
     private String fileId;
 
     /**
-     *   保存的文件名称
+     * 保存的文件名称
      */
+    @Excel(name = "保存文件名")
     private String savedName;
 
     /**
-     *   原始文件名称
+     * 原始文件名称
      */
+    @Excel(name = "原始文件名")
     private String originalName;
 
     /**
-     *   文件路径
+     * 文件路径
      */
+    @Excel(name = "文件路径")
     private String filePath;
 
     /**
-     *   文件后缀
+     * 文件后缀
      */
+    @Excel(name = "文件后缀")
     private String extension;
 
     /**
-     *   存储方式
+     * 存储方式
      */
+    @Excel(name = "存储方式")
     private String storageType;
 
     /**
-     *   获取文件的URL
+     * 获取文件的URL
      */
+    @Excel(name = "获取文件的URL")
     private String requestUrl;
 
     /**
-     *   文件大小(Byte)
+     * 文件大小(Byte)
      */
+    @Excel(name = "文件大小(Byte)")
     private Long fileSize;
 
     @Serial

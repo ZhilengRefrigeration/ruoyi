@@ -1,9 +1,10 @@
 package com.ruoyi.file.service;
 
-import com.ruoyi.common.services.constants.FileStorageType;
-import com.ruoyi.common.services.domain.SysFile;
-import com.ruoyi.common.services.mapper.SysFileMapper;
-import com.ruoyi.file.utils.FileUploadResult;
+import com.ruoyi.file.constants.FileStorageType;
+import com.ruoyi.file.domain.FileSaveResult;
+import com.ruoyi.file.domain.FileUploadResult;
+import com.ruoyi.file.domain.SysFile;
+import com.ruoyi.file.mapper.SysFileMapper;
 import com.ruoyi.file.utils.FileUploadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,18 +50,19 @@ public class LocalSysFileServiceImpl implements ISysFileService {
      */
     @Transactional
     @Override
-    public String uploadFile(MultipartFile file) throws Exception {
+    public FileSaveResult uploadFile(MultipartFile file) throws Exception {
         // 保存文件到本地
         FileUploadResult uploadResult = FileUploadUtils.upload(localFilePath, file);
         String savedPathFileName = uploadResult.getSavedPathFileName();
-        String url = domain + localFilePrefix + savedPathFileName;
+        String requestUrl = domain + localFilePrefix + savedPathFileName;
         // 保存文件记录
-        saveFileRecord(url, uploadResult);
+        SysFile record = getSysFile(uploadResult, requestUrl);
+        sysFileMapper.insertSelective(record);
         // 返回访问地址
-        return url;
+        return FileSaveResult.success(requestUrl, uploadResult);
     }
 
-    private void saveFileRecord(String requestUrl, FileUploadResult uploadResult) {
+    private SysFile getSysFile(FileUploadResult uploadResult, String requestUrl) {
         SysFile record = new SysFile();
         record.setFileId(uploadResult.getFileId()); // 文件ID
         record.setSavedName(uploadResult.getSavedFileName()); // 保存的文件名
@@ -70,6 +72,6 @@ public class LocalSysFileServiceImpl implements ISysFileService {
         record.setStorageType(FileStorageType.LOCAL.name()); // 存储类型：本地文件存储
         record.setRequestUrl(requestUrl); // 获取文件的URL
         record.setFileSize(uploadResult.getFileSize()); // 文件大小(Byte)
-        sysFileMapper.insertSelective(record);
+        return record;
     }
 }

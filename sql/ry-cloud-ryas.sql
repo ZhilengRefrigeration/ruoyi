@@ -11,7 +11,7 @@
  Target Server Version : 80200 (8.2.0)
  File Encoding         : 65001
 
- Date: 19/02/2024 15:55:14
+ Date: 20/02/2024 11:16:45
 */
 
 SET NAMES utf8mb4;
@@ -151,7 +151,7 @@ CREATE TABLE `gen_table`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`table_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '代码生成业务表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '代码生成业务表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of gen_table
@@ -159,6 +159,8 @@ CREATE TABLE `gen_table`  (
 INSERT INTO `gen_table` VALUES (9, 'WMS_M_UNIT_INFO', '单位基础信息表', NULL, NULL, 'UnitInfo', 'crud', 'element-plus', 'mybatis-dynamic', 'com.ruoyi.wms', 'wms', 'UnitInfo', '单位信息管理', 'ryas', '0', '/', '{\"parentMenuId\":\"2000\"}', 'admin', '2024-02-18 07:22:15', '', '2024-02-18 08:07:26', NULL);
 INSERT INTO `gen_table` VALUES (10, 'WMS_M_GOODS_TYPE_INFO', '物品类型表', NULL, NULL, 'GoodsType', 'crud', 'element-plus', 'mybatis-dynamic', 'com.ruoyi.wms', 'wms', 'GoodsType', '物品类型管理', 'ryas', '0', '/', '{\"parentMenuId\":\"2000\"}', 'admin', '2024-02-18 07:27:46', '', '2024-02-18 08:17:23', NULL);
 INSERT INTO `gen_table` VALUES (12, 'WMS_M_WAREHOUSE_INFO', '仓库基础信息表', NULL, NULL, 'WarehouseInfo', 'crud', 'element-plus', 'mybatis-dynamic', 'com.ruoyi.wms', 'wms', 'WarehouseInfo', '仓库基础信息', 'ryas', '0', '/', '{\"parentMenuId\":2000}', 'admin', '2024-02-18 08:02:20', '', '2024-02-18 08:07:04', NULL);
+INSERT INTO `gen_table` VALUES (13, 'sys_file', '文件存储记录表', NULL, NULL, 'SysFile', 'crud', 'element-plus', 'mybatis-dynamic', 'com.ruoyi.file', 'file', 'FileRecord', '文件存储记录', 'ryas', '0', '/', '{\"parentMenuId\":\"1\"}', 'admin', '2024-02-19 10:01:22', '', '2024-02-19 10:08:14', NULL);
+INSERT INTO `gen_table` VALUES (14, 'sys_seq_rule', '序列号生成规则表', NULL, NULL, 'SysSeqRule', 'crud', 'element-plus', 'mybatis-dynamic', 'com.ruoyi.system', 'system', 'SeqRule', '序列号生成规则', 'ryas', '0', '/', '{\"parentMenuId\":1}', 'admin', '2024-02-19 10:01:22', '', '2024-02-20 02:07:26', NULL);
 
 -- ----------------------------
 -- Table structure for gen_table_column
@@ -188,7 +190,7 @@ CREATE TABLE `gen_table_column`  (
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '更新者',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`column_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 226 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '代码生成业务表字段' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 259 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '代码生成业务表字段' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of gen_table_column
@@ -251,28 +253,39 @@ INSERT INTO `gen_table_column` VALUES (222, 12, 'create_time', '创建时间', '
 INSERT INTO `gen_table_column` VALUES (223, 12, 'update_by', '更新者', 'varchar(64)', 'String', 'updateBy', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 26, 'admin', '2024-02-18 08:02:21', '', '2024-02-18 08:07:05');
 INSERT INTO `gen_table_column` VALUES (224, 12, 'update_time', '更新时间', 'datetime', 'Date', 'updateTime', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'datetime', '', 27, 'admin', '2024-02-18 08:02:21', '', '2024-02-18 08:07:05');
 INSERT INTO `gen_table_column` VALUES (225, 12, 'remark', '备注', 'varchar(500)', 'String', 'remark', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'textarea', '', 28, 'admin', '2024-02-18 08:02:21', '', '2024-02-18 08:07:05');
-
--- ----------------------------
--- Table structure for sys_common
--- ----------------------------
-DROP TABLE IF EXISTS `sys_common`;
-CREATE TABLE `sys_common`  (
-  `config_id` int NOT NULL AUTO_INCREMENT COMMENT '参数主键',
-  `config_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '参数名称',
-  `config_key` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '参数键名',
-  `config_value` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '参数键值',
-  `config_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT 'N' COMMENT '系统内置（Y是 N否）',
-  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '创建者',
-  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '更新者',
-  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`config_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '参数配置表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of sys_common
--- ----------------------------
+INSERT INTO `gen_table_column` VALUES (226, 13, 'file_id', '文件ID', 'varchar(50)', 'String', 'fileId', '1', '0', NULL, '0', NULL, '1', '1', 'EQ', 'input', '', 1, 'admin', '2024-02-19 10:01:22', '', '2024-02-19 10:08:14');
+INSERT INTO `gen_table_column` VALUES (227, 13, 'saved_name', '保存的文件名称', 'varchar(255)', 'String', 'savedName', '0', '0', '0', '0', '0', '1', '1', 'LIKE', 'input', '', 2, 'admin', '2024-02-19 10:01:22', '', '2024-02-19 10:08:14');
+INSERT INTO `gen_table_column` VALUES (228, 13, 'original_name', '原始文件名称', 'varchar(255)', 'String', 'originalName', '0', '0', '0', '0', '0', '1', '1', 'LIKE', 'input', '', 3, 'admin', '2024-02-19 10:01:22', '', '2024-02-19 10:08:14');
+INSERT INTO `gen_table_column` VALUES (229, 13, 'file_path', '文件路径', 'varchar(500)', 'String', 'filePath', '0', '0', '0', '0', '0', '1', '0', 'EQ', 'textarea', '', 4, 'admin', '2024-02-19 10:01:22', '', '2024-02-19 10:08:14');
+INSERT INTO `gen_table_column` VALUES (230, 13, 'extension', '文件后缀', 'varchar(50)', 'String', 'extension', '0', '0', '0', '0', '0', '1', '0', 'EQ', 'input', '', 5, 'admin', '2024-02-19 10:01:22', '', '2024-02-19 10:08:15');
+INSERT INTO `gen_table_column` VALUES (231, 13, 'storage_type', '存储方式', 'varchar(50)', 'String', 'storageType', '0', '0', '0', '0', '0', '1', '0', 'EQ', 'select', '', 6, 'admin', '2024-02-19 10:01:22', '', '2024-02-19 10:08:15');
+INSERT INTO `gen_table_column` VALUES (232, 13, 'request_url', '获取文件的URL', 'varchar(255)', 'String', 'requestUrl', '0', '0', '0', '0', '0', '1', '0', 'EQ', 'input', '', 7, 'admin', '2024-02-19 10:01:22', '', '2024-02-19 10:08:15');
+INSERT INTO `gen_table_column` VALUES (233, 13, 'file_size', '文件大小(Byte)', 'bigint', 'Long', 'fileSize', '0', '0', '0', '0', '0', '1', '0', 'EQ', 'input', '', 8, 'admin', '2024-02-19 10:01:22', '', '2024-02-19 10:08:15');
+INSERT INTO `gen_table_column` VALUES (234, 13, 'create_by', '创建者', 'varchar(64)', 'String', 'createBy', '0', '0', NULL, NULL, NULL, '1', NULL, 'EQ', 'input', '', 9, 'admin', '2024-02-19 10:01:22', '', '2024-02-19 10:08:15');
+INSERT INTO `gen_table_column` VALUES (235, 13, 'create_time', '创建时间', 'datetime', 'Date', 'createTime', '0', '0', NULL, NULL, NULL, '1', NULL, 'EQ', 'datetime', '', 10, 'admin', '2024-02-19 10:01:22', '', '2024-02-19 10:08:15');
+INSERT INTO `gen_table_column` VALUES (236, 13, 'update_by', '更新者', 'varchar(64)', 'String', 'updateBy', '0', '0', NULL, NULL, NULL, '1', NULL, 'EQ', 'input', '', 11, 'admin', '2024-02-19 10:01:22', '', '2024-02-19 10:08:15');
+INSERT INTO `gen_table_column` VALUES (237, 13, 'update_time', '更新时间', 'datetime', 'Date', 'updateTime', '0', '0', NULL, NULL, NULL, '1', NULL, 'EQ', 'datetime', '', 12, 'admin', '2024-02-19 10:01:22', '', '2024-02-19 10:08:15');
+INSERT INTO `gen_table_column` VALUES (238, 13, 'remark', '备注', 'varchar(500)', 'String', 'remark', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'textarea', '', 13, 'admin', '2024-02-19 10:01:22', '', '2024-02-19 10:08:15');
+INSERT INTO `gen_table_column` VALUES (239, 14, 'rule_id', '规则ID', 'bigint', 'Long', 'ruleId', '1', '0', NULL, '0', NULL, NULL, NULL, 'EQ', 'input', '', 1, 'admin', '2024-02-19 10:01:22', '', '2024-02-20 02:07:26');
+INSERT INTO `gen_table_column` VALUES (240, 14, 'seq_dist_cd', '序列号识别码', 'varchar(30)', 'String', 'seqDistCd', '0', '0', '1', '1', '1', '1', '1', 'EQ', 'input', '', 2, 'admin', '2024-02-19 10:01:22', '', '2024-02-20 02:07:26');
+INSERT INTO `gen_table_column` VALUES (241, 14, 'rule_name', '规则名称', 'varchar(50)', 'String', 'ruleName', '0', '0', '1', '1', '1', '1', '1', 'LIKE', 'input', '', 3, 'admin', '2024-02-19 10:01:22', '', '2024-02-20 02:07:26');
+INSERT INTO `gen_table_column` VALUES (242, 14, 'prefix', '前缀', 'varchar(50)', 'String', 'prefix', '0', '0', '1', '1', '1', '1', '0', 'EQ', 'input', '', 4, 'admin', '2024-02-19 10:01:22', '', '2024-02-20 02:07:26');
+INSERT INTO `gen_table_column` VALUES (243, 14, 'separator1', '分隔符1', 'varchar(50)', 'String', 'separator1', '0', '0', NULL, '1', '1', '1', '0', 'EQ', 'input', '', 5, 'admin', '2024-02-19 10:01:22', '', '2024-02-20 02:07:26');
+INSERT INTO `gen_table_column` VALUES (244, 14, 'date_format', '日期格式', 'varchar(30)', 'String', 'dateFormat', '0', '0', NULL, '1', '1', '1', '0', 'EQ', 'input', '', 6, 'admin', '2024-02-19 10:01:22', '', '2024-02-20 02:07:26');
+INSERT INTO `gen_table_column` VALUES (245, 14, 'min_digits', '序列号数字部分的最小位数，不足补0', 'int', 'Long', 'minDigits', '0', '0', '1', '1', '1', '1', '0', 'EQ', 'input', '', 7, 'admin', '2024-02-19 10:01:22', '', '2024-02-20 02:07:26');
+INSERT INTO `gen_table_column` VALUES (246, 14, 'separator2', '分隔符2', 'varchar(50)', 'String', 'separator2', '0', '0', NULL, '1', '1', '1', '0', 'EQ', 'input', '', 8, 'admin', '2024-02-19 10:01:22', '', '2024-02-20 02:07:26');
+INSERT INTO `gen_table_column` VALUES (247, 14, 'generator_name', '生成器名称(或类全名)，自定义的生成器可忽略前面的规则自行生成', 'varchar(255)', 'String', 'generatorName', '0', '0', NULL, '1', '1', '1', '0', 'LIKE', 'input', '', 9, 'admin', '2024-02-19 10:01:22', '', '2024-02-20 02:07:26');
+INSERT INTO `gen_table_column` VALUES (248, 14, 'enable_flag', '是否启用', 'int', 'Long', 'enableFlag', '0', '0', '1', '1', '1', '1', '0', 'EQ', 'input', '', 10, 'admin', '2024-02-19 10:01:22', '', '2024-02-20 02:07:26');
+INSERT INTO `gen_table_column` VALUES (249, 14, 'remark_1', '备注1', 'varchar(100)', 'String', 'remark1', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 11, 'admin', '2024-02-19 10:01:22', '', '2024-02-20 02:07:26');
+INSERT INTO `gen_table_column` VALUES (250, 14, 'remark_2', '备注2', 'varchar(100)', 'String', 'remark2', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 12, 'admin', '2024-02-19 10:01:22', '', '2024-02-20 02:07:26');
+INSERT INTO `gen_table_column` VALUES (251, 14, 'remark_3', '备注3', 'varchar(100)', 'String', 'remark3', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 13, 'admin', '2024-02-19 10:01:22', '', '2024-02-20 02:07:26');
+INSERT INTO `gen_table_column` VALUES (252, 14, 'remark_4', '备注4', 'varchar(100)', 'String', 'remark4', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 14, 'admin', '2024-02-19 10:01:22', '', '2024-02-20 02:07:26');
+INSERT INTO `gen_table_column` VALUES (253, 14, 'remark_5', '备注5', 'varchar(100)', 'String', 'remark5', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 15, 'admin', '2024-02-19 10:01:23', '', '2024-02-20 02:07:26');
+INSERT INTO `gen_table_column` VALUES (254, 14, 'create_by', '创建者', 'varchar(64)', 'String', 'createBy', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 16, 'admin', '2024-02-19 10:01:23', '', '2024-02-20 02:07:27');
+INSERT INTO `gen_table_column` VALUES (255, 14, 'create_time', '创建时间', 'datetime', 'Date', 'createTime', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'datetime', '', 17, 'admin', '2024-02-19 10:01:23', '', '2024-02-20 02:07:27');
+INSERT INTO `gen_table_column` VALUES (256, 14, 'update_by', '更新者', 'varchar(64)', 'String', 'updateBy', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 18, 'admin', '2024-02-19 10:01:23', '', '2024-02-20 02:07:27');
+INSERT INTO `gen_table_column` VALUES (257, 14, 'update_time', '更新时间', 'datetime', 'Date', 'updateTime', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'datetime', '', 19, 'admin', '2024-02-19 10:01:23', '', '2024-02-20 02:07:27');
+INSERT INTO `gen_table_column` VALUES (258, 14, 'remark', '备注', 'varchar(500)', 'String', 'remark', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'textarea', '', 20, 'admin', '2024-02-19 10:01:23', '', '2024-02-20 02:07:27');
 
 -- ----------------------------
 -- Table structure for sys_config
@@ -448,7 +461,7 @@ CREATE TABLE `sys_file`  (
 -- ----------------------------
 -- Records of sys_file
 -- ----------------------------
-INSERT INTO `sys_file` VALUES ('20240219155008A001', '20240219155008A001.png', 'AGVCar02.png', 'D:\\temp\\ruoyi\\uploadPath\\2024\\02\\19\\20240219155008A001.png', 'png', 'LOCAL', 'http://127.0.0.1:9300/statics/2024/02/19/20240219155008A001.png', 330857, '1', '2024-02-19 15:50:17', '1', '2024-02-19 15:50:17', '示例数据');
+INSERT INTO `sys_file` VALUES ('20240219155008A001', '20240219155008A001.png', 'AGVCar02.png', 'D:\\temp\\RYAS\\uploadPath\\2024\\02\\19\\20240219155008A001.png', 'png', 'LOCAL', 'http://127.0.0.1:9300/statics/2024/02/19/20240219155008A001.png', 330857, '1', '2024-02-19 15:50:17', '1', '2024-02-19 15:50:17', '示例数据');
 
 -- ----------------------------
 -- Table structure for sys_job
@@ -512,7 +525,7 @@ CREATE TABLE `sys_logininfor`  (
   PRIMARY KEY (`info_id`) USING BTREE,
   INDEX `idx_sys_logininfor_s`(`status` ASC) USING BTREE,
   INDEX `idx_sys_logininfor_lt`(`access_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 139 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 148 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_logininfor
@@ -543,7 +556,7 @@ CREATE TABLE `sys_menu`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2025 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2034 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -650,6 +663,15 @@ INSERT INTO `sys_menu` VALUES (2021, '仓库基础信息新增', 2019, 2, '#', '
 INSERT INTO `sys_menu` VALUES (2022, '仓库基础信息修改', 2019, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'wms:WarehouseInfo:edit', '#', 'admin', '2024-02-18 08:34:10', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2023, '仓库基础信息删除', 2019, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'wms:WarehouseInfo:remove', '#', 'admin', '2024-02-18 08:34:10', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2024, '仓库基础信息导出', 2019, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'wms:WarehouseInfo:export', '#', 'admin', '2024-02-18 08:34:10', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2025, '文件存储记录', 1, 10, 'FileRecord', 'file/FileRecord/index', NULL, 1, 0, 'C', '0', '0', 'file:FileRecord:list', 'documentation', 'admin', '2024-02-19 10:19:23', '1', '2024-02-19 10:25:26', '文件存储记录菜单');
+INSERT INTO `sys_menu` VALUES (2026, '文件存储记录查询', 2025, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'file:FileRecord:query', '#', 'admin', '2024-02-19 10:19:23', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2027, '文件存储记录导出', 2025, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'file:FileRecord:export', '#', 'admin', '2024-02-19 10:19:23', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2028, '序列号生成规则', 1, 11, 'SeqRule', 'system/SeqRule/index', NULL, 1, 0, 'C', '0', '0', 'system:SeqRule:list', 'number', 'admin', '2024-02-20 02:05:15', '1', '2024-02-20 02:08:58', '序列号生成规则菜单');
+INSERT INTO `sys_menu` VALUES (2029, '序列号生成规则查询', 2028, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:SeqRule:query', '#', 'admin', '2024-02-20 02:05:15', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2030, '序列号生成规则新增', 2028, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:SeqRule:add', '#', 'admin', '2024-02-20 02:05:15', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2031, '序列号生成规则修改', 2028, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:SeqRule:edit', '#', 'admin', '2024-02-20 02:05:15', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2032, '序列号生成规则删除', 2028, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:SeqRule:remove', '#', 'admin', '2024-02-20 02:05:15', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2033, '序列号生成规则导出', 2028, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:SeqRule:export', '#', 'admin', '2024-02-20 02:05:15', '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_notice
@@ -701,7 +723,7 @@ CREATE TABLE `sys_oper_log`  (
   INDEX `idx_sys_oper_log_bt`(`business_type` ASC) USING BTREE,
   INDEX `idx_sys_oper_log_s`(`status` ASC) USING BTREE,
   INDEX `idx_sys_oper_log_ot`(`oper_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 215 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 229 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_oper_log
@@ -880,7 +902,7 @@ INSERT INTO `sys_role_menu` VALUES (2, 1060);
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_seq_result`;
 CREATE TABLE `sys_seq_result`  (
-  `seq_id` bigint(20) UNSIGNED ZEROFILL NOT NULL DEFAULT 100 COMMENT '序列号ID',
+  `seq_id` bigint(20) UNSIGNED ZEROFILL NOT NULL COMMENT '序列号ID',
   `seq_dist_cd` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '序列号识别码',
   `prefix` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '前缀',
   `separator1` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '分隔符1',
@@ -912,7 +934,7 @@ INSERT INTO `sys_seq_result` VALUES (00000006458414990338, 'WHS', 'WH', NULL, NU
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_seq_rule`;
 CREATE TABLE `sys_seq_rule`  (
-  `rule_id` bigint NOT NULL DEFAULT 100 COMMENT '规则ID',
+  `rule_id` bigint NOT NULL COMMENT '规则ID',
   `seq_dist_cd` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '序列号识别码',
   `rule_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '规则名称',
   `prefix` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '前缀',
@@ -938,7 +960,7 @@ CREATE TABLE `sys_seq_rule`  (
 -- ----------------------------
 -- Records of sys_seq_rule
 -- ----------------------------
-INSERT INTO `sys_seq_rule` VALUES (1, 'UNIT', '单位代码生成规则', 'UNIT', NULL, NULL, 5, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, '1', '2024-02-19 11:38:35', '1', '2024-02-19 11:38:37', NULL);
+INSERT INTO `sys_seq_rule` VALUES (1, 'UNIT', '单位代码生成规则', 'UNIT', NULL, NULL, 5, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, '1', '2024-02-19 11:38:35', '1', '2024-02-20 10:48:55', NULL);
 INSERT INTO `sys_seq_rule` VALUES (2, 'GT', '物品类型代码生成规则', 'GT', NULL, NULL, 5, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, '1', '2024-02-19 13:33:21', '1', '2024-02-19 13:33:24', NULL);
 INSERT INTO `sys_seq_rule` VALUES (3, 'WHS', '仓库代码生成规则', 'WH', NULL, NULL, 3, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, '1', '2024-02-19 13:34:28', '1', '2024-02-19 13:34:30', NULL);
 
