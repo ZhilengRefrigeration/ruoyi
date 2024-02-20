@@ -30,9 +30,21 @@ public class ScheduleUtils {
      * @param sysJob 执行计划
      * @return 具体执行任务类
      */
-    private static Class<? extends Job> getQuartzJobClass(SysJob sysJob) {
-        boolean isConcurrent = "0".equals(sysJob.getConcurrent());
-        return isConcurrent ? QuartzJobExecution.class : QuartzDisallowConcurrentExecution.class;
+    @SuppressWarnings("unchecked")
+    private static Class<? extends Job> getQuartzJobClass(SysJob sysJob) throws TaskException {
+        String customJobClass = sysJob.getCustomJobClass();
+        if (StringUtils.isNotBlank(customJobClass)) {
+            // 使用自定义任务类
+            try {
+                return (Class<? extends Job>) Class.forName(customJobClass);
+            } catch (Exception e) {
+                throw new TaskException("Custom job class [" + customJobClass + "] not exists", Code.CONFIG_ERROR);
+            }
+        } else {
+            // 使用系统任务类
+            boolean isConcurrent = "0".equals(sysJob.getConcurrent());
+            return isConcurrent ? QuartzJobExecution.class : QuartzDisallowConcurrentExecution.class;
+        }
     }
 
     /**

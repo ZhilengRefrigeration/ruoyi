@@ -1,8 +1,8 @@
 {
-  "name": "ruoyi",
+  "name": "ryas",
   "version": "3.6.3",
   "description": "RYAS管理系统",
-  "author": "ruoyi",
+  "author": "ryas",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -10,10 +10,6 @@
     "build:prod": "vite build",
     "build:stage": "vite build --mode staging",
     "preview": "vite preview"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://gitee.com/y_project/RuoYi-Cloud.git"
   },
   "dependencies": {
     "@element-plus/icons-vue": "2.3.1",

@@ -41,8 +41,9 @@
 
         <!-- 要生成的表 -->
 <!--        <table tableName="WMS_M_UNIT_INFO" domainObjectName="UnitInfo"/>-->
-<!--        <table tableName="WMS_M_GOODS_TYPE_INFO" domainObjectName="GoodsType"/>-->
-        <table tableName="WMS_M_WAREHOUSE_INFO" domainObjectName="WarehouseInfo"/>
+<!--        <table tableName="WMS_M_ITEM_TYPE_INFO" domainObjectName="ItemType"/>-->
+<!--        <table tableName="WMS_M_WAREHOUSE_INFO" domainObjectName="WarehouseInfo"/>-->
+        <table tableName="WMS_M_ITEM_INFO" domainObjectName="ItemInfo"/>
 
     </context>
 </generatorConfiguration>

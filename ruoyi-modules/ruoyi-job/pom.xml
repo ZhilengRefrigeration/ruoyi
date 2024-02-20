@@ -16,8 +16,8 @@
     </description>
 
     <dependencies>
-    	
-    	<!-- SpringCloud Alibaba Nacos -->
+
+        <!-- SpringCloud Alibaba Nacos -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
@@ -46,7 +46,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-		
+
         <!-- Swagger UI -->
 <!--        <dependency>-->
 <!--            <groupId>io.springfox</groupId>-->

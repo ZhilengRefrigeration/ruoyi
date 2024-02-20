@@ -12,7 +12,7 @@ public enum SeqType implements IEnum {
 
     UNIT_CD(1, "UNIT", "单位代码"),
 
-    GOODE_TYPE_CD(2, "GT", "商品类型代码"),
+    ITEM_TYPE_CD(2, "ITYPE", "商品类型代码"),
 
     WHS_CD(3, "WHS", "仓库代码"),
 

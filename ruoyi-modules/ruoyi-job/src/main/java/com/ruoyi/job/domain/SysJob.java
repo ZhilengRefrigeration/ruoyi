@@ -1,12 +1,5 @@
 package com.ruoyi.job.domain;
 
-import java.io.Serial;
-import java.util.Date;
-
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.annotation.Excel.ColumnType;
@@ -14,6 +7,13 @@ import com.ruoyi.common.core.constant.ScheduleConstants;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.core.web.domain.BaseEntity;
 import com.ruoyi.job.util.CronUtils;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.io.Serial;
+import java.util.Date;
 
 /**
  * 定时任务调度表 sys_job
@@ -51,7 +51,7 @@ public class SysJob extends BaseEntity {
     /**
      * cron执行表达式
      */
-    @Excel(name = "执行表达式 ")
+    @Excel(name = "执行表达式")
     private String cronExpression;
 
     /**
@@ -71,6 +71,12 @@ public class SysJob extends BaseEntity {
      */
     @Excel(name = "任务状态", readConverterExp = "0=正常,1=暂停")
     private String status;
+
+    /**
+     * 自定义QuartzJob类
+     */
+    @Excel(name = "自定义QuartzJob类")
+    private String customJobClass;
 
     public Long getJobId() {
         return jobId;
@@ -150,6 +156,14 @@ public class SysJob extends BaseEntity {
         this.status = status;
     }
 
+    public String getCustomJobClass() {
+        return customJobClass;
+    }
+
+    public void setCustomJobClass(String customJobClass) {
+        this.customJobClass = customJobClass;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
@@ -161,6 +175,7 @@ public class SysJob extends BaseEntity {
                 .append("misfirePolicy", getMisfirePolicy())
                 .append("concurrent", getConcurrent())
                 .append("status", getStatus())
+                .append("customJobClass", getCustomJobClass())
                 .append("createBy", getCreateBy())
                 .append("createTime", getCreateTime())
                 .append("updateBy", getUpdateBy())
