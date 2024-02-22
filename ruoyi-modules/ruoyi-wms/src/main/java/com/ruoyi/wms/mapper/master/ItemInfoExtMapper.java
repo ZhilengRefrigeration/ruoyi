@@ -1,4 +1,4 @@
-package com.ruoyi.wms.mapper;
+package com.ruoyi.wms.mapper.master;
 
 import com.ruoyi.wms.domain.ItemInfo;
 

@@ -43,7 +43,9 @@
 <!--        <table tableName="WMS_M_UNIT_INFO" domainObjectName="UnitInfo"/>-->
 <!--        <table tableName="WMS_M_ITEM_TYPE_INFO" domainObjectName="ItemType"/>-->
 <!--        <table tableName="WMS_M_WAREHOUSE_INFO" domainObjectName="WarehouseInfo"/>-->
-        <table tableName="WMS_M_ITEM_INFO" domainObjectName="ItemInfo"/>
+<!--        <table tableName="WMS_M_ITEM_INFO" domainObjectName="ItemInfo"/>-->
+        <table tableName="WMS_B_BASE_STOCK" domainObjectName="BaseStock"/>
+        <table tableName="WMS_B_INV_TRANS_HIS" domainObjectName="InvTransHis"/>
 
     </context>
 </generatorConfiguration>

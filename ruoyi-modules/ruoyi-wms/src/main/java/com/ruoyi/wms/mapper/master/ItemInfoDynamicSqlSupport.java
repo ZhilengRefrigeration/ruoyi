@@ -1,4 +1,4 @@
-package com.ruoyi.wms.mapper;
+package com.ruoyi.wms.mapper.master;
 
 import java.math.BigDecimal;
 import java.sql.JDBCType;

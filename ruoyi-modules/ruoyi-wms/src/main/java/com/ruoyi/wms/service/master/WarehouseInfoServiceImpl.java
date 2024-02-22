@@ -1,4 +1,4 @@
-package com.ruoyi.wms.service.impl;
+package com.ruoyi.wms.service.master;
 
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.common.core.utils.StringUtils;
@@ -7,9 +7,8 @@ import com.ruoyi.common.security.utils.SecurityUtilsExt;
 import com.ruoyi.common.services.ISysSequenceService;
 import com.ruoyi.common.services.constants.SeqType;
 import com.ruoyi.wms.domain.WarehouseInfo;
-import com.ruoyi.wms.mapper.WarehouseInfoDynamicSqlSupport;
-import com.ruoyi.wms.mapper.WarehouseInfoMapper;
-import com.ruoyi.wms.service.IWarehouseInfoService;
+import com.ruoyi.wms.mapper.master.WarehouseInfoDynamicSqlSupport;
+import com.ruoyi.wms.mapper.master.WarehouseInfoMapper;
 import jakarta.annotation.Resource;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;

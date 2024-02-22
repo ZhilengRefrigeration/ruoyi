@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.wms.mapper.stock.BaseStockExtMapper">
+
+    <resultMap type="com.ruoyi.wms.domain.BaseStock" id="BaseStockResult">
+        <result property="deptId" column="DEPT_ID"/>
+        <result property="whsCd" column="WHS_CD"/>
+        <result property="stgBinCd" column="STG_BIN_CD"/>
+        <result property="itemCd" column="ITEM_CD"/>
+        <result property="lotNo" column="LOT_NO"/>
+        <result property="subLotNo" column="SUB_LOT_NO"/>
+        <result property="stdUnitQty" column="STD_UNIT_QTY"/>
+        <result property="pkgUnitQty" column="PKG_UNIT_QTY"/>
+        <result property="serialNo" column="SERIAL_NO"/>
+        <result property="palletId" column="PALLET_ID"/>
+        <result property="parentPalletId" column="PARENT_PALLET_ID"/>
+        <result property="remark1" column="REMARK_1"/>
+        <result property="remark2" column="REMARK_2"/>
+        <result property="remark3" column="REMARK_3"/>
+        <result property="remark4" column="REMARK_4"/>
+        <result property="remark5" column="REMARK_5"/>
+        <result property="updateCount" column="UPDATE_COUNT"/>
+        <result property="deleteFlag" column="DELETE_FLAG"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+        <result property="whsName" column="WHS_NAME"/>
+        <result property="itemName" column="ITEM_NAME"/>
+        <result property="stdUnitCd" column="STD_UNIT_CD"/>
+        <result property="pkgUnitCd" column="PKG_UNIT_CD"/>
+        <result property="stdUnitName" column="STD_UNIT_NAME"/>
+        <result property="pkgUnitName" column="PKG_UNIT_NAME"/>
+    </resultMap>
+
+    <select id="selectPageList" parameterType="com.ruoyi.wms.domain.BaseStock" resultMap="BaseStockResult">
+        select
+            t.DEPT_ID,
+            t.WHS_CD,
+            t.STG_BIN_CD,
+            t.ITEM_CD,
+            t.LOT_NO,
+            t.SUB_LOT_NO,
+            t.STD_UNIT_QTY,
+            t.PKG_UNIT_QTY,
+            t.SERIAL_NO,
+            t.PALLET_ID,
+            t.PARENT_PALLET_ID,
+            t.UPDATE_COUNT,
+            t.DELETE_FLAG,
+            whs.WHS_NAME,
+            item.ITEM_NAME,
+            item.STD_UNIT_CD,
+            item.PKG_UNIT_CD,
+            stdUnit.UNIT_NAME as STD_UNIT_NAME,
+            pkgUnit.UNIT_NAME as PKG_UNIT_NAME,
+        from WMS_B_BASE_STOCK t
+        left join WMS_M_WAREHOUSE_INFO whs on t.WHS_CD = whs.WHS_CD and whs.DELETE_FLAG = 0
+        left join WMS_M_ITEM_INFO item on t.ITEM_CD = item.ITEM_CD and item.DELETE_FLAG = 0
+        left join WMS_M_ITEM_UNIT_INFO stdUnit on item.STD_UNIT_CD = stdUnit.UNIT_CD and stdUnit.DELETE_FLAG = 0
+        left join WMS_M_ITEM_UNIT_INFO pkgUnit on item.PKG_UNIT_CD = pkgUnit.UNIT_CD and pkgUnit.DELETE_FLAG = 0
+        <where>
+            and t.DELETE_FLAG = 0
+            <if test="whsCd != null and whsCd != ''">
+                and t.WHS_CD = #{whsCd}
+            </if>
+            <if test="stgBinCd != null and stgBinCd != ''">
+                and t.STG_BIN_CD = #{stgBinCd}
+            </if>
+            <if test="itemCd != null and itemCd != ''">
+                and t.ITEM_CD like concat('%', #{itemCd}, '%')
+            </if>
+            <if test="lotNo != null and lotNo != ''">
+                and t.LOT_NO like concat('%', #{lotNo}, '%')
+            </if>
+        </where>
+    </select>
+
+</mapper>

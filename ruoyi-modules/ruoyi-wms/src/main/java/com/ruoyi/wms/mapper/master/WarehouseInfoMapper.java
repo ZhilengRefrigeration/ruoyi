@@ -1,4 +1,4 @@
-package com.ruoyi.wms.mapper;
+package com.ruoyi.wms.mapper.master;
 
 import com.ruoyi.common.security.utils.SecurityUtilsExt;
 import com.ruoyi.wms.domain.WarehouseInfo;
@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import static com.ruoyi.wms.mapper.WarehouseInfoDynamicSqlSupport.*;
+import static com.ruoyi.wms.mapper.master.WarehouseInfoDynamicSqlSupport.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 
 @Mapper

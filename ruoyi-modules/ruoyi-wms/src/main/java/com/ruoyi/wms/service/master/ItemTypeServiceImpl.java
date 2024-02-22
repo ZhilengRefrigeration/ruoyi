@@ -1,4 +1,4 @@
-package com.ruoyi.wms.service.impl;
+package com.ruoyi.wms.service.master;
 
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.common.core.utils.StringUtils;
@@ -7,9 +7,8 @@ import com.ruoyi.common.security.utils.SecurityUtilsExt;
 import com.ruoyi.common.services.ISysSequenceService;
 import com.ruoyi.common.services.constants.SeqType;
 import com.ruoyi.wms.domain.ItemType;
-import com.ruoyi.wms.mapper.ItemTypeDynamicSqlSupport;
-import com.ruoyi.wms.mapper.ItemTypeMapper;
-import com.ruoyi.wms.service.IItemTypeService;
+import com.ruoyi.wms.mapper.master.ItemTypeDynamicSqlSupport;
+import com.ruoyi.wms.mapper.master.ItemTypeMapper;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;

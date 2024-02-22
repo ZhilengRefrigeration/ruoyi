@@ -1,4 +1,4 @@
-package com.ruoyi.wms.service;
+package com.ruoyi.wms.service.master;
 
 import com.ruoyi.wms.domain.ItemType;
 

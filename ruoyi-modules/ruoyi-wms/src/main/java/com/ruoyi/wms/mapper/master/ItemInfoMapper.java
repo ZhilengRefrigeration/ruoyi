@@ -1,6 +1,6 @@
-package com.ruoyi.wms.mapper;
+package com.ruoyi.wms.mapper.master;
 
-import static com.ruoyi.wms.mapper.ItemInfoDynamicSqlSupport.*;
+import static com.ruoyi.wms.mapper.master.ItemInfoDynamicSqlSupport.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 
 import com.ruoyi.common.security.utils.SecurityUtilsExt;

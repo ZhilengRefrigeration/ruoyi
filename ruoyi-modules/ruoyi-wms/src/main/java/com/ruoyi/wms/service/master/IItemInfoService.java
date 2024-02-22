@@ -1,4 +1,4 @@
-package com.ruoyi.wms.service;
+package com.ruoyi.wms.service.master;
 
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.wms.domain.ItemInfo;

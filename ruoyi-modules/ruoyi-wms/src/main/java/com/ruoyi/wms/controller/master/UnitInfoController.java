@@ -1,4 +1,4 @@
-package com.ruoyi.wms.controller;
+package com.ruoyi.wms.controller.master;
 
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
@@ -8,7 +8,7 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.wms.domain.UnitInfo;
-import com.ruoyi.wms.service.IUnitInfoService;
+import com.ruoyi.wms.service.master.IUnitInfoService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

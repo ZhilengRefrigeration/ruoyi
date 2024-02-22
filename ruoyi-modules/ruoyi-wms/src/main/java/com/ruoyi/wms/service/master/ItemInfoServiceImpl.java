@@ -1,4 +1,4 @@
-package com.ruoyi.wms.service.impl;
+package com.ruoyi.wms.service.master;
 
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.DateUtils;
@@ -9,10 +9,9 @@ import com.ruoyi.common.security.utils.SecurityUtilsExt;
 import com.ruoyi.system.api.RemoteFileService;
 import com.ruoyi.system.api.domain.SysFileInfo;
 import com.ruoyi.wms.domain.ItemInfo;
-import com.ruoyi.wms.mapper.ItemInfoDynamicSqlSupport;
-import com.ruoyi.wms.mapper.ItemInfoExtMapper;
-import com.ruoyi.wms.mapper.ItemInfoMapper;
-import com.ruoyi.wms.service.IItemInfoService;
+import com.ruoyi.wms.mapper.master.ItemInfoDynamicSqlSupport;
+import com.ruoyi.wms.mapper.master.ItemInfoExtMapper;
+import com.ruoyi.wms.mapper.master.ItemInfoMapper;
 import jakarta.annotation.Resource;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;

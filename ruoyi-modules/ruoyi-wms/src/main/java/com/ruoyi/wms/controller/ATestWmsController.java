@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RequestMapping("/test")
 @RestController
-public class TestWmsController extends BaseController {
+public class ATestWmsController extends BaseController {
 
     @GetMapping("/showInfo")
     public AjaxResult showInfo() {
-        return success("Hello World! This is wms module.");
+        return success("Hello World! This is WMS module.");
     }
 
 }

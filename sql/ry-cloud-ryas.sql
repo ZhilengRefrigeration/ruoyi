@@ -11,11 +11,87 @@
  Target Server Version : 80200 (8.2.0)
  File Encoding         : 65001
 
- Date: 22/02/2024 11:11:32
+ Date: 22/02/2024 18:10:55
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for WMS_B_BASE_STOCK
+-- ----------------------------
+DROP TABLE IF EXISTS `WMS_B_BASE_STOCK`;
+CREATE TABLE `WMS_B_BASE_STOCK`  (
+  `DEPT_ID` int NOT NULL COMMENT '从属部门ID',
+  `WHS_CD` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '仓库代码',
+  `STG_BIN_CD` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '货架号',
+  `ITEM_CD` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '物品代码',
+  `LOT_NO` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '批号',
+  `SUB_LOT_NO` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '子批号',
+  `STD_UNIT_QTY` decimal(18, 6) NOT NULL COMMENT '标准单位数量',
+  `PKG_UNIT_QTY` decimal(18, 6) NOT NULL DEFAULT 0.000000 COMMENT '包装单位数量',
+  `SERIAL_NO` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '序列号',
+  `PALLET_ID` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '托盘ID',
+  `PARENT_PALLET_ID` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '父托盘ID',
+  `REMARK_1` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注1',
+  `REMARK_2` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注2',
+  `REMARK_3` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注3',
+  `REMARK_4` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注4',
+  `REMARK_5` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注5',
+  `UPDATE_COUNT` int NOT NULL DEFAULT 0 COMMENT '更新次数',
+  `DELETE_FLAG` int NOT NULL DEFAULT 0 COMMENT '删除标志',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`WHS_CD`, `STG_BIN_CD`, `ITEM_CD`, `LOT_NO`, `SUB_LOT_NO`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '基本库存表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of WMS_B_BASE_STOCK
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for WMS_B_INV_TRANS_HIS
+-- ----------------------------
+DROP TABLE IF EXISTS `WMS_B_INV_TRANS_HIS`;
+CREATE TABLE `WMS_B_INV_TRANS_HIS`  (
+  `DEPT_ID` int NOT NULL DEFAULT 100 COMMENT '从属部门ID',
+  `INV_TRANS_NO` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '入出库履历号',
+  `INV_TRANS_TYPE` int NOT NULL COMMENT '入出库类型(1:入库,2:出库)',
+  `WHS_CD` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '仓库代码',
+  `STG_BIN_CD` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '货架号',
+  `PALLET_ID` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '托盘ID',
+  `STD_UNIT_QTY` decimal(18, 6) NOT NULL COMMENT '标准单位数量',
+  `PKG_UNIT_QTY` decimal(18, 6) NOT NULL DEFAULT 0.000000 COMMENT '包装单位数量',
+  `TRANS_ORDER_NO` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '交易单号',
+  `TRANS_ORDER_DETL_NO` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '交易单明细号',
+  `OPERATOR` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '操作员',
+  `BUSINESS_CLS` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '0' COMMENT '业务区分',
+  `ITEM_CD` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '物品代码',
+  `LOT_NO` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '批号',
+  `SUB_LOT_NO` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '子批号',
+  `SERIAL_NO` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '序列号',
+  `REASON` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '入出库理由',
+  `REMARK_1` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注1',
+  `REMARK_2` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注2',
+  `REMARK_3` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注3',
+  `REMARK_4` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注4',
+  `REMARK_5` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注5',
+  `UPDATE_COUNT` int NOT NULL DEFAULT 0 COMMENT '更新次数',
+  `DELETE_FLAG` int NOT NULL DEFAULT 0 COMMENT '删除标志',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`INV_TRANS_NO`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '入出库履历表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of WMS_B_INV_TRANS_HIS
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for WMS_M_ITEM_INFO
@@ -156,7 +232,7 @@ INSERT INTO `WMS_M_UNIT_INFO` VALUES (100, 'UNIT00009', '颗', NULL, NULL, NULL,
 DROP TABLE IF EXISTS `WMS_M_WAREHOUSE_INFO`;
 CREATE TABLE `WMS_M_WAREHOUSE_INFO`  (
   `DEPT_ID` int NOT NULL DEFAULT 100 COMMENT '从属部门ID',
-  `WHS_CD` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '仓库代码',
+  `WHS_CD` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '仓库代码',
   `WHS_NAME` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '仓库名称',
   `WHS_TYPE_CD` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '仓库类型代码',
   `ABBR` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '缩写',
@@ -219,7 +295,7 @@ CREATE TABLE `gen_table`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`table_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '代码生成业务表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '代码生成业务表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of gen_table
@@ -230,6 +306,8 @@ INSERT INTO `gen_table` VALUES (13, 'sys_file', '文件存储记录表', NULL, N
 INSERT INTO `gen_table` VALUES (14, 'sys_seq_rule', '序列号生成规则表', NULL, NULL, 'SysSeqRule', 'crud', 'element-plus', 'mybatis-dynamic', 'com.ruoyi.system', 'system', 'SeqRule', '序列号生成规则', 'ryas', '0', '/', '{\"parentMenuId\":1}', 'admin', '2024-02-19 10:01:22', '', '2024-02-20 02:07:26', NULL);
 INSERT INTO `gen_table` VALUES (15, 'WMS_M_ITEM_TYPE', '物品类型表', NULL, NULL, 'ItemType', 'crud', 'element-plus', 'mybatis-dynamic', 'com.ruoyi.wms', 'wms', 'ItemType', '物品类型', 'ryas', '0', '/', '{\"parentMenuId\":2000}', 'admin', '2024-02-20 07:11:35', '', '2024-02-20 07:13:11', NULL);
 INSERT INTO `gen_table` VALUES (16, 'WMS_M_ITEM_INFO', '物品基础信息表', NULL, NULL, 'ItemInfo', 'crud', 'element-plus', 'normal', 'com.ruoyi.wms', 'wms', 'ItemInfo', '物品基础信息', 'ryas', '0', '/', '{\"parentMenuId\":\"2000\"}', 'admin', '2024-02-20 08:25:28', '', '2024-02-21 02:00:27', NULL);
+INSERT INTO `gen_table` VALUES (17, 'WMS_B_BASE_STOCK', '基本库存表', NULL, NULL, 'BaseStock', 'crud', 'element-plus', 'mybatis-dynamic', 'com.ruoyi.wms', 'wms', 'BaseStock', '基本库存', 'ryas', '0', '/', '{\"parentMenuId\":\"2043\"}', 'admin', '2024-02-22 05:49:52', '', '2024-02-22 09:30:30', NULL);
+INSERT INTO `gen_table` VALUES (18, 'WMS_B_INV_TRANS_HIS', '入出库履历表', NULL, NULL, 'InvTransHis', 'crud', 'element-plus', 'mybatis-dynamic', 'com.ruoyi.wms', 'wms', 'InvTransHis', '入出库履历', 'ryas', '0', '/', '{\"parentMenuId\":\"2043\"}', 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:40', NULL);
 
 -- ----------------------------
 -- Table structure for gen_table_column
@@ -259,7 +337,7 @@ CREATE TABLE `gen_table_column`  (
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '更新者',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`column_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 328 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '代码生成业务表字段' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 380 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '代码生成业务表字段' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of gen_table_column
@@ -409,6 +487,58 @@ INSERT INTO `gen_table_column` VALUES (324, 16, 'STG_RQMT_DESC', '储存要求�
 INSERT INTO `gen_table_column` VALUES (325, 16, 'MANUFACTURER', '生产商', 'varchar(100)', 'String', 'manufacturer', '0', '0', NULL, '1', '1', '1', '0', 'EQ', 'input', '', 52, 'admin', '2024-02-20 08:25:30', '', '2024-02-21 02:00:28');
 INSERT INTO `gen_table_column` VALUES (326, 16, 'PICTURE_ID', '图片ID', 'varchar(50)', 'String', 'pictureId', '0', '0', NULL, '1', '1', '0', '0', 'EQ', 'input', '', 53, 'admin', '2024-02-20 08:25:30', '', '2024-02-21 02:00:28');
 INSERT INTO `gen_table_column` VALUES (327, 16, 'PICTURE_URL', '图片URL', 'varchar(255)', 'String', 'pictureUrl', '0', '0', NULL, '0', '0', '0', '0', 'EQ', 'input', '', 54, 'admin', '2024-02-20 08:25:30', '', '2024-02-21 02:00:28');
+INSERT INTO `gen_table_column` VALUES (328, 17, 'DEPT_ID', '从属部门ID', 'int', 'Long', 'deptId', '0', '0', '0', NULL, NULL, NULL, NULL, 'EQ', 'input', '', 1, 'admin', '2024-02-22 05:49:52', '', '2024-02-22 09:30:30');
+INSERT INTO `gen_table_column` VALUES (329, 17, 'WHS_CD', '仓库代码', 'varchar(30)', 'String', 'whsCd', '1', '0', NULL, '0', '0', '1', '1', 'EQ', 'input', '', 2, 'admin', '2024-02-22 05:49:52', '', '2024-02-22 09:30:30');
+INSERT INTO `gen_table_column` VALUES (330, 17, 'STG_BIN_CD', '货架号', 'varchar(30)', 'String', 'stgBinCd', '1', '0', NULL, '0', '0', '1', '1', 'EQ', 'input', '', 3, 'admin', '2024-02-22 05:49:52', '', '2024-02-22 09:30:30');
+INSERT INTO `gen_table_column` VALUES (331, 17, 'ITEM_CD', '物品代码', 'varchar(30)', 'String', 'itemCd', '1', '0', '0', '0', '0', '1', '1', 'LIKE', 'input', '', 4, 'admin', '2024-02-22 05:49:52', '', '2024-02-22 09:30:30');
+INSERT INTO `gen_table_column` VALUES (332, 17, 'LOT_NO', '批号', 'varchar(100)', 'String', 'lotNo', '1', '0', '0', '0', '0', '1', '1', 'LIKE', 'input', '', 5, 'admin', '2024-02-22 05:49:52', '', '2024-02-22 09:30:30');
+INSERT INTO `gen_table_column` VALUES (333, 17, 'SUB_LOT_NO', '子批号', 'varchar(25)', 'String', 'subLotNo', '1', '0', NULL, '0', '0', '1', NULL, 'EQ', 'input', '', 6, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:30');
+INSERT INTO `gen_table_column` VALUES (334, 17, 'STD_UNIT_QTY', '标准单位数量', 'decimal(18,6)', 'BigDecimal', 'stdUnitQty', '0', '0', '0', '0', '0', '1', '0', 'EQ', 'input', '', 7, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:30');
+INSERT INTO `gen_table_column` VALUES (335, 17, 'PKG_UNIT_QTY', '包装单位数量', 'decimal(18,6)', 'BigDecimal', 'pkgUnitQty', '0', '0', '0', '0', '0', '1', '0', 'EQ', 'input', '', 8, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:30');
+INSERT INTO `gen_table_column` VALUES (336, 17, 'SERIAL_NO', '序列号', 'varchar(30)', 'String', 'serialNo', '0', '0', NULL, '0', '0', '1', '0', 'EQ', 'input', '', 9, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:30');
+INSERT INTO `gen_table_column` VALUES (337, 17, 'PALLET_ID', '托盘ID', 'varchar(30)', 'String', 'palletId', '0', '0', NULL, '0', '0', '1', '0', 'EQ', 'input', '', 10, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:30');
+INSERT INTO `gen_table_column` VALUES (338, 17, 'PARENT_PALLET_ID', '父托盘ID', 'varchar(30)', 'String', 'parentPalletId', '0', '0', NULL, '0', '0', '1', '0', 'EQ', 'input', '', 11, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:30');
+INSERT INTO `gen_table_column` VALUES (339, 17, 'REMARK_1', '备注1', 'varchar(100)', 'String', 'remark1', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 12, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:30');
+INSERT INTO `gen_table_column` VALUES (340, 17, 'REMARK_2', '备注2', 'varchar(100)', 'String', 'remark2', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 13, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:30');
+INSERT INTO `gen_table_column` VALUES (341, 17, 'REMARK_3', '备注3', 'varchar(100)', 'String', 'remark3', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 14, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:30');
+INSERT INTO `gen_table_column` VALUES (342, 17, 'REMARK_4', '备注4', 'varchar(100)', 'String', 'remark4', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 15, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:30');
+INSERT INTO `gen_table_column` VALUES (343, 17, 'REMARK_5', '备注5', 'varchar(100)', 'String', 'remark5', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 16, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:30');
+INSERT INTO `gen_table_column` VALUES (344, 17, 'UPDATE_COUNT', '更新次数', 'int', 'Long', 'updateCount', '0', '0', '0', NULL, NULL, NULL, NULL, 'EQ', 'input', '', 17, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:30');
+INSERT INTO `gen_table_column` VALUES (345, 17, 'DELETE_FLAG', '删除标志', 'int', 'Long', 'deleteFlag', '0', '0', '0', NULL, NULL, NULL, NULL, 'EQ', 'input', '', 18, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:30');
+INSERT INTO `gen_table_column` VALUES (346, 17, 'create_by', '创建者', 'varchar(64)', 'String', 'createBy', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 19, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:30');
+INSERT INTO `gen_table_column` VALUES (347, 17, 'create_time', '创建时间', 'datetime', 'Date', 'createTime', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'datetime', '', 20, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:30');
+INSERT INTO `gen_table_column` VALUES (348, 17, 'update_by', '更新者', 'varchar(64)', 'String', 'updateBy', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 21, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:30');
+INSERT INTO `gen_table_column` VALUES (349, 17, 'update_time', '更新时间', 'datetime', 'Date', 'updateTime', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'datetime', '', 22, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:30');
+INSERT INTO `gen_table_column` VALUES (350, 17, 'remark', '备注', 'varchar(500)', 'String', 'remark', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'textarea', '', 23, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:30');
+INSERT INTO `gen_table_column` VALUES (351, 18, 'DEPT_ID', '从属部门ID', 'int', 'Long', 'deptId', '0', '0', '0', NULL, NULL, NULL, NULL, 'EQ', 'input', '', 1, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (352, 18, 'INV_TRANS_NO', '入出库履历号', 'varchar(30)', 'String', 'invTransNo', '1', '0', NULL, '0', NULL, '1', '0', 'EQ', 'input', '', 2, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (353, 18, 'INV_TRANS_TYPE', '入出库类型(1:入库,2:出库)', 'int', 'Long', 'invTransType', '0', '0', '0', '0', '0', '1', '1', 'EQ', 'select', '', 3, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (354, 18, 'WHS_CD', '仓库代码', 'varchar(30)', 'String', 'whsCd', '0', '0', '0', '0', '0', '1', '1', 'EQ', 'input', '', 4, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (355, 18, 'STG_BIN_CD', '货架号', 'varchar(30)', 'String', 'stgBinCd', '0', '0', '0', '0', '0', '1', '1', 'EQ', 'input', '', 5, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (356, 18, 'PALLET_ID', '托盘ID', 'varchar(30)', 'String', 'palletId', '0', '0', NULL, '0', '0', '0', '0', 'EQ', 'input', '', 6, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (357, 18, 'STD_UNIT_QTY', '标准单位数量', 'decimal(18,6)', 'BigDecimal', 'stdUnitQty', '0', '0', '0', '0', '0', '1', '0', 'EQ', 'input', '', 7, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (358, 18, 'PKG_UNIT_QTY', '包装单位数量', 'decimal(18,6)', 'BigDecimal', 'pkgUnitQty', '0', '0', '0', '0', '0', '1', '0', 'EQ', 'input', '', 8, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (359, 18, 'TRANS_ORDER_NO', '交易单号', 'varchar(30)', 'String', 'transOrderNo', '0', '0', NULL, '0', '0', '0', '0', 'EQ', 'input', '', 9, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (360, 18, 'TRANS_ORDER_DETL_NO', '交易单明细号', 'varchar(30)', 'String', 'transOrderDetlNo', '0', '0', NULL, '0', '0', '0', '0', 'EQ', 'input', '', 10, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (361, 18, 'OPERATOR', '操作员', 'varchar(25)', 'String', 'operator', '0', '0', NULL, '0', '0', '0', '0', 'EQ', 'input', '', 11, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (362, 18, 'BUSINESS_CLS', '业务区分', 'varchar(10)', 'String', 'businessCls', '0', '0', '0', '0', '0', '1', '0', 'EQ', 'input', '', 12, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (363, 18, 'ITEM_CD', '物品代码', 'varchar(30)', 'String', 'itemCd', '0', '0', '0', '0', '0', '1', '1', 'LIKE', 'input', '', 13, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (364, 18, 'LOT_NO', '批号', 'varchar(100)', 'String', 'lotNo', '0', '0', NULL, '0', '0', '1', '1', 'LIKE', 'input', '', 14, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (365, 18, 'SUB_LOT_NO', '子批号', 'varchar(25)', 'String', 'subLotNo', '0', '0', NULL, '0', '0', '0', '0', 'EQ', 'input', '', 15, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (366, 18, 'SERIAL_NO', '序列号', 'varchar(50)', 'String', 'serialNo', '0', '0', NULL, '0', '0', '0', '0', 'EQ', 'input', '', 16, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (367, 18, 'REASON', '入出库理由', 'varchar(255)', 'String', 'reason', '0', '0', NULL, '0', '0', '0', '0', 'EQ', 'input', '', 17, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (368, 18, 'REMARK_1', '备注1', 'varchar(100)', 'String', 'remark1', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 18, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (369, 18, 'REMARK_2', '备注2', 'varchar(100)', 'String', 'remark2', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 19, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (370, 18, 'REMARK_3', '备注3', 'varchar(100)', 'String', 'remark3', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 20, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (371, 18, 'REMARK_4', '备注4', 'varchar(100)', 'String', 'remark4', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 21, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (372, 18, 'REMARK_5', '备注5', 'varchar(100)', 'String', 'remark5', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 22, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (373, 18, 'UPDATE_COUNT', '更新次数', 'int', 'Long', 'updateCount', '0', '0', '0', NULL, NULL, NULL, NULL, 'EQ', 'input', '', 23, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (374, 18, 'DELETE_FLAG', '删除标志', 'int', 'Long', 'deleteFlag', '0', '0', '0', NULL, NULL, NULL, NULL, 'EQ', 'input', '', 24, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (375, 18, 'create_by', '创建者', 'varchar(64)', 'String', 'createBy', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 25, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (376, 18, 'create_time', '创建时间', 'datetime', 'Date', 'createTime', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'datetime', '', 26, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (377, 18, 'update_by', '更新者', 'varchar(64)', 'String', 'updateBy', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 27, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (378, 18, 'update_time', '更新时间', 'datetime', 'Date', 'updateTime', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'datetime', '', 28, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (379, 18, 'remark', '备注', 'varchar(500)', 'String', 'remark', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'textarea', '', 29, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
 
 -- ----------------------------
 -- Table structure for sys_config
@@ -676,7 +806,7 @@ CREATE TABLE `sys_logininfor`  (
   PRIMARY KEY (`info_id`) USING BTREE,
   INDEX `idx_sys_logininfor_s`(`status` ASC) USING BTREE,
   INDEX `idx_sys_logininfor_lt`(`access_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 151 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 152 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_logininfor
@@ -707,7 +837,7 @@ CREATE TABLE `sys_menu`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2043 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2049 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -832,6 +962,12 @@ INSERT INTO `sys_menu` VALUES (2039, '物品基础信息新增', 2037, 2, '#', '
 INSERT INTO `sys_menu` VALUES (2040, '物品基础信息修改', 2037, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'wms:ItemInfo:edit', '#', 'admin', '2024-02-20 08:34:17', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2041, '物品基础信息删除', 2037, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'wms:ItemInfo:remove', '#', 'admin', '2024-02-20 08:34:17', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2042, '物品基础信息导出', 2037, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'wms:ItemInfo:export', '#', 'admin', '2024-02-20 08:34:17', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2043, '库存管理', 0, 30, 'StockMgmt', NULL, NULL, 1, 0, 'M', '0', '0', '', 'warehouse', '1', '2024-02-22 05:57:55', '1', '2024-02-22 05:58:05', '');
+INSERT INTO `sys_menu` VALUES (2044, '基本库存信息', 2043, 1, 'BaseStock', 'wms/BaseStock/index', NULL, 1, 0, 'C', '0', '0', 'wms:BaseStock:list', 'cubes-stacked', 'admin', '2024-02-22 09:43:17', '1', '2024-02-22 09:44:13', '基本库存菜单');
+INSERT INTO `sys_menu` VALUES (2045, '基本库存查询', 2044, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'wms:BaseStock:query', '#', 'admin', '2024-02-22 09:43:17', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2046, '入库', 2044, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'wms:BaseStock:instock', '#', 'admin', '2024-02-22 09:43:17', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2047, '出库', 2044, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'wms:BaseStock:outstock', '#', 'admin', '2024-02-22 09:43:17', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2048, '基本库存导出', 2044, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'wms:BaseStock:export', '#', 'admin', '2024-02-22 09:43:17', '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_notice
@@ -883,7 +1019,7 @@ CREATE TABLE `sys_oper_log`  (
   INDEX `idx_sys_oper_log_bt`(`business_type` ASC) USING BTREE,
   INDEX `idx_sys_oper_log_s`(`status` ASC) USING BTREE,
   INDEX `idx_sys_oper_log_ot`(`oper_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 267 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 281 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_oper_log
