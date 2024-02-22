@@ -152,4 +152,12 @@ public class GlobalExceptionHandler {
     public AjaxResult handleLoginExpiredException(LoginExpiredException e) {
         return AjaxResult.error(e.getMessage());
     }
+
+    /**
+     * 参数校验异常
+     */
+    @ExceptionHandler(IllegalArgumentException.class)
+    public AjaxResult handleIllegalArgumentException(IllegalArgumentException e) {
+        return AjaxResult.error("参数校验失败: " + e.getMessage());
+    }
 }

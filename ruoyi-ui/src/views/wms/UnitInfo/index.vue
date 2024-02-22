@@ -65,8 +65,8 @@
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="UnitInfoList" @selection-change="handleSelectionChange" show-overflow-tooltip="true">
-      <el-table-column type="selection" width="55" align="center" />
+    <el-table v-loading="loading" :data="UnitInfoList" @selection-change="handleSelectionChange" :show-overflow-tooltip="true">
+      <el-table-column type="selection" width="30" align="center" />
       <el-table-column label="单位代码" align="center" prop="unitCode" />
       <el-table-column label="单位名称" align="center" prop="unitName" />
       <el-table-column label="备注" align="center" prop="remark1" />
@@ -125,7 +125,7 @@ const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 20,
     unitCode: null,
     unitName: null,
   },

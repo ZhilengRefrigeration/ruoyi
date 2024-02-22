@@ -1,6 +1,11 @@
 package com.ruoyi.wms.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ruoyi.common.core.web.domain.ExtBaseEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -11,681 +16,297 @@ import java.math.BigDecimal;
  *
  * <ul>
  *   <li> Table: WMS_M_ITEM_INFO </li>
+ *   <li> Remarks: 物品基础信息表 </li>
  * </ul>
  *
  * @author ryas
  * created on 2024-02-20
  */
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class ItemInfo extends ExtBaseEntity implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    //==================== ↓↓↓↓↓↓ 非表字段 ↓↓↓↓↓↓ ====================
+
     /**
-     *   物品代码
+     * (非表字段)
+     * 物品类型名称
+     */
+    private String itemTypeName;
+
+    /**
+     * (非表字段)
+     * 标准单位名称
+     */
+    private String stdUnitName;
+
+    /**
+     * (非表字段)
+     * 包装单位名称
+     */
+    private String pkgUnitName;
+
+    /**
+     * (非表字段)
+     * 图片文件
+     */
+    private MultipartFile[] itemImages;
+
+    //==================== ↓↓↓↓↓↓ 扩展方法 ↓↓↓↓↓↓ ====================
+
+    @JsonIgnore
+    public boolean isEnabled() {
+        return enableFlg != null && enableFlg == 1;
+    }
+
+    @JsonIgnore
+    public boolean isLotNoManaged() {
+        return lotNoMgmtCls != null && lotNoMgmtCls == 1;
+    }
+
+    @JsonIgnore
+    public MultipartFile getItemImageFirst() {
+        return itemImages != null && itemImages.length > 0 ? itemImages[0] : null;
+    }
+
+    //==================== ↓↓↓↓↓↓ 表字段 ↓↓↓↓↓↓ ====================
+
+    /**
+     * 物品代码
      */
     private String itemCd;
 
     /**
-     *   从属部门ID
+     * 从属部门ID
      */
     private Integer deptId;
 
     /**
-     *   物品名称
+     * 物品名称
      */
     private String itemName;
 
     /**
-     *   供应商
+     * 供应商
      */
     private String supplier;
 
     /**
-     *   筹备提前期
+     * 筹备提前期
      */
     private BigDecimal prepLeadTime;
 
     /**
-     *   入库提前期
+     * 入库提前期
      */
     private BigDecimal instockLeadTime;
 
     /**
-     *   放置期
+     * 放置期
      */
     private BigDecimal restingPeriod;
 
     /**
-     *   出库提前期
+     * 出库提前期
      */
     private BigDecimal outstockLeadTime;
 
     /**
-     *   规格1
+     * 规格1
      */
     private String spec1;
 
     /**
-     *   规格2
+     * 规格2
      */
     private String spec2;
 
     /**
-     *   规格3
+     * 规格3
      */
     private String spec3;
 
     /**
-     *   规格4
+     * 规格4
      */
     private String spec4;
 
     /**
-     *   规格5
+     * 规格5
      */
     private String spec5;
 
     /**
-     *   分类1
+     * 分类1
      */
     private String cls1;
 
     /**
-     *   分类2
+     * 分类2
      */
     private String cls2;
 
     /**
-     *   分类3
+     * 分类3
      */
     private String cls3;
 
     /**
-     *   分类4
+     * 分类4
      */
     private String cls4;
 
     /**
-     *   分类5
+     * 分类5
      */
     private String cls5;
 
     /**
-     *   备注1
+     * 备注1
      */
     private String remark1;
 
     /**
-     *   备注2
+     * 备注2
      */
     private String remark2;
 
     /**
-     *   备注3
+     * 备注3
      */
     private String remark3;
 
     /**
-     *   备注4
+     * 备注4
      */
     private String remark4;
 
     /**
-     *   备注5
+     * 备注5
      */
     private String remark5;
 
     /**
-     *   供货周期
+     * 供货周期
      */
     private String deliveryPeriod;
 
     /**
-     *   默认库位号
+     * 默认库位号
      */
     private String defaultStgBinCd;
 
     /**
-     *   启用标志
+     * 启用标志
      */
     private Integer enableFlg;
 
     /**
-     *   安全库存量
+     * 安全库存量
      */
     private BigDecimal safetyStock;
 
     /**
-     *   最大库存量
+     * 最大库存量
      */
     private BigDecimal maxInvQty;
 
     /**
-     *   发起购买的阈值
+     * 发起购买的阈值
      */
     private BigDecimal purchLimitQty;
 
     /**
-     *   物品区分
+     * 物品区分
      */
     private String goodsCls;
 
     /**
-     *   批号管理区分(0:不管理, 1:管理)
+     * 批号管理区分(0:不管理, 1:管理)
      */
     private Integer lotNoMgmtCls;
 
     /**
-     *   物品类型代码
+     * 物品类型代码
      */
     private String itemTypeCd;
 
     /**
-     *   标准单位代码
+     * 标准单位代码
      */
     private String stdUnitCd;
 
     /**
-     *   包装单位代码
+     * 包装单位代码
      */
     private String pkgUnitCd;
 
     /**
-     *   出库申请最小数量
+     * 出库申请最小数量
      */
     private BigDecimal outstockReqMinQty;
 
     /**
-     *   出库单位区分
+     * 出库单位区分
      */
     private String outstockUnitCls;
 
     /**
-     *   单位净重
+     * 单位净重
      */
     private BigDecimal netWeightPerUnit;
 
     /**
-     *   自身体积(M3)
+     * 自身体积(M3)
      */
     private BigDecimal ownVolM3;
 
     /**
-     *   尺寸(长)
+     * 尺寸(长)
      */
     private BigDecimal sizeD;
 
     /**
-     *   尺寸(宽)
+     * 尺寸(宽)
      */
     private BigDecimal sizeW;
 
     /**
-     *   尺寸(高)
+     * 尺寸(高)
      */
     private BigDecimal sizeH;
 
     /**
-     *   包装要求描述
+     * 包装要求描述
      */
     private String pkgRqmtDesc;
 
     /**
-     *   码放要求描述
+     * 码放要求描述
      */
     private String stackingRqmtDesc;
 
     /**
-     *   储存要求描述
+     * 储存要求描述
      */
     private String stgRqmtDesc;
 
     /**
-     *   生产商
+     * 生产商
      */
     private String manufacturer;
 
     /**
-     *   图片ID
+     * 图片ID
      */
     private String pictureId;
 
     /**
-     *   图片URL
+     * 图片URL
      */
     private String pictureUrl;
 
-    @Serial
-    private static final long serialVersionUID = 1L;
-
-    public String getItemCd() {
-        return itemCd;
-    }
-
-    public void setItemCd(String itemCd) {
-        this.itemCd = itemCd == null ? null : itemCd.trim();
-    }
-
-    public Integer getDeptId() {
-        return deptId;
-    }
-
-    public void setDeptId(Integer deptId) {
-        this.deptId = deptId;
-    }
-
-    public String getItemName() {
-        return itemName;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName == null ? null : itemName.trim();
-    }
-
-    public String getSupplier() {
-        return supplier;
-    }
-
-    public void setSupplier(String supplier) {
-        this.supplier = supplier == null ? null : supplier.trim();
-    }
-
-    public BigDecimal getPrepLeadTime() {
-        return prepLeadTime;
-    }
-
-    public void setPrepLeadTime(BigDecimal prepLeadTime) {
-        this.prepLeadTime = prepLeadTime;
-    }
-
-    public BigDecimal getInstockLeadTime() {
-        return instockLeadTime;
-    }
-
-    public void setInstockLeadTime(BigDecimal instockLeadTime) {
-        this.instockLeadTime = instockLeadTime;
-    }
-
-    public BigDecimal getRestingPeriod() {
-        return restingPeriod;
-    }
-
-    public void setRestingPeriod(BigDecimal restingPeriod) {
-        this.restingPeriod = restingPeriod;
-    }
-
-    public BigDecimal getOutstockLeadTime() {
-        return outstockLeadTime;
-    }
-
-    public void setOutstockLeadTime(BigDecimal outstockLeadTime) {
-        this.outstockLeadTime = outstockLeadTime;
-    }
-
-    public String getSpec1() {
-        return spec1;
-    }
-
-    public void setSpec1(String spec1) {
-        this.spec1 = spec1 == null ? null : spec1.trim();
-    }
-
-    public String getSpec2() {
-        return spec2;
-    }
-
-    public void setSpec2(String spec2) {
-        this.spec2 = spec2 == null ? null : spec2.trim();
-    }
-
-    public String getSpec3() {
-        return spec3;
-    }
-
-    public void setSpec3(String spec3) {
-        this.spec3 = spec3 == null ? null : spec3.trim();
-    }
-
-    public String getSpec4() {
-        return spec4;
-    }
-
-    public void setSpec4(String spec4) {
-        this.spec4 = spec4 == null ? null : spec4.trim();
-    }
-
-    public String getSpec5() {
-        return spec5;
-    }
-
-    public void setSpec5(String spec5) {
-        this.spec5 = spec5 == null ? null : spec5.trim();
-    }
-
-    public String getCls1() {
-        return cls1;
-    }
-
-    public void setCls1(String cls1) {
-        this.cls1 = cls1 == null ? null : cls1.trim();
-    }
-
-    public String getCls2() {
-        return cls2;
-    }
-
-    public void setCls2(String cls2) {
-        this.cls2 = cls2 == null ? null : cls2.trim();
-    }
-
-    public String getCls3() {
-        return cls3;
-    }
-
-    public void setCls3(String cls3) {
-        this.cls3 = cls3 == null ? null : cls3.trim();
-    }
-
-    public String getCls4() {
-        return cls4;
-    }
-
-    public void setCls4(String cls4) {
-        this.cls4 = cls4 == null ? null : cls4.trim();
-    }
-
-    public String getCls5() {
-        return cls5;
-    }
-
-    public void setCls5(String cls5) {
-        this.cls5 = cls5 == null ? null : cls5.trim();
-    }
-
-    public String getRemark1() {
-        return remark1;
-    }
-
-    public void setRemark1(String remark1) {
-        this.remark1 = remark1 == null ? null : remark1.trim();
-    }
-
-    public String getRemark2() {
-        return remark2;
-    }
-
-    public void setRemark2(String remark2) {
-        this.remark2 = remark2 == null ? null : remark2.trim();
-    }
-
-    public String getRemark3() {
-        return remark3;
-    }
-
-    public void setRemark3(String remark3) {
-        this.remark3 = remark3 == null ? null : remark3.trim();
-    }
-
-    public String getRemark4() {
-        return remark4;
-    }
-
-    public void setRemark4(String remark4) {
-        this.remark4 = remark4 == null ? null : remark4.trim();
-    }
-
-    public String getRemark5() {
-        return remark5;
-    }
-
-    public void setRemark5(String remark5) {
-        this.remark5 = remark5 == null ? null : remark5.trim();
-    }
-
-    public String getDeliveryPeriod() {
-        return deliveryPeriod;
-    }
-
-    public void setDeliveryPeriod(String deliveryPeriod) {
-        this.deliveryPeriod = deliveryPeriod == null ? null : deliveryPeriod.trim();
-    }
-
-    public String getDefaultStgBinCd() {
-        return defaultStgBinCd;
-    }
-
-    public void setDefaultStgBinCd(String defaultStgBinCd) {
-        this.defaultStgBinCd = defaultStgBinCd == null ? null : defaultStgBinCd.trim();
-    }
-
-    public Integer getEnableFlg() {
-        return enableFlg;
-    }
-
-    public void setEnableFlg(Integer enableFlg) {
-        this.enableFlg = enableFlg;
-    }
-
-    public BigDecimal getSafetyStock() {
-        return safetyStock;
-    }
-
-    public void setSafetyStock(BigDecimal safetyStock) {
-        this.safetyStock = safetyStock;
-    }
-
-    public BigDecimal getMaxInvQty() {
-        return maxInvQty;
-    }
-
-    public void setMaxInvQty(BigDecimal maxInvQty) {
-        this.maxInvQty = maxInvQty;
-    }
-
-    public BigDecimal getPurchLimitQty() {
-        return purchLimitQty;
-    }
-
-    public void setPurchLimitQty(BigDecimal purchLimitQty) {
-        this.purchLimitQty = purchLimitQty;
-    }
-
-    public String getGoodsCls() {
-        return goodsCls;
-    }
-
-    public void setGoodsCls(String goodsCls) {
-        this.goodsCls = goodsCls == null ? null : goodsCls.trim();
-    }
-
-    public Integer getLotNoMgmtCls() {
-        return lotNoMgmtCls;
-    }
-
-    public void setLotNoMgmtCls(Integer lotNoMgmtCls) {
-        this.lotNoMgmtCls = lotNoMgmtCls;
-    }
-
-    public String getItemTypeCd() {
-        return itemTypeCd;
-    }
-
-    public void setItemTypeCd(String itemTypeCd) {
-        this.itemTypeCd = itemTypeCd == null ? null : itemTypeCd.trim();
-    }
-
-    public String getStdUnitCd() {
-        return stdUnitCd;
-    }
-
-    public void setStdUnitCd(String stdUnitCd) {
-        this.stdUnitCd = stdUnitCd == null ? null : stdUnitCd.trim();
-    }
-
-    public String getPkgUnitCd() {
-        return pkgUnitCd;
-    }
-
-    public void setPkgUnitCd(String pkgUnitCd) {
-        this.pkgUnitCd = pkgUnitCd == null ? null : pkgUnitCd.trim();
-    }
-
-    public BigDecimal getOutstockReqMinQty() {
-        return outstockReqMinQty;
-    }
-
-    public void setOutstockReqMinQty(BigDecimal outstockReqMinQty) {
-        this.outstockReqMinQty = outstockReqMinQty;
-    }
-
-    public String getOutstockUnitCls() {
-        return outstockUnitCls;
-    }
-
-    public void setOutstockUnitCls(String outstockUnitCls) {
-        this.outstockUnitCls = outstockUnitCls == null ? null : outstockUnitCls.trim();
-    }
-
-    public BigDecimal getNetWeightPerUnit() {
-        return netWeightPerUnit;
-    }
-
-    public void setNetWeightPerUnit(BigDecimal netWeightPerUnit) {
-        this.netWeightPerUnit = netWeightPerUnit;
-    }
-
-    public BigDecimal getOwnVolM3() {
-        return ownVolM3;
-    }
-
-    public void setOwnVolM3(BigDecimal ownVolM3) {
-        this.ownVolM3 = ownVolM3;
-    }
-
-    public BigDecimal getSizeD() {
-        return sizeD;
-    }
-
-    public void setSizeD(BigDecimal sizeD) {
-        this.sizeD = sizeD;
-    }
-
-    public BigDecimal getSizeW() {
-        return sizeW;
-    }
-
-    public void setSizeW(BigDecimal sizeW) {
-        this.sizeW = sizeW;
-    }
-
-    public BigDecimal getSizeH() {
-        return sizeH;
-    }
-
-    public void setSizeH(BigDecimal sizeH) {
-        this.sizeH = sizeH;
-    }
-
-    public String getPkgRqmtDesc() {
-        return pkgRqmtDesc;
-    }
-
-    public void setPkgRqmtDesc(String pkgRqmtDesc) {
-        this.pkgRqmtDesc = pkgRqmtDesc == null ? null : pkgRqmtDesc.trim();
-    }
-
-    public String getStackingRqmtDesc() {
-        return stackingRqmtDesc;
-    }
-
-    public void setStackingRqmtDesc(String stackingRqmtDesc) {
-        this.stackingRqmtDesc = stackingRqmtDesc == null ? null : stackingRqmtDesc.trim();
-    }
-
-    public String getStgRqmtDesc() {
-        return stgRqmtDesc;
-    }
-
-    public void setStgRqmtDesc(String stgRqmtDesc) {
-        this.stgRqmtDesc = stgRqmtDesc == null ? null : stgRqmtDesc.trim();
-    }
-
-    public String getManufacturer() {
-        return manufacturer;
-    }
-
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer == null ? null : manufacturer.trim();
-    }
-
-    public String getPictureId() {
-        return pictureId;
-    }
-
-    public void setPictureId(String pictureId) {
-        this.pictureId = pictureId == null ? null : pictureId.trim();
-    }
-
-    public String getPictureUrl() {
-        return pictureUrl;
-    }
-
-    public void setPictureUrl(String pictureUrl) {
-        this.pictureUrl = pictureUrl == null ? null : pictureUrl.trim();
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", itemCd=").append(itemCd);
-        sb.append(", deptId=").append(deptId);
-        sb.append(", itemName=").append(itemName);
-        sb.append(", supplier=").append(supplier);
-        sb.append(", prepLeadTime=").append(prepLeadTime);
-        sb.append(", instockLeadTime=").append(instockLeadTime);
-        sb.append(", restingPeriod=").append(restingPeriod);
-        sb.append(", outstockLeadTime=").append(outstockLeadTime);
-        sb.append(", spec1=").append(spec1);
-        sb.append(", spec2=").append(spec2);
-        sb.append(", spec3=").append(spec3);
-        sb.append(", spec4=").append(spec4);
-        sb.append(", spec5=").append(spec5);
-        sb.append(", cls1=").append(cls1);
-        sb.append(", cls2=").append(cls2);
-        sb.append(", cls3=").append(cls3);
-        sb.append(", cls4=").append(cls4);
-        sb.append(", cls5=").append(cls5);
-        sb.append(", remark1=").append(remark1);
-        sb.append(", remark2=").append(remark2);
-        sb.append(", remark3=").append(remark3);
-        sb.append(", remark4=").append(remark4);
-        sb.append(", remark5=").append(remark5);
-        sb.append(", deliveryPeriod=").append(deliveryPeriod);
-        sb.append(", defaultStgBinCd=").append(defaultStgBinCd);
-        sb.append(", enableFlg=").append(enableFlg);
-        sb.append(", safetyStock=").append(safetyStock);
-        sb.append(", maxInvQty=").append(maxInvQty);
-        sb.append(", purchLimitQty=").append(purchLimitQty);
-        sb.append(", goodsCls=").append(goodsCls);
-        sb.append(", lotNoMgmtCls=").append(lotNoMgmtCls);
-        sb.append(", itemTypeCd=").append(itemTypeCd);
-        sb.append(", stdUnitCd=").append(stdUnitCd);
-        sb.append(", pkgUnitCd=").append(pkgUnitCd);
-        sb.append(", outstockReqMinQty=").append(outstockReqMinQty);
-        sb.append(", outstockUnitCls=").append(outstockUnitCls);
-        sb.append(", netWeightPerUnit=").append(netWeightPerUnit);
-        sb.append(", ownVolM3=").append(ownVolM3);
-        sb.append(", sizeD=").append(sizeD);
-        sb.append(", sizeW=").append(sizeW);
-        sb.append(", sizeH=").append(sizeH);
-        sb.append(", pkgRqmtDesc=").append(pkgRqmtDesc);
-        sb.append(", stackingRqmtDesc=").append(stackingRqmtDesc);
-        sb.append(", stgRqmtDesc=").append(stgRqmtDesc);
-        sb.append(", manufacturer=").append(manufacturer);
-        sb.append(", pictureId=").append(pictureId);
-        sb.append(", pictureUrl=").append(pictureUrl);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
 }

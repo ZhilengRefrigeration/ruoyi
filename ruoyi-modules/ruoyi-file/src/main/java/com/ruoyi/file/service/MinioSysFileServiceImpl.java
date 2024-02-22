@@ -1,16 +1,11 @@
 package com.ruoyi.file.service;
 
-import com.alibaba.nacos.common.utils.IoUtils;
-import com.ruoyi.file.domain.FileSaveResult;
-import com.ruoyi.file.utils.FileUploadUtils;
 import com.ruoyi.file.config.MinioConfig;
+import com.ruoyi.file.domain.FileResult;
 import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.InputStream;
 
 /**
  * TODO 未完成，还需要改造：保存文件记录
@@ -33,18 +28,24 @@ public class MinioSysFileServiceImpl implements ISysFileService {
      * @return 访问地址
      */
     @Override
-    public FileSaveResult uploadFile(MultipartFile file) throws Exception {
-        String fileName = FileUploadUtils.extractFilename(file, null);
-        InputStream inputStream = file.getInputStream();
-        PutObjectArgs args = PutObjectArgs.builder()
-                .bucket(minioConfig.getBucketName())
-                .object(fileName)
-                .stream(inputStream, file.getSize(), -1)
-                .contentType(file.getContentType())
-                .build();
-        client.putObject(args);
-        IoUtils.closeQuietly(inputStream);
-        String requestUrl = minioConfig.getUrl() + "/" + minioConfig.getBucketName() + "/" + fileName;
-        return FileSaveResult.success(requestUrl, null);
+    public FileResult uploadFile(MultipartFile file) throws Exception {
+//        String fileName = FileUploadUtils.extractFilename(file, null);
+//        InputStream inputStream = file.getInputStream();
+//        PutObjectArgs args = PutObjectArgs.builder()
+//                .bucket(minioConfig.getBucketName())
+//                .object(fileName)
+//                .stream(inputStream, file.getSize(), -1)
+//                .contentType(file.getContentType())
+//                .build();
+//        client.putObject(args);
+//        IoUtils.closeQuietly(inputStream);
+//        String requestUrl = minioConfig.getUrl() + "/" + minioConfig.getBucketName() + "/" + fileName;
+//        return FileResult.success(requestUrl, null);
+        return FileResult.fail("Not implemented yet!");
+    }
+
+    @Override
+    public FileResult deleteFiles(String[] fileIds) throws Exception {
+        return FileResult.fail("Not implemented yet!");
     }
 }

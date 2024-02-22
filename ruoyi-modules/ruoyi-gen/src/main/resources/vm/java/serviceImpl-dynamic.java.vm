@@ -97,6 +97,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
         #end
     #end
 #end
+                .orderBy(${ClassName}DynamicSqlSupport.${pkColumn.javaField})
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
         return ${className}Mapper.selectMany(provider);

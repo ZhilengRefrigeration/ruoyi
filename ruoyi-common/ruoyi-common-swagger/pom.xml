@@ -10,12 +10,12 @@
     <modelVersion>4.0.0</modelVersion>
     
     <artifactId>ruoyi-common-swagger</artifactId>
-	
+
     <description>
         ruoyi-common-swagger系统接口
     </description>
 
-	<dependencies>
+    <dependencies>
 
         <!-- SpringBoot Web -->
         <dependency>
@@ -34,5 +34,5 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
         </dependency>
 
-	</dependencies>
+    </dependencies>
 </project>

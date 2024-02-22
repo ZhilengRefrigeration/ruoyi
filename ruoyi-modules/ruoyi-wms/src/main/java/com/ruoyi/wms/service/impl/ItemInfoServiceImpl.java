@@ -1,19 +1,25 @@
 package com.ruoyi.wms.service.impl;
 
+import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.DateUtils;
+import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.domain.ExtBaseEntity;
 import com.ruoyi.common.security.utils.SecurityUtilsExt;
+import com.ruoyi.system.api.RemoteFileService;
+import com.ruoyi.system.api.domain.SysFileInfo;
 import com.ruoyi.wms.domain.ItemInfo;
 import com.ruoyi.wms.mapper.ItemInfoDynamicSqlSupport;
+import com.ruoyi.wms.mapper.ItemInfoExtMapper;
 import com.ruoyi.wms.mapper.ItemInfoMapper;
 import com.ruoyi.wms.service.IItemInfoService;
+import jakarta.annotation.Resource;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
-import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,8 +32,12 @@ import java.util.Optional;
  */
 @Service
 public class ItemInfoServiceImpl implements IItemInfoService {
-    @Autowired
+    @Resource
     private ItemInfoMapper itemInfoMapper;
+    @Resource
+    private ItemInfoExtMapper itemInfoExtMapper;
+    @Resource
+    private RemoteFileService remoteFileService;
 
     /**
      * 查询物品基础信息
@@ -49,38 +59,45 @@ public class ItemInfoServiceImpl implements IItemInfoService {
      */
     @Override
     public List<ItemInfo> selectItemInfoList(ItemInfo itemInfo) {
-        SelectStatementProvider provider = SqlBuilder.select(ItemInfoMapper.selectList)
-                .from(ItemInfoDynamicSqlSupport.itemInfo)
-                .where(ItemInfoDynamicSqlSupport.deleteFlag, SqlBuilder.isEqualTo(ExtBaseEntity.NOT_DELETE))
-                .and(ItemInfoDynamicSqlSupport.itemCd, SqlBuilder.isEqualToWhenPresent(itemInfo.getItemCd()))
-                .and(ItemInfoDynamicSqlSupport.itemName, SqlBuilder.isLikeWhenPresent(itemInfo.getItemName() == null ? null : "%" + itemInfo.getItemName() + "%"))
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-        return itemInfoMapper.selectMany(provider);
+        return itemInfoExtMapper.selectPageList(itemInfo);
     }
 
     /**
      * 新增物品基础信息
      *
-     * @param itemInfo 物品基础信息
+     * @param item 物品基础信息
      * @return 结果
      */
     @Transactional
     @Override
-    public int insertItemInfo(ItemInfo itemInfo) {
-        return itemInfoMapper.insertSelective(itemInfo);
+    public AjaxResult insertItemInfo(ItemInfo item) {
+        //上传图片文件
+        String uploadErrMsg = uploadItemImage(item);
+        if (StringUtils.isNotBlank(uploadErrMsg)) {
+            return AjaxResult.error(uploadErrMsg);
+        }
+        //存DB
+        int affectedRows = itemInfoMapper.insertSelective(item);
+        return affectedRows > 0 ? AjaxResult.success() : AjaxResult.error();
     }
 
     /**
      * 修改物品基础信息
      *
-     * @param itemInfo 物品基础信息
+     * @param item 物品基础信息
      * @return 结果
      */
     @Transactional
     @Override
-    public int updateItemInfo(ItemInfo itemInfo) {
-        return itemInfoMapper.updateByPrimaryKeySelective(itemInfo);
+    public AjaxResult updateItemInfo(ItemInfo item) {
+        //上传图片文件
+        String uploadErrMsg = uploadItemImage(item);
+        if (StringUtils.isNotBlank(uploadErrMsg)) {
+            return AjaxResult.error(uploadErrMsg);
+        }
+        //存DB
+        int affectedRows = itemInfoMapper.updateByPrimaryKeySelective(item);
+        return affectedRows > 0 ? AjaxResult.success() : AjaxResult.error();
     }
 
     /**
@@ -117,5 +134,32 @@ public class ItemInfoServiceImpl implements IItemInfoService {
         record.setDeleteFlag(ExtBaseEntity.DELETED);
         record.setUpdateTime(DateUtils.getNowDate());
         return itemInfoMapper.updateByPrimaryKey(record);
+    }
+
+    /**
+     * 上传图片文件
+     *
+     * @return 错误消息，成功返回null
+     */
+    private String uploadItemImage(ItemInfo item) {
+        if (item.getItemImages() == null){
+            return null;
+        }
+        for (MultipartFile file : item.getItemImages()) {
+            R<SysFileInfo> fileResult = remoteFileService.upload(file);
+            if (StringUtils.isNull(fileResult) || StringUtils.isNull(fileResult.getData())) {
+                //上传失败
+                if (fileResult == null || StringUtils.isBlank(fileResult.getMsg())) {
+                    return "文件服务异常，请联系管理员";
+                } else {
+                    return "文件服务异常，" + fileResult.getMsg();
+                }
+            } else {
+                //上传成功
+                item.setPictureId(fileResult.getData().getFileId());
+                item.setPictureUrl(fileResult.getData().getUrl());
+            }
+        }
+        return null;
     }
 }

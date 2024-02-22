@@ -1,15 +1,15 @@
 package com.ruoyi.common.core.utils.file;
 
+import org.apache.poi.util.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Arrays;
-
-import org.apache.poi.util.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 图片处理工具类
@@ -22,6 +22,7 @@ public class ImageUtils {
     public static byte[] getImage(String imagePath) {
         InputStream is = getFile(imagePath);
         try {
+            assert is != null;
             return IOUtils.toByteArray(is);
         } catch (Exception e) {
             log.error("图片加载异常", e);
@@ -34,6 +35,7 @@ public class ImageUtils {
     public static InputStream getFile(String imagePath) {
         try {
             byte[] result = readFile(imagePath);
+            assert result != null;
             result = Arrays.copyOf(result, result.length);
             return new ByteArrayInputStream(result);
         } catch (Exception e) {

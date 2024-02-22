@@ -108,8 +108,8 @@
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="${businessName}List" @selection-change="handleSelectionChange" show-overflow-tooltip="true">
-      <el-table-column type="selection" width="55" align="center" />
+    <el-table v-loading="loading" :data="${businessName}List" @selection-change="handleSelectionChange" :show-overflow-tooltip="true">
+      <el-table-column type="selection" width="30" align="center" />
 #foreach($column in $columns)
 #set($javaField=$column.javaField)
 #set($parentheseIndex=$column.columnComment.indexOf("（"))
@@ -377,7 +377,7 @@ const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 20,
     #foreach ($column in $columns)
 #if($column.query)
     $column.javaField: null#if($foreach.count != $columns.size()),#end

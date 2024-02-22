@@ -1,9 +1,10 @@
 package com.ruoyi.file.controller;
 
-import com.ruoyi.file.domain.FileSaveResult;
+import com.ruoyi.file.domain.FileResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,7 +33,7 @@ public class SysFileController {
     public R<SysFileInfo> upload(MultipartFile file) {
         try {
             // 上传并返回访问地址
-            FileSaveResult saveResult = sysFileService.uploadFile(file);
+            FileResult saveResult = sysFileService.uploadFile(file);
             String requestUrl = saveResult.getRequestUrl();
             // 构建返回结果
             SysFileInfo responseInfo = new SysFileInfo();
@@ -42,6 +43,20 @@ public class SysFileController {
             return R.ok(responseInfo);
         } catch (Exception e) {
             log.error("上传文件失败", e);
+            return R.fail(e.getMessage());
+        }
+    }
+
+    /**
+     * 删除文件
+     */
+    @PostMapping("deleteFiles/{fileIds}")
+    public R<SysFileInfo> deleteFiles(@PathVariable String[] fileIds) {
+        try {
+            FileResult fileResult = sysFileService.deleteFiles(fileIds);
+            return fileResult.isSuccess() ? R.ok() : R.fail(fileResult.getMessage("删除文件失败"));
+        } catch (Exception e) {
+            log.error("删除文件失败", e);
             return R.fail(e.getMessage());
         }
     }

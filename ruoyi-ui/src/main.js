@@ -43,6 +43,8 @@ import ImagePreview from "@/components/ImagePreview"
 import TreeSelect from '@/components/TreeSelect'
 // 字典标签组件
 import DictTag from '@/components/DictTag'
+// FilePond文件上传组件
+import FpFileUpload from '@/components/FpFileUpload'
 
 const app = createApp(App)
 
@@ -65,6 +67,7 @@ app.component('ImageUpload', ImageUpload)
 app.component('ImagePreview', ImagePreview)
 app.component('RightToolbar', RightToolbar)
 app.component('Editor', Editor)
+app.component('FpFileUpload', FpFileUpload)
 
 app.use(router)
 app.use(store)

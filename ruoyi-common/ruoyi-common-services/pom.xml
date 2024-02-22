@@ -16,10 +16,10 @@
     </description>
 
     <dependencies>
-        <!-- RuoYi Common Security -->
+        <!-- RuoYi Common Log -->
         <dependency>
             <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-common-security</artifactId>
+            <artifactId>ruoyi-common-log</artifactId>
         </dependency>
     </dependencies>
 

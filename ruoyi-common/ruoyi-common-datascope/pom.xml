@@ -10,13 +10,13 @@
     <modelVersion>4.0.0</modelVersion>
     
     <artifactId>ruoyi-common-datascope</artifactId>
-	
+
     <description>
         ruoyi-common-datascope权限范围
     </description>
 
     <dependencies>
-		
+
         <!-- RuoYi Common Security -->
         <dependency>
             <groupId>com.ruoyi</groupId>

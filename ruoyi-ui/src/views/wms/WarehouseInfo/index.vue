@@ -65,8 +65,8 @@
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="WarehouseInfoList" @selection-change="handleSelectionChange" show-overflow-tooltip="true">
-      <el-table-column type="selection" width="55" align="center" />
+    <el-table v-loading="loading" :data="WarehouseInfoList" @selection-change="handleSelectionChange" :show-overflow-tooltip="true">
+      <el-table-column type="selection" width="30" align="center" />
       <el-table-column label="仓库代码" align="center" prop="whsCd" />
       <el-table-column label="仓库名称" align="center" prop="whsName" />
       <el-table-column label="仓库类型代码" align="center" prop="whsTypeCd" />
@@ -173,7 +173,7 @@ const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 20,
     whsCd: null,
     whsName: null,
   },

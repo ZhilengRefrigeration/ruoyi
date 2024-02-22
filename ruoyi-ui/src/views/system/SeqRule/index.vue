@@ -65,7 +65,7 @@
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="SeqRuleList" @selection-change="handleSelectionChange" show-overflow-tooltip="true">
+    <el-table v-loading="loading" :data="SeqRuleList" @selection-change="handleSelectionChange" :show-overflow-tooltip="true">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="规则ID" align="center" prop="ruleId" />
       <el-table-column label="序列号识别码" align="center" prop="seqDistCd" />
@@ -132,7 +132,7 @@
         <el-form-item label="状态" prop="enableFlag">
           <el-radio-group v-model="form.enableFlag">
             <el-radio
-                v-for="dict in sys_normal_disable"
+                v-for="dict in sys_enable_flag"
                 :key="dict.value"
                 :label="dict.value"
             >{{ dict.label }}</el-radio>
@@ -153,7 +153,7 @@
 import { listSeqRule, getSeqRule, delSeqRule, addSeqRule, updateSeqRule, changeRuleEnableFlag } from "@/api/system/SeqRule";
 
 const { proxy } = getCurrentInstance();
-const { sys_normal_disable } = proxy.useDict("sys_normal_disable");
+const { sys_enable_flag } = proxy.useDict("sys_enable_flag");
 
 const SeqRuleList = ref([]);
 const open = ref(false);
@@ -185,10 +185,10 @@ const data = reactive({
       { required: true, message: "前缀不能为空", trigger: "blur" }
     ],
     minDigits: [
-      { required: true, message: "序列号数字部分的最小位数，不足补0不能为空", trigger: "blur" }
+      { required: true, message: "最小位数不能为空", trigger: "blur" }
     ],
     enableFlag: [
-      { required: true, message: "是否启用不能为空", trigger: "blur" }
+      { required: true, message: "启用状态不能为空", trigger: "blur" }
     ],
   }
 });

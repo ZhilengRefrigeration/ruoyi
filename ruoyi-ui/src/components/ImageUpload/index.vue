@@ -40,7 +40,7 @@
       <img
         :src="dialogImageUrl"
         style="display: block; max-width: 100%; margin: 0 auto"
-      />
+        alt=""/>
     </el-dialog>
   </div>
 </template>

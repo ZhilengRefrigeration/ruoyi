@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.wms.mapper.ItemInfoExtMapper">
+
+    <resultMap type="com.ruoyi.wms.domain.ItemInfo" id="ItemInfoResult">
+        <result property="deptId" column="DEPT_ID"/>
+        <result property="itemCd" column="ITEM_CD"/>
+        <result property="itemName" column="ITEM_NAME"/>
+        <result property="supplier" column="SUPPLIER"/>
+        <result property="prepLeadTime" column="PREP_LEAD_TIME"/>
+        <result property="instockLeadTime" column="INSTOCK_LEAD_TIME"/>
+        <result property="restingPeriod" column="RESTING_PERIOD"/>
+        <result property="outstockLeadTime" column="OUTSTOCK_LEAD_TIME"/>
+        <result property="spec1" column="SPEC_1"/>
+        <result property="spec2" column="SPEC_2"/>
+        <result property="spec3" column="SPEC_3"/>
+        <result property="spec4" column="SPEC_4"/>
+        <result property="spec5" column="SPEC_5"/>
+        <result property="cls1" column="CLS_1"/>
+        <result property="cls2" column="CLS_2"/>
+        <result property="cls3" column="CLS_3"/>
+        <result property="cls4" column="CLS_4"/>
+        <result property="cls5" column="CLS_5"/>
+        <result property="deliveryPeriod" column="DELIVERY_PERIOD"/>
+        <result property="defaultStgBinCd" column="DEFAULT_STG_BIN_CD"/>
+        <result property="enableFlg" column="ENABLE_FLG"/>
+        <result property="safetyStock" column="SAFETY_STOCK"/>
+        <result property="maxInvQty" column="MAX_INV_QTY"/>
+        <result property="purchLimitQty" column="PURCH_LIMIT_QTY"/>
+        <result property="goodsCls" column="GOODS_CLS"/>
+        <result property="lotNoMgmtCls" column="LOT_NO_MGMT_CLS"/>
+        <result property="itemTypeCd" column="ITEM_TYPE_CD"/>
+        <result property="stdUnitCd" column="STD_UNIT_CD"/>
+        <result property="pkgUnitCd" column="PKG_UNIT_CD"/>
+        <result property="outstockReqMinQty" column="OUTSTOCK_REQ_MIN_QTY"/>
+        <result property="outstockUnitCls" column="OUTSTOCK_UNIT_CLS"/>
+        <result property="netWeightPerUnit" column="NET_WEIGHT_PER_UNIT"/>
+        <result property="ownVolM3" column="OWN_VOL_M3"/>
+        <result property="sizeD" column="SIZE_D"/>
+        <result property="sizeW" column="SIZE_W"/>
+        <result property="sizeH" column="SIZE_H"/>
+        <result property="pkgRqmtDesc" column="PKG_RQMT_DESC"/>
+        <result property="stackingRqmtDesc" column="STACKING_RQMT_DESC"/>
+        <result property="stgRqmtDesc" column="STG_RQMT_DESC"/>
+        <result property="manufacturer" column="MANUFACTURER"/>
+        <result property="pictureId" column="PICTURE_ID"/>
+        <result property="pictureUrl" column="PICTURE_URL"/>
+        <result property="updateCount" column="UPDATE_COUNT"/>
+        <result property="deleteFlag" column="DELETE_FLAG"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+        <result property="remark1" column="REMARK_1"/>
+        <result property="remark2" column="REMARK_2"/>
+        <result property="remark3" column="REMARK_3"/>
+        <result property="remark4" column="REMARK_4"/>
+        <result property="remark5" column="REMARK_5"/>
+        <result property="itemTypeName" column="ITEM_TYPE_NAME"/>
+        <result property="stdUnitName" column="stdUnitName"/>
+        <result property="pkgUnitName" column="pkgUnitName"/>
+    </resultMap>
+
+    <select id="selectPageList" parameterType="com.ruoyi.wms.domain.ItemInfo" resultMap="ItemInfoResult">
+        select
+        t1.DEPT_ID,
+        t1.ITEM_CD,
+        t1.ITEM_NAME,
+        t1.SUPPLIER,
+        t1.PREP_LEAD_TIME,
+        t1.INSTOCK_LEAD_TIME,
+        t1.RESTING_PERIOD,
+        t1.OUTSTOCK_LEAD_TIME,
+        t1.SPEC_1,
+        t1.SPEC_2,
+        t1.SPEC_3,
+        t1.SPEC_4,
+        t1.SPEC_5,
+        t1.CLS_1,
+        t1.CLS_2,
+        t1.CLS_3,
+        t1.CLS_4,
+        t1.CLS_5,
+        t1.DELIVERY_PERIOD,
+        t1.DEFAULT_STG_BIN_CD,
+        t1.ENABLE_FLG,
+        t1.SAFETY_STOCK,
+        t1.MAX_INV_QTY,
+        t1.PURCH_LIMIT_QTY,
+        t1.GOODS_CLS,
+        t1.LOT_NO_MGMT_CLS,
+        t1.ITEM_TYPE_CD,
+        t1.STD_UNIT_CD,
+        t1.PKG_UNIT_CD,
+        t1.OUTSTOCK_REQ_MIN_QTY,
+        t1.OUTSTOCK_UNIT_CLS,
+        t1.NET_WEIGHT_PER_UNIT,
+        t1.OWN_VOL_M3,
+        t1.SIZE_D,
+        t1.SIZE_W,
+        t1.SIZE_H,
+        t1.PKG_RQMT_DESC,
+        t1.STACKING_RQMT_DESC,
+        t1.STG_RQMT_DESC,
+        t1.MANUFACTURER,
+        t1.PICTURE_ID,
+        t1.PICTURE_URL,
+        t1.UPDATE_COUNT,
+        t1.DELETE_FLAG,
+        t1.create_by,
+        t1.create_time,
+        t1.update_by,
+        t1.update_time,
+        t1.remark,
+        itemType.ITEM_TYPE_NAME,
+        stdUnit.UNIT_NAME as stdUnitName,
+        pkgUnit.UNIT_NAME as pkgUnitName
+        from WMS_M_ITEM_INFO t1
+        left join WMS_M_ITEM_TYPE itemType on t1.ITEM_TYPE_CD = itemType.ITEM_TYPE_CD and itemType.DELETE_FLAG = 0
+        left join WMS_M_UNIT_INFO stdUnit on t1.STD_UNIT_CD = stdUnit.UNIT_CODE and stdUnit.DELETE_FLAG = 0
+        left join WMS_M_UNIT_INFO pkgUnit on t1.PKG_UNIT_CD = pkgUnit.UNIT_CODE and pkgUnit.DELETE_FLAG = 0
+        <where>
+            and t1.DELETE_FLAG = 0
+            <if test="itemCd != null  and itemCd != ''">
+                and t1.ITEM_CD = #{itemCd}
+            </if>
+            <if test="itemName != null  and itemName != ''">
+                and t1.ITEM_NAME like concat('%', #{itemName}, '%')
+            </if>
+        </where>
+        order by t1.ITEM_CD
+    </select>
+
+</mapper>

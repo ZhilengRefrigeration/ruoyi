@@ -59,6 +59,7 @@ public class UnitInfoServiceImpl implements IUnitInfoService {
                 .where(UnitInfoDynamicSqlSupport.deleteFlag, SqlBuilder.isEqualTo(ExtBaseEntity.NOT_DELETE))
                 .and(UnitInfoDynamicSqlSupport.unitCode, SqlBuilder.isEqualToWhenPresent(unitInfo.getUnitCode()))
                 .and(UnitInfoDynamicSqlSupport.unitName, SqlBuilder.isLikeWhenPresent(unitInfo.getUnitName()))
+                .orderBy(UnitInfoDynamicSqlSupport.unitCode)
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
         return unitInfoMapper.selectMany(provider);

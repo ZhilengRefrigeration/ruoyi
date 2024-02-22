@@ -1,5 +1,6 @@
 package com.ruoyi.wms.service;
 
+import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.wms.domain.ItemInfo;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public interface IItemInfoService {
      * @param itemInfo 物品基础信息
      * @return 结果
      */
-    int insertItemInfo(ItemInfo itemInfo);
+    AjaxResult insertItemInfo(ItemInfo itemInfo);
 
     /**
      * 修改物品基础信息
@@ -41,7 +42,7 @@ public interface IItemInfoService {
      * @param itemInfo 物品基础信息
      * @return 结果
      */
-    int updateItemInfo(ItemInfo itemInfo);
+    AjaxResult updateItemInfo(ItemInfo itemInfo);
 
     /**
      * 批量删除物品基础信息

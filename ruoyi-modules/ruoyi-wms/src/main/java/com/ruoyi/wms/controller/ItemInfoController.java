@@ -70,7 +70,17 @@ public class ItemInfoController extends BaseController {
     @Log(title = "物品基础信息", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody ItemInfo itemInfo) {
-        return toAjax(itemInfoService.insertItemInfo(itemInfo));
+        return itemInfoService.insertItemInfo(itemInfo);
+    }
+
+    /**
+     * 新增物品基础信息（带图片文件一起提交）
+     */
+    @RequiresPermissions("wms:ItemInfo:add")
+    @Log(title = "物品基础信息", businessType = BusinessType.INSERT)
+    @PostMapping("/addWithImage")
+    public AjaxResult addWithImage(ItemInfo itemInfo) {
+        return itemInfoService.insertItemInfo(itemInfo);
     }
 
     /**
@@ -80,7 +90,17 @@ public class ItemInfoController extends BaseController {
     @Log(title = "物品基础信息", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody ItemInfo itemInfo) {
-        return toAjax(itemInfoService.updateItemInfo(itemInfo));
+        return itemInfoService.updateItemInfo(itemInfo);
+    }
+
+    /**
+     * 修改物品基础信息（带图片文件一起提交）
+     */
+    @RequiresPermissions("wms:ItemInfo:edit")
+    @Log(title = "物品基础信息", businessType = BusinessType.UPDATE)
+    @PutMapping("/editWithImage")
+    public AjaxResult editWithImage(ItemInfo itemInfo) {
+        return itemInfoService.updateItemInfo(itemInfo);
     }
 
     /**

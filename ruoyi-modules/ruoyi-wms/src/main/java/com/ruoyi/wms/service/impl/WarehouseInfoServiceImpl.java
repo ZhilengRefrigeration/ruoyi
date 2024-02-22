@@ -59,6 +59,7 @@ public class WarehouseInfoServiceImpl implements IWarehouseInfoService {
                 .where(WarehouseInfoDynamicSqlSupport.deleteFlag, SqlBuilder.isEqualTo(ExtBaseEntity.NOT_DELETE))
                 .and(WarehouseInfoDynamicSqlSupport.whsCd, SqlBuilder.isEqualToWhenPresent(warehouseInfo.getWhsCd()))
                 .and(WarehouseInfoDynamicSqlSupport.whsName, SqlBuilder.isLikeWhenPresent(warehouseInfo.getWhsName() == null ? null : "%" + warehouseInfo.getWhsName() + "%"))
+                .orderBy(WarehouseInfoDynamicSqlSupport.whsCd)
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
         return warehouseInfoMapper.selectMany(provider);

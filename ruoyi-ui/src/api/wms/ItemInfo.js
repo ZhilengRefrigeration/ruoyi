@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request, { upload } from '@/utils/request'
 
 // 查询物品基础信息列表
 export function listItemInfo(query) {
@@ -18,21 +18,35 @@ export function getItemInfo(itemCd) {
 }
 
 // 新增物品基础信息
-export function addItemInfo(data) {
-  return request({
-    url: '/wms/ItemInfo',
-    method: 'post',
-    data: data
-  })
+export function addItemInfo(data, withImage = false, imageFiles = []) {
+  if (withImage) {
+    //连着图片文件一起提交
+    const url = '/wms/ItemInfo/addWithImage'
+    return upload(url, imageFiles, data)
+  } else {
+    //只提交json数据
+    return request({
+      url: '/wms/ItemInfo',
+      method: 'post',
+      data: data
+    })
+  }
 }
 
 // 修改物品基础信息
-export function updateItemInfo(data) {
-  return request({
-    url: '/wms/ItemInfo',
-    method: 'put',
-    data: data
-  })
+export function updateItemInfo(data, withImage = false, imageFiles = []) {
+  if (withImage) {
+    //连着图片文件一起提交
+    const url = '/wms/ItemInfo/editWithImage'
+    return upload(url, imageFiles, data, { method: 'put' })
+  } else {
+    //只提交json数据
+    return request({
+      url: '/wms/ItemInfo',
+      method: 'put',
+      data: data
+    })
+  }
 }
 
 // 删除物品基础信息

@@ -1,5 +1,6 @@
 package com.ruoyi.file;
 
+import com.ruoyi.common.security.annotation.EnableRyFeignClients;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -13,6 +14,7 @@ import com.ruoyi.common.swagger.annotation.EnableCustomSwagger2;
  */
 @ConditionalOnProperty(name = "spring.cloud.nacos.config.group", havingValue = "DEFAULT_GROUP", matchIfMissing = true)
 @EnableCustomSwagger2
+@EnableRyFeignClients
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 public class RuoYiFileApplication {
     public static void main(String[] args) {

@@ -60,6 +60,7 @@ public class ItemTypeServiceImpl implements IItemTypeService {
                 .where(ItemTypeDynamicSqlSupport.deleteFlag, SqlBuilder.isEqualTo(ExtBaseEntity.NOT_DELETE))
                 .and(ItemTypeDynamicSqlSupport.itemTypeName, SqlBuilder.isLikeWhenPresent(itemType.getItemTypeName() == null ? null : "%" + itemType.getItemTypeName() + "%"))
                 .and(ItemTypeDynamicSqlSupport.remark1, SqlBuilder.isEqualToWhenPresent(itemType.getRemark1()))
+                .orderBy(ItemTypeDynamicSqlSupport.itemTypeCd)
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
         return itemTypeMapper.selectMany(provider);

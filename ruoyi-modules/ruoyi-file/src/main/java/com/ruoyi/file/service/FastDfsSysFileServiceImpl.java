@@ -1,7 +1,7 @@
 package com.ruoyi.file.service;
 
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
-import com.ruoyi.file.domain.FileSaveResult;
+import com.ruoyi.file.domain.FileResult;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,12 +29,17 @@ public class FastDfsSysFileServiceImpl implements ISysFileService {
      * @return 访问地址
      */
     @Override
-    public FileSaveResult uploadFile(MultipartFile file) throws Exception {
+    public FileResult uploadFile(MultipartFile file) throws Exception {
 //        InputStream inputStream = file.getInputStream();
 //        StorePath storePath = storageClient.uploadFile(inputStream, file.getSize(),
 //                FileTypeUtils.getExtension(file), null);
 //        IoUtils.closeQuietly(inputStream);
 //        return domain + "/" + storePath.getFullPath();
-        return FileSaveResult.fail("Not implemented yet!");
+        return FileResult.fail("Not implemented yet!");
+    }
+
+    @Override
+    public FileResult deleteFiles(String[] fileIds) throws Exception {
+        return FileResult.fail("Not implemented yet!");
     }
 }

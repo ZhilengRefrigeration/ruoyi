@@ -49,7 +49,7 @@ public interface ISysFileCRUDService {
      * @param fileIds 需要删除的文件存储记录主键集合
      * @return 结果
      */
-    int deleteSysFileByFileIds(String[] fileIds);
+    int deleteSysFileByFileIds(String[] fileIds) throws Exception;
 
     /**
      * 删除文件存储记录信息
@@ -57,5 +57,5 @@ public interface ISysFileCRUDService {
      * @param fileId 文件存储记录主键
      * @return 结果
      */
-    int deleteSysFileByFileId(String fileId);
+    int deleteSysFileByFileId(String fileId) throws Exception;
 }

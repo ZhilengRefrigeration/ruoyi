@@ -20,4 +20,9 @@ public class ServiceNameConstants {
      * 文件服务的serviceId
      */
     public static final String FILE_SERVICE = "ruoyi-file";
+
+    /**
+     * WMS服务的serviceId
+     */
+    public static final String WMS_SERVICE = "ruoyi-wms";
 }

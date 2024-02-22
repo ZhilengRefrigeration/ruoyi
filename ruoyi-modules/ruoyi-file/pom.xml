@@ -59,12 +59,6 @@
             <artifactId>minio</artifactId>
             <version>${minio.version}</version>
         </dependency>
-        
-        <!-- RuoYi Api System -->
-        <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-api-system</artifactId>
-        </dependency>
 
         <!-- Mysql Connector -->
         <dependency>
@@ -82,6 +76,12 @@
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-services</artifactId>
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>com.ruoyi</groupId>-->
+<!--                    <artifactId>ruoyi-common-log</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
         </dependency>
 
         <!-- RuoYi Common Datasource-->
@@ -89,7 +89,19 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-datasource</artifactId>
         </dependency>
-        
+
+        <!-- RuoYi Common Core -->
+<!--        <dependency>-->
+<!--            <groupId>com.ruoyi</groupId>-->
+<!--            <artifactId>ruoyi-common-security</artifactId>-->
+<!--        </dependency>-->
+
+<!--        &lt;!&ndash; 系统接口 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.ruoyi</groupId>-->
+<!--            <artifactId>ruoyi-api-system</artifactId>-->
+<!--        </dependency>-->
+
     </dependencies>
 
     <build>

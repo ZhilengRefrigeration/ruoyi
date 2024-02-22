@@ -1,5 +1,6 @@
 package com.ruoyi.file.domain;
 
+import com.ruoyi.common.core.utils.StringUtils;
 import lombok.Data;
 
 import java.io.Serial;
@@ -10,7 +11,7 @@ import java.io.Serializable;
  * created on 2024/2/19
  */
 @Data
-public class FileSaveResult implements Serializable {
+public class FileResult implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -18,6 +19,8 @@ public class FileSaveResult implements Serializable {
     private boolean success;
 
     private String message;
+
+    private int count;
 
     /**
      * 文件请求地址
@@ -33,19 +36,30 @@ public class FileSaveResult implements Serializable {
         return uploadResult == null ? "" : uploadResult.getFileId();
     }
 
-    public static FileSaveResult success(String requestUrl, FileUploadResult uploadResult) {
-        FileSaveResult result = new FileSaveResult();
+    public static FileResult success(String requestUrl, FileUploadResult uploadResult) {
+        FileResult result = new FileResult();
         result.setSuccess(true);
         result.setRequestUrl(requestUrl);
         result.setUploadResult(uploadResult);
         return result;
     }
 
-    public static FileSaveResult fail(String message) {
-        FileSaveResult result = new FileSaveResult();
+    public static FileResult success(String requestUrl) {
+        return success(requestUrl, null);
+    }
+
+    public static FileResult success() {
+        return success(null, null);
+    }
+
+    public static FileResult fail(String message) {
+        FileResult result = new FileResult();
         result.setSuccess(false);
         result.setMessage(message);
         return result;
     }
 
+    public String getMessage(String defaultMessage) {
+        return StringUtils.isBlank(message) ? defaultMessage : message;
+    }
 }

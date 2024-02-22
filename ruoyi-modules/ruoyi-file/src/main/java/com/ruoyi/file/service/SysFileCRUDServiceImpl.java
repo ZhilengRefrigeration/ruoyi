@@ -1,11 +1,11 @@
 package com.ruoyi.file.service;
 
 import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.file.domain.FileResult;
 import com.ruoyi.file.domain.SysFile;
 import com.ruoyi.file.mapper.SysFileDynamicSqlSupport;
 import com.ruoyi.file.mapper.SysFileMapper;
 import org.mybatis.dynamic.sql.SqlBuilder;
-import org.mybatis.dynamic.sql.delete.render.DeleteStatementProvider;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
 import org.mybatis.dynamic.sql.select.SelectDSLCompleter;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
@@ -24,8 +24,12 @@ import java.util.Optional;
  */
 @Service
 public class SysFileCRUDServiceImpl implements ISysFileCRUDService {
+
     @Autowired
     private SysFileMapper sysFileMapper;
+
+    @Autowired
+    private ISysFileService sysFileService;
 
     /**
      * 查询文件存储记录
@@ -52,13 +56,15 @@ public class SysFileCRUDServiceImpl implements ISysFileCRUDService {
             SelectStatementProvider provider = SqlBuilder.select(SysFileMapper.selectList)
                     .from(SysFileDynamicSqlSupport.sysFile)
                     .where(SysFileDynamicSqlSupport.fileId, SqlBuilder.isEqualToWhenPresent(sysFile.getFileId()))
-                    .and(SysFileDynamicSqlSupport.savedName, SqlBuilder.isLikeWhenPresent(sysFile.getSavedName() == null ? null : "%" + sysFile.getSavedName() + "%"))
+                    .and(SysFileDynamicSqlSupport.originalName, SqlBuilder.isLikeWhenPresent(sysFile.getSavedName() == null ? null : "%" + sysFile.getSavedName() + "%"))
+                    .and(SysFileDynamicSqlSupport.extension, SqlBuilder.isEqualToWhenPresent(sysFile.getExtension()))
+                    .orderBy(SysFileDynamicSqlSupport.createTime.descending())
                     .build()
                     .render(RenderingStrategies.MYBATIS3);
             return sysFileMapper.selectMany(provider);
         } else {
             //全部查询
-            return sysFileMapper.select(SelectDSLCompleter.allRows());
+            return sysFileMapper.select(SelectDSLCompleter.allRowsOrderedBy(SysFileDynamicSqlSupport.createTime.descending()));
         }
     }
 
@@ -94,12 +100,9 @@ public class SysFileCRUDServiceImpl implements ISysFileCRUDService {
      */
     @Transactional
     @Override
-    public int deleteSysFileByFileIds(String[] fileIds) {
-        DeleteStatementProvider provider = SqlBuilder.deleteFrom(SysFileDynamicSqlSupport.sysFile)
-                .where(SysFileDynamicSqlSupport.fileId, SqlBuilder.isIn(fileIds))
-                .build()
-                .render(RenderingStrategies.MYBATIS3);
-        return sysFileMapper.delete(provider);
+    public int deleteSysFileByFileIds(String[] fileIds) throws Exception {
+        FileResult result = sysFileService.deleteFiles(fileIds);
+        return result.getCount();
     }
 
     /**
@@ -110,7 +113,8 @@ public class SysFileCRUDServiceImpl implements ISysFileCRUDService {
      */
     @Transactional
     @Override
-    public int deleteSysFileByFileId(String fileId) {
-        return sysFileMapper.deleteByPrimaryKey(fileId);
+    public int deleteSysFileByFileId(String fileId) throws Exception {
+        String[] fileIds = {fileId};
+        return deleteSysFileByFileIds(fileIds);
     }
 }
