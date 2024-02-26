@@ -125,7 +125,7 @@ const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
-    pageSize: 20,
+    pageSize: 30,
     itemTypeName: null,
     remark1: null,
   },

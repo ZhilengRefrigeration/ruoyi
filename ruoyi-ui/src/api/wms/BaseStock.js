@@ -9,10 +9,11 @@ export function listBaseStock(query) {
   })
 }
 
-// TODO 查询基本库存详细 主键需要注意
-export function getBaseStock(whsCd) {
+// 询基本库存详细
+export function getBaseStock(data) {
   return request({
-    url: '/wms/BaseStock/' + whsCd,
-    method: 'get'
+    url: '/wms/BaseStock/getInfo',
+    method: 'post',
+    data: data
   })
 }

@@ -4,7 +4,7 @@
       <el-tooltip class="item" effect="dark" :content="showSearch ? '隐藏搜索' : '显示搜索'" placement="top" v-if="search">
         <el-button circle icon="Search" @click="toggleSearch()" />
       </el-tooltip>
-      <el-tooltip class="item" effect="dark" content="刷新" placement="top">
+      <el-tooltip class="item" effect="dark" content="刷新" placement="top" v-if="showRefresh">
         <el-button circle icon="Refresh" @click="refresh()" />
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="显隐列" placement="top" v-if="columns">
@@ -59,6 +59,11 @@ const props = defineProps({
   gutter: {
     type: Number,
     default: 10,
+  },
+  /* 是否显示刷新图标 */
+  showRefresh: {
+    type: Boolean,
+    default: false,
   },
 })
 

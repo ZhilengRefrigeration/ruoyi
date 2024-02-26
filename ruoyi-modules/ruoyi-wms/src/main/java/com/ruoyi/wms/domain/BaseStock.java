@@ -1,5 +1,6 @@
 package com.ruoyi.wms.domain;
 
+import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.ExtBaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -65,26 +66,31 @@ public class BaseStock extends ExtBaseEntity implements Serializable {
     /**
      * 仓库代码
      */
+    @Excel(name = "仓库代码", sort = 1)
     private String whsCd;
 
     /**
      * 货架号
      */
+    @Excel(name = "货架号", sort = 2)
     private String stgBinCd;
 
     /**
      * 物品代码
      */
+    @Excel(name = "物品代码", sort = 3)
     private String itemCd;
 
     /**
      * 批号
      */
+    @Excel(name = "批号", sort = 4)
     private String lotNo;
 
     /**
      * 子批号
      */
+    @Excel(name = "子批号", sort = 5)
     private String subLotNo;
 
     /**
@@ -95,26 +101,31 @@ public class BaseStock extends ExtBaseEntity implements Serializable {
     /**
      * 标准单位数量
      */
+    @Excel(name = "标准单位数量", sort = 6)
     private BigDecimal stdUnitQty;
 
     /**
      * 包装单位数量
      */
+    @Excel(name = "包装单位数量", sort = 7)
     private BigDecimal pkgUnitQty;
 
     /**
      * 序列号
      */
+    @Excel(name = "序列号", sort = 8)
     private String serialNo;
 
     /**
      * 托盘ID
      */
+    @Excel(name = "托盘ID", sort = 9)
     private String palletId;
 
     /**
      * 父托盘ID
      */
+    @Excel(name = "父托盘ID", sort = 10)
     private String parentPalletId;
 
     /**

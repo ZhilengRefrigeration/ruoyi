@@ -24,7 +24,10 @@ import elementIcons from '@/components/SvgIcon/svgicon'
 
 import './permission' // permission control
 
+//字典
 import { useDict } from '@/utils/dict'
+import { optionselect } from '@/api/system/dict/type'
+
 import { parseTime, resetForm, addDateRange, handleTree, selectDictLabel, selectDictLabels } from '@/utils/ruoyi'
 
 // 分页组件
@@ -45,6 +48,8 @@ import TreeSelect from '@/components/TreeSelect'
 import DictTag from '@/components/DictTag'
 // FilePond文件上传组件
 import FpFileUpload from '@/components/FpFileUpload'
+// 自定义下拉选项组件
+import DataSelect from '@/components/DataSelect'
 
 const app = createApp(App)
 
@@ -68,6 +73,7 @@ app.component('ImagePreview', ImagePreview)
 app.component('RightToolbar', RightToolbar)
 app.component('Editor', Editor)
 app.component('FpFileUpload', FpFileUpload)
+app.component('DataSelect', DataSelect)
 
 app.use(router)
 app.use(store)

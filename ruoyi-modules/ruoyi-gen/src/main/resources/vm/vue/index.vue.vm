@@ -398,7 +398,7 @@ export default {
       // 查询参数
       queryParams: {
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 30,
 #foreach ($column in $columns)
 #if($column.query)
         $column.javaField: null#if($foreach.count != $columns.size()),#end

@@ -11,13 +11,14 @@ import java.util.List;
  * created on 2024-02-22
  */
 public interface IBaseStockService {
+
     /**
      * 查询基本库存
      *
      * @param whsCd 基本库存主键
      * @return 基本库存
      */
-    BaseStock selectBaseStockByWhsCd(String whsCd);
+    BaseStock selectBaseStockByPK(String whsCd, String stgBinCd, String itemCd, String lotNo, String subLotNo);
 
     /**
      * 查询基本库存列表

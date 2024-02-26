@@ -54,12 +54,12 @@
             item.STD_UNIT_CD,
             item.PKG_UNIT_CD,
             stdUnit.UNIT_NAME as STD_UNIT_NAME,
-            pkgUnit.UNIT_NAME as PKG_UNIT_NAME,
+            pkgUnit.UNIT_NAME as PKG_UNIT_NAME
         from WMS_B_BASE_STOCK t
         left join WMS_M_WAREHOUSE_INFO whs on t.WHS_CD = whs.WHS_CD and whs.DELETE_FLAG = 0
         left join WMS_M_ITEM_INFO item on t.ITEM_CD = item.ITEM_CD and item.DELETE_FLAG = 0
-        left join WMS_M_ITEM_UNIT_INFO stdUnit on item.STD_UNIT_CD = stdUnit.UNIT_CD and stdUnit.DELETE_FLAG = 0
-        left join WMS_M_ITEM_UNIT_INFO pkgUnit on item.PKG_UNIT_CD = pkgUnit.UNIT_CD and pkgUnit.DELETE_FLAG = 0
+        left join WMS_M_UNIT_INFO stdUnit on item.STD_UNIT_CD = stdUnit.UNIT_CODE and stdUnit.DELETE_FLAG = 0
+        left join WMS_M_UNIT_INFO pkgUnit on item.PKG_UNIT_CD = pkgUnit.UNIT_CODE and pkgUnit.DELETE_FLAG = 0
         <where>
             and t.DELETE_FLAG = 0
             <if test="whsCd != null and whsCd != ''">

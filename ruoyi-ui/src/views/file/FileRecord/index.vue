@@ -113,7 +113,7 @@ const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
-    pageSize: 20,
+    pageSize: 30,
     fileId: null,
     savedName: null,
     originalName: null,

@@ -1,13 +1,14 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="仓库代码" prop="whsCd">
-        <el-input
-          v-model="queryParams.whsCd"
-          placeholder="请输入仓库代码"
-          clearable
-          @keyup.enter="handleQuery"
-        />
+      <el-form-item label="仓库" prop="whsCd">
+<!--        <el-input-->
+<!--          v-model="queryParams.whsCd"-->
+<!--          placeholder="请输入仓库代码"-->
+<!--          clearable-->
+<!--          @keyup.enter="handleQuery"-->
+<!--        />-->
+        <data-select v-model="queryParams.whsCd" :fetch-data="fetchWarehouseData" />
       </el-form-item>
       <el-form-item label="货架号" prop="stgBinCd">
         <el-input
@@ -37,39 +38,39 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="Plus"
-          @click="handleInstock"
-          v-hasPermi="['wms:BaseStock:instock']"
-        >入库</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="success"
-          plain
-          icon="Edit"
-          :disabled="single"
-          @click="handleOutstock"
-          v-hasPermi="['wms:BaseStock:outstock']"
-        >出库</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="Download"
-          @click="handleExport"
-          v-hasPermi="['wms:BaseStock:export']"
-        >导出</el-button>
-      </el-col>
-      <el-col :span="1.5">
         <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button icon="Refresh" @click="resetQuery">重置</el-button>
       </el-col>
+      <el-col :span="1.5">
+        <el-button
+            type="warning"
+            plain
+            icon="Download"
+            @click="handleExport"
+            v-hasPermi="['wms:BaseStock:export']"
+        >导出</el-button>
+      </el-col>
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="primary"-->
+<!--          plain-->
+<!--          icon="Plus"-->
+<!--          @click="handleInstock"-->
+<!--          v-hasPermi="['wms:BaseStock:instock']"-->
+<!--        >入库</el-button>-->
+<!--      </el-col>-->
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="success"-->
+<!--          plain-->
+<!--          icon="Edit"-->
+<!--          :disabled="single"-->
+<!--          @click="handleOutstock"-->
+<!--          v-hasPermi="['wms:BaseStock:outstock']"-->
+<!--        >出库</el-button>-->
+<!--      </el-col>-->
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -118,7 +119,9 @@
 </template>
 
 <script setup name="BaseStock">
-import { listBaseStock, getBaseStock } from "@/api/wms/BaseStock";
+import { listBaseStock, getBaseStock } from "@/api/wms/BaseStock"
+import { listWarehouseInfo } from "@/api/wms/WarehouseInfo";
+import DataSelect from "@/components/DataSelect/index.vue";
 
 const { proxy } = getCurrentInstance();
 
@@ -136,7 +139,7 @@ const data = reactive({
   form: {},
   queryParams: {
     pageNum: 1,
-    pageSize: 20,
+    pageSize: 30,
     whsCd: null,
     stgBinCd: null,
     itemCd: null,
@@ -206,38 +209,45 @@ function resetQuery() {
   handleQuery();
 }
 
-// TODO 多选框选中数据 需要修改主键
+// 多选框选中数据
 function handleSelectionChange(selection) {
-  ids.value = selection.map(item => item.whsCd);
+  ids.value = selection.map(item => {
+    return {
+      whsCd: item.whsCd,
+      stgBinCd: item.stgBinCd,
+      itemCd: item.itemCd,
+      lotNo: item.lotNo,
+      subLotNo: item.subLotNo,
+    };
+  });
   single.value = selection.length != 1;
   multiple.value = !selection.length;
 }
 
 /** 入库按钮操作 */
 function handleInstock() {
-  proxy.$modal.msg("开发中...");
-  // reset();
-  // open.value = true;
-  // title.value = "入库";
+  reset();
+  open.value = true;
+  title.value = "入库";
 }
 
 /** 出库按钮操作 */
-function handleOutstock(row) {
-  proxy.$modal.msg("开发中...");
-  // reset();
-  // const _whsCd = row.whsCd || ids.value
-  // getBaseStock(_whsCd).then(response => {
-  //   form.value = response.data;
-  //   open.value = true;
-  //   title.value = "出库";
-  // });
+function handleOutstock() {
+  reset();
+  let primaryKey = ids.value[0]
+  getBaseStock(primaryKey).then(response => {
+    form.value = response.data;
+    open.value = true;
+    title.value = "出库";
+  });
 }
 
 /** 提交按钮 */
 function submitForm() {
+  //TODO 未完成
   proxy.$refs["BaseStockRef"].validate(valid => {
     if (valid) {
-      if (form.value.whsCd != null) {
+      if (form.value.deptId != null) {
         // instock(form.value).then(response => {
         //   proxy.$modal.msgSuccess("出库成功");
         //   open.value = false;
@@ -259,6 +269,19 @@ function handleExport() {
   proxy.download('wms/BaseStock/export', {
     ...queryParams.value
   }, `BaseStock_${new Date().getTime()}.xlsx`)
+}
+
+// 获取仓库数据
+async function fetchWarehouseData() {
+  const response = await listWarehouseInfo({})
+  const dataList = []
+  response.rows.map(item => {
+    dataList.push({
+      label: item.whsName,
+      value: item.whsCd,
+    })
+  })
+  return dataList
 }
 
 //页面打开时查询

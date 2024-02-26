@@ -140,7 +140,7 @@ const defaultSort = ref({ prop: "accessTime", order: "descending" });
 // 查询参数
 const queryParams = ref({
   pageNum: 1,
-  pageSize: 10,
+  pageSize: 30,
   ipaddr: undefined,
   userName: undefined,
   status: undefined,

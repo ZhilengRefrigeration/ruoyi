@@ -1,6 +1,10 @@
 package com.ruoyi.wms.domain;
 
+import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.ExtBaseEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -17,10 +21,47 @@ import java.math.BigDecimal;
  * @author ryas
  * created on 2024-02-22
  */
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class InvTransHis extends ExtBaseEntity implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    //==================== ↓↓↓↓↓↓ 非表字段 ↓↓↓↓↓↓ ====================
+
+    /**
+     * 创建者用户名
+     */
+    private String createByUser;
+
+    /**
+     * 标准单位代码
+     */
+    private String stdUnitCd;
+
+    /**
+     * 标准单位名称
+     */
+    private String stdUnitName;
+
+    /**
+     * 包装单位代码
+     */
+    private String pkgUnitCd;
+
+    /**
+     * 包装单位名称
+     */
+    private String pkgUnitName;
+
+    //==================== ↓↓↓↓↓↓ 表字段 ↓↓↓↓↓↓ ====================
+
     /**
      *   入出库履历号
      */
+    @Excel(name = "入出库履历号", sort = 1)
     private String invTransNo;
 
     /**
@@ -128,215 +169,4 @@ public class InvTransHis extends ExtBaseEntity implements Serializable {
      */
     private String remark5;
 
-    @Serial
-    private static final long serialVersionUID = 1L;
-
-    public String getInvTransNo() {
-        return invTransNo;
-    }
-
-    public void setInvTransNo(String invTransNo) {
-        this.invTransNo = invTransNo == null ? null : invTransNo.trim();
-    }
-
-    public Integer getDeptId() {
-        return deptId;
-    }
-
-    public void setDeptId(Integer deptId) {
-        this.deptId = deptId;
-    }
-
-    public Integer getInvTransType() {
-        return invTransType;
-    }
-
-    public void setInvTransType(Integer invTransType) {
-        this.invTransType = invTransType;
-    }
-
-    public String getWhsCd() {
-        return whsCd;
-    }
-
-    public void setWhsCd(String whsCd) {
-        this.whsCd = whsCd == null ? null : whsCd.trim();
-    }
-
-    public String getStgBinCd() {
-        return stgBinCd;
-    }
-
-    public void setStgBinCd(String stgBinCd) {
-        this.stgBinCd = stgBinCd == null ? null : stgBinCd.trim();
-    }
-
-    public String getPalletId() {
-        return palletId;
-    }
-
-    public void setPalletId(String palletId) {
-        this.palletId = palletId == null ? null : palletId.trim();
-    }
-
-    public BigDecimal getStdUnitQty() {
-        return stdUnitQty;
-    }
-
-    public void setStdUnitQty(BigDecimal stdUnitQty) {
-        this.stdUnitQty = stdUnitQty;
-    }
-
-    public BigDecimal getPkgUnitQty() {
-        return pkgUnitQty;
-    }
-
-    public void setPkgUnitQty(BigDecimal pkgUnitQty) {
-        this.pkgUnitQty = pkgUnitQty;
-    }
-
-    public String getTransOrderNo() {
-        return transOrderNo;
-    }
-
-    public void setTransOrderNo(String transOrderNo) {
-        this.transOrderNo = transOrderNo == null ? null : transOrderNo.trim();
-    }
-
-    public String getTransOrderDetlNo() {
-        return transOrderDetlNo;
-    }
-
-    public void setTransOrderDetlNo(String transOrderDetlNo) {
-        this.transOrderDetlNo = transOrderDetlNo == null ? null : transOrderDetlNo.trim();
-    }
-
-    public String getOperator() {
-        return operator;
-    }
-
-    public void setOperator(String operator) {
-        this.operator = operator == null ? null : operator.trim();
-    }
-
-    public String getBusinessCls() {
-        return businessCls;
-    }
-
-    public void setBusinessCls(String businessCls) {
-        this.businessCls = businessCls == null ? null : businessCls.trim();
-    }
-
-    public String getItemCd() {
-        return itemCd;
-    }
-
-    public void setItemCd(String itemCd) {
-        this.itemCd = itemCd == null ? null : itemCd.trim();
-    }
-
-    public String getLotNo() {
-        return lotNo;
-    }
-
-    public void setLotNo(String lotNo) {
-        this.lotNo = lotNo == null ? null : lotNo.trim();
-    }
-
-    public String getSubLotNo() {
-        return subLotNo;
-    }
-
-    public void setSubLotNo(String subLotNo) {
-        this.subLotNo = subLotNo == null ? null : subLotNo.trim();
-    }
-
-    public String getSerialNo() {
-        return serialNo;
-    }
-
-    public void setSerialNo(String serialNo) {
-        this.serialNo = serialNo == null ? null : serialNo.trim();
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason == null ? null : reason.trim();
-    }
-
-    public String getRemark1() {
-        return remark1;
-    }
-
-    public void setRemark1(String remark1) {
-        this.remark1 = remark1 == null ? null : remark1.trim();
-    }
-
-    public String getRemark2() {
-        return remark2;
-    }
-
-    public void setRemark2(String remark2) {
-        this.remark2 = remark2 == null ? null : remark2.trim();
-    }
-
-    public String getRemark3() {
-        return remark3;
-    }
-
-    public void setRemark3(String remark3) {
-        this.remark3 = remark3 == null ? null : remark3.trim();
-    }
-
-    public String getRemark4() {
-        return remark4;
-    }
-
-    public void setRemark4(String remark4) {
-        this.remark4 = remark4 == null ? null : remark4.trim();
-    }
-
-    public String getRemark5() {
-        return remark5;
-    }
-
-    public void setRemark5(String remark5) {
-        this.remark5 = remark5 == null ? null : remark5.trim();
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", invTransNo=").append(invTransNo);
-        sb.append(", deptId=").append(deptId);
-        sb.append(", invTransType=").append(invTransType);
-        sb.append(", whsCd=").append(whsCd);
-        sb.append(", stgBinCd=").append(stgBinCd);
-        sb.append(", palletId=").append(palletId);
-        sb.append(", stdUnitQty=").append(stdUnitQty);
-        sb.append(", pkgUnitQty=").append(pkgUnitQty);
-        sb.append(", transOrderNo=").append(transOrderNo);
-        sb.append(", transOrderDetlNo=").append(transOrderDetlNo);
-        sb.append(", operator=").append(operator);
-        sb.append(", businessCls=").append(businessCls);
-        sb.append(", itemCd=").append(itemCd);
-        sb.append(", lotNo=").append(lotNo);
-        sb.append(", subLotNo=").append(subLotNo);
-        sb.append(", serialNo=").append(serialNo);
-        sb.append(", reason=").append(reason);
-        sb.append(", remark1=").append(remark1);
-        sb.append(", remark2=").append(remark2);
-        sb.append(", remark3=").append(remark3);
-        sb.append(", remark4=").append(remark4);
-        sb.append(", remark5=").append(remark5);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
 }
