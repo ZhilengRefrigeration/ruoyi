@@ -61,6 +61,8 @@ public class BaseStock extends ExtBaseEntity implements Serializable {
      */
     private String pkgUnitName;
 
+    //==================== ↓↓↓↓↓↓ 扩展方法 ↓↓↓↓↓↓ ====================
+
     //==================== ↓↓↓↓↓↓ 表字段 ↓↓↓↓↓↓ ====================
 
     /**
