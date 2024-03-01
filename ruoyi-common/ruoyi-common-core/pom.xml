@@ -124,6 +124,12 @@
             <version>${mybatis.dynamic.version}</version>
         </dependency>
 
+        <!-- Java邮件标准接口 -->
+        <dependency>
+            <groupId>jakarta.mail</groupId>
+            <artifactId>jakarta.mail-api</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

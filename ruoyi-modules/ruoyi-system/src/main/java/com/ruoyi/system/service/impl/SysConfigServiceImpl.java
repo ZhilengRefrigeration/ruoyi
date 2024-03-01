@@ -83,6 +83,11 @@ public class SysConfigServiceImpl implements ISysConfigService {
         return configMapper.selectConfigList(config);
     }
 
+    @Override
+    public List<SysConfig> selectConfigListByKeys(List<String> configKeyList) {
+        return configMapper.selectConfigListByKeys(configKeyList);
+    }
+
     /**
      * 新增参数配置
      *

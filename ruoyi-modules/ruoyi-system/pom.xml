@@ -64,6 +64,16 @@
             <artifactId>mysql-connector-j</artifactId>
         </dependency>
 
+        <!-- Java邮件实现者 -->
+        <dependency>
+            <groupId>org.eclipse.angus</groupId>
+            <artifactId>jakarta.mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.angus</groupId>
+            <artifactId>angus-activation</artifactId>
+        </dependency>
+
         <!-- RuoYi Common DataSource -->
         <dependency>
             <groupId>com.ruoyi</groupId>

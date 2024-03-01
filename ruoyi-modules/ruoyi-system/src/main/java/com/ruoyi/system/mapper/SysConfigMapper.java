@@ -1,6 +1,7 @@
 package com.ruoyi.system.mapper;
 
 import com.ruoyi.system.domain.SysConfig;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -33,6 +34,14 @@ public interface SysConfigMapper {
      * @return 参数配置集合
      */
     List<SysConfig> selectConfigList(SysConfig config);
+
+    /**
+     * 查询参数配置列表
+     *
+     * @param configKeyList 参数键名集合
+     * @return 参数配置集合
+     */
+    List<SysConfig> selectConfigListByKeys(@Param("configKeyList") List<String> configKeyList);
 
     /**
      * 根据键名查询参数配置信息

@@ -78,6 +78,18 @@
         where config_key = #{configKey} limit 1
     </select>
 
+    <select id="selectConfigListByKeys" resultType="com.ruoyi.system.domain.SysConfig">
+        <include refid="selectConfigVo"/>
+        <where>
+            <if test="configKeyList != null and configKeyList.size > 0">
+                and config_key in
+                <foreach collection="configKeyList" item="configKey" open="(" separator="," close=")">
+                    #{configKey}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
     <insert id="insertConfig" parameterType="com.ruoyi.system.domain.SysConfig">
         insert into sys_config (
         <if test="configName != null and configName != '' ">config_name,</if>

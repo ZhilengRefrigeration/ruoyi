@@ -35,6 +35,14 @@ public interface ISysConfigService {
     List<SysConfig> selectConfigList(SysConfig config);
 
     /**
+     * 根据键名查询参数配置信息
+     *
+     * @param configKeyList 参数键名集合
+     * @return 参数配置集合
+     */
+    List<SysConfig> selectConfigListByKeys(List<String> configKeyList);
+
+    /**
      * 新增参数配置
      *
      * @param config 参数配置信息
