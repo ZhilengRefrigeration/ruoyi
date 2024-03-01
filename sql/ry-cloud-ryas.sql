@@ -11,7 +11,7 @@
  Target Server Version : 80200 (8.2.0)
  File Encoding         : 65001
 
- Date: 22/02/2024 18:10:55
+ Date: 01/03/2024 14:30:57
 */
 
 SET NAMES utf8mb4;
@@ -22,7 +22,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `WMS_B_BASE_STOCK`;
 CREATE TABLE `WMS_B_BASE_STOCK`  (
-  `DEPT_ID` int NOT NULL COMMENT '从属部门ID',
+  `DEPT_ID` int NOT NULL DEFAULT 100 COMMENT '从属部门ID',
   `WHS_CD` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '仓库代码',
   `STG_BIN_CD` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '货架号',
   `ITEM_CD` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '物品代码',
@@ -51,6 +51,8 @@ CREATE TABLE `WMS_B_BASE_STOCK`  (
 -- ----------------------------
 -- Records of WMS_B_BASE_STOCK
 -- ----------------------------
+INSERT INTO `WMS_B_BASE_STOCK` VALUES (100, 'WHS001', 'A1-10-1', 'G00001', '', '', 20.000000, 0.000000, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '1', '2024-02-23 10:15:22', '1', '2024-02-23 10:15:25', NULL);
+INSERT INTO `WMS_B_BASE_STOCK` VALUES (100, 'WHS001', 'A1-10-2', 'G00001', '', '', 50.000000, 0.000000, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '1', '2024-02-23 10:15:22', '1', '2024-02-23 10:15:25', NULL);
 
 -- ----------------------------
 -- Table structure for WMS_B_INV_TRANS_HIS
@@ -92,6 +94,7 @@ CREATE TABLE `WMS_B_INV_TRANS_HIS`  (
 -- ----------------------------
 -- Records of WMS_B_INV_TRANS_HIS
 -- ----------------------------
+INSERT INTO `WMS_B_INV_TRANS_HIS` VALUES (100, 'ITN00001', 1, 'WHS0001', 'A1-10-1', NULL, 20.000000, 0.000000, NULL, NULL, NULL, '0', 'G00001', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '1', '2024-02-23 13:50:43', '', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for WMS_M_ITEM_INFO
@@ -295,7 +298,7 @@ CREATE TABLE `gen_table`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`table_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '代码生成业务表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '代码生成业务表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of gen_table
@@ -307,7 +310,8 @@ INSERT INTO `gen_table` VALUES (14, 'sys_seq_rule', '序列号生成规则表', 
 INSERT INTO `gen_table` VALUES (15, 'WMS_M_ITEM_TYPE', '物品类型表', NULL, NULL, 'ItemType', 'crud', 'element-plus', 'mybatis-dynamic', 'com.ruoyi.wms', 'wms', 'ItemType', '物品类型', 'ryas', '0', '/', '{\"parentMenuId\":2000}', 'admin', '2024-02-20 07:11:35', '', '2024-02-20 07:13:11', NULL);
 INSERT INTO `gen_table` VALUES (16, 'WMS_M_ITEM_INFO', '物品基础信息表', NULL, NULL, 'ItemInfo', 'crud', 'element-plus', 'normal', 'com.ruoyi.wms', 'wms', 'ItemInfo', '物品基础信息', 'ryas', '0', '/', '{\"parentMenuId\":\"2000\"}', 'admin', '2024-02-20 08:25:28', '', '2024-02-21 02:00:27', NULL);
 INSERT INTO `gen_table` VALUES (17, 'WMS_B_BASE_STOCK', '基本库存表', NULL, NULL, 'BaseStock', 'crud', 'element-plus', 'mybatis-dynamic', 'com.ruoyi.wms', 'wms', 'BaseStock', '基本库存', 'ryas', '0', '/', '{\"parentMenuId\":\"2043\"}', 'admin', '2024-02-22 05:49:52', '', '2024-02-22 09:30:30', NULL);
-INSERT INTO `gen_table` VALUES (18, 'WMS_B_INV_TRANS_HIS', '入出库履历表', NULL, NULL, 'InvTransHis', 'crud', 'element-plus', 'mybatis-dynamic', 'com.ruoyi.wms', 'wms', 'InvTransHis', '入出库履历', 'ryas', '0', '/', '{\"parentMenuId\":\"2043\"}', 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:40', NULL);
+INSERT INTO `gen_table` VALUES (18, 'WMS_B_INV_TRANS_HIS', '入出库履历表', NULL, NULL, 'InvTransHis', 'crud', 'element-plus', 'mybatis-dynamic', 'com.ruoyi.wms', 'wms', 'InvTransHis', '入出库履历', 'ryas', '0', '/', '{\"parentMenuId\":\"2043\"}', 'admin', '2024-02-22 05:49:53', '', '2024-02-23 05:15:34', NULL);
+INSERT INTO `gen_table` VALUES (19, 'sys_mail_log', '邮件发送日志表', NULL, NULL, 'SysMailLog', 'crud', 'element-plus', 'normal', 'com.ruoyi.system', 'system', 'mailLog', '邮件发送日志', 'ryas', '0', '/', '{\"parentMenuId\":\"108\"}', 'admin', '2024-03-01 06:05:07', '', '2024-03-01 06:10:19', NULL);
 
 -- ----------------------------
 -- Table structure for gen_table_column
@@ -337,7 +341,7 @@ CREATE TABLE `gen_table_column`  (
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '更新者',
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`column_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 380 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '代码生成业务表字段' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 392 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '代码生成业务表字段' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of gen_table_column
@@ -510,35 +514,47 @@ INSERT INTO `gen_table_column` VALUES (347, 17, 'create_time', '创建时间', '
 INSERT INTO `gen_table_column` VALUES (348, 17, 'update_by', '更新者', 'varchar(64)', 'String', 'updateBy', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 21, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:30');
 INSERT INTO `gen_table_column` VALUES (349, 17, 'update_time', '更新时间', 'datetime', 'Date', 'updateTime', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'datetime', '', 22, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:30');
 INSERT INTO `gen_table_column` VALUES (350, 17, 'remark', '备注', 'varchar(500)', 'String', 'remark', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'textarea', '', 23, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:30');
-INSERT INTO `gen_table_column` VALUES (351, 18, 'DEPT_ID', '从属部门ID', 'int', 'Long', 'deptId', '0', '0', '0', NULL, NULL, NULL, NULL, 'EQ', 'input', '', 1, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (352, 18, 'INV_TRANS_NO', '入出库履历号', 'varchar(30)', 'String', 'invTransNo', '1', '0', NULL, '0', NULL, '1', '0', 'EQ', 'input', '', 2, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (353, 18, 'INV_TRANS_TYPE', '入出库类型(1:入库,2:出库)', 'int', 'Long', 'invTransType', '0', '0', '0', '0', '0', '1', '1', 'EQ', 'select', '', 3, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (354, 18, 'WHS_CD', '仓库代码', 'varchar(30)', 'String', 'whsCd', '0', '0', '0', '0', '0', '1', '1', 'EQ', 'input', '', 4, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (355, 18, 'STG_BIN_CD', '货架号', 'varchar(30)', 'String', 'stgBinCd', '0', '0', '0', '0', '0', '1', '1', 'EQ', 'input', '', 5, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (356, 18, 'PALLET_ID', '托盘ID', 'varchar(30)', 'String', 'palletId', '0', '0', NULL, '0', '0', '0', '0', 'EQ', 'input', '', 6, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (357, 18, 'STD_UNIT_QTY', '标准单位数量', 'decimal(18,6)', 'BigDecimal', 'stdUnitQty', '0', '0', '0', '0', '0', '1', '0', 'EQ', 'input', '', 7, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (358, 18, 'PKG_UNIT_QTY', '包装单位数量', 'decimal(18,6)', 'BigDecimal', 'pkgUnitQty', '0', '0', '0', '0', '0', '1', '0', 'EQ', 'input', '', 8, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (359, 18, 'TRANS_ORDER_NO', '交易单号', 'varchar(30)', 'String', 'transOrderNo', '0', '0', NULL, '0', '0', '0', '0', 'EQ', 'input', '', 9, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (360, 18, 'TRANS_ORDER_DETL_NO', '交易单明细号', 'varchar(30)', 'String', 'transOrderDetlNo', '0', '0', NULL, '0', '0', '0', '0', 'EQ', 'input', '', 10, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (361, 18, 'OPERATOR', '操作员', 'varchar(25)', 'String', 'operator', '0', '0', NULL, '0', '0', '0', '0', 'EQ', 'input', '', 11, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (362, 18, 'BUSINESS_CLS', '业务区分', 'varchar(10)', 'String', 'businessCls', '0', '0', '0', '0', '0', '1', '0', 'EQ', 'input', '', 12, 'admin', '2024-02-22 05:49:53', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (363, 18, 'ITEM_CD', '物品代码', 'varchar(30)', 'String', 'itemCd', '0', '0', '0', '0', '0', '1', '1', 'LIKE', 'input', '', 13, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (364, 18, 'LOT_NO', '批号', 'varchar(100)', 'String', 'lotNo', '0', '0', NULL, '0', '0', '1', '1', 'LIKE', 'input', '', 14, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (365, 18, 'SUB_LOT_NO', '子批号', 'varchar(25)', 'String', 'subLotNo', '0', '0', NULL, '0', '0', '0', '0', 'EQ', 'input', '', 15, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (366, 18, 'SERIAL_NO', '序列号', 'varchar(50)', 'String', 'serialNo', '0', '0', NULL, '0', '0', '0', '0', 'EQ', 'input', '', 16, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (367, 18, 'REASON', '入出库理由', 'varchar(255)', 'String', 'reason', '0', '0', NULL, '0', '0', '0', '0', 'EQ', 'input', '', 17, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (368, 18, 'REMARK_1', '备注1', 'varchar(100)', 'String', 'remark1', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 18, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (369, 18, 'REMARK_2', '备注2', 'varchar(100)', 'String', 'remark2', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 19, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (370, 18, 'REMARK_3', '备注3', 'varchar(100)', 'String', 'remark3', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 20, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (371, 18, 'REMARK_4', '备注4', 'varchar(100)', 'String', 'remark4', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 21, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (372, 18, 'REMARK_5', '备注5', 'varchar(100)', 'String', 'remark5', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 22, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (373, 18, 'UPDATE_COUNT', '更新次数', 'int', 'Long', 'updateCount', '0', '0', '0', NULL, NULL, NULL, NULL, 'EQ', 'input', '', 23, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (374, 18, 'DELETE_FLAG', '删除标志', 'int', 'Long', 'deleteFlag', '0', '0', '0', NULL, NULL, NULL, NULL, 'EQ', 'input', '', 24, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (375, 18, 'create_by', '创建者', 'varchar(64)', 'String', 'createBy', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 25, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (376, 18, 'create_time', '创建时间', 'datetime', 'Date', 'createTime', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'datetime', '', 26, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (377, 18, 'update_by', '更新者', 'varchar(64)', 'String', 'updateBy', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 27, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (378, 18, 'update_time', '更新时间', 'datetime', 'Date', 'updateTime', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'datetime', '', 28, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
-INSERT INTO `gen_table_column` VALUES (379, 18, 'remark', '备注', 'varchar(500)', 'String', 'remark', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'textarea', '', 29, 'admin', '2024-02-22 05:49:54', '', '2024-02-22 09:30:41');
+INSERT INTO `gen_table_column` VALUES (351, 18, 'DEPT_ID', '从属部门ID', 'int', 'Long', 'deptId', '0', '0', '0', NULL, NULL, NULL, NULL, 'EQ', 'input', '', 1, 'admin', '2024-02-22 05:49:53', '', '2024-02-23 05:15:34');
+INSERT INTO `gen_table_column` VALUES (352, 18, 'INV_TRANS_NO', '入出库履历号', 'varchar(30)', 'String', 'invTransNo', '1', '0', NULL, '0', NULL, '1', '0', 'EQ', 'input', '', 2, 'admin', '2024-02-22 05:49:53', '', '2024-02-23 05:15:34');
+INSERT INTO `gen_table_column` VALUES (353, 18, 'INV_TRANS_TYPE', '入出库类型(1:入库,2:出库)', 'int', 'Long', 'invTransType', '0', '0', '0', '0', '0', '1', '1', 'EQ', 'select', '', 3, 'admin', '2024-02-22 05:49:53', '', '2024-02-23 05:15:34');
+INSERT INTO `gen_table_column` VALUES (354, 18, 'WHS_CD', '仓库代码', 'varchar(30)', 'String', 'whsCd', '0', '0', '0', '0', '0', '1', '1', 'EQ', 'input', '', 4, 'admin', '2024-02-22 05:49:53', '', '2024-02-23 05:15:34');
+INSERT INTO `gen_table_column` VALUES (355, 18, 'STG_BIN_CD', '货架号', 'varchar(30)', 'String', 'stgBinCd', '0', '0', '0', '0', '0', '1', '1', 'EQ', 'input', '', 5, 'admin', '2024-02-22 05:49:53', '', '2024-02-23 05:15:34');
+INSERT INTO `gen_table_column` VALUES (356, 18, 'PALLET_ID', '托盘ID', 'varchar(30)', 'String', 'palletId', '0', '0', NULL, '0', '0', '0', '0', 'EQ', 'input', '', 6, 'admin', '2024-02-22 05:49:53', '', '2024-02-23 05:15:34');
+INSERT INTO `gen_table_column` VALUES (357, 18, 'STD_UNIT_QTY', '标准单位数量', 'decimal(18,6)', 'BigDecimal', 'stdUnitQty', '0', '0', '0', '0', '0', '1', '0', 'EQ', 'input', '', 7, 'admin', '2024-02-22 05:49:53', '', '2024-02-23 05:15:34');
+INSERT INTO `gen_table_column` VALUES (358, 18, 'PKG_UNIT_QTY', '包装单位数量', 'decimal(18,6)', 'BigDecimal', 'pkgUnitQty', '0', '0', '0', '0', '0', '1', '0', 'EQ', 'input', '', 8, 'admin', '2024-02-22 05:49:53', '', '2024-02-23 05:15:34');
+INSERT INTO `gen_table_column` VALUES (359, 18, 'TRANS_ORDER_NO', '交易单号', 'varchar(30)', 'String', 'transOrderNo', '0', '0', NULL, '0', '0', '0', '0', 'EQ', 'input', '', 9, 'admin', '2024-02-22 05:49:53', '', '2024-02-23 05:15:34');
+INSERT INTO `gen_table_column` VALUES (360, 18, 'TRANS_ORDER_DETL_NO', '交易单明细号', 'varchar(30)', 'String', 'transOrderDetlNo', '0', '0', NULL, '0', '0', '0', '0', 'EQ', 'input', '', 10, 'admin', '2024-02-22 05:49:53', '', '2024-02-23 05:15:34');
+INSERT INTO `gen_table_column` VALUES (361, 18, 'OPERATOR', '操作员', 'varchar(25)', 'String', 'operator', '0', '0', NULL, '0', '0', '0', '0', 'EQ', 'input', '', 11, 'admin', '2024-02-22 05:49:53', '', '2024-02-23 05:15:34');
+INSERT INTO `gen_table_column` VALUES (362, 18, 'BUSINESS_CLS', '业务区分', 'varchar(10)', 'String', 'businessCls', '0', '0', '0', '0', '0', '1', '0', 'EQ', 'input', '', 12, 'admin', '2024-02-22 05:49:53', '', '2024-02-23 05:15:34');
+INSERT INTO `gen_table_column` VALUES (363, 18, 'ITEM_CD', '物品代码', 'varchar(30)', 'String', 'itemCd', '0', '0', '0', '0', '0', '1', '1', 'LIKE', 'input', '', 13, 'admin', '2024-02-22 05:49:54', '', '2024-02-23 05:15:34');
+INSERT INTO `gen_table_column` VALUES (364, 18, 'LOT_NO', '批号', 'varchar(100)', 'String', 'lotNo', '0', '0', NULL, '0', '0', '1', '1', 'LIKE', 'input', '', 14, 'admin', '2024-02-22 05:49:54', '', '2024-02-23 05:15:34');
+INSERT INTO `gen_table_column` VALUES (365, 18, 'SUB_LOT_NO', '子批号', 'varchar(25)', 'String', 'subLotNo', '0', '0', NULL, '0', '0', '0', '0', 'EQ', 'input', '', 15, 'admin', '2024-02-22 05:49:54', '', '2024-02-23 05:15:34');
+INSERT INTO `gen_table_column` VALUES (366, 18, 'SERIAL_NO', '序列号', 'varchar(50)', 'String', 'serialNo', '0', '0', NULL, '0', '0', '0', '0', 'EQ', 'input', '', 16, 'admin', '2024-02-22 05:49:54', '', '2024-02-23 05:15:35');
+INSERT INTO `gen_table_column` VALUES (367, 18, 'REASON', '入出库理由', 'varchar(255)', 'String', 'reason', '0', '0', NULL, '0', '0', '0', '0', 'EQ', 'input', '', 17, 'admin', '2024-02-22 05:49:54', '', '2024-02-23 05:15:35');
+INSERT INTO `gen_table_column` VALUES (368, 18, 'REMARK_1', '备注1', 'varchar(100)', 'String', 'remark1', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 18, 'admin', '2024-02-22 05:49:54', '', '2024-02-23 05:15:35');
+INSERT INTO `gen_table_column` VALUES (369, 18, 'REMARK_2', '备注2', 'varchar(100)', 'String', 'remark2', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 19, 'admin', '2024-02-22 05:49:54', '', '2024-02-23 05:15:35');
+INSERT INTO `gen_table_column` VALUES (370, 18, 'REMARK_3', '备注3', 'varchar(100)', 'String', 'remark3', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 20, 'admin', '2024-02-22 05:49:54', '', '2024-02-23 05:15:35');
+INSERT INTO `gen_table_column` VALUES (371, 18, 'REMARK_4', '备注4', 'varchar(100)', 'String', 'remark4', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 21, 'admin', '2024-02-22 05:49:54', '', '2024-02-23 05:15:35');
+INSERT INTO `gen_table_column` VALUES (372, 18, 'REMARK_5', '备注5', 'varchar(100)', 'String', 'remark5', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 22, 'admin', '2024-02-22 05:49:54', '', '2024-02-23 05:15:35');
+INSERT INTO `gen_table_column` VALUES (373, 18, 'UPDATE_COUNT', '更新次数', 'int', 'Long', 'updateCount', '0', '0', '0', NULL, NULL, NULL, NULL, 'EQ', 'input', '', 23, 'admin', '2024-02-22 05:49:54', '', '2024-02-23 05:15:35');
+INSERT INTO `gen_table_column` VALUES (374, 18, 'DELETE_FLAG', '删除标志', 'int', 'Long', 'deleteFlag', '0', '0', '0', NULL, NULL, NULL, NULL, 'EQ', 'input', '', 24, 'admin', '2024-02-22 05:49:54', '', '2024-02-23 05:15:35');
+INSERT INTO `gen_table_column` VALUES (375, 18, 'create_by', '创建者', 'varchar(64)', 'String', 'createBy', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 25, 'admin', '2024-02-22 05:49:54', '', '2024-02-23 05:15:35');
+INSERT INTO `gen_table_column` VALUES (376, 18, 'create_time', '创建时间', 'datetime', 'Date', 'createTime', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'datetime', '', 26, 'admin', '2024-02-22 05:49:54', '', '2024-02-23 05:15:35');
+INSERT INTO `gen_table_column` VALUES (377, 18, 'update_by', '更新者', 'varchar(64)', 'String', 'updateBy', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 27, 'admin', '2024-02-22 05:49:54', '', '2024-02-23 05:15:35');
+INSERT INTO `gen_table_column` VALUES (378, 18, 'update_time', '更新时间', 'datetime', 'Date', 'updateTime', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'datetime', '', 28, 'admin', '2024-02-22 05:49:54', '', '2024-02-23 05:15:35');
+INSERT INTO `gen_table_column` VALUES (379, 18, 'remark', '备注', 'varchar(500)', 'String', 'remark', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'textarea', '', 29, 'admin', '2024-02-22 05:49:54', '', '2024-02-23 05:15:35');
+INSERT INTO `gen_table_column` VALUES (380, 19, 'mail_log_id', '日志主键', 'bigint', 'Long', 'mailLogId', '1', '0', NULL, '0', NULL, NULL, NULL, 'EQ', 'input', '', 1, 'admin', '2024-03-01 06:05:07', '', '2024-03-01 06:10:19');
+INSERT INTO `gen_table_column` VALUES (381, 19, 'status', '发送状态（0未发送 1成功 2失败）', 'int', 'Long', 'status', '0', '0', '1', '0', '0', '1', '1', 'EQ', 'radio', 'sys_mail_status', 2, 'admin', '2024-03-01 06:05:07', '', '2024-03-01 06:10:19');
+INSERT INTO `gen_table_column` VALUES (382, 19, 'business_type', '自定业务类型', 'varchar(30)', 'String', 'businessType', '0', '0', NULL, '0', '0', '1', '0', 'EQ', 'select', '', 3, 'admin', '2024-03-01 06:05:07', '', '2024-03-01 06:10:19');
+INSERT INTO `gen_table_column` VALUES (383, 19, 'from', '发件人', 'varchar(255)', 'String', 'from', '0', '0', NULL, '0', '0', '1', '0', 'EQ', 'input', '', 4, 'admin', '2024-03-01 06:05:07', '', '2024-03-01 06:10:19');
+INSERT INTO `gen_table_column` VALUES (384, 19, 'to', '收件人', 'varchar(255)', 'String', 'to', '0', '0', NULL, '0', '0', '1', '1', 'EQ', 'input', '', 5, 'admin', '2024-03-01 06:05:07', '', '2024-03-01 06:10:19');
+INSERT INTO `gen_table_column` VALUES (385, 19, 'cc', '抄送', 'varchar(255)', 'String', 'cc', '0', '0', NULL, '0', '0', '1', '0', 'EQ', 'input', '', 6, 'admin', '2024-03-01 06:05:07', '', '2024-03-01 06:10:19');
+INSERT INTO `gen_table_column` VALUES (386, 19, 'subject', '邮件主题', 'varchar(255)', 'String', 'subject', '0', '0', NULL, '0', '0', '1', '1', 'EQ', 'input', '', 7, 'admin', '2024-03-01 06:05:07', '', '2024-03-01 06:10:19');
+INSERT INTO `gen_table_column` VALUES (387, 19, 'msg', '日志消息', 'varchar(50)', 'String', 'msg', '0', '0', NULL, '0', '0', '1', '0', 'EQ', 'input', '', 8, 'admin', '2024-03-01 06:05:07', '', '2024-03-01 06:10:19');
+INSERT INTO `gen_table_column` VALUES (388, 19, 'create_time', '发送时间', 'datetime', 'Date', 'createTime', '0', '0', NULL, NULL, NULL, '1', '1', 'BETWEEN', 'datetime', '', 9, 'admin', '2024-03-01 06:05:07', '', '2024-03-01 06:10:19');
+INSERT INTO `gen_table_column` VALUES (389, 19, 'create_by', '操作用户', 'bigint', 'Long', 'createBy', '0', '0', NULL, NULL, NULL, '1', '0', 'EQ', 'input', '', 10, 'admin', '2024-03-01 06:05:07', '', '2024-03-01 06:10:19');
+INSERT INTO `gen_table_column` VALUES (390, 19, 'cost_time', '消耗时间(ms)', 'bigint', 'Long', 'costTime', '0', '0', NULL, '0', '0', '1', '0', 'EQ', 'input', '', 11, 'admin', '2024-03-01 06:05:07', '', '2024-03-01 06:10:19');
+INSERT INTO `gen_table_column` VALUES (391, 19, 'remark', '备注', 'varchar(255)', 'String', 'remark', '0', '0', NULL, NULL, NULL, NULL, NULL, 'EQ', 'input', '', 12, 'admin', '2024-03-01 06:05:07', '', '2024-03-01 06:10:19');
 
 -- ----------------------------
 -- Table structure for sys_config
@@ -556,7 +572,7 @@ CREATE TABLE `sys_config`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`config_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '参数配置表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 104 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '参数配置表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_config
@@ -566,6 +582,10 @@ INSERT INTO `sys_config` VALUES (2, '用户管理-账号初始密码', 'sys.user
 INSERT INTO `sys_config` VALUES (3, '主框架页-侧边栏主题', 'sys.index.sideTheme', 'theme-dark', 'Y', 'admin', '2024-01-30 05:05:41', '', NULL, '深色主题theme-dark，浅色主题theme-light');
 INSERT INTO `sys_config` VALUES (4, '账号自助-是否开启用户注册功能', 'sys.account.registerUser', 'false', 'Y', 'admin', '2024-01-30 05:05:41', '', NULL, '是否开启注册用户功能（true开启，false关闭）');
 INSERT INTO `sys_config` VALUES (5, '用户登录-黑名单列表', 'sys.login.blackIPList', '', 'Y', 'admin', '2024-01-30 05:05:41', '', NULL, '设置登录IP黑名单限制，多个匹配项以;分隔，支持匹配（*通配、网段）');
+INSERT INTO `sys_config` VALUES (100, '邮件-SMTP服务器', 'sys.mail.smtpHost', 'smtp.test.com', 'Y', 'admin', '2024-03-01 10:05:41', '', NULL, '');
+INSERT INTO `sys_config` VALUES (101, '邮件-SMTP服务器端口', 'sys.mail.smtpPort', '495', 'Y', 'admin', '2024-03-01 10:05:41', '', NULL, '');
+INSERT INTO `sys_config` VALUES (102, '邮件-认证用户名', 'sys.mail.username', 'testUser', 'Y', 'admin', '2024-03-01 10:05:41', '', NULL, '也会作为默认发件人');
+INSERT INTO `sys_config` VALUES (103, '邮件-认证密码', 'sys.mail.password', 'abcdefg', 'Y', 'admin', '2024-03-01 10:05:41', '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -623,7 +643,7 @@ CREATE TABLE `sys_dict_data`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`dict_code`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 102 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '字典数据表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 107 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '字典数据表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dict_data
@@ -659,6 +679,11 @@ INSERT INTO `sys_dict_data` VALUES (28, 1, '成功', '0', 'sys_common_status', '
 INSERT INTO `sys_dict_data` VALUES (29, 2, '失败', '1', 'sys_common_status', '', 'danger', 'N', '0', 'admin', '2024-01-30 05:05:41', '', NULL, '停用状态');
 INSERT INTO `sys_dict_data` VALUES (100, 1, '启用', '1', 'sys_enable_flag', NULL, 'primary', 'N', '0', '1', '2024-02-21 03:02:48', '', NULL, NULL);
 INSERT INTO `sys_dict_data` VALUES (101, 2, '禁用', '0', 'sys_enable_flag', NULL, 'danger', 'N', '0', '1', '2024-02-21 03:03:08', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (102, 1, '入库', '1', 'wms_inv_trans_type', NULL, 'success', 'N', '0', '1', '2024-02-23 05:45:28', '1', '2024-02-23 05:45:50', NULL);
+INSERT INTO `sys_dict_data` VALUES (103, 2, '出库', '2', 'wms_inv_trans_type', NULL, 'danger', 'N', '0', '1', '2024-02-23 05:45:43', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (104, 1, '未发送', '0', 'sys_mail_status', NULL, 'default', 'N', '0', '1', '2024-03-01 06:09:04', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (105, 2, '发送成功', '1', 'sys_mail_status', NULL, 'success', 'N', '0', '1', '2024-03-01 06:09:17', '', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (106, 3, '发送失败', '2', 'sys_mail_status', NULL, 'danger', 'N', '0', '1', '2024-03-01 06:09:30', '', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_dict_type
@@ -676,7 +701,7 @@ CREATE TABLE `sys_dict_type`  (
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`dict_id`) USING BTREE,
   UNIQUE INDEX `dict_type`(`dict_type` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 101 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '字典类型表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 103 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '字典类型表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dict_type
@@ -692,6 +717,8 @@ INSERT INTO `sys_dict_type` VALUES (8, '通知状态', 'sys_notice_status', '0',
 INSERT INTO `sys_dict_type` VALUES (9, '操作类型', 'sys_oper_type', '0', 'admin', '2024-01-30 05:05:41', '', NULL, '操作类型列表');
 INSERT INTO `sys_dict_type` VALUES (10, '系统状态', 'sys_common_status', '0', 'admin', '2024-01-30 05:05:41', '', NULL, '登录状态列表');
 INSERT INTO `sys_dict_type` VALUES (100, '启用标志', 'sys_enable_flag', '0', '1', '2024-02-21 03:02:06', '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (101, '入出库类型', 'wms_inv_trans_type', '0', '1', '2024-02-23 05:44:50', '', NULL, NULL);
+INSERT INTO `sys_dict_type` VALUES (102, '邮件发送状态', 'sys_mail_status', '0', '1', '2024-03-01 06:08:28', '', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_file
@@ -806,10 +833,34 @@ CREATE TABLE `sys_logininfor`  (
   PRIMARY KEY (`info_id`) USING BTREE,
   INDEX `idx_sys_logininfor_s`(`status` ASC) USING BTREE,
   INDEX `idx_sys_logininfor_lt`(`access_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 152 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 156 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_logininfor
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for sys_mail_log
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_mail_log`;
+CREATE TABLE `sys_mail_log`  (
+  `mail_log_id` bigint NOT NULL COMMENT '日志主键',
+  `status` int NOT NULL DEFAULT 0 COMMENT '发送状态（0未发送 1成功 2失败）',
+  `business_type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '0' COMMENT '自定业务类型',
+  `from` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '发件人',
+  `to` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '收件人',
+  `cc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '抄送',
+  `subject` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '0' COMMENT '邮件主题',
+  `msg` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '日志消息',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '发送时间',
+  `create_by` bigint NULL DEFAULT 0 COMMENT '操作用户',
+  `cost_time` bigint NULL DEFAULT NULL COMMENT '消耗时间(ms)',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`mail_log_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '邮件发送日志表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_mail_log
 -- ----------------------------
 
 -- ----------------------------
@@ -837,7 +888,7 @@ CREATE TABLE `sys_menu`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2049 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2059 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -968,6 +1019,16 @@ INSERT INTO `sys_menu` VALUES (2045, '基本库存查询', 2044, 1, '#', '', NUL
 INSERT INTO `sys_menu` VALUES (2046, '入库', 2044, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'wms:BaseStock:instock', '#', 'admin', '2024-02-22 09:43:17', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2047, '出库', 2044, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'wms:BaseStock:outstock', '#', 'admin', '2024-02-22 09:43:17', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2048, '基本库存导出', 2044, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'wms:BaseStock:export', '#', 'admin', '2024-02-22 09:43:17', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2049, '入出库履历', 2043, 2, 'InvTransHis', 'wms/InvTransHis/index', NULL, 1, 0, 'C', '0', '0', 'wms:InvTransHis:list', 'form', 'admin', '2024-02-23 05:21:18', '1', '2024-02-23 06:25:55', '入出库履历菜单');
+INSERT INTO `sys_menu` VALUES (2050, '入出库履历查询', 2049, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'wms:InvTransHis:query', '#', 'admin', '2024-02-23 05:21:18', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2051, '入出库履历新增', 2049, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'wms:InvTransHis:add', '#', 'admin', '2024-02-23 05:21:18', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2052, '入出库履历删除', 2049, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'wms:InvTransHis:remove', '#', 'admin', '2024-02-23 05:21:18', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2053, '入出库履历导出', 2049, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'wms:InvTransHis:export', '#', 'admin', '2024-02-23 05:21:18', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2054, '邮件发送日志', 108, 3, 'mailLog', 'system/mailLog/index', NULL, 1, 0, 'C', '0', '0', 'system:mailLog:list', 'email', 'admin', '2024-03-01 06:23:24', '1', '2024-03-01 06:25:42', '邮件发送日志菜单');
+INSERT INTO `sys_menu` VALUES (2055, '邮件发送日志查询', 2054, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:mailLog:query', '#', 'admin', '2024-03-01 06:23:24', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2056, '临时邮件发送', 2054, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:mailLog:send', '#', 'admin', '2024-03-01 06:23:24', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2057, '邮件发送日志删除', 2054, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:mailLog:remove', '#', 'admin', '2024-03-01 06:23:24', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2058, '邮件发送日志导出', 2054, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'system:mailLog:export', '#', 'admin', '2024-03-01 06:23:24', '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_notice
@@ -1019,11 +1080,21 @@ CREATE TABLE `sys_oper_log`  (
   INDEX `idx_sys_oper_log_bt`(`business_type` ASC) USING BTREE,
   INDEX `idx_sys_oper_log_s`(`status` ASC) USING BTREE,
   INDEX `idx_sys_oper_log_ot`(`oper_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 281 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 302 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_oper_log
 -- ----------------------------
+INSERT INTO `sys_oper_log` VALUES (292, '代码生成', 6, 'com.ruoyi.gen.controller.GenController.importTableSave()', 'POST', 1, 'admin', NULL, '/gen/importTable', '127.0.0.1', '', '{\"tables\":\"sys_mail_log\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-03-01 06:05:08', 781);
+INSERT INTO `sys_oper_log` VALUES (293, '代码生成', 2, 'com.ruoyi.gen.controller.GenController.editSave()', 'PUT', 1, 'admin', NULL, '/gen', '127.0.0.1', '', '{\"businessName\":\"mailLog\",\"className\":\"SysMailLog\",\"columns\":[{\"capJavaField\":\"MailLogId\",\"columnComment\":\"日志主键\",\"columnId\":380,\"columnName\":\"mail_log_id\",\"columnType\":\"bigint\",\"createBy\":\"admin\",\"createTime\":\"2024-03-01 06:05:07\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isPk\":\"1\",\"javaField\":\"mailLogId\",\"javaType\":\"Long\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":19,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"Status\",\"columnComment\":\"发送状态（0未发送 1成功 2失败）\",\"columnId\":381,\"columnName\":\"status\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2024-03-01 06:05:07\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"radio\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"status\",\"javaType\":\"Long\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":true,\"sort\":2,\"superColumn\":false,\"tableId\":19,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"BusinessType\",\"columnComment\":\"自定业务类型\",\"columnId\":382,\"columnName\":\"business_type\",\"columnType\":\"varchar(30)\",\"createBy\":\"admin\",\"createTime\":\"2024-03-01 06:05:07\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"select\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"0\",\"javaField\":\"businessType\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":3,\"superColumn\":false,\"tableId\":19,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"From\",\"columnComment\":\"发件人\",\"columnId\":383,\"columnName\":\"from\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2024-03-01 06:05:07\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"0\",\"javaField\":\"from\",\"ja', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-03-01 06:08:03', 454);
+INSERT INTO `sys_oper_log` VALUES (294, '字典类型', 1, 'com.ruoyi.system.controller.SysDictTypeController.add()', 'POST', 1, 'admin', NULL, '/dict/type', '127.0.0.1', '', '{\"createBy\":\"1\",\"createTime\":\"2024-03-01 14:08:28\",\"dictName\":\"邮件发送状态\",\"dictType\":\"sys_mail_status\",\"params\":{},\"status\":\"0\",\"updateBy\":\"1\",\"updateTime\":\"2024-03-01 14:08:28\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-03-01 06:08:29', 69);
+INSERT INTO `sys_oper_log` VALUES (295, '字典数据', 1, 'com.ruoyi.system.controller.SysDictDataController.add()', 'POST', 1, 'admin', NULL, '/dict/data', '127.0.0.1', '', '{\"createBy\":\"1\",\"createTime\":\"2024-03-01 14:09:05\",\"default\":false,\"dictLabel\":\"未发送\",\"dictSort\":1,\"dictType\":\"sys_mail_status\",\"dictValue\":\"0\",\"listClass\":\"default\",\"params\":{},\"status\":\"0\",\"updateBy\":\"1\",\"updateTime\":\"2024-03-01 14:09:05\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-03-01 06:09:05', 54);
+INSERT INTO `sys_oper_log` VALUES (296, '字典数据', 1, 'com.ruoyi.system.controller.SysDictDataController.add()', 'POST', 1, 'admin', NULL, '/dict/data', '127.0.0.1', '', '{\"createBy\":\"1\",\"createTime\":\"2024-03-01 14:09:17\",\"default\":false,\"dictLabel\":\"发送成功\",\"dictSort\":2,\"dictType\":\"sys_mail_status\",\"dictValue\":\"1\",\"listClass\":\"success\",\"params\":{},\"status\":\"0\",\"updateBy\":\"1\",\"updateTime\":\"2024-03-01 14:09:17\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-03-01 06:09:17', 46);
+INSERT INTO `sys_oper_log` VALUES (297, '字典数据', 1, 'com.ruoyi.system.controller.SysDictDataController.add()', 'POST', 1, 'admin', NULL, '/dict/data', '127.0.0.1', '', '{\"createBy\":\"1\",\"createTime\":\"2024-03-01 14:09:30\",\"default\":false,\"dictLabel\":\"发送失败\",\"dictSort\":3,\"dictType\":\"sys_mail_status\",\"dictValue\":\"2\",\"listClass\":\"danger\",\"params\":{},\"status\":\"0\",\"updateBy\":\"1\",\"updateTime\":\"2024-03-01 14:09:30\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-03-01 06:09:30', 40);
+INSERT INTO `sys_oper_log` VALUES (298, '代码生成', 2, 'com.ruoyi.gen.controller.GenController.editSave()', 'PUT', 1, 'admin', NULL, '/gen', '127.0.0.1', '', '{\"businessName\":\"mailLog\",\"className\":\"SysMailLog\",\"columns\":[{\"capJavaField\":\"MailLogId\",\"columnComment\":\"日志主键\",\"columnId\":380,\"columnName\":\"mail_log_id\",\"columnType\":\"bigint\",\"createBy\":\"admin\",\"createTime\":\"2024-03-01 06:05:07\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":false,\"insert\":false,\"isIncrement\":\"0\",\"isInsert\":\"0\",\"isPk\":\"1\",\"javaField\":\"mailLogId\",\"javaType\":\"Long\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":19,\"updateBy\":\"\",\"updateTime\":\"2024-03-01 06:08:03\",\"usableColumn\":false},{\"capJavaField\":\"Status\",\"columnComment\":\"发送状态（0未发送 1成功 2失败）\",\"columnId\":381,\"columnName\":\"status\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2024-03-01 06:05:07\",\"dictType\":\"sys_mail_status\",\"edit\":false,\"htmlType\":\"radio\",\"increment\":false,\"insert\":false,\"isEdit\":\"0\",\"isIncrement\":\"0\",\"isInsert\":\"0\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"status\",\"javaType\":\"Long\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":true,\"sort\":2,\"superColumn\":false,\"tableId\":19,\"updateBy\":\"\",\"updateTime\":\"2024-03-01 06:08:03\",\"usableColumn\":false},{\"capJavaField\":\"BusinessType\",\"columnComment\":\"自定业务类型\",\"columnId\":382,\"columnName\":\"business_type\",\"columnType\":\"varchar(30)\",\"createBy\":\"admin\",\"createTime\":\"2024-03-01 06:05:07\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"select\",\"increment\":false,\"insert\":false,\"isEdit\":\"0\",\"isIncrement\":\"0\",\"isInsert\":\"0\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"0\",\"javaField\":\"businessType\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":3,\"superColumn\":false,\"tableId\":19,\"updateBy\":\"\",\"updateTime\":\"2024-03-01 06:08:03\",\"usableColumn\":false},{\"capJavaField\":\"From\",\"columnComment\":\"发件人\",\"columnId\":383,\"columnName\":\"from\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2024-03-01 06:05:07\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-03-01 06:10:19', 687);
+INSERT INTO `sys_oper_log` VALUES (299, '代码生成', 8, 'com.ruoyi.gen.controller.GenController.batchGenCode()', 'GET', 1, 'admin', NULL, '/gen/batchGenCode', '127.0.0.1', '', '{\"tables\":\"sys_mail_log\"}', NULL, 0, NULL, '2024-03-01 06:10:23', 348);
+INSERT INTO `sys_oper_log` VALUES (300, '代码生成', 8, 'com.ruoyi.gen.controller.GenController.batchGenCode()', 'GET', 1, 'admin', NULL, '/gen/batchGenCode', '127.0.0.1', '', '{\"tables\":\"sys_mail_log\"}', NULL, 0, NULL, '2024-03-01 06:10:51', 120);
+INSERT INTO `sys_oper_log` VALUES (301, '菜单管理', 2, 'com.ruoyi.system.controller.SysMenuController.edit()', 'PUT', 1, 'admin', NULL, '/menu', '127.0.0.1', '', '{\"children\":[],\"component\":\"system/mailLog/index\",\"createTime\":\"2024-03-01 06:23:24\",\"icon\":\"email\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":2054,\"menuName\":\"邮件发送日志\",\"menuType\":\"C\",\"orderNum\":3,\"params\":{},\"parentId\":108,\"path\":\"mailLog\",\"perms\":\"system:mailLog:list\",\"status\":\"0\",\"updateBy\":\"1\",\"updateTime\":\"2024-03-01 14:25:42\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-03-01 06:25:43', 79);
 
 -- ----------------------------
 -- Table structure for sys_post
