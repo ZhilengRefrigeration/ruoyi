@@ -6,6 +6,7 @@ import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.redis.service.RedisService;
+import com.ruoyi.system.config.MailConfig;
 import com.ruoyi.system.domain.SysConfig;
 import com.ruoyi.system.mapper.SysConfigMapper;
 import com.ruoyi.system.service.ISysConfigService;
@@ -28,6 +29,9 @@ public class SysConfigServiceImpl implements ISysConfigService {
 
     @Resource
     private RedisService redisService;
+
+    @Resource
+    private MailConfig mailConfig;
 
     /**
      * 项目启动时，初始化参数到缓存
@@ -167,6 +171,7 @@ public class SysConfigServiceImpl implements ISysConfigService {
     public void resetConfigCache() {
         clearConfigCache();
         loadingConfigCache();
+        mailConfig.refreshCache();
     }
 
     /**

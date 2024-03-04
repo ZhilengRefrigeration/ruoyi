@@ -11,7 +11,7 @@
  Target Server Version : 80200 (8.2.0)
  File Encoding         : 65001
 
- Date: 01/03/2024 14:30:57
+ Date: 04/03/2024 16:13:20
 */
 
 SET NAMES utf8mb4;
@@ -572,7 +572,7 @@ CREATE TABLE `sys_config`  (
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`config_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 104 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '参数配置表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 105 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '参数配置表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_config
@@ -583,9 +583,10 @@ INSERT INTO `sys_config` VALUES (3, '主框架页-侧边栏主题', 'sys.index.s
 INSERT INTO `sys_config` VALUES (4, '账号自助-是否开启用户注册功能', 'sys.account.registerUser', 'false', 'Y', 'admin', '2024-01-30 05:05:41', '', NULL, '是否开启注册用户功能（true开启，false关闭）');
 INSERT INTO `sys_config` VALUES (5, '用户登录-黑名单列表', 'sys.login.blackIPList', '', 'Y', 'admin', '2024-01-30 05:05:41', '', NULL, '设置登录IP黑名单限制，多个匹配项以;分隔，支持匹配（*通配、网段）');
 INSERT INTO `sys_config` VALUES (100, '邮件-SMTP服务器', 'sys.mail.smtpHost', 'smtp.test.com', 'Y', 'admin', '2024-03-01 10:05:41', '', NULL, '');
-INSERT INTO `sys_config` VALUES (101, '邮件-SMTP服务器端口', 'sys.mail.smtpPort', '495', 'Y', 'admin', '2024-03-01 10:05:41', '', NULL, '');
-INSERT INTO `sys_config` VALUES (102, '邮件-认证用户名', 'sys.mail.username', 'testUser', 'Y', 'admin', '2024-03-01 10:05:41', '', NULL, '也会作为默认发件人');
+INSERT INTO `sys_config` VALUES (101, '邮件-SMTP服务器端口', 'sys.mail.smtpPort', '587', 'Y', 'admin', '2024-03-01 10:05:41', '', NULL, '');
+INSERT INTO `sys_config` VALUES (102, '邮件-认证用户名', 'sys.mail.username', 'sender@test.com', 'Y', 'admin', '2024-03-01 10:05:41', '', NULL, '也会作为默认发件人');
 INSERT INTO `sys_config` VALUES (103, '邮件-认证密码', 'sys.mail.password', 'abcdefg', 'Y', 'admin', '2024-03-01 10:05:41', '', NULL, '');
+INSERT INTO `sys_config` VALUES (104, '邮件-附件保存地址', 'sys.mail.attachmentsSavedPath', 'D:\\temp\\RYAS\\mailAttachments', 'Y', 'admin', '2024-03-04 10:05:41', '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_dept
@@ -833,7 +834,7 @@ CREATE TABLE `sys_logininfor`  (
   PRIMARY KEY (`info_id`) USING BTREE,
   INDEX `idx_sys_logininfor_s`(`status` ASC) USING BTREE,
   INDEX `idx_sys_logininfor_lt`(`access_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 156 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 157 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_logininfor
@@ -851,7 +852,7 @@ CREATE TABLE `sys_mail_log`  (
   `to` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '收件人',
   `cc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '抄送',
   `subject` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '0' COMMENT '邮件主题',
-  `msg` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '日志消息',
+  `msg` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '日志消息',
   `create_time` datetime NULL DEFAULT NULL COMMENT '发送时间',
   `create_by` bigint NULL DEFAULT 0 COMMENT '操作用户',
   `cost_time` bigint NULL DEFAULT NULL COMMENT '消耗时间(ms)',
@@ -1080,21 +1081,11 @@ CREATE TABLE `sys_oper_log`  (
   INDEX `idx_sys_oper_log_bt`(`business_type` ASC) USING BTREE,
   INDEX `idx_sys_oper_log_s`(`status` ASC) USING BTREE,
   INDEX `idx_sys_oper_log_ot`(`oper_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 302 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 319 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_oper_log
 -- ----------------------------
-INSERT INTO `sys_oper_log` VALUES (292, '代码生成', 6, 'com.ruoyi.gen.controller.GenController.importTableSave()', 'POST', 1, 'admin', NULL, '/gen/importTable', '127.0.0.1', '', '{\"tables\":\"sys_mail_log\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-03-01 06:05:08', 781);
-INSERT INTO `sys_oper_log` VALUES (293, '代码生成', 2, 'com.ruoyi.gen.controller.GenController.editSave()', 'PUT', 1, 'admin', NULL, '/gen', '127.0.0.1', '', '{\"businessName\":\"mailLog\",\"className\":\"SysMailLog\",\"columns\":[{\"capJavaField\":\"MailLogId\",\"columnComment\":\"日志主键\",\"columnId\":380,\"columnName\":\"mail_log_id\",\"columnType\":\"bigint\",\"createBy\":\"admin\",\"createTime\":\"2024-03-01 06:05:07\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isPk\":\"1\",\"javaField\":\"mailLogId\",\"javaType\":\"Long\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":19,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"Status\",\"columnComment\":\"发送状态（0未发送 1成功 2失败）\",\"columnId\":381,\"columnName\":\"status\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2024-03-01 06:05:07\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"radio\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"status\",\"javaType\":\"Long\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":true,\"sort\":2,\"superColumn\":false,\"tableId\":19,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"BusinessType\",\"columnComment\":\"自定业务类型\",\"columnId\":382,\"columnName\":\"business_type\",\"columnType\":\"varchar(30)\",\"createBy\":\"admin\",\"createTime\":\"2024-03-01 06:05:07\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"select\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"0\",\"javaField\":\"businessType\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":3,\"superColumn\":false,\"tableId\":19,\"updateBy\":\"\",\"usableColumn\":false},{\"capJavaField\":\"From\",\"columnComment\":\"发件人\",\"columnId\":383,\"columnName\":\"from\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2024-03-01 06:05:07\",\"dictType\":\"\",\"edit\":true,\"htmlType\":\"input\",\"increment\":false,\"insert\":true,\"isEdit\":\"1\",\"isIncrement\":\"0\",\"isInsert\":\"1\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"0\",\"javaField\":\"from\",\"ja', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-03-01 06:08:03', 454);
-INSERT INTO `sys_oper_log` VALUES (294, '字典类型', 1, 'com.ruoyi.system.controller.SysDictTypeController.add()', 'POST', 1, 'admin', NULL, '/dict/type', '127.0.0.1', '', '{\"createBy\":\"1\",\"createTime\":\"2024-03-01 14:08:28\",\"dictName\":\"邮件发送状态\",\"dictType\":\"sys_mail_status\",\"params\":{},\"status\":\"0\",\"updateBy\":\"1\",\"updateTime\":\"2024-03-01 14:08:28\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-03-01 06:08:29', 69);
-INSERT INTO `sys_oper_log` VALUES (295, '字典数据', 1, 'com.ruoyi.system.controller.SysDictDataController.add()', 'POST', 1, 'admin', NULL, '/dict/data', '127.0.0.1', '', '{\"createBy\":\"1\",\"createTime\":\"2024-03-01 14:09:05\",\"default\":false,\"dictLabel\":\"未发送\",\"dictSort\":1,\"dictType\":\"sys_mail_status\",\"dictValue\":\"0\",\"listClass\":\"default\",\"params\":{},\"status\":\"0\",\"updateBy\":\"1\",\"updateTime\":\"2024-03-01 14:09:05\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-03-01 06:09:05', 54);
-INSERT INTO `sys_oper_log` VALUES (296, '字典数据', 1, 'com.ruoyi.system.controller.SysDictDataController.add()', 'POST', 1, 'admin', NULL, '/dict/data', '127.0.0.1', '', '{\"createBy\":\"1\",\"createTime\":\"2024-03-01 14:09:17\",\"default\":false,\"dictLabel\":\"发送成功\",\"dictSort\":2,\"dictType\":\"sys_mail_status\",\"dictValue\":\"1\",\"listClass\":\"success\",\"params\":{},\"status\":\"0\",\"updateBy\":\"1\",\"updateTime\":\"2024-03-01 14:09:17\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-03-01 06:09:17', 46);
-INSERT INTO `sys_oper_log` VALUES (297, '字典数据', 1, 'com.ruoyi.system.controller.SysDictDataController.add()', 'POST', 1, 'admin', NULL, '/dict/data', '127.0.0.1', '', '{\"createBy\":\"1\",\"createTime\":\"2024-03-01 14:09:30\",\"default\":false,\"dictLabel\":\"发送失败\",\"dictSort\":3,\"dictType\":\"sys_mail_status\",\"dictValue\":\"2\",\"listClass\":\"danger\",\"params\":{},\"status\":\"0\",\"updateBy\":\"1\",\"updateTime\":\"2024-03-01 14:09:30\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-03-01 06:09:30', 40);
-INSERT INTO `sys_oper_log` VALUES (298, '代码生成', 2, 'com.ruoyi.gen.controller.GenController.editSave()', 'PUT', 1, 'admin', NULL, '/gen', '127.0.0.1', '', '{\"businessName\":\"mailLog\",\"className\":\"SysMailLog\",\"columns\":[{\"capJavaField\":\"MailLogId\",\"columnComment\":\"日志主键\",\"columnId\":380,\"columnName\":\"mail_log_id\",\"columnType\":\"bigint\",\"createBy\":\"admin\",\"createTime\":\"2024-03-01 06:05:07\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":false,\"insert\":false,\"isIncrement\":\"0\",\"isInsert\":\"0\",\"isPk\":\"1\",\"javaField\":\"mailLogId\",\"javaType\":\"Long\",\"list\":false,\"params\":{},\"pk\":true,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":1,\"superColumn\":false,\"tableId\":19,\"updateBy\":\"\",\"updateTime\":\"2024-03-01 06:08:03\",\"usableColumn\":false},{\"capJavaField\":\"Status\",\"columnComment\":\"发送状态（0未发送 1成功 2失败）\",\"columnId\":381,\"columnName\":\"status\",\"columnType\":\"int\",\"createBy\":\"admin\",\"createTime\":\"2024-03-01 06:05:07\",\"dictType\":\"sys_mail_status\",\"edit\":false,\"htmlType\":\"radio\",\"increment\":false,\"insert\":false,\"isEdit\":\"0\",\"isIncrement\":\"0\",\"isInsert\":\"0\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"1\",\"isRequired\":\"1\",\"javaField\":\"status\",\"javaType\":\"Long\",\"list\":true,\"params\":{},\"pk\":false,\"query\":true,\"queryType\":\"EQ\",\"required\":true,\"sort\":2,\"superColumn\":false,\"tableId\":19,\"updateBy\":\"\",\"updateTime\":\"2024-03-01 06:08:03\",\"usableColumn\":false},{\"capJavaField\":\"BusinessType\",\"columnComment\":\"自定业务类型\",\"columnId\":382,\"columnName\":\"business_type\",\"columnType\":\"varchar(30)\",\"createBy\":\"admin\",\"createTime\":\"2024-03-01 06:05:07\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"select\",\"increment\":false,\"insert\":false,\"isEdit\":\"0\",\"isIncrement\":\"0\",\"isInsert\":\"0\",\"isList\":\"1\",\"isPk\":\"0\",\"isQuery\":\"0\",\"javaField\":\"businessType\",\"javaType\":\"String\",\"list\":true,\"params\":{},\"pk\":false,\"query\":false,\"queryType\":\"EQ\",\"required\":false,\"sort\":3,\"superColumn\":false,\"tableId\":19,\"updateBy\":\"\",\"updateTime\":\"2024-03-01 06:08:03\",\"usableColumn\":false},{\"capJavaField\":\"From\",\"columnComment\":\"发件人\",\"columnId\":383,\"columnName\":\"from\",\"columnType\":\"varchar(255)\",\"createBy\":\"admin\",\"createTime\":\"2024-03-01 06:05:07\",\"dictType\":\"\",\"edit\":false,\"htmlType\":\"input\",\"increment\":', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-03-01 06:10:19', 687);
-INSERT INTO `sys_oper_log` VALUES (299, '代码生成', 8, 'com.ruoyi.gen.controller.GenController.batchGenCode()', 'GET', 1, 'admin', NULL, '/gen/batchGenCode', '127.0.0.1', '', '{\"tables\":\"sys_mail_log\"}', NULL, 0, NULL, '2024-03-01 06:10:23', 348);
-INSERT INTO `sys_oper_log` VALUES (300, '代码生成', 8, 'com.ruoyi.gen.controller.GenController.batchGenCode()', 'GET', 1, 'admin', NULL, '/gen/batchGenCode', '127.0.0.1', '', '{\"tables\":\"sys_mail_log\"}', NULL, 0, NULL, '2024-03-01 06:10:51', 120);
-INSERT INTO `sys_oper_log` VALUES (301, '菜单管理', 2, 'com.ruoyi.system.controller.SysMenuController.edit()', 'PUT', 1, 'admin', NULL, '/menu', '127.0.0.1', '', '{\"children\":[],\"component\":\"system/mailLog/index\",\"createTime\":\"2024-03-01 06:23:24\",\"icon\":\"email\",\"isCache\":\"0\",\"isFrame\":\"1\",\"menuId\":2054,\"menuName\":\"邮件发送日志\",\"menuType\":\"C\",\"orderNum\":3,\"params\":{},\"parentId\":108,\"path\":\"mailLog\",\"perms\":\"system:mailLog:list\",\"status\":\"0\",\"updateBy\":\"1\",\"updateTime\":\"2024-03-01 14:25:42\",\"visible\":\"0\"}', '{\"msg\":\"操作成功\",\"code\":200}', 0, NULL, '2024-03-01 06:25:43', 79);
 
 -- ----------------------------
 -- Table structure for sys_post

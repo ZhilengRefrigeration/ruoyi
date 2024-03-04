@@ -53,6 +53,17 @@ public class SpringMailSender implements MailSender {
         //超时设置
         mailProperties.setProperty("mail.smtp.connectiontimeout", timeout + "");//与邮件服务器建立连接的超时
         mailProperties.setProperty("mail.smtp.writetimeout", timeout + "");//邮件发送时间限制
+        javaMailSender.setDefaultEncoding("UTF-8");
+        System.setProperty("mail.mime.splitlongparameters", "false"); //注意：不截断base64编码后的长附件名
+        //设置认证信息
+        setAuthInfo(javaMailSender, account, mailProperties);
+        return javaMailSender;
+    }
+
+    private void setAuthInfo(JavaMailSenderImpl executor, MailSendAccount account, Properties mailProperties) {
+        if (mailProperties == null) {
+            mailProperties = executor.getJavaMailProperties();
+        }
         if (account.isSslFlag()) {
             //开启ssl
             System.out.println("****** enable ssl for mail send ******");
@@ -61,17 +72,13 @@ public class SpringMailSender implements MailSender {
             mailProperties.setProperty("mail.smtp.ssl.enable", "true");
         } else {
             System.out.println("****** disable ssl for mail send ******");
-            javaMailSender.setPort(account.getPort());
+            executor.setPort(account.getPort() == null ? 25 : account.getPort());
         }
-        javaMailSender.setJavaMailProperties(mailProperties);
-        javaMailSender.setHost(account.getHost());
-        javaMailSender.setUsername(account.getUsername());
-        javaMailSender.setPassword(account.getPassword());
-        javaMailSender.setDefaultEncoding("UTF-8");
-        System.setProperty("mail.mime.splitlongparameters", "false"); //注意：不截断base64编码后的长附件名
-        return javaMailSender;
+        executor.setJavaMailProperties(mailProperties);
+        executor.setHost(account.getHost());
+        executor.setUsername(account.getUsername());
+        executor.setPassword(account.getPassword());
     }
-
 
     /**
      * 创建邮件信息
@@ -90,13 +97,13 @@ public class SpringMailSender implements MailSender {
         //创建发送MIME邮件的工具类
         MimeMessageHelper messageHelper = getMimeMessageHelper(form, mimeMessage, headInfo);
         //设置正文多媒体信息
-        if (inLineMap != null) {
+        if (inLineMap != null && !inLineMap.isEmpty()) {
             for (Map.Entry<String, File> inLine : inLineMap.entrySet()) {
                 messageHelper.addInline(inLine.getKey(), inLine.getValue());
             }
         }
         //添加附件
-        if (attachments != null) {
+        if (attachments != null && !attachments.isEmpty()) {
             for (Map.Entry<String, File> entry : attachments.entrySet()) {
                 String fileName = entry.getKey();
                 File file = entry.getValue();
@@ -111,9 +118,8 @@ public class SpringMailSender implements MailSender {
         //发件人
         if (form.getFrom() == null || form.getFrom().isEmpty()) {
             form.setFrom(senderAccount.getUsername());
-        } else {
-            form.setFrom(form.getFrom());
         }
+        messageHelper.setFrom(form.getFrom());
         //收件人 这里的参数可以是多个收件人，用英文分号分割
         messageHelper.setTo(headInfo.getTo().split(ADDRESS_SPLIT));
         //抄送 这里的参数可以是多个抄送人，用英文分号分割
@@ -125,6 +131,8 @@ public class SpringMailSender implements MailSender {
         //邮件正文
         if (form.getContent() != null && !form.getContent().isEmpty()) {
             messageHelper.setText(form.getContent(), form.isHtml());
+        } else {
+            messageHelper.setText("");
         }
         return messageHelper;
     }
@@ -160,6 +168,7 @@ public class SpringMailSender implements MailSender {
     public void resetSenderAccount(MailSendAccount senderAccount) {
         checkAccount(senderAccount);
         this.senderAccount = senderAccount;
+        setAuthInfo(executor, senderAccount, null);
     }
 
     private void checkAccount(MailSendAccount account) {

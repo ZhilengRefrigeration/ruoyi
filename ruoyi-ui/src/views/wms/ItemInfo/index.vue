@@ -549,6 +549,9 @@ function reset() {
     remark4: null,
     remark5: null,
   };
+  if (fileUpload.value) {
+    fileUpload.value.removeFiles();
+  }
   proxy.resetForm("ItemInfoRef");
 }
 

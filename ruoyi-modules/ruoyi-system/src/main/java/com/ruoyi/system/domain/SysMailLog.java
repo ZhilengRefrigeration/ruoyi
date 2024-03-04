@@ -1,9 +1,10 @@
 package com.ruoyi.system.domain;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
 import com.ruoyi.common.core.web.domain.BaseEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.io.Serial;
 
@@ -13,9 +14,21 @@ import java.io.Serial;
  * @author ryas
  * created on 2024-03-01
  */
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class SysMailLog extends BaseEntity {
     @Serial
     private static final long serialVersionUID = 1L;
+
+    //==================== ↓↓↓↓↓↓ 非表字段 ↓↓↓↓↓↓ ====================
+
+    /**
+     * 创建者用户名
+     */
+    private String createByName;
+
+    //==================== ↓↓↓↓↓↓ 表字段 ↓↓↓↓↓↓ ====================
 
     /**
      * 日志主键
@@ -70,93 +83,4 @@ public class SysMailLog extends BaseEntity {
     @Excel(name = "消耗时间(ms)")
     private Long costTime;
 
-    public void setMailLogId(Long mailLogId) {
-        this.mailLogId = mailLogId;
-    }
-
-    public Long getMailLogId() {
-        return mailLogId;
-    }
-
-    public void setStatus(Long status) {
-        this.status = status;
-    }
-
-    public Long getStatus() {
-        return status;
-    }
-
-    public void setBusinessType(String businessType) {
-        this.businessType = businessType;
-    }
-
-    public String getBusinessType() {
-        return businessType;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    public String getFrom() {
-        return from;
-    }
-
-    public void setTo(String to) {
-        this.to = to;
-    }
-
-    public String getTo() {
-        return to;
-    }
-
-    public void setCc(String cc) {
-        this.cc = cc;
-    }
-
-    public String getCc() {
-        return cc;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setCostTime(Long costTime) {
-        this.costTime = costTime;
-    }
-
-    public Long getCostTime() {
-        return costTime;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("mailLogId", getMailLogId())
-                .append("status", getStatus())
-                .append("businessType", getBusinessType())
-                .append("from", getFrom())
-                .append("to", getTo())
-                .append("cc", getCc())
-                .append("subject", getSubject())
-                .append("msg", getMsg())
-                .append("createTime", getCreateTime())
-                .append("createBy", getCreateBy())
-                .append("costTime", getCostTime())
-                .append("remark", getRemark())
-                .toString();
-    }
 }

@@ -15,6 +15,7 @@
         <result property="msg" column="msg"/>
         <result property="createTime" column="create_time"/>
         <result property="createBy" column="create_by"/>
+        <result property="createByName" column="create_by_name"/>
         <result property="costTime" column="cost_time"/>
         <result property="remark" column="remark"/>
     </resultMap>
@@ -36,13 +37,28 @@
     </sql>
 
     <select id="selectSysMailLogList" parameterType="com.ruoyi.system.domain.SysMailLog" resultMap="SysMailLogResult">
-        <include refid="selectSysMailLogVo"/>
+        select
+            t.mail_log_id,
+            t.status,
+            t.business_type,
+            t.from,
+            t.to,
+            t.cc,
+            t.subject,
+            t.msg,
+            t.create_time,
+            t.create_by,
+            createUser.user_name as create_by_name,
+            t.cost_time,
+            t.remark
+        from sys_mail_log t
+        left join sys_user createUser on t.create_by = createUser.user_id
         <where>
-            <if test="status != null ">and sys_mail_log.status = #{status}</if>
-            <if test="to != null  and to != ''">and sys_mail_log.to = #{to}</if>
-            <if test="subject != null  and subject != ''">and sys_mail_log.subject = #{subject}</if>
+            <if test="status != null ">and t.status = #{status}</if>
+            <if test="to != null  and to != ''">and t.to = #{to}</if>
+            <if test="subject != null  and subject != ''">and t.subject = #{subject}</if>
             <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''">
-                and create_time between #{params.beginCreateTime} and #{params.endCreateTime}
+                and t.create_time between #{params.beginCreateTime} and #{params.endCreateTime}
             </if>
         </where>
     </select>

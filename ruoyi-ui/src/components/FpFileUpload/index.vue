@@ -53,11 +53,6 @@ const {proxy} = getCurrentInstance();
 const emit = defineEmits();
 
 const props = defineProps({
-  // 文件数量限制
-  limit: {
-    type: Number,
-    default: 5,
-  },
   // 单个文件大小限制
   fileSize: {
     type: String,
@@ -100,16 +95,6 @@ const props = defineProps({
     type: Number,
     default: null,
   },
-});
-
-defineExpose({
-  pond,
-  getFiles,
-  getFile,
-  addFile,
-  addFiles,
-  removeFile,
-  removeFiles,
 });
 
 // 初始化
@@ -156,6 +141,15 @@ function removeFile(index) {
 function removeFiles() {
   pond.value.removeFiles();
 }
+
+defineExpose({
+  getFiles,
+  getFile,
+  addFile,
+  addFiles,
+  removeFile,
+  removeFiles,
+});
 
 </script>
 

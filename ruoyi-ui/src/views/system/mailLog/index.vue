@@ -4,37 +4,37 @@
       <el-form-item label="发送状态" prop="status">
         <el-select v-model="queryParams.status" placeholder="请选择发送状态" clearable>
           <el-option
-            v-for="dict in sys_mail_status"
-            :key="dict.value"
-            :label="dict.label"
-            :value="dict.value"
+              v-for="dict in sys_mail_status"
+              :key="dict.value"
+              :label="dict.label"
+              :value="dict.value"
           />
         </el-select>
       </el-form-item>
       <el-form-item label="收件人" prop="to">
         <el-input
-          v-model="queryParams.to"
-          placeholder="请输入收件人"
-          clearable
-          @keyup.enter="handleQuery"
+            v-model="queryParams.to"
+            placeholder="请输入收件人"
+            clearable
+            @keyup.enter="handleQuery"
         />
       </el-form-item>
       <el-form-item label="邮件主题" prop="subject">
         <el-input
-          v-model="queryParams.subject"
-          placeholder="请输入邮件主题"
-          clearable
-          @keyup.enter="handleQuery"
+            v-model="queryParams.subject"
+            placeholder="请输入邮件主题"
+            clearable
+            @keyup.enter="handleQuery"
         />
       </el-form-item>
       <el-form-item label="发送时间" style="width: 308px">
         <el-date-picker
-          v-model="daterangeCreateTime"
-          value-format="YYYY-MM-DD"
-          type="daterange"
-          range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
+            v-model="daterangeCreateTime"
+            value-format="YYYY-MM-DD"
+            type="daterange"
+            range-separator="-"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
         ></el-date-picker>
       </el-form-item>
     </el-form>
@@ -48,69 +48,95 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="primary"
-          plain
-          icon="Plus"
-          @click="handleSend"
-          v-hasPermi="['system:mailLog:send']"
-        >临时邮件发送</el-button>
+            type="primary"
+            plain
+            icon="Plus"
+            @click="handleSend"
+            v-hasPermi="['system:mailLog:send']"
+        >临时邮件发送
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="danger"
-          plain
-          icon="Delete"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['system:mailLog:remove']"
-        >删除</el-button>
+            type="danger"
+            plain
+            icon="Delete"
+            :disabled="multiple"
+            @click="handleDelete"
+            v-hasPermi="['system:mailLog:remove']"
+        >删除
+        </el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="warning"
-          plain
-          icon="Download"
-          @click="handleExport"
-          v-hasPermi="['system:mailLog:export']"
-        >导出</el-button>
+            type="warning"
+            plain
+            icon="Download"
+            @click="handleExport"
+            v-hasPermi="['system:mailLog:export']"
+        >导出
+        </el-button>
       </el-col>
       <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="mailLogList" @selection-change="handleSelectionChange" :show-overflow-tooltip="true">
-      <el-table-column type="selection" width="30" align="center" />
-      <el-table-column label="日志主键" align="center" prop="mailLogId" />
+    <el-table v-loading="loading" :data="mailLogList" @selection-change="handleSelectionChange"
+              :show-overflow-tooltip="true">
+      <el-table-column type="selection" width="30" align="center"/>
+      <el-table-column label="日志ID" align="center" prop="mailLogId"/>
       <el-table-column label="发送状态" align="center" prop="status">
         <template #default="scope">
           <dict-tag :options="sys_mail_status" :value="scope.row.status"/>
         </template>
       </el-table-column>
-      <el-table-column label="自定业务类型" align="center" prop="businessType" />
-      <el-table-column label="发件人" align="center" prop="from" />
-      <el-table-column label="收件人" align="center" prop="to" />
-      <el-table-column label="抄送" align="center" prop="cc" />
-      <el-table-column label="邮件主题" align="center" prop="subject" />
-      <el-table-column label="日志消息" align="center" prop="msg" />
+      <el-table-column label="自定业务类型" align="center" prop="businessType"/>
+      <el-table-column label="发件人" align="center" prop="from"/>
+      <el-table-column label="收件人" align="center" prop="to"/>
+      <el-table-column label="抄送" align="center" prop="cc"/>
+      <el-table-column label="邮件主题" align="center" prop="subject"/>
+      <el-table-column label="日志消息" align="center" prop="msg"/>
       <el-table-column label="发送时间" align="center" prop="createTime" width="180">
         <template #default="scope">
-          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作用户" align="center" prop="createBy" />
-      <el-table-column label="消耗时间(ms)" align="center" prop="costTime" />
+      <el-table-column label="操作用户" align="center" prop="createByName"/>
+      <el-table-column label="消耗时间(ms)" align="center" prop="costTime"/>
     </el-table>
-    
+
     <pagination
-      v-show="total>0"
-      :total="total"
-      v-model:page="queryParams.pageNum"
-      v-model:limit="queryParams.pageSize"
-      @pagination="getList"
+        v-show="total>0"
+        :total="total"
+        v-model:page="queryParams.pageNum"
+        v-model:limit="queryParams.pageSize"
+        @pagination="getList"
     />
 
-    <!-- TODO 临时邮件发送对话框 -->
+    <!-- 临时邮件发送对话框 -->
     <el-dialog :title="title" v-model="open" width="500px" append-to-body>
       <el-form ref="mailLogRef" :model="form" :rules="rules" label-width="80px">
+        <el-form-item label="发件人" prop="from">
+          <el-input v-model="form.from" placeholder="请输入发件人" disabled/>
+        </el-form-item>
+        <el-form-item label="收件人" prop="to">
+          <el-input v-model="form.to" placeholder="请输入收件人，多个用英文分号;分隔"/>
+        </el-form-item>
+        <el-form-item label="抄送人" prop="cc">
+          <el-input v-model="form.cc" placeholder="请输入抄送人，多个用英文分号;分隔"/>
+        </el-form-item>
+        <el-form-item label="邮件主题" prop="subject">
+          <el-input v-model="form.subject" placeholder="请输入邮件主题"/>
+        </el-form-item>
+        <el-form-item label="邮件正文" prop="content">
+          <el-input type="textarea" v-model="form.content" placeholder="请输入邮件正文"/>
+        </el-form-item>
+        <el-form-item label="附件" prop="attachmentsId">
+          <fp-file-upload
+              ref="fileUploadRef"
+              style="width: 100%"
+              :max-files-limit="5"
+          />
+        </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -123,10 +149,10 @@
 </template>
 
 <script setup name="MailLog">
-import { listMailLog, getMailLog, delMailLog, sendTemporality } from "@/api/system/mailLog";
+import {listMailLog, delMailLog, sendTemporality, getMailSenderInfo} from "@/api/system/mailLog";
 
-const { proxy } = getCurrentInstance();
-const { sys_mail_status } = proxy.useDict('sys_mail_status');
+const {proxy} = getCurrentInstance();
+const {sys_mail_status} = proxy.useDict('sys_mail_status');
 
 const mailLogList = ref([]);
 const open = ref(false);
@@ -138,6 +164,12 @@ const multiple = ref(true);
 const total = ref(0);
 const title = ref("");
 const daterangeCreateTime = ref([]);
+const senderAccount = ref({
+  host: null,
+  port: null,
+  username: null,
+});
+const fileUploadRef = ref(null);
 
 const data = reactive({
   form: {},
@@ -150,13 +182,19 @@ const data = reactive({
     createTime: null,
   },
   rules: {
-    status: [
-      { required: true, message: "发送状态不能为空", trigger: "change" },
+    from: [
+      {required: true, message: "发件人不能为空", trigger: "change"},
+    ],
+    to: [
+      {required: true, message: "收件人不能为空", trigger: "change"},
+    ],
+    subject: [
+      {required: true, message: "邮件主题不能为空", trigger: "change"},
     ],
   }
 });
 
-const { queryParams, form, rules } = toRefs(data);
+const {queryParams, form, rules} = toRefs(data);
 
 /** 查询邮件发送日志列表 */
 function getList() {
@@ -189,12 +227,12 @@ function reset() {
     to: null,
     cc: null,
     subject: null,
-    msg: null,
-    createTime: null,
-    createBy: null,
-    costTime: null,
-    remark: null
+    content: null,
+    attachmentsId: null,
   };
+  if (fileUploadRef.value) {
+    fileUploadRef.value.removeFiles();
+  }
   proxy.resetForm("mailLogRef");
 }
 
@@ -218,18 +256,34 @@ function handleSelectionChange(selection) {
   multiple.value = !selection.length;
 }
 
-/** 新增按钮操作 */
+/** 临时邮件发送按钮操作 */
 function handleSend() {
   reset();
   open.value = true;
   title.value = "临时邮件发送";
+  form.value.from = senderAccount.value.username;
 }
 
 /** 提交按钮 */
 function submitForm() {
   proxy.$refs["mailLogRef"].validate(valid => {
     if (valid) {
-      //TODO 临时邮件发送待完成
+      const files = fileUploadRef.value.getFiles();
+      const submitFiles = [];
+      for (let i = 0; i < files.length; i++) {
+        submitFiles.push({
+          key: 'attachments',
+          value: files[i],
+        })
+      }
+      sendTemporality(form.value, submitFiles)
+          .then(() => {
+            proxy.$modal.msgSuccess("发送成功");
+          })
+          .finally(() => {
+            open.value = false;
+            getList();
+          });
     }
   });
 }
@@ -237,12 +291,13 @@ function submitForm() {
 /** 删除按钮操作 */
 function handleDelete(row) {
   const _mailLogIds = row.mailLogId || ids.value;
-  proxy.$modal.confirm('是否确认删除邮件发送日志编号为"' + _mailLogIds + '"的数据项？').then(function() {
+  proxy.$modal.confirm('是否确认删除邮件发送日志编号为"' + _mailLogIds + '"的数据项？').then(function () {
     return delMailLog(_mailLogIds);
   }).then(() => {
     getList();
     proxy.$modal.msgSuccess("删除成功");
-  }).catch(() => {});
+  }).catch(() => {
+  });
 }
 
 /** 导出按钮操作 */
@@ -252,6 +307,16 @@ function handleExport() {
   }, `mailLog_${new Date().getTime()}.xlsx`)
 }
 
-//页面打开时查询
+/** 获取发件人账号 */
+function getMailSenderAccount() {
+  getMailSenderInfo().then(response => {
+    senderAccount.value = response.data;
+  });
+}
+
+// 页面打开时查询发送者账号
+getMailSenderAccount();
+
+// 页面打开时查询
 //getList();
 </script>

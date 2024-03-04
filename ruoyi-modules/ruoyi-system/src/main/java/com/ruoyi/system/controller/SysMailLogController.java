@@ -1,6 +1,5 @@
 package com.ruoyi.system.controller;
 
-import com.ruoyi.common.core.mail.MailMessage;
 import com.ruoyi.common.core.mail.MailSendResult;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
@@ -10,6 +9,7 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.system.domain.SysMailLog;
+import com.ruoyi.system.domain.vo.MailVo;
 import com.ruoyi.system.service.ISysMailLogService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,13 +62,23 @@ public class SysMailLogController extends BaseController {
     }
 
     /**
+     * 删除邮件发送日志
+     */
+    @RequiresPermissions("system:mailLog:remove")
+    @Log(title = "邮件发送日志", businessType = BusinessType.DELETE)
+    @DeleteMapping("/{mailLogIds}")
+    public AjaxResult remove(@PathVariable Long[] mailLogIds) {
+        return toAjax(sysMailLogService.deleteSysMailLogByMailLogIds(mailLogIds));
+    }
+
+    /**
      * 临时邮件发送
      */
     @RequiresPermissions("system:mailLog:send")
     @Log(title = "临时邮件发送", businessType = BusinessType.OTHER)
     @PostMapping("/sendTemporality")
-    public AjaxResult sendTemporality(@RequestBody MailMessage message) {
-        MailSendResult result = sysMailLogService.sendTempMail(message);
+    public AjaxResult sendTemporality(MailVo mailVo) {
+        MailSendResult result = sysMailLogService.sendSimpleMail(mailVo);
         if (result.isSuccess()) {
             return success();
         } else {
@@ -77,12 +87,11 @@ public class SysMailLogController extends BaseController {
     }
 
     /**
-     * 删除邮件发送日志
+     * 获取邮件发送者信息
      */
-    @RequiresPermissions("system:mailLog:remove")
-    @Log(title = "邮件发送日志", businessType = BusinessType.DELETE)
-    @DeleteMapping("/{mailLogIds}")
-    public AjaxResult remove(@PathVariable Long[] mailLogIds) {
-        return toAjax(sysMailLogService.deleteSysMailLogByMailLogIds(mailLogIds));
+    @RequiresPermissions("system:mailLog:query")
+    @GetMapping(value = "/getMailSenderInfo")
+    public AjaxResult getMailSenderInfo() {
+        return success(sysMailLogService.getMailSenderInfo());
     }
 }

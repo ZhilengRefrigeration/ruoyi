@@ -1,8 +1,9 @@
 package com.ruoyi.system.service;
 
-import com.ruoyi.common.core.mail.MailMessage;
+import com.ruoyi.common.core.mail.MailSendAccount;
 import com.ruoyi.common.core.mail.MailSendResult;
 import com.ruoyi.system.domain.SysMailLog;
+import com.ruoyi.system.domain.vo.MailVo;
 
 import java.util.List;
 
@@ -62,10 +63,15 @@ public interface ISysMailLogService {
     int deleteSysMailLogByMailLogId(Long mailLogId);
 
     /**
-     * 发送临时邮件
+     * 发送邮件 - 简易版
      *
-     * @param message 邮件内容
+     * @param mailVo 邮件内容
      * @return 结果
      */
-    MailSendResult sendTempMail(MailMessage message);
+    MailSendResult sendSimpleMail(MailVo mailVo);
+
+    /**
+     * 获取邮件发送账户信息
+     */
+    MailSendAccount getMailSenderInfo();
 }

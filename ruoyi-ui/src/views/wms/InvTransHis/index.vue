@@ -108,7 +108,6 @@
 <script setup name="InvTransHis">
 import { listInvTransHis } from "@/api/wms/InvTransHis";
 import { listWarehouseInfo } from "@/api/wms/WarehouseInfo";
-import DataSelect from "@/components/DataSelect/index.vue";
 
 const { proxy } = getCurrentInstance();
 const {wms_inv_trans_type} = proxy.useDict("wms_inv_trans_type");
