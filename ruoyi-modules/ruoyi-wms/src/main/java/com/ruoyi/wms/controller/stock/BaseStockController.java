@@ -8,6 +8,7 @@ import com.ruoyi.common.log.annotation.Log;
 import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.wms.domain.BaseStock;
+import com.ruoyi.wms.domain.vo.StockVo;
 import com.ruoyi.wms.service.stock.IBaseStockService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,24 @@ public class BaseStockController extends BaseController {
     @PostMapping(value = "/getInfo")
     public AjaxResult getInfo(@RequestBody BaseStock form) {
         return success(baseStockService.selectBaseStockByPK(form.getWhsCd(), form.getStgBinCd(), form.getItemCd(), form.getLotNo(), form.getSubLotNo()));
+    }
+
+    /**
+     * 入库
+     */
+    @RequiresPermissions("wms:BaseStock:instock")
+    @PostMapping(value = "/instock")
+    public AjaxResult instock(@RequestBody StockVo stockVo) throws Exception {
+        return baseStockService.instock(stockVo);
+    }
+
+    /**
+     * 出库
+     */
+    @RequiresPermissions("wms:BaseStock:outstock")
+    @PostMapping(value = "/outstock")
+    public AjaxResult outstock(@RequestBody StockVo stockVo) throws Exception {
+        return baseStockService.outstock(stockVo);
     }
 
 }

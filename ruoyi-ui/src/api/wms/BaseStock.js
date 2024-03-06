@@ -17,3 +17,23 @@ export function getBaseStock(data) {
     data: data
   })
 }
+
+// 入库
+export function instock(data) {
+  data.stockType = 1;
+  return request({
+    url: '/wms/BaseStock/instock',
+    method: 'post',
+    data: data
+  })
+}
+
+// 出库
+export function outstock(data) {
+  data.stockType = 2;
+  return request({
+    url: '/wms/BaseStock/outstock',
+    method: 'post',
+    data: data
+  })
+}

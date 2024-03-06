@@ -46,8 +46,10 @@ public class ItemInfoServiceImpl implements IItemInfoService {
      */
     @Override
     public ItemInfo selectItemInfoByItemCd(String itemCd) {
-        Optional<ItemInfo> result = itemInfoMapper.selectOne(dsl -> dsl.where(ItemInfoDynamicSqlSupport.itemCd, SqlBuilder.isEqualTo(itemCd)));
-        return result.orElse(null);
+        ItemInfo queryForm = new ItemInfo();
+        queryForm.setItemCd(itemCd);
+        List<ItemInfo> result = itemInfoExtMapper.selectPageList(queryForm);
+        return result.isEmpty() ? null : result.getFirst();
     }
 
     /**
@@ -70,6 +72,12 @@ public class ItemInfoServiceImpl implements IItemInfoService {
     @Transactional
     @Override
     public AjaxResult insertItemInfo(ItemInfo item) {
+        //检查物品代码是否已存在
+        ItemInfo oldRecord = checkItemCdExists(item.getItemCd(), true);
+        if (oldRecord != null) {
+            //存在未删除的记录
+            return AjaxResult.error("物品代码[" + item.getItemCd() + "]已存在");
+        }
         //上传图片文件
         String uploadErrMsg = uploadItemImage(item);
         if (StringUtils.isNotBlank(uploadErrMsg)) {
@@ -133,6 +141,30 @@ public class ItemInfoServiceImpl implements IItemInfoService {
         record.setDeleteFlag(ExtBaseEntity.DELETED);
         record.setUpdateTime(DateUtils.getNowDate());
         return itemInfoMapper.updateByPrimaryKey(record);
+    }
+
+    /**
+     * 检查物品代码是否已存在
+     *
+     * @param itemCd               物品代码
+     * @param deleteIfLogicDeleted 如果是已经逻辑删除的数据，则是否顺带物理删除掉（如果为true则逻辑删除的也会返回null）
+     * @return null:不存在; not null:存在
+     */
+    @Transactional
+    @Override
+    public ItemInfo checkItemCdExists(String itemCd, boolean deleteIfLogicDeleted) {
+        Optional<ItemInfo> itemInfo = itemInfoMapper.selectOne(dsl -> dsl.where(ItemInfoDynamicSqlSupport.itemCd, SqlBuilder.isEqualTo(itemCd)));
+        if (itemInfo.isEmpty()) {
+            return null;
+        } else {
+            ItemInfo result = itemInfo.get();
+            if (deleteIfLogicDeleted && result.isLogicDeleted()) {
+                //顺带物理删除掉
+                itemInfoMapper.deleteByPrimaryKey(result.getItemCd());
+                return null;
+            }
+            return result;
+        }
     }
 
     /**

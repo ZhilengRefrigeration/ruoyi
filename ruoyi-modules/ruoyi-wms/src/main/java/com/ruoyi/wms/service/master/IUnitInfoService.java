@@ -58,4 +58,17 @@ public interface IUnitInfoService {
      * @return 结果
      */
     int deleteUnitInfoByUnitCode(String unitCode);
+
+    /**
+     * 如果不存在就新增
+     *
+     * @param unitName 单位名称
+     * @param remark   备注
+     */
+    void addIfNotExist(String unitName, String remark);
+
+    default void addIfNotExist(String unitName) {
+        addIfNotExist(unitName, null);
+    }
+
 }

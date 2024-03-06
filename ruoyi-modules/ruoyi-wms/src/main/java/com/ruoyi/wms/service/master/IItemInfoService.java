@@ -59,4 +59,13 @@ public interface IItemInfoService {
      * @return 结果
      */
     int deleteItemInfoByItemCd(String itemCd);
+
+    /**
+     * 检查物品代码是否已存在
+     *
+     * @param itemCd               物品代码
+     * @param deleteIfLogicDeleted 如果是已经逻辑删除的数据，则是否顺带物理删除掉（如果为true则逻辑删除的也会返回null）
+     * @return null:不存在; not null:存在
+     */
+    ItemInfo checkItemCdExists(String itemCd, boolean deleteIfLogicDeleted);
 }

@@ -1,8 +1,8 @@
 package com.ruoyi.wms.service.master;
 
-import java.util.List;
+import com.ruoyi.wms.domain.WarehouseInfo;
 
-import com.ruoyi.wms.domain .WarehouseInfo;
+import java.util.List;
 
 /**
  * 仓库基础信息Service接口
@@ -58,4 +58,13 @@ public interface IWarehouseInfoService {
      * @return 结果
      */
     int deleteWarehouseInfoByWhsCd(String whsCd);
+
+    /**
+     * 检查仓库代码是否存在
+     *
+     * @param whsCd                仓库代码
+     * @param deleteIfLogicDeleted 如果是已经逻辑删除的数据，则是否顺带物理删除掉（如果为true则逻辑删除的也会返回null）
+     * @return null:不存在; not null:存在
+     */
+    WarehouseInfo checkWhsCdExists(String whsCd, boolean deleteIfLogicDeleted);
 }

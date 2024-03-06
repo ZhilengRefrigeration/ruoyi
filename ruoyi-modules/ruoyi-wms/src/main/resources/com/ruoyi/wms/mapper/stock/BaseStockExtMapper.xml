@@ -74,6 +74,9 @@
             <if test="lotNo != null and lotNo != ''">
                 and t.LOT_NO like concat('%', #{lotNo}, '%')
             </if>
+            <if test="subLotNo != null and subLotNo != ''">
+                and t.SUB_LOT_NO like concat('%', #{subLotNo}, '%')
+            </if>
         </where>
     </select>
 

@@ -134,16 +134,17 @@ public class VelocityUtils {
         if ("mybatis-dynamic".equals(tplBackendType)) {
             //MyBatis Dynamic SQL
             templates.add("vm/java/controller-dynamic.java.vm");
+            templates.add("vm/java/service-dynamic.java.vm");
             templates.add("vm/java/serviceImpl-dynamic.java.vm");
         } else {
             //常规
             templates.add("vm/java/domain.java.vm");
             templates.add("vm/java/controller.java.vm");
+            templates.add("vm/java/service.java.vm");
             templates.add("vm/java/serviceImpl.java.vm");
             templates.add("vm/java/mapper.java.vm");
             templates.add("vm/xml/mapper.xml.vm");
         }
-        templates.add("vm/java/service.java.vm");
         templates.add("vm/sql/sql.vm");
         //前端
         templates.add("vm/js/api.js.vm");
@@ -189,6 +190,8 @@ public class VelocityUtils {
         } else if (template.contains("mapper.java.vm")) {
             fileName = StringUtils.format("{}/mapper/{}Mapper.java", javaPath, className);
         } else if (template.contains("service.java.vm")) {
+            fileName = StringUtils.format("{}/service/I{}Service.java", javaPath, className);
+        } else if (template.contains("service-dynamic.java.vm")) {
             fileName = StringUtils.format("{}/service/I{}Service.java", javaPath, className);
         } else if (template.contains("serviceImpl.java.vm")) {
             fileName = StringUtils.format("{}/service/impl/{}ServiceImpl.java", javaPath, className);

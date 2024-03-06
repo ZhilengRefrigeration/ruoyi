@@ -33,12 +33,12 @@ public class JobDataLogServiceImpl implements IJobDataLogService {
         if (log.getLogId() == null) {
             log.setLogId(SnowFlakeIdGenerator.nextIdLong());
         }
-        if (log.getJobClass() == null) {
-            StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-            StackTraceElement caller = stackTraceElements[2];
-            log.setJobClass(caller.getClassName());
-            log.setJobMethod(caller.getMethodName());
-        }
+//        if (log.getJobClass() == null) {
+//            StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+//            StackTraceElement caller = stackTraceElements[2];
+//            log.setJobClass(caller.getClassName());
+//            log.setJobMethod(caller.getMethodName());
+//        }
         jobDataLogMapper.insertSelective(log);
     }
 }

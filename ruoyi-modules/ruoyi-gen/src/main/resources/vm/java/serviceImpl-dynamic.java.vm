@@ -220,4 +220,29 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
         }
     }
 #end
+
+    /**
+     * 检查${functionName}是否已存在
+     *
+     * @param ${pkColumn.javaField} 主键
+     * @param deleteIfLogicDeleted 如果是已经逻辑删除的数据，则是否顺带物理删除掉（如果为true则逻辑删除的也会返回null）
+     * @return null:不存在; not null:存在
+     */
+    @Transactional
+    @Override
+    public ${ClassName} check${pkColumn.capJavaField}Exists(${pkColumn.javaType} ${pkColumn.javaField}, boolean deleteIfLogicDeleted) {
+        Optional<${ClassName}> existsRecordOpt = ${className}Mapper.selectOne(dsl -> dsl.where(${ClassName}DynamicSqlSupport.${pkColumn.javaField}, SqlBuilder.isEqualTo(${pkColumn.javaField})));
+        if (existsRecordOpt.isEmpty()) {
+            return null;
+        } else {
+            ${ClassName} existsRecord = existsRecordOpt.get();
+            if (deleteIfLogicDeleted && existsRecord.isLogicDeleted()) {
+                //顺带物理删除掉
+                ${className}Mapper.deleteByPrimaryKey(existsRecord.get${pkColumn.capJavaField}());
+                return null;
+            }
+            return existsRecord;
+        }
+    }
+
 }

@@ -11,7 +11,7 @@
  Target Server Version : 80200 (8.2.0)
  File Encoding         : 65001
 
- Date: 04/03/2024 16:13:20
+ Date: 06/03/2024 16:25:34
 */
 
 SET NAMES utf8mb4;
@@ -51,8 +51,7 @@ CREATE TABLE `WMS_B_BASE_STOCK`  (
 -- ----------------------------
 -- Records of WMS_B_BASE_STOCK
 -- ----------------------------
-INSERT INTO `WMS_B_BASE_STOCK` VALUES (100, 'WHS001', 'A1-10-1', 'G00001', '', '', 20.000000, 0.000000, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '1', '2024-02-23 10:15:22', '1', '2024-02-23 10:15:25', NULL);
-INSERT INTO `WMS_B_BASE_STOCK` VALUES (100, 'WHS001', 'A1-10-2', 'G00001', '', '', 50.000000, 0.000000, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '1', '2024-02-23 10:15:22', '1', '2024-02-23 10:15:25', NULL);
+INSERT INTO `WMS_B_BASE_STOCK` VALUES (100, 'WHS001', 'A-1-1', 'G00001', '', '', 15.000000, 0.000000, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, 0, '1', '2024-03-06 15:50:11', '1', '2024-03-06 16:15:43', NULL);
 
 -- ----------------------------
 -- Table structure for WMS_B_INV_TRANS_HIS
@@ -94,7 +93,8 @@ CREATE TABLE `WMS_B_INV_TRANS_HIS`  (
 -- ----------------------------
 -- Records of WMS_B_INV_TRANS_HIS
 -- ----------------------------
-INSERT INTO `WMS_B_INV_TRANS_HIS` VALUES (100, 'ITN00001', 1, 'WHS0001', 'A1-10-1', NULL, 20.000000, 0.000000, NULL, NULL, NULL, '0', 'G00001', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '1', '2024-02-23 13:50:43', '', NULL, NULL);
+INSERT INTO `WMS_B_INV_TRANS_HIS` VALUES (100, '6636342291713', 1, 'WHS001', 'A-1-1', NULL, 20.000000, 0.000000, NULL, NULL, 'admin', '0', 'G00001', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '1', '2024-03-06 15:50:11', '1', '2024-03-06 15:50:11', NULL);
+INSERT INTO `WMS_B_INV_TRANS_HIS` VALUES (100, '6636538433153', 2, 'WHS001', 'A-1-1', NULL, -5.000000, 0.000000, NULL, NULL, 'admin', '0', 'G00001', '', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '1', '2024-03-06 16:15:43', '1', '2024-03-06 16:15:43', NULL);
 
 -- ----------------------------
 -- Table structure for WMS_M_ITEM_INFO
@@ -582,10 +582,10 @@ INSERT INTO `sys_config` VALUES (2, '用户管理-账号初始密码', 'sys.user
 INSERT INTO `sys_config` VALUES (3, '主框架页-侧边栏主题', 'sys.index.sideTheme', 'theme-dark', 'Y', 'admin', '2024-01-30 05:05:41', '', NULL, '深色主题theme-dark，浅色主题theme-light');
 INSERT INTO `sys_config` VALUES (4, '账号自助-是否开启用户注册功能', 'sys.account.registerUser', 'false', 'Y', 'admin', '2024-01-30 05:05:41', '', NULL, '是否开启注册用户功能（true开启，false关闭）');
 INSERT INTO `sys_config` VALUES (5, '用户登录-黑名单列表', 'sys.login.blackIPList', '', 'Y', 'admin', '2024-01-30 05:05:41', '', NULL, '设置登录IP黑名单限制，多个匹配项以;分隔，支持匹配（*通配、网段）');
-INSERT INTO `sys_config` VALUES (100, '邮件-SMTP服务器', 'sys.mail.smtpHost', 'smtp.test.com', 'Y', 'admin', '2024-03-01 10:05:41', '', NULL, '');
+INSERT INTO `sys_config` VALUES (100, '邮件-SMTP服务器', 'sys.mail.smtpHost', 'smtp.test.com', 'Y', 'admin', '2024-03-01 10:05:41', '1', '2024-03-04 08:39:18', '');
 INSERT INTO `sys_config` VALUES (101, '邮件-SMTP服务器端口', 'sys.mail.smtpPort', '587', 'Y', 'admin', '2024-03-01 10:05:41', '', NULL, '');
-INSERT INTO `sys_config` VALUES (102, '邮件-认证用户名', 'sys.mail.username', 'sender@test.com', 'Y', 'admin', '2024-03-01 10:05:41', '', NULL, '也会作为默认发件人');
-INSERT INTO `sys_config` VALUES (103, '邮件-认证密码', 'sys.mail.password', 'abcdefg', 'Y', 'admin', '2024-03-01 10:05:41', '', NULL, '');
+INSERT INTO `sys_config` VALUES (102, '邮件-认证用户名', 'sys.mail.username', 'sender@test.com', 'Y', 'admin', '2024-03-01 10:05:41', '1', '2024-03-04 08:39:33', '也会作为默认发件人');
+INSERT INTO `sys_config` VALUES (103, '邮件-认证密码', 'sys.mail.password', 'abcdefg', 'Y', 'admin', '2024-03-01 10:05:41', '1', '2024-03-04 08:39:56', '');
 INSERT INTO `sys_config` VALUES (104, '邮件-附件保存地址', 'sys.mail.attachmentsSavedPath', 'D:\\temp\\RYAS\\mailAttachments', 'Y', 'admin', '2024-03-04 10:05:41', '', NULL, '');
 
 -- ----------------------------
@@ -834,7 +834,7 @@ CREATE TABLE `sys_logininfor`  (
   PRIMARY KEY (`info_id`) USING BTREE,
   INDEX `idx_sys_logininfor_s`(`status` ASC) USING BTREE,
   INDEX `idx_sys_logininfor_lt`(`access_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 157 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 158 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '系统访问记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_logininfor
@@ -1081,7 +1081,7 @@ CREATE TABLE `sys_oper_log`  (
   INDEX `idx_sys_oper_log_bt`(`business_type` ASC) USING BTREE,
   INDEX `idx_sys_oper_log_s`(`status` ASC) USING BTREE,
   INDEX `idx_sys_oper_log_ot`(`oper_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 319 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 325 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin COMMENT = '操作日志记录' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_oper_log

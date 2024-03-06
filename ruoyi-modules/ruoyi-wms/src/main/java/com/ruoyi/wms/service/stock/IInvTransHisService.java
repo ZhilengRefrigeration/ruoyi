@@ -1,6 +1,7 @@
 package com.ruoyi.wms.service.stock;
 
 import com.ruoyi.wms.domain.InvTransHis;
+import com.ruoyi.wms.domain.vo.StockVo;
 
 import java.util.List;
 
@@ -42,4 +43,11 @@ public interface IInvTransHisService {
      * @return 结果
      */
     int deleteInvTransHisByInvTransNo(String invTransNo);
+
+    /**
+     * 新增入出库履历
+     *
+     * @param stockVo 库存数据
+     */
+    void addInvTransHis(StockVo stockVo);
 }

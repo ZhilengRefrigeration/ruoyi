@@ -1,5 +1,7 @@
 package com.ruoyi.common.core.web.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serial;
 
 /**
@@ -32,6 +34,16 @@ public class ExtBaseEntity extends BaseEntity {
      * 更新次数（乐观锁）
      */
     private Integer updateCount;
+
+    /**
+     * 是否已逻辑删除
+     *
+     * @return true：已删除；false：未删除
+     */
+    @JsonIgnore
+    public boolean isLogicDeleted() {
+        return deleteFlag != null && deleteFlag == DELETED;
+    }
 
     public Integer getDeleteFlag() {
         return deleteFlag;

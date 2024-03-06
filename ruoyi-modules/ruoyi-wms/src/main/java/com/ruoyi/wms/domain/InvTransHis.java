@@ -59,113 +59,113 @@ public class InvTransHis extends ExtBaseEntity implements Serializable {
     //==================== ↓↓↓↓↓↓ 表字段 ↓↓↓↓↓↓ ====================
 
     /**
-     *   入出库履历号
+     * 入出库履历号
      */
     @Excel(name = "入出库履历号", sort = 1)
     private String invTransNo;
 
     /**
-     *   从属部门ID
+     * 从属部门ID
      */
     private Integer deptId;
 
     /**
-     *   入出库类型(1:入库,2:出库)
+     * 入出库类型(1:入库,2:出库)
      */
     private Integer invTransType;
 
     /**
-     *   仓库代码
+     * 仓库代码
      */
     private String whsCd;
 
     /**
-     *   货架号
+     * 货架号
      */
     private String stgBinCd;
 
     /**
-     *   托盘ID
+     * 托盘ID
      */
     private String palletId;
 
     /**
-     *   标准单位数量
+     * 标准单位数量
      */
     private BigDecimal stdUnitQty;
 
     /**
-     *   包装单位数量
+     * 包装单位数量
      */
     private BigDecimal pkgUnitQty;
 
     /**
-     *   交易单号
+     * 交易单号
      */
     private String transOrderNo;
 
     /**
-     *   交易单明细号
+     * 交易单明细号
      */
     private String transOrderDetlNo;
 
     /**
-     *   操作员
+     * 操作员
      */
     private String operator;
 
     /**
-     *   业务区分
+     * 业务区分
      */
     private String businessCls;
 
     /**
-     *   物品代码
+     * 物品代码
      */
     private String itemCd;
 
     /**
-     *   批号
+     * 批号
      */
     private String lotNo;
 
     /**
-     *   子批号
+     * 子批号
      */
     private String subLotNo;
 
     /**
-     *   序列号
+     * 序列号
      */
     private String serialNo;
 
     /**
-     *   入出库理由
+     * 入出库理由
      */
     private String reason;
 
     /**
-     *   备注1
+     * 备注1
      */
     private String remark1;
 
     /**
-     *   备注2
+     * 备注2
      */
     private String remark2;
 
     /**
-     *   备注3
+     * 备注3
      */
     private String remark3;
 
     /**
-     *   备注4
+     * 备注4
      */
     private String remark4;
 
     /**
-     *   备注5
+     * 备注5
      */
     private String remark5;
 

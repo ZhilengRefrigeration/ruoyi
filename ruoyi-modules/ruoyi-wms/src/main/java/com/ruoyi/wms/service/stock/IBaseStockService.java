@@ -2,6 +2,7 @@ package com.ruoyi.wms.service.stock;
 
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.wms.domain.BaseStock;
+import com.ruoyi.wms.domain.vo.StockVo;
 
 import java.util.List;
 
@@ -32,17 +33,17 @@ public interface IBaseStockService {
     /**
      * 入库
      *
-     * @param baseStock 库存数据
+     * @param form 库存数据
      * @return 结果
      */
-    AjaxResult instock(BaseStock baseStock) throws Exception;
+    AjaxResult instock(StockVo form) throws Exception;
 
     /**
      * 出库
      *
-     * @param baseStock 库存数据
+     * @param form 库存数据
      * @return 结果
      */
-    AjaxResult outstock(BaseStock baseStock) throws Exception;
+    AjaxResult outstock(StockVo form) throws Exception;
 
 }
