@@ -87,11 +87,11 @@ export default {
         ],
         code: [{ required: true, trigger: "change", message: "请输入验证码" }]
       },
-      loading: false,
+      // loading: true,
       // 验证码开关
       captchaEnabled: true,
       // 注册开关
-      register: false,
+      register: true,
       redirect: undefined
     };
   },

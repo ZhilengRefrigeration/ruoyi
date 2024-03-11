@@ -15,7 +15,7 @@ import com.ruoyi.system.api.factory.RemoteFileFallbackFactory;
  * 
  * @author ruoyi
  */
-@FeignClient(contextId = "remoteFileService", value = ServiceNameConstants.FILE_SERVICE, fallbackFactory = RemoteFileFallbackFactory.class)
+@FeignClient(contextId = "remoteFileService",url = "${feign.debug.url.file:}", value = ServiceNameConstants.FILE_SERVICE, fallbackFactory = RemoteFileFallbackFactory.class)
 public interface RemoteFileService
 {
     /**

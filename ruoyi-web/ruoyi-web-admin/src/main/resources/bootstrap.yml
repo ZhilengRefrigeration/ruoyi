@@ -1,0 +1,34 @@
+# Tomcat
+server:
+  port: 8080
+
+# Spring
+spring: 
+  application:
+    # 应用名称
+    name: ruoyi-web-admin
+  profiles:
+    # 环境配置
+    active: local
+
+  # Spring Web  公共配置
+  autoconfigure:
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          lowerCaseServiceId: true
+          enabled: true
+    discovery:
+      client:
+        simple:
+          instances:
+            ruoyi-file:
+              - uri: http://localhost:8080
+            ruoyi-system:
+              - uri: http://localhost:9090
+

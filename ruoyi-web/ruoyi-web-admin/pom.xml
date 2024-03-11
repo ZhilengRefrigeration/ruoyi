@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ruoyi-web</artifactId>
+        <groupId>com.ruoyi</groupId>
+        <version>3.6.3</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>ruoyi-web-admin</artifactId>
+
+    <dependencies>
+
+        <!-- ruoyi-modules-system系统模块 -->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-modules-system</artifactId>
+            <version>${ruoyi.version}</version>
+        </dependency>
+
+        <!--  ruoyi-modules-job定时任务 -->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-modules-job</artifactId>
+            <version>${ruoyi.version}</version>
+        </dependency>
+
+        <!-- ruoyi-modules-gen代码生成 -->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-modules-gen</artifactId>
+            <version>${ruoyi.version}</version>
+        </dependency>
+
+        <!--         ruoyi-modules-file文件服务 -->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-modules-file</artifactId>
+            <version>${ruoyi.version}</version>
+        </dependency>
+
+        <!--       ruoyi-auth认证授权中心 -->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-auth</artifactId>
+            <version>${ruoyi.version}</version>
+        </dependency>
+
+        <!--验证码 -->
+        <dependency>
+            <groupId>pro.fessional</groupId>
+            <artifactId>kaptcha</artifactId>
+        </dependency>
+
+    </dependencies>
+</project>

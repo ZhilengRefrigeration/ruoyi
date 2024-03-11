@@ -16,7 +16,7 @@ import com.ruoyi.system.api.factory.RemoteLogFallbackFactory;
  * 
  * @author ruoyi
  */
-@FeignClient(contextId = "remoteLogService", value = ServiceNameConstants.SYSTEM_SERVICE, fallbackFactory = RemoteLogFallbackFactory.class)
+@FeignClient(contextId = "remoteLogService",url = "${feign.debug.url.system:}", value = ServiceNameConstants.SYSTEM_SERVICE, fallbackFactory = RemoteLogFallbackFactory.class)
 public interface RemoteLogService
 {
     /**
