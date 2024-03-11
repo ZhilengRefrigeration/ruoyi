@@ -1,0 +1,19 @@
+version : '3.8'
+services:
+  ryas-auth:
+    image: ryas-auth:1.0.0
+    container_name: ryas-auth
+    ports:
+      - "9200:9200"
+    volumes:
+      - "/home/ubuntu/ryas/auth/logs:/home/ryas/logs"
+      - "/home/ubuntu/ryas/auth/bootstrap.yml:/home/ryas/bootstrap.yml"
+    restart: on-failure
+    networks:
+      - ryas
+
+networks:
+  ryas:
+    external: true
+    name: ryas
+

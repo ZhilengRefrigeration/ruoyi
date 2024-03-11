@@ -1,0 +1,19 @@
+version : '3.8'
+services:
+  ryas-gateway:
+    image: ryas-gateway:1.0.0
+    container_name: ryas-gateway
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/home/ubuntu/ryas/gateway/logs:/home/ryas/logs"
+      - "/home/ubuntu/ryas/gateway/bootstrap.yml:/home/ryas/bootstrap.yml"
+    restart: on-failure
+    networks:
+      - ryas
+
+networks:
+  ryas:
+    external: true
+    name: ryas
+

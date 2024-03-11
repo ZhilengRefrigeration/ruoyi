@@ -1,15 +1,18 @@
 # 基础镜像
-FROM  openjdk:8-jre
+FROM  eclipse-temurin:21.0.2_13-jre
 # author
-MAINTAINER ruoyi
+LABEL author="ryas"
 
-# 挂载目录
-VOLUME /home/ruoyi
-# 创建目录
-RUN mkdir -p /home/ruoyi
-# 指定路径
-WORKDIR /home/ruoyi
+# 定义一个环境变量JVM_OPTS，用户可以通过它传递JVM参数
+ENV JVM_OPTS=""
+
+# 挂载容器内目录
+VOLUME /home/ryas
+# 容器内创建目录
+RUN mkdir -p /home/ryas
+# 指定容器内工作路径
+WORKDIR /home/ryas
 # 复制jar文件到路径
-COPY ./jar/ruoyi-gateway.jar /home/ruoyi/ruoyi-gateway.jar
-# 启动网关服务
-ENTRYPOINT ["java","-jar","ruoyi-gateway.jar"]
+COPY ./jar/ruoyi-gateway.jar /home/ryas/ruoyi-gateway.jar
+# 启动服务
+ENTRYPOINT exec java $JVM_OPTS -jar ruoyi-gateway.jar
