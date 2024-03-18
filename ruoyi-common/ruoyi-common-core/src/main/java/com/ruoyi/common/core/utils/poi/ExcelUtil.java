@@ -23,26 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
-import org.apache.poi.ss.usermodel.BorderStyle;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.ClientAnchor;
-import org.apache.poi.ss.usermodel.DataValidation;
-import org.apache.poi.ss.usermodel.DataValidationConstraint;
-import org.apache.poi.ss.usermodel.DataValidationHelper;
-import org.apache.poi.ss.usermodel.DateUtil;
-import org.apache.poi.ss.usermodel.Drawing;
-import org.apache.poi.ss.usermodel.FillPatternType;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Name;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellRangeAddressList;
 import org.apache.poi.util.IOUtils;
@@ -536,7 +517,7 @@ public class ExcelUtil<T>
 
             // 产生一行
             Row row = sheet.createRow(rownum);
-            int column = 0;
+            int column = 0,tempColumn=-1;
             // 写入各个字段的列头名称
             for (Object[] os : fields)
             {
@@ -554,6 +535,8 @@ public class ExcelUtil<T>
                 {
                     this.createHeadCell(excel, row, column++);
                 }
+                if(excel.cellType()==ColumnType.STRING)
+                    this.createDefaultColumnStyle(wb,tempColumn++);
             }
             if (Type.EXPORT.equals(type))
             {
@@ -1497,5 +1480,22 @@ public class ExcelUtil<T>
             log.error("获取对象异常{}", e.getMessage());
         }
         return method;
+    }
+    
+    /**
+     * 创建默认列样式
+     * @param wb
+     * @param column
+     */
+    private void createDefaultColumnStyle(Workbook wb, int column)
+    {
+        // 设置默认输入类型为文本
+        CellStyle style = wb.createCellStyle();
+        DataFormat excelFormat = wb.createDataFormat();
+        // 自动换行
+        style.setWrapText(true);
+        // 文本格式
+        style.setDataFormat(excelFormat.getFormat("@"));
+        sheet.setDefaultColumnStyle(column, style);
     }
 }
