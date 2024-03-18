@@ -8,8 +8,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.springframework.util.StringUtils;
 
 /**
  * 时间工具类
@@ -127,6 +129,82 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
         }
     }
 
+    /**
+     * 日期型字符串转化为日期 格式
+     */
+    public static LocalDate parseLocalDate(Object str)
+    {
+        if (str == null)
+        {
+            return null;
+        }
+        try
+        {
+            return toLocalDate(str.toString(), parsePatterns);
+        }
+        catch (ParseException e)
+        {
+            return null;
+        }
+    }
+    /**
+     * 日期型字符串转化为日期 格式
+     */
+    public static LocalDateTime parseLocalDateTime(Object str)
+    {
+        if (str == null)
+        {
+            return null;
+        }
+        try
+        {
+            return toLocalDateTime(str.toString(), parsePatterns);
+        }
+        catch (ParseException e)
+        {
+            return null;
+        }
+    }
+    public static LocalDate toLocalDate(String dateTime, String... formats) throws ParseException{
+        if (StringUtils.isEmpty(dateTime)) {
+            return null;
+        }
+        if (formats == null || formats.length == 0) {
+            formats = new String[]{"yyyy-MM-dd"};
+        }
+        for(String format:formats){
+            try
+            {
+                DateTimeFormatter df = DateTimeFormatter.ofPattern(format);
+                LocalDate ldt = LocalDate.parse(dateTime, df);
+                return ldt;
+            }catch (Exception ignored)
+            {
+
+            }
+        }
+        throw new ParseException("转换异常",formats.length);
+    }
+    public static LocalDateTime toLocalDateTime(String dateTime, String... formats) throws ParseException{
+        if (StringUtils.isEmpty(dateTime)) {
+            return null;
+        }
+        if (formats == null || formats.length == 0) {
+            formats = new String[]{"yyyy-MM-dd HH:mm:ss"};
+        }
+        for(String format:formats){
+            try
+            {
+                DateTimeFormatter df = DateTimeFormatter.ofPattern(format);
+                LocalDateTime ldt = LocalDateTime.parse(dateTime, df);
+                return ldt;
+            }catch (Exception ignored)
+            {
+
+            }
+        }
+        throw new ParseException("转换异常",formats.length);
+    }
     /**
      * 获取服务器启动时间
      */
