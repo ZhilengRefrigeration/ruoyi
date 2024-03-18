@@ -3,6 +3,7 @@ package com.ruoyi.system.api.domain;
 import java.util.Date;
 import java.util.List;
 import javax.validation.constraints.*;
+import com.ruoyi.system.api.emun.EnableStatusEnum;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.core.annotation.Excel;
@@ -14,7 +15,7 @@ import com.ruoyi.common.core.xss.Xss;
 
 /**
  * 用户对象 sys_user
- * 
+ *
  * @author ruoyi
  */
 public class SysUser extends BaseEntity
@@ -55,8 +56,11 @@ public class SysUser extends BaseEntity
     /** 密码 */
     private String password;
 
-    /** 帐号状态（0正常 1停用） */
-    @Excel(name = "帐号状态", readConverterExp = "0=正常,1=停用")
+    /**
+     * 帐号状态（0正常 1停用）
+     * @see EnableStatusEnum
+     **/
+    @Excel(name = "帐号状态", readConverterEnum = EnableStatusEnum.class)
     private String status;
 
     /** 删除标志（0代表存在 2代表删除） */
