@@ -61,7 +61,8 @@ public class SwaggerAutoConfiguration
 
         ApiSelectorBuilder builder = new Docket(DocumentationType.SWAGGER_2).host(swaggerProperties.getHost())
                 .apiInfo(apiInfo(swaggerProperties)).select()
-                .apis(RequestHandlerSelectors.basePackage(swaggerProperties.getBasePackage()));
+                .apis(RequestHandlerSelectors.basePackage(swaggerProperties.getBasePackage())
+                        .and(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class)));
 
         swaggerProperties.getBasePath().forEach(p -> builder.paths(PathSelectors.ant(p)));
         swaggerProperties.getExcludePath().forEach(p -> builder.paths(PathSelectors.ant(p).negate()));
