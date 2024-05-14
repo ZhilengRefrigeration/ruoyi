@@ -1266,7 +1266,7 @@ export default {
     //上传球队logo
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
-      let imgUrl = res.row[0];
+      let imgUrl = res.rows[0];
       this.ofTeamForm.teamLogo = "https://mall.lzsport.cn/image/"+imgUrl;
     },
     beforeAvatarUpload(file) {
