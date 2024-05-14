@@ -1,11 +1,15 @@
 package com.ruoyi.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.domain.CompetitionOfTeam;
+import com.ruoyi.system.domain.CompetitionTeamVsTeam;
 import com.ruoyi.system.domain.vo.CompetitionOfTeamVo;
 import com.ruoyi.system.mapper.CompetitionOfTeamMapper;
+import com.ruoyi.system.mapper.CompetitionTeamVsTeamMapper;
 import com.ruoyi.system.service.ICompetitionOfTeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +28,8 @@ public class CompetitionOfTeamServiceImpl extends ServiceImpl<CompetitionOfTeamM
 {
     @Autowired
     private CompetitionOfTeamMapper competitionOfTeamMapper;
-
+    @Autowired
+    private CompetitionTeamVsTeamMapper competitionTeamVsTeamMapper;
     /**
      * 查询赛会中-参赛队伍
      * 
@@ -91,6 +96,14 @@ public class CompetitionOfTeamServiceImpl extends ServiceImpl<CompetitionOfTeamM
     @Override
     public int deleteCompetitionOfTeamByIds(Long[] ids)
     {
+        //赛程中排了的球队不允许删除
+        LambdaQueryWrapper<CompetitionTeamVsTeam> vsTeamWrapper = new QueryWrapper<CompetitionTeamVsTeam>().lambda();
+        vsTeamWrapper.in(CompetitionTeamVsTeam::getGuestTeamId,ids);
+        vsTeamWrapper.or().in(CompetitionTeamVsTeam::getMainTeamId,ids);
+        long count = competitionTeamVsTeamMapper.selectCount(vsTeamWrapper);
+        if(count>0){
+            throw new RuntimeException("赛程中排了的球队不允许删除");
+        }
         return competitionOfTeamMapper.deleteCompetitionOfTeamByIds(ids);
     }
 

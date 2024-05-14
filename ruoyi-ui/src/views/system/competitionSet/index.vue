@@ -53,6 +53,11 @@
 
     </el-tab-pane>
     <el-tab-pane label="球队审核" name="competitionTeamApprove"><span slot="label"><i class="el-icon-s-check"></i> 球队审核</span>
+      <div style="margin-bottom: 5px;">
+        <el-button size="small" type="success" @click="addOfTeam">
+        新增球队
+        </el-button>
+      </div>
       <el-table
         max-height="800"
         v-loading="loading" :data="competitionOfTeamList" @selection-change="handleSelectionChange">
@@ -89,35 +94,17 @@
         <el-table-column label="领队人电话" align="center" prop="contactsTel" />
         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
           <template slot-scope="scope">
-            <el-popconfirm  v-if="competitionObj.status===0" @confirm="bindConfirm(scope.row.id,1)"
-              title="你确定同意此球队加入赛会吗？"
-            >
-              <el-button
-                slot="reference"
-                size="mini"
-                type="text"
-                icon="el-icon-success"
-                v-hasPermi="['system:competitionOfTeam:edit']"
-              >同意</el-button>
+            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleEditOfTeam(scope.row)" v-hasPermi="['system:competitionOfTeam:edit']">编辑</el-button>
+            <el-popconfirm  v-if="scope.row.status===0" @confirm="bindConfirm(scope.row.id,1)" title="你确定同意此球队加入赛会吗？">
+              <el-button slot="reference" size="mini" type="text" icon="el-icon-success" v-hasPermi="['system:competitionOfTeam:edit']">同意</el-button>
             </el-popconfirm>
-            <el-popconfirm  v-if="competitionObj.status===0" @confirm="bindConfirm(scope.row.id,-1)"
-              title="你确定不同意此球队加入赛会吗？"
-            >
-            <el-button
-              slot="reference"
-              size="mini"
-              type="text"
-              icon="el-icon-info"
-              v-hasPermi="['system:competitionOfTeam:remove']"
-            >驳回</el-button>
+            <el-popconfirm  v-if="scope.row.status===0" @confirm="bindConfirm(scope.row.id,-1)" title="你确定不同意此球队加入赛会吗？">
+            <el-button slot="reference" size="mini" type="text" icon="el-icon-info" v-hasPermi="['system:competitionOfTeam:remove']">驳回</el-button>
             </el-popconfirm>
-            <el-button
-              size="mini"
-              type="text"
-              icon="el-icon-s-custom"
-              @click="handleTeamUser(scope.row)"
-              v-hasPermi="['system:competitionOfTeam:list']"
-            >球队成员</el-button>
+            <el-button size="mini" type="text" icon="el-icon-s-custom" @click="handleTeamUser(scope.row)" v-hasPermi="['system:competitionOfTeam:list']">球队成员</el-button>
+            <el-popconfirm  v-if="scope.row.status===0" @confirm="bindDelOfTeamConfirm(scope.row.id,1)" title="你确定要删除此球队吗？">
+              <el-button slot="reference" size="mini" type="text" icon="el-icon-delete" v-hasPermi="['system:competitionOfTeam:remove']">删除</el-button>
+            </el-popconfirm>
           </template>
         </el-table-column>
       </el-table>
@@ -250,28 +237,10 @@
         <el-table-column label="球场名称" align="center" prop="buildingName" width="250"/>
         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
           <template slot-scope="scope">
-            <el-button
-              size="mini"
-              type="text"
-              icon="el-icon-edit-outline"
-              @click="handleTeamVsTeamRecord(scope.row)"
-              v-hasPermi="['system:competitionOfTeam:edit']"
-            >比赛记录</el-button>
-            <el-button
-              size="mini"
-              type="text"
-              icon="el-icon-edit"
-              @click="handleTeamVsTeamEdit(scope.row)"
-              v-hasPermi="['system:competitionTeamVsTeam:edit']"
-            >编辑赛程</el-button>
-            <el-button
-              v-if="new Date(scope.row.competitionDate).getTime() > new Date().getTime()"
-              size="mini"
-              type="text"
-              icon="el-icon-delete"
-              @click="handleTeamVsTeamDel(scope.row)"
-              v-hasPermi="['system:competitionOfTeam:del']"
-            >删除赛程</el-button>
+            <el-button size="mini" type="text" icon="el-icon-edit-outline" @click="handleTeamVsTeamRecord(scope.row)" v-hasPermi="['system:competitionOfTeam:edit']">比赛记录</el-button>
+            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleTeamVsTeamEdit(scope.row)" v-hasPermi="['system:competitionTeamVsTeam:edit']">编辑赛程</el-button>
+            <el-button size="mini" type="text" icon="el-icon-delete" @click="handleTeamVsTeamDel(scope.row)" v-hasPermi="['system:competitionOfTeam:del']">删除赛程</el-button>
+<!--            <el-button v-if="new Date(scope.row.competitionDate).getTime() > new Date().getTime()" size="mini" type="text" icon="el-icon-delete" @click="handleTeamVsTeamDel(scope.row)" v-hasPermi="['system:competitionOfTeam:del']">删除赛程</el-button>-->
           </template>
         </el-table-column>
       </el-table>
@@ -354,6 +323,55 @@
       </el-tabs>
     </el-tab-pane>
   </el-tabs>
+    <!-- 添加或修改赛会中-参赛队伍对话框 -->
+    <el-dialog :title="ofTeamTitle" :visible.sync="ofTeamOpen" width="700px" append-to-body>
+      <el-form ref="ofTeamForm" :model="ofTeamForm" :rules="ofTeamFormRules" label-width="120px">
+        <el-form-item label="球队名" prop="teamName">
+          <el-input v-model="ofTeamForm.teamName" placeholder="请输入球队名" />
+        </el-form-item>
+        <el-form-item label="球队logo" prop="teamLogo">
+          <el-upload
+            class="avatar-uploader"
+            action="https://mall.lzsport.cn/prod-api/system/file/uploadMore"
+            :show-file-list="false"
+            name="files"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload">
+            <img v-if="ofTeamForm.teamLogo" :src="ofTeamForm.teamLogo" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="隐藏队员头像" prop="isHideAvatar">
+          <el-switch
+            v-model="ofTeamForm.isHideAvatar"
+            active-text="隐藏"
+            inactive-text="显示">
+          </el-switch>
+        </el-form-item>
+        <el-form-item label="队长" prop="captain">
+          <el-input v-model="ofTeamForm.captain" placeholder="请输入队长姓名" />
+        </el-form-item>
+        <el-form-item label="领队人" prop="contacts">
+          <el-input v-model="ofTeamForm.contacts" placeholder="请输入领队人" />
+        </el-form-item>
+        <el-form-item label="领队人电话" prop="contactsTel">
+          <el-input v-model="ofTeamForm.contactsTel" placeholder="请输入领队人电话" />
+        </el-form-item>
+        <el-form-item label="领队人电话区号" prop="contactsAreaCode">
+          <el-input v-model="ofTeamForm.contactsAreaCode" placeholder="请输入领队人电话区号" />
+        </el-form-item>
+        <el-form-item label="组内的序号" prop="serialNumber">
+          <el-input-number v-model="ofTeamForm.serialNumber"  :min="0" :max="100" placeholder="请输入组内的序号" />
+        </el-form-item>
+        <el-form-item label="备注说明" prop="remark">
+          <el-input v-model="ofTeamForm.remark" type="textarea" placeholder="请输入内容" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="ofTeamSubmitForm">确 定</el-button>
+        <el-button @click="ofTeamCancel">取 消</el-button>
+      </div>
+    </el-dialog>
 
     <el-drawer
       title="球队成员"
@@ -742,7 +760,15 @@
 
 <script>
 import { listCompetition, getCompetition, genCompetitionCommonAqrSpread, addCompetition, updateCompetition } from "@/api/system/competition";
-import { listCompetitionOfTeam, batchEditById, intoTeamGroup, removeTeamGroup, updateCompetitionOfTeam } from "@/api/system/competitionOfTeam";
+import {
+  listCompetitionOfTeam,
+  batchEditById,
+  intoTeamGroup,
+  removeTeamGroup,
+  updateCompetitionOfTeam,
+  addCompetitionOfTeam,
+  getCompetitionOfTeam
+} from "@/api/system/competitionOfTeam";
 import { listCompetitionMembers, getCompetitionMembers, delCompetitionMembers, addCompetitionMembers, updateCompetitionMembers } from "@/api/system/competitionMembers";
 import { listCompetitionTeamGroup, arrangeTeamGroupSchedule, delCompetitionTeamGroup, addCompetitionTeamGroup, updateCompetitionTeamGroup } from "@/api/system/competitionTeamGroup";
 import { listCompetitionTeamVsTeam,getCompetitionVsRecordById, delCompetitionTeamVsTeam, addCompetitionTeamVsTeam, updateCompetitionTeamVsTeam } from "@/api/system/competitionTeamVsTeam";
@@ -750,6 +776,7 @@ import { listWxBuilding, getWxBuilding, delWxBuilding, addWxBuilding, updateWxBu
 import { listCompetitionResult, getCompetitionResult, editDataCompetitionResult, batchUpdateCompetitionResult, updateCompetitionResult } from "@/api/system/competitionResult";
 import { listCompetitionMemberScore, getCompetitionMemberScore, delCompetitionMemberScore, addCompetitionMemberScore, updateCompetitionMemberScore } from "@/api/system/competitionMemberScore";
 import {getWxApplesAccessToken, genWxApplesAqrCode} from "@/api/system/wxApplesCode";
+import {parseTime} from "@/utils/ruoyi";
 
 export default {
   name: "CompetitionSet",
@@ -894,6 +921,15 @@ export default {
         totalScore: [
           { required: true, message: "总分不能为空", trigger: "blur" }
         ]
+      },
+      //新增球队变量
+      ofTeamOpen:false,
+      ofTeamTitle:"",
+      ofTeamForm:{},
+      ofTeamFormRules:{
+        teamName: [
+          { required: true, message: "球队名称不能为空", trigger: "blur" }
+        ],
       }
     };
   },
@@ -1069,6 +1105,14 @@ export default {
         });
       });
     },
+    bindDelOfTeamConfirm(id,tage){
+      updateCompetitionOfTeam({"id":id,"status":tage}).then(response => {
+        this.$modal.msgSuccess("球队审核成功");
+        listCompetitionOfTeam({"orderByColumn":"t.id","isAsc":"desc","pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+          this.competitionOfTeamList = response.rows;
+        });
+      });
+    },
     handleTeamUser(row){
       this.drawer = true
       listCompetitionMembers({"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id,"competitionOfTeamId":row.id}).then(response => {
@@ -1174,6 +1218,69 @@ export default {
       this.single = selection.length!==1
       this.multiple = !selection.length
     },
+    //新增球队
+    addOfTeam(){
+      this.ofTeamForm = { };
+      this.ofTeamOpen = true;
+      this.ofTeamTitle = "新增球队";
+    },
+    ofTeamCancel(){
+      this.ofTeamForm = { };
+      this.ofTeamOpen = false;
+      this.ofTeamTitle = "";
+    },
+    handleEditOfTeam(row){
+      const id = row.id;
+      getCompetitionOfTeam(id).then(response => {
+        this.ofTeamForm = response.data;
+        this.ofTeamOpen = true;
+        this.ofTeamTitle = "编辑球队";
+      });
+    },
+    ofTeamSubmitForm(){
+      this.$refs["ofTeamForm"].validate(valid => {
+        if (valid) {
+          this.ofTeamForm.competitionId = this.competitionObj.id;
+          console.info(this.ofTeamForm)
+          if (this.ofTeamForm.id != null) {
+            updateCompetitionOfTeam(this.ofTeamForm).then(response => {
+              this.$modal.msgSuccess("编辑球队成功");
+              this.ofTeamOpen = false;
+              listCompetitionOfTeam({"orderByColumn":"t.id","isAsc":"desc","pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+                this.competitionOfTeamList = response.rows;
+              });
+            });
+          } else {
+            addCompetitionOfTeam(this.ofTeamForm).then(response => {
+              this.$modal.msgSuccess("新增球队成功");
+              this.ofTeamOpen = false;
+              listCompetitionOfTeam({"orderByColumn":"t.id","isAsc":"desc","pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
+                this.competitionOfTeamList = response.rows;
+              });
+            });
+          }
+        }
+      });
+    },
+    //上传球队logo
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+      let imgUrl = res.data[0];
+      this.ofTeamForm.teamLogo = "https://mall.lzsport.cn/image/"+imgUrl;
+    },
+    beforeAvatarUpload(file) {
+      console.info(file.type)
+      const isJPG = (file.type === 'image/jpeg'||file.type === 'image/png' || file.type === 'image/x-icon');
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG/PNG/ICO 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
+    },
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
@@ -1267,7 +1374,7 @@ export default {
     },
     handleTeamVsTeamDel(row){
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除赛会中的赛程数据？').then(function() {
+      this.$modal.confirm('确认删除['+ parseTime(row.competitionTime, '{y}-{m}-{d} {h}:{i}') +']赛程['+row.mainTeamName+' VS '+row.guestTeamName+']数据？').then(function() {
         return delCompetitionTeamVsTeam(ids);
       }).then(() => {
         listCompetitionTeamVsTeam({"orderByColumn":"competition_time","isAsc":"desc","isDeleted":0,"pageNum": 1, "pageSize": 1000,"competitionId":this.competitionObj.id}).then(response => {
@@ -1506,6 +1613,29 @@ export default {
 };
 </script>
 <style>
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
 .el-aside {
   background: white;
   border-width: 0 1px 0 0;
@@ -1647,8 +1777,6 @@ export default {
 .pt1{ height: 610px;}
 .pt2{ height: 640px;}
 .pt3{ height: 668px;}
-.invite-modle{ width: 100%; height: 240px; background-color:#fff; box-shadow:0,0,0 rgba(170,170,170, .38);
-  padding: 48px 0 0 28px; box-sizing: border-box; position: fixed; bottom: 0; left: 0;}
 .poster-mod{ width: 100%; height: 150px; overflow: hidden; background: #fff;  white-space: nowrap;}
 .poster-item{ height: 144px; background-color: #f0f0f0; border-radius: 6px;  border:1.5px solid transparent;   display: inline-block; overflow: hidden; margin-right: 35px;}
 .poster-item.cur{ border-color: #e94579;}
