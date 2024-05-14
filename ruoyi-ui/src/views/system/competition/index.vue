@@ -420,7 +420,7 @@ export default {
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
-      let imgUrl = res.data[0];
+      let imgUrl = res.row[0];
       this.form.competitionBackImg = "https://mall.lzsport.cn/image/"+imgUrl;
     },
     beforeAvatarUpload(file) {
