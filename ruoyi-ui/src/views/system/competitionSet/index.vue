@@ -923,6 +923,7 @@ export default {
         ]
       },
       //新增球队变量
+      imageUrl:null,
       ofTeamOpen:false,
       ofTeamTitle:"",
       ofTeamForm:{},
