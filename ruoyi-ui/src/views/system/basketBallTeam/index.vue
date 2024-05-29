@@ -384,12 +384,12 @@ export default {
     },
     handleTeamAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
-      let imgUrl = res.data[0];
+      let imgUrl = res.rows[0];
       this.form.defaultPicture = "https://mall.lzsport.cn/image/"+imgUrl;
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
-      let imgUrl = res.data[0];
+      let imgUrl = res.rows[0];
       this.form.teamLogo = "https://mall.lzsport.cn/image/"+imgUrl;
     },
     beforeAvatarUpload(file) {

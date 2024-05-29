@@ -1,11 +1,8 @@
 package com.ruoyi.auth.form;
 
 import io.swagger.annotations.ApiModelProperty;
-import jdk.nashorn.internal.objects.annotations.Getter;
-import jdk.nashorn.internal.objects.annotations.Setter;
 
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 /**
  * @author 吴一博

@@ -581,7 +581,7 @@ public class CompetitionServiceImpl extends ServiceImpl<CompetitionMapper, Compe
         System.out.println(JSON.toJSONString(team));
         //todo 保存球队数据;
         CompetitionOfTeam competitionOfTeam = competitionOfTeamMapper.selectOneByTeamName(teamName);
-        if (UtilTool.isNotNull(competitionOfTeam)) {
+        if (ObjectUtil.isNotNull(competitionOfTeam)&&ObjectUtil.isNotNull(competitionOfTeam.getId())) {
             team.setId(competitionOfTeam.getId());
             competitionOfTeamMapper.updateCompetitionOfTeam(team);
         } else {
@@ -826,7 +826,7 @@ public class CompetitionServiceImpl extends ServiceImpl<CompetitionMapper, Compe
         team.setStatus(0);
         System.out.println(JSON.toJSONString(team));
         //todo 保存球队数据;
-        if (UtilTool.isNotNull(team)) {
+        if (ObjectUtil.isNotNull(team)&&ObjectUtil.isNotNull(team.getId())) {
             competitionOfTeamMapper.updateCompetitionOfTeam(team);
         } else {
             competitionOfTeamMapper.insertCompetitionOfTeam(team);
