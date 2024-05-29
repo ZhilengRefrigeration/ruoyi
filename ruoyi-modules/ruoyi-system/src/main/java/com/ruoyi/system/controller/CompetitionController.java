@@ -29,6 +29,7 @@ import com.ruoyi.system.domain.vo.SmsResponse;
 import com.ruoyi.system.service.*;
 import com.ruoyi.system.utils.UtilTool;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ooxml.POIXMLDocumentPart;
@@ -334,8 +335,8 @@ public class CompetitionController extends BaseController
     @ResponseBody
     @ApiOperation(value = ApiTerminal.wxMiniProgram+"导入球队报名excel(包含图片)")
     public AjaxResult teamEnrollExcleImport(
-            @RequestParam(value = "competitionId", required = true) Long competitionId,
-            @RequestParam("file") MultipartFile file) throws Exception {
+            @ApiParam(value = "赛会ID", required = true)  @RequestParam(value = "competitionId", required = true) Long competitionId,
+            @ApiParam(value = "文件流", required = true) @RequestPart MultipartFile file) throws Exception {
         CompetitionExcleVo excleVo = new CompetitionExcleVo();
         String fileName = file.getOriginalFilename();
         // 上传文件为空
@@ -377,8 +378,8 @@ public class CompetitionController extends BaseController
     @ResponseBody
     @ApiOperation(value = ApiTerminal.wxMiniProgram+"导入球队报名excel(包含图片)补充队员头像")
     public AjaxResult teamEnrollExcleImportUserPhone(
-            @RequestParam(value = "competitionId", required = true) Long competitionId,
-            @RequestParam("file") MultipartFile file) throws Exception {
+            @ApiParam(value = "赛会ID", required = true)  @RequestParam(value = "competitionId", required = true) Long competitionId,
+            @RequestPart MultipartFile file) throws Exception {
         CompetitionExcleVo excleVo = new CompetitionExcleVo();
         String fileName = file.getOriginalFilename();
         // 上传文件为空

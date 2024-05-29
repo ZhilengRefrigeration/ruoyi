@@ -822,9 +822,9 @@ public class CompetitionServiceImpl extends ServiceImpl<CompetitionMapper, Compe
         String newFileName = UUID.randomUUID() + "_5.jpg";
         String uploadpath = UtilTool.getFileUploadPath(osPath);
         File file2 = UtilTool.bytesToFile(data, uploadpath, newFileName);
-       // team.setTeamLogo(domainName + datePath + newFileName);
+        team.setTeamLogo(domainName + datePath + newFileName);
         team.setStatus(0);
-        System.out.println(JSON.toJSONString(team));
+        log.info("开始导入-->球队信息:" + JSON.toJSONString(team));
         //todo 保存球队数据;
         if (ObjectUtil.isNotNull(team)&&ObjectUtil.isNotNull(team.getId())) {
             competitionOfTeamMapper.updateCompetitionOfTeam(team);
@@ -864,8 +864,6 @@ public class CompetitionServiceImpl extends ServiceImpl<CompetitionMapper, Compe
                     && a.getCompetitionOfTeamId().equals(membersVo.getCompetitionOfTeamId())).findFirst();
             if(opt.isPresent()){
                 membersVo.setId(opt.get().getId());
-            }else {
-                continue;
             }
             //球衣号码
             cell = row.getCell(2);

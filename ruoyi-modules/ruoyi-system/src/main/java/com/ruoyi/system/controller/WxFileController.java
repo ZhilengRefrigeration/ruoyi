@@ -36,7 +36,7 @@ public class WxFileController extends BaseController {
     @ApiOperation("文件上传")
     @PostMapping(value = "/uploadMore")
     @ResponseBody
-    public TableDataInfo handleFileUpload(@RequestParam("files") MultipartFile[] fileList) {
+    public TableDataInfo handleFileUpload(@RequestPart("files") MultipartFile[] fileList) {
         if(fileList==null||fileList.length==0){
             throw new CheckedException("请选择需要上传的文件！");
         }
@@ -56,7 +56,7 @@ public class WxFileController extends BaseController {
                     String originalFilename=file.getOriginalFilename();//原文件名称
                     String newFileName = UUID.randomUUID().toString()+"."+originalFilename.substring(originalFilename.lastIndexOf(".")+1).toLowerCase();
                     String dest=filePath + newFileName;
-                    File destFile = new File(filePath+newFileName);
+                    File destFile = new File(dest);
                     //文件目录不存在需要先创建
                     if(!destFile.getParentFile().exists()){
                         destFile.getParentFile().mkdirs();
@@ -76,7 +76,7 @@ public class WxFileController extends BaseController {
     @PostMapping(value = "/uploadMoreFiles")
     @ResponseBody
     @ApiImplicitParams(@ApiImplicitParam(name = "files",paramType = "formData",value = "图片",required = true,dataType = "file",allowMultiple=true))
-    public TableDataInfo uploadMoreFiles(@RequestParam("files") MultipartFile[] fileList) {
+    public TableDataInfo uploadMoreFiles(@RequestPart("files") MultipartFile[] fileList) {
         if(fileList==null||fileList.length==0){
             throw new CheckedException("请选择需要上传的文件！");
         }
@@ -96,7 +96,7 @@ public class WxFileController extends BaseController {
                     String originalFilename=file.getOriginalFilename();//原文件名称
                     String newFileName = UUID.randomUUID().toString()+"."+originalFilename.substring(originalFilename.lastIndexOf(".")+1).toLowerCase();
                     String dest=filePath + newFileName;
-                    File destFile = new File(filePath+newFileName);
+                    File destFile = new File(dest);
                     //文件目录不存在需要先创建
                     if(!destFile.getParentFile().exists()){
                         destFile.getParentFile().mkdirs();
@@ -117,7 +117,7 @@ public class WxFileController extends BaseController {
     @PostMapping(value = "/uploadIdCardImg")
     @ResponseBody
     public AjaxResult uploadIdCardImg(@RequestParam(value = "front：身份证含照片的一面；back：身份证带国徽的一面", required = true) String idCardSide,
-                                           @RequestParam("files") MultipartFile[] fileList) {
+            @RequestPart("files") MultipartFile[] fileList) {
         if(fileList==null||fileList.length==0){
             throw new CheckedException("请选择需要上传的文件！");
         }if(fileList.length!=1){
@@ -167,7 +167,7 @@ public class WxFileController extends BaseController {
             @ApiResponse(code = 500, message = "上传失败！")
     })
     public AjaxResult uploadIdCardImg1(@RequestParam(value = "front：身份证含照片的一面；back：身份证带国徽的一面", required = true) String idCardSide,
-                                        @ApiParam(value = "身份证照片", required = true) MultipartFile file) {
+                                        @ApiParam(value = "身份证照片", required = true) @RequestPart("file")  MultipartFile file) {
         Map returnMap = new HashMap();
         if (!file.isEmpty()) {
             if (file.getContentType().contains("image")) {

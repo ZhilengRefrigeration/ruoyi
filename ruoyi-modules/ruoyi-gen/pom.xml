@@ -42,12 +42,11 @@
         </dependency>
 		
         <!-- Swagger UI -->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${swagger.fox.version}</version>
-        </dependency>
-        
+<!--        <dependency>-->
+<!--            <groupId>io.springfox</groupId>-->
+<!--            <artifactId>springfox-swagger-ui</artifactId>-->
+<!--            <version>${swagger.fox.version}</version>-->
+<!--        </dependency>-->
         <!-- Apache Velocity -->
         <dependency>
             <groupId>org.apache.velocity</groupId>
