@@ -5,11 +5,11 @@ spring:
     nacos:
       discovery:
         # 服务注册地址
-        server-addr: 192.168.1.237:30005
+        server-addr: 14.116.149.130:30005
         namespace: prod
       config:
         # 配置中心地址
-        server-addr: 192.168.1.237:30005
+        server-addr: 14.116.149.130:30005
         namespace: prod
         # 配置文件格式
         file-extension: yml
@@ -21,12 +21,12 @@ spring:
       eager: true
       transport:
         # 控制台地址
-        dashboard: 192.168.1.237:8718
+        dashboard: 14.116.149.130:8718
       # nacos配置持久化
       datasource:
         ds1:
           nacos:
-            server-addr: 192.168.1.237:30005
+            server-addr: 14.116.149.130:30005
             namespace: prod
             dataId: sentinel-ruoyi-gateway
             groupId: DEFAULT_GROUP
