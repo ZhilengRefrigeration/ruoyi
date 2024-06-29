@@ -244,11 +244,12 @@ public class CompetitionTeamVsTeamServiceImpl extends ServiceImpl<CompetitionTea
                     throw new InvalidParameterException("比赛场地[buildingId]不能为空");
                 }else if(StringUtils.isEmpty(vo.getBuildingName())){
                     throw new InvalidParameterException("比赛场地[buildingName]不能为空");
-                }else if(StringUtils.isEmpty(vo.getMainTeamLogo())){
-                    throw new InvalidParameterException("主队logo[mainTeamLogo]不能为空");
-                }else if(StringUtils.isEmpty(vo.getGuestTeamLogo())){
-                    throw new InvalidParameterException("客队logo[guestTeamLogo]不能为空");
                 }
+//                else if(StringUtils.isEmpty(vo.getMainTeamLogo())){
+//                    throw new InvalidParameterException("主队logo[mainTeamLogo]不能为空");
+//                }else if(StringUtils.isEmpty(vo.getGuestTeamLogo())){
+//                    throw new InvalidParameterException("客队logo[guestTeamLogo]不能为空");
+//                }
                 vo.setCreatedBy(String.valueOf(user.getUserid()));
                 vo.setCreatedTime(new Date());
                 vo.setVsType(request.getVsType());
