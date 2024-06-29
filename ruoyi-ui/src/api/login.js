@@ -12,6 +12,17 @@ export function login(username, password, code, uuid) {
   })
 }
 
+// 微信扫码登录状态检查方法
+export function wxScanLoginCheck(query) {
+  return request({
+    url: '/auth/wxScanLoginCheck',
+    headers: {
+      isToken: false
+    },
+    method: 'get',
+    params: query
+  })
+}
 // 注册方法
 export function register(data) {
   return request({
@@ -33,12 +44,22 @@ export function refreshToken() {
 }
 
 // 获取用户详细信息
-export function getInfo() {
+export function getInfo(params) {
   return request({
     url: '/system/user/getInfo',
-    method: 'get'
+    method: 'get',
+    params: params
   })
 }
+// 获取微信扫码用户详细信息
+export function getWxScanInfo(params) {
+  return request({
+    url: '/system/user/getWxScanInfo',
+    method: 'get',
+    params: params
+  })
+}
+
 
 // 退出方法
 export function logout() {

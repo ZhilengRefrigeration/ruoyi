@@ -17,4 +17,6 @@ public interface WxApplesCodeService {
     String getWxApplesAccessToken();
 
     WxAppletsCodeVo genWxApplesAqrCode(WxAppletsCodeVo wxAppletsCodeVo);
+
+    WxAppletsCodeVo genWxApplesAqrCodeForPc(WxAppletsCodeVo wxAppletsCodeVo);
 }

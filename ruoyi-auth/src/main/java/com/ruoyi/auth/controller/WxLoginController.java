@@ -6,14 +6,17 @@ package com.ruoyi.auth.controller;
  * @Description
  */
 
+import com.alibaba.fastjson.JSON;
 import com.ruoyi.auth.form.WxLoginBody;
 import com.ruoyi.auth.service.SysLoginService;
 import com.ruoyi.auth.service.WxLoginService;
+import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.core.web.domain.AjaxResult;
 import com.ruoyi.common.core.web.page.TableDataInfo;
+import com.ruoyi.common.redis.service.RedisService;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.common.security.service.TokenService;
 import com.ruoyi.system.api.model.LoginUser;
@@ -33,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -50,6 +54,8 @@ public class WxLoginController {
     private WxLoginService wxLoginService;
     @Autowired
     private TokenService tokenService;
+    @Autowired
+    private RedisService redisService;
     @ApiOperation("wx用户登录")
     @PostMapping("/loginInFromWx")
     @ResponseBody
@@ -57,7 +63,14 @@ public class WxLoginController {
         LoginUser loginUser = wxLoginService.loginInFromWx(entity);
         return R.ok(tokenService.createToken(loginUser));
     }
-
+    @ApiOperation("wx扫码登录")
+    @PostMapping("/loginInFromWxScan")
+    @ResponseBody
+    public R<?> loginInFromWxScan(@RequestBody LoginUser entity) {
+        LoginUser loginUser = wxLoginService.loginInFromWxScan(entity);
+        Map<String, Object> map = tokenService.createToken(loginUser);
+        return R.ok(map);
+    }
 
     @PostMapping("/user/register")
     @ApiOperation(value = "wx用户注册接口")

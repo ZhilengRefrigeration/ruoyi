@@ -50,7 +50,7 @@ public class CompetitionResultController extends BaseController
     /**
      * 查询赛会中-赛程结果记录列表
      */
-    @RequiresPermissions("system:competitionResult:list")
+//    @RequiresPermissions("system:competitionResult:list")
     @GetMapping("/list")
     public TableDataInfo list(CompetitionResult competitionResult)
     {
@@ -62,7 +62,7 @@ public class CompetitionResultController extends BaseController
     /**
      * 导出赛会中-赛程结果记录列表
      */
-    @RequiresPermissions("system:competitionResult:export")
+//    @RequiresPermissions("system:competitionResult:export")
     @Log(title = "赛会中赛程结果记录", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, CompetitionResult competitionResult)
@@ -75,7 +75,7 @@ public class CompetitionResultController extends BaseController
     /**
      * 获取赛会中-赛程结果记录详细信息
      */
-    @RequiresPermissions("system:competitionResult:query")
+//    @RequiresPermissions("system:competitionResult:query")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -85,7 +85,7 @@ public class CompetitionResultController extends BaseController
     /**
      * 新增赛会中-赛程结果记录
      */
-    @RequiresPermissions("system:competitionResult:add")
+//    @RequiresPermissions("system:competitionResult:add")
     @Log(title = "赛会中赛程结果记录", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody CompetitionResult competitionResult)
@@ -96,21 +96,21 @@ public class CompetitionResultController extends BaseController
     /**
      * 修改赛会中-赛程结果记录
      */
-    @RequiresPermissions("system:competitionResult:edit")
+//    @RequiresPermissions("system:competitionResult:edit")
     @Log(title = "赛会中赛程结果记录", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody CompetitionResult competitionResult)
     {
         return toAjax(competitionResultService.updateCompetitionResult(competitionResult));
     }
-    @RequiresPermissions("system:competitionResult:batchEdit")
+//    @RequiresPermissions("system:competitionResult:batchEdit")
     @Log(title = "赛会中批量保存赛程结果记录", businessType = BusinessType.UPDATE)
     @PutMapping("/batchEdit")
     public AjaxResult batchEdit(@RequestBody List<CompetitionResult> list)
     {
         return toAjax(competitionResultService.batchUpdateCompetitionResult(list));
     }
-    @RequiresPermissions("system:competitionResult:editData")
+//    @RequiresPermissions("system:competitionResult:editData")
     @Log(title = "赛会中保存赛程结果记录2", businessType = BusinessType.UPDATE)
     @PutMapping("/editData")
     public AjaxResult editData(@RequestBody CompetitionVsRecordVo obj)
@@ -121,7 +121,7 @@ public class CompetitionResultController extends BaseController
     /**
      * 删除赛会中-赛程结果记录
      */
-    @RequiresPermissions("system:competitionResult:remove")
+//    @RequiresPermissions("system:competitionResult:remove")
     @Log(title = "赛会中赛程结果记录", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)

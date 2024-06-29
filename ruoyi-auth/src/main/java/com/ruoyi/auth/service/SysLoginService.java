@@ -1,7 +1,14 @@
 package com.ruoyi.auth.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.constant.UserConstants;
@@ -9,6 +16,7 @@ import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.enums.UserStatus;
 import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.redis.service.RedisService;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.RemoteUserService;
 import com.ruoyi.system.api.domain.SysUser;
@@ -30,6 +38,8 @@ public class SysLoginService
 
     @Autowired
     private SysRecordLogService recordLogService;
+    @Autowired
+    private RedisService redisService;
 
     /**
      * 登录
@@ -125,5 +135,27 @@ public class SysLoginService
             throw new ServiceException(registerResult.getMsg());
         }
         recordLogService.recordLogininfor(username, Constants.REGISTER, "注册成功");
+    }
+
+    public   Map<String, Object> wxScanLoginCheck(String checkCode) {
+      //直接去redis缓存中获取用户信息
+        String map = redisService.getCacheObject(getCacheKey(checkCode));
+//        System.out.println("扫码登录缓存信息："+map);
+        if (map == null){
+            return null;
+        }
+        Map<String, Object> jsonMap = JSON.parseObject(map, new TypeReference<HashMap<String, Object>>() { });
+        return jsonMap;
+    }
+
+    /**
+     * 扫码登录账状态验证缓存键名
+     *
+     * @param checkCode 临时变量
+     * @return 缓存键key
+     */
+    private String getCacheKey(String checkCode)
+    {
+        return CacheConstants.WX_SCAN_LOGIN_CHECK_KEY + checkCode;
     }
 }

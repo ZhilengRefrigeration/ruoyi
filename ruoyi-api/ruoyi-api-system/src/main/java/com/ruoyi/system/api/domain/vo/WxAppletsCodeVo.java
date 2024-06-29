@@ -27,4 +27,8 @@ public class WxAppletsCodeVo {
     public String codeImgUrl;
     @ApiModelProperty(value="返回的base64",required=false)
     public byte[] bytesBase64;
+    @ApiModelProperty(value="要打开的小程序版本。正式版为 release，体验版为trial，开发版为develop。默认是正式版",required=false)
+    public String envVersion;
+    @ApiModelProperty(value="默认是true，检查page 是否存在，为 true 时 page 必须是已经发布的小程序存在的页面（否则报错）；为 false 时允许小程序未发布或者 page 不存在， 但page 有数量上限（60000个）请勿滥用",required=false)
+    public Boolean checkPath;
 }

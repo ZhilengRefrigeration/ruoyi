@@ -207,9 +207,7 @@
             size="mini"
             type="text"
             icon="el-icon-setting"
-            @click="handleCompetitionSet(scope.row)"
-            v-hasPermi="['system:competition:edit']"
-          >设置</el-button>
+            @click="handleCompetitionSet(scope.row)">设置</el-button>
         </template>
       </el-table-column>
     </el-table>

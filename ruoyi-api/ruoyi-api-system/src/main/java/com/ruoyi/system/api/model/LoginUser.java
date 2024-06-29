@@ -1,6 +1,7 @@
 package com.ruoyi.system.api.model;
 
 import com.ruoyi.system.api.domain.SysUser;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -48,6 +49,10 @@ public class LoginUser implements Serializable
      */
     private String ipaddr;
 
+    /**
+     * 登录方式：account：账号密码；wxScan：微信扫码登录；
+     */
+    public String loginMethod;
     /**
      * 权限列表
      */
@@ -110,7 +115,13 @@ public class LoginUser implements Serializable
     {
         this.loginTime = loginTime;
     }
+    public String getLoginMethod() {
+        return loginMethod;
+    }
 
+    public void setLoginMethod(String loginMethod) {
+        this.loginMethod = loginMethod;
+    }
     public Long getExpireTime()
     {
         return expireTime;

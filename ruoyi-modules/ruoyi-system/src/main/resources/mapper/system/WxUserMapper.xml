@@ -104,7 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         limit 1
     </select>
 
-    <insert id="insertWxUser" parameterType="com.ruoyi.system.domain.WxUser" useGeneratedKeys="true" keyProperty="id">
+	<insert id="insertWxUser" parameterType="com.ruoyi.system.domain.WxUser" useGeneratedKeys="true" keyProperty="id">
         insert into user_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="isDeleted != null">IS_DELETED,</if>

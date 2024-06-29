@@ -36,7 +36,7 @@ public class CompetitionMembersController extends BaseController
     /**
      * 查询比赛参与人员列表
      */
-    @RequiresPermissions("system:competitionMembers:list")
+//    @RequiresPermissions("system:competitionMembers:list")
     @GetMapping("/list")
     public TableDataInfo list(CompetitionMembers competitionMembers)
     {
@@ -61,7 +61,7 @@ public class CompetitionMembersController extends BaseController
     /**
      * 获取比赛参与人员详细信息
      */
-    @RequiresPermissions("system:competitionMembers:query")
+//    @RequiresPermissions("system:competitionMembers:query")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -76,7 +76,7 @@ public class CompetitionMembersController extends BaseController
     /**
      * 新增比赛参与人员
      */
-    @RequiresPermissions("system:competitionMembers:add")
+//    @RequiresPermissions("system:competitionMembers:add")
     @Log(title = "比赛参与人员", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody CompetitionMembers competitionMembers)
@@ -87,7 +87,7 @@ public class CompetitionMembersController extends BaseController
     /**
      * 修改比赛参与人员
      */
-    @RequiresPermissions("system:competitionMembers:edit")
+//    @RequiresPermissions("system:competitionMembers:edit")
     @Log(title = "比赛参与人员", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody CompetitionMembers competitionMembers)
@@ -98,7 +98,7 @@ public class CompetitionMembersController extends BaseController
     /**
      * 删除比赛参与人员
      */
-    @RequiresPermissions("system:competitionMembers:remove")
+//    @RequiresPermissions("system:competitionMembers:remove")
     @Log(title = "比赛参与人员", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)

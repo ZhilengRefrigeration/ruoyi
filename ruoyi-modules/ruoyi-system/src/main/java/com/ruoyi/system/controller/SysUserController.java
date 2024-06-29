@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
+
+import cn.hutool.core.util.ObjectUtil;
+import com.ruoyi.system.api.domain.LoginMethodEnum;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.ruoyi.common.core.constant.UserConstants;
@@ -158,9 +162,41 @@ public class SysUserController extends BaseController
      * @return 用户信息
      */
     @GetMapping("getInfo")
-    public AjaxResult getInfo()
+    public AjaxResult getInfo(@RequestParam(value = "userId", required = false) Long userId)
     {
-        SysUser user = userService.selectUserById(SecurityUtils.getUserId());
+        String permission = null;
+       if(userId == null){
+           userId = SecurityUtils.getUserId();
+       }else {
+           LoginUser user = SecurityUtils.getLoginUser();
+           if(ObjectUtil.isNotNull(user.getLoginMethod()) && user.getRoles().contains("common")
+                   &&user.getLoginMethod().equals(LoginMethodEnum.WX_SCAN.getCode())){
+             permission =   "*:*:*";
+           }
+       }
+        SysUser user = userService.selectUserById(userId);
+        // 角色集合
+        Set<String> roles = permissionService.getRolePermission(user);
+        // 权限集合
+        Set<String> permissions = permissionService.getMenuPermission(user);
+        if(ObjectUtil.isNotNull(permission)){
+            permissions.add(permission);
+        }
+        AjaxResult ajax = AjaxResult.success();
+        ajax.put("user", user);
+        ajax.put("roles", roles);
+        ajax.put("permissions", permissions);
+        return ajax;
+    }
+    /**
+     * 获取用户信息
+     *
+     * @return 用户信息
+     */
+    @GetMapping("getWxScanInfo")
+    public AjaxResult getWxScanInfo(@RequestParam("userId") Long userId)
+    {
+        SysUser user = userService.selectUserById(userId);
         // 角色集合
         Set<String> roles = permissionService.getRolePermission(user);
         // 权限集合
@@ -171,13 +207,12 @@ public class SysUserController extends BaseController
         ajax.put("permissions", permissions);
         return ajax;
     }
-
     /**
      * 根据用户编号获取详细信息
      */
     @RequiresPermissions("system:user:query")
     @GetMapping(value = { "/", "/{userId}" })
-    public AjaxResult getInfo(@PathVariable(value = "userId", required = false) Long userId)
+    public AjaxResult getUserInfo(@PathVariable(value = "userId", required = false) Long userId)
     {
         userService.checkUserDataScope(userId);
         AjaxResult ajax = AjaxResult.success();

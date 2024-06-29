@@ -1,9 +1,14 @@
 package com.ruoyi.system.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Validator;
+
+import com.alibaba.fastjson.JSON;
+import com.ruoyi.system.api.model.LoginUser;
+import com.ruoyi.system.domain.WxUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -536,6 +541,33 @@ public class SysUserServiceImpl implements ISysUserService
             successMsg.insert(0, "恭喜您，数据已全部导入成功！共 " + successNum + " 条，数据如下：");
         }
         return successMsg.toString();
+    }
+
+    @Override
+    public SysUser wxScanUserAdd(WxUser wxUser) {
+        log.info("wxScanUserAdd wxUser: {}", JSON.toJSONString(wxUser));
+        String openid = wxUser.getOpenid();
+        SysUser sysUser = userMapper.selectUserByUserName(openid);
+        if (StringUtils.isNull(sysUser))
+        {
+            Date date = new Date();
+            sysUser = new SysUser();
+            sysUser.setNickName("微信用户");
+            sysUser.setUserName(openid);
+            sysUser.setStatus("0");
+            sysUser.setDelFlag("0");
+            sysUser.setLoginDate(date);
+            sysUser.setCreateBy("system");
+            sysUser.setCreateTime(date);
+            sysUser.setRemark("微信扫码登录用户");
+            //设置刚刚
+            Long[] postIds = {4L};
+            sysUser.setPostIds(postIds);
+            Long[] roleIds = {2L};
+            sysUser.setRoleIds(roleIds);
+            this.insertUser(sysUser);
+        }
+        return sysUser;
     }
 
 }

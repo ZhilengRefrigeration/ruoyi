@@ -16,12 +16,14 @@ import com.ruoyi.common.redis.service.RedisService;
 import com.ruoyi.common.security.annotation.RequiresPermissions;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.common.swagger.apiConstants.ApiTerminal;
+import com.ruoyi.system.api.domain.LoginMethodEnum;
 import com.ruoyi.system.api.domain.vo.WxAppletsCodeVo;
 import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.domain.Competition;
 import com.ruoyi.system.domain.CompetitionSharePermissions;
 import com.ruoyi.system.domain.Sms;
 import com.ruoyi.system.domain.UserRole;
+import com.ruoyi.system.domain.WxUser;
 import com.ruoyi.system.domain.vo.CompetitionExcleVo;
 import com.ruoyi.system.domain.vo.CompetitionResponse;
 import com.ruoyi.system.domain.vo.CompetitionVo;
@@ -93,12 +95,28 @@ public class CompetitionController extends BaseController
     /**
      * 查询比赛信息列表
      */
-    @RequiresPermissions("system:competition:list")
+//    @RequiresPermissions("system:competition:list")
     @GetMapping("/list")
-    public TableDataInfo list(Competition competition)
+    public TableDataInfo list(CompetitionVo competition)
     {
+        LoginUser user = SecurityUtils.getLoginUser();
+        //如果是微信扫码登录进入pc系统的且是common角色，只能操作自己创建的赛事
+        if(ObjectUtil.isNotNull(user.getLoginMethod()) && user.getRoles().contains("common")
+                &&user.getLoginMethod().equals(LoginMethodEnum.WX_SCAN.getCode())){
+            WxUser wxUser = wxUserService.selectWxUserByOpenId(user.getUsername());
+            //同时可以看到分享给自己的赛事
+            CompetitionSharePermissions permissions = new CompetitionSharePermissions();
+            permissions.setUserId(wxUser.getId());
+            permissions.setIsDeleted(0);
+            List<CompetitionSharePermissions> permissionsList = competitionSharePermissionsService.selectCompetitionSharePermissionsList(permissions);
+            if(ObjectUtil.isNotNull(permissionsList)&&permissionsList.size()>0){
+                List<Long> competitionIds = permissionsList.stream().map(CompetitionSharePermissions::getCompetitionId).collect(Collectors.toList());
+                competition.setCompetitionIds(competitionIds);
+            }
+            competition.setFounder(wxUser.getId());
+        }
         startPage();
-        List<Competition> list = competitionService.selectCompetitionList(competition);
+        List<Competition> list = competitionService.getMyJoinCompetition(competition);
         return getDataTable(list);
     }
 
@@ -118,7 +136,7 @@ public class CompetitionController extends BaseController
     /**
      * 获取比赛信息详细信息
      */
-    @RequiresPermissions("system:competition:query")
+//    @RequiresPermissions("system:competition:query")
     @GetMapping(value = "/getInfo/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -180,7 +198,7 @@ public class CompetitionController extends BaseController
     /**
      * 新增比赛信息
      */
-    @RequiresPermissions("system:competition:add")
+//    @RequiresPermissions("system:competition:add")
     @Log(title = "比赛信息", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult addCompetition(@RequestBody Competition competition)
@@ -188,7 +206,7 @@ public class CompetitionController extends BaseController
         return toAjax(competitionService.insertCompetition(competition));
     }
 
-    @RequiresPermissions("system:competition:genCompetitionCommonAqrSpread")
+//    @RequiresPermissions("system:competition:genCompetitionCommonAqrSpread")
     @Log(title = "生成赛会普通微信推广码", businessType = BusinessType.OTHER)
     @PostMapping("/genCompetitionCommonAqrSpread")
     public AjaxResult genCompetitionCommonAqrSpread(@RequestBody WxAppletsCodeVo wxAppletsCodeVo)
@@ -199,7 +217,7 @@ public class CompetitionController extends BaseController
     /**
      * 修改比赛信息
      */
-    @RequiresPermissions("system:competition:edit")
+//    @RequiresPermissions("system:competition:edit")
     @Log(title = "比赛信息", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult editCompetition(@RequestBody Competition competition)

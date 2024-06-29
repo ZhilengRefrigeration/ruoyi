@@ -69,7 +69,7 @@ public class CompetitionOfTeamController extends BaseController
     /**
      * 查询赛会中-参赛队伍列表
      */
-    @RequiresPermissions("system:competitionOfTeam:list")
+//    @RequiresPermissions("system:competitionOfTeam:list")
     @GetMapping("/list")
     public TableDataInfo list(CompetitionOfTeamVo competitionOfTeam)
     {
@@ -94,7 +94,7 @@ public class CompetitionOfTeamController extends BaseController
     /**
      * 获取赛会中-参赛队伍详细信息
      */
-    @RequiresPermissions("system:competitionOfTeam:query")
+//    @RequiresPermissions("system:competitionOfTeam:query")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -104,7 +104,7 @@ public class CompetitionOfTeamController extends BaseController
     /**
      * 新增赛会中-参赛队伍
      */
-    @RequiresPermissions("system:competitionOfTeam:add")
+//    @RequiresPermissions("system:competitionOfTeam:add")
     @Log(title = "赛会中-参赛队伍", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody CompetitionOfTeam competitionOfTeam)
@@ -115,14 +115,14 @@ public class CompetitionOfTeamController extends BaseController
     /**
      * 修改赛会中-参赛队伍
      */
-    @RequiresPermissions("system:competitionOfTeam:edit")
+//    @RequiresPermissions("system:competitionOfTeam:edit")
     @Log(title = "赛会中-参赛队伍", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody CompetitionOfTeam competitionOfTeam)
     {
         return toAjax(competitionOfTeamService.updateCompetitionOfTeam(competitionOfTeam));
     }
-    @RequiresPermissions("system:competitionOfTeam:batchEditById")
+//    @RequiresPermissions("system:competitionOfTeam:batchEditById")
     @Log(title = "赛会中-参赛队伍批量修改", businessType = BusinessType.UPDATE)
     @PutMapping("/batchEditById")
     public AjaxResult batchEditById(@RequestBody List<CompetitionOfTeam> list)
@@ -130,7 +130,7 @@ public class CompetitionOfTeamController extends BaseController
         return toAjax(competitionOfTeamService.batchUpdateCompetitionOfTeam(list));
     }
 
-    @RequiresPermissions("system:competitionOfTeam:removeTeamGroup")
+//    @RequiresPermissions("system:competitionOfTeam:removeTeamGroup")
     @Log(title = "赛会中-参赛队伍移除分组", businessType = BusinessType.UPDATE)
     @PutMapping("/removeTeamGroup/{ids}")
     public AjaxResult removeTeamGroup(@PathVariable Long[] ids)
@@ -138,7 +138,7 @@ public class CompetitionOfTeamController extends BaseController
         return toAjax(competitionOfTeamService.removeTeamGroup(ids));
     }
 
-    @RequiresPermissions("system:competitionOfTeam:intoTeamGroup")
+//    @RequiresPermissions("system:competitionOfTeam:intoTeamGroup")
     @Log(title = "赛会中-参赛队伍移入分组", businessType = BusinessType.UPDATE)
     @PostMapping("/intoTeamGroup/{competitionGroup}")
     public AjaxResult intoTeamGroup(@PathVariable String competitionGroup,@RequestBody List<Long> ids)
@@ -148,7 +148,7 @@ public class CompetitionOfTeamController extends BaseController
     /**
      * 删除赛会中-参赛队伍
      */
-    @RequiresPermissions("system:competitionOfTeam:remove")
+//    @RequiresPermissions("system:competitionOfTeam:remove")
     @Log(title = "赛会中-参赛队伍", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)

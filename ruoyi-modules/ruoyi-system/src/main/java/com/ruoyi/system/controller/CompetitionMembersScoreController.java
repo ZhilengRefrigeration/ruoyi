@@ -38,7 +38,7 @@ public class CompetitionMembersScoreController extends BaseController
     /**
      * 查询赛会中-赛程-人员得分列表
      */
-    @RequiresPermissions("system:competitionMemberScore:list")
+//    @RequiresPermissions("system:competitionMemberScore:list")
     @GetMapping("/list")
     public TableDataInfo list(CompetitionMembersScore competitionMembersScore)
     {
@@ -50,7 +50,7 @@ public class CompetitionMembersScoreController extends BaseController
     /**
      * 导出赛会中-赛程-人员得分列表
      */
-    @RequiresPermissions("system:competitionMemberScore:export")
+//    @RequiresPermissions("system:competitionMemberScore:export")
     @Log(title = "赛会中-赛程-人员得分", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, CompetitionMembersScore competitionMembersScore)
@@ -63,7 +63,7 @@ public class CompetitionMembersScoreController extends BaseController
     /**
      * 获取赛会中-赛程-人员得分详细信息
      */
-    @RequiresPermissions("system:competitionMemberScore:query")
+//    @RequiresPermissions("system:competitionMemberScore:query")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -73,7 +73,7 @@ public class CompetitionMembersScoreController extends BaseController
     /**
      * 新增赛会中-赛程-人员得分
      */
-    @RequiresPermissions("system:competitionMemberScore:add")
+//    @RequiresPermissions("system:competitionMemberScore:add")
     @Log(title = "赛会中-赛程-人员得分", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody CompetitionMembersScore competitionMembersScore)
@@ -84,7 +84,7 @@ public class CompetitionMembersScoreController extends BaseController
     /**
      * 修改赛会中-赛程-人员得分
      */
-    @RequiresPermissions("system:competitionMemberScore:edit")
+//    @RequiresPermissions("system:competitionMemberScore:edit")
     @Log(title = "赛会中-赛程-人员得分", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody CompetitionMembersScore competitionMembersScore)
@@ -95,7 +95,7 @@ public class CompetitionMembersScoreController extends BaseController
     /**
      * 删除赛会中-赛程-人员得分
      */
-    @RequiresPermissions("system:competitionMemberScore:remove")
+//    @RequiresPermissions("system:competitionMemberScore:remove")
     @Log(title = "赛会中-赛程-人员得分", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)

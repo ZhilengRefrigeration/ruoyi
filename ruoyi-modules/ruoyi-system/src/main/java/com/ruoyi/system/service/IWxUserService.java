@@ -62,4 +62,6 @@ public interface IWxUserService extends IService<WxUser>
     public int deleteWxUserById(Long id);
 
     WxUser getUserInfoBy(WxUser wxUser);
+
+    WxUser selectWxUserByOpenId(String username);
 }

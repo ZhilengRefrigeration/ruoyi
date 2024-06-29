@@ -42,7 +42,7 @@ public class CompetitionTeamVsTeamController extends BaseController
     /**
      * 查询赛会中-球队VS球队关系列表
      */
-    @RequiresPermissions("system:competitionTeamVsTeam:list")
+//    @RequiresPermissions("system:competitionTeamVsTeam:list")
     @GetMapping("/list")
     public TableDataInfo list(CompetitionTeamVsTeam competitionTeamVsTeam)
     {
@@ -67,7 +67,7 @@ public class CompetitionTeamVsTeamController extends BaseController
     /**
      * 获取赛会中-球队VS球队关系详细信息
      */
-    @RequiresPermissions("system:competitionTeamVsTeam:query")
+//    @RequiresPermissions("system:competitionTeamVsTeam:query")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -77,7 +77,7 @@ public class CompetitionTeamVsTeamController extends BaseController
     /**
      * 新增赛会中-球队VS球队关系
      */
-    @RequiresPermissions("system:competitionTeamVsTeam:add")
+//    @RequiresPermissions("system:competitionTeamVsTeam:add")
     @Log(title = "赛会中球队VS球队关系", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody CompetitionTeamVsTeam competitionTeamVsTeam)
@@ -88,7 +88,7 @@ public class CompetitionTeamVsTeamController extends BaseController
     /**
      * 修改赛会中-球队VS球队关系
      */
-    @RequiresPermissions("system:competitionTeamVsTeam:edit")
+//    @RequiresPermissions("system:competitionTeamVsTeam:edit")
     @Log(title = "赛会中球队VS球队关系", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody CompetitionTeamVsTeam competitionTeamVsTeam)
@@ -99,7 +99,7 @@ public class CompetitionTeamVsTeamController extends BaseController
     /**
      * 删除赛会中-球队VS球队关系
      */
-    @RequiresPermissions("system:competitionTeamVsTeam:remove")
+//    @RequiresPermissions("system:competitionTeamVsTeam:remove")
     @Log(title = "赛会中球队VS球队关系", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)

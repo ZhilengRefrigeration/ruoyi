@@ -17,17 +17,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
         <result property="isDeleted"    column="is_deleted"    />
         <result property="remark"    column="remark"    />
+        <result property="competitionOwnId"    column="competition_own_id"    />
         <result property="canSetType"    column="can_set_type"    />
     </resultMap>
 
     <sql id="selectCompetitionSharePermissionsVo">
-        select id, create_time, competition_id, user_id, user_tel, user_name, status, update_time, create_by, update_by, is_deleted, remark, can_set_type from competition_share_permissions
+        select id, create_time, competition_id,competition_own_id, user_id, user_tel, user_name, status, update_time, create_by, update_by, is_deleted, remark, can_set_type from competition_share_permissions
     </sql>
 
     <select id="selectCompetitionSharePermissionsList" parameterType="com.ruoyi.system.domain.CompetitionSharePermissions" resultMap="CompetitionSharePermissionsResult">
         <include refid="selectCompetitionSharePermissionsVo"/>
         <where>
             <if test="competitionId != null "> and competition_id = #{competitionId}</if>
+            <if test="competitionOwnId != null "> and competition_own_id = #{competitionOwnId}</if>
             <if test="userId != null "> and user_id = #{userId}</if>
             <if test="userTel != null  and userTel != ''"> and user_tel = #{userTel}</if>
             <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
@@ -57,6 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isDeleted != null">is_deleted,</if>
             <if test="remark != null">remark,</if>
             <if test="canSetType != null">can_set_type,</if>
+            <if test="competitionOwnId != null">competition_own_id,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="createTime != null">#{createTime},</if>
@@ -71,6 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isDeleted != null">#{isDeleted},</if>
             <if test="remark != null">#{remark},</if>
             <if test="canSetType != null">#{canSetType},</if>
+            <if test="competitionOwnId != null">#{competitionOwnId},</if>
         </trim>
     </insert>
 
@@ -89,6 +93,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
             <if test="remark != null">remark = #{remark},</if>
             <if test="canSetType != null">can_set_type = #{canSetType},</if>
+            <if test="competitionOwnId != null">competition_own_id = #{competitionOwnId},</if>
         </trim>
         where id = #{id}
     </update>
@@ -114,6 +119,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="status != null "> and status = #{status}</if>
             <if test="isDeleted != null "> and is_deleted = #{isDeleted}</if>
             <if test="canSetType != null  and canSetType != ''"> and can_set_type = #{canSetType}</if>
+            <if test="competitionOwnId != null "> and competition_own_id = #{competitionOwnId}</if>
         </where>
     </select>
 </mapper>

@@ -1,9 +1,14 @@
 package com.ruoyi.system.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.ruoyi.common.core.constant.CacheConstants;
 import com.ruoyi.common.core.constant.Constants;
 import com.ruoyi.common.core.exception.ServiceException;
+import com.ruoyi.common.redis.service.RedisService;
+import com.ruoyi.common.security.service.TokenService;
+import com.ruoyi.system.api.domain.LoginMethodEnum;
 import com.ruoyi.system.api.domain.SysUser;
 import com.ruoyi.system.api.model.LoginUser;
 import com.ruoyi.system.api.model.WxLoginUser;
@@ -13,6 +18,8 @@ import com.ruoyi.system.domain.enums.UserRoles;
 import com.ruoyi.system.domain.vo.WxLoginRequest;
 import com.ruoyi.system.mapper.UserRoleMapper;
 import com.ruoyi.system.mapper.WxUserMapper;
+import com.ruoyi.system.service.ISysPermissionService;
+import com.ruoyi.system.service.ISysUserService;
 import com.ruoyi.system.service.WxLoginService;
 import com.ruoyi.system.utils.jwt.JwtUtil;
 import org.apache.http.HttpEntity;
@@ -32,6 +39,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -45,6 +53,15 @@ public class WxLoginServiceImpl  implements WxLoginService {
     private WxUserMapper wxUserMapper;
     @Autowired
     private UserRoleMapper userRoleMapper;
+    @Autowired
+    private ISysUserService sysUserService;
+    @Autowired
+    private TokenService tokenService;
+    @Autowired
+    private RedisService redisService;
+    @Autowired
+    private ISysPermissionService permissionService;
+    private Long wxScanExpireTime= CacheConstants.WX_SCAN_EXPIRE_TIME;
     @Override
     public WxLoginUser loginInFromWx(WxLoginRequest entity) {
         //获取openId
@@ -350,6 +367,34 @@ public class WxLoginServiceImpl  implements WxLoginService {
         loginUser.setUsername(login.getOpenid());
         loginUser.setRoles(codes);
         loginUser.setSysUser(sysUser);
+        //判断是否是微信扫码登录；如果是需要判断是否存在账号在system_user表中，如果不存在则创建账号，权限
+        if(!StringUtils.isEmpty(entity.getLoginMethod()) &&LoginMethodEnum.WX_SCAN.getCode().equals(entity.getLoginMethod())){
+            SysUser sysUser1 = sysUserService.wxScanUserAdd(login);
+            // 角色集合
+            Set<String> roles = permissionService.getRolePermission(sysUser1);
+            // 权限集合
+            Set<String> permissions = permissionService.getMenuPermission(sysUser1);
+            LoginUser sysUserVo = new LoginUser();
+            sysUserVo.setSysUser(sysUser1);
+            sysUserVo.setRoles(roles);
+            sysUserVo.setUserid(sysUser1.getUserId());
+            sysUserVo.setUsername(sysUser1.getUserName());
+            sysUserVo.setPermissions(permissions);
+            sysUserVo.setLoginMethod(entity.getLoginMethod());
+            Map<String, Object> map = tokenService.createToken(sysUserVo);
+            //设置到缓存里面
+            redisService.setCacheObject(getCacheKey(entity.getToken()), JSON.toJSONString(map), wxScanExpireTime, TimeUnit.MINUTES);
+        }
         return loginUser;
+    }
+    /**
+     * 扫码登录账状态验证缓存键名
+     *
+     * @param checkCode 临时变量
+     * @return 缓存键key
+     */
+    private String getCacheKey(String checkCode)
+    {
+        return CacheConstants.WX_SCAN_LOGIN_CHECK_KEY + checkCode;
     }
 }

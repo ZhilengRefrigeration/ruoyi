@@ -1,10 +1,17 @@
 package com.ruoyi.auth.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ruoyi.auth.form.LoginBody;
 import com.ruoyi.auth.form.RegisterBody;
@@ -16,6 +23,7 @@ import com.ruoyi.common.security.auth.AuthUtil;
 import com.ruoyi.common.security.service.TokenService;
 import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.system.api.model.LoginUser;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * token 控制
@@ -38,6 +46,14 @@ public class TokenController
         LoginUser userInfo = sysLoginService.login(form.getUsername(), form.getPassword());
         // 获取登录token
         return R.ok(tokenService.createToken(userInfo));
+    }
+    @ApiOperation("PC微信扫码登录-检查登录状态")
+    @GetMapping("wxScanLoginCheck")
+    public R<?> wxScanLoginCheck(@RequestParam("checkCode") String checkCode)
+    {
+        // 用户登录
+        Map<String, Object> map = sysLoginService.wxScanLoginCheck(checkCode);
+        return R.ok(map);
     }
 
     @DeleteMapping("logout")

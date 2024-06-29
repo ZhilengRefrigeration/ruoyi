@@ -33,7 +33,7 @@ public class CompetitionVsController extends BaseController {
     /**
      * 查询约战列表
      */
-    @RequiresPermissions("system:vs:list")
+//    @RequiresPermissions("system:vs:list")
     @GetMapping("/list")
     public TableDataInfo list(Competition competition)
     {
@@ -58,7 +58,7 @@ public class CompetitionVsController extends BaseController {
     /**
      * 获取约战详细信息
      */
-    @RequiresPermissions("system:vs:query")
+//    @RequiresPermissions("system:vs:query")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -68,7 +68,7 @@ public class CompetitionVsController extends BaseController {
     /**
      * 新增约战
      */
-    @RequiresPermissions("system:vs:add")
+//    @RequiresPermissions("system:vs:add")
     @Log(title = "约战", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Competition competition)
@@ -79,7 +79,7 @@ public class CompetitionVsController extends BaseController {
     /**
      * 修改约战
      */
-    @RequiresPermissions("system:vs:edit")
+//    @RequiresPermissions("system:vs:edit")
     @Log(title = "约战", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Competition competition)
@@ -90,7 +90,7 @@ public class CompetitionVsController extends BaseController {
     /**
      * 删除约战
      */
-    @RequiresPermissions("system:vs:remove")
+//    @RequiresPermissions("system:vs:remove")
     @Log(title = "约战", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)

@@ -1,5 +1,5 @@
-import { login, logout, getInfo, refreshToken } from '@/api/login'
-import { getToken, setToken, setExpiresIn, removeToken } from '@/utils/auth'
+import { login, logout, getInfo, refreshToken,getWxScanInfo } from '@/api/login'
+import {getToken, setToken, setExpiresIn, removeToken, setWxScanUserId, removeWxScanUserId} from '@/utils/auth'
 
 const user = {
   state: {
@@ -7,7 +7,8 @@ const user = {
     name: '',
     avatar: '',
     roles: [],
-    permissions: []
+    permissions: [],
+    wxScanUserId: null
   },
 
   mutations: {
@@ -16,6 +17,9 @@ const user = {
     },
     SET_EXPIRES_IN: (state, time) => {
       state.expires_in = time
+    },
+    SET_WX_SCAN_USER_ID_IN: (state, wxScanUserId) => {
+      state.wxScanUserId = wxScanUserId
     },
     SET_NAME: (state, name) => {
       state.name = name
@@ -51,11 +55,42 @@ const user = {
         })
       })
     },
-
-    // 获取用户信息
-    GetInfo({ commit, state }) {
+   // 微信扫码登录
+    WxScanLogin({ commit }, data) {
       return new Promise((resolve, reject) => {
-        getInfo().then(res => {
+        setToken(data.access_token)
+        commit('SET_TOKEN', data.access_token)
+        setExpiresIn(data.expires_in)
+        commit('SET_EXPIRES_IN', data.expires_in)
+        setWxScanUserId(data.user.userid)
+        commit('SET_WX_SCAN_USER_ID_IN', data.user.userid)
+        resolve()
+      })
+    },
+    // 获取微信扫码用户信息
+    GetWxScanInfo({ commit, state },params) {
+      return new Promise((resolve, reject) => {
+        getWxScanInfo(params).then(res => {
+          const user = res.user
+          const avatar = (user.avatar == "" || user.avatar == null) ? require("@/assets/images/profile.jpg") : user.avatar;
+          if (res.roles && res.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+            commit('SET_ROLES', res.roles)
+            commit('SET_PERMISSIONS', res.permissions)
+          } else {
+            commit('SET_ROLES', ['ROLE_DEFAULT'])
+          }
+          commit('SET_NAME', user.userName)
+          commit('SET_AVATAR', avatar)
+          resolve(res)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    // 获取用户信息
+    GetInfo({ commit, state },params) {
+      return new Promise((resolve, reject) => {
+        getInfo(params).then(res => {
           const user = res.user
           const avatar = (user.avatar == "" || user.avatar == null) ? require("@/assets/images/profile.jpg") : user.avatar;
           if (res.roles && res.roles.length > 0) { // 验证返回的roles是否是一个非空数组
@@ -85,7 +120,7 @@ const user = {
         })
       })
     },
-    
+
     // 退出系统
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
@@ -93,7 +128,9 @@ const user = {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
           commit('SET_PERMISSIONS', [])
+          commit('SET_WX_SCAN_USER_ID_IN', null)
           removeToken()
+          removeWxScanUserId()
           resolve()
         }).catch(error => {
           reject(error)
@@ -105,7 +142,9 @@ const user = {
     FedLogOut({ commit }) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '')
+        commit('SET_WX_SCAN_USER_ID_IN', null)
         removeToken()
+        removeWxScanUserId()
         resolve()
       })
     }

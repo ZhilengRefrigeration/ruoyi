@@ -38,6 +38,17 @@ public class WxLoginController {
         return AjaxResult.success(loginUser);
     }
 
+    @ApiOperation(ApiTerminal.wxMiniProgram+"微信扫码登录")
+    @PostMapping("/wxScanLogin")
+    @ResponseBody
+    public AjaxResult wxScanLogin(@RequestBody WxLoginRequest entity) throws Exception {
+//        WxLoginUser loginUser = wxLoginService.loginInFromWx(entity);
+        WxLoginUser loginUser = new WxLoginUser();
+        loginUser.setUserId(1L);
+        loginUser.setLoginName("test");
+        loginUser.setAccessToken("sfsdfsdf");
+        return AjaxResult.success(loginUser);
+    }
 
     @PostMapping("/user/register")
     @ApiOperation(value = ApiTerminal.wxMiniProgram+"用户注册接口")

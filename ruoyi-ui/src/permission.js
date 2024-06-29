@@ -3,7 +3,7 @@ import store from './store'
 import { Message } from 'element-ui'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { getToken } from '@/utils/auth'
+import {getToken, getWxScanUserId} from '@/utils/auth'
 import { isRelogin } from '@/utils/request'
 
 NProgress.configure({ showSpinner: false })
@@ -22,7 +22,10 @@ router.beforeEach((to, from, next) => {
       if (store.getters.roles.length === 0) {
         isRelogin.show = true
         // 判断当前用户是否已拉取完user_info信息
-        store.dispatch('GetInfo').then(() => {
+          let params ={
+             userId: getWxScanUserId()
+        }
+        store.dispatch('GetInfo',params).then(() => {
           isRelogin.show = false
           store.dispatch('GenerateRoutes').then(accessRoutes => {
             // 根据roles权限生成可访问的路由表

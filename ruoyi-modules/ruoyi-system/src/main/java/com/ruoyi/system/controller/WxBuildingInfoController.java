@@ -48,7 +48,7 @@ public class WxBuildingInfoController extends BaseController
     /**
      * 查询球场管理列表
      */
-    @RequiresPermissions("system:WxBuilding:list")
+//    @RequiresPermissions("system:WxBuilding:list")
     @GetMapping("/list")
     public TableDataInfo list(WxBuildingInfo wxBuildingInfo)
     {

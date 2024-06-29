@@ -97,4 +97,9 @@ public class WxUserServiceImpl extends ServiceImpl<WxUserMapper, WxUser> impleme
     public WxUser getUserInfoBy(WxUser wxUser) {
         return wxUserMapper.getUserInfoBy(wxUser);
     }
+
+    @Override
+    public WxUser selectWxUserByOpenId(String username) {
+        return wxUserMapper.selectByOpenId(username);
+    }
 }

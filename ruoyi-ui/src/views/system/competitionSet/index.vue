@@ -94,16 +94,16 @@
         <el-table-column label="领队人电话" align="center" prop="contactsTel" />
         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
           <template slot-scope="scope">
-            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleEditOfTeam(scope.row)" v-hasPermi="['system:competitionOfTeam:edit']">编辑</el-button>
+            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleEditOfTeam(scope.row)" >编辑</el-button>
             <el-popconfirm  v-if="scope.row.status===0" @confirm="bindConfirm(scope.row.id,1)" title="你确定同意此球队加入赛会吗？">
-              <el-button slot="reference" size="mini" type="text" icon="el-icon-success" v-hasPermi="['system:competitionOfTeam:edit']">同意</el-button>
+              <el-button slot="reference" size="mini" type="text" icon="el-icon-success" >同意</el-button>
             </el-popconfirm>
             <el-popconfirm  v-if="scope.row.status===0" @confirm="bindConfirm(scope.row.id,-1)" title="你确定不同意此球队加入赛会吗？">
-            <el-button slot="reference" size="mini" type="text" icon="el-icon-info" v-hasPermi="['system:competitionOfTeam:remove']">驳回</el-button>
+            <el-button slot="reference" size="mini" type="text" icon="el-icon-info" >驳回</el-button>
             </el-popconfirm>
-            <el-button size="mini" type="text" icon="el-icon-s-custom" @click="handleTeamUser(scope.row)" v-hasPermi="['system:competitionOfTeam:list']">球队成员</el-button>
+            <el-button size="mini" type="text" icon="el-icon-s-custom" @click="handleTeamUser(scope.row)" >球队成员</el-button>
             <el-popconfirm  v-if="scope.row.status===0" @confirm="bindDelOfTeamConfirm(scope.row.id,1)" title="你确定要删除此球队吗？">
-              <el-button slot="reference" size="mini" type="text" icon="el-icon-delete" v-hasPermi="['system:competitionOfTeam:remove']">删除</el-button>
+              <el-button slot="reference" size="mini" type="text" icon="el-icon-delete" >删除</el-button>
             </el-popconfirm>
           </template>
         </el-table-column>
@@ -120,7 +120,6 @@
                 plain
                 icon="el-icon-plus"
                 @click="handleAddGroup"
-                v-hasPermi="['system:competition:add']"
               >新增分组</el-button>
             </el-col>
           </el-row>
@@ -179,7 +178,6 @@
             plain
             icon="el-icon-time"
             @click="handleTeamVsTeamAdd"
-            v-hasPermi="['system:competitionTeamVsTeam:add']"
           >手动设置赛程</el-button>
         </el-col>
         <el-col :span="1.5">
@@ -188,7 +186,6 @@
             plain
             icon="el-icon-bangzhu"
             @click="handleMindTeamVsTeam"
-            v-hasPermi="['system:competitionTeamVsTeam:add']"
           >系统智能设置小组循环赛赛程</el-button>
         </el-col>
       </el-row>
@@ -237,10 +234,10 @@
         <el-table-column label="球场名称" align="center" prop="buildingName" width="250"/>
         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
           <template slot-scope="scope">
-            <el-button size="mini" type="text" icon="el-icon-edit-outline" @click="handleTeamVsTeamRecord(scope.row)" v-hasPermi="['system:competitionOfTeam:edit']">比赛记录</el-button>
-            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleTeamVsTeamEdit(scope.row)" v-hasPermi="['system:competitionTeamVsTeam:edit']">编辑赛程</el-button>
-            <el-button size="mini" type="text" icon="el-icon-delete" @click="handleTeamVsTeamDel(scope.row)" v-hasPermi="['system:competitionOfTeam:del']">删除赛程</el-button>
-<!--            <el-button v-if="new Date(scope.row.competitionDate).getTime() > new Date().getTime()" size="mini" type="text" icon="el-icon-delete" @click="handleTeamVsTeamDel(scope.row)" v-hasPermi="['system:competitionOfTeam:del']">删除赛程</el-button>-->
+            <el-button size="mini" type="text" icon="el-icon-edit-outline" @click="handleTeamVsTeamRecord(scope.row)" >比赛记录</el-button>
+            <el-button size="mini" type="text" icon="el-icon-edit" @click="handleTeamVsTeamEdit(scope.row)">编辑赛程</el-button>
+            <el-button size="mini" type="text" icon="el-icon-delete" @click="handleTeamVsTeamDel(scope.row)">删除赛程</el-button>
+<!--            <el-button v-if="new Date(scope.row.competitionDate).getTime() > new Date().getTime()" size="mini" type="text" icon="el-icon-delete" @click="handleTeamVsTeamDel(scope.row)" ">删除赛程</el-button>-->
           </template>
         </el-table-column>
       </el-table>
@@ -642,7 +639,6 @@
             type="primary"
             icon="el-icon-check"
             @click="handleTeamVsTeamRecordSave"
-            v-hasPermi="['system:competitionOfTeam:save']"
           >数据保存</el-button>
           <el-button
             type="primary"
@@ -688,7 +684,6 @@
                  type="text"
                  icon="el-icon-edit"
                  @click="handleUpdateMemberScore(scope.row)"
-                 v-hasPermi="['system:competitionMemberScore:edit']"
                >计分</el-button>
              </template>
            </el-table-column>
@@ -1595,6 +1590,7 @@ export default {
       genCompetitionCommonAqrSpread(data).then(response => {
         this.$modal.msgSuccess("生成普通推广二维码成功");
         this.spreadImgurl = response.data.codeImgUrl;
+        // this.spreadImgurl =  "data:image/png;base64," + response.data.bytesBase64;
       });
     },
     clickCarousel(data){

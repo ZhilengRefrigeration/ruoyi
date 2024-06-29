@@ -28,6 +28,11 @@ public class CacheConstants
     public final static long PASSWORD_LOCK_TIME = 10;
 
     /**
+     * 微信扫码登录过期时间，默认5（分钟）
+     */
+    public final static long WX_SCAN_EXPIRE_TIME = 150;
+
+    /**
      * 权限缓存前缀
      */
     public final static String LOGIN_TOKEN_KEY = "login_tokens:";
@@ -51,6 +56,11 @@ public class CacheConstants
      * 登录账户密码错误次数 redis key
      */
     public static final String PWD_ERR_CNT_KEY = "pwd_err_cnt:";
+
+    /**
+     * 登录账户密码错误次数 redis key
+     */
+    public static final String WX_SCAN_LOGIN_CHECK_KEY = "wx_scan_login_check:";
 
     /**
      * 赛会推广的二维码缓存地址key

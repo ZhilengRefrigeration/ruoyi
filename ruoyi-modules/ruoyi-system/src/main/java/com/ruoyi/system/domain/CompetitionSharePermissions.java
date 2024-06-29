@@ -26,6 +26,8 @@ public class CompetitionSharePermissions extends BaseEntity
     /** 赛事id(competition的ID) */
     @Excel(name = "赛事id(competition的ID)")
     private Long competitionId;
+    @Excel(name = "赛会创建人ID")
+    private Long competitionOwnId;
 
     /** 用户ID */
     @Excel(name = "用户ID")

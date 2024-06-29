@@ -2,6 +2,7 @@ package com.ruoyi.system.service.impl;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class SysPermissionServiceImpl implements ISysPermissionService
     {
         Set<String> roles = new HashSet<String>();
         // 管理员拥有所有权限
-        if (user.isAdmin())
+        if (Objects.nonNull(user.isAdmin())&&user.isAdmin())
         {
             roles.add("admin");
         }
