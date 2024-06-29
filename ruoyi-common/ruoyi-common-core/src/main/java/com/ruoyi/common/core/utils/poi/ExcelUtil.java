@@ -1290,16 +1290,21 @@ public class ExcelUtil<T>
                     Excel attr = field.getAnnotation(Excel.class);
                     if (attr != null && (attr.type() == Type.ALL || attr.type() == type))
                     {
-                        field.setAccessible(true);
-                        fields.add(new Object[] { field, attr });
+                        if (Collection.class.isAssignableFrom(field.getType()))
+                        {
+                            subMethod = getSubMethod(field.getName(), clazz);
+                            ParameterizedType pt = (ParameterizedType) field.getGenericType();
+                            Class<?> subClass = (Class<?>) pt.getActualTypeArguments()[0];
+                            this.subFields = FieldUtils.getFieldsListWithAnnotation(subClass, Excel.class);
+                        }
+                        else
+                        {
+                            field.setAccessible(true);
+                            fields.add(new Object[] { field, attr });
+                        }
+
                     }
-                    if (Collection.class.isAssignableFrom(field.getType()))
-                    {
-                        subMethod = getSubMethod(field.getName(), clazz);
-                        ParameterizedType pt = (ParameterizedType) field.getGenericType();
-                        Class<?> subClass = (Class<?>) pt.getActualTypeArguments()[0];
-                        this.subFields = FieldUtils.getFieldsListWithAnnotation(subClass, Excel.class);
-                    }
+
                 }
 
                 // 多注解
