@@ -16,6 +16,7 @@ import com.ruoyi.system.domain.vo.WxApplesRes;
 import com.ruoyi.system.domain.vo.WxMssVo;
 import com.ruoyi.system.domain.vo.WxPhoneNumberVo;
 import com.ruoyi.system.service.ICompetitionMembersService;
+import com.ruoyi.system.service.ISysUserService;
 import com.ruoyi.system.service.IWxUserService;
 import com.ruoyi.system.service.WxAppletsService;
 import lombok.extern.log4j.Log4j2;
@@ -57,6 +58,8 @@ public class WxAppletsServiceImpl implements WxAppletsService {
     private String domainName;
     @Autowired
     private ICompetitionMembersService competitionMembersService;
+    @Autowired
+    private ISysUserService sysUserService;
     @Override
     public String getAccessToken() {
         String accessToken=null;
@@ -141,6 +144,9 @@ public class WxAppletsServiceImpl implements WxAppletsService {
         wxUserService.updateWxUser(userInfo);
         //todo 赛会参赛人员通过手机号码绑定userid
         competitionMembersService.bindCompetitionMembersByTel(user.getUserid(),userInfo.getTelephone());
+        //todo PC端的用户表的手机号码也要更新
+        WxUser dbWxUser = wxUserService.selectWxUserById(user.getUserid());
+        sysUserService.updateUserTelephone(user.getUsername(),userInfo.getTelephone(),dbWxUser.getAvatar());
         return  userInfo.getTelephone();
     }
 

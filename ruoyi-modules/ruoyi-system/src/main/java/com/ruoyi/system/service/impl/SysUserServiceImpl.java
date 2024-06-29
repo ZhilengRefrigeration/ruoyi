@@ -559,6 +559,8 @@ public class SysUserServiceImpl implements ISysUserService
             sysUser.setLoginDate(date);
             sysUser.setCreateBy("system");
             sysUser.setCreateTime(date);
+            sysUser.setPhonenumber(wxUser.getTelephone());
+            sysUser.setAvatar(wxUser.getAvatar());
             sysUser.setRemark("微信扫码登录用户");
             //设置刚刚
             Long[] postIds = {4L};
@@ -568,6 +570,11 @@ public class SysUserServiceImpl implements ISysUserService
             this.insertUser(sysUser);
         }
         return sysUser;
+    }
+
+    @Override
+    public int updateUserTelephone(String username, String telephone, String avatar) {
+        return userMapper.updateUserTelephone(username, telephone,avatar);
     }
 
 }

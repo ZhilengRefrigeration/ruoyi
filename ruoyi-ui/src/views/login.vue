@@ -150,7 +150,7 @@ export default {
       const timestamp = Date.now();
       let checkCode = 'wxScanLogin'+timestamp;
       let params ={
-        // envVersion: 'develop',
+        envVersion: 'develop',
         checkPath: false,
         scene: checkCode,
         page: 'pages/wxScanLogin/wxScanLogin'

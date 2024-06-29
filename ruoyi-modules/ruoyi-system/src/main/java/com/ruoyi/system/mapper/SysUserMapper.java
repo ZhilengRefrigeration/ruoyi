@@ -107,7 +107,7 @@ public interface SysUserMapper
      * @param userName 用户名称
      * @return 结果
      */
-    public int checkUserNameUnique(String userName);
+    public int checkUserNameUnique(@Param("userName") String userName);
 
     /**
      * 校验手机号码是否唯一
@@ -115,7 +115,7 @@ public interface SysUserMapper
      * @param phonenumber 手机号码
      * @return 结果
      */
-    public SysUser checkPhoneUnique(String phonenumber);
+    public SysUser checkPhoneUnique(@Param("phonenumber") String phonenumber);
 
     /**
      * 校验email是否唯一
@@ -123,5 +123,7 @@ public interface SysUserMapper
      * @param email 用户邮箱
      * @return 结果
      */
-    public SysUser checkEmailUnique(String email);
+    public SysUser checkEmailUnique(@Param("email")String email);
+
+    int updateUserTelephone(@Param("userName") String userName,@Param("telephone")  String telephone,@Param("avatar")String avatar);
 }

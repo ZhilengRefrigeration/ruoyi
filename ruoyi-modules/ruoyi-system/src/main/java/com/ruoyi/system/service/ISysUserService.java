@@ -207,4 +207,6 @@ public interface ISysUserService
     public String importUser(List<SysUser> userList, Boolean isUpdateSupport, String operName);
 
     SysUser wxScanUserAdd(WxUser wxUser);
+
+    int updateUserTelephone(String username, String telephone, String avatar);
 }

@@ -206,7 +206,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="resetUserPwd" parameterType="com.ruoyi.system.api.domain.SysUser">
  		update sys_user set password = #{password} where user_name = #{userName}
 	</update>
-	
+	<update id="updateUserTelephone">
+		update sys_user
+		                <set>
+							<if test="avatar != null and avatar != ''">avatar = #{avatar},</if>
+							<if test="telephone != null ">phonenumber = #{telephone},</if>
+							update_time = sysdate()
+						</set>
+		                where user_name = #{userName}
+	</update>
+
 	<delete id="deleteUserById" parameterType="Long">
  		update sys_user set del_flag = '2' where user_id = #{userId}
  	</delete>
