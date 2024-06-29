@@ -149,8 +149,10 @@ export default {
     getWxScanQrCode() {
       const timestamp = Date.now();
       let checkCode = 'wxScanLogin'+timestamp;
+      let envVersion = process.env.VUE_APP_WX_APPLES_ENV;
+      console.log("envVersion  "+envVersion)
       let params ={
-        envVersion: 'develop',
+        envVersion: envVersion,
         checkPath: false,
         scene: checkCode,
         page: 'pages/wxScanLogin/wxScanLogin'
@@ -164,7 +166,6 @@ export default {
               checkCode: checkCode
             }
             wxScanLoginCheck(param1).then(res1 => {
-              console.log(res1)
               if(res1.data){
                 console.log("登录成功")
                 // 登录成功清除定时器
@@ -175,7 +176,7 @@ export default {
                   console.log("登录失败")
                 });
               }else{
-                console.log("登录失败")
+                //console.log("登录失败")
               }
             });
             // 执行需要定时重复执行的任务
@@ -221,6 +222,9 @@ export default {
       if (tab.name === 'first') {
         this.getCode();
         this.getCookie();
+        if (this.timer) {
+          clearInterval(this.timer); // 切换到账号登录时清除定时器
+        }
       } else {
          this.getWxScanQrCode();
       }
