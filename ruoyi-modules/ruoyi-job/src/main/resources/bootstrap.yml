@@ -23,3 +23,12 @@ spring:
         # 共享配置
         shared-configs:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+
+
+backup:
+  backup-path: E:\\backup
+  db-name: ry-cloud
+  mysqldump-path: C:\mysql-8.0.21-winx64\bin\mysqldump
+  username: root
+  password: 123456
+  port: 3306
