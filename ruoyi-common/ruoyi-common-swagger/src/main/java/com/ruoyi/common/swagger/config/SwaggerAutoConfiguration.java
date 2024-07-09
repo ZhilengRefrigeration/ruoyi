@@ -9,6 +9,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -59,9 +60,16 @@ public class SwaggerAutoConfiguration
         List<Predicate<String>> excludePath = new ArrayList<>();
         swaggerProperties.getExcludePath().forEach(path -> excludePath.add(PathSelectors.ant(path)));
 
+        String[] basePackages = swaggerProperties.getBasePackage().split(";");
+        Predicate<RequestHandler> basePackageP = RequestHandlerSelectors.basePackage(basePackages[0]);
+        if(basePackages.length>1) {
+            for (int i = 1; i < basePackages.length; i++) {
+                basePackageP = basePackageP.or(RequestHandlerSelectors.basePackage(basePackages[i]));
+            }
+        }
         ApiSelectorBuilder builder = new Docket(DocumentationType.SWAGGER_2).host(swaggerProperties.getHost())
                 .apiInfo(apiInfo(swaggerProperties)).select()
-                .apis(RequestHandlerSelectors.basePackage(swaggerProperties.getBasePackage()));
+                .apis(basePackageP);
 
         swaggerProperties.getBasePath().forEach(p -> builder.paths(PathSelectors.ant(p)));
         swaggerProperties.getExcludePath().forEach(p -> builder.paths(PathSelectors.ant(p).negate()));
